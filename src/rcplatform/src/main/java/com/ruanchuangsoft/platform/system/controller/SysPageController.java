@@ -3,6 +3,7 @@ package com.ruanchuangsoft.platform.system.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * 系统页面视图
@@ -13,9 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class SysPageController {
-	
+
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public String index() {
+
+		return "index";
+	}
+
 	@RequestMapping("sys/{url}.html")
 	public String page(@PathVariable("url") String url){
-		return "sys/" + url + ".html";
+		return "sys/" + url + "";
 	}
 }

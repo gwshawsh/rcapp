@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -32,12 +33,6 @@ public class SysLoginController {
 	@Autowired
 	private Producer producer;
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String index() {
-
-		return "login";
-	}
-	
 	@RequestMapping("captcha.jpg")
 	public void captcha(HttpServletResponse response)throws ServletException, IOException {
         response.setHeader("Cache-Control", "no-store, no-cache");
@@ -83,6 +78,16 @@ public class SysLoginController {
 	    
 		return R.ok();
 	}
+
+	/**
+	 * 退出
+	 */
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView("login");
+
+        return modelAndView;
+	}
 	
 	/**
 	 * 退出
@@ -90,7 +95,7 @@ public class SysLoginController {
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout() {
 		ShiroUtils.logout();
-		return "redirect:login.html";
+		return "redirect:login";
 	}
 	
 }

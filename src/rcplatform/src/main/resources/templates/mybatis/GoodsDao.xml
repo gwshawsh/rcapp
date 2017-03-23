@@ -3,6 +3,7 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.system.dao.GoodsDao">
 
+
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.system.entity.GoodsEntity">
 		select * from goods where goods_id = #{value}
 	</select>
