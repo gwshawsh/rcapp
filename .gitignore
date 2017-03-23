@@ -4,3 +4,12 @@
 *.jar
 *.war
 *.ear
+src/rcplatform/transaction-logs/192.168.1.113.tm46.epoch
+src/rcplatform/transaction-logs/tmlog.lck
+src/rcplatform/transaction-logs/tmlog46.log
+src/rcplatform/log.log
+src/rcplatform/log.log.2017-03-22
+src/rcplatform/data/elasticsearch/nodes/0/node.lock
+src/rcplatform/data/elasticsearch/nodes/0/_state/global-38.st
+src/rcplatform/logs/spring.log
+src/rcplatform/logs/spring.log.0
