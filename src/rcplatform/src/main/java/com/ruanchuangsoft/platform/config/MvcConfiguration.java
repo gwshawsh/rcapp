@@ -3,12 +3,18 @@ package com.ruanchuangsoft.platform.config;
 import com.ruanchuangsoft.platform.shiro.ShiroExt;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.resource.ClasspathResourceLoader;
+import org.beetl.core.resource.WebAppResourceLoader;
 import org.beetl.ext.spring.BeetlGroupUtilConfiguration;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternUtils;
+
+import java.io.IOException;
 
 /**
  * Created by lidongfeng on 2017/3/23.
@@ -19,13 +25,16 @@ public class MvcConfiguration{
         @Bean(initMethod = "init", name = "beetlConfig")
         public BeetlGroupUtilConfiguration getBeetlGroupUtilConfiguration() {
             BeetlGroupUtilConfiguration beetlGroupUtilConfiguration = new BeetlGroupUtilConfiguration();
-            try {
-                ClasspathResourceLoader cploder = new ClasspathResourceLoader(MvcConfiguration.class.getClassLoader(),templatesPath);
-                beetlGroupUtilConfiguration.setResourceLoader(cploder);
+            ResourcePatternResolver patternResolver = ResourcePatternUtils.getResourcePatternResolver(new DefaultResourceLoader());
 
-//                beetlGroupUtilConfiguration.getGroupTemplate().registerFunctionPackage("shiro",new ShiroExt());
+            try {
+                String root =  patternResolver.getResource("classpath:templates").getFile().toString();
+                WebAppResourceLoader webAppResourceLoader = new WebAppResourceLoader(root);
+                beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader);
+
+                beetlGroupUtilConfiguration.setConfigFileResource(patternResolver.getResource("classpath:beetl.properties"));
                 return beetlGroupUtilConfiguration;
-            } catch (Exception e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
