@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.system.dao.LeaveworkDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.system.entity.LeaveworkEntity">
+		select * from leavework where leave_id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.system.entity.LeaveworkEntity">
+		select * from leavework 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from leavework 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.system.entity.LeaveworkEntity" useGeneratedKeys="true" keyProperty="leaveId">
+		insert into leavework
+		(
+			`user_id`, 
+			`name`, 
+			`start_time`, 
+			`end_time`, 
+			`leavetype`, 
+			`reason`, 
+			`create_time`, 
+			`realend_time`, 
+			`pocess_instanceid`
+		)
+		values
+		(
+			#{userId}, 
+			#{name}, 
+			#{startTime}, 
+			#{endTime}, 
+			#{leavetype}, 
+			#{reason}, 
+			#{createTime}, 
+			#{realendTime}, 
+			#{pocessInstanceid}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.system.entity.LeaveworkEntity">
+		update leavework 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="startTime != null">`start_time` = #{startTime}, </if>
+			<if test="endTime != null">`end_time` = #{endTime}, </if>
+			<if test="leavetype != null">`leavetype` = #{leavetype}, </if>
+			<if test="reason != null">`reason` = #{reason}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="realendTime != null">`realend_time` = #{realendTime}, </if>
+			<if test="pocessInstanceid != null">`pocess_instanceid` = #{pocessInstanceid}</if>
+		</set>
+		where leave_id = #{leaveId}
+	</update>
+	
+	<delete id="delete">
+		delete from leavework where leave_id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from leavework where leave_id in 
+		<foreach item="leaveId" collection="array" open="(" separator="," close=")">
+			#{leaveId}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>编辑管理员</title>
-#parse("sys/header.html")
+<% include("/sys/header.html"){} %>
 </head>
 <body>
 <div class="panel panel-default" id="rrapp" v-cloak>
@@ -51,12 +51,12 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-2 control-label"></div> 
-			<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
-			&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="back" value="返回"/>
+			<input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
+			&nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="back" value="返回"/>
 		</div>
 	</form>
 </div>
 
-<script src="${rc.contextPath}/static/js/sys/user_add.js?_${date.systemTime}"></script>
+<script src="${ctxPath}/static/js/sys/user_add.js"></script>
 </body>
 </html>

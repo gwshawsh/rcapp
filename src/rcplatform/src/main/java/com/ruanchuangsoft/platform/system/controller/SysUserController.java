@@ -6,11 +6,14 @@ import com.ruanchuangsoft.platform.system.service.SysUserService;
 import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.identity.User;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +37,8 @@ public class SysUserController extends AbstractController {
 	private SysUserService sysUserService;
 	@Autowired
 	private SysUserRoleService sysUserRoleService;
+	@Autowired
+	private IdentityService identityService;
 	
 	/**
 	 * 所有用户列表
@@ -109,6 +114,7 @@ public class SysUserController extends AbstractController {
 	 */
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:user:save")
+	@Transactional
 	public R save(@RequestBody SysUserEntity user){
 		if(StringUtils.isBlank(user.getUsername())){
 			return R.error("用户名不能为空");
@@ -118,7 +124,12 @@ public class SysUserController extends AbstractController {
 		}
 		
 		sysUserService.save(user);
-		
+
+		//更新到工作流中
+		User userWork=identityService.newUser(String.valueOf(user.getUserId()));
+		userWork.setFirstName(user.getUsername());
+		identityService.saveUser(userWork);
+
 		return R.ok();
 	}
 	
@@ -133,6 +144,9 @@ public class SysUserController extends AbstractController {
 		}
 		
 		sysUserService.update(user);
+		User userWork=identityService.createUserQuery().userId(String.valueOf(user.getUserId())).singleResult();
+		userWork.setFirstName(user.getUsername());
+		identityService.saveUser(userWork);
 		
 		return R.ok();
 	}

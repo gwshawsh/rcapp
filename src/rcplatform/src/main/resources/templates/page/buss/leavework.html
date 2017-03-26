@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>请假表</title>
+    <% include ("/sys/header.html") {} %>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <%if(shiro.hasPermission("leavework:save")) {%>
+            <a class="btn btn-primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+            <%}%>
+            <%if(shiro.hasPermission("leavework:update")) {%>
+            <a class="btn btn-primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+            <%}%>
+            <%if(shiro.hasPermission("leavework:delete")) {%>
+            <a class="btn btn-primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+            <%}%>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="leavework.userId" placeholder=""/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">申请人</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="leavework.name" placeholder="申请人"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">开始时间</div>
+                <div class="col-sm-10">
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="datepicker" v-model="leavework.startTime">
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">结束时间</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="leavework.endTime" placeholder="结束时间"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">类型</div>
+                <div class="col-sm-10">
+
+                    <label class="radio-inline">
+                        <input type="radio" name="status" value="0" v-model="leavework.leavetype"/> 生病
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="status" value="1" v-model="leavework.leavetype"/> 结婚
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="status" value="2" v-model="leavework.leavetype"/> 其他
+                    </label>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">请假原因</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="leavework.reason" placeholder="请假原因"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">创建时间</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="leavework.createTime" placeholder="创建时间"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">完结时间</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="leavework.realendTime" placeholder="完结时间"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">流程ID</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="leavework.pocessInstanceid" placeholder="流程ID"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+
+        //Date picker
+        $('#datepicker').datepicker({
+            autoclose: true
+        });
+
+
+    });
+</script>
+<script src="${ctxPath}/static/js/buss/leavework.js"></script>
+</body>
+</html>

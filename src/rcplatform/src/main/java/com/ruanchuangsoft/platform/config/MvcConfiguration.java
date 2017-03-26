@@ -1,5 +1,7 @@
 package com.ruanchuangsoft.platform.config;
 
+import com.alibaba.druid.support.http.StatViewServlet;
+import com.alibaba.druid.support.http.WebStatFilter;
 import com.ruanchuangsoft.platform.shiro.ShiroExt;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.resource.ClasspathResourceLoader;
@@ -8,6 +10,8 @@ import org.beetl.ext.spring.BeetlGroupUtilConfiguration;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -28,11 +32,11 @@ public class MvcConfiguration{
             ResourcePatternResolver patternResolver = ResourcePatternUtils.getResourcePatternResolver(new DefaultResourceLoader());
 
             try {
-                String root =  patternResolver.getResource("classpath:templates").getFile().toString();
+                String root =  patternResolver.getResource("classpath:templates/page/").getFile().toString();
                 WebAppResourceLoader webAppResourceLoader = new WebAppResourceLoader(root);
                 beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader);
-
                 beetlGroupUtilConfiguration.setConfigFileResource(patternResolver.getResource("classpath:beetl.properties"));
+
                 return beetlGroupUtilConfiguration;
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -42,6 +46,11 @@ public class MvcConfiguration{
 
         @Bean(name = "beetlViewResolver")
         public BeetlSpringViewResolver getBeetlSpringViewResolver(@Qualifier("beetlConfig") BeetlGroupUtilConfiguration beetlGroupUtilConfiguration) {
+            //
+            GroupTemplate gt=beetlGroupUtilConfiguration.getGroupTemplate();
+            //注册权限
+            gt.registerFunctionPackage("shiro", new ShiroExt());
+
             BeetlSpringViewResolver beetlSpringViewResolver = new BeetlSpringViewResolver();
             beetlSpringViewResolver.setContentType("text/html;charset=UTF-8");
             beetlSpringViewResolver.setOrder(0);
@@ -50,4 +59,9 @@ public class MvcConfiguration{
             beetlSpringViewResolver.setSuffix(".html");
             return beetlSpringViewResolver;
         }
+
+
+
+
+
 }

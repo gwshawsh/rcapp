@@ -27,7 +27,13 @@ public class ShiroUtils {
 	}
 
 	public static Long getUserId() {
+
 		return getUserEntity().getUserId();
+
+	}
+
+	public static  String getUserName(){
+		return getUserEntity().getUsername();
 	}
 	
 	public static void setSessionAttribute(Object key, Object value) {
