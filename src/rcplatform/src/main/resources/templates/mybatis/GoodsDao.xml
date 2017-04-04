@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ruanchuangsoft.platform.system.dao.GoodsDao">
+<mapper namespace="com.ruanchuangsoft.platform.dao.GoodsDao">
 
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.system.entity.GoodsEntity">
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.GoodsEntity">
 		select * from goods where goods_id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.system.entity.GoodsEntity">
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.GoodsEntity">
 		select * from goods 
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
@@ -19,7 +19,7 @@
 		select count(*) from goods 
 	</select>
 	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.system.entity.GoodsEntity" useGeneratedKeys="true" keyProperty="goodsId">
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.GoodsEntity" useGeneratedKeys="true" keyProperty="goodsId">
 		insert into goods
 		(
 			`class_id`, 
@@ -40,7 +40,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.system.entity.GoodsEntity">
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.GoodsEntity">
 		update goods 
 		<set>
 			<if test="classId != null">`class_id` = #{classId}, </if>

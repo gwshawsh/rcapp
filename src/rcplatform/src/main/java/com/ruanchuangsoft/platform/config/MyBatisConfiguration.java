@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.alibaba.fastjson.JSON;
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -29,7 +30,7 @@ import java.sql.SQLException;
  * 2）创建SqlSessionFactory
  */
 @Configuration
-@MapperScan(basePackages = "com.ruanchuangsoft.platform.system.dao")
+@MapperScan(basePackages = "com.ruanchuangsoft.platform.dao")
 public class MyBatisConfiguration {
 
 
@@ -43,6 +44,8 @@ public class MyBatisConfiguration {
      */
     @Bean(name="dataSource",destroyMethod = "close", initMethod = "init")
     public DataSource writeDataSource() throws SQLException{
+        JSON.DEFFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
         System.out.println("注入druid！！！");
         DruidDataSource datasource = new DruidDataSource();
         datasource.setUrl(env.getProperty("spring.datasource.url"));

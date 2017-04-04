@@ -6,13 +6,22 @@ $(function () {
 			//{ label: 'leaveId', name: 'leaveId', width: 50, key: true },
 			//{ label: '', name: 'userId', width: 80 },
 			{ label: '申请人', name: 'name', width: 80 }, 			
-			{ label: '开始时间', name: 'startTime', width: 80 }, 			
-			{ label: '结束时间', name: 'endTime', width: 80 }, 			
-			{ label: '类型', name: 'leavetype', width: 80 },
+			{ label: '开始时间', name: 'startTime', width: 80,formatter:"date", formatoptions:{srcformat: 'Y-m-d', newformat: 'Y-m-d'} },
+			{ label: '结束时间', name: 'endTime', width: 80, formatter:"date", formatoptions:{srcformat: 'Y-m-d', newformat: 'Y-m-d'}},
+			{ label: '类型', name: 'leavetype', width: 80,formatter:function(cellvalue, options, rowObject) {
+				if(cellvalue==0)
+					return "生病";
+				else if(cellvalue==1)
+					return "结婚";
+				else return "其他";
+				} },
 			{ label: '请假原因', name: 'reason', width: 80 }, 			
 			{ label: '创建时间', name: 'createTime', width: 80 }, 			
 			{ label: '完结时间', name: 'realendTime', width: 80 }, 			
-			{ label: '流程ID', name: 'pocessInstanceid', width: 80 }			
+			{ label: '操作', name: '', width: 80, formatter: function (cellvalue, options, rowObject) {
+				var detail="<button onclick='btn_detail(\""+ rowObject.leaveId + "\")' type='button' class='btn btn-block btn-primary'>签收</button>";
+				return detail;
+			} }
         ],
 		viewrecords: true,
         height: 385,
@@ -39,7 +48,14 @@ $(function () {
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
         }
     });
+
+
 });
+
+function btn_detail(rowid){
+	var currId=rowid;
+	vm.test(currId);
+}
 
 var vm = new Vue({
 	el:'#rrapp',
@@ -49,6 +65,9 @@ var vm = new Vue({
 		leavework: {}
 	},
 	methods: {
+		test:function(id){
+			alert(id);
+		},
 		query: function () {
 			vm.reload();
 		},

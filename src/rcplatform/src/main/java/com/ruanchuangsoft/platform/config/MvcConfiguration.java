@@ -24,44 +24,42 @@ import java.io.IOException;
  * Created by lidongfeng on 2017/3/23.
  */
 @Configuration
-public class MvcConfiguration{
-          String templatesPath="/templates/page/";//模板跟目录
-        @Bean(initMethod = "init", name = "beetlConfig")
-        public BeetlGroupUtilConfiguration getBeetlGroupUtilConfiguration() {
-            BeetlGroupUtilConfiguration beetlGroupUtilConfiguration = new BeetlGroupUtilConfiguration();
-            ResourcePatternResolver patternResolver = ResourcePatternUtils.getResourcePatternResolver(new DefaultResourceLoader());
+public class MvcConfiguration {
+    String templatesPath = "/templates/page/";//模板跟目录
 
-            try {
-                String root =  patternResolver.getResource("classpath:templates/page/").getFile().toString();
-                WebAppResourceLoader webAppResourceLoader = new WebAppResourceLoader(root);
-                beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader);
-                beetlGroupUtilConfiguration.setConfigFileResource(patternResolver.getResource("classpath:beetl.properties"));
+    @Bean(initMethod = "init", name = "beetlConfig")
+    public BeetlGroupUtilConfiguration getBeetlGroupUtilConfiguration() {
+        BeetlGroupUtilConfiguration beetlGroupUtilConfiguration = new BeetlGroupUtilConfiguration();
+        ResourcePatternResolver patternResolver = ResourcePatternUtils.getResourcePatternResolver(new DefaultResourceLoader());
 
-                return beetlGroupUtilConfiguration;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            String root = patternResolver.getResource("classpath:templates/page/").getFile().toString();
+            WebAppResourceLoader webAppResourceLoader = new WebAppResourceLoader(root);
+            beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader);
+            beetlGroupUtilConfiguration.setConfigFileResource(patternResolver.getResource("classpath:beetl.properties"));
 
+            return beetlGroupUtilConfiguration;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
-        @Bean(name = "beetlViewResolver")
-        public BeetlSpringViewResolver getBeetlSpringViewResolver(@Qualifier("beetlConfig") BeetlGroupUtilConfiguration beetlGroupUtilConfiguration) {
-            //
-            GroupTemplate gt=beetlGroupUtilConfiguration.getGroupTemplate();
-            //注册权限
-            gt.registerFunctionPackage("shiro", new ShiroExt());
+    }
 
-            BeetlSpringViewResolver beetlSpringViewResolver = new BeetlSpringViewResolver();
-            beetlSpringViewResolver.setContentType("text/html;charset=UTF-8");
-            beetlSpringViewResolver.setOrder(0);
-            beetlSpringViewResolver.setConfig(beetlGroupUtilConfiguration);
+    @Bean(name = "beetlViewResolver")
+    public BeetlSpringViewResolver getBeetlSpringViewResolver(@Qualifier("beetlConfig") BeetlGroupUtilConfiguration beetlGroupUtilConfiguration) {
+        //
+        GroupTemplate gt = beetlGroupUtilConfiguration.getGroupTemplate();
+        //注册权限
+        gt.registerFunctionPackage("shiro", new ShiroExt());
 
-            beetlSpringViewResolver.setSuffix(".html");
-            return beetlSpringViewResolver;
-        }
+        BeetlSpringViewResolver beetlSpringViewResolver = new BeetlSpringViewResolver();
+        beetlSpringViewResolver.setContentType("text/html;charset=UTF-8");
+        beetlSpringViewResolver.setOrder(0);
+        beetlSpringViewResolver.setConfig(beetlGroupUtilConfiguration);
 
-
-
+        beetlSpringViewResolver.setSuffix(".html");
+        return beetlSpringViewResolver;
+    }
 
 
 }

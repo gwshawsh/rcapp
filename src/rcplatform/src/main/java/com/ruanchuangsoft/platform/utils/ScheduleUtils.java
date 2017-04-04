@@ -1,6 +1,6 @@
 package com.ruanchuangsoft.platform.utils;
 
-import com.ruanchuangsoft.platform.system.entity.ScheduleJobEntity;
+import com.ruanchuangsoft.platform.entity.ScheduleJobEntity;
 import org.quartz.*;
 
 /**

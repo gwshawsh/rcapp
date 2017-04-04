@@ -1,6 +1,6 @@
 package com.ruanchuangsoft.platform.utils;
 
-import com.ruanchuangsoft.platform.system.entity.SysUserEntity;
+import com.ruanchuangsoft.platform.entity.SysUserEntity;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -27,9 +27,7 @@ public class ShiroUtils {
 	}
 
 	public static Long getUserId() {
-
 		return getUserEntity().getUserId();
-
 	}
 
 	public static  String getUserName(){

@@ -1,9 +1,9 @@
 package com.ruanchuangsoft.platform.shiro;
 
-import com.ruanchuangsoft.platform.system.entity.SysMenuEntity;
-import com.ruanchuangsoft.platform.system.entity.SysUserEntity;
-import com.ruanchuangsoft.platform.system.service.SysMenuService;
-import com.ruanchuangsoft.platform.system.service.SysUserService;
+import com.ruanchuangsoft.platform.entity.SysMenuEntity;
+import com.ruanchuangsoft.platform.entity.SysUserEntity;
+import com.ruanchuangsoft.platform.service.SysMenuService;
+import com.ruanchuangsoft.platform.service.SysUserService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

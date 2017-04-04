@@ -1,8 +1,8 @@
 package com.ruanchuangsoft.platform.utils;
 
-import com.ruanchuangsoft.platform.system.entity.ScheduleJobEntity;
-import com.ruanchuangsoft.platform.system.entity.ScheduleJobLogEntity;
-import com.ruanchuangsoft.platform.system.service.ScheduleJobLogService;
+import com.ruanchuangsoft.platform.entity.ScheduleJobEntity;
+import com.ruanchuangsoft.platform.entity.ScheduleJobLogEntity;
+import com.ruanchuangsoft.platform.service.ScheduleJobLogService;
 import org.apache.commons.lang.StringUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

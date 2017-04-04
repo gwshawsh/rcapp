@@ -8,6 +8,7 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
+            <a class="btn btn-default" v-on:click="query">查询</a>
             <%if(shiro.hasPermission("leavework:save")) {%>
             <a class="btn btn-primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
             <%}%>
@@ -25,12 +26,7 @@
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">{{title}}</div>
         <form class="form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="leavework.userId" placeholder=""/>
-                </div>
-            </div>
+
             <div class="form-group">
                 <div class="col-sm-2 control-label">申请人</div>
                 <div class="col-sm-10">
@@ -44,7 +40,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" class="form-control pull-right" id="datepicker" v-model="leavework.startTime">
+                        <input type="text" class="form-control pull-right datepicker"  id="startTime"  v-model="leavework.startTime">
                     </div>
 
                 </div>
@@ -53,7 +49,14 @@
             <div class="form-group">
                 <div class="col-sm-2 control-label">结束时间</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="leavework.endTime" placeholder="结束时间"/>
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right datepicker" id="endTime"  v-model="leavework.endTime">
+                    </div>
+
+
                 </div>
             </div>
             <div class="form-group">
@@ -110,9 +113,23 @@
         //Initialize Select2 Elements
 
         //Date picker
-        $('#datepicker').datepicker({
-            autoclose: true
+        $('#startTime').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        }).on("hide",function(ev){
+            var value= ev.currentTarget.value;
+            vm.leavework.startTime=value;
         });
+
+        //Date picker
+        $('#endTime').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        }).on("hide",function(ev){
+            var value= ev.currentTarget.value;
+            vm.leavework.endTime=value;
+        });
+
 
 
     });
