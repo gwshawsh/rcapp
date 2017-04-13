@@ -10,6 +10,9 @@ import com.ruanchuangsoft.platform.utils.R;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +42,9 @@ public class LeaveworkController {
 
 	@Autowired
 	private RuntimeService runtimeService;
+
+	@Autowired
+	private TaskService taskService;
 	
 	@RequestMapping("/leavework")
 	public String list(){
@@ -56,6 +62,13 @@ public class LeaveworkController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
+
+		//读取工作流中分配给当前人员或者签收的任务
+		List<Task> tasks=taskService.createTaskQuery().taskCandidateOrAssigned(ShiroUtils.getUserIdStr()).list();
+		for (Task task:tasks
+			 ) {
+
+		}
 		
 		//查询列表数据
 		List<LeaveworkEntity> leaveworkList = leaveworkService.queryList(map);
@@ -88,14 +101,16 @@ public class LeaveworkController {
 	@RequestMapping("/save")
 	@RequiresPermissions("leavework:save")
 	public R save(@RequestBody LeaveworkEntity leavework){
-		leavework.setUserId(ShiroUtils.getUserId());
-		leavework.setName(ShiroUtils.getUserName());
-		leaveworkService.save(leavework);
-
-
 		//启动审批工作流
 		identityService.setAuthenticatedUserId(String.valueOf(ShiroUtils.getUserId()));
-		runtimeService.startProcessInstanceById("ac_leavework");
+		ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("ac_leavework");
+		String processid= processInstance.getId();
+
+		leavework.setUserId(ShiroUtils.getUserId());
+		leavework.setName(ShiroUtils.getUserName());
+		leavework.setPocessInstanceid(processid);
+		leaveworkService.save(leavework);
+
 		return R.ok();
 	}
 	

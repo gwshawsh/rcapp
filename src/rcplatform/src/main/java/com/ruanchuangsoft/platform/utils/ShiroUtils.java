@@ -30,6 +30,11 @@ public class ShiroUtils {
 		return getUserEntity().getUserId();
 	}
 
+
+	public static String getUserIdStr() {
+		return String.valueOf(getUserEntity().getUserId());
+	}
+
 	public static  String getUserName(){
 		return getUserEntity().getUsername();
 	}
