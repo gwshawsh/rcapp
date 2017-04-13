@@ -329,3 +329,151 @@ CREATE INDEX IDX_QRTZ_FT_J_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_NAME,JOB_GROU
 CREATE INDEX IDX_QRTZ_FT_JG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_GROUP);
 CREATE INDEX IDX_QRTZ_FT_T_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP);
 CREATE INDEX IDX_QRTZ_FT_TG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
+
+--空箱计划用箱单主表
+CREATE TABLE `plan_kongxiang_main`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` bigint COMMENT '单据号',
+  `ladingno` bigint COMMENT `提单号`,
+  `shipname` varchar(20) COMMENT `船名`,
+  `voyage` varchar(50) COMMENT `航次`,
+  `goods` varchar(50) COMMENT `货品`,
+  `boxsize` bigint COMMENT `箱量`,
+  `boxtype` varchar(50) COMMENT `箱型`,
+  `termini_id` bigint COMMENT `目的地`,
+  `departure_id` bigint COMMENT `起运地`,
+  `closedate` datetime COMMENT `截港时间`,
+  `client` varchar(50) COMMENT `客户`,
+  `port` varchar(50) COMMENT `港口`,
+  `clerk` varchar(20) COMMENT `业务员`,
+  `planarrtime` datetime COMMENT `预计到场时间`,
+  `billstate` varchar(50) COMMENT `单据状态`,
+  `billuser` varchar(20) COMMENT `制单人`,
+  `billdate` datetime COMMENT `制单日期`,
+  `examuser` varchar(20) COMMENT `审核人`,
+  `examdate` datetime COMMENT `审核日期`,
+  `uptdate` datetime COMMENT `更新时间`, 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='空箱计划用箱单主表';
+
+--空箱计划用箱单明细表
+CREATE TABLE `plan_kongxiang_detailed`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `serialno` bigint COMMENT `序号`,
+  `risiboxplace` varchar(200) COMMENT `提箱点` ,
+  `returnboxplace` varchar(200) COMMENT `还箱点`,
+  `boxno` bigint COMMENT `箱号`,
+  `realarrtime` datetime COMMENT `实际到场时间`,
+  `trancompanycode` varchar(50) COMMENT `运输公司编码`,
+  `plateno` varchar(20) COMMENT `车牌号`,
+  `driver` varchar(20) COMMENT `司机`,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='空箱计划用箱单明细表';
+
+--重箱计划主表
+CREATE TABLE `plan_chongxiang_main`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` bigint COMMENT `单据号`,
+  `ladingno` bigint COMMENT `提单号`,
+  `boxsize` bigint COMMENT `箱量`,
+  `boxtype` varchar(50) COMMENT `箱型`,
+  `termini_id` bigint COMMENT `目的地`,
+  `departure_id` bigint COMMENT `起运地`,
+  `planarrporttime` datetime COMMENT `预计到港时间`,
+  `port` varchar(50) COMMENT `港口`,
+  `shipname` varchar(20) COMMENT `船名`,
+  `voyage` varchar(50) COMMENT `航次`,
+  `client` varchar(50) COMMENT `客户`,
+  `billuser` varchar(20) COMMENT `制单人`,
+  `billdate` datetime COMMENT `制单日期`,
+  `examuser` varchar(20) COMMENT `审核人`,
+  `examdate` datetime COMMENT `审核日期`,
+  `uptdate` datetime COMMENT `更新时间`,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='重箱计划主表';
+
+--重箱计划明细表
+CREATE TABLE `plan_chongxiang_detailed`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` bigint COMMENT `单据号`,
+  `serialno` bigint COMMENT `序号`,
+  `plateno` varchar(20) COMMENT `车牌号`,
+  `driver` varchar(20) COMMENT `司机`,
+  `realarrporttime` datetime COMMENT `实际到港时间`,
+  `boxno` bigint COMMENT `箱号`,
+  `goods` varchar(50) COMMENT `货品`,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='重箱计划明细表';
+
+--预约用箱单主表
+CREATE TABLE `plan_yuyue_main`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` bigint COMMENT `单据号`,
+  `useboxtime` datetime COMMENT `用箱时间`,
+  `shipcompany` varchar(50) COMMENT `船公司`,
+  `boxsize` bigint COMMENT `箱量`,
+  `boxtype` varchar(50) COMMENT `箱型`,
+  `risiboxplace` varchar(200) COMMENT `提箱点` ,
+  `planarrtime` datetime COMMENT `计划到场时间`,
+  `clientinfo` varchar(200) COMMENT `客户信息`
+  `losedate` datetime COMMENT `失效日期`,
+  `billstate` int COMMENT '单据状态    0：新增   1：审核   2：预约中  3：完成   4：失效',
+  `billuser` varchar(20) COMMENT `制单人`,
+  `billdate` datetime COMMENT `制单日期`,
+  `examuser` varchar(20) COMMENT `审核人`,
+  `examdate` datetime COMMENT `审核日期`,
+  `uptdate` datetime COMMENT `更新时间`,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预约用箱单主表';
+
+--预约用箱单明细表
+CREATE TABLE `plan_yuyue_detailed`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` bigint COMMENT `单据号`,
+  `serialno` bigint COMMENT `序号`,
+  `risiboxplace` varchar(200) COMMENT `提箱点` ,
+  `returnboxplace` varchar(200) COMMENT `还箱点`,
+  `dockplace` varchar(200) COMMENT `装卸地`
+  `plateno` varchar(20) COMMENT `车牌号`,    
+  `driver` varchar(20) COMMENT `司机`,
+  `realarrtime` datetime COMMENT `实际到场时间`,
+  `shipname` varchar(20) COMMENT `船名`,
+  `voyage` varchar(50) COMMENT `航次`,
+  `ladingno` bigint COMMENT `提单号`,
+  `boxno` bigint COMMENT `箱号`,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预约用箱单明细表';
+
+--疏港计划主表
+CREATE TABLE `plan_shugang_main`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` bigint COMMENT `单据号`,
+  `port` varchar(50) COMMENT `港口`,
+  `shipcompany` varchar(50) COMMENT `船公司`,
+  `boxsize` bigint COMMENT `箱量`,
+  `boxtype` varchar(50) COMMENT `箱型`,
+  `placecode` varchar(50) COMMENT `场站编码`
+  `planarrporttime` datetime COMMENT `预计到港时间`,
+  `planarrtime` datetime COMMENT `预计到场时间`,
+  `billuser` varchar(20) COMMENT `制单人`,
+  `billdate` datetime COMMENT `制单日期`,
+  `examuser` varchar(20) COMMENT `审核人`,
+  `examdate` datetime COMMENT `审核日期`,
+  `uptdate` datetime COMMENT `更新时间`,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='疏港计划主表';
+
+--疏港计划明细表
+CREATE TABLE `plan_shugang_detailed`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` bigint COMMENT `单据号`,
+  `serialno` bigint COMMENT `序号`,
+  `boxno` bigint COMMENT `箱号`,
+  `trancompanycode` varchar(50) COMMENT `运输公司编码`,
+  `plateno` varchar(20) COMMENT `车牌号`,
+  `driver` varchar(20) COMMENT `司机`,
+  `realarrporttime` datetime COMMENT `实际到港时间`,
+  `realarrtime` datetime COMMENT `实际到场时间`,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='疏港计划明细表';
