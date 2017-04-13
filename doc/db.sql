@@ -1,4 +1,4 @@
-CREATE TABLE `goods` (
+﻿CREATE TABLE `goods` (
   `goods_id` bigint NOT NULL AUTO_INCREMENT,
   `class_id` bigint COMMENT '父菜单ID，一级菜单为0',
   `name` varchar(50) COMMENT '菜单名称',
@@ -329,6 +329,122 @@ CREATE INDEX IDX_QRTZ_FT_J_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_NAME,JOB_GROU
 CREATE INDEX IDX_QRTZ_FT_JG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_GROUP);
 CREATE INDEX IDX_QRTZ_FT_T_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP);
 CREATE INDEX IDX_QRTZ_FT_TG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
+
+-- 地点管理
+CREATE TABLE `place` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `name` varchar(50) COMMENT '名称',
+  `region` varchar(50) COMMENT '所属区域',
+  `phone` varchar(20) COMMENT '联系电话',
+  `address` varchar(200) COMMENT '地址',
+  `longitude` varchar(50) COMMENT '经度',
+  `latitude` varchar(50) COMMENT '纬度',
+  `type` int COMMENT '类型   0：港口   1：仓库   2：堆场',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='港口基础信息表';
+
+--区域管理
+CREATE TABLE `region` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `name` varchar(50) COMMENT '名称',
+  `regionalcode` varchar(50) COMMENT '上级区域编码',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='区域管理表';
+
+--车队管理
+CREATE TABLE `fleet_management` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `name` varchar(50) COMMENT '名称',
+  `address` varchar(200) COMMENT '地址',
+  `contact` varchar(20) COMMENT '联系人',
+  `contact_number` varchar(20) COMMENT '联系电话',
+  `vehicle_type` varchar(20) COMMENT '车辆类型（挂靠、自营、外协）',
+  `billing_information` varchar(50) COMMENT '开票信息',
+  `account_information` varchar(50) COMMENT '账户信息',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='车辆基础信息表';
+
+-- 船舶管理
+CREATE TABLE `ship_management` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `chname` varchar(20) COMMENT '中文名称',
+  `enname` varchar(20) COMMENT '英文名称',
+  `region` varchar(50) COMMENT '所属区域',
+  `uncode` varchar(50) COMMENT 'UN代码',
+  `type` varchar(50) COMMENT '类型',
+  `company` varchar(50) COMMENT '所属船公司',
+  `coscode` varchar(50) COMMENT 'COS代码',
+  `cosshipenname` varchar(20) COMMENT 'COS船英文名',
+  `country` varchar(20) COMMENT '所属国家',
+  `contact` varchar(20) COMMENT '联系人 ',
+  `address` varchar(200) COMMENT '地址',
+  `phone` varchar(20) COMMENT '电话',
+  `route` varchar(50) COMMENT '航线',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='船公司基础信息表';
+
+-- 船舶计划
+CREATE TABLE `ship_plan` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `enshipname` varchar(20) COMMENT '英文船名',
+  `chshipname` varchar(20) COMMENT '中文船名',
+  `expvoyage` varchar(50) COMMENT '出口航次',
+  `Impvoyage` varchar(50) COMMENT '进口航次',
+  `arrivalstate` varchar(50) COMMENT '到港状态',
+  `arrivaldate` datetime COMMENT '预计到港日期',
+  `shipid` varchar(20) COMMENT '船舶呼号',
+  `imono` varchar(50) COMMENT 'IMO编号',
+  `dockcode` varchar(50) COMMENT '码头代码',
+  `dockname` varchar(50) COMMENT '码头名称',
+  `dockunit` varchar(50) COMMENT '靠泊单位',
+  `arrivalstate` varchar(20) COMMENT '到港状态',
+  `route` varchar(50) COMMENT '航线',
+  `arrivaltime` datetime COMMENT '预计到港时间',
+  `leavetime` datetime COMMENT '预计离港时间',
+  `shipment` varchar(20) COMMENT '船期',
+  `remark` varchar(50) COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='船舶计划表';
+
+--线路管理
+CREATE TABLE `place` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `startlocation` varchar(200) COMMENT '起始区域地点',
+  `endlocation` varchar(200) COMMENT '结束区域地点',
+  `distance` double COMMENT '距离',
+  `freight` double COMMENT '运费',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='线路基础信息表';
+
+--司机管理
+CREATE TABLE `driver_manage` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `name` varchar(20) COMMENT '姓名',
+  `phone` varchar(20) COMMENT '电话',
+  `fleet` varchar(50) COMMENT '所属车队',
+  `documentno` varchar(50) COMMENT '证件号',
+  `driveage` int COMMENT '驾龄',
+  `type` varchar(20) COMMENT '类型（有、无车）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='司机基础信息表';
+
+--箱型管理
+CREATE TABLE `box_manage` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `box_size` varchar(50) COMMENT '箱型尺寸',
+  `productiondate` datetime COMMENT '生产日期',
+  `weight` double COMMENT '重量',
+  `colour` varchar(20) COMMENT '颜色',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='箱型基础信息表';
+
 
 --空箱计划用箱单主表
 CREATE TABLE `plan_kongxiang_main`(
