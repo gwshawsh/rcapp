@@ -3,14 +3,18 @@ package com.ruanchuangsoft.platform.controller;
 import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.service.SysGeneratorService;
 import com.ruanchuangsoft.platform.utils.PageUtils;
+import com.ruanchuangsoft.platform.utils.Query;
 import com.ruanchuangsoft.platform.utils.R;
+import com.ruanchuangsoft.platform.xss.XssHttpServletRequestWrapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,44 +33,43 @@ import java.util.Map;
 public class SysGeneratorController {
 	@Autowired
 	private SysGeneratorService sysGeneratorService;
-	
+
 	/**
 	 * 列表
 	 */
 	@ResponseBody
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:generator:list")
-	public R list(String tableName, Integer page, Integer limit){
-		Map<String, Object> map = new HashMap<>();
-		map.put("tableName", tableName);
-		map.put("offset", (page - 1) * limit);
-		map.put("limit", limit);
-		
+	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
-		List<Map<String, Object>> list = sysGeneratorService.queryList(map);
-		int total = sysGeneratorService.queryTotal(map);
-		
-		PageUtils pageUtil = new PageUtils(list, total, limit, page);
-		
+		Query query = new Query(params);
+		List<Map<String, Object>> list = sysGeneratorService.queryList(query);
+		int total = sysGeneratorService.queryTotal(query);
+
+		PageUtils pageUtil = new PageUtils(list, total, query.getLimit(), query.getPage());
+
 		return R.ok().put("page", pageUtil);
 	}
-	
+
 	/**
 	 * 生成代码
 	 */
 	@RequestMapping("/code")
 	@RequiresPermissions("sys:generator:code")
-	public void code(String tables, HttpServletResponse response) throws IOException{
-		String[] tableNames = new String[]{};
-		tableNames = JSON.parseArray(tables).toArray(tableNames);
-		
+	public void code(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		//获取表名，不进行xss过滤
+		HttpServletRequest orgRequest = XssHttpServletRequestWrapper.getOrgRequest(request);
+		String tables = orgRequest.getParameter("tables");
+		String[] tableNames=tables.split(",");
+//		String[] tableNames = new String[]{tables};// JSON.parseArray(tables).toArray(tableNames);
+
 		byte[] data = sysGeneratorService.generatorCode(tableNames);
-		
-		response.reset();  
-        response.setHeader("Content-Disposition", "attachment; filename=\"renren.zip\"");  
-        response.addHeader("Content-Length", "" + data.length);  
-        response.setContentType("application/octet-stream; charset=UTF-8");  
-  
-        IOUtils.write(data, response.getOutputStream());  
+
+		response.reset();
+		response.setHeader("Content-Disposition", "attachment; filename=\"renren.zip\"");
+		response.addHeader("Content-Length", "" + data.length);
+		response.setContentType("application/octet-stream; charset=UTF-8");
+
+		IOUtils.write(data, response.getOutputStream());
 	}
 }

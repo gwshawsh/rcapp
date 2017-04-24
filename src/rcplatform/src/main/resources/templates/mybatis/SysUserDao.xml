@@ -3,17 +3,27 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.SysUserDao">
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.SysUserEntity">
-		select * from sys_user where user_id = #{value}
+		select m.*, (select p.name from sys_dept p where p.dept_id = m.dept_id) as deptName
+		from sys_user m where m.user_id = #{value}
 	</select>
 	
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.SysUserEntity">
-		select * from sys_user 
+		select m.*, (select p.name from sys_dept p where p.dept_id = m.dept_id) as deptName
+		from sys_user m
 		<where>
 			<if test="username != null and username.trim() != ''">
 				and `username` like concat('%',#{username},'%') 
 			</if>
 		</where>
-		order by user_id desc
+		<choose>
+			<when test="sidx!=null and order!=null">
+				order by #{sidx}, #{order}
+			</when>
+			<otherwise>
+				order by user_id desc
+			</otherwise>
+		</choose>
+
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -56,7 +66,8 @@
 			`password`, 
 			`email`, 
 			`mobile`, 
-			`status`, 
+			`status`,
+			`dept_id`,
 			`create_time`
 		)
 		values
@@ -66,7 +77,8 @@
 			#{password}, 
 			#{email}, 
 			#{mobile}, 
-			#{status}, 
+			#{status},
+			#{deptId},
 			#{createTime}
 		)
 	</insert>
@@ -79,6 +91,7 @@
 			<if test="email != null">`email` = #{email}, </if>
 			<if test="mobile != null">`mobile` = #{mobile}, </if>
 			<if test="status != null">`status` = #{status}, </if>
+			<if test="deptId != null">`dept_id` = #{deptId}, </if>
 		</set>
 		where user_id = #{userId}
 	</update>

@@ -33,6 +33,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 		
 		List<SysMenuEntity> userMenuList = new ArrayList<>();
 		for(SysMenuEntity menu : menuList){
+
 			if(menuIdList.contains(menu.getMenuId())){
 				userMenuList.add(menu);
 			}

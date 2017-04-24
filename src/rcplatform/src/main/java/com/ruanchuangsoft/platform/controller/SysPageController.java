@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 系统页面视图
@@ -18,11 +19,19 @@ public class SysPageController {
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index() {
 
-		return "index";
+		return "index1";
 	}
 
+//	@RequestMapping("sys/{url}.html")
+//	public String page(@PathVariable("url") String url){
+//		return "sys/" + url + "";
+//	}
+
 	@RequestMapping("sys/{url}.html")
-	public String page(@PathVariable("url") String url){
-		return "sys/" + url + "";
+	public ModelAndView page(@PathVariable("url") String url){
+		ModelAndView view = new ModelAndView("sys/" + url + "");
+		//total 是模板的全局变量，可以直接访问
+		return view;
+
 	}
 }

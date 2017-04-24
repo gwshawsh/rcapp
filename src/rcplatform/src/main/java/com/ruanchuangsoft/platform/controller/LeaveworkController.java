@@ -1,5 +1,6 @@
 package com.ruanchuangsoft.platform.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import com.ruanchuangsoft.platform.annotation.SysLog;
 import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -32,20 +34,9 @@ import com.ruanchuangsoft.platform.service.LeaveworkService;
  */
 @Controller
 @RequestMapping("leavework")
-public class LeaveworkController {
+public class LeaveworkController extends AbstractController{
 
-	@Autowired
-	private LeaveworkService leaveworkService;
 
-	@Autowired
-	private IdentityService identityService;
-
-	@Autowired
-	private RuntimeService runtimeService;
-
-	@Autowired
-	private TaskService taskService;
-	
 	@RequestMapping("/leavework")
 	public String list(){
 		return "buss/leavework";
@@ -64,12 +55,9 @@ public class LeaveworkController {
 		map.put("limit", limit);
 
 		//读取工作流中分配给当前人员或者签收的任务
-		List<Task> tasks=taskService.createTaskQuery().taskCandidateOrAssigned(ShiroUtils.getUserIdStr()).list();
-		for (Task task:tasks
-			 ) {
+		List<String> list= getWorkflowListQuery();
+		map.put("list",list);
 
-		}
-		
 		//查询列表数据
 		List<LeaveworkEntity> leaveworkList = leaveworkService.queryList(map);
 		int total = leaveworkService.queryTotal(map);
@@ -102,9 +90,7 @@ public class LeaveworkController {
 	@RequiresPermissions("leavework:save")
 	public R save(@RequestBody LeaveworkEntity leavework){
 		//启动审批工作流
-		identityService.setAuthenticatedUserId(String.valueOf(ShiroUtils.getUserId()));
-		ProcessInstance processInstance=runtimeService.startProcessInstanceByKey("ac_leavework");
-		String processid= processInstance.getId();
+		String processid=startWorkflow("ac_leavework");
 
 		leavework.setUserId(ShiroUtils.getUserId());
 		leavework.setName(ShiroUtils.getUserName());

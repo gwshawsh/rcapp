@@ -42,11 +42,13 @@ public class SysUserController extends AbstractController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:user:list")
-	public R list(String username, Integer page, Integer limit){
+	public R list(String username, Integer page, Integer limit,String sidx,String order){
 		Map<String, Object> map = new HashMap<>();
 		map.put("username", username);
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
+		map.put("sidx",sidx);
+		map.put("order",order);
 		
 		//查询列表数据
 		List<SysUserEntity> userList = sysUserService.queryList(map);

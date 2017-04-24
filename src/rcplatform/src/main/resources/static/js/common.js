@@ -44,6 +44,16 @@ window.confirm = function(msg, callback){
 	});
 }
 
+function initGridHeight(){
+	$("#jqGrid").setGridHeight($(window).height() - 150);
+
+	$(window).resize(function(){
+		$(window).unbind("onresize");
+		$("#jqGrid").setGridHeight($(window).height() - 150);
+		$(window).bind("onresize", this);
+	});
+}
+
 //选择一条记录
 function getSelectedRow() {
     var grid = $("#jqGrid");

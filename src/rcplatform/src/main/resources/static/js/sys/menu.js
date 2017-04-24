@@ -49,6 +49,8 @@ $(function () {
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
         }
     });
+
+	initGridHeight();
 });
 
 var setting = {

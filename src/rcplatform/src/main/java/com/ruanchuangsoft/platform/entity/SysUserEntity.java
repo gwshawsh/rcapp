@@ -55,6 +55,31 @@ public class SysUserEntity implements Serializable {
 	private Date createTime;
 
 	/**
+	* 所属部门
+	**/
+	private Long deptId;
+
+	private String deptName;
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public Long getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Long deptId) {
+		this.deptId = deptId;
+	}
+
+
+
+	/**
 	 * 设置：
 	 * @param userId 
 	 */

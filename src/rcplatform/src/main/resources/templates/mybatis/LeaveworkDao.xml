@@ -8,7 +8,14 @@
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.LeaveworkEntity">
-		select * from leavework 
+		select * from leavework
+		<where>
+			pocess_instanceid in
+					<foreach item="pid" collection="list" open="(" separator="," close=")">
+						#{pid}
+					</foreach>
+
+		</where>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

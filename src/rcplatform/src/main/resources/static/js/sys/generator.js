@@ -33,6 +33,8 @@ $(function () {
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
         }
     });
+
+    initGridHeight();
 });
 
 var vm = new Vue({
@@ -54,7 +56,9 @@ var vm = new Vue({
 			if(tableNames == null){
 				return ;
 			}
-			location.href = "../sys/generator/code?tables=" + JSON.stringify(tableNames);
+
+
+			location.href = "../sys/generator/code?tables=" + tableNames;
 		}
 	}
 });

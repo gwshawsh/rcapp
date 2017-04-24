@@ -104,9 +104,10 @@ public class SysUserServiceImpl implements SysUserService {
 
 		//更新工作流用户
 		User userWork=identityService.createUserQuery().userId(String.valueOf(user.getUserId())).singleResult();
-		userWork.setFirstName(user.getUsername());
-		identityService.saveUser(userWork);
-
+		if(userWork!=null) {
+			userWork.setFirstName(user.getUsername());
+			identityService.saveUser(userWork);
+		}
 
 		//更新工作流角色
 		for (Long roleid :

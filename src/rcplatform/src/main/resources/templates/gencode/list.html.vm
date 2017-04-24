@@ -42,13 +42,13 @@ $header
 		#end
 			<div class="form-group">
 				<div class="col-sm-2 control-label"></div> 
-				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
-				&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+				<input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
+				&nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
 			</div>
 		</form>
 	</div>
 </div>
 
-<script src="${ctxPath}/js/${pathName}/${pathName}.js"></script>
+<script src="${ctxPath}/static/js/${pathName}/${pathName}.js"></script>
 </body>
 </html>

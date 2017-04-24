@@ -50,11 +50,7 @@ $(function () {
         }
     });
 
-	$(window).resize(function(){
-		$(window).unbind("onresize");
-		$("#jqGrid").setGridHeight($(window).height() - 30);
-		$(window).bind("onresize", this);
-	});
+	initGridHeight();
 
 });
 
