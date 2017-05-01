@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>空箱计划用箱单主表</title>
+    <% include ("/sys/header.html") {} %>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <%if(shiro.hasPermission("plankongxiangmain:save")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("plankongxiangmain:update")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("plankongxiangmain:delete")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("plankongxiangmain:fangxiang")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="fangxiang"><i class="fa fa-cubes"></i>&nbsp;放箱
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("plankongxiangmain:ruzhang")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-book"></i>&nbsp;入账
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("plankongxiangmain:list")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-cubes"></i>&nbsp;明细
+            </button>
+            <%}%>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="showEdit" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-2 control-label">单据号</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.billno"
+                           placeholder="单据号"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">组织id</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.orgId"
+                           placeholder="组织id"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">组织编码</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.orgcode"
+                           placeholder="组织编码"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">提单号</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.lazingno"
+                           placeholder="提单号"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">船名</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.shipname"
+                           placeholder="船名"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">航次</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.voyage"
+                           placeholder="航次"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">港口</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.portid"
+                           placeholder="港口"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">箱量</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.boxqty"
+                           placeholder="箱量"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">箱型</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.boxtype"
+                           placeholder="箱型"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">提箱场站</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.startplaceId"
+                           placeholder="提箱场站"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">放箱地点</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.endplaceId"
+                           placeholder="放箱地点"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">截港时间</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.closedate"
+                           placeholder="截港时间"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">客户</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.client"
+                           placeholder="客户"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">业务员</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.clerk"
+                           placeholder="业务员"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">最早到场时间</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.bgnplanarrtime"
+                           placeholder="最早到场时间"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">最晚到场时间</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.endplanarrtime"
+                           placeholder="最晚到场时间"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">备注</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.remark"
+                           placeholder="备注"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+
+    <div v-show="showFangxiang" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">提单号</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.lazingno" readonly="readonly"
+                           placeholder="提单号"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">船名</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.shipname" readonly="readonly"
+                           placeholder="船名"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">航次</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.voyage" readonly="readonly"
+                           placeholder="航次"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">提箱场站</div>
+                <div class="col-sm-10">
+
+                    <input type="text" class="form-control" readonly="readonly"  v-on:click="startplaceTree" v-model="planKongxiangMain.startplaceName" placeholder="提箱场站"/>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">放箱地点</div>
+                <div class="col-sm-10">
+
+                    <input type="text" class="form-control" readonly="readonly"  v-on:click="endplaceTree" v-model="planKongxiangMain.endplaceName" placeholder="放箱地点"/>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">截港时间</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.closedate" readonly="readonly"
+                           placeholder="截港时间"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">运输公司</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" readonly="readonly"  v-on:click="transCompanyTree" v-model="planKongxiangMain.trancompanyName" placeholder="运输公司"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">备注</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="planKongxiangMain.remark"
+                           placeholder="备注"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="startplaceLayer" style="display: none;padding:10px;">
+    <ul id="startplaceTree" class="ztree"></ul>
+</div>
+<div id="endplaceLayer" style="display: none;padding:10px;">
+    <ul id="endplaceTree" class="ztree"></ul>
+</div>
+<div id="transLayer" style="display: none;padding:10px;">
+    <ul id="transTree" class="ztree"></ul>
+</div>
+
+<script src="${ctxPath}/static/js/buss/plankongxiangmain.js"></script>
+</body>
+</html>

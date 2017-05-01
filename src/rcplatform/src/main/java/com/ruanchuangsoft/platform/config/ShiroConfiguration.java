@@ -109,7 +109,7 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 登录成功后要跳转的连接
         shiroFilterFactoryBean.setSuccessUrl("/index");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/login");
 
         /////////////////////// 下面这些规则配置最好配置到配置文件中 ///////////////////////
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();

@@ -8,15 +8,15 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-            <a class="btn btn-default" v-on:click="query">查询</a>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query">查询</button>
             <%if(shiro.hasPermission("leavework:save")) {%>
-            <a class="btn btn-primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增</button>
             <%}%>
             <%if(shiro.hasPermission("leavework:update")) {%>
-            <a class="btn btn-primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</button>
             <%}%>
             <%if(shiro.hasPermission("leavework:delete")) {%>
-            <a class="btn btn-primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</button>
             <%}%>
         </div>
         <table id="jqGrid"></table>

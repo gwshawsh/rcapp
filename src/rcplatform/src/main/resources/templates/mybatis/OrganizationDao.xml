@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.OrganizationDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.OrganizationEntity">
+		select * from organization where id = #{value}
+	</select>
+
+	<select id="queryListParentId" resultType="com.ruanchuangsoft.platform.entity.OrganizationEntity">
+		select * from organization where parent_id = #{parentId} order by order_num asc
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.OrganizationEntity">
+
+		select m.*,(select p.name from organization p where p.id = m.parent_id) as parentName
+		from organization m
+		<where>
+			<if test="id!=null" >
+				m.parent_id=#{id}
+			</if>
+		</where>
+		order by m.id asc
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from organization 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.OrganizationEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into organization
+		(
+			`code`, 
+			`name`, 
+			`parent_id`, 
+			`phone`, 
+			`address`, 
+			`longitude`, 
+			`latitude`, 
+			`type`
+		)
+		values
+		(
+			#{code}, 
+			#{name}, 
+			#{parentId}, 
+			#{phone}, 
+			#{address}, 
+			#{longitude}, 
+			#{latitude}, 
+			#{type}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.OrganizationEntity">
+		update organization 
+		<set>
+			<if test="code != null">`code` = #{code}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="parentId != null">`parent_id` = #{parentId}, </if>
+			<if test="phone != null">`phone` = #{phone}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="longitude != null">`longitude` = #{longitude}, </if>
+			<if test="latitude != null">`latitude` = #{latitude}, </if>
+			<if test="type != null">`type` = #{type}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from organization where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from organization where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
