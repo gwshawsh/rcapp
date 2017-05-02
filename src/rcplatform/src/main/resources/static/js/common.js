@@ -44,6 +44,17 @@ window.confirm = function(msg, callback){
 	});
 }
 
+
+layui.use(['jquery','layer','element','laydate'],function(){
+	window.jQuery = window.$ = layui.jquery;
+	window.layer = layui.layer;
+	window.laydate=layui.laydate;
+	var element = layui.element();
+
+
+});
+
+
 function initGridHeight(){
 	$("#jqGrid").setGridHeight($(window).height() - 150);
 

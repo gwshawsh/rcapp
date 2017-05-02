@@ -1,4 +1,13 @@
 html { overflow-x:hidden; }
+.login-page{
+    background:url(../imgs/loginbk.jpg) no-repeat;
+    background-size:100%;
+}
+.login-box{
+    float: right;
+     margin:7%;
+}
+
 .content-header {
 	position: relative;
 	padding: 0 0 3px 8px
@@ -55,4 +64,8 @@ tbody > tr > th {font-weight: normal; }
 .panel-border-right{
     border-right: 1px solid #eee;
     height: 100%;
+}
+
+.panel-query{
+    margin-top:10px;
 }

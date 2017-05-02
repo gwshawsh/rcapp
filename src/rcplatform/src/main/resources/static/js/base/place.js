@@ -84,7 +84,7 @@ $(function () {
         url: '../place/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', width: 50, key: true},
+            {label: 'id', name: 'id', width: 50, key: true,hidden:true},
             {label: '编码', name: 'code', width: 80},
             {label: '名称', name: 'name', width: 80},
             {label: '所属区域', name: 'region', width: 80},
@@ -92,18 +92,20 @@ $(function () {
             {label: '地址', name: 'address', width: 80},
             {label: '经度', name: 'longitude', width: 80},
             {label: '纬度', name: 'latitude', width: 80},
-            { label: '类型', name: 'type', width: 80, formatter: function(value, options, row){
-                if(value==0){
-                    return  '<span class="label label-danger">港口</span>';
+            {
+                label: '类型', name: 'type', width: 80, formatter: function (value, options, row) {
+                if (value == 0) {
+                    return '<span class="label label-danger">港口</span>';
                 }
-                else if(value==1){
-                    return  '<span class="label label-danger">仓库</span>';
+                else if (value == 1) {
+                    return '<span class="label label-danger">仓库</span>';
                 }
-                else{
-                    return  '<span class="label label-danger">堆场</span>';
+                else {
+                    return '<span class="label label-danger">堆场</span>';
                 }
 
-            }}
+            }
+            }
 
         ],
         viewrecords: true,

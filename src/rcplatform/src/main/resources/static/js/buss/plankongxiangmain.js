@@ -221,7 +221,7 @@ $(function () {
         url: '../plankongxiangmain/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', width: 50, key: true},
+            {label: 'id', name: 'id', width: 50, key: true,hidden:true},
             {label: '单据号', name: 'billno', width: 80},
             {label: '组织id', name: 'orgId', width: 80},
             {label: '组织编码', name: 'orgcode', width: 80},
@@ -240,7 +240,7 @@ $(function () {
             {label: '最晚到场时间', name: 'endplanarrtime', width: 80},
             {label: '运输公司', name: 'trancompanyid', width: 80},
             {label: '备注', name: 'remark', width: 80},
-            {label: '单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成', name: 'billstate', width: 80},
+            {label: '单据状态', name: 'billstate', width: 80},
             {label: '制单人', name: 'billuser', width: 80},
             {label: '制单日期', name: 'billdate', width: 80},
             {label: '审核人', name: 'accuser', width: 80},
@@ -275,6 +275,47 @@ $(function () {
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
         }
     });
+
+    $("#jqGridBoxs").jqGrid({
+        url: '../plankongxiangdetailed/list',
+        datatype: "json",
+        colModel: [
+            { label: 'id', name: 'id', width: 50, key: true,hidden:true },
+            { label: '序号', name: 'serialno', width: 80 },
+            { label: '提箱点', name: 'risiboxplace', width: 80 },
+            { label: '还箱点', name: 'returnboxplace', width: 80 },
+            { label: '箱号', name: 'boxno', width: 80 },
+            { label: '实际到场时间', name: 'realarrtime', width: 80 },
+            { label: '运输公司编码', name: 'trancompanycode', width: 80 },
+            { label: '车牌号', name: 'plateno', width: 80 },
+            { label: '司机', name: 'driver', width: 80 }
+        ],
+        viewrecords: true,
+        height: 385,
+        rowNum: 10,
+        rowList : [10,30,50],
+        rownumbers: true,
+        rownumWidth: 25,
+        autowidth:true,
+        multiselect: true,
+        jsonReader : {
+            root: "page.list",
+            page: "page.currPage",
+            total: "page.totalPage",
+            records: "page.totalCount"
+        },
+        prmNames : {
+            page:"page",
+            rows:"limit",
+            order: "order"
+        },
+        gridComplete:function(){
+            //隐藏grid底部滚动条
+            $("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+        }
+    });
+
+
     vm.getTransTree();
     vm.getStartPlaceTree();
     vm.getEndPlaceTree();

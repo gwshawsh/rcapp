@@ -58,9 +58,10 @@ layui.config({
 });
 
 
-layui.use(['jquery','layer','element'],function(){
+layui.use(['jquery','layer','element','laydate'],function(){
 	window.jQuery = window.$ = layui.jquery;
 	window.layer = layui.layer;
+	window.laydate=layui.laydate;
 	var element = layui.element();
   
 	// larry-side-menu向左折叠

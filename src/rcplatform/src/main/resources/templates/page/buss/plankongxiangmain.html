@@ -22,7 +22,8 @@
             </button>
             <%}%>
             <%if(shiro.hasPermission("plankongxiangmain:fangxiang")) {%>
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="fangxiang"><i class="fa fa-cubes"></i>&nbsp;放箱
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="fangxiang"><i
+                    class="fa fa-cubes"></i>&nbsp;放箱
             </button>
             <%}%>
             <%if(shiro.hasPermission("plankongxiangmain:ruzhang")) {%>
@@ -34,8 +35,22 @@
             </button>
             <%}%>
         </div>
+
+
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
+        <div class="layui-collapse" lay-filter="test">
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">背箱明细</h2>
+                <div class="layui-colla-content">
+                    <table id="jqGridBoxs"></table>
+                </div>
+            </div>
+
+        </div>
+
+
+
     </div>
 
     <div v-show="showEdit" class="panel panel-default">
@@ -200,7 +215,8 @@
                 <div class="col-sm-2 control-label">提箱场站</div>
                 <div class="col-sm-10">
 
-                    <input type="text" class="form-control" readonly="readonly"  v-on:click="startplaceTree" v-model="planKongxiangMain.startplaceName" placeholder="提箱场站"/>
+                    <input type="text" class="form-control" readonly="readonly" v-on:click="startplaceTree"
+                           v-model="planKongxiangMain.startplaceName" placeholder="提箱场站"/>
 
                 </div>
             </div>
@@ -208,22 +224,25 @@
                 <div class="col-sm-2 control-label">放箱地点</div>
                 <div class="col-sm-10">
 
-                    <input type="text" class="form-control" readonly="readonly"  v-on:click="endplaceTree" v-model="planKongxiangMain.endplaceName" placeholder="放箱地点"/>
+                    <input type="text" class="form-control" readonly="readonly" v-on:click="endplaceTree"
+                           v-model="planKongxiangMain.endplaceName" placeholder="放箱地点"/>
 
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-2 control-label">截港时间</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="planKongxiangMain.closedate" readonly="readonly"
-                           placeholder="截港时间"/>
+
+
+                    <input class="layui-input" type="text"  v-model="planKongxiangMain.closedate" readonly="readonly"  onclick="laydate({elem: this, festival: true})">
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-sm-2 control-label">运输公司</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" readonly="readonly"  v-on:click="transCompanyTree" v-model="planKongxiangMain.trancompanyName" placeholder="运输公司"/>
+                    <input type="text" class="form-control" readonly="readonly" v-on:click="transCompanyTree"
+                           v-model="planKongxiangMain.trancompanyName" placeholder="运输公司"/>
                 </div>
             </div>
             <div class="form-group">
