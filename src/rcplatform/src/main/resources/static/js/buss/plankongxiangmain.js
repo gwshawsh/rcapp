@@ -186,6 +186,8 @@ var vm = new Vue({
         },
         reload: function (event) {
             vm.showList = true;
+            vm.showEdit=false;
+            vm.showFangxiang=false;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
                 page: page

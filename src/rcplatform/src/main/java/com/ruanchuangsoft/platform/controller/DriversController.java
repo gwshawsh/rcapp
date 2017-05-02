@@ -14,29 +14,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 
-import com.ruanchuangsoft.platform.entity.ShipplanEntity;
-import com.ruanchuangsoft.platform.service.ShipplanService;
+import com.ruanchuangsoft.platform.entity.DriversEntity;
+import com.ruanchuangsoft.platform.service.DriversService;
 import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
 
 /**
- * 船舶计划表
+ * 司机基础信息表
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 22:57:59
+ * @date 2017-05-02 23:08:31
  */
 @Controller
-@RequestMapping("shipplan")
-public class ShipplanController extends AbstractController {
+@RequestMapping("drivers")
+public class DriversController extends AbstractController {
 	@Autowired
-	private ShipplanService shipplanService;
+	private DriversService driversService;
 
-	@RequestMapping("/shipplan")
+	@RequestMapping("/drivers")
 	public String list(){
-		return "shipplan/shipplan";
+		return "drivers/drivers";
 	}
 
 
@@ -44,7 +44,7 @@ public class ShipplanController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("base/shipplan");
+        setViewname("base/drivers");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -56,17 +56,17 @@ public class ShipplanController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/list")
-	@RequiresPermissions("shipplan:list")
+	@RequiresPermissions("drivers:list")
 	public R list(Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
 
 		//查询列表数据
-		List<ShipplanEntity> shipplanList = shipplanService.queryList(map);
-		int total = shipplanService.queryTotal(map);
+		List<DriversEntity> driversList = driversService.queryList(map);
+		int total = driversService.queryTotal(map);
 
-		PageUtils pageUtil = new PageUtils(shipplanList, total, limit, page);
+		PageUtils pageUtil = new PageUtils(driversList, total, limit, page);
 
 		return R.ok().put("page", pageUtil);
 	}
@@ -77,11 +77,11 @@ public class ShipplanController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("shipplan:info")
+	@RequiresPermissions("drivers:info")
 	public R info(@PathVariable("id") Long id){
-		ShipplanEntity shipplan = shipplanService.queryObject(id);
+		DriversEntity drivers = driversService.queryObject(id);
 
-		return R.ok().put("shipplan", shipplan);
+		return R.ok().put("drivers", drivers);
 	}
 
 	/**
@@ -89,9 +89,9 @@ public class ShipplanController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/save")
-	@RequiresPermissions("shipplan:save")
-	public R save(@RequestBody ShipplanEntity shipplan){
-		shipplanService.save(shipplan);
+	@RequiresPermissions("drivers:save")
+	public R save(@RequestBody DriversEntity drivers){
+		driversService.save(drivers);
 
 		return R.ok();
 	}
@@ -101,9 +101,9 @@ public class ShipplanController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	@RequiresPermissions("shipplan:update")
-	public R update(@RequestBody ShipplanEntity shipplan){
-		shipplanService.update(shipplan);
+	@RequiresPermissions("drivers:update")
+	public R update(@RequestBody DriversEntity drivers){
+		driversService.update(drivers);
 
 		return R.ok();
 	}
@@ -113,9 +113,9 @@ public class ShipplanController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/delete")
-	@RequiresPermissions("shipplan:delete")
+	@RequiresPermissions("drivers:delete")
 	public R delete(@RequestBody Long[] ids){
-		shipplanService.deleteBatch(ids);
+		driversService.deleteBatch(ids);
 
 		return R.ok();
 	}

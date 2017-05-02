@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.TranslineDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TranslineEntity">
+		select * from transline where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TranslineEntity">
+		select * from transline 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from transline 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TranslineEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into transline
+		(
+			`code`, 
+			`startlocation`, 
+			`endlocation`, 
+			`distance`, 
+			`freight`
+		)
+		values
+		(
+			#{code}, 
+			#{startlocation}, 
+			#{endlocation}, 
+			#{distance}, 
+			#{freight}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TranslineEntity">
+		update transline 
+		<set>
+			<if test="code != null">`code` = #{code}, </if>
+			<if test="startlocation != null">`startlocation` = #{startlocation}, </if>
+			<if test="endlocation != null">`endlocation` = #{endlocation}, </if>
+			<if test="distance != null">`distance` = #{distance}, </if>
+			<if test="freight != null">`freight` = #{freight}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from transline where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from transline where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

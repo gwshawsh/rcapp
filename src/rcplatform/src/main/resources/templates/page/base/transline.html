@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>线路基础信息表</title>
+    <% include ("/sys/header.html") {} %>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <%if(shiro.hasPermission("transline:save")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("transline:update")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("transline:delete")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </button>
+            <%}%>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-2 control-label">编码</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="transline.code"
+                           placeholder="编码"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">起始区域地点</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="transline.startlocation"
+                           placeholder="起始区域地点"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">结束区域地点</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="transline.endlocation"
+                           placeholder="结束区域地点"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">距离</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="transline.distance"
+                           placeholder="距离"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">运费</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="transline.freight"
+                           placeholder="运费"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/base/transline.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>司机基础信息表</title>
+    <% include ("/sys/header.html") {} %>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <%if(shiro.hasPermission("drivers:save")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("drivers:update")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("drivers:delete")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </button>
+            <%}%>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-2 control-label">编码</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="drivers.code"
+                           placeholder="编码"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">姓名</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="drivers.name"
+                           placeholder="姓名"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">电话</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="drivers.phone"
+                           placeholder="电话"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">所属车队</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="drivers.fleet"
+                           placeholder="所属车队"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">证件号</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="drivers.documentno"
+                           placeholder="证件号"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">驾龄</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="drivers.driveage"
+                           placeholder="驾龄"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">类型（有、无车）</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="drivers.type"
+                           placeholder="类型（有、无车）"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/base/drivers.js"></script>
+</body>
+</html>

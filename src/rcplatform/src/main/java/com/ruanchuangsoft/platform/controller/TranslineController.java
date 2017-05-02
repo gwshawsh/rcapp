@@ -14,29 +14,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 
-import com.ruanchuangsoft.platform.entity.ShipplanEntity;
-import com.ruanchuangsoft.platform.service.ShipplanService;
+import com.ruanchuangsoft.platform.entity.TranslineEntity;
+import com.ruanchuangsoft.platform.service.TranslineService;
 import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
 
 /**
- * 船舶计划表
+ * 线路基础信息表
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 22:57:59
+ * @date 2017-05-02 23:01:31
  */
 @Controller
-@RequestMapping("shipplan")
-public class ShipplanController extends AbstractController {
+@RequestMapping("transline")
+public class TranslineController extends AbstractController {
 	@Autowired
-	private ShipplanService shipplanService;
+	private TranslineService translineService;
 
-	@RequestMapping("/shipplan")
+	@RequestMapping("/transline")
 	public String list(){
-		return "shipplan/shipplan";
+		return "transline/transline";
 	}
 
 
@@ -44,7 +44,7 @@ public class ShipplanController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("base/shipplan");
+        setViewname("base/transline");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -56,17 +56,17 @@ public class ShipplanController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/list")
-	@RequiresPermissions("shipplan:list")
+	@RequiresPermissions("transline:list")
 	public R list(Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
 
 		//查询列表数据
-		List<ShipplanEntity> shipplanList = shipplanService.queryList(map);
-		int total = shipplanService.queryTotal(map);
+		List<TranslineEntity> translineList = translineService.queryList(map);
+		int total = translineService.queryTotal(map);
 
-		PageUtils pageUtil = new PageUtils(shipplanList, total, limit, page);
+		PageUtils pageUtil = new PageUtils(translineList, total, limit, page);
 
 		return R.ok().put("page", pageUtil);
 	}
@@ -77,11 +77,11 @@ public class ShipplanController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("shipplan:info")
+	@RequiresPermissions("transline:info")
 	public R info(@PathVariable("id") Long id){
-		ShipplanEntity shipplan = shipplanService.queryObject(id);
+		TranslineEntity transline = translineService.queryObject(id);
 
-		return R.ok().put("shipplan", shipplan);
+		return R.ok().put("transline", transline);
 	}
 
 	/**
@@ -89,9 +89,9 @@ public class ShipplanController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/save")
-	@RequiresPermissions("shipplan:save")
-	public R save(@RequestBody ShipplanEntity shipplan){
-		shipplanService.save(shipplan);
+	@RequiresPermissions("transline:save")
+	public R save(@RequestBody TranslineEntity transline){
+		translineService.save(transline);
 
 		return R.ok();
 	}
@@ -101,9 +101,9 @@ public class ShipplanController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	@RequiresPermissions("shipplan:update")
-	public R update(@RequestBody ShipplanEntity shipplan){
-		shipplanService.update(shipplan);
+	@RequiresPermissions("transline:update")
+	public R update(@RequestBody TranslineEntity transline){
+		translineService.update(transline);
 
 		return R.ok();
 	}
@@ -113,9 +113,9 @@ public class ShipplanController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/delete")
-	@RequiresPermissions("shipplan:delete")
+	@RequiresPermissions("transline:delete")
 	public R delete(@RequestBody Long[] ids){
-		shipplanService.deleteBatch(ids);
+		translineService.deleteBatch(ids);
 
 		return R.ok();
 	}
