@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.ShipDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.ShipEntity">
+		select * from ship where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.ShipEntity">
+		select * from ship 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from ship 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.ShipEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into ship
+		(
+			`code`, 
+			`name`, 
+			`enname`, 
+			`region`, 
+			`uncode`, 
+			`type`, 
+			`company`, 
+			`coscode`, 
+			`cosshipenname`, 
+			`country`, 
+			`contact`, 
+			`address`, 
+			`phone`, 
+			`route`
+		)
+		values
+		(
+			#{code}, 
+			#{name}, 
+			#{enname}, 
+			#{region}, 
+			#{uncode}, 
+			#{type}, 
+			#{company}, 
+			#{coscode}, 
+			#{cosshipenname}, 
+			#{country}, 
+			#{contact}, 
+			#{address}, 
+			#{phone}, 
+			#{route}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.ShipEntity">
+		update ship 
+		<set>
+			<if test="code != null">`code` = #{code}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="enname != null">`enname` = #{enname}, </if>
+			<if test="region != null">`region` = #{region}, </if>
+			<if test="uncode != null">`uncode` = #{uncode}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="company != null">`company` = #{company}, </if>
+			<if test="coscode != null">`coscode` = #{coscode}, </if>
+			<if test="cosshipenname != null">`cosshipenname` = #{cosshipenname}, </if>
+			<if test="country != null">`country` = #{country}, </if>
+			<if test="contact != null">`contact` = #{contact}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="phone != null">`phone` = #{phone}, </if>
+			<if test="route != null">`route` = #{route}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from ship where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from ship where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -156,13 +156,13 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 -- 基础资料
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('27', '0', '基础资料', NULL, NULL, '0', 'fa fa-folder', '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('28', '27', '组织管理', 'organization/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('29', '27', '区域管理', 'buss/region', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('30', '27', '车队管理', 'buss/fleet', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('31', '27', '船舶管理', 'buss/ship', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('32', '27', '船舶计划', 'buss/shipplan', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('33', '27', '线路管理', 'buss/transline', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('34', '27', '司机管理', 'buss/driver', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('35', '27', '箱型管理', 'buss/box', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('29', '27', '区域管理', 'region/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('30', '27', '车队管理', 'transteam/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('31', '27', '船舶管理', 'ship/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('32', '27', '船舶计划', 'shipplan/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('33', '27', '线路管理', 'transline/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('34', '27', '司机管理', 'drivers/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('35', '27', '箱型管理', 'boxs/index', NULL, '1', 'fa fa-circle-o', '1');
 
 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('36', '29', '查看', NULL, 'region:list,region:info', '2', NULL, '0');
@@ -177,10 +177,10 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('43', '28', '删除', NULL, 'organization:delete', '2', NULL, '0');
 
 
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('44', '30', '查看', NULL, 'fleet:list,fleet:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('45', '30', '新增', NULL, 'fleet:save,fleet:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('46', '30', '修改', NULL, 'fleet:update,fleet:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('47', '30', '删除', NULL, 'fleet:delete', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('44', '30', '查看', NULL, 'transteam:list,transteam:info', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('45', '30', '新增', NULL, 'transteam:save,transteam:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('46', '30', '修改', NULL, 'transteam:update,transteam:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('47', '30', '删除', NULL, 'transteam:delete', '2', NULL, '0');
 
 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('48', '31', '查看', NULL, 'ship:list,ship:info', '2', NULL, '0');
@@ -201,16 +201,16 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('59', '33', '删除', NULL, 'transline:delete', '2', NULL, '0');
 
 
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('60', '34', '查看', NULL, 'driver:list,driver:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('61', '34', '新增', NULL, 'driver:save,driver:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('62', '34', '修改', NULL, 'driver:update,driver:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('63', '34', '删除', NULL, 'driver:delete', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('60', '34', '查看', NULL, 'drivers:list,drivers:info', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('61', '34', '新增', NULL, 'drivers:save,drivers:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('62', '34', '修改', NULL, 'drivers:update,drivers:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('63', '34', '删除', NULL, 'drivers:delete', '2', NULL, '0');
  
 
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('64', '35', '查看', NULL, 'box:list,box:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('65', '35', '新增', NULL, 'box:save,box:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('66', '35', '修改', NULL, 'box:update,box:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('67', '35', '删除', NULL, 'box:delete', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('64', '35', '查看', NULL, 'boxs:list,boxs:info', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('65', '35', '新增', NULL, 'boxs:save,boxs:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('66', '35', '修改', NULL, 'boxs:update,boxs:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('67', '35', '删除', NULL, 'boxs:delete', '2', NULL, '0');
 
 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('68', '0', '业务管理', NULL, NULL, '0', 'fa fa-folder', '0');
@@ -450,7 +450,7 @@ CREATE TABLE `organization` (
   `address` varchar(200) COMMENT '地址',
   `longitude` varchar(50) COMMENT '经度',
   `latitude` varchar(50) COMMENT '纬度',
-  `type` int COMMENT '类型 0：目录  1：港口  2：仓库   3：堆场  4:船公司  5：放箱公司',
+  `type` int COMMENT '类型 0：目录  1：港口  2：仓库   3：堆场 4：船公司  5：放箱公司',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织管理';
 
@@ -464,7 +464,7 @@ CREATE TABLE `region` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='区域管理表';
 
 -- 车队管理
-CREATE TABLE `fleet_management` (
+CREATE TABLE `transteam` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COMMENT '编码',
   `name` varchar(50) COMMENT '名称',
@@ -472,35 +472,35 @@ CREATE TABLE `fleet_management` (
   `contact` varchar(20) COMMENT '联系人',
   `contact_number` varchar(20) COMMENT '联系电话',
   `vehicle_type` varchar(20) COMMENT '车辆类型（挂靠、自营、外协）',
-  `billing_information` varchar(50) COMMENT '开票信息',
-  `account_information` varchar(50) COMMENT '账户信息',
+  `billing_information` varchar(1000) COMMENT '开票信息',
+  `account_information` varchar(1000) COMMENT '账户信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='车辆基础信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='车队管理';
 
  
 
 --  船舶管理
-CREATE TABLE `ship_management` (
+CREATE TABLE `ship` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COMMENT '编码',
-  `chname` varchar(20) COMMENT '中文名称',
+  `name` varchar(20) COMMENT '中文名称',
   `enname` varchar(20) COMMENT '英文名称',
-  `region` varchar(50) COMMENT '所属区域',
+  `region` bigint COMMENT '所属区域',
   `uncode` varchar(50) COMMENT 'UN代码',
   `type` varchar(50) COMMENT '类型',
-  `company` varchar(50) COMMENT '所属船公司',
+  `company` bigint COMMENT '所属船公司',
   `coscode` varchar(50) COMMENT 'COS代码',
   `cosshipenname` varchar(20) COMMENT 'COS船英文名',
   `country` varchar(20) COMMENT '所属国家',
   `contact` varchar(20) COMMENT '联系人 ',
   `address` varchar(200) COMMENT '地址',
   `phone` varchar(20) COMMENT '电话',
-  `route` varchar(50) COMMENT '航线',
+  `route` varchar(100) COMMENT '航线',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='船公司基础信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='船公司';
 
 --  船舶计划
-CREATE TABLE `ship_plan` (
+CREATE TABLE `shipplan` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `enshipname` varchar(20) COMMENT '英文船名',
   `chshipname` varchar(20) COMMENT '中文船名',
@@ -533,7 +533,7 @@ CREATE TABLE `transline` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='线路基础信息表';
 
 -- 司机管理
-CREATE TABLE `driver_manage` (
+CREATE TABLE `driverss` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COMMENT '编码',
   `name` varchar(20) COMMENT '姓名',
@@ -546,12 +546,11 @@ CREATE TABLE `driver_manage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='司机基础信息表';
 
 -- 箱型管理
-CREATE TABLE `box_manage` (
+CREATE TABLE `boxs` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COMMENT '编码',
   `box_size` varchar(50) COMMENT '箱型尺寸',
-  `weight` double COMMENT '重量',
-  `colour` varchar(20) COMMENT '颜色',
+  `weight` varchar(10) COMMENT '重量',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='箱型基础信息表';
 
@@ -597,8 +596,8 @@ CREATE TABLE `plan_kongxiang_detailed`(
   `realarrtime` datetime COMMENT '实际到场时间',  
   `carno` varchar(20) COMMENT '车牌号',
   `cartype` varchar(20) COMMENT '车型',
-  `driverid` varchar(20) COMMENT '司机编码',
-  `drivername` varchar(20) COMMENT '司机姓名',
+  `driversid` varchar(20) COMMENT '司机编码',
+  `driversname` varchar(20) COMMENT '司机姓名',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='空箱计划用箱单明细表';
 
@@ -630,7 +629,7 @@ CREATE TABLE `plan_chongxiang_detailed`(
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
   `plateno` varchar(20) COMMENT '车牌号',
-  `driver` varchar(20) COMMENT '司机',
+  `drivers` varchar(20) COMMENT '司机',
   `realarrporttime` datetime COMMENT '实际到港时间',
   `boxno` varchar(50) COMMENT '箱号',
   `goods` varchar(50) COMMENT '货品',
@@ -667,7 +666,7 @@ CREATE TABLE `plan_yuyue_detailed`(
   `returnboxplace` varchar(200) COMMENT '还箱点',
   `dockplace` varchar(200) COMMENT '装卸地',
   `plateno` varchar(20) COMMENT '车牌号',    
-  `driver` varchar(20) COMMENT '司机',
+  `drivers` varchar(20) COMMENT '司机',
   `realarrtime` datetime COMMENT '实际到场时间',
   `shipname` varchar(20) COMMENT '船名',
   `voyage` varchar(50) COMMENT '航次',
@@ -704,7 +703,7 @@ CREATE TABLE `plan_shugang_detailed`(
   `boxno` bigint COMMENT '箱号',
   `trancompanycode` varchar(50) COMMENT '运输公司编码',
   `plateno` varchar(20) COMMENT '车牌号',
-  `driver` varchar(20) COMMENT '司机',
+  `drivers` varchar(20) COMMENT '司机',
   `realarrporttime` datetime COMMENT '实际到港时间',
   `realarrtime` datetime COMMENT '实际到场时间',
   PRIMARY KEY (`id`)

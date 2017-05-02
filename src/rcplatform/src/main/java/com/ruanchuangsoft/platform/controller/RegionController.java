@@ -1,4 +1,4 @@
-package ${package}.controller;
+package com.ruanchuangsoft.platform.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,28 +14,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 
-import ${package}.entity.${className}Entity;
-import ${package}.service.${className}Service;
+import com.ruanchuangsoft.platform.entity.RegionEntity;
+import com.ruanchuangsoft.platform.service.RegionService;
 import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
+
 /**
- * ${comments}
+ * 区域管理表
  *
- * @author ${author}
- * @email ${email}
- * @date ${datetime}
+ * @author lidongfeng
+ * @email lidongfeng78@qq.com
+ * @date 2017-05-02 22:54:57
  */
 @Controller
-@RequestMapping("${pathName}")
-public class ${className}Controller extends AbstractController {
+@RequestMapping("region")
+public class RegionController extends AbstractController {
 	@Autowired
-	private ${className}Service ${classname}Service;
+	private RegionService regionService;
 
-	@RequestMapping("/${pathName}")
+	@RequestMapping("/region")
 	public String list(){
-		return "${pathName}/${pathName}";
+		return "region/region";
 	}
 
 
@@ -43,7 +44,7 @@ public class ${className}Controller extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("${pathName}/${pathName}");
+        setViewname("base/region");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -55,17 +56,17 @@ public class ${className}Controller extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/list")
-	@RequiresPermissions("${pathName}:list")
+	@RequiresPermissions("region:list")
 	public R list(Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
 
 		//查询列表数据
-		List<${className}Entity> ${classname}List = ${classname}Service.queryList(map);
-		int total = ${classname}Service.queryTotal(map);
+		List<RegionEntity> regionList = regionService.queryList(map);
+		int total = regionService.queryTotal(map);
 
-		PageUtils pageUtil = new PageUtils(${classname}List, total, limit, page);
+		PageUtils pageUtil = new PageUtils(regionList, total, limit, page);
 
 		return R.ok().put("page", pageUtil);
 	}
@@ -75,12 +76,12 @@ public class ${className}Controller extends AbstractController {
 	 * 信息
 	 */
 	@ResponseBody
-	@RequestMapping("/info/{${pk.attrname}}")
-	@RequiresPermissions("${pathName}:info")
-	public R info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
-		${className}Entity ${classname} = ${classname}Service.queryObject(${pk.attrname});
+	@RequestMapping("/info/{id}")
+	@RequiresPermissions("region:info")
+	public R info(@PathVariable("id") Long id){
+		RegionEntity region = regionService.queryObject(id);
 
-		return R.ok().put("${classname}", ${classname});
+		return R.ok().put("region", region);
 	}
 
 	/**
@@ -88,9 +89,9 @@ public class ${className}Controller extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/save")
-	@RequiresPermissions("${pathName}:save")
-	public R save(@RequestBody ${className}Entity ${classname}){
-		${classname}Service.save(${classname});
+	@RequiresPermissions("region:save")
+	public R save(@RequestBody RegionEntity region){
+		regionService.save(region);
 
 		return R.ok();
 	}
@@ -100,9 +101,9 @@ public class ${className}Controller extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	@RequiresPermissions("${pathName}:update")
-	public R update(@RequestBody ${className}Entity ${classname}){
-		${classname}Service.update(${classname});
+	@RequiresPermissions("region:update")
+	public R update(@RequestBody RegionEntity region){
+		regionService.update(region);
 
 		return R.ok();
 	}
@@ -112,9 +113,9 @@ public class ${className}Controller extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/delete")
-	@RequiresPermissions("${pathName}:delete")
-	public R delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
-		${classname}Service.deleteBatch(${pk.attrname}s);
+	@RequiresPermissions("region:delete")
+	public R delete(@RequestBody Long[] ids){
+		regionService.deleteBatch(ids);
 
 		return R.ok();
 	}

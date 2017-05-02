@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.RegionDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RegionEntity">
+		select * from region where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RegionEntity">
+		select * from region 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from region 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.RegionEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into region
+		(
+			`code`, 
+			`name`, 
+			`regionalcode`
+		)
+		values
+		(
+			#{code}, 
+			#{name}, 
+			#{regionalcode}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.RegionEntity">
+		update region 
+		<set>
+			<if test="code != null">`code` = #{code}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="regionalcode != null">`regionalcode` = #{regionalcode}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from region where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from region where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

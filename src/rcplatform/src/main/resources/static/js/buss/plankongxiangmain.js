@@ -47,6 +47,8 @@ var vm = new Vue({
         },
         add: function () {
             vm.showList = false;
+            vm.showEdit=true;
+            vm.showFangxiang=false;
             vm.title = "新增";
             vm.planKongxiangMain = {};
         },
@@ -56,6 +58,8 @@ var vm = new Vue({
                 return;
             }
             vm.showList = false;
+            vm.showEdit=true;
+            vm.showFangxiang=false;
             vm.title = "修改";
 
             vm.getInfo(id)

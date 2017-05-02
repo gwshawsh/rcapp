@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.TransteamDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TransteamEntity">
+		select * from transteam where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TransteamEntity">
+		select * from transteam 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from transteam 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TransteamEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into transteam
+		(
+			`code`, 
+			`name`, 
+			`address`, 
+			`contact`, 
+			`contact_number`, 
+			`vehicle_type`, 
+			`billing_information`, 
+			`account_information`
+		)
+		values
+		(
+			#{code}, 
+			#{name}, 
+			#{address}, 
+			#{contact}, 
+			#{contactNumber}, 
+			#{vehicleType}, 
+			#{billingInformation}, 
+			#{accountInformation}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TransteamEntity">
+		update transteam 
+		<set>
+			<if test="code != null">`code` = #{code}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="contact != null">`contact` = #{contact}, </if>
+			<if test="contactNumber != null">`contact_number` = #{contactNumber}, </if>
+			<if test="vehicleType != null">`vehicle_type` = #{vehicleType}, </if>
+			<if test="billingInformation != null">`billing_information` = #{billingInformation}, </if>
+			<if test="accountInformation != null">`account_information` = #{accountInformation}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from transteam where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from transteam where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
