@@ -51,6 +51,7 @@ var vm = new Vue({
             vm.showFangxiang=false;
             vm.title = "新增";
             vm.planKongxiangMain = {};
+
         },
         update: function (event) {
             var id = getSelectedRow();
@@ -179,6 +180,12 @@ var vm = new Vue({
                 }
             });
         },
+        selCloseDate:function(event){
+            laydate({elem: event.currentTarget, festival: true,choose: function(datas){
+                 vm.planKongxiangMain.closedate=datas;
+            }});
+        },
+
         getInfo: function (id) {
             $.get("../plankongxiangmain/info/" + id, function (r) {
                 vm.planKongxiangMain = r.planKongxiangMain;

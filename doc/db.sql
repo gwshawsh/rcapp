@@ -1,4 +1,4 @@
-﻿CREATE TABLE `goods` (
+CREATE TABLE `goods` (
   `goods_id` bigint NOT NULL AUTO_INCREMENT,
   `class_id` bigint COMMENT '父菜单ID，一级菜单为0',
   `name` varchar(50) COMMENT '菜单名称',
@@ -213,6 +213,7 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('67', '35', '删除', NULL, 'boxs:delete', '2', NULL, '0');
 
 
+
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('68', '0', '业务管理', NULL, NULL, '0', 'fa fa-folder', '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('69', '68', '空箱计划', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('70', '68', '重箱计划', 'heavyplan/index', NULL, '1', 'fa fa-circle-o', '1');
@@ -232,6 +233,20 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 
 
 -- 业务管理
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('83', '0', '财务管理', NULL, NULL, '0', 'fa fa-folder', '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('84', '83', '预算科目', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('85', '83', '预算计划', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('86', '83', '费用申请', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('87', '83', '报销管理', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('84', '83', '请购单', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('85', '83', '订购单', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('86', '83', '费用申请', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('87', '83', '报销管理', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
+
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('88', '0', '日常工作', NULL, NULL, '0', 'fa fa-folder', '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('89', '88', '待办事项', 'todulist/index', NULL, '1', 'fa fa-circle-o', '1');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('90', '88', '考勤管理', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
 
 
 -- 合同管理
@@ -533,7 +548,7 @@ CREATE TABLE `transline` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='线路基础信息表';
 
 -- 司机管理
-CREATE TABLE `driverss` (
+CREATE TABLE `drivers` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COMMENT '编码',
   `name` varchar(20) COMMENT '姓名',
@@ -553,6 +568,18 @@ CREATE TABLE `boxs` (
   `weight` varchar(10) COMMENT '重量',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='箱型基础信息表';
+
+-- 待办事项
+CREATE TABLE `todolist` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) COMMENT '待办名称',
+  `todotype` int COMMENT '待办类型',
+  `billdate` datetime COMMENT '创建日期',
+  `billdata` text COMMENT '业务数据',
+  `remark` varchar(500) COMMENT '备注',
+  `todourl` varchar(500) COMMENT '功能路径',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='待办事项';
 
 
 -- 空箱计划用箱单主表
@@ -709,4 +736,54 @@ CREATE TABLE `plan_shugang_detailed`(
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='疏港计划明细表';
 
+-- 预算科目
+create table `accountcategory`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `parent_id` bigint NOT NULL COMMENT '上级科目',
+  `code` varchar(50) COMMENT '科目编号',
+  `name` varchar(20) COMMENT '科目名称',
+  `remark` varchar(50) COMMENT '备注',
+  `status` bigint COMMENT '状态',
+  `order_num` int COMMENT '排序',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预算科目';
+
+-- 预算计划主表
+CREATE TABLE `budgetform`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `begindate` varchar(20) COMMENT '计划开始日期',
+  `enddate` varchar(50) COMMENT '计划结束日期',
+  `dept_id` bigint COMMENT '部门',
+  `billtype` varchar(50) COMMENT '预算类型',
+  `mkuser` varchar(20) COMMENT '制单人',
+  `mkdate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `rzuser` varchar(20) COMMENT '签批人',
+  `rzdate` datetime COMMENT '签批日期',
+  `uptdate` datetime COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预算计划主表';
+
+
+-- 预算计划主表
+CREATE TABLE `budgetdetail`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `serialno` int COMMENT '序号',
+  `accountid` bigint COMMENT '预算科目',
+  `name` varchar(200) COMMENT '名称',
+  `usage` varchar(50) COMMENT '用途',
+  `remark` varchar(20) COMMENT '说明',
+  `planmoney` double COMMENT '预算金额',
+  `usagemoney` varchar(20) COMMENT '已用预算',
+  `leftmoney` datetime COMMENT '剩余预算',
+  `uptdate` datetime COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预算明细表';
+
+
+
+ 
 

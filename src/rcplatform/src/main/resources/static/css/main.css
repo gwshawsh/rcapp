@@ -1,7 +1,8 @@
 html { overflow-x:hidden; }
 .login-page{
-    background:url(../imgs/loginbk.jpg) no-repeat;
+    background:url(../imgs/loginbk.jpg) no-repeat  center center;
     background-size:100%;
+
 }
 .login-box{
     float: right;

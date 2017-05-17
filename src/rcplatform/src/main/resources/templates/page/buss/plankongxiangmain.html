@@ -187,74 +187,72 @@
 
     <div v-show="showFangxiang" class="panel panel-default">
         <div class="panel-heading">{{title}}</div>
-        <form class="form-horizontal">
+        <form class="layui-form layui-form-pane">
 
-            <div class="form-group">
-                <div class="col-sm-2 control-label">提单号</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="planKongxiangMain.lazingno" readonly="readonly"
+            <div class="layui-form-item">
+                <div class="layui-form-label">提单号</div>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" v-model="planKongxiangMain.lazingno" readonly="readonly"
                            placeholder="提单号"/>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">船名</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="planKongxiangMain.shipname" readonly="readonly"
+            <div class="layui-form-item">
+                <div class="layui-form-label">船名</div>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" v-model="planKongxiangMain.shipname" readonly="readonly"
                            placeholder="船名"/>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">航次</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="planKongxiangMain.voyage" readonly="readonly"
+            <div class="layui-form-item">
+                <div class="layui-form-label">航次</div>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" v-model="planKongxiangMain.voyage" readonly="readonly"
                            placeholder="航次"/>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-sm-2 control-label">提箱场站</div>
-                <div class="col-sm-10">
+            <div class="layui-form-item">
+                <div class="layui-form-label">提箱场站</div>
+                <div class="layui-input-block">
 
-                    <input type="text" class="form-control" readonly="readonly" v-on:click="startplaceTree"
+                    <input type="text" class="layui-input" readonly="readonly" v-on:click="startplaceTree"
                            v-model="planKongxiangMain.startplaceName" placeholder="提箱场站"/>
 
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">放箱地点</div>
-                <div class="col-sm-10">
+            <div class="layui-form-item">
+                <div class="layui-form-label">放箱地点</div>
+                <div class="layui-input-block">
 
-                    <input type="text" class="form-control" readonly="readonly" v-on:click="endplaceTree"
+                    <input type="text" class="layui-input" readonly="readonly" v-on:click="endplaceTree"
                            v-model="planKongxiangMain.endplaceName" placeholder="放箱地点"/>
 
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">截港时间</div>
-                <div class="col-sm-10">
-
-
-                    <input class="layui-input" type="text"  v-model="planKongxiangMain.closedate" readonly="readonly"  onclick="laydate({elem: this, festival: true})">
+            <div class="layui-form-item">
+                <div class="layui-form-label">截港时间</div>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="text"  v-model="planKongxiangMain.closedate" readonly="readonly"  v-on:click="selCloseDate">
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-sm-2 control-label">运输公司</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" readonly="readonly" v-on:click="transCompanyTree"
+            <div class="layui-form-item">
+                <div class="layui-form-label">运输公司</div>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" readonly="readonly" v-on:click="transCompanyTree"
                            v-model="planKongxiangMain.trancompanyName" placeholder="运输公司"/>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">备注</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="planKongxiangMain.remark"
+            <div class="layui-form-item">
+                <div class="layui-form-label">备注</div>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" v-model="planKongxiangMain.remark"
                            placeholder="备注"/>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
+            <div class="layui-form-item">
+                <div class="layui-form-label"></div>
                 <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
                 &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
             </div>

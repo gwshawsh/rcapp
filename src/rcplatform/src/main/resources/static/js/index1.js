@@ -8,6 +8,9 @@ layui.config({
 		elem: '.larry-tab-box'
 	});
 
+
+	window.navtab=navtab;//为了给子页面使用,能够在子页面中打开其他子页面
+
     //iframe自适应
 	$(window).on('resize', function() {
 		var $content = $('#larry-tab .layui-tab-content');
