@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.BudgetformDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.BudgetformEntity">
+		select * from budgetform where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.BudgetformEntity">
+		select * from budgetform 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from budgetform 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.BudgetformEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into budgetform
+		(
+			`billno`, 
+			`begindate`, 
+			`enddate`, 
+			`dept_id`, 
+			`billtype`, 
+			`billstatus`, 
+			`mkuser`, 
+			`mkdate`, 
+			`accuser`, 
+			`accdate`, 
+			`rzuser`, 
+			`rzdate`, 
+			`uptdate`
+		)
+		values
+		(
+			#{billno}, 
+			#{begindate}, 
+			#{enddate}, 
+			#{deptId}, 
+			#{billtype}, 
+			#{billstatus}, 
+			#{mkuser}, 
+			#{mkdate}, 
+			#{accuser}, 
+			#{accdate}, 
+			#{rzuser}, 
+			#{rzdate}, 
+			#{uptdate}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.BudgetformEntity">
+		update budgetform 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="begindate != null">`begindate` = #{begindate}, </if>
+			<if test="enddate != null">`enddate` = #{enddate}, </if>
+			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+			<if test="billtype != null">`billtype` = #{billtype}, </if>
+			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
+			<if test="mkuser != null">`mkuser` = #{mkuser}, </if>
+			<if test="mkdate != null">`mkdate` = #{mkdate}, </if>
+			<if test="accuser != null">`accuser` = #{accuser}, </if>
+			<if test="accdate != null">`accdate` = #{accdate}, </if>
+			<if test="rzuser != null">`rzuser` = #{rzuser}, </if>
+			<if test="rzdate != null">`rzdate` = #{rzdate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from budgetform where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from budgetform where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

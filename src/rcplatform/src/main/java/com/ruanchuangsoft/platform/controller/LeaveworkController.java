@@ -39,7 +39,9 @@ public class LeaveworkController extends AbstractController{
 
 	@RequestMapping("/leavework")
 	public String list(){
-		return "buss/leavework";
+
+		return "webapp/modeler.html";
+//		return "buss/leavework";
 	}
 	
 	/**
@@ -90,7 +92,10 @@ public class LeaveworkController extends AbstractController{
 	@RequiresPermissions("leavework:save")
 	public R save(@RequestBody LeaveworkEntity leavework){
 		//启动审批工作流
-		String processid=startWorkflow("ac_leavework");
+		Map<String,Object> params=new HashMap<>();
+		params.put("userid",ShiroUtils.getUserId());
+		params.put("funcurl",getRequestMapping());
+		String processid=startWorkflow("leavework",String.valueOf(leavework.getLeaveId()),params);
 
 		leavework.setUserId(ShiroUtils.getUserId());
 		leavework.setName(ShiroUtils.getUserName());
@@ -125,5 +130,9 @@ public class LeaveworkController extends AbstractController{
 		
 		return R.ok();
 	}
-	
+
+	@Override
+	public String getRequestMapping() {
+		return "leavework/index";
+	}
 }

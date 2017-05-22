@@ -72,4 +72,26 @@ public class SysGeneratorController {
 
 		IOUtils.write(data, response.getOutputStream());
 	}
+
+	/**
+	 * 生成tree代码
+	 */
+	@RequestMapping("/treecode")
+	@RequiresPermissions("sys:generator:code")
+	public void treecode(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		//获取表名，不进行xss过滤
+		HttpServletRequest orgRequest = XssHttpServletRequestWrapper.getOrgRequest(request);
+		String tables = orgRequest.getParameter("tables");
+		String[] tableNames=tables.split(",");
+//		String[] tableNames = new String[]{tables};// JSON.parseArray(tables).toArray(tableNames);
+
+		byte[] data = sysGeneratorService.generatorTreeCode(tableNames);
+
+		response.reset();
+		response.setHeader("Content-Disposition", "attachment; filename=\"renren.zip\"");
+		response.addHeader("Content-Length", "" + data.length);
+		response.setContentType("application/octet-stream; charset=UTF-8");
+
+		IOUtils.write(data, response.getOutputStream());
+	}
 }

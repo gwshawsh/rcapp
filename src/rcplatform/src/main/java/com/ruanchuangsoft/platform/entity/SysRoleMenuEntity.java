@@ -23,7 +23,7 @@ public class SysRoleMenuEntity implements Serializable {
 	/**
 	 * 菜单ID
 	 */
-	private Long menuId;
+	private String menuId;
 
 	/**
 	 * 设置：
@@ -61,7 +61,7 @@ public class SysRoleMenuEntity implements Serializable {
 	 * 设置：菜单ID
 	 * @param menuId 菜单ID
 	 */
-	public void setMenuId(Long menuId) {
+	public void setMenuId(String menuId) {
 		this.menuId = menuId;
 	}
 
@@ -69,7 +69,7 @@ public class SysRoleMenuEntity implements Serializable {
 	 * 获取：菜单ID
 	 * @return Long
 	 */
-	public Long getMenuId() {
+	public String getMenuId() {
 		return menuId;
 	}
 	

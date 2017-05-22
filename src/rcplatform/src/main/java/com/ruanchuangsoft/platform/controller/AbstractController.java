@@ -27,6 +27,8 @@ import java.util.*;
  */
 public abstract class AbstractController {
 
+	public String getRequestMapping(){return "";};
+
 	//用来设置关联的页面文件
 	public String viewname;
 
@@ -94,14 +96,36 @@ public abstract class AbstractController {
 
 
 	//返回当前查询使用的工作流的查询id
+	public List<Task> getWorkflowTask(){
+		List<Task> list=new ArrayList<>();
+		List<Task> tasks=taskService.createTaskQuery().taskCandidateOrAssigned(ShiroUtils.getUserIdStr()).list();
+		list.addAll(tasks);
+		return list;
+
+	}
+
+
+	/**
+	 * 根据taskId查找businessKey
+	 */
+	public String getBusinessKeyByTaskId(Task task){
+		ProcessInstance pi = runtimeService
+				.createProcessInstanceQuery()
+				.processInstanceId(task.getProcessInstanceId())
+				.singleResult();
+		return pi.getBusinessKey();
+	}
+
+
+	//返回当前查询使用的工作流的查询id
 	public List<String> getWorkflowListQuery(){
+
 		List<String> list=new ArrayList<>();
 		List<Task> tasks=taskService.createTaskQuery().taskCandidateOrAssigned(ShiroUtils.getUserIdStr()).list();
 		for (Task task:tasks
 				) {
 			list.add(task.getProcessInstanceId());
 		}
-
 		//查询自己创建的任务
 		List<Task> tasks2=taskService.createTaskQuery().taskAssignee(ShiroUtils.getUserIdStr()).list();
 		for (Task task:tasks
@@ -109,18 +133,23 @@ public abstract class AbstractController {
 			list.add(task.getProcessInstanceId());
 		}
 
+
 		return list;
 
 	}
 
 	//启动工作流
-	public String startWorkflow(String processKey){
+	//启动工作流,需要接受工作流中条件跳转的参数,同时还需要接受单据业务相关的数据,方便进行数据关联查询
+	//bussKey是用来区分唯一单据的键值,一般用来存储单据号
+	//flowParams:用来存储工作流中流程跳转需要的数据
+	//
+	public String startWorkflow(String processKey,String bussKey,Map<String,Object> flowParams){
+
 		//启动审批工作流
 		identityService.setAuthenticatedUserId(String.valueOf(ShiroUtils.getUserId()));
-		Map<String,Object> params=new HashMap<>();
-		params.put("userid",String.valueOf(ShiroUtils.getUserId()));
-		ProcessInstance processInstance=runtimeService.startProcessInstanceByKey(processKey,params);
+		ProcessInstance processInstance=runtimeService.startProcessInstanceByKey(processKey,bussKey,flowParams);
 		String processid= processInstance.getId();
+
 		return processid;
 	}
 }

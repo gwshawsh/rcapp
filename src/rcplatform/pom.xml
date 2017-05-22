@@ -16,8 +16,8 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 
 		<version>1.5.2.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-</parent>
+        <relativePath/>
+    </parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,30 +25,7 @@
 		<java.version>1.8</java.version>
 	</properties>
 
-	<!-- 阿里云maven仓库 -->
-    	<repositories>
-    		<repository>
-    			<id>public</id>
-    			<name>aliyun nexus</name>
-    			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-    			<releases>
-    				<enabled>true</enabled>
-    			</releases>
-    		</repository>
-    	</repositories>
-    	<pluginRepositories>
-    		<pluginRepository>
-    			<id>public</id>
-    			<name>aliyun nexus</name>
-    			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-    			<releases>
-    				<enabled>true</enabled>
-    			</releases>
-    			<snapshots>
-    				<enabled>false</enabled>
-    			</snapshots>
-    		</pluginRepository>
-    	</pluginRepositories>
+
 
 	<dependencies>
 
@@ -117,14 +94,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jta-atomikos</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
@@ -181,7 +151,6 @@
 			<artifactId>druid</artifactId>
 			<version>1.0.29</version>
 		</dependency>
-
 
 
         <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-core -->
@@ -273,6 +242,12 @@
 			<artifactId>kaptcha</artifactId>
 			<version>0.0.9</version>
 		</dependency>
+ <!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-spring-boot-starter-jaxws -->
+ <dependency>
+     <groupId>org.apache.cxf</groupId>
+     <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+     <version>3.1.11</version>
+ </dependency>
 
 
 
@@ -289,6 +264,97 @@
         <version>2.7.13</version>
 </dependency>
 
+<dependency>
+<groupId>com.baomidou</groupId>
+<artifactId>mybatisplus-spring-boot-starter</artifactId>
+<version>1.0.1</version>
+</dependency>
+
+ <!-- Activiti -->
+
+
+    <dependency>
+        <groupId>org.activiti</groupId>
+        <artifactId>activiti-explorer</artifactId>
+        <version>5.22.0</version>
+        <exclusions>
+        				<exclusion>
+        					<groupId>javax.servlet</groupId>
+        					<artifactId>servlet-api</artifactId>
+        				</exclusion>
+        			</exclusions>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.activiti</groupId>
+      <artifactId>activiti-simple-workflow</artifactId>
+    </dependency>
+
+   <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-modeler</artifactId>
+            <version>5.22.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-rest</artifactId>
+            <version>5.22.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-diagram-rest</artifactId>
+            <version>5.22.0</version>
+        </dependency>
+
+
+    <!-- Database -->
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+    </dependency>
+
+    <!-- Running example processes -->
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+    </dependency>
+
+    <!-- Testing -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+   <!-- https://mvnrepository.com/artifact/com.google.gwt/gwt-servlet -->
+   <dependency>
+       <groupId>com.google.gwt</groupId>
+       <artifactId>gwt-servlet</artifactId>
+       <version>2.8.1</version>
+   </dependency>
+
+
+    <!-- Vaadin addons -->
+    <!-- Must be defined both in activiti-explorer and activiti-webapp-explorer,
+      as otherwise the gwt compiler won't find it -->
+    <dependency>
+      <groupId>org.vaadin.addons</groupId>
+      <artifactId>dcharts-widget</artifactId>
+      <version>0.10.0</version>
+    </dependency>
+
+
+     <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>3.1.0</version>
+          <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 
@@ -298,7 +364,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 		</plugins>
+
 	</build>
 
 

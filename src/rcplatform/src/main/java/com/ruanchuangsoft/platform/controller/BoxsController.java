@@ -36,6 +36,7 @@ public class BoxsController extends AbstractController {
 
 	@RequestMapping("/boxs")
 	public String list(){
+
 		return "boxs/boxs";
 	}
 
@@ -43,8 +44,8 @@ public class BoxsController extends AbstractController {
 
     @RequestMapping("/index")
     public ModelAndView index() {
-
-        setViewname("base/boxs");
+		setViewname("activiti/modeler");
+//        setViewname("base/boxs");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;

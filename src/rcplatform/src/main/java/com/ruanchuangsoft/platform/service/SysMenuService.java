@@ -21,7 +21,7 @@ public interface SysMenuService {
 	 * @param parentId 父菜单ID
 	 * @param menuIdList  用户菜单ID
 	 */
-	List<SysMenuEntity> queryListParentId(Long parentId, List<Long> menuIdList);
+	List<SysMenuEntity> queryListParentId(String parentId, List<String> menuIdList);
 	
 	/**
 	 * 获取不包含按钮的菜单列表
@@ -37,7 +37,7 @@ public interface SysMenuService {
 	/**
 	 * 查询菜单
 	 */
-	SysMenuEntity queryObject(Long menuId);
+	SysMenuEntity queryObject(String menuId);
 	
 	/**
 	 * 查询菜单列表

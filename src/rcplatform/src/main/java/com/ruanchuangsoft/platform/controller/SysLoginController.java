@@ -65,6 +65,7 @@ public class SysLoginController {
 			//sha256加密
 			password = new Sha256Hash(password).toHex();
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+			token.setRememberMe(true);
 			subject.login(token);
 		}catch (UnknownAccountException e) {
 			return R.error(e.getMessage());

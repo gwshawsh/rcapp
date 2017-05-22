@@ -13,16 +13,26 @@ import java.util.List;
  */
 public class SysMenuEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
+	private Long id;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	/**
 	 * 菜单ID
 	 */
-	private Long menuId;
+	private String menuId;
 
 	/**
 	 * 父菜单ID，一级菜单为0
 	 */
-	private Long parentId;
+	private String parentId;
 	
 	/**
 	 * 父菜单名称
@@ -66,11 +76,11 @@ public class SysMenuEntity implements Serializable {
 	
 	private List<?> list;
 
-	public void setMenuId(Long menuId) {
+	public void setMenuId(String menuId) {
 		this.menuId = menuId;
 	}
 
-	public Long getMenuId() {
+	public String getMenuId() {
 		return menuId;
 	}
 	
@@ -78,7 +88,7 @@ public class SysMenuEntity implements Serializable {
 	 * 设置：父菜单ID，一级菜单为0
 	 * @param parentId 父菜单ID，一级菜单为0
 	 */
-	public void setParentId(Long parentId) {
+	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
 
@@ -86,7 +96,7 @@ public class SysMenuEntity implements Serializable {
 	 * 获取：父菜单ID，一级菜单为0
 	 * @return Long
 	 */
-	public Long getParentId() {
+	public String getParentId() {
 		return parentId;
 	}
 	

@@ -40,7 +40,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public List<Long> queryAllMenuId(Long userId) {
+	public List<String> queryAllMenuId(Long userId) {
 		return sysUserDao.queryAllMenuId(userId);
 	}
 

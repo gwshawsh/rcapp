@@ -73,6 +73,7 @@ public class SysDeptController extends AbstractController {
     /**
      * 选择菜单(添加、修改菜单)
      */
+    @ResponseBody
     @RequestMapping("/select")
     @RequiresPermissions("sys:dept:select")
     public R select() {

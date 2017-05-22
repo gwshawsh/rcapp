@@ -38,16 +38,34 @@ public class GenUtils {
 		templates.add("templates/gencode/Controller.java.vm");
 		templates.add("templates/gencode/list.html.vm");
 		templates.add("templates/gencode/list.js.vm");
+		templates.add("templates/gencode/db.sql.vm");
 		return templates;
 	}
-	
+
+	public static List<String> getTreeTemplates(){
+		List<String> templates = new ArrayList<String>();
+		templates.add("templates/gencode/TreeEntity.java.vm");
+		templates.add("templates/gencode/Dao.java.vm");
+		templates.add("templates/gencode/TreeDao.xml.vm");
+		templates.add("templates/gencode/Service.java.vm");
+		templates.add("templates/gencode/ServiceImpl.java.vm");
+		templates.add("templates/gencode/TreeController.java.vm");
+		templates.add("templates/gencode/treelist.html.vm");
+		templates.add("templates/gencode/treelist.js.vm");
+		templates.add("templates/gencode/db.sql.vm");
+		return templates;
+	}
+
+
+
 	/**
 	 * 生成代码
 	 */
 	public static void generatorCode(Map<String, String> table, 
-			List<Map<String, String>> columns, ZipOutputStream zip){
+			List<Map<String, String>> columns, ZipOutputStream zip,Boolean istree){
 		//配置信息
 		Configuration config = getConfig();
+
 		
 		//表信息
 		TableEntity tableEntity = new TableEntity();
@@ -111,7 +129,13 @@ public class GenUtils {
         VelocityContext context = new VelocityContext(map);
         
         //获取模板列表
-		List<String> templates = getTemplates();
+		List<String> templates ;
+		if(istree){
+			templates=getTreeTemplates();
+		}
+		else{
+			templates = getTemplates();
+		}
 		for(String template : templates){
 			//渲染模板
 			StringWriter sw = new StringWriter();
@@ -198,6 +222,10 @@ public class GenUtils {
 		
 		if(template.contains("list.js.vm")){
 			return "js" + File.separator + className.toLowerCase() + ".js";
+		}
+
+		if(template.contains("db.sql.vm")){
+			return packagePath + "dao" + File.separator + className + ".sql";
 		}
 		
 		return null;

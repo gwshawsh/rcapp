@@ -25,7 +25,7 @@ public interface SysUserService {
 	/**
 	 * 查询用户的所有菜单ID
 	 */
-	List<Long> queryAllMenuId(Long userId);
+	List<String> queryAllMenuId(Long userId);
 	
 	/**
 	 * 根据用户名，查询系统用户

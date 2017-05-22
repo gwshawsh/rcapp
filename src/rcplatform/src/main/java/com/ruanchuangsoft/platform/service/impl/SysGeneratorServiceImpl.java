@@ -48,7 +48,24 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
 			//查询列信息
 			List<Map<String, String>> columns = queryColumns(tableName);
 			//生成代码
-			GenUtils.generatorCode(table, columns, zip);
+			GenUtils.generatorCode(table, columns, zip,false);
+		}
+		IOUtils.closeQuietly(zip);
+		return outputStream.toByteArray();
+	}
+
+	@Override
+	public byte[] generatorTreeCode(String[] tableNames) {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		ZipOutputStream zip = new ZipOutputStream(outputStream);
+
+		for(String tableName : tableNames){
+			//查询表信息
+			Map<String, String> table = queryTable(tableName);
+			//查询列信息
+			List<Map<String, String>> columns = queryColumns(tableName);
+			//生成代码
+			GenUtils.generatorCode(table, columns, zip,true);
 		}
 		IOUtils.closeQuietly(zip);
 		return outputStream.toByteArray();

@@ -25,7 +25,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 	private SysRoleMenuService sysRoleMenuService;
 	
 	@Override
-	public List<SysMenuEntity> queryListParentId(Long parentId, List<Long> menuIdList) {
+	public List<SysMenuEntity> queryListParentId(String parentId, List<String> menuIdList) {
 		List<SysMenuEntity> menuList = sysMenuDao.queryListParentId(parentId);
 		if(menuIdList == null){
 			return menuList;
@@ -54,12 +54,12 @@ public class SysMenuServiceImpl implements SysMenuService {
 		}
 		
 		//用户菜单列表
-		List<Long> menuIdList = sysUserService.queryAllMenuId(userId);
+		List<String> menuIdList = sysUserService.queryAllMenuId(userId);
 		return getAllMenuList(menuIdList);
 	}
 	
 	@Override
-	public SysMenuEntity queryObject(Long menuId) {
+	public SysMenuEntity queryObject(String menuId) {
 		return sysMenuDao.queryObject(menuId);
 	}
 
@@ -92,9 +92,9 @@ public class SysMenuServiceImpl implements SysMenuService {
 	/**
 	 * 获取所有菜单列表
 	 */
-	private List<SysMenuEntity> getAllMenuList(List<Long> menuIdList){
+	private List<SysMenuEntity> getAllMenuList(List<String> menuIdList){
 		//查询根菜单列表
-		List<SysMenuEntity> menuList = queryListParentId(0L, menuIdList);
+		List<SysMenuEntity> menuList = queryListParentId("0", menuIdList);
 		//递归获取子菜单
 		getMenuTreeList(menuList, menuIdList);
 		
@@ -104,7 +104,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 	/**
 	 * 递归
 	 */
-	private List<SysMenuEntity> getMenuTreeList(List<SysMenuEntity> menuList, List<Long> menuIdList){
+	private List<SysMenuEntity> getMenuTreeList(List<SysMenuEntity> menuList, List<String> menuIdList){
 		List<SysMenuEntity> subMenuList = new ArrayList<SysMenuEntity>();
 		
 		for(SysMenuEntity entity : menuList){

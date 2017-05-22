@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternUtils;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import java.io.IOException;
 
@@ -61,5 +62,22 @@ public class MvcConfiguration {
         return beetlSpringViewResolver;
     }
 
+//    @Bean
+//    public ServletRegistrationBean setActivitiModeler(){
+//        //org.springframework.boot.context.embedded.ServletRegistrationBean提供类的进行注册.
+//        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new DispatcherServlet(),"/service/*");
+//        servletRegistrationBean.addInitParameter("contextConfigLocation", "classpath:spring-mvc-modeler.xml");
+//        return servletRegistrationBean;
+//
+//    }
+//
+//    @Bean
+//    public ServletRegistrationBean setActivitiRest(){
+//        //org.springframework.boot.context.embedded.ServletRegistrationBean提供类的进行注册.
+//        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new DispatcherServlet(),"/rest/*");
+//        servletRegistrationBean.addInitParameter("contextConfigLocation", "classpath:spring-mvc-rest.xml");
+//        return servletRegistrationBean;
+//
+//    }
 
 }

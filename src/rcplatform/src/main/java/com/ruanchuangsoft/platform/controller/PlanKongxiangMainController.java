@@ -39,12 +39,26 @@ public class PlanKongxiangMainController extends AbstractController{
 		setViewname("buss/plankongxiangmain");
 
 		ModelAndView view = getModelAndView();
+		view.addObject("billid","");
 //		initModelAndViewI18N(view,keys);
-
-
 		return view;
 
 	}
+
+
+	@RequestMapping("/index/{id}")
+	public ModelAndView indexbyid(@PathVariable("id") Long id) {
+
+		setViewname("buss/plankongxiangmain");
+
+		ModelAndView view = getModelAndView();
+		view.addObject("billid",String.valueOf(id));
+//		initModelAndViewI18N(view,keys);
+		return view;
+
+	}
+
+
 
 	/**
 	 * 列表
@@ -53,6 +67,26 @@ public class PlanKongxiangMainController extends AbstractController{
 	@RequestMapping("/list")
 	@RequiresPermissions("plankongxiangmain:list")
 	public R list(Integer page, Integer limit){
+		Map<String, Object> map = new HashMap<>();
+		map.put("offset", (page - 1) * limit);
+		map.put("limit", limit);
+
+		//查询列表数据
+		List<PlanKongxiangMainEntity> planKongxiangMainList = planKongxiangMainService.queryList(map);
+		int total = planKongxiangMainService.queryTotal(map);
+
+		PageUtils pageUtil = new PageUtils(planKongxiangMainList, total, limit, page);
+
+		return R.ok().put("page", pageUtil);
+	}
+
+	/**
+	 * 列表
+	 */
+	@ResponseBody
+	@RequestMapping("/list/{id}")
+	@RequiresPermissions("plankongxiangmain:list")
+	public R listbyid(Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);

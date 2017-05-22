@@ -61,9 +61,9 @@ public class SysMenuController extends AbstractController {
 		
 		//添加顶级菜单
 		SysMenuEntity root = new SysMenuEntity();
-		root.setMenuId(0L);
+		root.setMenuId("0");
 		root.setName("一级菜单");
-		root.setParentId(-1L);
+		root.setParentId("-1");
 		root.setOpen(true);
 		menuList.add(root);
 		
@@ -87,7 +87,7 @@ public class SysMenuController extends AbstractController {
 	 */
 	@RequestMapping("/info/{menuId}")
 	@RequiresPermissions("sys:menu:info")
-	public R info(@PathVariable("menuId") Long menuId){
+	public R info(@PathVariable("menuId") String menuId){
 		SysMenuEntity menu = sysMenuService.queryObject(menuId);
 		return R.ok().put("menu", menu);
 	}
@@ -167,7 +167,7 @@ public class SysMenuController extends AbstractController {
 		
 		//上级菜单类型
 		int parentType = Constant.MenuType.CATALOG.getValue();
-		if(menu.getParentId() != 0){
+		if(menu.getParentId() != "0"){
 			SysMenuEntity parentMenu = sysMenuService.queryObject(menu.getParentId());
 			parentType = parentMenu.getType();
 		}
