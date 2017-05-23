@@ -9,10 +9,11 @@ import java.util.Map;
 import ${package}.dao.${className}Dao;
 import ${package}.entity.${className}Entity;
 import ${package}.service.${className}Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("${classname}Service")
+@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class ${className}ServiceImpl implements ${className}Service {
 	@Autowired
 	private ${className}Dao ${classname}Dao;

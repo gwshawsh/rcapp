@@ -126,9 +126,10 @@ var vm = new Vue({
 
 		},
 		onClickNode:function(event, treeId, treeNode) {
-
-			vm.q.deptId=treeNode.deptId;
-			vm.reload();
+			if(vm.showList) {
+				vm.q.deptId = treeNode.deptId;
+				vm.reload();
+			}
 
 		}
 	}

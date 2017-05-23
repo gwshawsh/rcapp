@@ -70,3 +70,7 @@ tbody > tr > th {font-weight: normal; }
 .panel-query{
     margin-top:10px;
 }
+.panel-right{
+    position: absolute;
+    right: 10px;
+}

@@ -8,7 +8,6 @@ var vm = new Vue({
         showList: true,
         showEdit:false,
         showFangxiang:false,
-
         title: null,
         planKongxiangMain: {trancompanyId:0,startplaceId:0,endplaceId:0}
 
@@ -43,7 +42,26 @@ var vm = new Vue({
             })
         },
         query: function () {
-            vm.reload();
+            vm.showList = true;
+            vm.showEdit=false;
+            vm.showFangxiang=false;
+            var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            if(billid!=''){
+                $("#jqGrid").jqGrid('setGridParam', {
+                    page: page,
+                    datatype: "json",
+                    url: '../plankongxiangmain/list/'+billid,
+                }).trigger("reloadGrid");
+            }
+            else{
+                $("#jqGrid").jqGrid('setGridParam', {
+                    page: page,
+                    datatype: "json",
+                    url: '../plankongxiangmain/list'
+                }).trigger("reloadGrid");
+            }
+
+
         },
         add: function () {
             vm.showList = false;
@@ -197,7 +215,8 @@ var vm = new Vue({
             vm.showFangxiang=false;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
-                page: page
+                page: page,
+                datatype: "json"
             }).trigger("reloadGrid");
         }
     }
@@ -226,7 +245,8 @@ var setting = {
 $(function () {
     $("#jqGrid").jqGrid({
         url: '../plankongxiangmain/list',
-        datatype: "json",
+
+        datatype:"local",//首次打开默认不加载数据
         colModel: [
             {label: 'id', name: 'id', width: 50, key: true,hidden:true},
             {label: '单据号', name: 'billno', width: 80},
@@ -326,5 +346,6 @@ $(function () {
     vm.getTransTree();
     vm.getStartPlaceTree();
     vm.getEndPlaceTree();
+    vm.query();
     initGridHeight();
 });

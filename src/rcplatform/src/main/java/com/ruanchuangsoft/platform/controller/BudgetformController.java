@@ -6,8 +6,11 @@ import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
+import com.ruanchuangsoft.platform.entity.BudgetdetailEntity;
+import com.ruanchuangsoft.platform.service.BudgetdetailService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +35,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class BudgetformController extends AbstractController {
 	@Autowired
 	private BudgetformService budgetformService;
+
+	@Autowired
+	private BudgetdetailService budgetdetailService;
 
 	@RequestMapping("/budgetform")
 	public String list(){
@@ -84,14 +90,43 @@ public class BudgetformController extends AbstractController {
 	}
 
 	/**
+	 * 列表
+	 */
+	@ResponseBody
+	@RequestMapping("/listdetail")
+	@RequiresPermissions("budgetform:list")
+	public R listDetail(Long formid,Integer page, Integer limit){
+		Map<String, Object> map = new HashMap<>();
+		map.put("offset", (page - 1) * limit);
+		map.put("limit", limit);
+		map.put("formid",formid);
+
+		//查询列表数据
+		List<BudgetdetailEntity> budgetdetailList = budgetdetailService.queryList(map);
+		int total = budgetdetailService.queryTotal(map);
+
+		PageUtils pageUtil = new PageUtils(budgetdetailList, total, limit, page);
+
+		return R.ok().put("page", pageUtil);
+	}
+
+
+
+	/**
 	 * 保存
 	 */
 	@ResponseBody
 	@RequestMapping("/save")
 	@RequiresPermissions("budgetform:save")
-	public R save(@RequestBody BudgetformEntity budgetform){
-		budgetformService.save(budgetform);
+	public R save(@RequestBody BudgetformEntity budgetform)  throws Exception {
+		String billno=getBillNo("BG");
+		budgetform.setBillno(billno);
 
+
+		for(BudgetdetailEntity item:budgetform.getDetails()){
+			item.setBillno(billno);
+		}
+		budgetformService.save(budgetform);
 		return R.ok();
 	}
 
@@ -101,10 +136,14 @@ public class BudgetformController extends AbstractController {
 	@ResponseBody
 	@RequestMapping("/update")
 	@RequiresPermissions("budgetform:update")
-	public R update(@RequestBody BudgetformEntity budgetform){
+	@Transactional
+	public R update(@RequestBody BudgetformEntity budgetform) throws Exception {
 		budgetformService.update(budgetform);
-
-		return R.ok();
+		for(BudgetdetailEntity item:budgetform.getDetails()){
+			budgetdetailService.update(item);
+		}
+		throw new Exception("tttt");
+		//return R.ok();
 	}
 
 	/**
@@ -115,6 +154,7 @@ public class BudgetformController extends AbstractController {
 	@RequiresPermissions("budgetform:delete")
 	public R delete(@RequestBody Long[] ids){
 		budgetformService.deleteBatch(ids);
+		budgetdetailService.deleteBatch(ids);
 
 		return R.ok();
 	}

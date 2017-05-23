@@ -7,11 +7,24 @@
 		select * from ${tableName} where ${pk.columnName} = #{value}
 	</select>
 
+    <select id="queryListParentId" resultType="${package}.entity.${className}Entity">
+        select * from ${tableName} where parent_id = #{parentId} order by order_num asc
+    </select>
+
 	<select id="queryList" resultType="${package}.entity.${className}Entity">
-		select * from ${tableName} 
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
+		select * from ${tableName}
+        select m.*,(select p.name from ${tableName} p where p.dept_id = m.parent_id) as parentName
+        from ${tableName} m
+        <where>
+            <if test="id!=null" >
+                m.parent_id=#{id}
+            </if>
+        </where>
+        order by m.order_num asc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+
 	</select>
 	
  	<select id="queryTotal" resultType="int">

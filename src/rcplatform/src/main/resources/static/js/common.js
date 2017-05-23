@@ -65,18 +65,28 @@ function initGridHeight(){
 	});
 }
 
+function initGridHeightHalf(pgrid){
+	$(pgrid).setGridHeight($(window).height()/2 - 150);
+
+	$(window).resize(function(){
+		$(window).unbind("onresize");
+		$(pgrid).setGridHeight($(window).height()/2 - 150);
+		$(window).bind("onresize", this);
+	});
+}
+
 //选择一条记录
 function getSelectedRow() {
     var grid = $("#jqGrid");
     var rowKey = grid.getGridParam("selrow");
     if(!rowKey){
-    	alert("请选择一条记录");
+    	//alert("请选择一条记录");
     	return ;
     }
     
     var selectedIDs = grid.getGridParam("selarrrow");
     if(selectedIDs.length > 1){
-    	alert("只能选择一条记录");
+    	//alert("只能选择一条记录");
     	return ;
     }
     

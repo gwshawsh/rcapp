@@ -20,7 +20,7 @@ public interface BudgetformService {
 	
 	int queryTotal(Map<String, Object> map);
 	
-	void save(BudgetformEntity budgetform);
+	void save(BudgetformEntity budgetform) throws Exception;
 	
 	void update(BudgetformEntity budgetform);
 	

@@ -17,13 +17,36 @@ import java.math.BigDecimal;
  */
 public class ${className}Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-#foreach ($column in $columns)
+    /**
+     * ztree属性
+     */
+    private Boolean open;
+    private List<?> list;
+
+    public Boolean getOpen() {
+        return open;
+    }
+
+    public void setOpen(Boolean open) {
+        this.open = open;
+    }
+
+    public List<?> getList() {
+        return list;
+    }
+
+    public void setList(List<?> list) {
+        this.list = list;
+    }
+
+
+	#foreach ($column in $columns)
 	//$column.comments
 	private $column.attrType $column.attrname;
 #end
 
 #foreach ($column in $columns)
+
 	/**
 	 * 设置：${column.comments}
 	 */

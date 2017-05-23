@@ -1,11 +1,11 @@
 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-VALUES ('${className}', '${package}', ${comments}, '${className}/index', NULL, '1', 'fa fa-circle-o', '1');
+VALUES ('${pathName}', '${pathName}', ${comments}, '${pathName}/index', NULL, '1', 'fa fa-circle-o', '1');
 
 
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${className}_view', '${className}', '查看', NULL, '${className}:list,${className}:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${className}_add', '${className}', '新增', NULL, '${className}:save,${className}:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${className}_edit', '${className}', '修改', NULL, '${className}:update,${className}:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${className}_delete', '${className}', '删除', NULL, '${className}:delete', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${className}_audit', '${className}', '审核', NULL, '${className}:shenhe,${className}:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${className}_detail', '${className}', '明细', NULL, '${className}:list,${className}:info', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_view', '${pathName}', '查看', NULL, '${pathName}:list,${pathName}:info', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_add', '${pathName}', '新增', NULL, '${pathName}:save,${pathName}:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_edit', '${pathName}', '修改', NULL, '${pathName}:update,${pathName}:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_delete', '${pathName}', '删除', NULL, '${pathName}:delete', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_audit', '${pathName}', '审核', NULL, '${pathName}:shenhe,${pathName}:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_detail', '${pathName}', '明细', NULL, '${pathName}:list,${pathName}:info', '2', NULL, '0');

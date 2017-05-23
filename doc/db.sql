@@ -54,7 +54,8 @@ CREATE TABLE `sys_dept` (
 --  系统用户
 CREATE TABLE `sys_user` (
   `user_id` bigint NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL COMMENT '用户名',
+  `username` varchar(50) NOT NULL COMMENT '用户编码',
+  `fullname` varchar(50) NOT NULL COMMENT '姓名',
   `password` varchar(100) COMMENT '密码',
   `email` varchar(100) COMMENT '邮箱',
   `mobile` varchar(100) COMMENT '手机号',

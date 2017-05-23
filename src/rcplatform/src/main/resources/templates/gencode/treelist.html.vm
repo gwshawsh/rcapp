@@ -12,23 +12,28 @@
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-        <div class="grid-btn">
-            $save
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
-            </button>
-            $end
-            $update
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
-                    class="fa fa-pencil-square-o"></i>&nbsp;修改
-            </button>
-            $end
-            $delete
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-            </button>
-            $end
+        <div class="col-sm-2 panel-border-right">
+            <ul id="leftTree" class="ztree"></ul>
         </div>
-        <table id="jqGrid"></table>
-        <div id="jqGridPager"></div>
+        <div class="col-sm-10">
+            <div class="grid-btn">
+                $save
+                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+                </button>
+                $end
+                $update
+                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                        class="fa fa-pencil-square-o"></i>&nbsp;修改
+                </button>
+                $end
+                $delete
+                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                </button>
+                $end
+            </div>
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
+        </div>
     </div>
 
     <div v-show="!showList" class="panel panel-default">

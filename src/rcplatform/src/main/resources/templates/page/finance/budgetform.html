@@ -2,12 +2,16 @@
 <html>
 <head>
     <title>预算计划主表</title>
-        <% include ("/sys/header.html") {} %>
+    <% include ("/sys/header.html") {} %>
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-        <div class="grid-btn">
+        <div class="layui-btn-group">
+            <%if(shiro.hasPermission("budgetform:list")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>查询
+            </button>
+            <%}%>
             <%if(shiro.hasPermission("budgetform:save")) {%>
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
             </button>
@@ -26,109 +30,98 @@
         <div id="jqGridPager"></div>
     </div>
 
+    <div v-show="showDetailList">
+        <table id="jqGridDetail"></table>
+        <div id="jqGridPagerDetail"></div>
+    </div>
+
     <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">{{title}}</div>
-        <form class="form-horizontal">
-                                                                            <div class="form-group">
-                        <div class="col-sm-2 control-label">单据号</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.billno"
-                                   placeholder="单据号"/>
-                        </div>
+        <div class="panel-heading">单据号:{{budgetform.billno}} </span><span class="panel-right">制单人:{{budgetform.mkuser}} 制单日期:{{budgetform.mkdate}}</span></div>
+        <form class="layui-form-pane">
+            <div class="layui-btn-group">
+
+                <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="saveOrUpdate"  ><i class="fa fa-save"></i>保存</button>
+                <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="reload"  ><i class="fa fa-cancel"></i>返回</button>
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">开始</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="budgetform.begindate"
+                               placeholder="计划开始日期"/>
                     </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">计划开始日期</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.begindate"
-                                   placeholder="计划开始日期"/>
-                        </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">结束</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="budgetform.enddate"
+                               placeholder="计划结束日期"/>
                     </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">计划结束日期</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.enddate"
-                                   placeholder="计划结束日期"/>
-                        </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">部门</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="budgetform.deptId"
+                               placeholder="部门"/>
                     </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">部门</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.deptId"
-                                   placeholder="部门"/>
-                        </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">预算类型</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="budgetform.billtype"
+                               placeholder="预算类型"/>
                     </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">预算类型</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.billtype"
-                                   placeholder="预算类型"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">状态</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.billstatus"
-                                   placeholder="状态"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">制单人</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.mkuser"
-                                   placeholder="制单人"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">制单日期</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.mkdate"
-                                   placeholder="制单日期"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">审核人</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.accuser"
-                                   placeholder="审核人"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">审核日期</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.accdate"
-                                   placeholder="审核日期"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">签批人</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.rzuser"
-                                   placeholder="签批人"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">签批日期</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.rzdate"
-                                   placeholder="签批日期"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">更新时间</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="budgetform.uptdate"
-                                   placeholder="更新时间"/>
-                        </div>
-                    </div>
-                                        <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
-                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
+                </div>
             </div>
         </form>
+
+        <table id="details" class="layui-table">
+            <colgroup>
+                <col width="200">
+                <col width="150">
+                <col width="150">
+                <col width="200">
+                <col width="200">
+                <col width="200">
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+            <tr>
+                <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                <th>序号</th>
+                <th>预算科目</th>
+                <th>名称</th>
+                <th>用途</th>
+                <th>说明</th>
+                <th>预算金额</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(item,index) in budgetform.details">
+                <td><input type="checkbox" name="" lay-skin="primary"/>
+                    <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="additem"><i class="layui-icon">&#xe654;</i></button>
+                         <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="delitem" v-bind:id="'btn-del-'+index" v-bind:idx="index"><i class="layui-icon">&#xe640;</i></button>
+                    </div>
+                </td>
+                <td>{{index}}</td>
+                <td>{{item.accountid}}</td>
+                <td><input v-model="item.name" v-on:click="selectTree" v-bind:id="index"></td>
+                <td><input v-model="item.usage"></td>
+                <td>{{item.remark}}</td>
+                <td>{{item.planmoney}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+
     </div>
 </div>
-
-<script src="${ctxPath}/static/js/budgetform/budgetform.js"></script>
+<div id="menuLayer" style="display: none;padding:10px;">
+    <ul id="menuTree" class="ztree"></ul>
+</div>
+<script src="${ctxPath}/static/js/finance/budgetform.js"></script>
 </body>
 </html>

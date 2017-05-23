@@ -8,7 +8,12 @@
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.BudgetdetailEntity">
-		select * from budgetdetail 
+		select * from budgetdetail
+		<where>
+			<if test="formid != null">
+				billno in (select billno from budgetform where id= #{formid})
+			</if>
+		</where>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

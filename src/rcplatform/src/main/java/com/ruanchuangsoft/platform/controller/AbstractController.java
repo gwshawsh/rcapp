@@ -1,8 +1,11 @@
 package com.ruanchuangsoft.platform.controller;
 
 import com.ruanchuangsoft.platform.entity.SysUserEntity;
+import com.ruanchuangsoft.platform.service.IRedisService;
 import com.ruanchuangsoft.platform.service.LeaveworkService;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
+import com.xiaoleilu.hutool.date.DateUtil;
+import com.xiaoleilu.hutool.util.StrUtil;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
@@ -60,6 +63,9 @@ public abstract class AbstractController {
 	@Autowired
 	public HistoryService historyService;
 
+	@Autowired
+	public IRedisService redisService;
+
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
 	protected SysUserEntity getUser() {
@@ -75,6 +81,7 @@ public abstract class AbstractController {
 	//返回需要的视图模型类
 	public ModelAndView getModelAndView(){
 		ModelAndView view = new ModelAndView(getViewname());
+		view.addObject("gUserName",ShiroUtils.getUserName());
 		return view;
 	}
 
@@ -151,5 +158,16 @@ public abstract class AbstractController {
 		String processid= processInstance.getId();
 
 		return processid;
+	}
+
+
+	public String getBillNo(String billtype){
+		Date date = DateUtil.date();
+		String today= DateUtil.format(date,"yyyyMMdd");
+		String key=billtype+today;
+		Long orderno=redisService.incr(key);
+		String serialno="000000"+String.valueOf(orderno);
+		String billno=key+StrUtil.sub(serialno,serialno.length()-6,serialno.length());
+		return billno;
 	}
 }

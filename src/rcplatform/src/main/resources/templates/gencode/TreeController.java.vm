@@ -70,8 +70,31 @@ public class ${className}Controller extends AbstractController {
 		return R.ok().put("page", pageUtil);
 	}
 
+    /**
+     * 选择菜单(添加、修改菜单)
+     */
+    @ResponseBody
+    @RequestMapping("/select")
+    @RequiresPermissions("sys:dept:select")
+    public R select() {
+        //查询列表数据
+        Map<String, Object> map = new HashMap<>();
+        List<${className}Entity> ${classname}List = ${classname}Service.queryList(map);
 
-	/**
+        //添加顶级菜单
+		${className}Entity root = new ${className}Entity();
+        root.setId(0L);
+        root.setName("${comments}");
+        root.setParentId(-1L);
+        root.setOpen(true);
+		${classname}List.add(root);
+
+        return R.ok().put("treeList", sysDeptList);
+    }
+
+
+
+    /**
 	 * 信息
 	 */
 	@ResponseBody

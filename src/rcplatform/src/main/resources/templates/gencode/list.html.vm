@@ -3,6 +3,7 @@
 <head>
     <title>${comments}</title>
     #set($header='<% include ("/sys/header.html") {} %>')
+    #set($query='<%if(shiro.hasPermission("'+${pathName}+':list")) {%>')
     #set($save='<%if(shiro.hasPermission("'+${pathName}+':save")) {%>')
     #set($update='<%if(shiro.hasPermission("'+${pathName}+':update")) {%>')
     #set($delete='<%if(shiro.hasPermission("'+${pathName}+':delete")) {%>')
@@ -13,6 +14,10 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
+            $query
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </button>
+            $end
             $save
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
             </button>

@@ -41,6 +41,7 @@ public class OrganizationController extends AbstractController {
 		setViewname("base/organization");
 
 		ModelAndView view = getModelAndView();
+
 //		initModelAndViewI18N(view,keys);
 
 

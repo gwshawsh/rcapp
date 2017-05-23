@@ -1,15 +1,37 @@
-
+var ztree;
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+        q:{
+            id: 0
+        },
 		showList: true,
 		title: null,
-		${classname}: {}
+		${classname}: {
+             parentName: null,
+             parentId: 0,
+             orderNum: 0
+        }
 	},
 	methods: {
 		query: function () {
-			vm.reload();
+            vm.reload();
+            vm.getTree();
 		},
+        getTree: function(menuId){
+            //加载菜单树
+            $.get("../${classname}/select", function(r){
+                ztree = $.fn.zTree.init($("#menuTree"), setting, r.treeList);
+                var node = ztree.getNodeByParam("id", vm.${classname}.parentId);
+                ztree.selectNode(node);
+                vm. accountcategory.parentName = node.name;
+
+                ztreeLeft = $.fn.zTree.init($("#leftTree"), setting, r.treeList);
+                var node2 = ztreeLeft.getNodeByParam("id", vm.${classname}.parentId);
+                ztreeLeft.selectNode(node2);
+
+            })
+        },
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
@@ -22,7 +44,7 @@ var vm = new Vue({
 			}
 			vm.showList = false;
             vm.title = "修改";
-            
+
             vm.getInfo(${pk.attrname})
 		},
 		saveOrUpdate: function (event) {
@@ -47,7 +69,7 @@ var vm = new Vue({
 			if(${pk.attrname}s == null){
 				return ;
 			}
-			
+
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
@@ -70,15 +92,63 @@ var vm = new Vue({
                 vm.${classname} = r.${classname};
             });
 		},
+        menuTree: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#menuLayer"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztree.getSelectedNodes();
+                    //选择上级菜单
+                    vm.${classname}.parentId = node[0].id;
+                    vm.${classname}.parentName = node[0].name;
+
+                    layer.close(index);
+                }
+            });
+        },
 		reload: function (event) {
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
-			$("#jqGrid").jqGrid('setGridParam',{ 
-                page:page
+			$("#jqGrid").jqGrid('setGridParam',{
+                page:page,
+                postData:{'id':vm.q.id}
             }).trigger("reloadGrid");
-		}
+		},
+        onClickNode:function(event, treeId, treeNode) {
+            if(vm.showList) {
+                vm.q.id = treeNode.id;
+                vm.reload();
+            }
+
+        }
 	}
 });
+
+
+
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    },
+    callback:{
+        onClick:vm.onClickNode
+    }
+};
 
 $(function () {
     $("#jqGrid").jqGrid({
@@ -120,5 +190,6 @@ $(function () {
         }
     });
 
+    vm.getTree();
 	initGridHeight();
 });
