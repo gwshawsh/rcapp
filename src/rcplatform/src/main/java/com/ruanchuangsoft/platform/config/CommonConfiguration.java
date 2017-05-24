@@ -8,7 +8,6 @@ import com.google.code.kaptcha.Producer;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
 import com.ruanchuangsoft.platform.xss.XssFilter;
-import org.activiti.explorer.servlet.JsonpCallbackFilter;
 import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.boot.autoconfigure.web.WebMvcProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -73,19 +72,7 @@ public class CommonConfiguration {
         return registration;
     }
 
-    @Bean
-    public FilterRegistrationBean activitiFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(jsonFilter());
-        registration.addUrlPatterns("/service/*");
-        registration.setName("JSONPFilter");
-        return registration;
-    }
 
-    @Bean(name="JSONPFilter")
-    public Filter jsonFilter(){
-        return new JsonpCallbackFilter();
-    }
 
     @Bean(name = "xssFilter")
     public Filter xssFilter() {
