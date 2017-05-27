@@ -4,9 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ruanchuangsoft.platform.controller.AbstractController;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 
 import com.ruanchuangsoft.platform.entity.PlaceEntity;
@@ -15,39 +20,42 @@ import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
-
 /**
  * 港口基础信息表
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-04-23 10:36:51
+ * @date 2017-05-27 20:02:48
  */
-@RestController
+@Controller
 @RequestMapping("place")
-public class PlaceController  extends AbstractController {
+public class PlaceController extends AbstractController {
 	@Autowired
 	private PlaceService placeService;
 
-	@RequestMapping("/index")
-	public ModelAndView index() {
-
-		setViewname("base/place");
-
-		ModelAndView view = getModelAndView();
-//		initModelAndViewI18N(view,keys);
-
-
-		return view;
-
+	@RequestMapping("/place")
+	public String list(){
+		return "place/place";
 	}
 
+
+
+    @RequestMapping("/index")
+    public ModelAndView index() {
+
+        setViewname("place/place");
+        ModelAndView view = getModelAndView();
+//		initModelAndViewI18N(view,keys);
+        return view;
+
+    }
 
 	/**
 	 * 列表
 	 */
 	@ResponseBody
 	@RequestMapping("/list")
+	@RequiresPermissions("place:list")
 	public R list(Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
@@ -68,6 +76,7 @@ public class PlaceController  extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/info/{id}")
+	@RequiresPermissions("place:info")
 	public R info(@PathVariable("id") Long id){
 		PlaceEntity place = placeService.queryObject(id);
 

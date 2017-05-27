@@ -1,6 +1,6 @@
 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-VALUES ('${pathName}', '${pathName}', ${comments}, '${pathName}/index', NULL, '1', 'fa fa-circle-o', '1');
+VALUES ('${pathName}', '${pathName}', '${comments}', '${pathName}/index', NULL, '1', 'fa fa-circle-o', '1');
 
 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_view', '${pathName}', '查看', NULL, '${pathName}:list,${pathName}:info', '2', NULL, '0');

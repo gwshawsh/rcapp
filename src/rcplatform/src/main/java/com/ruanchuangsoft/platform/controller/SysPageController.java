@@ -1,5 +1,6 @@
 package com.ruanchuangsoft.platform.controller;
 
+import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ public class SysPageController {
 	@RequestMapping("sys/{url}.html")
 	public ModelAndView page(@PathVariable("url") String url){
 		ModelAndView view = new ModelAndView("sys/" + url + "");
+		view.addObject("gUserName", ShiroUtils.getUserName());
 		//total 是模板的全局变量，可以直接访问
 		return view;
 

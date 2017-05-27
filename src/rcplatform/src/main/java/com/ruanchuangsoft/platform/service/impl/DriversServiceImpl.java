@@ -9,10 +9,11 @@ import java.util.Map;
 import com.ruanchuangsoft.platform.dao.DriversDao;
 import com.ruanchuangsoft.platform.entity.DriversEntity;
 import com.ruanchuangsoft.platform.service.DriversService;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("driversService")
+@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class DriversServiceImpl implements DriversService {
 	@Autowired
 	private DriversDao driversDao;

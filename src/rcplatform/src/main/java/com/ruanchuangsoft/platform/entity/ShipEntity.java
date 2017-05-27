@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 22:41:02
+ * @date 2017-05-27 20:14:30
  */
 public class ShipEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

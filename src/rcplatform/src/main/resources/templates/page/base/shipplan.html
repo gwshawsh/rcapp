@@ -8,6 +8,10 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
+            <%if(shiro.hasPermission("shipplan:list")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </button>
+            <%}%>
             <%if(shiro.hasPermission("shipplan:save")) {%>
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
             </button>

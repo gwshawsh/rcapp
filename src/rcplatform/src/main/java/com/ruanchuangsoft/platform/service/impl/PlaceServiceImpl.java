@@ -9,10 +9,11 @@ import java.util.Map;
 import com.ruanchuangsoft.platform.dao.PlaceDao;
 import com.ruanchuangsoft.platform.entity.PlaceEntity;
 import com.ruanchuangsoft.platform.service.PlaceService;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("placeService")
+@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class PlaceServiceImpl implements PlaceService {
 	@Autowired
 	private PlaceDao placeDao;

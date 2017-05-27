@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ruanchuangsoft.platform.controller.AbstractController;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,35 +20,35 @@ import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
-
 /**
  * 船公司
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 22:41:02
+ * @date 2017-05-27 20:14:30
  */
 @Controller
 @RequestMapping("ship")
-public class ShipController extends AbstractController{
+public class ShipController extends AbstractController {
 	@Autowired
 	private ShipService shipService;
 
-
-
-
-	@RequestMapping("/index")
-	public ModelAndView index() {
-
-		setViewname("base/ship");
-
-		ModelAndView view = getModelAndView();
-//		initModelAndViewI18N(view,keys);
-
-
-		return view;
-
+	@RequestMapping("/ship")
+	public String list(){
+		return "ship/ship";
 	}
+
+
+
+    @RequestMapping("/index")
+    public ModelAndView index() {
+
+        setViewname("base/ship");
+        ModelAndView view = getModelAndView();
+//		initModelAndViewI18N(view,keys);
+        return view;
+
+    }
 
 	/**
 	 * 列表

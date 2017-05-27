@@ -84,7 +84,7 @@ $(function () {
         url: '../shipplan/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', width: 50, key: true,hidden:true},
+            {label: 'id', name: 'id', width: 50, key: true},
             {label: '英文船名', name: 'enshipname', width: 80},
             {label: '中文船名', name: 'chshipname', width: 80},
             {label: '出口航次', name: 'expvoyage', width: 80},
@@ -122,9 +122,10 @@ $(function () {
             rows: "limit",
             order: "order"
         },
+        shrinkToFit: false,
         gridComplete: function () {
             //隐藏grid底部滚动条
-            $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
+           // $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
         }
     });
 

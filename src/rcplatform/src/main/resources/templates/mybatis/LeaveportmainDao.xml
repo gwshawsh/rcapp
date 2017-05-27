@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.LeaveportmainDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.LeaveportmainEntity">
+		select * from leaveportmain where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.LeaveportmainEntity">
+		select * from leaveportmain 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from leaveportmain 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.LeaveportmainEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into leaveportmain
+		(
+			`billno`, 
+			`port`, 
+			`shipcompany`, 
+			`boxqty`, 
+			`boxtype`, 
+			`endplace_id`, 
+			`planarrporttime`, 
+			`planarrtime`, 
+			`billuser`, 
+			`billdate`, 
+			`accuser`, 
+			`accdate`, 
+			`uptdate`
+		)
+		values
+		(
+			#{billno}, 
+			#{port}, 
+			#{shipcompany}, 
+			#{boxqty}, 
+			#{boxtype}, 
+			#{endplaceId}, 
+			#{planarrporttime}, 
+			#{planarrtime}, 
+			#{billuser}, 
+			#{billdate}, 
+			#{accuser}, 
+			#{accdate}, 
+			#{uptdate}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.LeaveportmainEntity">
+		update leaveportmain 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="port != null">`port` = #{port}, </if>
+			<if test="shipcompany != null">`shipcompany` = #{shipcompany}, </if>
+			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
+			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
+			<if test="endplaceId != null">`endplace_id` = #{endplaceId}, </if>
+			<if test="planarrporttime != null">`planarrporttime` = #{planarrporttime}, </if>
+			<if test="planarrtime != null">`planarrtime` = #{planarrtime}, </if>
+			<if test="billuser != null">`billuser` = #{billuser}, </if>
+			<if test="billdate != null">`billdate` = #{billdate}, </if>
+			<if test="accuser != null">`accuser` = #{accuser}, </if>
+			<if test="accdate != null">`accdate` = #{accdate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from leaveportmain where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from leaveportmain where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

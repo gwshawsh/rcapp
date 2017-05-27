@@ -66,6 +66,7 @@ var vm = new Vue({
         add: function () {
             var mktime=moment().format("YYYY-MM-DD");
             vm.showList = false;
+            vm.showDetailList=false;
             vm.title = "新增";
             vm.budgetform = {billno:"*",mkuser:gUserName,mkdate:mktime,details:[]};
             vm.additem();
@@ -77,6 +78,7 @@ var vm = new Vue({
                 return;
             }
             vm.showList = false;
+            vm.showDetailList=false;
             vm.title = "修改";
 
             vm.getInfo(id)
@@ -224,7 +226,7 @@ $(function () {
         },
         gridComplete: function () {
             //隐藏grid底部滚动条
-            $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
+            //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
         }
     });
 

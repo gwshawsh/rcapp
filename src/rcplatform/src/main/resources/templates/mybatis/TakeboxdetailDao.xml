@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.TakeboxdetailDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
+		select * from takeboxdetail where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
+		select * from takeboxdetail 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from takeboxdetail 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into takeboxdetail
+		(
+			`billno`, 
+			`serialno`, 
+			`transcompanyid`, 
+			`startplaceid1`, 
+			`startplaceid2`, 
+			`endplaceid2`, 
+			`boxno`, 
+			`plantaketime`, 
+			`realtaketime`, 
+			`planarrvetime`, 
+			`realarrvetime`
+		)
+		values
+		(
+			#{billno}, 
+			#{serialno}, 
+			#{transcompanyid}, 
+			#{startplaceid1}, 
+			#{startplaceid2}, 
+			#{endplaceid2}, 
+			#{boxno}, 
+			#{plantaketime}, 
+			#{realtaketime}, 
+			#{planarrvetime}, 
+			#{realarrvetime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
+		update takeboxdetail 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="serialno != null">`serialno` = #{serialno}, </if>
+			<if test="transcompanyid != null">`transcompanyid` = #{transcompanyid}, </if>
+			<if test="startplaceid1 != null">`startplaceid1` = #{startplaceid1}, </if>
+			<if test="startplaceid2 != null">`startplaceid2` = #{startplaceid2}, </if>
+			<if test="endplaceid2 != null">`endplaceid2` = #{endplaceid2}, </if>
+			<if test="boxno != null">`boxno` = #{boxno}, </if>
+			<if test="plantaketime != null">`plantaketime` = #{plantaketime}, </if>
+			<if test="realtaketime != null">`realtaketime` = #{realtaketime}, </if>
+			<if test="planarrvetime != null">`planarrvetime` = #{planarrvetime}, </if>
+			<if test="realarrvetime != null">`realarrvetime` = #{realarrvetime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from takeboxdetail where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from takeboxdetail where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

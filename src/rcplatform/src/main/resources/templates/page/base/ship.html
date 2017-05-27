@@ -2,12 +2,16 @@
 <html>
 <head>
     <title>船公司</title>
-    <% include ("/sys/header.html") {} %>
+        <% include ("/sys/header.html") {} %>
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
+            <%if(shiro.hasPermission("ship:list")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </button>
+            <%}%>
             <%if(shiro.hasPermission("ship:save")) {%>
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
             </button>
@@ -29,105 +33,105 @@
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">{{title}}</div>
         <form class="form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-2 control-label">编码</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.code"
-                           placeholder="编码"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">中文名称</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.name"
-                           placeholder="中文名称"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">英文名称</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.enname"
-                           placeholder="英文名称"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">所属区域</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.region"
-                           placeholder="所属区域"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">UN代码</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.uncode"
-                           placeholder="UN代码"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">类型</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.type"
-                           placeholder="类型"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">所属船公司</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.company"
-                           placeholder="所属船公司"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">COS代码</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.coscode"
-                           placeholder="COS代码"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">COS船英文名</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.cosshipenname"
-                           placeholder="COS船英文名"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">所属国家</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.country"
-                           placeholder="所属国家"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">联系人</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.contact"
-                           placeholder="联系人 "/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">地址</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.address"
-                           placeholder="地址"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">电话</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.phone"
-                           placeholder="电话"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">航线</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="ship.route"
-                           placeholder="航线"/>
-                </div>
-            </div>
-            <div class="form-group">
+                                                                            <div class="form-group">
+                        <div class="col-sm-2 control-label">编码</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.code"
+                                   placeholder="编码"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">中文名称</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.name"
+                                   placeholder="中文名称"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">英文名称</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.enname"
+                                   placeholder="英文名称"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">所属区域</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.region"
+                                   placeholder="所属区域"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">UN代码</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.uncode"
+                                   placeholder="UN代码"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">类型</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.type"
+                                   placeholder="类型"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">所属船公司</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.company"
+                                   placeholder="所属船公司"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">COS代码</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.coscode"
+                                   placeholder="COS代码"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">COS船英文名</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.cosshipenname"
+                                   placeholder="COS船英文名"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">所属国家</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.country"
+                                   placeholder="所属国家"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">联系人 </div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.contact"
+                                   placeholder="联系人 "/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">地址</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.address"
+                                   placeholder="地址"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">电话</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.phone"
+                                   placeholder="电话"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">航线</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ship.route"
+                                   placeholder="航线"/>
+                        </div>
+                    </div>
+                                        <div class="form-group">
                 <div class="col-sm-2 control-label"></div>
                 <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
                 &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>

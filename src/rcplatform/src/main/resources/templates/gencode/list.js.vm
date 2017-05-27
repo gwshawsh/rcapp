@@ -100,7 +100,8 @@ $(function () {
         rowList : [10,30,50],
         rownumbers: true,
         rownumWidth: 25,
-        autowidth:true,
+        autowidth: true,
+        autoScroll: true,
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader : {
@@ -114,9 +115,10 @@ $(function () {
             rows:"limit",
             order: "order"
         },
+        shrinkToFit:false,
         gridComplete:function(){
             //隐藏grid底部滚动条
-            $("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
 

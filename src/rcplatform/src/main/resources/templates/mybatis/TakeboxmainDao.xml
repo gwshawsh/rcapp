@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.TakeboxmainDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity">
+		select * from takeboxmain where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity">
+		select * from takeboxmain 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from takeboxmain 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into takeboxmain
+		(
+			`billno`, 
+			`refbillno`, 
+			`refbilltype`, 
+			`org_id`, 
+			`ladingcode`, 
+			`shipname`, 
+			`flight`, 
+			`portid`, 
+			`boxqty`, 
+			`boxtype`, 
+			`takeboxplaceid`, 
+			`endplaceid`, 
+			`bgnshipdate`, 
+			`endshipdate`, 
+			`bgnplanarrtime`, 
+			`endplanarrtime`, 
+			`remark`, 
+			`billstatus`, 
+			`makeuser`, 
+			`makedate`, 
+			`accuser`, 
+			`accdate`, 
+			`uptdate`
+		)
+		values
+		(
+			#{billno}, 
+			#{refbillno}, 
+			#{refbilltype}, 
+			#{orgId}, 
+			#{ladingcode}, 
+			#{shipname}, 
+			#{flight}, 
+			#{portid}, 
+			#{boxqty}, 
+			#{boxtype}, 
+			#{takeboxplaceid}, 
+			#{endplaceid}, 
+			#{bgnshipdate}, 
+			#{endshipdate}, 
+			#{bgnplanarrtime}, 
+			#{endplanarrtime}, 
+			#{remark}, 
+			#{billstatus}, 
+			#{makeuser}, 
+			#{makedate}, 
+			#{accuser}, 
+			#{accdate}, 
+			#{uptdate}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity">
+		update takeboxmain 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="refbillno != null">`refbillno` = #{refbillno}, </if>
+			<if test="refbilltype != null">`refbilltype` = #{refbilltype}, </if>
+			<if test="orgId != null">`org_id` = #{orgId}, </if>
+			<if test="ladingcode != null">`ladingcode` = #{ladingcode}, </if>
+			<if test="shipname != null">`shipname` = #{shipname}, </if>
+			<if test="flight != null">`flight` = #{flight}, </if>
+			<if test="portid != null">`portid` = #{portid}, </if>
+			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
+			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
+			<if test="takeboxplaceid != null">`takeboxplaceid` = #{takeboxplaceid}, </if>
+			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
+			<if test="bgnshipdate != null">`bgnshipdate` = #{bgnshipdate}, </if>
+			<if test="endshipdate != null">`endshipdate` = #{endshipdate}, </if>
+			<if test="bgnplanarrtime != null">`bgnplanarrtime` = #{bgnplanarrtime}, </if>
+			<if test="endplanarrtime != null">`endplanarrtime` = #{endplanarrtime}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
+			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
+			<if test="makedate != null">`makedate` = #{makedate}, </if>
+			<if test="accuser != null">`accuser` = #{accuser}, </if>
+			<if test="accdate != null">`accdate` = #{accdate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from takeboxmain where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from takeboxmain where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

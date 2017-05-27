@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.ContaineryardDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.ContaineryardEntity">
+		select * from containeryard where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.ContaineryardEntity">
+		select * from containeryard 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from containeryard 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.ContaineryardEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into containeryard
+		(
+			`code`, 
+			`name`, 
+			`linkman`, 
+			`phone`, 
+			`address`, 
+			`longitude`, 
+			`latitude`
+		)
+		values
+		(
+			#{code}, 
+			#{name}, 
+			#{linkman}, 
+			#{phone}, 
+			#{address}, 
+			#{longitude}, 
+			#{latitude}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.ContaineryardEntity">
+		update containeryard 
+		<set>
+			<if test="code != null">`code` = #{code}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="linkman != null">`linkman` = #{linkman}, </if>
+			<if test="phone != null">`phone` = #{phone}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="longitude != null">`longitude` = #{longitude}, </if>
+			<if test="latitude != null">`latitude` = #{latitude}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from containeryard where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from containeryard where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

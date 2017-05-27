@@ -20,13 +20,12 @@ import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
-
 /**
  * 船舶计划表
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 22:57:59
+ * @date 2017-05-27 20:14:30
  */
 @Controller
 @RequestMapping("shipplan")

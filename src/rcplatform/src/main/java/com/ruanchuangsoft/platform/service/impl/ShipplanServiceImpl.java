@@ -9,10 +9,11 @@ import java.util.Map;
 import com.ruanchuangsoft.platform.dao.ShipplanDao;
 import com.ruanchuangsoft.platform.entity.ShipplanEntity;
 import com.ruanchuangsoft.platform.service.ShipplanService;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("shipplanService")
+@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class ShipplanServiceImpl implements ShipplanService {
 	@Autowired
 	private ShipplanDao shipplanDao;

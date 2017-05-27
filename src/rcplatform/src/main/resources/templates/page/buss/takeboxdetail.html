@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>放箱计划明细表</title>
+        <% include ("/sys/header.html") {} %>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <%if(shiro.hasPermission("takeboxdetail:list")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("takeboxdetail:save")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("takeboxdetail:update")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("takeboxdetail:delete")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </button>
+            <%}%>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+                                                                            <div class="form-group">
+                        <div class="col-sm-2 control-label">单据号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxdetail.billno"
+                                   placeholder="单据号"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">序号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxdetail.serialno"
+                                   placeholder="序号"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">运输公司</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxdetail.transcompanyid"
+                                   placeholder="运输公司"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">原起运地点</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxdetail.startplaceid1"
+                                   placeholder="原起运地点"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">现起运点</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxdetail.startplaceid2"
+                                   placeholder="现起运点"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">目的地</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxdetail.endplaceid2"
+                                   placeholder="目的地"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">箱号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxdetail.boxno"
+                                   placeholder="箱号"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">计划提箱时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxdetail.plantaketime"
+                                   placeholder="计划提箱时间"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">实际提箱时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxdetail.realtaketime"
+                                   placeholder="实际提箱时间"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">计划到场时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxdetail.planarrvetime"
+                                   placeholder="计划到场时间"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">实际到场时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxdetail.realarrvetime"
+                                   placeholder="实际到场时间"/>
+                        </div>
+                    </div>
+                                        <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/takeboxdetail/takeboxdetail.js"></script>
+</body>
+</html>

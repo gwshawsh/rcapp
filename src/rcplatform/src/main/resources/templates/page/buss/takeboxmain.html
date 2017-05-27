@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>放箱计划</title>
+        <% include ("/sys/header.html") {} %>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <%if(shiro.hasPermission("takeboxmain:list")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("takeboxmain:save")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("takeboxmain:update")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </button>
+            <%}%>
+            <%if(shiro.hasPermission("takeboxmain:delete")) {%>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </button>
+            <%}%>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+                                                                            <div class="form-group">
+                        <div class="col-sm-2 control-label">单据号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.billno"
+                                   placeholder="单据号"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">参照单据号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.refbillno"
+                                   placeholder="参照单据号"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">参照单据类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.refbilltype"
+                                   placeholder="参照单据类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">客户id</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.orgId"
+                                   placeholder="客户id"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">提单号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.ladingcode"
+                                   placeholder="提单号"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">船名</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.shipname"
+                                   placeholder="船名"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">航次</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.flight"
+                                   placeholder="航次"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">港口</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.portid"
+                                   placeholder="港口"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">箱量</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.boxqty"
+                                   placeholder="箱量"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">箱型</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.boxtype"
+                                   placeholder="箱型"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">提箱场站</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.takeboxplaceid"
+                                   placeholder="提箱场站"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">目的地</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.endplaceid"
+                                   placeholder="目的地"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">集港时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.bgnshipdate"
+                                   placeholder="集港时间"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">截港时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.endshipdate"
+                                   placeholder="截港时间"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">最早到场时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.bgnplanarrtime"
+                                   placeholder="最早到场时间"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">最晚到场时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.endplanarrtime"
+                                   placeholder="最晚到场时间"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">备注</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.remark"
+                                   placeholder="备注"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.billstatus"
+                                   placeholder="单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">制单人</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.makeuser"
+                                   placeholder="制单人"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">制单日期</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.makedate"
+                                   placeholder="制单日期"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">审核人</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.accuser"
+                                   placeholder="审核人"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">审核日期</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.accdate"
+                                   placeholder="审核日期"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">更新时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="takeboxmain.uptdate"
+                                   placeholder="更新时间"/>
+                        </div>
+                    </div>
+                                        <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/takeboxmain/takeboxmain.js"></script>
+</body>
+</html>

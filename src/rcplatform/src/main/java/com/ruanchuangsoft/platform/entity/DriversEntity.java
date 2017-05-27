@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 23:08:31
+ * @date 2017-05-27 20:02:48
  */
 public class DriversEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

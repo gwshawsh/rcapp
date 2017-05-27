@@ -117,140 +117,9 @@ CREATE TABLE `sys_log` (
 ) ENGINE=`InnoDB` DEFAULT CHARACTER SET utf8 COMMENT='系统日志';
 
 
-
 --  初始数据  
 -- 初始数据 
 INSERT INTO `sys_user` (`user_id`, `username`, `password`, `email`, `mobile`, `status`, `create_time`) VALUES ('1', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'root@renren.io', '13612345678', '1', '2016-11-11 11:11:11');
-
-delete from sys_menu; 
--- 系统管理
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('system', '0', '系统管理', NULL, NULL, '0', 'fa fa-cog', '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('user', 'system', '人员管理', 'sys/user.html', NULL, '1', 'fa fa-user', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('role', 'system', '角色管理', 'sys/role.html', NULL, '1', 'fa fa-user-secret', '2');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('menu', 'system', '菜单管理', 'sys/menu.html', NULL, '1', 'fa fa-th-list', '3');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('dept', 'system', '部门管理', 'sys/dept/index', NULL, '1', 'fa fa-th-list', '3');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('druid', 'system', 'SQL监控', 'druid/sql.html', NULL, '1', 'fa fa-bug', '4');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('config', 'system', '参数管理', 'sys/config.html', 'sys:config:list,sys:config:info,sys:config:save,sys:config:update,sys:config:delete', '1', 'fa fa-sun-o', '6');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('log', 'system', '系统日志', 'sys/log.html', 'sys:log:list', '1', 'fa fa-file-text-o', '7');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('oss', 'system', '文件上传', 'sys/oss.html', 'sys:oss:all', '1', 'fa fa-file-image-o', '6');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('generator', 'system', '代码生成器', 'sys/generator.html', 'sys:generator:list,sys:generator:code', '1', 'fa fa-rocket', '7');
- 
- INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('user_view', 'user', '查看', NULL, 'sys:user:list,sys:user:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('user_add', 'user', '新增', NULL, 'sys:user:save,sys:role:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('user_edit', 'user', '修改', NULL, 'sys:user:update,sys:role:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('user_delete', 'user', '删除', NULL, 'sys:user:delete', '2', NULL, '0');
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('role_view', 'role', '查看', NULL, 'sys:role:list,sys:role:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('role_add', 'role', '新增', NULL, 'sys:role:save,sys:menu:perms', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('role_edit', 'role', '修改', NULL, 'sys:role:update,sys:menu:perms', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('role_delete', 'role', '删除', NULL, 'sys:role:delete', '2', NULL, '0');
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('menu_view', 'menu', '查看', NULL, 'sys:menu:list,sys:menu:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('menu_add', 'menu', '新增', NULL, 'sys:menu:save,sys:menu:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('menu_edit', 'menu', '修改', NULL, 'sys:menu:update,sys:menu:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('menu_delete', 'menu', '删除', NULL, 'sys:menu:delete', '2', NULL, '0');
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('dept_view', 'dept', '查看', NULL, 'sys:dept:list,sys:dept:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('dept_add', 'dept', '新增', NULL, 'sys:dept:save,sys:dept:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('dept_edit', 'dept', '修改', NULL, 'sys:dept:update,sys:dept:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('dept_delete', 'dept', '删除', NULL, 'sys:dept:delete', '2', NULL, '0');
-
-
--- 基础资料
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('base', '0', '基础资料', NULL, NULL, '0', 'fa fa-folder', '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('organization', 'base', '组织管理', 'organization/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('region', 'base', '区域管理', 'region/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('transteam', 'base', '车队管理', 'transteam/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('ship', 'base', '船舶管理', 'ship/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('shipplan', 'base', '船舶计划', 'shipplan/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('transline', 'base', '线路管理', 'transline/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('drivers', 'base', '司机管理', 'drivers/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('boxs', 'base', '箱型管理', 'boxs/index', NULL, '1', 'fa fa-circle-o', '1');
- 
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('buss', '0', '业务管理', NULL, NULL, '0', 'fa fa-folder', '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('plankongxiangmain', 'buss', '空箱计划', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('heavyplan', 'buss', '重箱计划', 'heavyplan/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('preemptyplan', 'buss', '预配计划', 'preemptyplan/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('portplan', 'buss', '疏港计划', 'portplan/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('transplan', 'buss', '运输管理', 'transplan/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('transbill', 'buss', '预约提箱', 'transbill/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('longtransbill', 'buss', '门点订单', 'longtransbill/index', NULL, '1', 'fa fa-circle-o', '1');
- 
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('plankongxiangmain_view', 'plankongxiangmain', '查看', NULL, 'plankongxiangmain:list,plankongxiangmain:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('plankongxiangmain_add', 'plankongxiangmain', '新增', NULL, 'plankongxiangmain:save,plankongxiangmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('plankongxiangmain_edit', 'plankongxiangmain', '修改', NULL, 'plankongxiangmain:update,plankongxiangmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('plankongxiangmain_delete', 'plankongxiangmain', '删除', NULL, 'plankongxiangmain:delete', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('plankongxiangmain_audit', 'plankongxiangmain', '审核', NULL, 'plankongxiangmain:shenhe,plankongxiangmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('plankongxiangmain_placebox', 'plankongxiangmain', '放箱', NULL, 'plankongxiangmain:fangxiang,plankongxiangmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('plankongxiangmain_detail', 'plankongxiangmain', '明细', NULL, 'plankongxiangmain:list,plankongxiangmain:info', '2', NULL, '0');
-
-
--- 业务管理
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('finance', '0', '财务管理', NULL, NULL, '0', 'fa fa-folder', '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('accountcategory', 'finance', '预算科目', 'accountcategory/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('budgetform', 'finance', '预算计划', 'budgetform/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('costrequest', 'finance', '费用申请', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('expense', 'finance', '报销管理', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('entertain', 'finance', '招待费申请', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
-
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('accountcategory_view', 'accountcategory', '查看', NULL, 'accountcategory:list,accountcategory:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('accountcategory_add', 'accountcategory', '新增', NULL, 'accountcategory:save,accountcategory:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('accountcategory_edit', 'accountcategory', '修改', NULL, 'accountcategory:update,accountcategory:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('accountcategory_delete', 'accountcategory', '删除', NULL, 'accountcategory:delete', '2', NULL, '0');
-
-  
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('budgetform_view', 'budgetform', '查看', NULL, 'budgetform:list,budgetform:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('budgetform_add', 'budgetform', '新增', NULL, 'budgetform:save,budgetform:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('budgetform_edit', 'budgetform', '修改', NULL, 'budgetform:update,budgetform:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('budgetform_delete', 'budgetform', '删除', NULL, 'budgetform:delete', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('budgetform_audit', 'budgetform', '审核', NULL, 'budgetform:shenhe,budgetform:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('budgetform_detail', 'budgetform', '明细', NULL, 'budgetform:list,budgetform:info', '2', NULL, '0');
-
-
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('askbill', 'finance', '请购单', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('buybill', 'finance', '订购单', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('paybill', 'finance', '付款单', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
- 
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('askbill_view', 'askbill', '查看', NULL, 'plankongxiangmain:list,plankongxiangmain:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('askbill_add', 'askbill', '新增', NULL, 'plankongxiangmain:save,plankongxiangmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('askbill_edit', 'askbill', '修改', NULL, 'plankongxiangmain:update,plankongxiangmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('askbill_delete', 'askbill', '删除', NULL, 'plankongxiangmain:delete', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('askbill_audit', 'askbill', '审核', NULL, 'plankongxiangmain:shenhe,plankongxiangmain:select', '2', NULL, '0');
-
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('buybill_view', 'buybill', '查看', NULL, 'plankongxiangmain:list,plankongxiangmain:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('buybill_add', 'buybill', '新增', NULL, 'plankongxiangmain:save,plankongxiangmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('buybill_edit', 'buybill', '修改', NULL, 'plankongxiangmain:update,plankongxiangmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('buybill_delete', 'buybill', '删除', NULL, 'plankongxiangmain:delete', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('buybill_audit', 'buybill', '审核', NULL, 'plankongxiangmain:shenhe,plankongxiangmain:select', '2', NULL, '0');
-
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('paybill_view', 'paybill', '查看', NULL, 'plankongxiangmain:list,plankongxiangmain:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('paybill_add', 'paybill', '新增', NULL, 'plankongxiangmain:save,plankongxiangmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('paybill_edit', 'paybill', '修改', NULL, 'plankongxiangmain:update,plankongxiangmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('paybill_delete', 'paybill', '删除', NULL, 'plankongxiangmain:delete', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('paybill_audit', 'paybill', '审核', NULL, 'plankongxiangmain:shenhe,plankongxiangmain:select', '2', NULL, '0');
-
-
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('contract', '0', '合同管理', NULL, NULL, '0', 'fa fa-folder', '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('buycontract', 'contract', '采购合同', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('rentcontract', 'contract', '租赁合同', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('shipcontract', 'contract', '船东合同', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('storecontract', 'contract', '仓储客户合同', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('transcontract', 'contract', '运输合同', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('mataincontract', 'contract', '机械维修合同', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
-
-
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('88', '0', '日常工作', NULL, NULL, '0', 'fa fa-folder', '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('89', '88', '待办事项', 'todulist/index', NULL, '1', 'fa fa-circle-o', '1');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('90', '88', '考勤管理', 'plankongxiangmain/index', NULL, '1', 'fa fa-circle-o', '1');
 
 
 -- 合同管理
@@ -459,7 +328,7 @@ CREATE INDEX IDX_QRTZ_FT_JG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_GROUP);
 CREATE INDEX IDX_QRTZ_FT_T_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP);
 CREATE INDEX IDX_QRTZ_FT_TG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
 
---  组织管理
+--  客户管理
 CREATE TABLE `organization` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COMMENT '编码',
@@ -473,14 +342,76 @@ CREATE TABLE `organization` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织管理';
 
+
+
+-- 仓库
+DROP TABLE IF EXISTS `store` ;
+CREATE TABLE `store` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `name` varchar(50) COMMENT '名称', 
+  `linkman` varchar(50) COMMENT '联系人', 
+  `phone` varchar(20) COMMENT '联系电话',
+  `address` varchar(200) COMMENT '地址',
+  `longitude` varchar(50) COMMENT '经度',
+  `latitude` varchar(50) COMMENT '纬度',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓库管理';
+
+-- 港口
+DROP TABLE IF EXISTS `port` ;
+CREATE TABLE `port` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `name` varchar(50) COMMENT '名称', 
+  `linkman` varchar(50) COMMENT '联系人', 
+  `phone` varchar(20) COMMENT '联系电话',
+  `address` varchar(200) COMMENT '地址',
+  `longitude` varchar(50) COMMENT '经度',
+  `latitude` varchar(50) COMMENT '纬度',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='港口管理';
+
+-- 堆场
+DROP TABLE IF EXISTS `containeryard` ;
+CREATE TABLE `containeryard` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `name` varchar(50) COMMENT '名称', 
+  `linkman` varchar(50) COMMENT '联系人', 
+  `phone` varchar(20) COMMENT '联系电话',
+  `address` varchar(200) COMMENT '地址',
+  `longitude` varchar(50) COMMENT '经度',
+  `latitude` varchar(50) COMMENT '纬度',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='堆场管理';
+
+-- 工厂
+DROP TABLE IF EXISTS `factory` ;
+CREATE TABLE `factory` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `name` varchar(50) COMMENT '名称', 
+  `linkman` varchar(50) COMMENT '联系人', 
+  `phone` varchar(20) COMMENT '联系电话',
+  `address` varchar(200) COMMENT '地址',
+  `longitude` varchar(50) COMMENT '经度',
+  `latitude` varchar(50) COMMENT '纬度',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='工厂管理';
+
+
+
 -- 区域管理
+DROP TABLE IF EXISTS `region` ;
 CREATE TABLE `region` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COMMENT '编码',
   `name` varchar(50) COMMENT '名称',
   `regionalcode` varchar(50) COMMENT '上级区域编码',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='区域管理表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='区域管理';
+
 
 -- 车队管理
 CREATE TABLE `transteam` (
@@ -496,6 +427,8 @@ CREATE TABLE `transteam` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='车队管理';
 
+-- 车辆管理
+ 
  
 
 --  船舶管理
@@ -544,7 +477,7 @@ CREATE TABLE `shipplan` (
 CREATE TABLE `transline` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COMMENT '编码',
-  `startlocation` varchar(200) COMMENT '起始区域地点',
+  `startlocation` bigint COMMENT '起始区域地点',
   `endlocation` varchar(200) COMMENT '结束区域地点',
   `distance` double COMMENT '距离',
   `freight` double COMMENT '运费',
@@ -557,7 +490,7 @@ CREATE TABLE `drivers` (
   `code` varchar(50) COMMENT '编码',
   `name` varchar(20) COMMENT '姓名',
   `phone` varchar(20) COMMENT '电话',
-  `fleet` varchar(50) COMMENT '所属车队',
+  `transteam` bigint COMMENT '所属车队',
   `documentno` varchar(50) COMMENT '证件号',
   `driveage` int COMMENT '驾龄',
   `type` varchar(20) COMMENT '类型（有、无车）',
@@ -587,134 +520,121 @@ CREATE TABLE `todolist` (
 
 
 -- 空箱计划用箱单主表
-CREATE TABLE `plan_kongxiang_main`(
+DROP TABLE IF EXISTS `emptymain`;
+CREATE TABLE `emptymain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `org_id` int COMMENT '组织id',
-  `orgcode` varchar(50) COMMENT '组织编码',
-  `lazingno` varchar(50) COMMENT '提单号',
+  `org_id` bigint COMMENT '客户id',
+  `ladingcode` varchar(50) COMMENT '提单号',
   `shipname` varchar(20) COMMENT '船名',
-  `voyage` varchar(50) COMMENT '航次', 
+  `flight` varchar(50) COMMENT '航次', 
   `portid` bigint COMMENT '港口',
   `boxqty` bigint COMMENT '箱量',
   `boxtype` varchar(50) COMMENT '箱型',
-  `startplace_id` bigint COMMENT '提箱场站',
-  `endplace_id` bigint COMMENT '放箱地点',  
-  `closedate` datetime COMMENT '截港时间',
-  `client` varchar(200) COMMENT '客户',
-  `clerk` varchar(20) COMMENT '业务员',
+  `endplace_id` bigint COMMENT '目的地', 
+  `bgnshipdate` datetime COMMENT '集港时间',
+  `endshipdate` datetime COMMENT '截港时间',
   `bgnplanarrtime` datetime COMMENT '最早到场时间',
   `endplanarrtime` datetime COMMENT '最晚到场时间',
-  `trancompanyid` bigint COMMENT '运输公司',
-  `remark` varchar(500) COMMENT '备注',
-  `billstate` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
-  `billuser` varchar(20) COMMENT '制单人',
-  `billdate` datetime COMMENT '制单日期',
+  `remark` varchar(1000) COMMENT '备注',
+  `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
   `accuser` varchar(20) COMMENT '审核人',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='空箱计划用箱单主表';
-
--- 空箱计划用箱单明细表
-CREATE TABLE `plan_kongxiang_detailed`(
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `billno` varchar(50) COMMENT '单据号',
-  `serialno` bigint COMMENT '序号',
-  `risiboxplace` varchar(200) COMMENT '提箱点',
-  `boxno` varchar(50) COMMENT '箱号',
-  `plantaketime` datetime COMMENT '计划提箱时间',
-  `realarrtime` datetime COMMENT '实际到场时间',  
-  `carno` varchar(20) COMMENT '车牌号',
-  `cartype` varchar(20) COMMENT '车型',
-  `driversid` varchar(20) COMMENT '司机编码',
-  `driversname` varchar(20) COMMENT '司机姓名',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='空箱计划用箱单明细表';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='空箱计划';
+ 
 -- 重箱计划主表
-CREATE TABLE `plan_chongxiang_main`(
-  `id` bigint NOT NULL AUTO_INCREMENT,
+CREATE TABLE `heavymain`(
+   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `ladingno` varchar(50) COMMENT '提单号',
+  `org_id` bigint COMMENT '客户id',
+  `ladingcode` varchar(50) COMMENT '提单号',
+  `shipname` varchar(20) COMMENT '船名',
+  `flight` varchar(50) COMMENT '航次', 
+  `portid` bigint COMMENT '港口',
   `boxqty` bigint COMMENT '箱量',
   `boxtype` varchar(50) COMMENT '箱型',
-  `termini_id` bigint COMMENT '目的地',
-  `departure_id` bigint COMMENT '起运地',
-  `planarrporttime` datetime COMMENT '预计到港时间',
-  `port` varchar(50) COMMENT '港口',
-  `shipname` varchar(20) COMMENT '船名',
-  `voyage` varchar(50) COMMENT '航次',
-  `client` varchar(50) COMMENT '客户',
-  `billuser` varchar(20) COMMENT '制单人',
-  `billdate` datetime COMMENT '制单日期',
+  `endplace_id` bigint COMMENT '目的地', 
+  `bgnshipdate` datetime COMMENT '集港时间',
+  `endshipdate` datetime COMMENT '截港时间',
+  `bgnplanarrtime` datetime COMMENT '最早到场时间',
+  `endplanarrtime` datetime COMMENT '最晚到场时间',
+  `remark` varchar(1000) COMMENT '备注',
+  `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
   `accuser` varchar(20) COMMENT '审核人',
   `accdate` datetime COMMENT '审核日期',
-  `uptdate` datetime COMMENT '更新时间',
+  `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='重箱计划主表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='重箱计划';
+ 
 
--- 重箱计划明细表
-CREATE TABLE `plan_chongxiang_detailed`(
-  `id` bigint NOT NULL AUTO_INCREMENT,
+-- 门点计划主表
+CREATE TABLE `factorymain`(
+   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `serialno` bigint COMMENT '序号',
-  `plateno` varchar(20) COMMENT '车牌号',
-  `drivers` varchar(20) COMMENT '司机',
-  `realarrporttime` datetime COMMENT '实际到港时间',
-  `boxno` varchar(50) COMMENT '箱号',
-  `goods` varchar(50) COMMENT '货品',
+  `org_id` bigint COMMENT '客户id',
+  `ladingcode` varchar(50) COMMENT '提单号',
+  `shipname` varchar(20) COMMENT '船名',
+  `flight` varchar(50) COMMENT '航次', 
+  `portid` bigint COMMENT '港口',
+  `boxqty` bigint COMMENT '箱量',
+  `boxtype` varchar(50) COMMENT '箱型',
+  `endplace_id` bigint COMMENT '目的地', 
+  `bgnshipdate` datetime COMMENT '集港时间',
+  `endshipdate` datetime COMMENT '截港时间',
+  `bgnplanarrtime` datetime COMMENT '最早到场时间',
+  `endplanarrtime` datetime COMMENT '最晚到场时间',
+  `remark` varchar(1000) COMMENT '备注',
+  `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='重箱计划明细表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='门点计划';
+ 
+
 
 -- 预约用箱单主表
-CREATE TABLE `plan_yuyue_main`(
-  `id` bigint NOT NULL AUTO_INCREMENT,
+CREATE TABLE `preemptymain`(
+   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `useboxtime` datetime COMMENT '用箱时间',
-  `shipcompany` varchar(50) COMMENT '船公司',
+  `org_id` bigint COMMENT '客户id',
+  `ladingcode` varchar(50) COMMENT '提单号',
+  `shipname` varchar(20) COMMENT '船名',
+  `flight` varchar(50) COMMENT '航次', 
+  `portid` bigint COMMENT '港口',
   `boxqty` bigint COMMENT '箱量',
   `boxtype` varchar(50) COMMENT '箱型',
-  `risiboxplace` varchar(200) COMMENT '提箱点',
-  `planarrtime` datetime COMMENT '计划到场时间',
-  `clientinfo` varchar(200) COMMENT '客户信息',
-  `losedate` datetime COMMENT '失效日期',
-  `billstate` int COMMENT '单据状态    0：新增   1：审核   2：预约中  3：完成   4：失效',
-  `billuser` varchar(20) COMMENT '制单人',
-  `billdate` datetime COMMENT '制单日期',
+  `endplace_id` bigint COMMENT '目的地', 
+  `bgntakedate` datetime COMMENT '计划开始日期',
+  `endtakedate` datetime COMMENT '计划截止日期',
+  `remark` varchar(1000) COMMENT '备注',
+  `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
   `accuser` varchar(20) COMMENT '审核人',
   `accdate` datetime COMMENT '审核日期',
-  `uptdate` datetime COMMENT '更新时间',
+  `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预约用箱单主表';
-
--- 预约用箱单明细表
-CREATE TABLE `plan_yuyue_detailed`(
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `billno` varchar(50) COMMENT '单据号',
-  `serialno` bigint COMMENT '序号',
-  `risiboxplace` varchar(200) COMMENT '提箱点',
-  `returnboxplace` varchar(200) COMMENT '还箱点',
-  `dockplace` varchar(200) COMMENT '装卸地',
-  `plateno` varchar(20) COMMENT '车牌号',    
-  `drivers` varchar(20) COMMENT '司机',
-  `realarrtime` datetime COMMENT '实际到场时间',
-  `shipname` varchar(20) COMMENT '船名',
-  `voyage` varchar(50) COMMENT '航次',
-  `ladingno` varchar(50) COMMENT '提单号',
-  `boxno` varchar(50) COMMENT '箱号',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预约用箱单明细表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预约用箱';
+ 
 
 -- 疏港计划主表
-CREATE TABLE `plan_shugang_main`(
+CREATE TABLE `leaveportmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `port` varchar(50) COMMENT '港口',
   `shipcompany` varchar(50) COMMENT '船公司',
   `boxqty` bigint COMMENT '箱量',
   `boxtype` varchar(50) COMMENT '箱型',
-  `placecode` varchar(50) COMMENT '场站编码',
+  `endplace_id` bigint COMMENT '目的地', 
   `planarrporttime` datetime COMMENT '预计到港时间',
   `planarrtime` datetime COMMENT '预计到场时间',
   `billuser` varchar(20) COMMENT '制单人',
@@ -723,22 +643,115 @@ CREATE TABLE `plan_shugang_main`(
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='疏港计划主表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='疏港计划';
+ 
  
 
--- 疏港计划明细表
-CREATE TABLE `plan_shugang_detailed`(
+-- 放箱计划主表
+DROP TABLE IF EXISTS `takeboxmain`;
+CREATE TABLE `takeboxmain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `refbillno` varchar(50) COMMENT '参照单据号',
+  `refbilltype` int COMMENT '参照单据类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约',
+  `org_id` bigint COMMENT '客户id',
+  `ladingcode` varchar(50) COMMENT '提单号',
+  `shipname` varchar(20) COMMENT '船名',
+  `flight` varchar(50) COMMENT '航次', 
+  `portid` bigint COMMENT '港口',
+  `boxqty` bigint COMMENT '箱量',
+  `boxtype` varchar(50) COMMENT '箱型',
+  `takeboxplaceid` bigint COMMENT '提箱场站', 
+  `endplaceid` bigint COMMENT '目的地', -- 空箱计划就是仓库  重箱计划就是港口  门店计划就是工厂
+  `bgnshipdate` datetime COMMENT '集港时间',
+  `endshipdate` datetime COMMENT '截港时间',
+  `bgnplanarrtime` datetime COMMENT '最早到场时间',
+  `endplanarrtime` datetime COMMENT '最晚到场时间',
+  `remark` varchar(1000) COMMENT '备注',
+  `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `uptdate` datetime COMMENT '更新时间', 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='放箱计划';
+
+-- 放箱计划明细表
+DROP TABLE IF EXISTS `takeboxdetail`;
+CREATE TABLE `takeboxdetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `boxno` bigint COMMENT '箱号',
-  `trancompanycode` varchar(50) COMMENT '运输公司编码',
-  `plateno` varchar(20) COMMENT '车牌号',
-  `drivers` varchar(20) COMMENT '司机',
-  `realarrporttime` datetime COMMENT '实际到港时间',
-  `realarrtime` datetime COMMENT '实际到场时间',
+  `transcompanyid` bigint COMMENT '运输公司',
+  `startplaceid1` bigint COMMENT '原起运地点',
+  `startplaceid2` bigint COMMENT '现起运点',
+  `endplaceid2` bigint COMMENT '目的地',
+  `boxno` varchar(50) COMMENT '箱号',
+  `plantaketime` datetime COMMENT '计划提箱时间',-- 对于重箱计划，就是从仓库的提箱时间
+  `realtaketime` datetime COMMENT '实际提箱时间',
+  `planarrvetime` datetime COMMENT '计划到场时间',  
+  `realarrvetime` datetime COMMENT '实际到场时间',  
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='疏港计划明细表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='放箱计划明细表';
+
+
+
+
+-- 运输计划主表
+DROP TABLE IF EXISTS `transboxmain`;
+CREATE TABLE `transboxmain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `reftakebillno` varchar(50) COMMENT '放箱计划单据号',
+  `refbillno` varchar(50) COMMENT '要箱计划单据号',
+  `refbilltype` int COMMENT '要箱计划类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约',
+  `org_id` bigint COMMENT '客户id',
+  `ladingcode` varchar(50) COMMENT '提单号',
+  `shipname` varchar(20) COMMENT '船名',
+  `flight` varchar(50) COMMENT '航次', 
+  `portid` bigint COMMENT '港口',
+  `boxqty` bigint COMMENT '箱量',
+  `boxtype` varchar(50) COMMENT '箱型',
+  `transcompanyid` bigint COMMENT '运输公司',
+  `bgnshipdate` datetime COMMENT '集港时间',
+  `endshipdate` datetime COMMENT '截港时间',
+  `bgnplanarrtime` datetime COMMENT '最早到场时间',
+  `endplanarrtime` datetime COMMENT '最晚到场时间',
+  `remark` varchar(1000) COMMENT '备注',
+  `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `uptdate` datetime COMMENT '更新时间', 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运输计划';
+
+-- 运输计划明细表
+DROP TABLE IF EXISTS `transboxdetail`;
+CREATE TABLE `transboxdetail`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `serialno` bigint COMMENT '序号',
+  `reftakebillno` varchar(50) COMMENT '放箱计划单据号',
+  `refserialno` bigint COMMENT '放箱计划序号',
+  `startplaceid1` bigint COMMENT '原起运地点',
+  `startplaceid2` bigint COMMENT '现起运点',
+  `endplaceid2` bigint COMMENT '目的地',
+  `boxno` varchar(50) COMMENT '箱号',
+  `plantaketime` datetime COMMENT '计划提箱时间',-- 对于重箱计划，就是从仓库的提箱时间
+  `realtaketime` datetime COMMENT '实际提箱时间',
+  `planarrvetime` datetime COMMENT '计划到场时间',  
+  `realarrvetime` datetime COMMENT '实际到场时间',  
+  `carno` varchar(20) COMMENT '车牌号',
+  `cartype` varchar(20) COMMENT '车型',
+  `driversid` bigint COMMENT '司机编码',
+  `driversname` varchar(20) COMMENT '司机姓名',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运输计划明细表';
+
+
 
 -- 预算科目
 create table `accountcategory`(
