@@ -44,10 +44,10 @@
 
         </div>
         <form class="layui-form layui-form-pane">
-
+        <div class="layui-form-item">
             #foreach($column in $columns)
                 #if($column.columnName != $pk.columnName)
-                <div class="layui-form-item">
+
                         <div clacc="layui-inline">
                         <label class="layui-form-label">${column.comments}</label>
                         <div class="layui-input-inline">
@@ -55,10 +55,10 @@
                                    placeholder="${column.comments}"/>
                         </div>
                         </div>
-                </div>
+
                 #end
             #end
-
+         </div>
         </form>
     </div>
 </div>

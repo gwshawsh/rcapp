@@ -4,11 +4,22 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.TakeboxmainDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity">
-		select * from takeboxmain where id = #{value}
+		select a.*,
+		ifnull((select name from organization b where a.orgid=b.id),'') as orgname,
+		ifnull((select name from place b where a.takeboxplaceid=b.id),'') as takeboxplacename,
+		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename,
+		ifnull((select name from place b where a.portid=b.id),'') as portname from
+		 takeboxmain a
+		where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity">
-		select * from takeboxmain 
+		select a.*,
+		ifnull((select name from organization b where a.orgid=b.id),'') as orgname,
+		ifnull((select name from place b where a.takeboxplaceid=b.id),'') as takeboxplacename,
+		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename,
+		ifnull((select name from place b where a.portid=b.id),'') as portname from
+		takeboxmain a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -24,7 +35,7 @@
 			`billno`, 
 			`refbillno`, 
 			`refbilltype`, 
-			`org_id`, 
+			`orgid`,
 			`ladingcode`, 
 			`shipname`, 
 			`flight`, 
@@ -37,6 +48,8 @@
 			`endshipdate`, 
 			`bgnplanarrtime`, 
 			`endplanarrtime`, 
+			`yingshou`, 
+			`yingfu`, 
 			`remark`, 
 			`billstatus`, 
 			`makeuser`, 
@@ -63,6 +76,8 @@
 			#{endshipdate}, 
 			#{bgnplanarrtime}, 
 			#{endplanarrtime}, 
+			#{yingshou}, 
+			#{yingfu}, 
 			#{remark}, 
 			#{billstatus}, 
 			#{makeuser}, 
@@ -79,7 +94,7 @@
 			<if test="billno != null">`billno` = #{billno}, </if>
 			<if test="refbillno != null">`refbillno` = #{refbillno}, </if>
 			<if test="refbilltype != null">`refbilltype` = #{refbilltype}, </if>
-			<if test="orgId != null">`org_id` = #{orgId}, </if>
+			<if test="orgId != null">`orgid` = #{orgId}, </if>
 			<if test="ladingcode != null">`ladingcode` = #{ladingcode}, </if>
 			<if test="shipname != null">`shipname` = #{shipname}, </if>
 			<if test="flight != null">`flight` = #{flight}, </if>
@@ -92,6 +107,8 @@
 			<if test="endshipdate != null">`endshipdate` = #{endshipdate}, </if>
 			<if test="bgnplanarrtime != null">`bgnplanarrtime` = #{bgnplanarrtime}, </if>
 			<if test="endplanarrtime != null">`endplanarrtime` = #{endplanarrtime}, </if>
+			<if test="yingshou != null">`yingshou` = #{yingshou}, </if>
+			<if test="yingfu != null">`yingfu` = #{yingfu}, </if>
 			<if test="remark != null">`remark` = #{remark}, </if>
 			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
 			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>

@@ -6,11 +6,11 @@ import java.util.Date;
 
 
 /**
- * 港口基础信息表
+ * 地点管理
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 20:02:48
+ * @date 2017-05-29 16:53:37
  */
 public class PlaceEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -21,8 +21,8 @@ public class PlaceEntity implements Serializable {
 	private String code;
 	//名称
 	private String name;
-	//所属区域
-	private String region;
+	//联系人
+	private String linkman;
 	//联系电话
 	private String phone;
 	//地址
@@ -31,8 +31,8 @@ public class PlaceEntity implements Serializable {
 	private String longitude;
 	//纬度
 	private String latitude;
-	//类型   0：港口   1：仓库   2：堆场
-	private Integer type;
+	//地点类型 0：仓库 1:工厂 2:堆场
+	private Integer placetype;
 
 	/**
 	 * 设置：
@@ -71,16 +71,16 @@ public class PlaceEntity implements Serializable {
 		return name;
 	}
 	/**
-	 * 设置：所属区域
+	 * 设置：联系人
 	 */
-	public void setRegion(String region) {
-		this.region = region;
+	public void setLinkman(String linkman) {
+		this.linkman = linkman;
 	}
 	/**
-	 * 获取：所属区域
+	 * 获取：联系人
 	 */
-	public String getRegion() {
-		return region;
+	public String getLinkman() {
+		return linkman;
 	}
 	/**
 	 * 设置：联系电话
@@ -131,15 +131,15 @@ public class PlaceEntity implements Serializable {
 		return latitude;
 	}
 	/**
-	 * 设置：类型   0：港口   1：仓库   2：堆场
+	 * 设置：地点类型 0：仓库 1:工厂 2:堆场
 	 */
-	public void setType(Integer type) {
-		this.type = type;
+	public void setPlacetype(Integer placetype) {
+		this.placetype = placetype;
 	}
 	/**
-	 * 获取：类型   0：港口   1：仓库   2：堆场
+	 * 获取：地点类型 0：仓库 1:工厂 2:堆场
 	 */
-	public Integer getType() {
-		return type;
+	public Integer getPlacetype() {
+		return placetype;
 	}
 }

@@ -1,11 +1,14 @@
 package com.ruanchuangsoft.platform.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
+import com.ruanchuangsoft.platform.entity.TakeboxdetailEntity;
+import com.ruanchuangsoft.platform.entity.TakeboxmainEntity;
+import com.ruanchuangsoft.platform.service.TakeboxdetailService;
+import com.ruanchuangsoft.platform.service.TakeboxmainService;
+import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +35,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class EmptymainController extends AbstractController {
 	@Autowired
 	private EmptymainService emptymainService;
+
+	@Autowired
+	private TakeboxmainService takeboxmainService;
 
 	@RequestMapping("/emptymain")
 	public String list(){
@@ -118,5 +124,68 @@ public class EmptymainController extends AbstractController {
 
 		return R.ok();
 	}
+
+	/**
+	 * 审核要想计划,自动生成方向计划
+	 */
+	@ResponseBody
+	@RequestMapping("/shenhe")
+	@RequiresPermissions("emptymain:shenhe")
+	public R accbill(@RequestBody  Long[] ids){
+		for(long id:ids){
+			EmptymainEntity emptymain=emptymainService.queryObject(id);
+			if(emptymain!=null){
+				emptymain.setAccdate(new Date());
+				emptymain.setAccuser(ShiroUtils.getUserName());
+				emptymainService.update(emptymain);
+
+				TakeboxmainEntity takeboxmainEntity=new TakeboxmainEntity();
+				String billno=getBillNo("TB");
+				takeboxmainEntity.setBillno(billno);
+				takeboxmainEntity.setRefbillno(emptymain.getBillno());
+				takeboxmainEntity.setRefbilltype(0);
+				takeboxmainEntity.setOrgId(emptymain.getOrgId());
+				takeboxmainEntity.setLadingcode(emptymain.getLadingcode());
+				takeboxmainEntity.setShipname(emptymain.getShipname());
+				takeboxmainEntity.setFlight(emptymain.getFlight());
+				takeboxmainEntity.setPortid(emptymain.getPortid());
+				takeboxmainEntity.setBoxqty(emptymain.getBoxqty());
+				takeboxmainEntity.setBoxtype(emptymain.getBoxtype());
+				takeboxmainEntity.setTakeboxplaceid(emptymain.getTakeboxplaceid());
+				takeboxmainEntity.setEndplaceid(emptymain.getEndplaceId());
+				takeboxmainEntity.setBgnplanarrtime(emptymain.getBgnplanarrtime());
+				takeboxmainEntity.setEndplanarrtime(emptymain.getEndplanarrtime());
+				takeboxmainEntity.setMakedate(new Date());
+				takeboxmainEntity.setMakeuser(ShiroUtils.getUserName());
+
+				List<TakeboxdetailEntity> details=new ArrayList<>();
+
+				//创建明细
+				for(int i=0;i<emptymain.getBoxqty();i++){
+					TakeboxdetailEntity takeboxdetailEntity=new TakeboxdetailEntity();
+					takeboxdetailEntity.setBillno(billno);
+					takeboxdetailEntity.setSerialno((long)i);
+					takeboxdetailEntity.setBoxno("");
+					takeboxdetailEntity.setStartplaceid1(emptymain.getTakeboxplaceid());
+					takeboxdetailEntity.setStartplaceid2(emptymain.getTakeboxplaceid());
+					takeboxdetailEntity.setendplaceid(emptymain.getEndplaceId());
+
+					details.add(takeboxdetailEntity);
+
+				}
+				takeboxmainEntity.setDetails(details);
+
+				takeboxmainService.save(takeboxmainEntity);
+			}
+		}
+
+
+
+
+		return R.ok();
+	}
+
+
+
 
 }

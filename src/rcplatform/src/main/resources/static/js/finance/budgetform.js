@@ -12,19 +12,7 @@ var vm = new Vue({
         query: function () {
             vm.reload();
         },
-        queryDetail:function(){
-            var id = getSelectedRow();
-            if (id == null) {
-                return;
-            }
-            vm.showDetailList = true;
 
-            $("#jqGridDetail").jqGrid('setGridParam', {
-                page: 1,
-                postData:{'formid':id},
-                datatype: "json"
-            }).trigger("reloadGrid");
-        },
         getTree: function(menuId){
             //加载菜单树
             $.get("/sys/dept/select", function(r){
@@ -142,6 +130,19 @@ var vm = new Vue({
 
 
         //单据明细的相关操作
+        queryDetail:function(){
+            var id = getSelectedRow();
+            if (id == null) {
+                return;
+            }
+            vm.showDetailList = true;
+
+            $("#jqGridDetail").jqGrid('setGridParam', {
+                page: 1,
+                postData:{'formid':id},
+                datatype: "json"
+            }).trigger("reloadGrid");
+        },
         additem:function(){
             var idx=vm.budgetform.details.length;
             var item={billno:"*",serialno:idx,name:" ",usage:" "+idx,planmoney:"0",accountid:""};

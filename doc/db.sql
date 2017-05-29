@@ -60,7 +60,7 @@ CREATE TABLE `sys_user` (
   `email` varchar(100) COMMENT '邮箱',
   `mobile` varchar(100) COMMENT '手机号',
   `status` tinyint COMMENT '状态  0：禁用   1：正常',
-  `org_id` bigint NULL COMMENT '所属组织',
+  `orgid` bigint NULL COMMENT '所属组织',
   `dept_id` bigint NULL COMMENT '所属部门',
   `create_time` datetime COMMENT '创建时间',
   PRIMARY KEY (`user_id`),
@@ -342,6 +342,20 @@ CREATE TABLE `organization` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织管理';
 
+-- 地点管理 
+DROP TABLE IF EXISTS `place` ;
+CREATE TABLE `place` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `name` varchar(50) COMMENT '名称', 
+  `linkman` varchar(50) COMMENT '联系人', 
+  `phone` varchar(20) COMMENT '联系电话',
+  `address` varchar(200) COMMENT '地址',
+  `longitude` varchar(50) COMMENT '经度',
+  `latitude` varchar(50) COMMENT '纬度',
+   `placetype` int COMMENT '地点类型 0：仓库 1:工厂 2:堆场',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='地点管理';
 
 
 -- 仓库
@@ -498,13 +512,14 @@ CREATE TABLE `drivers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='司机基础信息表';
 
 -- 箱型管理
+DROP TABLE IF EXISTS `boxs`;
 CREATE TABLE `boxs` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COMMENT '编码',
-  `box_size` varchar(50) COMMENT '箱型尺寸',
+  `boxsize` varchar(50) COMMENT '箱型尺寸',
   `weight` varchar(10) COMMENT '重量',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='箱型基础信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='箱型管理';
 
 -- 待办事项
 CREATE TABLE `todolist` (
@@ -524,14 +539,15 @@ DROP TABLE IF EXISTS `emptymain`;
 CREATE TABLE `emptymain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `org_id` bigint COMMENT '客户id',
+  `orgid` bigint COMMENT '客户id',
   `ladingcode` varchar(50) COMMENT '提单号',
   `shipname` varchar(20) COMMENT '船名',
   `flight` varchar(50) COMMENT '航次', 
   `portid` bigint COMMENT '港口',
   `boxqty` bigint COMMENT '箱量',
   `boxtype` varchar(50) COMMENT '箱型',
-  `endplace_id` bigint COMMENT '目的地', 
+  `takeboxplaceid` bigint COMMENT '提箱场站', 
+  `endplaceid` bigint COMMENT '目的地', 
   `bgnshipdate` datetime COMMENT '集港时间',
   `endshipdate` datetime COMMENT '截港时间',
   `bgnplanarrtime` datetime COMMENT '最早到场时间',
@@ -547,17 +563,19 @@ CREATE TABLE `emptymain`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='空箱计划';
  
 -- 重箱计划主表
+DROP TABLE IF EXISTS `heavymain`;
 CREATE TABLE `heavymain`(
    `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `org_id` bigint COMMENT '客户id',
+  `orgid` bigint COMMENT '客户id',
   `ladingcode` varchar(50) COMMENT '提单号',
   `shipname` varchar(20) COMMENT '船名',
   `flight` varchar(50) COMMENT '航次', 
   `portid` bigint COMMENT '港口',
   `boxqty` bigint COMMENT '箱量',
   `boxtype` varchar(50) COMMENT '箱型',
-  `endplace_id` bigint COMMENT '目的地', 
+  `takeboxplaceid` bigint COMMENT '提箱场站', 
+  `endplaceid` bigint COMMENT '目的地', 
   `bgnshipdate` datetime COMMENT '集港时间',
   `endshipdate` datetime COMMENT '截港时间',
   `bgnplanarrtime` datetime COMMENT '最早到场时间',
@@ -574,17 +592,20 @@ CREATE TABLE `heavymain`(
  
 
 -- 门点计划主表
+DROP TABLE IF EXISTS `factorymain`;
 CREATE TABLE `factorymain`(
    `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `org_id` bigint COMMENT '客户id',
+  `orgid` bigint COMMENT '客户id',
   `ladingcode` varchar(50) COMMENT '提单号',
   `shipname` varchar(20) COMMENT '船名',
   `flight` varchar(50) COMMENT '航次', 
   `portid` bigint COMMENT '港口',
   `boxqty` bigint COMMENT '箱量',
   `boxtype` varchar(50) COMMENT '箱型',
-  `endplace_id` bigint COMMENT '目的地', 
+  `takeboxplaceid` bigint COMMENT '提箱场站', 
+  `endplaceid` bigint COMMENT '装卸地', 
+  `backplaceid` bigint COMMENT '返回地', 
   `bgnshipdate` datetime COMMENT '集港时间',
   `endshipdate` datetime COMMENT '截港时间',
   `bgnplanarrtime` datetime COMMENT '最早到场时间',
@@ -602,17 +623,19 @@ CREATE TABLE `factorymain`(
 
 
 -- 预约用箱单主表
+DROP TABLE IF EXISTS `preemptymain`;
 CREATE TABLE `preemptymain`(
    `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `org_id` bigint COMMENT '客户id',
+  `orgid` bigint COMMENT '客户id',
   `ladingcode` varchar(50) COMMENT '提单号',
   `shipname` varchar(20) COMMENT '船名',
   `flight` varchar(50) COMMENT '航次', 
   `portid` bigint COMMENT '港口',
   `boxqty` bigint COMMENT '箱量',
   `boxtype` varchar(50) COMMENT '箱型',
-  `endplace_id` bigint COMMENT '目的地', 
+  `takeboxplaceid` bigint COMMENT '提箱场站', 
+  `endplaceid` bigint COMMENT '目的地', 
   `bgntakedate` datetime COMMENT '计划开始日期',
   `endtakedate` datetime COMMENT '计划截止日期',
   `remark` varchar(1000) COMMENT '备注',
@@ -627,6 +650,7 @@ CREATE TABLE `preemptymain`(
  
 
 -- 疏港计划主表
+DROP TABLE IF EXISTS `leaveportmain`;
 CREATE TABLE `leaveportmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
@@ -634,7 +658,8 @@ CREATE TABLE `leaveportmain`(
   `shipcompany` varchar(50) COMMENT '船公司',
   `boxqty` bigint COMMENT '箱量',
   `boxtype` varchar(50) COMMENT '箱型',
-  `endplace_id` bigint COMMENT '目的地', 
+    `takeboxplaceid` bigint COMMENT '提箱场站', 
+  `endplaceid` bigint COMMENT '目的地', 
   `planarrporttime` datetime COMMENT '预计到港时间',
   `planarrtime` datetime COMMENT '预计到场时间',
   `billuser` varchar(20) COMMENT '制单人',
@@ -654,7 +679,7 @@ CREATE TABLE `takeboxmain`(
   `billno` varchar(50) COMMENT '单据号',
   `refbillno` varchar(50) COMMENT '参照单据号',
   `refbilltype` int COMMENT '参照单据类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约',
-  `org_id` bigint COMMENT '客户id',
+  `orgid` bigint COMMENT '客户id',
   `ladingcode` varchar(50) COMMENT '提单号',
   `shipname` varchar(20) COMMENT '船名',
   `flight` varchar(50) COMMENT '航次', 
@@ -667,6 +692,8 @@ CREATE TABLE `takeboxmain`(
   `endshipdate` datetime COMMENT '截港时间',
   `bgnplanarrtime` datetime COMMENT '最早到场时间',
   `endplanarrtime` datetime COMMENT '最晚到场时间',
+  `yingshou` double COMMENT '应收费用',
+  `yingfu` double COMMENT '应付费用',
   `remark` varchar(1000) COMMENT '备注',
   `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
   `makeuser` varchar(20) COMMENT '制单人',
@@ -686,12 +713,14 @@ CREATE TABLE `takeboxdetail`(
   `transcompanyid` bigint COMMENT '运输公司',
   `startplaceid1` bigint COMMENT '原起运地点',
   `startplaceid2` bigint COMMENT '现起运点',
-  `endplaceid2` bigint COMMENT '目的地',
+  `endplaceid` bigint COMMENT '目的地',
   `boxno` varchar(50) COMMENT '箱号',
   `plantaketime` datetime COMMENT '计划提箱时间',-- 对于重箱计划，就是从仓库的提箱时间
   `realtaketime` datetime COMMENT '实际提箱时间',
   `planarrvetime` datetime COMMENT '计划到场时间',  
-  `realarrvetime` datetime COMMENT '实际到场时间',  
+  `realarrvetime` datetime COMMENT '实际到场时间', 
+  `yingshou` double COMMENT '应收费用',
+  `yingfu` double COMMENT '应付费用', 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='放箱计划明细表';
 
@@ -706,7 +735,7 @@ CREATE TABLE `transboxmain`(
   `reftakebillno` varchar(50) COMMENT '放箱计划单据号',
   `refbillno` varchar(50) COMMENT '要箱计划单据号',
   `refbilltype` int COMMENT '要箱计划类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约',
-  `org_id` bigint COMMENT '客户id',
+  `orgid` bigint COMMENT '客户id',
   `ladingcode` varchar(50) COMMENT '提单号',
   `shipname` varchar(20) COMMENT '船名',
   `flight` varchar(50) COMMENT '航次', 

@@ -1,0 +1,71 @@
+<div id="ref_place" style="display: none;padding:10px;">
+    <table id="ref_grid_place"></table>
+    <div id="ref_gridpager_place"></div>
+</div>
+<script>
+    function showrefgrid_place(title, callback) {
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_place"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_place");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_place").jqGrid({
+            url: '../place/list',
+            datatype: "json",
+            colModel: [
+                {label: 'id', name: 'id', width: 50, key: true},
+                {label: '编码', name: 'code', width: 80},
+                {label: '名称', name: 'name', width: 80},
+                {label: '联系人', name: 'linkman', width: 80},
+                {label: '联系电话', name: 'phone', width: 80},
+                {label: '地址', name: 'address', width: 80},
+                {label: '经度', name: 'longitude', width: 80},
+                {label: '纬度', name: 'latitude', width: 80},
+                {label: '地点类型 0：仓库 1:工厂 2:堆场', name: 'placetype', width: 80}
+            ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_place",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

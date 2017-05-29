@@ -93,6 +93,22 @@ function getSelectedRow() {
     return selectedIDs[0];
 }
 
+
+//选择一条记录
+function getSelectedRowData(gridid) {
+	var tmpid=gridid||"jqGrid";
+	var grid = $("#"+tmpid);
+	var rowKey = grid.getGridParam("selrow");
+	if(!rowKey){
+		//alert("请选择一条记录");
+		return ;
+	}
+
+	var row = grid.getRowData(rowKey);
+
+	return row;
+}
+
 //选择多条记录
 function getSelectedRows() {
     var grid = $("#jqGrid");

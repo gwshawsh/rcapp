@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ruanchuangsoft.platform.dao.FactorymainDao">
+<mapper namespace="com.ruanchuangsoft.platform.dao.PreemptymainDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.FactorymainEntity">
-		select * from factorymain where id = #{value}
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.PreemptymainEntity">
+		select * from preemptymain where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.FactorymainEntity">
-		select * from factorymain 
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.PreemptymainEntity">
+		select * from preemptymain 
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from factorymain 
+		select count(*) from preemptymain 
 	</select>
 	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.FactorymainEntity" useGeneratedKeys="true" keyProperty="id">
-		insert into factorymain
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.PreemptymainEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into preemptymain
 		(
 			`billno`, 
 			`orgid`,
@@ -30,10 +30,8 @@
 			`boxqty`, 
 			`boxtype`, 
 			`endplaceid`,
-			`bgnshipdate`, 
-			`endshipdate`, 
-			`bgnplanarrtime`, 
-			`endplanarrtime`, 
+			`bgntakedate`, 
+			`endtakedate`, 
 			`remark`, 
 			`billstatus`, 
 			`makeuser`, 
@@ -53,10 +51,8 @@
 			#{boxqty}, 
 			#{boxtype}, 
 			#{endplaceId}, 
-			#{bgnshipdate}, 
-			#{endshipdate}, 
-			#{bgnplanarrtime}, 
-			#{endplanarrtime}, 
+			#{bgntakedate}, 
+			#{endtakedate}, 
 			#{remark}, 
 			#{billstatus}, 
 			#{makeuser}, 
@@ -67,8 +63,8 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.FactorymainEntity">
-		update factorymain 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.PreemptymainEntity">
+		update preemptymain 
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
 			<if test="orgId != null">`orgid` = #{orgId}, </if>
@@ -79,10 +75,8 @@
 			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
 			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
 			<if test="endplaceId != null">`endplaceid` = #{endplaceId}, </if>
-			<if test="bgnshipdate != null">`bgnshipdate` = #{bgnshipdate}, </if>
-			<if test="endshipdate != null">`endshipdate` = #{endshipdate}, </if>
-			<if test="bgnplanarrtime != null">`bgnplanarrtime` = #{bgnplanarrtime}, </if>
-			<if test="endplanarrtime != null">`endplanarrtime` = #{endplanarrtime}, </if>
+			<if test="bgntakedate != null">`bgntakedate` = #{bgntakedate}, </if>
+			<if test="endtakedate != null">`endtakedate` = #{endtakedate}, </if>
 			<if test="remark != null">`remark` = #{remark}, </if>
 			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
 			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
@@ -95,11 +89,11 @@
 	</update>
 	
 	<delete id="delete">
-		delete from factorymain where id = #{value}
+		delete from preemptymain where id = #{value}
 	</delete>
 	
 	<delete id="deleteBatch">
-		delete from factorymain where id in 
+		delete from preemptymain where id in 
 		<foreach item="id" collection="array" open="(" separator="," close=")">
 			#{id}
 		</foreach>

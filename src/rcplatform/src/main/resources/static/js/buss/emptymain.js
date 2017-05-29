@@ -65,9 +65,13 @@ var vm = new Vue({
             });
         },
         getInfo: function (id) {
-            $.get("../emptymain/info/" + id, function (r) {
-                vm.emptymain = r.emptymain;
-            });
+            var rowdata=getSelectedRowData();
+            if(rowdata!=null){
+                vm.emptymain=rowdata;
+            }
+            //$.get("../emptymain/info/" + id, function (r) {
+            //    vm.emptymain = r.emptymain;
+            //});
         },
         reload: function (event) {
             vm.showList = true;
@@ -77,8 +81,36 @@ var vm = new Vue({
             }).trigger("reloadGrid");
         },
         //放箱
-        takebox: function () {
+        takebox:function(){
+            vm.getInfo();
+            showrefgrid_place("选择提箱场站",function(data){
+                var seldata=data;
+                vm.emptymain.takeboxplaceid=seldata['id'];
+                vm.saveOrUpdate();
+            })
+        },
+        accbill:function(){
+            var ids = getSelectedRows();
+            if (ids == null) {
+                return;
+            }
 
+            confirm('确定要审核选中的记录？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "../emptymain/shenhe",
+                    data: JSON.stringify(ids),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function (index) {
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
         }
     }
 });
@@ -88,16 +120,17 @@ $(function () {
         url: '../emptymain/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', width: 50, key: true},
+            {label: 'id', name: 'id', width: 50, key: true,hidden:true},
             {label: '单据号', name: 'billno', width: 80},
-            {label: '客户id', name: 'orgId', width: 80},
+            {label: '客户', name: 'orgname', width: 80,hidden:true},
             {label: '提单号', name: 'ladingcode', width: 80},
             {label: '船名', name: 'shipname', width: 80},
             {label: '航次', name: 'flight', width: 80},
             {label: '港口', name: 'portid', width: 80},
             {label: '箱量', name: 'boxqty', width: 80},
             {label: '箱型', name: 'boxtype', width: 80},
-            {label: '目的地', name: 'endplaceId', width: 80},
+            {label: '提箱场站', name: 'takeboxplacename', width: 80},
+            {label: '目的地', name: 'endplacename', width: 80},
             {label: '集港时间', name: 'bgnshipdate', width: 80},
             {label: '截港时间', name: 'endshipdate', width: 80},
             {label: '最早到场时间', name: 'bgnplanarrtime', width: 80},
@@ -117,6 +150,7 @@ $(function () {
         rownumbers: true,
         rownumWidth: 25,
         autowidth: true,
+        autoScroll: true,
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader: {
@@ -130,10 +164,10 @@ $(function () {
             rows: "limit",
             order: "order"
         },
-        shrinkToFit:false,
+        shrinkToFit: false,
         gridComplete: function () {
             //隐藏grid底部滚动条
-            //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
+            //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
 

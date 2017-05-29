@@ -8,7 +8,12 @@
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
-		select * from takeboxdetail 
+		select * from takeboxdetail
+		<where>
+			<if test="formid != null">
+				billno in (select billno from takeboxmain where id= #{formid})
+			</if>
+		</where>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -26,12 +31,14 @@
 			`transcompanyid`, 
 			`startplaceid1`, 
 			`startplaceid2`, 
-			`endplaceid2`, 
+			`endplaceid`,
 			`boxno`, 
 			`plantaketime`, 
 			`realtaketime`, 
 			`planarrvetime`, 
-			`realarrvetime`
+			`realarrvetime`, 
+			`yingshou`, 
+			`yingfu`
 		)
 		values
 		(
@@ -40,12 +47,14 @@
 			#{transcompanyid}, 
 			#{startplaceid1}, 
 			#{startplaceid2}, 
-			#{endplaceid2}, 
+			#{endplaceid},
 			#{boxno}, 
 			#{plantaketime}, 
 			#{realtaketime}, 
 			#{planarrvetime}, 
-			#{realarrvetime}
+			#{realarrvetime}, 
+			#{yingshou}, 
+			#{yingfu}
 		)
 	</insert>
 	 
@@ -57,18 +66,24 @@
 			<if test="transcompanyid != null">`transcompanyid` = #{transcompanyid}, </if>
 			<if test="startplaceid1 != null">`startplaceid1` = #{startplaceid1}, </if>
 			<if test="startplaceid2 != null">`startplaceid2` = #{startplaceid2}, </if>
-			<if test="endplaceid2 != null">`endplaceid2` = #{endplaceid2}, </if>
+			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
 			<if test="boxno != null">`boxno` = #{boxno}, </if>
 			<if test="plantaketime != null">`plantaketime` = #{plantaketime}, </if>
 			<if test="realtaketime != null">`realtaketime` = #{realtaketime}, </if>
 			<if test="planarrvetime != null">`planarrvetime` = #{planarrvetime}, </if>
-			<if test="realarrvetime != null">`realarrvetime` = #{realarrvetime}</if>
+			<if test="realarrvetime != null">`realarrvetime` = #{realarrvetime}, </if>
+			<if test="yingshou != null">`yingshou` = #{yingshou}, </if>
+			<if test="yingfu != null">`yingfu` = #{yingfu}</if>
 		</set>
 		where id = #{id}
 	</update>
 	
 	<delete id="delete">
 		delete from takeboxdetail where id = #{value}
+	</delete>
+
+	<delete id="deleteByBillNo">
+		delete from takeboxdetail where billno = #{value}
 	</delete>
 	
 	<delete id="deleteBatch">

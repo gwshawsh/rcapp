@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 20:02:48
+ * @date 2017-05-28 11:51:56
  */
 public class LeaveportmainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

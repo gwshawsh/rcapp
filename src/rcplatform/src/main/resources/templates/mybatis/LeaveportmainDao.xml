@@ -26,7 +26,7 @@
 			`shipcompany`, 
 			`boxqty`, 
 			`boxtype`, 
-			`endplace_id`, 
+			`endplaceid`,
 			`planarrporttime`, 
 			`planarrtime`, 
 			`billuser`, 
@@ -61,7 +61,7 @@
 			<if test="shipcompany != null">`shipcompany` = #{shipcompany}, </if>
 			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
 			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
-			<if test="endplaceId != null">`endplace_id` = #{endplaceId}, </if>
+			<if test="endplaceId != null">`endplaceid` = #{endplaceId}, </if>
 			<if test="planarrporttime != null">`planarrporttime` = #{planarrporttime}, </if>
 			<if test="planarrtime != null">`planarrtime` = #{planarrtime}, </if>
 			<if test="billuser != null">`billuser` = #{billuser}, </if>

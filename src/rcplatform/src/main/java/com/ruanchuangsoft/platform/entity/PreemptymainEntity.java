@@ -6,13 +6,13 @@ import java.util.Date;
 
 
 /**
- * 空箱计划
+ * 预约用箱
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
  * @date 2017-05-28 11:51:56
  */
-public class EmptymainEntity implements Serializable {
+public class PreemptymainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -21,7 +21,6 @@ public class EmptymainEntity implements Serializable {
 	private String billno;
 	//客户id
 	private Long orgId;
-
 	//提单号
 	private String ladingcode;
 	//船名
@@ -30,26 +29,16 @@ public class EmptymainEntity implements Serializable {
 	private String flight;
 	//港口
 	private Long portid;
-
 	//箱量
 	private Long boxqty;
 	//箱型
 	private String boxtype;
-	//提箱场站
-	private Long takeboxplaceid;
-
 	//目的地
 	private Long endplaceId;
-
-
-	//集港时间
-	private Date bgnshipdate;
-	//截港时间
-	private Date endshipdate;
-	//最早到场时间
-	private Date bgnplanarrtime;
-	//最晚到场时间
-	private Date endplanarrtime;
+	//计划开始日期
+	private Date bgntakedate;
+	//计划截止日期
+	private Date endtakedate;
 	//备注
 	private String remark;
 	//单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成
@@ -174,18 +163,6 @@ public class EmptymainEntity implements Serializable {
 		return boxtype;
 	}
 	/**
-	 * 设置：提箱场站
-	 */
-	public void setTakeboxplaceid(Long takeboxplaceid) {
-		this.takeboxplaceid = takeboxplaceid;
-	}
-	/**
-	 * 获取：提箱场站
-	 */
-	public Long getTakeboxplaceid() {
-		return takeboxplaceid;
-	}
-	/**
 	 * 设置：目的地
 	 */
 	public void setEndplaceId(Long endplaceId) {
@@ -198,52 +175,28 @@ public class EmptymainEntity implements Serializable {
 		return endplaceId;
 	}
 	/**
-	 * 设置：集港时间
+	 * 设置：计划开始日期
 	 */
-	public void setBgnshipdate(Date bgnshipdate) {
-		this.bgnshipdate = bgnshipdate;
+	public void setBgntakedate(Date bgntakedate) {
+		this.bgntakedate = bgntakedate;
 	}
 	/**
-	 * 获取：集港时间
+	 * 获取：计划开始日期
 	 */
-	public Date getBgnshipdate() {
-		return bgnshipdate;
+	public Date getBgntakedate() {
+		return bgntakedate;
 	}
 	/**
-	 * 设置：截港时间
+	 * 设置：计划截止日期
 	 */
-	public void setEndshipdate(Date endshipdate) {
-		this.endshipdate = endshipdate;
+	public void setEndtakedate(Date endtakedate) {
+		this.endtakedate = endtakedate;
 	}
 	/**
-	 * 获取：截港时间
+	 * 获取：计划截止日期
 	 */
-	public Date getEndshipdate() {
-		return endshipdate;
-	}
-	/**
-	 * 设置：最早到场时间
-	 */
-	public void setBgnplanarrtime(Date bgnplanarrtime) {
-		this.bgnplanarrtime = bgnplanarrtime;
-	}
-	/**
-	 * 获取：最早到场时间
-	 */
-	public Date getBgnplanarrtime() {
-		return bgnplanarrtime;
-	}
-	/**
-	 * 设置：最晚到场时间
-	 */
-	public void setEndplanarrtime(Date endplanarrtime) {
-		this.endplanarrtime = endplanarrtime;
-	}
-	/**
-	 * 获取：最晚到场时间
-	 */
-	public Date getEndplanarrtime() {
-		return endplanarrtime;
+	public Date getEndtakedate() {
+		return endtakedate;
 	}
 	/**
 	 * 设置：备注
@@ -329,44 +282,4 @@ public class EmptymainEntity implements Serializable {
 	public Date getUptdate() {
 		return uptdate;
 	}
-
-
-    //以下为虚拟字段
-	private String orgname;
-	private String portname;
-	private String takeboxplacename;
-	private String endplacename;
-
-	public String getOrgname() {
-		return orgname;
-	}
-
-	public void setOrgname(String orgname) {
-		this.orgname = orgname;
-	}
-
-	public String getPortname() {
-		return portname;
-	}
-
-	public void setPortname(String portname) {
-		this.portname = portname;
-	}
-
-	public String getTakeboxplacename() {
-		return takeboxplacename;
-	}
-
-	public void setTakeboxplacename(String takeboxplacename) {
-		this.takeboxplacename = takeboxplacename;
-	}
-
-	public String getEndplacename() {
-		return endplacename;
-	}
-
-	public void setEndplacename(String endplacename) {
-		this.endplacename = endplacename;
-	}
-
 }

@@ -23,23 +23,23 @@
 		(
 			`code`, 
 			`name`, 
-			`region`, 
+			`linkman`, 
 			`phone`, 
 			`address`, 
 			`longitude`, 
 			`latitude`, 
-			`type`
+			`placetype`
 		)
 		values
 		(
 			#{code}, 
 			#{name}, 
-			#{region}, 
+			#{linkman}, 
 			#{phone}, 
 			#{address}, 
 			#{longitude}, 
 			#{latitude}, 
-			#{type}
+			#{placetype}
 		)
 	</insert>
 	 
@@ -48,12 +48,12 @@
 		<set>
 			<if test="code != null">`code` = #{code}, </if>
 			<if test="name != null">`name` = #{name}, </if>
-			<if test="region != null">`region` = #{region}, </if>
+			<if test="linkman != null">`linkman` = #{linkman}, </if>
 			<if test="phone != null">`phone` = #{phone}, </if>
 			<if test="address != null">`address` = #{address}, </if>
 			<if test="longitude != null">`longitude` = #{longitude}, </if>
 			<if test="latitude != null">`latitude` = #{latitude}, </if>
-			<if test="type != null">`type` = #{type}</if>
+			<if test="placetype != null">`placetype` = #{placetype}</if>
 		</set>
 		where id = #{id}
 	</update>

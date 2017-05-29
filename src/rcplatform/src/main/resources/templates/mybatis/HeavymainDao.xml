@@ -4,11 +4,22 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.HeavymainDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.HeavymainEntity">
-		select * from heavymain where id = #{value}
+		select a.*,
+		ifnull((select name from organization b where a.orgid=b.id),'') as orgname,
+		ifnull((select name from place b where a.takeboxplaceid=b.id),'') as takeboxplacename,
+		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename,
+		ifnull((select name from place b where a.portid=b.id),'') as portname from
+		heavymain a
+		where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.HeavymainEntity">
-		select * from heavymain 
+		select a.*,
+		ifnull((select name from organization b where a.orgid=b.id),'') as orgname,
+		ifnull((select name from place b where a.takeboxplaceid=b.id),'') as takeboxplacename,
+		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename,
+		ifnull((select name from place b where a.portid=b.id),'') as portname
+		from heavymain a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -22,14 +33,14 @@
 		insert into heavymain
 		(
 			`billno`, 
-			`org_id`, 
+			`orgid`,
 			`ladingcode`, 
 			`shipname`, 
 			`flight`, 
 			`portid`, 
 			`boxqty`, 
 			`boxtype`, 
-			`endplace_id`, 
+			`endplaceid`,
 			`bgnshipdate`, 
 			`endshipdate`, 
 			`bgnplanarrtime`, 
@@ -71,14 +82,14 @@
 		update heavymain 
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="orgId != null">`org_id` = #{orgId}, </if>
+			<if test="orgId != null">`orgid` = #{orgId}, </if>
 			<if test="ladingcode != null">`ladingcode` = #{ladingcode}, </if>
 			<if test="shipname != null">`shipname` = #{shipname}, </if>
 			<if test="flight != null">`flight` = #{flight}, </if>
 			<if test="portid != null">`portid` = #{portid}, </if>
 			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
 			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
-			<if test="endplaceId != null">`endplace_id` = #{endplaceId}, </if>
+			<if test="endplaceId != null">`endplaceid` = #{endplaceId}, </if>
 			<if test="bgnshipdate != null">`bgnshipdate` = #{bgnshipdate}, </if>
 			<if test="endshipdate != null">`endshipdate` = #{endshipdate}, </if>
 			<if test="bgnplanarrtime != null">`bgnplanarrtime` = #{bgnplanarrtime}, </if>

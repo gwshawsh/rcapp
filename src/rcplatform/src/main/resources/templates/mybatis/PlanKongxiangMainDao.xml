@@ -22,7 +22,7 @@
 		insert into plan_kongxiang_main
 		(
 			`billno`, 
-			`org_id`, 
+			`orgid`,
 			`orgcode`, 
 			`lazingno`, 
 			`shipname`, 
@@ -31,7 +31,7 @@
 			`boxqty`, 
 			`boxtype`, 
 			`startplace_id`, 
-			`endplace_id`, 
+			`endplaceid`,
 			`closedate`, 
 			`client`, 
 			`clerk`, 
@@ -79,7 +79,7 @@
 		update plan_kongxiang_main 
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="orgId != null">`org_id` = #{orgId}, </if>
+			<if test="orgId != null">`orgid` = #{orgId}, </if>
 			<if test="orgcode != null">`orgcode` = #{orgcode}, </if>
 			<if test="lazingno != null">`lazingno` = #{lazingno}, </if>
 			<if test="shipname != null">`shipname` = #{shipname}, </if>
@@ -88,7 +88,7 @@
 			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
 			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
 			<if test="startplaceId != null">`startplace_id` = #{startplaceId}, </if>
-			<if test="endplaceId != null">`endplace_id` = #{endplaceId}, </if>
+			<if test="endplaceId != null">`endplaceid` = #{endplaceId}, </if>
 			<if test="closedate != null">`closedate` = #{closedate}, </if>
 			<if test="client != null">`client` = #{client}, </if>
 			<if test="clerk != null">`clerk` = #{clerk}, </if>

@@ -88,12 +88,12 @@ $(function () {
 							                    { label: 'id', name: 'id', width: 50, key: true },
 											                    { label: '编码', name: 'code', width: 80 }, 
 											                    { label: '名称', name: 'name', width: 80 }, 
-											                    { label: '所属区域', name: 'region', width: 80 }, 
+											                    { label: '联系人', name: 'linkman', width: 80 }, 
 											                    { label: '联系电话', name: 'phone', width: 80 }, 
 											                    { label: '地址', name: 'address', width: 80 }, 
 											                    { label: '经度', name: 'longitude', width: 80 }, 
 											                    { label: '纬度', name: 'latitude', width: 80 }, 
-											                    { label: '类型   0：港口   1：仓库   2：堆场', name: 'type', width: 80 }
+											                    { label: '地点类型 0：仓库 1:工厂 2:堆场', name: 'placetype', width: 80 }
 							        ],
         viewrecords: true,
         height: 385,
@@ -101,7 +101,8 @@ $(function () {
         rowList : [10,30,50],
         rownumbers: true,
         rownumWidth: 25,
-        autowidth:true,
+        autowidth: true,
+        autoScroll: true,
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader : {
@@ -115,6 +116,7 @@ $(function () {
             rows:"limit",
             order: "order"
         },
+        shrinkToFit:false,
         gridComplete:function(){
             //隐藏grid底部滚动条
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });

@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 21:36:50
+ * @date 2017-05-28 10:49:15
  */
 public class TakeboxdetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +28,7 @@ public class TakeboxdetailEntity implements Serializable {
 	//现起运点
 	private Long startplaceid2;
 	//目的地
-	private Long endplaceid2;
+	private Long endplaceid;
 	//箱号
 	private String boxno;
 	//计划提箱时间
@@ -39,6 +39,10 @@ public class TakeboxdetailEntity implements Serializable {
 	private Date planarrvetime;
 	//实际到场时间
 	private Date realarrvetime;
+	//应收费用
+	private Double yingshou;
+	//应付费用
+	private Double yingfu;
 
 	/**
 	 * 设置：
@@ -115,14 +119,14 @@ public class TakeboxdetailEntity implements Serializable {
 	/**
 	 * 设置：目的地
 	 */
-	public void setEndplaceid2(Long endplaceid2) {
-		this.endplaceid2 = endplaceid2;
+	public void setendplaceid(Long endplaceid) {
+		this.endplaceid = endplaceid;
 	}
 	/**
 	 * 获取：目的地
 	 */
-	public Long getEndplaceid2() {
-		return endplaceid2;
+	public Long getendplaceid() {
+		return endplaceid;
 	}
 	/**
 	 * 设置：箱号
@@ -183,5 +187,29 @@ public class TakeboxdetailEntity implements Serializable {
 	 */
 	public Date getRealarrvetime() {
 		return realarrvetime;
+	}
+	/**
+	 * 设置：应收费用
+	 */
+	public void setYingshou(Double yingshou) {
+		this.yingshou = yingshou;
+	}
+	/**
+	 * 获取：应收费用
+	 */
+	public Double getYingshou() {
+		return yingshou;
+	}
+	/**
+	 * 设置：应付费用
+	 */
+	public void setYingfu(Double yingfu) {
+		this.yingfu = yingfu;
+	}
+	/**
+	 * 获取：应付费用
+	 */
+	public Double getYingfu() {
+		return yingfu;
 	}
 }

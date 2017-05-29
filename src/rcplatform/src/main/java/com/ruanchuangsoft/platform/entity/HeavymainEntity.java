@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 20:02:48
+ * @date 2017-05-28 11:51:56
  */
 public class HeavymainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -309,5 +309,45 @@ public class HeavymainEntity implements Serializable {
 	 */
 	public Date getUptdate() {
 		return uptdate;
+	}
+
+
+
+	//以下为虚拟字段
+	private String orgname;
+	private String portname;
+	private String takeboxplacename;
+	private String endplacename;
+
+	public String getOrgname() {
+		return orgname;
+	}
+
+	public void setOrgname(String orgname) {
+		this.orgname = orgname;
+	}
+
+	public String getPortname() {
+		return portname;
+	}
+
+	public void setPortname(String portname) {
+		this.portname = portname;
+	}
+
+	public String getTakeboxplacename() {
+		return takeboxplacename;
+	}
+
+	public void setTakeboxplacename(String takeboxplacename) {
+		this.takeboxplacename = takeboxplacename;
+	}
+
+	public String getEndplacename() {
+		return endplacename;
+	}
+
+	public void setEndplacename(String endplacename) {
+		this.endplacename = endplacename;
 	}
 }

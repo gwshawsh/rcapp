@@ -37,7 +37,9 @@ public class GenUtils {
 		templates.add("templates/gencode/ServiceImpl.java.vm");
 		templates.add("templates/gencode/Controller.java.vm");
 		templates.add("templates/gencode/list.html.vm");
+		templates.add("templates/gencode/listmain.html.vm");
 		templates.add("templates/gencode/list.js.vm");
+		templates.add("templates/gencode/ref.html.vm");
 		templates.add("templates/gencode/db.sql.vm");
 		return templates;
 	}
@@ -218,6 +220,14 @@ public class GenUtils {
 		
 		if(template.contains("list.html.vm")){
 			return "html" + File.separator + className.toLowerCase() + ".html";
+		}
+
+		if(template.contains("listmain.html.vm")){
+			return "html" + File.separator + className.toLowerCase() + "main.html";
+		}
+
+		if(template.contains("ref.html.vm")){
+			return "html" + File.separator +className.toLowerCase() + "_ref.html";
 		}
 		
 		if(template.contains("list.js.vm")){

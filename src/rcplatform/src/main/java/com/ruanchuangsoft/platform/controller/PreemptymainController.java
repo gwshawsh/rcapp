@@ -14,28 +14,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 
-import com.ruanchuangsoft.platform.entity.PlaceEntity;
-import com.ruanchuangsoft.platform.service.PlaceService;
+import com.ruanchuangsoft.platform.entity.PreemptymainEntity;
+import com.ruanchuangsoft.platform.service.PreemptymainService;
 import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 地点管理
+ * 预约用箱
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-29 16:53:37
+ * @date 2017-05-28 11:51:56
  */
 @Controller
-@RequestMapping("place")
-public class PlaceController extends AbstractController {
+@RequestMapping("preemptymain")
+public class PreemptymainController extends AbstractController {
 	@Autowired
-	private PlaceService placeService;
+	private PreemptymainService preemptymainService;
 
-	@RequestMapping("/place")
+	@RequestMapping("/preemptymain")
 	public String list(){
-		return "place/place";
+		return "preemptymain/preemptymain";
 	}
 
 
@@ -43,7 +43,7 @@ public class PlaceController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("base/place");
+        setViewname("preemptymain/preemptymain");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -55,17 +55,17 @@ public class PlaceController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/list")
-	@RequiresPermissions("place:list")
+	@RequiresPermissions("preemptymain:list")
 	public R list(Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
 
 		//查询列表数据
-		List<PlaceEntity> placeList = placeService.queryList(map);
-		int total = placeService.queryTotal(map);
+		List<PreemptymainEntity> preemptymainList = preemptymainService.queryList(map);
+		int total = preemptymainService.queryTotal(map);
 
-		PageUtils pageUtil = new PageUtils(placeList, total, limit, page);
+		PageUtils pageUtil = new PageUtils(preemptymainList, total, limit, page);
 
 		return R.ok().put("page", pageUtil);
 	}
@@ -76,11 +76,11 @@ public class PlaceController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("place:info")
+	@RequiresPermissions("preemptymain:info")
 	public R info(@PathVariable("id") Long id){
-		PlaceEntity place = placeService.queryObject(id);
+		PreemptymainEntity preemptymain = preemptymainService.queryObject(id);
 
-		return R.ok().put("place", place);
+		return R.ok().put("preemptymain", preemptymain);
 	}
 
 	/**
@@ -88,9 +88,9 @@ public class PlaceController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/save")
-	@RequiresPermissions("place:save")
-	public R save(@RequestBody PlaceEntity place){
-		placeService.save(place);
+	@RequiresPermissions("preemptymain:save")
+	public R save(@RequestBody PreemptymainEntity preemptymain){
+		preemptymainService.save(preemptymain);
 
 		return R.ok();
 	}
@@ -100,9 +100,9 @@ public class PlaceController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	@RequiresPermissions("place:update")
-	public R update(@RequestBody PlaceEntity place){
-		placeService.update(place);
+	@RequiresPermissions("preemptymain:update")
+	public R update(@RequestBody PreemptymainEntity preemptymain){
+		preemptymainService.update(preemptymain);
 
 		return R.ok();
 	}
@@ -112,9 +112,9 @@ public class PlaceController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/delete")
-	@RequiresPermissions("place:delete")
+	@RequiresPermissions("preemptymain:delete")
 	public R delete(@RequestBody Long[] ids){
-		placeService.deleteBatch(ids);
+		preemptymainService.deleteBatch(ids);
 
 		return R.ok();
 	}

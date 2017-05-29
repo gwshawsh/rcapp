@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
+import com.ruanchuangsoft.platform.entity.TakeboxdetailEntity;
 import com.ruanchuangsoft.platform.service.TakeboxdetailService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class TakeboxmainController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("takeboxmain/takeboxmain");
+        setViewname("buss/takeboxmain");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -75,6 +76,26 @@ public class TakeboxmainController extends AbstractController {
 		return R.ok().put("page", pageUtil);
 	}
 
+	/**
+	 * 列表
+	 */
+	@ResponseBody
+	@RequestMapping("/listdetail")
+	@RequiresPermissions("takeboxmain:list")
+	public R listdetail(Long formid,Integer page, Integer limit){
+		Map<String, Object> map = new HashMap<>();
+		map.put("offset", (page - 1) * limit);
+		map.put("limit", limit);
+		map.put("formid",formid);
+		//查询列表数据
+		List<TakeboxdetailEntity> takeboxdetailList = takeboxdetailService.queryList(map);
+		int total = takeboxdetailService.queryTotal(map);
+
+		PageUtils pageUtil = new PageUtils(takeboxdetailList, total, limit, page);
+
+		return R.ok().put("page", pageUtil);
+	}
+
 
 	/**
 	 * 信息
@@ -85,6 +106,11 @@ public class TakeboxmainController extends AbstractController {
 	public R info(@PathVariable("id") Long id){
 		TakeboxmainEntity takeboxmain = takeboxmainService.queryObject(id);
 
+		Map<String, Object> map = new HashMap<>();
+		map.put("formid",id);
+		//查询列表数据
+		List<TakeboxdetailEntity> takeboxdetailList = takeboxdetailService.queryList(map);
+		takeboxmain.setDetails(takeboxdetailList);
 		return R.ok().put("takeboxmain", takeboxmain);
 	}
 
@@ -95,6 +121,15 @@ public class TakeboxmainController extends AbstractController {
 	@RequestMapping("/save")
 	@RequiresPermissions("takeboxmain:save")
 	public R save(@RequestBody TakeboxmainEntity takeboxmain){
+		if(takeboxmain.getBillno().equals("*")){
+			String billno=getBillNo("TB");
+			takeboxmain.setBillno(billno);
+			if(takeboxmain.getDetails()!=null&&takeboxmain.getDetails().size()>0){
+				for(TakeboxdetailEntity item:takeboxmain.getDetails()){
+					item.setBillno(billno);
+				}
+			}
+		}
 		takeboxmainService.save(takeboxmain);
 
 		return R.ok();
