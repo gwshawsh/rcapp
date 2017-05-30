@@ -18,6 +18,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.web.servlet.DispatcherServlet;
+import sun.rmi.rmic.iiop.ClassPathLoader;
 
 import java.io.IOException;
 
@@ -35,12 +36,14 @@ public class MvcConfiguration {
 
         try {
             String root = patternResolver.getResource("classpath:templates/page/").getFile().toString();
-            WebAppResourceLoader webAppResourceLoader = new WebAppResourceLoader(root);
+            ClasspathResourceLoader webAppResourceLoader = new ClasspathResourceLoader(root);
+//            WebAppResourceLoader webAppResourceLoader=new WebAppResourceLoader(root);
             beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader);
+
             beetlGroupUtilConfiguration.setConfigFileResource(patternResolver.getResource("classpath:beetl.properties"));
 
             return beetlGroupUtilConfiguration;
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

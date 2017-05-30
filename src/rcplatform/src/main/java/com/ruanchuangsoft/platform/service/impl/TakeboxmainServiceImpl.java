@@ -11,11 +11,9 @@ import java.util.Map;
 import com.ruanchuangsoft.platform.dao.TakeboxmainDao;
 import com.ruanchuangsoft.platform.entity.TakeboxmainEntity;
 import com.ruanchuangsoft.platform.service.TakeboxmainService;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("takeboxmainService")
-@Transactional(rollbackFor = {RuntimeException.class, Exception.class})
 public class TakeboxmainServiceImpl implements TakeboxmainService {
     @Autowired
     private TakeboxmainDao takeboxmainDao;

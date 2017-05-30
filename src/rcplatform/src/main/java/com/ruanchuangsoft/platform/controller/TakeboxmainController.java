@@ -10,6 +10,7 @@ import com.ruanchuangsoft.platform.entity.TakeboxdetailEntity;
 import com.ruanchuangsoft.platform.service.TakeboxdetailService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("takeboxmain")
+@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class TakeboxmainController extends AbstractController {
 	@Autowired
 	private TakeboxmainService takeboxmainService;
@@ -127,6 +129,8 @@ public class TakeboxmainController extends AbstractController {
 			if(takeboxmain.getDetails()!=null&&takeboxmain.getDetails().size()>0){
 				for(TakeboxdetailEntity item:takeboxmain.getDetails()){
 					item.setBillno(billno);
+					item.setPlanarrvetime(takeboxmain.getBgnplanarrtime());
+
 				}
 			}
 		}

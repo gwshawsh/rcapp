@@ -2,7 +2,7 @@ var vm = new Vue({
     el: '#rrapp',
     data: {
         showList: true,
-        showDetailList:true,
+        showDetailList: true,
         title: null,
         takeboxmain: {}
     },
@@ -21,7 +21,7 @@ var vm = new Vue({
                 return;
             }
             vm.showList = false;
-            vm.showDetailList=false;
+            vm.showDetailList = false;
             vm.title = "修改";
 
             vm.getInfo(id)
@@ -79,7 +79,7 @@ var vm = new Vue({
             }).trigger("reloadGrid");
         },
         //单据明细的相关操作
-        queryDetail:function(){
+        queryDetail: function () {
             var id = getSelectedRow();
             if (id == null) {
                 return;
@@ -88,12 +88,12 @@ var vm = new Vue({
 
             $("#jqGridDetail").jqGrid('setGridParam', {
                 page: 1,
-                postData:{'formid':id},
+                postData: {'formid': id},
                 datatype: "json"
             }).trigger("reloadGrid");
         },
-        additem:function(){
-            var idx=vm.takeboxmain.details.length;
+        additem: function () {
+            var idx = vm.takeboxmain.details.length;
             //var item={billno:"*",
             //    serialno:idx,
             //    transcompanyid:"",
@@ -107,31 +107,91 @@ var vm = new Vue({
             //    realarrvetime:""
             //
             //};
-           // vm.takeboxmain.details.push(item);
+            // vm.takeboxmain.details.push(item);
         },
 
-        selectitem:function(index){
-            var sel=index;
-            var item=vm.budgetform.details[sel];
+        selectitem: function (index) {
+            var sel = index;
+            var item = vm.budgetform.details[sel];
         },
-        delitem:function(event){
-            var obj=event.currentTarget;
-            var index=obj.attributes['idx'].value
+        delitem: function (event) {
+            var obj = event.currentTarget;
+            var index = obj.attributes['idx'].value
             vm.takeboxmain.details.splice(index, 1);
-            for(var i=0;i<vm.takeboxmain.details.length;i++){
-                vm.takeboxmain.details[i].serialno=i;
+            for (var i = 0; i < vm.takeboxmain.details.length; i++) {
+                vm.takeboxmain.details[i].serialno = i;
             }
         },
         //选择车队
-        selectTransteam:function(){
-            showrefgrid_transteam("选择车队",function(data){
-                var seldata=data;
-                for(var i=0;i<vm.takeboxmain.details.length;i++){
-                    vm.takeboxmain.details[i].transcompanyid=seldata['id'];
+        selectTransteam: function () {
+            showrefgrid_transteam("选择车队", function (data) {
+                var seldata = data;
+                for (var i = 0; i < vm.takeboxmain.details.length; i++) {
+                    vm.takeboxmain.details[i].transcompanyid = seldata['id'];
                 }
 
             })
-        }
+        },
+        //选择明细中的车队
+        selTransTeamInDetail:function(event){
+            var cmp=event.currentTarget;
+            showrefgrid_transteam("选择车队", function (data) {
+                var seldata = data;
+                var index = cmp.attributes['idx'].value;
+                if(vm.takeboxmain.details&&vm.takeboxmain.details.length>0){
+                    var item=vm.takeboxmain.details[index];
+                    item['transcompanyid']=seldata['id'];
+                }
+
+
+            })
+
+        },
+        selectBgnshipdate: function (event) {
+            var option = {
+                elem: event.currentTarget,
+                istime: true,
+                format: 'YYYY-MM-DD hh:mm:ss',
+                choose: function (dates) {
+                    vm.takeboxmain.bgnshipdate = dates;
+                }
+            }
+            layui.laydate(option);
+        },
+        selectEndshipdate: function (event) {
+            var option = {
+                elem: event.currentTarget,
+                istime: true,
+                format: 'YYYY-MM-DD hh:mm:ss',
+                choose: function (dates) {
+                    vm.takeboxmain.endshipdate = dates;
+                }
+            }
+            layui.laydate(option);
+        },
+        selectBgnplanarrtime: function (event) {
+            var option = {
+                elem: event.currentTarget,
+                istime: true,
+                format: 'YYYY-MM-DD hh:mm:ss',
+                choose: function (dates) {
+                    vm.takeboxmain.endbgnplanarrtime = dates;
+                }
+            }
+            layui.laydate(option);
+        },
+
+        selectEndplanarrtime: function (event) {
+            var option = {
+                elem: event.currentTarget,
+                istime: true,
+                format: 'YYYY-MM-DD hh:mm:ss',
+                choose: function (dates) {
+                    vm.takeboxmain.endplanarrtime = dates;
+                }
+            }
+            layui.laydate(option);
+        },
     }
 });
 
@@ -151,16 +211,16 @@ $(function () {
             {label: '港口', name: 'portid', width: 80},
             {label: '箱量', name: 'boxqty', width: 80},
             {label: '箱型', name: 'boxtype', width: 80},
+            {label: '状态', name: 'billstatus', width: 80,formatter:formater_billstatus},
             {label: '提箱场站', name: 'takeboxplaceid', width: 80},
             {label: '目的地', name: 'endplaceid', width: 80},
             {label: '集港时间', name: 'bgnshipdate', width: 80},
             {label: '截港时间', name: 'endshipdate', width: 80},
             {label: '最早到场时间', name: 'bgnplanarrtime', width: 80},
             {label: '最晚到场时间', name: 'endplanarrtime', width: 80},
-            { label: '应收费用', name: 'yingshou', width: 80 },
-            { label: '应付费用', name: 'yingfu', width: 80 },
+            {label: '应收费用', name: 'yingshou', width: 80},
+            {label: '应付费用', name: 'yingfu', width: 80},
             {label: '备注', name: 'remark', width: 80},
-            {label: '单据状态', name: 'billstatus', width: 80},
             {label: '制单人', name: 'makeuser', width: 80},
             {label: '制单日期', name: 'makedate', width: 80},
             {label: '审核人', name: 'accuser', width: 80},
@@ -189,7 +249,7 @@ $(function () {
             order: "order"
         },
         shrinkToFit: false,
-        onSelectRow:function(){
+        onSelectRow: function () {
             vm.queryDetail();
         },
         gridComplete: function () {
@@ -202,8 +262,8 @@ $(function () {
         url: '../takeboxmain/listdetail',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', width: 50, key: true,hidden:true},
-            {label: '单据号', name: 'billno', width: 80,hidden:true},
+            {label: 'id', name: 'id', width: 50, key: true, hidden: true},
+            {label: '单据号', name: 'billno', width: 80, hidden: true},
             {label: '序号', name: 'serialno', width: 80},
             {label: '运输公司', name: 'transcompanyid', width: 80},
             {label: '原起运地点', name: 'startplaceid1', width: 80},
@@ -214,8 +274,8 @@ $(function () {
             {label: '实际提箱时间', name: 'realtaketime', width: 80},
             {label: '计划到场时间', name: 'planarrvetime', width: 80},
             {label: '实际到场时间', name: 'realarrvetime', width: 80},
-            { label: '应收费用', name: 'yingshou', width: 80 },
-            { label: '应付费用', name: 'yingfu', width: 80 }
+            {label: '应收费用', name: 'yingshou', width: 80},
+            {label: '应付费用', name: 'yingfu', width: 80}
         ],
         viewrecords: true,
         height: 385,

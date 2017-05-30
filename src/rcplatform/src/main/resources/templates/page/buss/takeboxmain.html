@@ -160,7 +160,7 @@
                     <div clacc="layui-inline">
                         <label class="layui-form-label">集港时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="takeboxmain.bgnshipdate"
+                            <input type="text" class="layui-input"   v-model="takeboxmain.bgnshipdate" v-on:click="selectBgnshipdate"
                                    placeholder="集港时间"/>
                         </div>
                     </div>
@@ -169,7 +169,7 @@
                     <div clacc="layui-inline">
                         <label class="layui-form-label">截港时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="takeboxmain.endshipdate"
+                            <input type="text" class="layui-input"  v-model="takeboxmain.endshipdate" v-on:click="selectEndshipdate"
                                    placeholder="截港时间"/>
                         </div>
                     </div>
@@ -178,7 +178,7 @@
                     <div clacc="layui-inline">
                         <label class="layui-form-label">最早到场</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="takeboxmain.bgnplanarrtime"
+                            <input type="text" class="layui-input"    v-model="takeboxmain.bgnplanarrtime" v-on:click="selectBgnplanarrtime"
                                    placeholder="最早到场时间"/>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                     <div clacc="layui-inline">
                         <label class="layui-form-label">最晚到场</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="takeboxmain.endplanarrtime"
+                            <input type="text" class="layui-input"   v-model="takeboxmain.endplanarrtime" v-on:click="selectEndplanarrtime"
                                    placeholder="最晚到场时间"/>
                         </div>
                     </div>
@@ -226,7 +226,21 @@
             <div class="box-body table-responsive no-padding">
 
                 <table id="details" class="table table-hover">
-
+                    <colgroup>
+                        <col width="10">
+                        <col width="20">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                    </colgroup>
                     <thead>
                     <tr style="background-color: #f2f2f2">
                         <th><input type="checkbox" name=""></th>
@@ -253,17 +267,17 @@
                         </td>
                         <td> {{index}}</td>
 
-                        <td><input v-model="item.transcompanyid"></td>
-                        <td><input v-model="item.startplaceid1"></td>
-                        <td><input v-model="item.startplaceid2"></td>
-                        <td><input v-model="item.endplaceid"></td>
-                        <td><input v-model="item.boxno"></td>
-                        <td><input v-model="item.plantaketime"></td>
-                        <td><input v-model="item.realtaketime"></td>
-                        <td><input v-model="item.planarrvetime"></td>
-                        <td><input v-model="item.realarrvetime"></td>
-                        <td><input v-model="item.yingshou"></td>
-                        <td><input v-model="item.yingfu"></td>
+                        <td><input v-model="item.transcompanyid" v-bind:idx="index" v-on:click="selTransTeamInDetail"  class="layui-input" style="width: 100px"></td>
+                        <td><input v-model="item.startplaceid1"  class="layui-input" style="width: 100px"></td>
+                        <td><input v-model="item.startplaceid2"  class="layui-input" style="width: 100px"></td>
+                        <td><input v-model="item.endplaceid"  class="layui-input" style="width: 100px"></td>
+                        <td><input v-model="item.boxno"  class="layui-input" style="width: 100px"></td>
+                        <td><input class="layui-input"  v-model="item.plantaketime" class="layui-input" style="width: 100px"></td>
+                        <td><input v-model="item.realtaketime" class="layui-input" style="width: 100px"></td>
+                        <td><input class="layui-input"  v-model="item.planarrvetime"  class="layui-input" style="width: 100px"></td>
+                        <td><input v-model="item.realarrvetime"  class="layui-input" style="width: 100px"></td>
+                        <td><input v-model="item.yingshou" class="layui-input" style="width: 100px"></td>
+                        <td><input v-model="item.yingfu" class="layui-input" style="width: 100px"></td>
                     </tr>
                     </tbody>
                 </table>

@@ -120,3 +120,16 @@ function getSelectedRows() {
     
     return grid.getGridParam("selarrrow");
 }
+
+//通用的单据状态显示
+function formater_billstatus(value, options, row){
+	if(value==0)
+		return	'<span class="label label-info">新增</span>';
+	else if (value==1){
+		return '<span class="label label-danger">审核</span>';
+	}
+	else if(value==2){
+		return '<span class="label label-success">完成</span>';
+	}
+
+}

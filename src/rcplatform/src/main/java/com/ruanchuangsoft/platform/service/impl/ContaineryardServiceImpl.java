@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("containeryardService")
-@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class ContaineryardServiceImpl implements ContaineryardService {
 	@Autowired
 	private ContaineryardDao containeryardDao;

@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("driversService")
-@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class DriversServiceImpl implements DriversService {
 	@Autowired
 	private DriversDao driversDao;

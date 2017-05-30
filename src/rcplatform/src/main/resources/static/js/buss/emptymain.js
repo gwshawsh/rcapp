@@ -129,6 +129,7 @@ $(function () {
             {label: '港口', name: 'portid', width: 80},
             {label: '箱量', name: 'boxqty', width: 80},
             {label: '箱型', name: 'boxtype', width: 80},
+            {label: '状态', name: 'billstatus', width: 80,formatter: formater_billstatus},
             {label: '提箱场站', name: 'takeboxplacename', width: 80},
             {label: '目的地', name: 'endplacename', width: 80},
             {label: '集港时间', name: 'bgnshipdate', width: 80},
@@ -136,7 +137,7 @@ $(function () {
             {label: '最早到场时间', name: 'bgnplanarrtime', width: 80},
             {label: '最晚到场时间', name: 'endplanarrtime', width: 80},
             {label: '备注', name: 'remark', width: 80},
-            {label: '单据状态', name: 'billstatus', width: 80},
+
             {label: '制单人', name: 'makeuser', width: 80},
             {label: '制单日期', name: 'makedate', width: 80},
             {label: '审核人', name: 'accuser', width: 80},

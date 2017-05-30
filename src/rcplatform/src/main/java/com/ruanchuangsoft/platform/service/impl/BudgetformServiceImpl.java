@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("budgetformService")
-@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class BudgetformServiceImpl implements BudgetformService {
 	@Autowired
 	private BudgetformDao budgetformDao;

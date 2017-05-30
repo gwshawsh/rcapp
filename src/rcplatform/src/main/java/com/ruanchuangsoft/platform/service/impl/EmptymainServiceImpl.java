@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("emptymainService")
-@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
+
 public class EmptymainServiceImpl implements EmptymainService {
 	@Autowired
 	private EmptymainDao emptymainDao;

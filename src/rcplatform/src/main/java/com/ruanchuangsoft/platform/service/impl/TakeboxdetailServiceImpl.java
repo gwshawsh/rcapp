@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("takeboxdetailService")
-@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class TakeboxdetailServiceImpl implements TakeboxdetailService {
 	@Autowired
 	private TakeboxdetailDao takeboxdetailDao;
