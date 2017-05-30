@@ -3,7 +3,9 @@
     <div id="ref_gridpager_transteam"></div>
 </div>
 <script>
-    function showrefgrid_transteam(title,callback){
+    var mutilflag = false;
+    function showrefgrid_transteam(title, callback, pflag) {
+        mutiflag = pflag || false;
         layer.open({
             type: 1,
             offset: '50px',
@@ -15,8 +17,8 @@
             content: jQuery("#ref_transteam"),
             btn: ['确定', '取消'],
             btn1: function (index) {
-                var row=getSelectedRowData("ref_grid_transteam");
-                if(callback){
+                var row = getSelectedRowData("ref_grid_transteam");
+                if (callback) {
                     callback(row);
                 }
 
@@ -26,47 +28,52 @@
     }
 
 
-
     $(function () {
         $("#ref_grid_transteam").jqGrid({
-        url: '../transteam/list',
-        datatype: "json",
-        colModel: [
-                                { label: 'id', name: 'id', width: 50, key: true },
-                                            { label: '编码', name: 'code', width: 80 }, 
-                                            { label: '名称', name: 'name', width: 80 }, 
-                                            { label: '地址', name: 'address', width: 80 }, 
-                                            { label: '联系人', name: 'contact', width: 80 }, 
-                                            { label: '联系电话', name: 'contactNumber', width: 80 }, 
-                                            { label: '车辆类型（挂靠、自营、外协）', name: 'vehicleType', width: 80 }, 
-                                            { label: '开票信息', name: 'billingInformation', width: 80 }, 
-                                            { label: '账户信息', name: 'accountInformation', width: 80 }
-                            ],
-        viewrecords: true,
-        height: 385,
-        rowNum: 10,
-        rowList : [10,30,50],
-        rownumbers: true,
-        rownumWidth: 25,
-        autowidth:true,
-        multiselect: true,
-        pager: "#ref_gridpager_transteam",
-        jsonReader : {
-        root: "page.list",
-        page: "page.currPage",
-        total: "page.totalPage",
-        records: "page.totalCount"
-        },
-        prmNames : {
-        page:"page",
-        rows:"limit",
-        order: "order"
-        },
-        gridComplete:function(){
-        //隐藏grid底部滚动条
-        //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
-        }
+            url: '../transteam/list',
+            datatype: "json",
+            colModel: [
+                {label: 'id', name: 'id', width: 50, key: true},
+                {label: '编码', name: 'code', width: 80},
+                {label: '名称', name: 'name', width: 80},
+                {label: '地址', name: 'address', width: 80},
+                {label: '联系人', name: 'contact', width: 80},
+                {label: '联系电话', name: 'contactNumber', width: 80},
+                {label: '车辆类型（挂靠、自营、外协）', name: 'vehicleType', width: 80},
+                {label: '开票信息', name: 'billingInformation', width: 80},
+                {label: '账户信息', name: 'accountInformation', width: 80}
+            ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_transteam",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_transteam").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
         });
 
-});
+    });
 </script>

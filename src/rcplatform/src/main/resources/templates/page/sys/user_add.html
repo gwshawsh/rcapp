@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>编辑管理员</title>
-<% include("/sys/header.html"){} %>
+ <#include "sys/header.html">
 </head>
 <body>
 <div class="panel panel-default" id="rrapp" v-cloak>
@@ -57,6 +57,6 @@
 	</form>
 </div>
 
-<script src="${ctxPath}/static/js/sys/user_add.js"></script>
+<script src="${rc.contextPath}/static/js/sys/user_add.js"></script>
 </body>
 </html>

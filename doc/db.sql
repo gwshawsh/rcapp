@@ -742,6 +742,7 @@ CREATE TABLE `transboxmain`(
   `portid` bigint COMMENT '港口',
   `boxqty` bigint COMMENT '箱量',
   `boxtype` varchar(50) COMMENT '箱型',
+  `takeboxplaceid` bigint COMMENT '提箱场站',
   `transcompanyid` bigint COMMENT '运输公司',
   `bgnshipdate` datetime COMMENT '集港时间',
   `endshipdate` datetime COMMENT '截港时间',

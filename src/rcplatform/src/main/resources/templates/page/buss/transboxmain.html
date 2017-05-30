@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>运输计划</title>
+    <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <@shiro.hasPermission name="transboxmain:list">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </button>
+              </@shiro.hasPermission>
+            <@shiro.hasPermission name="transboxmain:save">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+             </@shiro.hasPermission>
+            <@shiro.hasPermission name="transboxmain:update">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </button>
+           </@shiro.hasPermission>
+            <@shiro.hasPermission name="transboxmain:delete">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </button>
+            </@shiro.hasPermission>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+
+<div v-show="showDetailList" class="panel panel-default">
+    <div class="panel-heading">明细</div>
+    <table id="jqGridDetail"></table>
+    <div id="jqGridPagerDetail"></div>
+</div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <div class="layui-btn-group">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="saveOrUpdate"><i
+                    class="fa fa-save"></i>保存
+            </button>
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="reload"><i class="fa fa-cancel"></i>返回
+            </button>
+
+        </div>
+        <form class="layui-form layui-form-pane">
+            <div class="layui-form-item">
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">单据号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.billno"
+                               placeholder="单据号"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">放箱计划单据号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.reftakebillno"
+                               placeholder="放箱计划单据号"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">要箱计划单据号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.refbillno"
+                               placeholder="要箱计划单据号"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">计划类型</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.refbilltype"
+                               placeholder="要箱计划类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">客户id</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.orgid"
+                               placeholder="客户id"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">提单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.ladingcode"
+                               placeholder="提单号"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">船名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.shipname"
+                               placeholder="船名"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">航次</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.flight"
+                               placeholder="航次"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">港口</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.portid"
+                               placeholder="港口"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">箱量</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.boxqty"
+                               placeholder="箱量"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">箱型</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.boxtype"
+                               placeholder="箱型"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">提箱场站</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.takeboxplaceid"
+                               placeholder="提箱场站"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">运输公司</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.transcompanyid"
+                               placeholder="运输公司"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">集港时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.bgnshipdate"
+                               placeholder="集港时间"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">截港时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.endshipdate"
+                               placeholder="截港时间"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">最早到场时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.bgnplanarrtime"
+                               placeholder="最早到场时间"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">最晚到场时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.endplanarrtime"
+                               placeholder="最晚到场时间"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.remark"
+                               placeholder="备注"/>
+                    </div>
+                </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">单据状态</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.billstatus"
+                               placeholder="单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成"/>
+                    </div>
+                </div>
+
+
+
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">更新时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transboxmain.uptdate"
+                               placeholder="更新时间"/>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <div class="box-body table-responsive no-padding">
+
+            <table id="details" class="table table-hover">
+                <colgroup>
+                    <col width="10">
+                    <col width="20">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                </colgroup>
+                <thead>
+                <tr style="background-color: #f2f2f2">
+                    <th><input type="checkbox" name=""></th>
+                    <th></th>
+                    <th>运输公司</th>
+                    <th>原起运地点</th>
+                    <th>现起运点</th>
+                    <th>目的地</th>
+                    <th>箱号</th>
+                    <th>计划提箱</th>
+                    <th>实际提箱</th>
+                    <th>计划到场</th>
+                    <th>实际到场</th>
+                    <th>应收费用</th>
+                    <th>应付费用</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(item,index) in transboxmain.details">
+                    <td>
+                        <input type="checkbox" name="" lay-skin="primary"/>
+
+                    </td>
+                    <td> {{index}}</td>
+
+                    <td><input v-model="item.transcompanyid" v-bind:idx="index" v-on:click="selTransTeamInDetail"
+                               class="layui-input" style="width: 100px"></td>
+                    <td><input v-model="item.startplaceid1" class="layui-input" style="width: 100px"></td>
+                    <td><input v-model="item.startplaceid2" class="layui-input" style="width: 100px"></td>
+                    <td><input v-model="item.endplaceid" class="layui-input" style="width: 100px"></td>
+                    <td><input v-model="item.boxno" class="layui-input" style="width: 100px"></td>
+                    <td><input class="layui-input" v-model="item.plantaketime" class="layui-input" style="width: 100px">
+                    </td>
+                    <td><input v-model="item.realtaketime" class="layui-input" style="width: 100px"></td>
+                    <td><input class="layui-input" v-model="item.planarrvetime" class="layui-input"
+                               style="width: 100px"></td>
+                    <td><input v-model="item.realarrvetime" class="layui-input" style="width: 100px"></td>
+                    <td><input v-model="item.yingshou" class="layui-input" style="width: 100px"></td>
+                    <td><input v-model="item.yingfu" class="layui-input" style="width: 100px"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/buss/transboxmain.js"></script>
+</body>
+</html>

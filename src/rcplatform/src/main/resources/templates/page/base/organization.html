@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>组织管理</title>
-    <% include ("/sys/header.html") {} %>
+    <#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -12,15 +12,15 @@
         </div>
         <div class="col-sm-10">
             <div class="grid-btn">
-                <%if(shiro.hasPermission("organization:save")) {%>
+                <@shiro.hasPermission name="organization:save">
                 <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增</button>
-                <%}%>
-                <%if(shiro.hasPermission("organization:update")) {%>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="organization:update">
                 <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</button>
-                <%}%>
-                <%if(shiro.hasPermission("organization:delete")) {%>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="organization:delete">
                 <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</button>
-                <%}%>
+                </@shiro.hasPermission>
             </div>
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
@@ -104,6 +104,6 @@
 <div id="menuLayer" style="display: none;padding:10px;">
     <ul id="menuTree" class="ztree"></ul>
 </div>
-<script src="${ctxPath}/static/js/base/organization.js"></script>
+<script src="${rc.contextPath}/static/js/base/organization.js"></script>
 </body>
 </html>

@@ -2,21 +2,21 @@
 <html>
 <head>
 <title>商品表</title>
-<% include("/sys/header.html"){} %>
+	<#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
 	<div v-show="showList">
 		<div class="grid-btn">
-			<% if(shiro.hasPermission("goods:save")) {%>
+			<@shiro.hasPermission name="goods:save">
 			<button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增</button>
-			<%}%>
-			<%if(shiro.hasPermission("goods:update")){%>
+			</@shiro.hasPermission>
+			<@shiro.hasPermission name="goods:update">
 			<button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-			<%}%>
-			<%if(shiro.hasPermission("goods:delete")){%>
+			</@shiro.hasPermission>
+			<@shiro.hasPermission name="goods:delete">
 			<button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
-			<%}%>
+			</@shiro.hasPermission>
 		</div>
 	    <table id="jqGrid"></table>
 	    <div id="jqGridPager"></div>
@@ -70,6 +70,6 @@
 	</div>
 </div>
 
-<script src="${ctxPath}/static/js/goods/goods.js"></script>
+<script src="${rc.contextPath}/static/js/goods/goods.js"></script>
 </body>
 </html>

@@ -2,29 +2,29 @@
 <html>
 <head>
     <title>预算计划主表</title>
-    <% include ("/sys/header.html") {} %>
+    <#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="layui-btn-group">
-            <%if(shiro.hasPermission("budgetform:list")) {%>
+            <@shiro.hasPermission name="budgetform:list">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>查询
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("budgetform:save")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="budgetform:save">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("budgetform:update")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="budgetform:update">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;修改
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("budgetform:delete")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="budgetform:delete">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </button>
-            <%}%>
+            </@shiro.hasPermission>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -123,6 +123,6 @@
 <div id="menuLayer" style="display: none;padding:10px;">
     <ul id="menuTree" class="ztree"></ul>
 </div>
-<script src="${ctxPath}/static/js/finance/budgetform.js"></script>
+<script src="${rc.contextPath}/static/js/finance/budgetform.js"></script>
 </body>
 </html>

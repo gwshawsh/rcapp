@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>定时任务</title>
-    <% include("/sys/header.html"){} %>
+     <#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -13,40 +13,40 @@
                        placeholder="bean名称">
             </div>
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query">查询</button>
-            <% if(shiro.hasPermission("sys:schedule:save")) {%>
+            <@shiro.hasPermission name="sys:schedule:save">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
             </button>
-            <% } %>
-            <% if(shiro.hasPermission("sys:schedule:update")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:schedule:update">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;修改
             </button>
-            <% } %>
-            <% if(shiro.hasPermission("sys:schedule:delete")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:schedule:delete">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i
                     class="fa fa-trash-o"></i>&nbsp;删除
             </button>
-            <% } %>
-            <% if(shiro.hasPermission("sys:schedule:pause")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:schedule:pause">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="pause"><i
                     class="fa fa-pause"></i>&nbsp;暂停
             </button>
-            <% } %>
-            <% if(shiro.hasPermission("sys:schedule:resume")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:schedule:resume">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="resume"><i
                     class="fa fa-play"></i>&nbsp;恢复
             </button>
-            <% } %>
-            <% if(shiro.hasPermission("sys:schedule:run")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:schedule:run">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="runOnce"><i
                     class="fa fa-arrow-circle-right"></i>&nbsp;立即执行
             </button>
-            <% } %>
-            <% if(shiro.hasPermission("sys:schedule:log")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:schedule:log">
             <button class="layui-btn layui-btn-small layui-btn-normal" style="float:right;"
                     href="schedule_log.html">日志列表
             </button>
-            <% } %>
+            </@shiro.hasPermission>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -96,6 +96,6 @@
     </div>
 </div>
 
-<script src="${ctxPath}/static/js/sys/schedule.js"></script>
+<script src="${rc.contextPath}/static/js/sys/schedule.js"></script>
 </body>
 </html>

@@ -2,22 +2,22 @@
 <html>
 <head>
     <title>请假表</title>
-    <% include ("/sys/header.html") {} %>
+    <#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query">查询</button>
-            <%if(shiro.hasPermission("leavework:save")) {%>
+            <@shiro.hasPermission name="leavework:save">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增</button>
-            <%}%>
-            <%if(shiro.hasPermission("leavework:update")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="leavework:update">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</button>
-            <%}%>
-            <%if(shiro.hasPermission("leavework:delete")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="leavework:delete">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</button>
-            <%}%>
+            </@shiro.hasPermission>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -122,7 +122,7 @@
         });
 
         //Date picker
-        $('#endTime').datepicker({
+        $('</@shiro.hasPermission>Time').datepicker({
             autoclose: true,
             format: 'yyyy-mm-dd'
         }).on("hide",function(ev){
@@ -134,6 +134,6 @@
 
     });
 </script>
-<script src="${ctxPath}/static/js/buss/leavework.js"></script>
+<script src="${rc.contextPath}/static/js/buss/leavework.js"></script>
 </body>
 </html>

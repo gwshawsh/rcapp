@@ -2,38 +2,38 @@
 <html>
 <head>
     <title>空箱计划用箱单主表</title>
-    <% include ("/sys/header.html") {} %>
+    <#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-            <%if(shiro.hasPermission("plankongxiangmain:save")) {%>
+            <@shiro.hasPermission name="plankongxiangmain:save">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("plankongxiangmain:update")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="plankongxiangmain:update">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;修改
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("plankongxiangmain:delete")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="plankongxiangmain:delete">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("plankongxiangmain:fangxiang")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="plankongxiangmain:fangxiang">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="fangxiang"><i
                     class="fa fa-cubes"></i>&nbsp;放箱
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("plankongxiangmain:ruzhang")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="plankongxiangmain:ruzhang">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-book"></i>&nbsp;入账
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("plankongxiangmain:list")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="plankongxiangmain:list">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-cubes"></i>&nbsp;明细
             </button>
-            <%}%>
+            </@shiro.hasPermission>
         </div>
 
 
@@ -274,6 +274,6 @@
 
 </script>
 
-<script src="${ctxPath}/static/js/buss/plankongxiangmain.js"></script>
+<script src="${rc.contextPath}/static/js/buss/plankongxiangmain.js"></script>
 </body>
 </html>

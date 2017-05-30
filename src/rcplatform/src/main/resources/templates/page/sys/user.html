@@ -2,23 +2,23 @@
 <html>
 <head>
     <title>管理员列表</title>
-    <%
-    include("/sys/header.html"){}
-    %>
+
+    <#include "sys/header.html">
+
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-            <%if(shiro.hasPermission("sys:user:save")){ %>
+            <@shiro.hasPermission name="sys:user:save">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增</button>
-            <% } %>
-            <%if(shiro.hasPermission("sys:user:update")){ %>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:user:update">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</button>
-            <% } %>
-            <%if(shiro.hasPermission("sys:user:delete")){ %>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:user:delete">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</button>
-            <% } %>
+            </@shiro.hasPermission>
             <div class="layui-form-item panel-query layui-form-pane" >
                 <div class="layui-inline">
                     <label class="layui-form-label">用户名</label>
@@ -105,6 +105,6 @@
 <div id="menuLayer" style="display: none;padding:10px;">
     <ul id="menuTree" class="ztree"></ul>
 </div>
-<script src="${ctxPath}/static/js/sys/user.js"></script>
+<script src="${rc.contextPath}/static/js/sys/user.js"></script>
 </body>
 </html>

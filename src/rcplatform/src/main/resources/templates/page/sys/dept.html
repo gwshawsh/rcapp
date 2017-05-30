@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>部门管理</title>
-    <% include ("/sys/header.html") {} %>
+    <#include "sys/header.html">
 </head>
 <body style="height: 100%">
 <div id="rrapp" v-cloak style="height:100%">
@@ -14,15 +14,15 @@
 
             <div class="grid-btn">
                 <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query">刷新</button>
-                <%if(shiro.hasPermission("sys:dept:save")) {%>
+                <@shiro.hasPermission name="sys:dept:save">
                 <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增</button>
-                <%}%>
-                <%if(shiro.hasPermission("sys:dept:update")) {%>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="sys:dept:update">
                 <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</button>
-                <%}%>
-                <%if(shiro.hasPermission("sys:dept:delete")) {%>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="sys:dept:delete">
                 <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</button>
-                <%}%>
+                </@shiro.hasPermission>
             </div>
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
@@ -75,6 +75,6 @@
     <ul id="menuTree" class="ztree"></ul>
 </div>
 
-<script src="${ctxPath}/static/js/sys/sysdept.js"></script>
+<script src="${rc.contextPath}/static/js/sys/sysdept.js"></script>
 </body>
 </html>

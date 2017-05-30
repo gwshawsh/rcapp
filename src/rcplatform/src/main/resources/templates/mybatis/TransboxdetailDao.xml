@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.TransboxdetailDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TransboxdetailEntity">
+		select * from transboxdetail where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TransboxdetailEntity">
+		select * from transboxdetail 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from transboxdetail 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TransboxdetailEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into transboxdetail
+		(
+			`billno`, 
+			`serialno`, 
+			`reftakebillno`, 
+			`refserialno`, 
+			`startplaceid1`, 
+			`startplaceid2`, 
+			`endplaceid2`, 
+			`boxno`, 
+			`plantaketime`, 
+			`realtaketime`, 
+			`planarrvetime`, 
+			`realarrvetime`, 
+			`carno`, 
+			`cartype`, 
+			`driversid`, 
+			`driversname`
+		)
+		values
+		(
+			#{billno}, 
+			#{serialno}, 
+			#{reftakebillno}, 
+			#{refserialno}, 
+			#{startplaceid1}, 
+			#{startplaceid2}, 
+			#{endplaceid2}, 
+			#{boxno}, 
+			#{plantaketime}, 
+			#{realtaketime}, 
+			#{planarrvetime}, 
+			#{realarrvetime}, 
+			#{carno}, 
+			#{cartype}, 
+			#{driversid}, 
+			#{driversname}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TransboxdetailEntity">
+		update transboxdetail 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="serialno != null">`serialno` = #{serialno}, </if>
+			<if test="reftakebillno != null">`reftakebillno` = #{reftakebillno}, </if>
+			<if test="refserialno != null">`refserialno` = #{refserialno}, </if>
+			<if test="startplaceid1 != null">`startplaceid1` = #{startplaceid1}, </if>
+			<if test="startplaceid2 != null">`startplaceid2` = #{startplaceid2}, </if>
+			<if test="endplaceid2 != null">`endplaceid2` = #{endplaceid2}, </if>
+			<if test="boxno != null">`boxno` = #{boxno}, </if>
+			<if test="plantaketime != null">`plantaketime` = #{plantaketime}, </if>
+			<if test="realtaketime != null">`realtaketime` = #{realtaketime}, </if>
+			<if test="planarrvetime != null">`planarrvetime` = #{planarrvetime}, </if>
+			<if test="realarrvetime != null">`realarrvetime` = #{realarrvetime}, </if>
+			<if test="carno != null">`carno` = #{carno}, </if>
+			<if test="cartype != null">`cartype` = #{cartype}, </if>
+			<if test="driversid != null">`driversid` = #{driversid}, </if>
+			<if test="driversname != null">`driversname` = #{driversname}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from transboxdetail where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from transboxdetail where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

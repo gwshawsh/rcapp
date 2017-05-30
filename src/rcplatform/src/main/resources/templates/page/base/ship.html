@@ -2,29 +2,29 @@
 <html>
 <head>
     <title>船公司</title>
-        <% include ("/sys/header.html") {} %>
+        <#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-            <%if(shiro.hasPermission("ship:list")) {%>
+            <@shiro.hasPermission name="ship:list">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("ship:save")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="ship:save">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("ship:update")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="ship:update">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;修改
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("ship:delete")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="ship:delete">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </button>
-            <%}%>
+            </@shiro.hasPermission>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -140,6 +140,6 @@
     </div>
 </div>
 
-<script src="${ctxPath}/static/js/base/ship.js"></script>
+<script src="${rc.contextPath}/static/js/base/ship.js"></script>
 </body>
 </html>

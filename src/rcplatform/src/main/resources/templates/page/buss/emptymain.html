@@ -2,39 +2,39 @@
 <html>
 <head>
     <title>空箱计划</title>
-    <% include ("/sys/header.html") {} %>
+    <#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-            <%if(shiro.hasPermission("emptymain:list")) {%>
+            <@shiro.hasPermission name="emptymain:list">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("emptymain:save")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="emptymain:save">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("emptymain:update")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="emptymain:update">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;修改
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("emptymain:update")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="emptymain:update">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="takebox"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;放箱
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("emptymain:shenhe")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="emptymain:shenhe">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="accbill"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;审核
             </button>
-            <%}%>
-            <%if(shiro.hasPermission("emptymain:delete")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="emptymain:delete">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </button>
-            <%}%>
+            </@shiro.hasPermission>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -193,6 +193,6 @@
 </div>
 <% include ("/base/place_ref.html") {} %>
 
-<script src="${ctxPath}/static/js/buss/emptymain.js"></script>
+<script src="${rc.contextPath}/static/js/buss/emptymain.js"></script>
 </body>
 </html>

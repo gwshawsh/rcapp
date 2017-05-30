@@ -119,6 +119,7 @@ public class ShiroConfiguration {
         logger.info("##################从数据库读取权限规则，加载到shiroFilter中##################");
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/login2", "anon");
         filterChainDefinitionMap.put("/sys/login", "anon");
         filterChainDefinitionMap.put("/captcha.jpg", "anon");
         filterChainDefinitionMap.put("/webapp/*", "anon");

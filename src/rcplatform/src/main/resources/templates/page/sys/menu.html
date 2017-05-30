@@ -2,21 +2,21 @@
 <html>
 <head>
 <title>菜单管理</title>
-<% include("/sys/header.html"){} %>
+	<#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
 	<div v-show="showList">
 		<div class="grid-btn">
-			<% if(shiro.hasPermission("sys:menu:save")) {%>
+			<@shiro.hasPermission name="sys:menu:save">
 			<button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增</button>
-			<% } %>
-			<% if(shiro.hasPermission("sys:menu:update")) {%>
+		    </@shiro.hasPermission>
+			<@shiro.hasPermission name="sys:menu:update">
 			<button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</button>
-			<% } %>
-			<% if(shiro.hasPermission("sys:menu:delete")) {%>
+			</@shiro.hasPermission>
+			<@shiro.hasPermission name="sys:menu:delete">
 			<button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</button>
-			<% } %>
+			</@shiro.hasPermission>
 		</div>
 	    <table id="jqGrid"></table>
 	    <div id="jqGridPager"></div>
@@ -88,6 +88,6 @@
 	<ul id="menuTree" class="ztree"></ul>
 </div>
 
-<script src="${ctxPath}/static/js/sys/menu.js"></script>
+<script src="${rc.contextPath}/static/js/sys/menu.js"></script>
 </body>
 </html>

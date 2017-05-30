@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.beetl.core.GroupTemplate;
 
 
 /**

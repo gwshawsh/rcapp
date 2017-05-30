@@ -16,10 +16,6 @@
 package com.ruanchuangsoft.platform.config;
 
 import com.ruanchuangsoft.platform.shiro.ShiroExt;
-import org.beetl.core.Configuration;
-import org.beetl.core.GroupTemplate;
-import org.beetl.core.Template;
-import org.beetl.core.resource.StringTemplateResourceLoader;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,27 +27,27 @@ import java.util.Map;
  * Beetl模板绑值
  */
 public class BeetlTemplate {
-	private static GroupTemplate gt;
-	
-	public static GroupTemplate getGt() {
-		return gt;
-	}
-
-	static {
-		if (gt == null) {
-			StringTemplateResourceLoader resourceLoader = new StringTemplateResourceLoader();
-			Configuration cfg = null;
-			try {
-				cfg = Configuration.defaultConfiguration();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			gt = new GroupTemplate(resourceLoader, cfg);
-			registerTemplate(gt);
-		}
-	}
-
-	public static void registerTemplate(GroupTemplate groupTemplate){
+//	private static GroupTemplate gt;
+//
+//	public static GroupTemplate getGt() {
+//		return gt;
+//	}
+//
+//	static {
+//		if (gt == null) {
+//			StringTemplateResourceLoader resourceLoader = new StringTemplateResourceLoader();
+//			Configuration cfg = null;
+//			try {
+//				cfg = Configuration.defaultConfiguration();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			gt = new GroupTemplate(resourceLoader, cfg);
+//			registerTemplate(gt);
+//		}
+//	}
+//
+//	public static void registerTemplate(GroupTemplate groupTemplate){
 //		Map<String, Object> sharedVars = new HashMap<String, Object>();
 //		sharedVars.put("startTime", new Date());
 //		sharedVars.put("domain", ConstConfig.DOMAIN);
@@ -65,8 +61,8 @@ public class BeetlTemplate {
 //
 //		groupTemplate.registerFunctionPackage("ace", new AceExt());
 //		groupTemplate.registerFunctionPackage("func", new BeetlExt());
-		groupTemplate.registerFunctionPackage("shiro", new ShiroExt());
-	}
+		//groupTemplate.registerFunctionPackage("shiro", new ShiroExt());
+//	}
 	
 
 }

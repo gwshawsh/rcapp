@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>角色管理</title>
-    <% include("/sys/header.html"){} %>
+     <#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -14,19 +14,19 @@
             </div>
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query">查询</button>
 
-            <% if(shiro.hasPermission("sys:role:save")) {%>
+            <@shiro.hasPermission name="sys:role:save">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
             </button>
-            <% } %>
-            <% if(shiro.hasPermission("sys:role:update")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:role:update">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;修改
             </button>
-            <% } %>
-            <% if(shiro.hasPermission("sys:role:delete")) {%>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:role:delete">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </button>
-            <% } %>
+            </@shiro.hasPermission>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -63,6 +63,6 @@
     </div>
 </div>
 
-<script src="${ctxPath}/static/js/sys/role.js"></script>
+<script src="${rc.contextPath}/static/js/sys/role.js"></script>
 </body>
 </html>

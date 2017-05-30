@@ -2,12 +2,12 @@
 <html>
 <head>
     <title>${comments}</title>
-    #set($header='<% include ("/sys/header.html") {} %>')
-    #set($query='<%if(shiro.hasPermission("'+${pathName}+':list")) {%>')
-    #set($save='<%if(shiro.hasPermission("'+${pathName}+':save")) {%>')
-    #set($update='<%if(shiro.hasPermission("'+${pathName}+':update")) {%>')
-    #set($delete='<%if(shiro.hasPermission("'+${pathName}+':delete")) {%>')
-    #set($end='<%}%>')
+    #set($header='<# include "sys/header.html">')
+    #set($query='<@shiro.hasPermission name="'+${pathName}+':list">')
+    #set($save='<@shiro.hasPermission name="'+${pathName}+':save">')
+    #set($update='<@shiro.hasPermission name="'+${pathName}+':update">')
+    #set($delete='<@shiro.hasPermission name="'+${pathName}+':delete">')
+    #set($end='</@shiro.hasPermission>')
     $header
 </head>
 <body>
