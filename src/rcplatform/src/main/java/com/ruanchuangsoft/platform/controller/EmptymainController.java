@@ -7,6 +7,7 @@ import com.ruanchuangsoft.platform.controller.AbstractController;
 import com.ruanchuangsoft.platform.entity.TakeboxdetailEntity;
 import com.ruanchuangsoft.platform.entity.TakeboxmainEntity;
 import com.ruanchuangsoft.platform.enums.EmptyBillStatus;
+import com.ruanchuangsoft.platform.enums.TranBillType;
 import com.ruanchuangsoft.platform.service.TakeboxdetailService;
 import com.ruanchuangsoft.platform.service.TakeboxmainService;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
@@ -129,7 +130,7 @@ public class EmptymainController extends AbstractController {
 	}
 
 	/**
-	 * 审核要想计划,自动生成方向计划
+	 * 审核要想计划,自动生成方向计划,同时关联合同,生成应收费用
 	 */
 	@ResponseBody
 	@RequestMapping("/shenhe")
@@ -150,7 +151,7 @@ public class EmptymainController extends AbstractController {
 				String billno=getBillNo("TB");
 				takeboxmainEntity.setBillno(billno);
 				takeboxmainEntity.setRefbillno(emptymain.getBillno());
-				takeboxmainEntity.setRefbilltype(0);
+				takeboxmainEntity.setRefbilltype(TranBillType.EMPTYBILL);
 				takeboxmainEntity.setOrgId(emptymain.getOrgId());
 				takeboxmainEntity.setLadingcode(emptymain.getLadingcode());
 				takeboxmainEntity.setShipname(emptymain.getShipname());
@@ -175,7 +176,7 @@ public class EmptymainController extends AbstractController {
 					takeboxdetailEntity.setBoxno("");
 					takeboxdetailEntity.setStartplaceid1(emptymain.getTakeboxplaceid());
 					takeboxdetailEntity.setStartplaceid2(emptymain.getTakeboxplaceid());
-					takeboxdetailEntity.setendplaceid(emptymain.getEndplaceId());
+					takeboxdetailEntity.setEndplaceid(emptymain.getEndplaceId());
 
 					details.add(takeboxdetailEntity);
 

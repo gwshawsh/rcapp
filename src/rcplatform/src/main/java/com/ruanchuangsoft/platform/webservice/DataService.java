@@ -12,5 +12,5 @@ public interface DataService {
     String saveData(String name,String oper,String data);
 
     @WebMethod
-    String getData(String name,String oper,String params);
+    String getData(String name,String params);
 }

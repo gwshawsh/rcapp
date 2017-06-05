@@ -4,11 +4,23 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.TransboxmainDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TransboxmainEntity">
-		select * from transboxmain where id = #{value}
+		select a.*,
+		ifnull((select name from organization b where a.orgid=b.id),'') as orgname,
+		ifnull((select name from place b where a.takeboxplaceid=b.id),'') as takeboxplacename,
+		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename,
+		ifnull((select name from place b where a.portid=b.id),'') as portname,
+		ifnull((select name from transteam b where a.transcompanyid=b.id),'') as transcompanyname
+		from transboxmain a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TransboxmainEntity">
-		select * from transboxmain 
+		select a.*,
+		ifnull((select name from organization b where a.orgid=b.id),'') as orgname,
+		ifnull((select name from place b where a.takeboxplaceid=b.id),'') as takeboxplacename,
+		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename,
+		ifnull((select name from place b where a.portid=b.id),'') as portname,
+		ifnull((select name from transteam b where a.transcompanyid=b.id),'') as transcompanyname
+		from transboxmain a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

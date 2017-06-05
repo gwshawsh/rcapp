@@ -39,16 +39,20 @@ public class TakeboxmainServiceImpl implements TakeboxmainService {
     @Override
     public void save(TakeboxmainEntity takeboxmain) {
         takeboxmainDao.save(takeboxmain);
-        for (TakeboxdetailEntity item : takeboxmain.getDetails()) {
-            takeboxdetailDao.save(item);
+        if (takeboxmain.getDetails() != null) {
+            for (TakeboxdetailEntity item : takeboxmain.getDetails()) {
+                takeboxdetailDao.save(item);
+            }
         }
     }
 
     @Override
     public void update(TakeboxmainEntity takeboxmain) {
         takeboxmainDao.update(takeboxmain);
-        for (TakeboxdetailEntity item : takeboxmain.getDetails()) {
-            takeboxdetailDao.save(item);
+        if (takeboxmain.getDetails() != null) {
+            for (TakeboxdetailEntity item : takeboxmain.getDetails()) {
+                takeboxdetailDao.update(item);
+            }
         }
     }
 

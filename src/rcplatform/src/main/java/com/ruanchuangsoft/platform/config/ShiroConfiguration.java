@@ -125,6 +125,8 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/webapp/*", "anon");
         filterChainDefinitionMap.put("/service/*", "anon");//anon 可以理解为不拦截
         filterChainDefinitionMap.put("/rest/*", "anon");//anon 可以理解为不拦截
+        filterChainDefinitionMap.put("/soap/*", "anon");//anon 可以理解为不拦截
+        filterChainDefinitionMap.put("/beans", "anon");//anon 可以理解为不拦截
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

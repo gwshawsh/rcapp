@@ -4,11 +4,21 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.TakeboxdetailDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
-		select * from takeboxdetail where id = #{value}
+		select a.*,
+		ifnull((select name from transteam b where a.transcompanyid=b.id),'') as transcompanyname,
+		ifnull((select name from place b where a.startplaceid1=b.id),'') as startplacename1,
+		ifnull((select name from place b where a.startplaceid2=b.id),'') as startplacename2,
+		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename
+		from takeboxdetail a  where a.id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
-		select * from takeboxdetail
+		select a.*,
+		ifnull((select name from transteam b where a.transcompanyid=b.id),'') as transcompanyname,
+		ifnull((select name from place b where a.startplaceid1=b.id),'') as startplacename1,
+		ifnull((select name from place b where a.startplaceid2=b.id),'') as startplacename2,
+		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename
+		from takeboxdetail a
 		<where>
 			<if test="formid != null">
 				billno in (select billno from takeboxmain where id= #{formid})

@@ -335,9 +335,26 @@ CREATE TABLE `organization` (
   `name` varchar(50) COMMENT '名称',
   `parent_id` bigint COMMENT '上级组织', 
   `phone` varchar(20) COMMENT '联系电话',
+  `fax` varchar(20) COMMENT '传真',
   `address` varchar(200) COMMENT '地址',
+  `email` varchar(200) COMMENT '邮箱',
+  `webaddress` varchar(200) COMMENT '网址',
   `longitude` varchar(50) COMMENT '经度',
   `latitude` varchar(50) COMMENT '纬度',
+  `linkman` varchar(50) COMMENT '联系人',
+  `paytype` varchar(50) COMMENT '付款方式',
+  `financecode` varchar(50) COMMENT '财务编码',
+  `province` varchar(50) COMMENT '省',
+  `city` varchar(50) COMMENT '城市',
+  `notice` varchar(50) COMMENT '备注',
+  `taxcode` varchar(50) COMMENT '纳税人识别号',
+  `receipt` varchar(50) COMMENT '回单天数',
+  `accperiod` varchar(50) COMMENT '账期',
+  `receipt` varchar(50) COMMENT '回单天数',
+  `policyrate` double COMMENT '保险客户费率',
+  `relationid` bigint  COMMENT '关联单位',
+  `zizhi` varchar(50) COMMENT '注册资质',
+  `busstype` varchar(50) COMMENT '业务类型',
   `type` int COMMENT '类型 0：目录  1：港口  2：仓库   3：堆场 4：船公司  5：放箱公司',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织管理';
@@ -494,9 +511,24 @@ CREATE TABLE `transline` (
   `startlocation` bigint COMMENT '起始区域地点',
   `endlocation` varchar(200) COMMENT '结束区域地点',
   `distance` double COMMENT '距离',
-  `freight` double COMMENT '运费',
+  `helpcode` varchar(200) COMMENT '助记码',
+
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='线路基础信息表';
+
+-- 车辆管理
+CREATE TABLE `vehicle` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COMMENT '编码',
+  `name` varchar(20) COMMENT '姓名',
+  `phone` varchar(20) COMMENT '电话',
+  `transteam` bigint COMMENT '所属车队',
+  `documentno` varchar(50) COMMENT '证件号',
+  `driveage` int COMMENT '驾龄',
+  `type` varchar(20) COMMENT '类型（有、无车）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='司机基础信息表';
+
 
 -- 司机管理
 CREATE TABLE `drivers` (
@@ -715,6 +747,7 @@ CREATE TABLE `takeboxdetail`(
   `startplaceid2` bigint COMMENT '现起运点',
   `endplaceid` bigint COMMENT '目的地',
   `boxno` varchar(50) COMMENT '箱号',
+  `fengno` varchar(50) COMMENT '铅封号',
   `plantaketime` datetime COMMENT '计划提箱时间',-- 对于重箱计划，就是从仓库的提箱时间
   `realtaketime` datetime COMMENT '实际提箱时间',
   `planarrvetime` datetime COMMENT '计划到场时间',  
@@ -743,7 +776,7 @@ CREATE TABLE `transboxmain`(
   `boxqty` bigint COMMENT '箱量',
   `boxtype` varchar(50) COMMENT '箱型',
   `takeboxplaceid` bigint COMMENT '提箱场站',
-  `transcompanyid` bigint COMMENT '运输公司',
+  `endplaceid` bigint COMMENT '目的地', -- 空箱计划就是仓库  重箱计划就是港口  门店计划就是工厂
   `bgnshipdate` datetime COMMENT '集港时间',
   `endshipdate` datetime COMMENT '截港时间',
   `bgnplanarrtime` datetime COMMENT '最早到场时间',
@@ -764,12 +797,16 @@ CREATE TABLE `transboxdetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
+  `transcompanyid` bigint COMMENT '运输公司',
   `reftakebillno` varchar(50) COMMENT '放箱计划单据号',
   `refserialno` bigint COMMENT '放箱计划序号',
   `startplaceid1` bigint COMMENT '原起运地点',
   `startplaceid2` bigint COMMENT '现起运点',
-  `endplaceid2` bigint COMMENT '目的地',
+  `endplaceid` bigint COMMENT '目的地',
+  `lineid` bigint COMMENT '线路',
   `boxno` varchar(50) COMMENT '箱号',
+  `fengno` varchar(50) COMMENT '铅封号',
+  `wendu` varchar(50) COMMENT '温度',
   `plantaketime` datetime COMMENT '计划提箱时间',-- 对于重箱计划，就是从仓库的提箱时间
   `realtaketime` datetime COMMENT '实际提箱时间',
   `planarrvetime` datetime COMMENT '计划到场时间',  
@@ -778,10 +815,87 @@ CREATE TABLE `transboxdetail`(
   `cartype` varchar(20) COMMENT '车型',
   `driversid` bigint COMMENT '司机编码',
   `driversname` varchar(20) COMMENT '司机姓名',
+  `feein` double COMMENT '应收费用',
+  `feeout` double COMMENT '应付费用', 
+  `profit` double COMMENT '利润', 
+
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运输计划明细表';
 
 
+-- 仓储合同
+DROP TABLE IF EXISTS `storecontractmain`;
+CREATE TABLE `storecontractmain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `orgid` bigint COMMENT '客户',
+  `paytype` varchar(10) COMMENT '付款方式',
+  `boctid` bigint COMMENT '币别',
+  `rate` double COMMENT '汇率',
+  `taxrate` double COMMENT '税率',
+  `takeboxfee` double COMMENT '放箱费单价',
+  `takeboxfeetax` double COMMENT '放箱费含税单价',
+  `bgndate` datetime COMMENT '生效日期',--  
+  `enddate` datetime COMMENT '失效日期',
+  `remark` varchar(1000) COMMENT '备注',
+  `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：作废',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `uptdate` datetime COMMENT '更新时间', 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓储合同';
+
+-- 仓储合同明细
+DROP TABLE IF EXISTS `storecontractdetail`;
+CREATE TABLE `storecontractdetail`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `serialno` bigint COMMENT '序号',
+  `lineid` bigint COMMENT '线路',
+  `boxtype` varchar(50) COMMENT '箱型',
+  `weighttype` varchar(50) COMMENT '空重类型：0-空箱 1-重箱',
+  `boxprice` double COMMENT '应收单价',-- 一个箱子的应收费用
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓储合同明细';
+
+-- 运输合同
+DROP TABLE IF EXISTS `transcontractmain`;
+CREATE TABLE `transcontractmain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `orgid` bigint COMMENT '客户',
+  `paytype` varchar(10) COMMENT '付款方式',
+  `boctid` bigint COMMENT '币别',
+  `rate` double COMMENT '汇率',
+  `taxrate` double COMMENT '税率',
+  `bgndate` datetime COMMENT '生效日期',--  
+  `enddate` datetime COMMENT '失效日期',
+  `remark` varchar(1000) COMMENT '备注',
+  `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：作废',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `uptdate` datetime COMMENT '更新时间', 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运输合同';
+
+-- 运输合同明细
+DROP TABLE IF EXISTS `transcontractdetail`;
+CREATE TABLE `transcontractdetail`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `serialno` bigint COMMENT '序号',
+  `lineid` bigint COMMENT '线路',
+  `boxtype` varchar(50) COMMENT '箱型',
+  `weighttype` varchar(50) COMMENT '空重类型：0-空箱 1-重箱',
+  `boxprice` double COMMENT '应收单价',-- 一个箱子的应收费用
+  `boxpricetax` double COMMENT '含税应收单价',-- 一个箱子的应收费用
+  `cartype` varchar(20) COMMENT '车型',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运输合同明细';
 
 -- 预算科目
 create table `accountcategory`(

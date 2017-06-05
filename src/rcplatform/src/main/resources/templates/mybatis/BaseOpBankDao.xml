@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.BaseOpBankDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.BaseOpBankEntity">
+		select * from base_op_bank where BOB_Tid = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.BaseOpBankEntity">
+		select * from base_op_bank 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from base_op_bank 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.BaseOpBankEntity">
+		insert into base_op_bank
+		(
+			`BOB_Tid`, 
+			`BOB_JobCode`, 
+			`BOB_Name`, 
+			`BOB_AccountNo`, 
+			`BOB_BOCTid`, 
+			`BOB_Address`, 
+			`BOB_Tel`, 
+			`BOB_Fax`, 
+			`BOB_Man`, 
+			`BOB_Del`, 
+			`BOB_AddPid`, 
+			`BOB_AddDate`, 
+			`BOB_Note`
+		)
+		values
+		(
+			#{bobTid}, 
+			#{bobJobcode}, 
+			#{bobName}, 
+			#{bobAccountno}, 
+			#{bobBoctid}, 
+			#{bobAddress}, 
+			#{bobTel}, 
+			#{bobFax}, 
+			#{bobMan}, 
+			#{bobDel}, 
+			#{bobAddpid}, 
+			#{bobAdddate}, 
+			#{bobNote}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.BaseOpBankEntity">
+		update base_op_bank 
+		<set>
+			<if test="bobJobcode != null">`BOB_JobCode` = #{bobJobcode}, </if>
+			<if test="bobName != null">`BOB_Name` = #{bobName}, </if>
+			<if test="bobAccountno != null">`BOB_AccountNo` = #{bobAccountno}, </if>
+			<if test="bobBoctid != null">`BOB_BOCTid` = #{bobBoctid}, </if>
+			<if test="bobAddress != null">`BOB_Address` = #{bobAddress}, </if>
+			<if test="bobTel != null">`BOB_Tel` = #{bobTel}, </if>
+			<if test="bobFax != null">`BOB_Fax` = #{bobFax}, </if>
+			<if test="bobMan != null">`BOB_Man` = #{bobMan}, </if>
+			<if test="bobDel != null">`BOB_Del` = #{bobDel}, </if>
+			<if test="bobAddpid != null">`BOB_AddPid` = #{bobAddpid}, </if>
+			<if test="bobAdddate != null">`BOB_AddDate` = #{bobAdddate}, </if>
+			<if test="bobNote != null">`BOB_Note` = #{bobNote}</if>
+		</set>
+		where BOB_Tid = #{bobTid}
+	</update>
+	
+	<delete id="delete">
+		delete from base_op_bank where BOB_Tid = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from base_op_bank where BOB_Tid in 
+		<foreach item="bobTid" collection="array" open="(" separator="," close=")">
+			#{bobTid}
+		</foreach>
+	</delete>
+
+</mapper>

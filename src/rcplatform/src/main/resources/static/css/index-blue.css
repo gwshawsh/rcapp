@@ -3,7 +3,7 @@
 * Copyright https://github.com/larryqin/larrycms
 */
 /* 头部 */
-.header{height: 65px; border-bottom: 1px solid #404553;  background-color: #393D49; color: #fff;}
+.header{height: 65px; border-bottom: 1px solid #404553;  background-color: #009688; color: #fff;}
 .logo{display:block;position: absolute; left: 10px; top: 10px;}
 .logo img{width: 150px; height: 35px;}
 
@@ -11,7 +11,7 @@
 .header .layui-nav .layui-nav-item{margin: 0 20px; line-height: 66px;}
 
 .body{display: block;}
-.layui-layout-admin .header-demo{border-bottom-color: #1E9FFF;}
+.layui-layout-admin .header-demo{border-bottom-color: #5FB878;}
 .header-demo .logo{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;left: 10px;top: 8px;font-size: 24px;font-weight:bold; color:#fff;height: 50px;line-height: 50px;text-align: center;}
 .header-demo .layui-nav{top: 0;}
 .header-demo .layui-nav .layui-nav-item{margin: 0 10px; line-height: 70px;}
@@ -34,10 +34,10 @@
 	top: 26px;
 }
 .header-demo .layui-nav .layui-this:after, 
-.header-demo .layui-nav-bar{background-color: #393D49;}
+.header-demo .layui-nav-bar{background-color: #5FB878;}
 .header-demo .layui-nav .layui-this a{padding: 0 15px;}
 .header{
-	background: #393D49;
+	background: #009688;
 }
 .admin-logo-box{
 	width: 185px; height: 70px; position: relative;
@@ -51,12 +51,12 @@
     text-align: center;
     width: 30px;
     height: 30px;
-    background-color: #1E9FFF;
+    background-color: #5FB878;
     line-height: 30px;
     top: 23%;
 }
 .larry-side-menu:hover{
-	background-color: #35A9FF;
+	background-color: #5FB878;
 }
 /* 头部左侧 */
 .layui-larry-menu{
@@ -90,7 +90,7 @@
 }
 .layui-larry-menu ul.layui-nav .layui-this::after{
 	/* background: #2B2E37; */
-	background: #1E9FFF;
+	background: #5FB878;
 }
 /* 头部右侧 */
 .header ul.larry-header-item{
@@ -173,7 +173,7 @@
 /* 右侧主体区域 */
 .layui-body{
 	bottom: 0;
-	border-left: solid 2px #1E9FFF;
+	border-left: solid 2px #5FB878;
 }
 .layui-tab-content{
 	min-height: 150px; 
@@ -225,7 +225,7 @@
 	top: 10px;
 	right: 1px;
 	height: 41px;
-	background: #1E9FFF;
+	background: #5FB878;
 	color: #FFFFFF;
 }
 
@@ -245,7 +245,7 @@
 	height: 100%;
 }
 .larry-tab-box>.layui-tab-title{
-	border-bottom: 1px solid #1E9FFF;
+	border-bottom: 1px solid #5FB878;
 }
 .larry-tab-box .layui-tab-title cite{
 	font-style: normal;
@@ -253,7 +253,7 @@
 }
 .larry-tab-box>.layui-tab-title .layui-this{
 	color: white;
-    background-color: #1E9FFF;
+    background-color: #5FB878;
 }
 .larry-tab-box>.layui-tab-title .layui-this:after{
 	border-bottom: 0;
@@ -295,7 +295,7 @@ body .layui-layout-admin .layui-larry-foot{
     background-color: #eee;
     color: #666;
     font-weight: 300;
-    border-left: 2px solid #1E9FFF;
+    border-left: 2px solid #5FB878;
     z-index: 998;
 }
 body .layui-layout-admin .layui-larry-foot a{
@@ -310,10 +310,10 @@ body .layui-layout-admin .layui-larry-foot a{
 }
 
 .layui-nav-tree .layui-nav-bar{
-	background-color: #1E9FFF;
+	background-color: #5FB878;
 }
 
 .laber-account{
-	padding:3px 6px;margin-top:8px;width:auto;border-radius:5px;text-align: left;background-color:#1E9FFF; color: #fff;
+	padding:3px 6px;margin-top:8px;width:auto;border-radius:5px;text-align: left;background-color:#5FB878; color: #fff;
 }
 

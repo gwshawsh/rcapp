@@ -4,11 +4,20 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.TransboxdetailDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TransboxdetailEntity">
-		select * from transboxdetail where id = #{value}
+		select a.*,
+		ifnull((select name from place b where a.startplaceid1=b.id),'') as startplacename1,
+		ifnull((select name from place b where a.startplaceid2=b.id),'') as startplacename2,
+		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename
+		from transboxdetail a
+		where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TransboxdetailEntity">
-		select * from transboxdetail 
+		select a.*,
+		ifnull((select name from place b where a.startplaceid=b.id),'') as startplacename1,
+		ifnull((select name from place b where a.startplaceid2=b.id),'') as startplacename2,
+		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename
+		from transboxdetail a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -27,7 +36,7 @@
 			`refserialno`, 
 			`startplaceid1`, 
 			`startplaceid2`, 
-			`endplaceid2`, 
+			`endplaceid`,
 			`boxno`, 
 			`plantaketime`, 
 			`realtaketime`, 
@@ -46,7 +55,7 @@
 			#{refserialno}, 
 			#{startplaceid1}, 
 			#{startplaceid2}, 
-			#{endplaceid2}, 
+			#{endplaceid},
 			#{boxno}, 
 			#{plantaketime}, 
 			#{realtaketime}, 
@@ -68,7 +77,7 @@
 			<if test="refserialno != null">`refserialno` = #{refserialno}, </if>
 			<if test="startplaceid1 != null">`startplaceid1` = #{startplaceid1}, </if>
 			<if test="startplaceid2 != null">`startplaceid2` = #{startplaceid2}, </if>
-			<if test="endplaceid2 != null">`endplaceid2` = #{endplaceid2}, </if>
+			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
 			<if test="boxno != null">`boxno` = #{boxno}, </if>
 			<if test="plantaketime != null">`plantaketime` = #{plantaketime}, </if>
 			<if test="realtaketime != null">`realtaketime` = #{realtaketime}, </if>

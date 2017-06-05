@@ -1,5 +1,7 @@
 package com.ruanchuangsoft.platform.service.impl;
 
+import com.ruanchuangsoft.platform.dao.TransboxdetailDao;
+import com.ruanchuangsoft.platform.entity.TransboxdetailEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class TransboxmainServiceImpl implements TransboxmainService {
 	@Autowired
 	private TransboxmainDao transboxmainDao;
+	@Autowired
+	private TransboxdetailDao transboxdetailDao;
 	
 	@Override
 	public TransboxmainEntity queryObject(Long id){
@@ -35,11 +39,15 @@ public class TransboxmainServiceImpl implements TransboxmainService {
 	@Override
 	public void save(TransboxmainEntity transboxmain){
 		transboxmainDao.save(transboxmain);
+		for(TransboxdetailEntity item:transboxmain.getDetails()){
+			transboxdetailDao.save(item);
+		}
 	}
 	
 	@Override
 	public void update(TransboxmainEntity transboxmain){
 		transboxmainDao.update(transboxmain);
+
 	}
 	
 	@Override

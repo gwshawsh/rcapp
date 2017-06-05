@@ -44,6 +44,44 @@ public class TakeboxdetailEntity implements Serializable {
 	//应付费用
 	private Double yingfu;
 
+	private String transcompanyname;
+	private String startplacename1;
+	private String startplacename2;
+	private String endplacename;
+
+
+	public String getTranscompanyname() {
+		return transcompanyname;
+	}
+
+	public void setTranscompanyname(String transcompanyname) {
+		this.transcompanyname = transcompanyname;
+	}
+
+	public String getStartplacename1() {
+		return startplacename1;
+	}
+
+	public void setStartplacename1(String startplacename1) {
+		this.startplacename1 = startplacename1;
+	}
+
+	public String getStartplacename2() {
+		return startplacename2;
+	}
+
+	public void setStartplacename2(String startplacename2) {
+		this.startplacename2 = startplacename2;
+	}
+
+	public String getEndplacename() {
+		return endplacename;
+	}
+
+	public void setEndplacename(String endplacename) {
+		this.endplacename = endplacename;
+	}
+
 	/**
 	 * 设置：
 	 */
@@ -119,13 +157,13 @@ public class TakeboxdetailEntity implements Serializable {
 	/**
 	 * 设置：目的地
 	 */
-	public void setendplaceid(Long endplaceid) {
+	public void setEndplaceid(Long endplaceid) {
 		this.endplaceid = endplaceid;
 	}
 	/**
 	 * 获取：目的地
 	 */
-	public Long getendplaceid() {
+	public Long getEndplaceid() {
 		return endplaceid;
 	}
 	/**

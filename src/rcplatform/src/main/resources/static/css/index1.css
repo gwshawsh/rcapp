@@ -3,7 +3,7 @@
 * Copyright https://github.com/larryqin/larrycms
 */
 /* 头部 */
-.header{height: 65px; border-bottom: 1px solid #404553;  background-color: #393D49; color: #fff;}
+.header{height: 65px; border-bottom: 1px solid #404553;  background-color: #009688; color: #fff;}
 .logo{display:block;position: absolute; left: 10px; top: 10px;}
 .logo img{width: 150px; height: 35px;}
 
@@ -11,7 +11,7 @@
 .header .layui-nav .layui-nav-item{margin: 0 20px; line-height: 66px;}
 
 .body{display: block;}
-.layui-layout-admin .header-demo{border-bottom-color: #1AA094;}
+.layui-layout-admin .header-demo{border-bottom-color: #5FB878;}
 .header-demo .logo{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;left: 10px;top: 8px;font-size: 24px;font-weight:bold; color:#fff;height: 50px;line-height: 50px;text-align: center;}
 .header-demo .layui-nav{top: 0;}
 .header-demo .layui-nav .layui-nav-item{margin: 0 10px; line-height: 70px;}

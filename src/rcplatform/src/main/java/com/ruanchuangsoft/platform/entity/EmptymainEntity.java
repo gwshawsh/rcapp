@@ -41,7 +41,6 @@ public class EmptymainEntity implements Serializable {
 	//目的地
 	private Long endplaceId;
 
-
 	//集港时间
 	private Date bgnshipdate;
 	//截港时间

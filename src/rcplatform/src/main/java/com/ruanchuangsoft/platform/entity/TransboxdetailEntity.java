@@ -30,7 +30,7 @@ public class TransboxdetailEntity implements Serializable {
 	//现起运点
 	private Long startplaceid2;
 	//目的地
-	private Long endplaceid2;
+	private Long endplaceid;
 	//箱号
 	private String boxno;
 	//计划提箱时间
@@ -137,14 +137,14 @@ public class TransboxdetailEntity implements Serializable {
 	/**
 	 * 设置：目的地
 	 */
-	public void setEndplaceid2(Long endplaceid2) {
-		this.endplaceid2 = endplaceid2;
+	public void setEndplaceid(Long endplaceid) {
+		this.endplaceid = endplaceid;
 	}
 	/**
 	 * 获取：目的地
 	 */
-	public Long getEndplaceid2() {
-		return endplaceid2;
+	public Long getEndplaceid() {
+		return endplaceid;
 	}
 	/**
 	 * 设置：箱号
@@ -253,5 +253,35 @@ public class TransboxdetailEntity implements Serializable {
 	 */
 	public String getDriversname() {
 		return driversname;
+	}
+
+
+	//一下为虚拟字段
+	private String startplacename1;
+	private String startplacename2;
+	private String endplacename;
+
+	public String getStartplacename1() {
+		return startplacename1;
+	}
+
+	public void setStartplacename1(String startplacename1) {
+		this.startplacename1 = startplacename1;
+	}
+
+	public String getStartplacename2() {
+		return startplacename2;
+	}
+
+	public void setStartplacename2(String startplacename2) {
+		this.startplacename2 = startplacename2;
+	}
+
+	public String getEndplacename() {
+		return endplacename;
+	}
+
+	public void setEndplacename(String endplacename) {
+		this.endplacename = endplacename;
 	}
 }

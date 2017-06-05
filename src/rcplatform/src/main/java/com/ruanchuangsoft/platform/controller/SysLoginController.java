@@ -1,9 +1,12 @@
 package com.ruanchuangsoft.platform.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.ruanchuangsoft.platform.utils.R;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.subject.Subject;
@@ -21,6 +24,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 登录相关
@@ -57,6 +62,25 @@ public class SysLoginController {
 	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
 	public R login(String username, String password, String captcha)throws IOException {
 		String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
+
+//		try {
+//			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+//			Client client = dcf.createClient("http://localhost:8888/soap/datacom?wsdl");
+//			Map<String,String> map=new HashMap<String,String>();
+//			map.put("bobAccountno","776655555577");
+//			String json= JSON.toJSONString(map);
+//			Object[] objects = client.invoke("getData", "Base_Op_Bank",json);
+//			String tmp=(String)objects[0];
+//
+//			String savedata="[{\"bobAccountno\":\"776655555577\",\"bobAdddate\":1483200000000,\"bobAddpid\":0,\"bobAddress\":\"上海银行测试地址\",\"bobBoctid\":0,\"bobDel\":0,\"bobFax\":\"88999999\",\"bobJobcode\":\"001\",\"bobMan\":\"测试人\",\"bobName\":\"测试单位\",\"bobNote\":\"这是备注\",\"bobTel\":\"88777777\",\"bobTid\":4},{\"bobAccountno\":\"776655555577\",\"bobAdddate\":1483200000000,\"bobAddpid\":0,\"bobAddress\":\"上海银行测试地址2\",\"bobBoctid\":0,\"bobDel\":0,\"bobFax\":\"88999999\",\"bobJobcode\":\"002\",\"bobMan\":\"测试人\",\"bobName\":\"测试单位2\",\"bobNote\":\"这是备注\",\"bobTel\":\"88777777\",\"bobTid\":5},{\"bobAccountno\":\"776655555577\",\"bobAdddate\":1483200000000,\"bobAddpid\":0,\"bobAddress\":\"上海银行测试地址3\",\"bobBoctid\":0,\"bobDel\":0,\"bobFax\":\"88999999\",\"bobJobcode\":\"003\",\"bobMan\":\"测试人\",\"bobName\":\"测试单位3\",\"bobNote\":\"这是备注\",\"bobTel\":\"88777777\",\"bobTid\":6}]";
+//			Object[] objects1 = client.invoke("saveData", "Base_Op_Bank","insert",savedata);
+//
+//
+//		}
+//		catch (Exception e){
+//			e.printStackTrace();
+//		}
+
 		//测试阶段暂不校验
 //		if(!captcha.equalsIgnoreCase(kaptcha)){
 //			return R.error("验证码不正确");

@@ -2,7 +2,7 @@ package com.ruanchuangsoft.platform.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.List;
 
 
 /**
@@ -41,6 +41,16 @@ public class TransboxmainEntity implements Serializable {
 	private String boxtype;
 	//提箱场站
 	private Long takeboxplaceid;
+	private Long endplaceid;
+
+	public Long getEndplaceid() {
+		return endplaceid;
+	}
+
+	public void setEndplaceid(Long endplaceid) {
+		this.endplaceid = endplaceid;
+	}
+
 	//运输公司
 	private Long transcompanyid;
 	//集港时间
@@ -65,6 +75,16 @@ public class TransboxmainEntity implements Serializable {
 	private Date accdate;
 	//更新时间
 	private Date uptdate;
+
+	private List<TransboxdetailEntity> details;
+
+	public List<TransboxdetailEntity> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<TransboxdetailEntity> details) {
+		this.details = details;
+	}
 
 	/**
 	 * 设置：
@@ -365,5 +385,43 @@ public class TransboxmainEntity implements Serializable {
 	 */
 	public Date getUptdate() {
 		return uptdate;
+	}
+
+	//以下为虚拟字段
+	private String orgname;
+	private String portname;
+	private String takeboxplacename;
+	private String endplacename;
+
+	public String getOrgname() {
+		return orgname;
+	}
+
+	public void setOrgname(String orgname) {
+		this.orgname = orgname;
+	}
+
+	public String getPortname() {
+		return portname;
+	}
+
+	public void setPortname(String portname) {
+		this.portname = portname;
+	}
+
+	public String getTakeboxplacename() {
+		return takeboxplacename;
+	}
+
+	public void setTakeboxplacename(String takeboxplacename) {
+		this.takeboxplacename = takeboxplacename;
+	}
+
+	public String getEndplacename() {
+		return endplacename;
+	}
+
+	public void setEndplacename(String endplacename) {
+		this.endplacename = endplacename;
 	}
 }

@@ -87,9 +87,9 @@
 
 
                 <div clacc="layui-inline">
-                    <label class="layui-form-label">客户id</label>
+                    <label class="layui-form-label">客户</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="transboxmain.orgid"
+                        <input type="text" class="layui-input" v-model="transboxmain.orgname"
                                placeholder="客户id"/>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
                 <div clacc="layui-inline">
                     <label class="layui-form-label">提箱场站</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="transboxmain.takeboxplaceid"
+                        <input type="text" class="layui-input" v-model="transboxmain.takeboxplacename"
                                placeholder="提箱场站"/>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                 <div clacc="layui-inline">
                     <label class="layui-form-label">运输公司</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="transboxmain.transcompanyid"
+                        <input type="text" class="layui-input" v-model="transboxmain.transcompanyname"
                                placeholder="运输公司"/>
                     </div>
                 </div>
@@ -220,18 +220,6 @@
                     </div>
                 </div>
 
-
-
-
-
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">更新时间</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="transboxmain.uptdate"
-                               placeholder="更新时间"/>
-                    </div>
-                </div>
-
             </div>
         </form>
         <div class="box-body table-responsive no-padding">
@@ -250,13 +238,11 @@
                     <col width="100">
                     <col width="100">
                     <col width="100">
-                    <col width="100">
                 </colgroup>
                 <thead>
                 <tr style="background-color: #f2f2f2">
                     <th><input type="checkbox" name=""></th>
                     <th></th>
-                    <th>运输公司</th>
                     <th>原起运地点</th>
                     <th>现起运点</th>
                     <th>目的地</th>
@@ -278,8 +264,6 @@
                     </td>
                     <td> {{index}}</td>
 
-                    <td><input v-model="item.transcompanyid" v-bind:idx="index" v-on:click="selTransTeamInDetail"
-                               class="layui-input" style="width: 100px"></td>
                     <td><input v-model="item.startplaceid1" class="layui-input" style="width: 100px"></td>
                     <td><input v-model="item.startplaceid2" class="layui-input" style="width: 100px"></td>
                     <td><input v-model="item.endplaceid" class="layui-input" style="width: 100px"></td>

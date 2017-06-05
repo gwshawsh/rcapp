@@ -133,3 +133,22 @@ function formater_billstatus(value, options, row){
 	}
 
 }
+
+
+//通用的参照单据类型显示
+function formater_billtype(value, options, row){
+	if(value==0)
+		return	'<span class="label label-info">手工</span>';
+	else if(value==1)
+		return	'<span class="label label-info">空箱</span>';
+	else if (value==2){
+		return '<span class="label label-danger">重箱</span>';
+	}
+	else if(value==3){
+		return '<span class="label label-success">门店</span>';
+	}
+	else if(value==4){
+		return '<span class="label label-success">预约</span>';
+	}
+}
+

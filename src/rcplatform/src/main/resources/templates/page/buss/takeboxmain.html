@@ -21,6 +21,16 @@
                     class="fa fa-pencil-square-o"></i>&nbsp;修改
             </button>
             </@shiro.hasPermission>
+            <@shiro.hasPermission name="takeboxmain:shenhe">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="accbill">
+                <i class="fa fa-pencil-square-o"></i>&nbsp;审核
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="takeboxmain:shenhe">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="changeTakeBoxPlace"><i
+                    class="fa fa-pencil-square-o"></i>&nbsp;改单
+            </button>
+            </@shiro.hasPermission>
             <@shiro.hasPermission name="takeboxmain:delete">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </button>

@@ -20,11 +20,18 @@ var vm = new Vue({
             if (id == null) {
                 return;
             }
-            vm.showList = false;
-            vm.showDetailList = false;
-            vm.title = "修改";
+            $.get("../takeboxmain/info/" + id, function (r) {
+                vm.takeboxmain = r.takeboxmain;
+                if(vm.takeboxmain.billstatus=="1"){
+                    alert("单据已经审核,不能修改");
+                }
+                else{
+                    vm.showList = false;
+                    vm.showDetailList = false;
+                    vm.title = "修改";
+                }
+            });
 
-            vm.getInfo(id)
         },
         saveOrUpdate: function (event) {
             var url = vm.takeboxmain.id == null ? "../takeboxmain/save" : "../takeboxmain/update";
@@ -78,6 +85,56 @@ var vm = new Vue({
                 page: page
             }).trigger("reloadGrid");
         },
+        //审核放箱单,生成运输单
+        accbill:function(){
+            var ids = getSelectedRows();
+            if (ids == null) {
+                return;
+            }
+
+            confirm('确定要审核选中的记录？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "../takeboxmain/shenhe",
+                    data: JSON.stringify(ids),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function (index) {
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+        //改单,生成改箱单
+        changeTakeBoxPlace:function(){
+            var ids = getSelectedRows();
+            if (ids == null) {
+                return;
+            }
+
+            confirm('确定要审核选中的记录？', function () {
+
+                $.ajax({
+                    type: "POST",
+                    url: "../takeboxmain/shenhe",
+                    data: JSON.stringify(ids),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function (index) {
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });//end ajax
+            });
+        },
+
         //单据明细的相关操作
         queryDetail: function () {
             var id = getSelectedRow();
@@ -200,11 +257,11 @@ $(function () {
         url: '../takeboxmain/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', width: 50, key: true},
+            {label: 'id', name: 'id', width: 50, key: true,hidden:true},
             {label: '单据号', name: 'billno', width: 80},
             {label: '参照单据号', name: 'refbillno', width: 80},
-            {label: '参照单据类型', name: 'refbilltype', width: 80},
-            {label: '客户id', name: 'orgId', width: 80},
+            {label: '参照单据类型', name: 'refbilltype', width: 80,formatter:formater_billtype},
+            {label: '客户', name: 'orgname', width: 80},
             {label: '提单号', name: 'ladingcode', width: 80},
             {label: '船名', name: 'shipname', width: 80},
             {label: '航次', name: 'flight', width: 80},
@@ -212,8 +269,8 @@ $(function () {
             {label: '箱量', name: 'boxqty', width: 80},
             {label: '箱型', name: 'boxtype', width: 80},
             {label: '状态', name: 'billstatus', width: 80,formatter:formater_billstatus},
-            {label: '提箱场站', name: 'takeboxplaceid', width: 80},
-            {label: '目的地', name: 'endplaceid', width: 80},
+            {label: '提箱场站', name: 'takeboxplacename', width: 80},
+            {label: '目的地', name: 'endplacename', width: 80},
             {label: '集港时间', name: 'bgnshipdate', width: 80},
             {label: '截港时间', name: 'endshipdate', width: 80},
             {label: '最早到场时间', name: 'bgnplanarrtime', width: 80},
@@ -265,10 +322,10 @@ $(function () {
             {label: 'id', name: 'id', width: 50, key: true, hidden: true},
             {label: '单据号', name: 'billno', width: 80, hidden: true},
             {label: '序号', name: 'serialno', width: 80},
-            {label: '运输公司', name: 'transcompanyid', width: 80},
-            {label: '原起运地点', name: 'startplaceid1', width: 80},
-            {label: '现起运点', name: 'startplaceid2', width: 80},
-            {label: '目的地', name: 'endplaceid', width: 80},
+            {label: '运输公司', name: 'transcompanyname', width: 80},
+            {label: '原起运地点', name: 'startplacename1', width: 80},
+            {label: '现起运点', name: 'startplacename2', width: 80},
+            {label: '目的地', name: 'endplacename', width: 80},
             {label: '箱号', name: 'boxno', width: 80},
             {label: '计划提箱时间', name: 'plantaketime', width: 80},
             {label: '实际提箱时间', name: 'realtaketime', width: 80},

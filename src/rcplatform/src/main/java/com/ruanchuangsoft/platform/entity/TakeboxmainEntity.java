@@ -391,4 +391,51 @@ public class TakeboxmainEntity implements Serializable {
 	public Date getUptdate() {
 		return uptdate;
 	}
+
+	//以下为虚拟字段
+	private String orgname;
+	private String portname;
+	private String takeboxplacename;
+	private String endplacename;
+	private String transcompanyname;
+
+	public String getTranscompanyname() {
+		return transcompanyname;
+	}
+
+	public void setTranscompanyname(String transcompanyname) {
+		this.transcompanyname = transcompanyname;
+	}
+
+	public String getOrgname() {
+		return orgname;
+	}
+
+	public void setOrgname(String orgname) {
+		this.orgname = orgname;
+	}
+
+	public String getPortname() {
+		return portname;
+	}
+
+	public void setPortname(String portname) {
+		this.portname = portname;
+	}
+
+	public String getTakeboxplacename() {
+		return takeboxplacename;
+	}
+
+	public void setTakeboxplacename(String takeboxplacename) {
+		this.takeboxplacename = takeboxplacename;
+	}
+
+	public String getEndplacename() {
+		return endplacename;
+	}
+
+	public void setEndplacename(String endplacename) {
+		this.endplacename = endplacename;
+	}
 }

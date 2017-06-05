@@ -27,9 +27,9 @@ public class WebServiceConfiguration {
 //    }
     @Bean
     public ServletRegistrationBean servletRegistrationBean() {
-        ServletRegistrationBean bean = new ServletRegistrationBean(new CXFServlet(), "/webservice/*");
-        bean.setLoadOnStartup(0);
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        ServletRegistrationBean bean = new ServletRegistrationBean(new CXFServlet(), "/soap/*");
+//        bean.setLoadOnStartup(0);
+//        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
     }
 
@@ -44,10 +44,11 @@ public class WebServiceConfiguration {
     }
 
     @Bean
-    public Endpoint endpoint() {
+    public Endpoint endpoint1() {
         EndpointImpl endpoint = new EndpointImpl(springBus(), dataService());
         endpoint.publish("/datacom");
         return endpoint;
     }
+
 
 }

@@ -115,6 +115,18 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 
 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+VALUES ('baseopbank', 'base', '银行表', 'baseopbank/index', NULL, '1', 'fa fa-circle-o', '1');
+
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_view', 'baseopbank', '查看', NULL, 'baseopbank:list,baseopbank:info', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_add', 'baseopbank', '新增', NULL, 'baseopbank:save,baseopbank:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_edit', 'baseopbank', '修改', NULL, 'baseopbank:update,baseopbank:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_delete', 'baseopbank', '删除', NULL, 'baseopbank:delete', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_audit', 'baseopbank', '审核', NULL, 'baseopbank:shenhe,baseopbank:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_detail', 'baseopbank', '明细', NULL, 'baseopbank:list,baseopbank:info', '2', NULL, '0');
+
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
 VALUES ('port', 'base', '港口管理', 'port/index', NULL, '1', 'fa fa-circle-o', '1');
 
 

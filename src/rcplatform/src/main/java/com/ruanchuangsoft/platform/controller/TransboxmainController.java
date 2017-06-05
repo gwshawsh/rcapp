@@ -95,7 +95,7 @@ public class TransboxmainController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/listdetail")
-	@RequiresPermissions("transboxdetail:list")
+	@RequiresPermissions("transboxmain:list")
 	public R listdetail(Long formid,Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
