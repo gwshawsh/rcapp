@@ -9,7 +9,7 @@ import java.util.Map;
 import com.ruanchuangsoft.platform.dao.TranslineDao;
 import com.ruanchuangsoft.platform.entity.TranslineEntity;
 import com.ruanchuangsoft.platform.service.TranslineService;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("translineService")

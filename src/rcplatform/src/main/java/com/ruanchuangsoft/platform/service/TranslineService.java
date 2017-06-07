@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 线路基础信息表
+ * 线路管理
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 23:01:31
+ * @date 2017-06-07 15:31:52
  */
 public interface TranslineService {
 	

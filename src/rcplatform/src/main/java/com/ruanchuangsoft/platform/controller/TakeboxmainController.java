@@ -201,11 +201,9 @@ public class TakeboxmainController extends AbstractController {
 					TransboxmainEntity transboxmainEntity=new TransboxmainEntity();
 					String billno=getBillNo("TS");
 					transboxmainEntity.setBillno(billno);
-					transboxmainEntity.setReftakebillno(takeboxmainEntity.getRefbillno());
 					transboxmainEntity.setRefbillno(takeboxmainEntity.getBillno());
 					transboxmainEntity.setRefbilltype(takeboxmainEntity.getRefbilltype());
 					transboxmainEntity.setEndplaceid(takeboxmainEntity.getEndplaceid());
-					transboxmainEntity.setTranscompanyid(tcid);
 					transboxmainEntity.setLadingcode(takeboxmainEntity.getLadingcode());
 					transboxmainEntity.setShipname(takeboxmainEntity.getShipname());
 					transboxmainEntity.setFlight(takeboxmainEntity.getFlight());

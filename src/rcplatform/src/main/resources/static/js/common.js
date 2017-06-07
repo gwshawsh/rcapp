@@ -152,3 +152,39 @@ function formater_billtype(value, options, row){
 	}
 }
 
+
+//通用的参照地点类型显示
+function formater_placetype(value, options, row){
+	if(value==0)
+		return	'<span class="label label-info">仓储</span>';
+	else if(value==1)
+		return	'<span class="label label-info">工厂</span>';
+	else if (value==2){
+		return '<span class="label label-danger">堆场</span>';
+	}
+	else if(value==3){
+		return '<span class="label label-success">港口</span>';
+	}
+
+}
+
+//通用组织类型
+function formater_orgtype(value, options, row){
+	if(value==0){
+		return  '<span class="label label-danger">目录</span>';
+	}
+	else if(value==1){
+		return  '<span class="label label-danger">港口</span>';
+	}
+	else if(value==2){
+		return  '<span class="label label-danger">仓库</span>';
+	} else if(value==3){
+		return  '<span class="label label-danger">堆场</span>';
+	} else if(value==4){
+		return  '<span class="label label-danger">船公司</span>';
+	}
+	else{
+		return  '<span class="label label-danger">放箱公司</span>';
+	}
+
+}

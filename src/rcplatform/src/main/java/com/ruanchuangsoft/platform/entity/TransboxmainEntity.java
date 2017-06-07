@@ -14,18 +14,16 @@ import java.util.List;
  */
 public class TransboxmainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	//
 	private Long id;
 	//单据号
 	private String billno;
-	//放箱计划单据号
-	private String reftakebillno;
-	//要箱计划单据号
+	//参照单据号
 	private String refbillno;
-	//要箱计划类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约
+	//参照单据类型:0:无参照  1-放箱计划  2:重箱计划  3:门点计划 4:司机预约
 	private Integer refbilltype;
-	//客户id
+	//客户
 	private Long orgid;
 	//提单号
 	private String ladingcode;
@@ -41,18 +39,8 @@ public class TransboxmainEntity implements Serializable {
 	private String boxtype;
 	//提箱场站
 	private Long takeboxplaceid;
+	//目的地
 	private Long endplaceid;
-
-	public Long getEndplaceid() {
-		return endplaceid;
-	}
-
-	public void setEndplaceid(Long endplaceid) {
-		this.endplaceid = endplaceid;
-	}
-
-	//运输公司
-	private Long transcompanyid;
 	//集港时间
 	private Date bgnshipdate;
 	//截港时间
@@ -75,16 +63,6 @@ public class TransboxmainEntity implements Serializable {
 	private Date accdate;
 	//更新时间
 	private Date uptdate;
-
-	private List<TransboxdetailEntity> details;
-
-	public List<TransboxdetailEntity> getDetails() {
-		return details;
-	}
-
-	public void setDetails(List<TransboxdetailEntity> details) {
-		this.details = details;
-	}
 
 	/**
 	 * 设置：
@@ -111,49 +89,37 @@ public class TransboxmainEntity implements Serializable {
 		return billno;
 	}
 	/**
-	 * 设置：放箱计划单据号
-	 */
-	public void setReftakebillno(String reftakebillno) {
-		this.reftakebillno = reftakebillno;
-	}
-	/**
-	 * 获取：放箱计划单据号
-	 */
-	public String getReftakebillno() {
-		return reftakebillno;
-	}
-	/**
-	 * 设置：要箱计划单据号
+	 * 设置：参照单据号
 	 */
 	public void setRefbillno(String refbillno) {
 		this.refbillno = refbillno;
 	}
 	/**
-	 * 获取：要箱计划单据号
+	 * 获取：参照单据号
 	 */
 	public String getRefbillno() {
 		return refbillno;
 	}
 	/**
-	 * 设置：要箱计划类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约
+	 * 设置：参照单据类型:0:无参照  1-放箱计划  2:重箱计划  3:门点计划 4:司机预约
 	 */
 	public void setRefbilltype(Integer refbilltype) {
 		this.refbilltype = refbilltype;
 	}
 	/**
-	 * 获取：要箱计划类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约
+	 * 获取：参照单据类型:0:无参照  1-放箱计划  2:重箱计划  3:门点计划 4:司机预约
 	 */
 	public Integer getRefbilltype() {
 		return refbilltype;
 	}
 	/**
-	 * 设置：客户id
+	 * 设置：客户
 	 */
 	public void setOrgid(Long orgid) {
 		this.orgid = orgid;
 	}
 	/**
-	 * 获取：客户id
+	 * 获取：客户
 	 */
 	public Long getOrgid() {
 		return orgid;
@@ -243,16 +209,16 @@ public class TransboxmainEntity implements Serializable {
 		return takeboxplaceid;
 	}
 	/**
-	 * 设置：运输公司
+	 * 设置：目的地
 	 */
-	public void setTranscompanyid(Long transcompanyid) {
-		this.transcompanyid = transcompanyid;
+	public void setEndplaceid(Long endplaceid) {
+		this.endplaceid = endplaceid;
 	}
 	/**
-	 * 获取：运输公司
+	 * 获取：目的地
 	 */
-	public Long getTranscompanyid() {
-		return transcompanyid;
+	public Long getEndplaceid() {
+		return endplaceid;
 	}
 	/**
 	 * 设置：集港时间
@@ -386,6 +352,19 @@ public class TransboxmainEntity implements Serializable {
 	public Date getUptdate() {
 		return uptdate;
 	}
+
+
+
+	private List<TransboxdetailEntity> details;
+
+	public List<TransboxdetailEntity> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<TransboxdetailEntity> details) {
+		this.details = details;
+	}
+
 
 	//以下为虚拟字段
 	private String orgname;

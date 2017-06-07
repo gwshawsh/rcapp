@@ -14,15 +14,18 @@ import java.util.Date;
  */
 public class TransboxdetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
+
 	//
 	private Long id;
 	//单据号
 	private String billno;
 	//序号
 	private Long serialno;
+	//运输公司
+	private Long transcompanyid;
 	//放箱计划单据号
-	private String reftakebillno;
+	private String refbillno;
 	//放箱计划序号
 	private Long refserialno;
 	//原起运地点
@@ -31,8 +34,14 @@ public class TransboxdetailEntity implements Serializable {
 	private Long startplaceid2;
 	//目的地
 	private Long endplaceid;
+	//线路
+	private Long lineid;
 	//箱号
 	private String boxno;
+	//铅封号
+	private String fengno;
+	//温度
+	private String wendu;
 	//计划提箱时间
 	private Date plantaketime;
 	//实际提箱时间
@@ -49,6 +58,12 @@ public class TransboxdetailEntity implements Serializable {
 	private Long driversid;
 	//司机姓名
 	private String driversname;
+	//应收费用
+	private Double feein;
+	//应付费用
+	private Double feeout;
+	//利润
+	private Double profit;
 
 	/**
 	 * 设置：
@@ -87,16 +102,28 @@ public class TransboxdetailEntity implements Serializable {
 		return serialno;
 	}
 	/**
+	 * 设置：运输公司
+	 */
+	public void setTranscompanyid(Long transcompanyid) {
+		this.transcompanyid = transcompanyid;
+	}
+	/**
+	 * 获取：运输公司
+	 */
+	public Long getTranscompanyid() {
+		return transcompanyid;
+	}
+	/**
 	 * 设置：放箱计划单据号
 	 */
-	public void setReftakebillno(String reftakebillno) {
-		this.reftakebillno = reftakebillno;
+	public void setRefbillno(String refbillno) {
+		this.refbillno = refbillno;
 	}
 	/**
 	 * 获取：放箱计划单据号
 	 */
-	public String getReftakebillno() {
-		return reftakebillno;
+	public String getRefbillno() {
+		return refbillno;
 	}
 	/**
 	 * 设置：放箱计划序号
@@ -147,6 +174,18 @@ public class TransboxdetailEntity implements Serializable {
 		return endplaceid;
 	}
 	/**
+	 * 设置：线路
+	 */
+	public void setLineid(Long lineid) {
+		this.lineid = lineid;
+	}
+	/**
+	 * 获取：线路
+	 */
+	public Long getLineid() {
+		return lineid;
+	}
+	/**
 	 * 设置：箱号
 	 */
 	public void setBoxno(String boxno) {
@@ -157,6 +196,30 @@ public class TransboxdetailEntity implements Serializable {
 	 */
 	public String getBoxno() {
 		return boxno;
+	}
+	/**
+	 * 设置：铅封号
+	 */
+	public void setFengno(String fengno) {
+		this.fengno = fengno;
+	}
+	/**
+	 * 获取：铅封号
+	 */
+	public String getFengno() {
+		return fengno;
+	}
+	/**
+	 * 设置：温度
+	 */
+	public void setWendu(String wendu) {
+		this.wendu = wendu;
+	}
+	/**
+	 * 获取：温度
+	 */
+	public String getWendu() {
+		return wendu;
 	}
 	/**
 	 * 设置：计划提箱时间
@@ -254,7 +317,42 @@ public class TransboxdetailEntity implements Serializable {
 	public String getDriversname() {
 		return driversname;
 	}
-
+	/**
+	 * 设置：应收费用
+	 */
+	public void setFeein(Double feein) {
+		this.feein = feein;
+	}
+	/**
+	 * 获取：应收费用
+	 */
+	public Double getFeein() {
+		return feein;
+	}
+	/**
+	 * 设置：应付费用
+	 */
+	public void setFeeout(Double feeout) {
+		this.feeout = feeout;
+	}
+	/**
+	 * 获取：应付费用
+	 */
+	public Double getFeeout() {
+		return feeout;
+	}
+	/**
+	 * 设置：利润
+	 */
+	public void setProfit(Double profit) {
+		this.profit = profit;
+	}
+	/**
+	 * 获取：利润
+	 */
+	public Double getProfit() {
+		return profit;
+	}
 
 	//一下为虚拟字段
 	private String startplacename1;

@@ -4,11 +4,17 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.TranslineDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TranslineEntity">
-		select * from transline where id = #{value}
+		select a.*,
+		(select name from place b where a.startlocation=b.id) as startname,
+		(select name from place b where a.endlocation=b.id) as endname
+		from transline where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TranslineEntity">
-		select * from transline 
+		select a.*,
+		(select name from place b where a.startlocation=b.id) as startname,
+		(select name from place b where a.endlocation=b.id) as endname
+		from transline a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -21,19 +27,21 @@
 	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TranslineEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into transline
 		(
-			`code`, 
+			`code`,
+			`name`,
 			`startlocation`, 
 			`endlocation`, 
 			`distance`, 
-			`freight`
+			`helpcode`
 		)
 		values
 		(
-			#{code}, 
+			#{code},
+			#{name},
 			#{startlocation}, 
 			#{endlocation}, 
 			#{distance}, 
-			#{freight}
+			#{helpcode}
 		)
 	</insert>
 	 
@@ -41,10 +49,11 @@
 		update transline 
 		<set>
 			<if test="code != null">`code` = #{code}, </if>
+			<if test="name != null">`name` = #{name}, </if>
 			<if test="startlocation != null">`startlocation` = #{startlocation}, </if>
 			<if test="endlocation != null">`endlocation` = #{endlocation}, </if>
 			<if test="distance != null">`distance` = #{distance}, </if>
-			<if test="freight != null">`freight` = #{freight}</if>
+			<if test="helpcode != null">`helpcode` = #{helpcode}</if>
 		</set>
 		where id = #{id}
 	</update>

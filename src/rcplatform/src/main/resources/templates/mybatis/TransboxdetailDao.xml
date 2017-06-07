@@ -26,59 +26,77 @@
  	<select id="queryTotal" resultType="int">
 		select count(*) from transboxdetail 
 	</select>
-	 
+
 	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TransboxdetailEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into transboxdetail
 		(
 			`billno`, 
 			`serialno`, 
-			`reftakebillno`, 
-			`refserialno`, 
-			`startplaceid1`, 
-			`startplaceid2`, 
+			`transcompanyid`,
+			`refbillno`,
+			`refserialno`,
+			`startplaceid1`,
+			`startplaceid2`,
 			`endplaceid`,
-			`boxno`, 
-			`plantaketime`, 
-			`realtaketime`, 
-			`planarrvetime`, 
-			`realarrvetime`, 
-			`carno`, 
-			`cartype`, 
-			`driversid`, 
-			`driversname`
+			`lineid`,
+			`boxno`,
+			`fengno`,
+			`wendu`,
+			`plantaketime`,
+			`realtaketime`,
+			`planarrvetime`,
+			`realarrvetime`,
+			`carno`,
+			`cartype`,
+			`driversid`,
+			`driversname`,
+			`feein`,
+			`feeout`,
+			`profit`
 		)
 		values
 		(
-			#{billno}, 
-			#{serialno}, 
-			#{reftakebillno}, 
-			#{refserialno}, 
-			#{startplaceid1}, 
-			#{startplaceid2}, 
+			#{billno},
+			#{serialno},
+			#{transcompanyid},
+			#{refbillno},
+			#{refserialno},
+			#{startplaceid1},
+			#{startplaceid2},
 			#{endplaceid},
-			#{boxno}, 
-			#{plantaketime}, 
-			#{realtaketime}, 
-			#{planarrvetime}, 
-			#{realarrvetime}, 
-			#{carno}, 
-			#{cartype}, 
-			#{driversid}, 
-			#{driversname}
+			#{lineid},
+			#{boxno},
+			#{fengno},
+			#{wendu},
+			#{plantaketime},
+			#{realtaketime},
+			#{planarrvetime},
+			#{realarrvetime},
+			#{carno},
+			#{cartype},
+			#{driversid},
+			#{driversname},
+			#{feein},
+			#{feeout},
+			#{profit}
 		)
 	</insert>
-	 
+
 	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TransboxdetailEntity">
-		update transboxdetail 
+		update transboxdetail
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
 			<if test="serialno != null">`serialno` = #{serialno}, </if>
-			<if test="reftakebillno != null">`reftakebillno` = #{reftakebillno}, </if>
+			<if test="transcompanyid != null">`transcompanyid` = #{transcompanyid}, </if>
+			<if test="refbillno != null">`refbillno` = #{refbillno}, </if>
 			<if test="refserialno != null">`refserialno` = #{refserialno}, </if>
 			<if test="startplaceid1 != null">`startplaceid1` = #{startplaceid1}, </if>
 			<if test="startplaceid2 != null">`startplaceid2` = #{startplaceid2}, </if>
 			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
+			<if test="lineid != null">`lineid` = #{lineid}, </if>
 			<if test="boxno != null">`boxno` = #{boxno}, </if>
+			<if test="fengno != null">`fengno` = #{fengno}, </if>
+			<if test="wendu != null">`wendu` = #{wendu}, </if>
 			<if test="plantaketime != null">`plantaketime` = #{plantaketime}, </if>
 			<if test="realtaketime != null">`realtaketime` = #{realtaketime}, </if>
 			<if test="planarrvetime != null">`planarrvetime` = #{planarrvetime}, </if>
@@ -86,7 +104,10 @@
 			<if test="carno != null">`carno` = #{carno}, </if>
 			<if test="cartype != null">`cartype` = #{cartype}, </if>
 			<if test="driversid != null">`driversid` = #{driversid}, </if>
-			<if test="driversname != null">`driversname` = #{driversname}</if>
+			<if test="driversname != null">`driversname` = #{driversname}, </if>
+			<if test="feein != null">`feein` = #{feein}, </if>
+			<if test="feeout != null">`feeout` = #{feeout}, </if>
+			<if test="profit != null">`profit` = #{profit}</if>
 		</set>
 		where id = #{id}
 	</update>

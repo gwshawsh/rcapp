@@ -25,73 +25,70 @@
 			limit #{offset}, #{limit}
 		</if>
 	</select>
-	
+
  	<select id="queryTotal" resultType="int">
 		select count(*) from transboxmain 
 	</select>
-	 
+
 	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TransboxmainEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into transboxmain
 		(
 			`billno`, 
-			`reftakebillno`, 
-			`refbillno`, 
-			`refbilltype`, 
-			`orgid`, 
-			`ladingcode`, 
-			`shipname`, 
-			`flight`, 
-			`portid`, 
-			`boxqty`, 
-			`boxtype`, 
-			`takeboxplaceid`, 
-			`transcompanyid`, 
-			`bgnshipdate`, 
-			`endshipdate`, 
-			`bgnplanarrtime`, 
-			`endplanarrtime`, 
-			`remark`, 
-			`billstatus`, 
-			`makeuser`, 
-			`makedate`, 
-			`accuser`, 
-			`accdate`, 
+			`refbillno`,
+			`refbilltype`,
+			`orgid`,
+			`ladingcode`,
+			`shipname`,
+			`flight`,
+			`portid`,
+			`boxqty`,
+			`boxtype`,
+			`takeboxplaceid`,
+			`endplaceid`,
+			`bgnshipdate`,
+			`endshipdate`,
+			`bgnplanarrtime`,
+			`endplanarrtime`,
+			`remark`,
+			`billstatus`,
+			`makeuser`,
+			`makedate`,
+			`accuser`,
+			`accdate`,
 			`uptdate`
 		)
 		values
 		(
-			#{billno}, 
-			#{reftakebillno}, 
-			#{refbillno}, 
-			#{refbilltype}, 
-			#{orgid}, 
-			#{ladingcode}, 
-			#{shipname}, 
-			#{flight}, 
-			#{portid}, 
-			#{boxqty}, 
-			#{boxtype}, 
-			#{takeboxplaceid}, 
-			#{transcompanyid}, 
-			#{bgnshipdate}, 
-			#{endshipdate}, 
-			#{bgnplanarrtime}, 
-			#{endplanarrtime}, 
-			#{remark}, 
-			#{billstatus}, 
-			#{makeuser}, 
-			#{makedate}, 
-			#{accuser}, 
-			#{accdate}, 
+			#{billno},
+			#{refbillno},
+			#{refbilltype},
+			#{orgid},
+			#{ladingcode},
+			#{shipname},
+			#{flight},
+			#{portid},
+			#{boxqty},
+			#{boxtype},
+			#{takeboxplaceid},
+			#{endplaceid},
+			#{bgnshipdate},
+			#{endshipdate},
+			#{bgnplanarrtime},
+			#{endplanarrtime},
+			#{remark},
+			#{billstatus},
+			#{makeuser},
+			#{makedate},
+			#{accuser},
+			#{accdate},
 			#{uptdate}
 		)
 	</insert>
-	 
+
 	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TransboxmainEntity">
-		update transboxmain 
+		update transboxmain
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="reftakebillno != null">`reftakebillno` = #{reftakebillno}, </if>
 			<if test="refbillno != null">`refbillno` = #{refbillno}, </if>
 			<if test="refbilltype != null">`refbilltype` = #{refbilltype}, </if>
 			<if test="orgid != null">`orgid` = #{orgid}, </if>
@@ -102,7 +99,7 @@
 			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
 			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
 			<if test="takeboxplaceid != null">`takeboxplaceid` = #{takeboxplaceid}, </if>
-			<if test="transcompanyid != null">`transcompanyid` = #{transcompanyid}, </if>
+			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
 			<if test="bgnshipdate != null">`bgnshipdate` = #{bgnshipdate}, </if>
 			<if test="endshipdate != null">`endshipdate` = #{endshipdate}, </if>
 			<if test="bgnplanarrtime != null">`bgnplanarrtime` = #{bgnplanarrtime}, </if>

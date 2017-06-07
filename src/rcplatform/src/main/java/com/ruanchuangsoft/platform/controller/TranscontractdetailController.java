@@ -15,29 +15,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 
-import com.ruanchuangsoft.platform.entity.TranslineEntity;
-import com.ruanchuangsoft.platform.service.TranslineService;
+import com.ruanchuangsoft.platform.entity.TranscontractdetailEntity;
+import com.ruanchuangsoft.platform.service.TranscontractdetailService;
 import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 线路管理
+ * 运输合同明细
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 15:31:52
+ * @date 2017-06-07 15:52:16
  */
 @Controller
-@RequestMapping("transline")
+@RequestMapping("transcontractdetail")
 @Transactional(rollbackFor = {RuntimeException.class,Exception.class})
-public class TranslineController extends AbstractController {
+public class TranscontractdetailController extends AbstractController {
 	@Autowired
-	private TranslineService translineService;
+	private TranscontractdetailService transcontractdetailService;
 
-	@RequestMapping("/transline")
+	@RequestMapping("/transcontractdetail")
 	public String list(){
-		return "transline/transline";
+		return "transcontractdetail/transcontractdetail";
 	}
 
 
@@ -45,7 +45,7 @@ public class TranslineController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("transline/transline");
+        setViewname("transcontractdetail/transcontractdetail");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -57,17 +57,17 @@ public class TranslineController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/list")
-	@RequiresPermissions("transline:list")
+	@RequiresPermissions("transcontractdetail:list")
 	public R list(Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
 
 		//查询列表数据
-		List<TranslineEntity> translineList = translineService.queryList(map);
-		int total = translineService.queryTotal(map);
+		List<TranscontractdetailEntity> transcontractdetailList = transcontractdetailService.queryList(map);
+		int total = transcontractdetailService.queryTotal(map);
 
-		PageUtils pageUtil = new PageUtils(translineList, total, limit, page);
+		PageUtils pageUtil = new PageUtils(transcontractdetailList, total, limit, page);
 
 		return R.ok().put("page", pageUtil);
 	}
@@ -78,11 +78,11 @@ public class TranslineController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("transline:info")
+	@RequiresPermissions("transcontractdetail:info")
 	public R info(@PathVariable("id") Long id){
-		TranslineEntity transline = translineService.queryObject(id);
+		TranscontractdetailEntity transcontractdetail = transcontractdetailService.queryObject(id);
 
-		return R.ok().put("transline", transline);
+		return R.ok().put("transcontractdetail", transcontractdetail);
 	}
 
 	/**
@@ -90,9 +90,9 @@ public class TranslineController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/save")
-	@RequiresPermissions("transline:save")
-	public R save(@RequestBody TranslineEntity transline){
-		translineService.save(transline);
+	@RequiresPermissions("transcontractdetail:save")
+	public R save(@RequestBody TranscontractdetailEntity transcontractdetail){
+		transcontractdetailService.save(transcontractdetail);
 
 		return R.ok();
 	}
@@ -102,9 +102,9 @@ public class TranslineController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	@RequiresPermissions("transline:update")
-	public R update(@RequestBody TranslineEntity transline){
-		translineService.update(transline);
+	@RequiresPermissions("transcontractdetail:update")
+	public R update(@RequestBody TranscontractdetailEntity transcontractdetail){
+		transcontractdetailService.update(transcontractdetail);
 
 		return R.ok();
 	}
@@ -114,9 +114,9 @@ public class TranslineController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/delete")
-	@RequiresPermissions("transline:delete")
+	@RequiresPermissions("transcontractdetail:delete")
 	public R delete(@RequestBody Long[] ids){
-		translineService.deleteBatch(ids);
+		transcontractdetailService.deleteBatch(ids);
 
 		return R.ok();
 	}
