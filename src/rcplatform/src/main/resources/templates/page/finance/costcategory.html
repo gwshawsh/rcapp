@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>费用科目</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="col-sm-2 panel-border-right">
+            <ul id="leftTree" class="ztree"></ul>
+        </div>
+        <div class="col-sm-10">
+            <div class="grid-btn">
+                <@shiro.hasPermission name="costcategory:save">
+                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+                </button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="costcategory:update">
+                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                        class="fa fa-pencil-square-o"></i>&nbsp;修改
+                </button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="costcategory:delete">
+                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                </button>
+                </@shiro.hasPermission>
+            </div>
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
+        </div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+                                                                            <div class="form-group">
+                        <div class="col-sm-2 control-label">上级科目</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="costcategory.parentId"
+                                   v-on:click="menuTree" readonly="readonly" placeholder="上级科目"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">科目编号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="costcategory.code"
+                                   placeholder="科目编号"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">科目名称</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="costcategory.name"
+                                   placeholder="科目名称"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">备注</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="costcategory.remark"
+                                   placeholder="备注"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">状态</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="costcategory.status"
+                                   placeholder="状态"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">排序</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="costcategory.orderNum"
+                                   placeholder="排序"/>
+                        </div>
+                    </div>
+                                        <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="menuLayer" style="display: none;padding:10px;">
+    <ul id="menuTree" class="ztree"></ul>
+</div>
+
+<script src="${ctxPath}/static/js/finance/costcategory.js"></script>
+</body>
+</html>

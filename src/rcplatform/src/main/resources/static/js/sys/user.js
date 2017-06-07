@@ -158,6 +158,7 @@ $(function () {
     $("#jqGrid").jqGrid({
         url: '../sys/user/list',
         datatype: "json",
+
         colModel: [			
 			{ label: '用户ID', name: 'userId', width: 45, key: true },
 			{ label: '用户名', name: 'username', width: 75 },

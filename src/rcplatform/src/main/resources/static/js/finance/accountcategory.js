@@ -2,7 +2,7 @@ var ztree;
 var vm = new Vue({
     el: '#rrapp',
     data: {
-        q:{
+        q: {
             id: 0
         },
         showList: true,
@@ -14,17 +14,17 @@ var vm = new Vue({
         }
     },
     methods: {
-        query:function(){
+        query: function () {
             vm.reload();
             vm.getTree();
         },
-        getTree: function(menuId){
+        getTree: function (menuId) {
             //加载菜单树
-            $.get("../accountcategory/select", function(r){
+            $.get("../accountcategory/select", function (r) {
                 ztree = $.fn.zTree.init($("#menuTree"), setting, r.treeList);
                 var node = ztree.getNodeByParam("id", vm.accountcategory.parentId);
                 ztree.selectNode(node);
-                vm. accountcategory.parentName = node.name;
+                vm.accountcategory.parentName = node.name;
 
                 ztreeLeft = $.fn.zTree.init($("#leftTree"), setting, r.treeList);
                 var node2 = ztreeLeft.getNodeByParam("id", vm.accountcategory.parentId);
@@ -92,7 +92,7 @@ var vm = new Vue({
                 vm.accountcategory = r.accountcategory;
             });
         },
-        menuTree: function(){
+        menuTree: function () {
             layer.open({
                 type: 1,
                 offset: '50px',
@@ -118,11 +118,11 @@ var vm = new Vue({
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
                 page: page,
-                postData:{'id':vm.q.id}
+                postData: {'id': vm.q.id}
             }).trigger("reloadGrid");
         },
-        onClickNode:function(event, treeId, treeNode) {
-            if(vm.showList) {
+        onClickNode: function (event, treeId, treeNode) {
+            if (vm.showList) {
                 vm.q.id = treeNode.id;
                 vm.reload();
             }
@@ -130,7 +130,6 @@ var vm = new Vue({
         }
     }
 });
-
 
 
 var setting = {
@@ -142,11 +141,11 @@ var setting = {
             rootPId: -1
         },
         key: {
-            url:"nourl"
+            url: "nourl"
         }
     },
-    callback:{
-        onClick:vm.onClickNode
+    callback: {
+        onClick: vm.onClickNode
     }
 };
 

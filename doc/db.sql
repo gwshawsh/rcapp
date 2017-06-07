@@ -950,6 +950,43 @@ CREATE TABLE `budgetdetail`(
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预算明细表';
 
+-- ------------------------------------------
+
+
+-- 费用科目
+DROP TABLE IF EXISTS `costcategory`;
+create table `costcategory`(
+  `costcategory_id` bigint NOT NULL AUTO_INCREMENT,
+  `parent_id` bigint NOT NULL COMMENT '上级科目',
+  `code` varchar(50) COMMENT '科目编号',
+  `name` varchar(20) COMMENT '科目名称',
+  `remark` varchar(50) COMMENT '备注',
+  `status` bigint COMMENT '状态',
+  `order_num` int COMMENT '排序',
+PRIMARY KEY (`costcategory_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='费用科目';
+
+-- 报销管理
+DROP TABLE IF EXISTS `expense`;
+CREATE TABLE `expense`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '报销单号',
+  `applyuser` varchar(50) COMMENT '申请人',
+  `dept_id` bigint COMMENT '部门',
+  `applydate` datetime COMMENT '申请日期',
+  `costcategory_id` bigint COMMENT '费用项目',
+  `expensemoney` double COMMENT '报销金额',
+  `reason` varchar(1000) COMMENT '报销事由',
+  `receiver` varchar(50) COMMENT '收款人',
+  `paytype` varchar(50) COMMENT '支付方式',
+  `accuser` varchar(50) COMMENT '审批人',
+  `accdate` datetime COMMENT '审核日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报销管理';
+
+
+
+
 
 
 create view V_IDENTITYLINK as 
