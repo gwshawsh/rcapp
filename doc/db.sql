@@ -1,13 +1,141 @@
+-- 请购主表
+DROP TABLE IF EXISTS `requisitionmain`;
+CREATE TABLE `requisitionmain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `requser` varchar(50) COMMENT '请购人',
+  `reqdepartment` bigint COMMENT '所属部门',
+  `reqtype` int COMMENT '请购类别', --  不同的请购类别对应到不同的协办部门
+  `billstatus` int COMMENT '单据状态',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `uptdate` datetime COMMENT '更新时间', 
+  `remark` text COMMENT '备注', 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='请购主表';
+
+-- 请购明细表
+DROP TABLE IF EXISTS `requisitiondetail`;
+CREATE TABLE `requisitiondetail`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `serialno` bigint COMMENT '序号',
+  `good_id` bigint COMMENT '商品id'
+  `goodsname` varchar(50) COMMENT '品名',
+  `goodscount` int COMMENT '数量',
+  `goodsspec` varchar(1000) COMMENT '规格',
+  `goodsuse` varchar(500) COMMENT '用途',  --  请购用途原因
+  `enddate` datetime COMMENT '需用日期',
+
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='请购明细表';
+
+
+-- 订购主表
+DROP TABLE IF EXISTS `ordermain`;
+CREATE TABLE `ordermain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `supplyid` bigint COMMENT '供应商id'
+  `reqbillno` varchar(50) COMMENT '请购单据号',
+  `requser` varchar(50) COMMENT '请购人',
+  `reqdepartment` bigint COMMENT '请购部门',
+  `reqdate` datetime COMMENT '请购日期',
+  `ordersource` int COMMENT '订购单来源', -- 订购单来源，1.请购单转入。2.新增
+  `ordertype` int COMMENT '订购类别', --  不同的订购类别对应到不同的协办部门
+  `billstatus` int COMMENT '单据状态',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `uptdate` datetime COMMENT '更新时间', 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订购主表';
+
+-- 订购明细表
+DROP TABLE IF EXISTS `orderdetail`;
+CREATE TABLE `orderdetail`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `serialno` bigint COMMENT '序号',
+  `goodid` bigint COMMENT '商品id'
+  `goodsname` varchar(50) COMMENT '订购物品名',
+  `goodscount` int COMMENT '订购物品数量',
+  `goodsspec` varchar(1000) COMMENT '订购物品规格',
+  `goodsuse` varchar(500) COMMENT '订购物品用途',  --  订购用途原因
+  `goodsprice` double COMMENT '订购物品单价',
+  `goodscost` double COMMENT '订购物品金额',
+  `enddate` datetime COMMENT '物品需用日期',
+
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订购明细表';
+
+
+-- 订购主表
+DROP TABLE IF EXISTS `paymentmain`;
+CREATE TABLE `paymentmain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `reqbillno` varchar(50) COMMENT '请购单据号',
+  `requser` varchar(50) COMMENT '请购人',
+  `reqdepartment` varchar(50) COMMENT '请购部门',
+  `reqdate` varchar(50) COMMENT '请购日期', --  关联请购表制表日期
+  `orderbillno` varchar(50) COMMENT '订购单据号',
+  `percent` varchar(50) COMMENT '付款比例',
+  `paytotal` double COMMENT '付款金额',
+  `paysource` int COMMENT '付款来源', -- 付款单来源，1.订购单转入。2.新增。3.合同转入
+  `payee` varchar(50) COMMENT '收款人',
+  `payeeaccount` int COMMENT '收款人账号',
+  `paytype` varchar(50) COMMENT '付款方式',
+  `payreason` varchar(500) COMMENT '说明',
+  `ordertype` int COMMENT '物品类别', --  不同的订购类别对应到不同的协办部门
+  `billstatus` int COMMENT '单据状态',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `uptdate` datetime COMMENT '更新时间', 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='付款主表';
+
+-- 订购明细表
+DROP TABLE IF EXISTS `paymentdetail`;
+CREATE TABLE `paymentdetail`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `serialno` bigint COMMENT '序号',
+  `goodsname` varchar(50) COMMENT '物品名',
+  `goodscount` int COMMENT '物品数量',
+  `goodscost` double COMMENT '物品单价',
+  `goodsspec` varchar(1000) COMMENT '物品规格',
+  `goodsuse` varchar(500) COMMENT '物品用途',  --  订购用途原因
+  `enddate` datetime COMMENT '物品需用日期',
+
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='付款明细表';
+
 CREATE TABLE `goods` (
-  `goods_id` bigint NOT NULL AUTO_INCREMENT,
-  `class_id` bigint COMMENT '父菜单ID，一级菜单为0',
-  `name` varchar(50) COMMENT '菜单名称',
-  `price` decimal COMMENT '菜单URL',
-  `gcount` int COMMENT '类型   0：目录   1：菜单   2：按钮',
-  `icon` varchar(50) COMMENT '菜单图标',
-  `order_num` int COMMENT '排序',
-  PRIMARY KEY (`menu_id`)
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `classid` bigint COMMENT '类别ID',
+  `code` varchar(50) COMMENT '编码',
+  `name` varchar(200) COMMENT '名称',
+
+  `price` double COMMENT '单价',
+  `pricetax` double COMMENT '含税单价',
+  `gcount` int COMMENT '库存', --    0：目录   1：菜单   2：按钮
+
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品表';
+
+CREATE TABLE `class` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `parentid` bigint COMMENT '上级类别ID',
+  `name` varchar(50) COMMENT '名称',
+  `code` int COMMENT '编码',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='品类表';
 
 CREATE TABLE `leavework` (
   `leave_id` bigint NOT NULL AUTO_INCREMENT,
