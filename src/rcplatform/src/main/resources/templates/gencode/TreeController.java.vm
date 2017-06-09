@@ -75,7 +75,7 @@ public class ${className}Controller extends AbstractController {
      */
     @ResponseBody
     @RequestMapping("/select")
-    @RequiresPermissions("sys:dept:select")
+    @RequiresPermissions("${pathName}:select")
     public R select() {
         //查询列表数据
         Map<String, Object> map = new HashMap<>();
