@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>${comments}</title>
-    #set($header='<# include "sys/header.html">')
+    #set($header='<#include "sys/header.html">')
     #set($query='<@shiro.hasPermission name="'+${pathName}+':list">')
     #set($save='<@shiro.hasPermission name="'+${pathName}+':save">')
     #set($update='<@shiro.hasPermission name="'+${pathName}+':update">')
@@ -58,6 +58,9 @@
             </div>
         </form>
     </div>
+</div>
+<div id="menuLayer" style="display: none;padding:10px;">
+    <ul id="menuTree" class="ztree"></ul>
 </div>
 
 <script src="${ctxPath}/static/js/${pathName}/${pathName}.js"></script>
