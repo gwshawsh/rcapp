@@ -22,7 +22,7 @@ CREATE TABLE `requisitiondetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `good_id` bigint COMMENT '商品id'
+  `good_id` bigint COMMENT '商品id',
   `goodsname` varchar(50) COMMENT '品名',
   `goodscount` int COMMENT '数量',
   `goodsspec` varchar(1000) COMMENT '规格',
@@ -38,7 +38,7 @@ DROP TABLE IF EXISTS `ordermain`;
 CREATE TABLE `ordermain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `supplyid` bigint COMMENT '供应商id'
+  `supplyid` bigint COMMENT '供应商id',
   `reqbillno` varchar(50) COMMENT '请购单据号',
   `requser` varchar(50) COMMENT '请购人',
   `reqdepartment` bigint COMMENT '请购部门',
@@ -60,14 +60,14 @@ CREATE TABLE `orderdetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `goodid` bigint COMMENT '商品id'
-  `goodsname` varchar(50) COMMENT '订购物品名',
-  `goodscount` int COMMENT '订购物品数量',
-  `goodsspec` varchar(1000) COMMENT '订购物品规格',
-  `goodsuse` varchar(500) COMMENT '订购物品用途',  --  订购用途原因
-  `goodsprice` double COMMENT '订购物品单价',
-  `goodscost` double COMMENT '订购物品金额',
-  `enddate` datetime COMMENT '物品需用日期',
+  `goodid` bigint COMMENT '商品id',
+  `goodsname` varchar(50) COMMENT '品名',
+  `goodscount` int COMMENT '数量',
+  `goodsspec` varchar(1000) COMMENT '规格',
+  `goodsuse` varchar(500) COMMENT '用途',  --  订购用途原因
+  `goodsprice` double COMMENT '单价',
+  `goodscost` double COMMENT '金额',
+  `enddate` datetime COMMENT '需用日期',
 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订购明细表';
@@ -106,12 +106,12 @@ CREATE TABLE `paymentdetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `goodsname` varchar(50) COMMENT '物品名',
-  `goodscount` int COMMENT '物品数量',
-  `goodscost` double COMMENT '物品单价',
-  `goodsspec` varchar(1000) COMMENT '物品规格',
-  `goodsuse` varchar(500) COMMENT '物品用途',  --  订购用途原因
-  `enddate` datetime COMMENT '物品需用日期',
+  `goodsname` varchar(50) COMMENT '品名',
+  `goodscount` int COMMENT '数量',
+  `goodscost` double COMMENT '单价',
+  `goodsspec` varchar(1000) COMMENT '规格',
+  `goodsuse` varchar(500) COMMENT '用途',  --  订购用途原因
+  `enddate` datetime COMMENT '需用日期',
 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='付款明细表';

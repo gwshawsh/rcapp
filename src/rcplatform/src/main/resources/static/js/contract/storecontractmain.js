@@ -69,7 +69,50 @@ var vm = new Vue({
                 });
             });
         },
-
+        selectbgndate: function (event) {
+            var option = {
+                elem: event.currentTarget,
+                istime: true,
+                format: 'YYYY-MM-DD hh:mm:ss',
+                choose: function (dates) {
+                    vm.storecontractmain.bgndate = dates;
+                }
+            }
+            layui.laydate(option);
+        },
+        selectenddate: function (event) {
+            var option = {
+                elem: event.currentTarget,
+                istime: true,
+                format: 'YYYY-MM-DD hh:mm:ss',
+                choose: function (dates) {
+                    vm.storecontractmain.enddate = dates;
+                }
+            }
+            layui.laydate(option);
+        },
+        selectmakedate: function (event) {
+            var option = {
+                elem: event.currentTarget,
+                istime: true,
+                format: 'YYYY-MM-DD hh:mm:ss',
+                choose: function (dates) {
+                    vm.storecontractmain.makedate = dates;
+                }
+            }
+            layui.laydate(option);
+        },
+        selectaccdate: function (event) {
+            var option = {
+                elem: event.currentTarget,
+                istime: true,
+                format: 'YYYY-MM-DD hh:mm:ss',
+                choose: function (dates) {
+                    vm.storecontractmain.accdate = dates;
+                }
+            }
+            layui.laydate(option);
+        },
 
         getInfo: function (id) {
             $.get("../storecontractmain/info/" + id, function (r) {

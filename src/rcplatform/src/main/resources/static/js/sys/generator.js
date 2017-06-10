@@ -58,6 +58,13 @@ var vm = new Vue({
 			}
 			location.href = "../sys/generator/code?tables=" + tableNames;
 		},
+        generatorbill: function() {
+            var tableNames = getSelectedRows();
+            if(tableNames == null){
+                return ;
+            }
+            location.href = "../sys/generator/codebill?tables=" + tableNames;
+        },
         generatortree: function() {
             var tableNames = getSelectedRows();
             if(tableNames == null){

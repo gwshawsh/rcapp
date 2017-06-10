@@ -81,7 +81,7 @@
                         <div clacc="layui-inline">
                         <label class="layui-form-label">汇率</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="storecontractmain.rate"
+                            <input type="number" class="layui-input" v-model="storecontractmain.rate"
                                    placeholder="汇率"/>
                         </div>
                         </div>
@@ -90,7 +90,7 @@
                         <div clacc="layui-inline">
                         <label class="layui-form-label">税率</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="storecontractmain.taxrate"
+                            <input type="number" class="layui-input" v-model="storecontractmain.taxrate"
                                    placeholder="税率"/>
                         </div>
                         </div>
@@ -99,7 +99,7 @@
                         <div clacc="layui-inline">
                         <label class="layui-form-label">放箱费单价</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="storecontractmain.takeboxfee"
+                            <input type="number" class="layui-input" v-model="storecontractmain.takeboxfee"
                                    placeholder="放箱费单价"/>
                         </div>
                         </div>
@@ -109,28 +109,27 @@
                         <div clacc="layui-inline">
                         <label class="layui-form-label">放箱费含税单价</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="storecontractmain.takeboxfeetax"
+                            <input type="number" class="layui-input" v-model="storecontractmain.takeboxfeetax"
                                    placeholder="放箱费含税单价"/>
                         </div>
                         </div>
 
-                                            
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">生效日期</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="storecontractmain.bgndate"
-                                   placeholder="生效日期"/>
-                        </div>
-                        </div>
 
-                                            
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">失效日期</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="storecontractmain.enddate"
-                                   placeholder="失效日期"/>
-                        </div>
-                        </div>
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">生效日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="storecontractmain.bgndate" v-on:click="selectbgndate"
+                               placeholder="生效日期"/>
+                    </div>
+                </div>
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">失效日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="storecontractmain.enddate" v-on:click="selectenddate"
+                               placeholder="失效日期"/>
+                    </div>
+                </div>
 </div>
             <div class="layui-form-item">
                                             

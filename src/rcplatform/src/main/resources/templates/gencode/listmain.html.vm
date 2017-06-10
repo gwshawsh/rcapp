@@ -36,23 +36,45 @@
         <div id="jqGridPager"></div>
     </div>
 
+    <div v-show="showDetailList" class="panel panel-default">
+        <div class="panel-heading">明细</div>
+        <table id="jqGridDetail"></table>
+        <div id="jqGridPagerDetail"></div>
+    </div>
+
     <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">{{title}}</div>
+        <div class="panel-heading">单据号:{{${classname}.billno}}<span class="panel-right">制单人:{{${classname}.makeuser}} 制单日期:{{${classname}.makedate}}</span></div>
+
         <div class="layui-btn-group">
             <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="saveOrUpdate"  ><i class="fa fa-save"></i>保存</button>
-            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="reload"  ><i class="fa fa-cancel"></i>返回</button>
+            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="reload"  ><i class="fa fa-reply"></i>返回</button>
 
         </div>
         <form class="layui-form layui-form-pane">
         <div class="layui-form-item">
             #foreach($column in $columns)
-                #if($column.columnName != $pk.columnName)
-
+                #if($column.columnName != $pk.columnName
+                       &&$column.columnName != "billno"
+                       &&$column.columnName != "makeuser"
+                       &&$column.columnName != "makedate"
+                       &&$column.columnName != "billstatus"
+                       &&$column.columnName != "accuser"
+                       &&$column.columnName != "accdate"
+                       &&$column.columnName != "uptdate"
+                )
                         <div clacc="layui-inline">
                         <label class="layui-form-label">${column.comments}</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="${classname}.${column.attrname}"
-                                   placeholder="${column.comments}"/>
+                            #if($column.columnName.endsWith("date") && $column.columnName!="uptdate")
+                                <input type="text" class="layui-input" lay-verify="date" v-model="${classname}.${column.attrname}" v-on:click="select${column.attrname}"
+                                       placeholder="${column.comments}"/>
+                            #elseif($column.attrType=="Double"||$column.attrType=="double")
+                                <input type="number" class="layui-input" v-model="${classname}.${column.attrname}"
+                                       placeholder="${column.comments}"/>
+                            #else
+                                <input type="text" class="layui-input" v-model="${classname}.${column.attrname}"
+                                       placeholder="${column.comments}"/>
+                            #end
                         </div>
                         </div>
 
@@ -60,6 +82,41 @@
             #end
          </div>
         </form>
+
+        <table id="details" class="layui-table">
+            <colgroup>
+                #foreach($column in $detailcolumns)
+                     <col width="100">
+                #end
+            </colgroup>
+            <thead>
+            <tr>
+                <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                #foreach($column in $detailcolumns)
+                    <th>${column.comments}</th>
+                #end
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(item,index) in ${pathName}.details">
+                <td><input type="checkbox" name="" lay-skin="primary"/>
+                    <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="additem"><i class="layui-icon">&#xe654;</i></button>
+                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="delitem" v-bind:id="'btn-del-'+index" v-bind:idx="index"><i class="layui-icon">&#xe640;</i></button>
+                    </div>
+                </td>
+                <td>{{index}}</td>
+                #foreach($column in $detailcolumns)
+                    #if($column.columnName != $pk.columnName)
+                    <td><input v-model="item.${column.attrname}"></td>
+                    #end
+                #end
+
+            </tr>
+            </tbody>
+        </table>
+
     </div>
 </div>
 

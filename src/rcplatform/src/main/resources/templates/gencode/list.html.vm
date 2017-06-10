@@ -51,8 +51,16 @@
                         <div clacc="layui-inline">
                         <label class="layui-form-label">${column.comments}</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="${classname}.${column.attrname}"
+                         #if($column.columnName.endsWith("date") && $column.columnName!="uptdate")
+                            <input type="text" class="layui-input" lay-verify="date" v-model="${classname}.${column.attrname}" v-on:click="select${column.attrname}"
                                    placeholder="${column.comments}"/>
+                         #elseif($column.attrType=="Double"||$column.attrType=="double")
+                             <input type="number" class="layui-input" v-model="${classname}.${column.attrname}"
+                                    placeholder="${column.comments}"/>
+                         #else
+                             <input type="text" class="layui-input" v-model="${classname}.${column.attrname}"
+                                    placeholder="${column.comments}"/>
+                         #end
                         </div>
                         </div>
                 </div>

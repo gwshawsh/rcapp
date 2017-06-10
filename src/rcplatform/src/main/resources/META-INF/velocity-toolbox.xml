@@ -6,4 +6,9 @@
 	    <scope>application</scope>
 	    <class>com.ruanchuangsoft.platform.shiro.VelocityShiro</class>
 	</tool>
+	<tool>
+		<key>velutil</key>
+		<scope>application</scope>
+		<class>com.ruanchuangsoft.platform.utils.generator.VelocityUtils</class>
+	</tool>
 </toolbox>

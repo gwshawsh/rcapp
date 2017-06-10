@@ -3,6 +3,7 @@ var vm = new Vue({
 	el:'#rrapp',
 	data:{
 		showList: true,
+        showDetailList:true,
 		title: null,
 		${classname}: {}
 	},
@@ -11,9 +12,12 @@ var vm = new Vue({
 			vm.reload();
 		},
 		add: function(){
+            var mktime=moment().format("YYYY-MM-DD");
 			vm.showList = false;
+            vm.showDetailList=false;
 			vm.title = "新增";
-			vm.${classname} = {};
+			vm.${classname} = {billno:"*",makeuser:gUserName,makedate:mktime,details:[]};
+            vm.additem();
 		},
 		update: function (event) {
 			var $pk.attrname = getSelectedRow();
@@ -21,6 +25,7 @@ var vm = new Vue({
 				return ;
 			}
 			vm.showList = false;
+            vm.showDetailList=false;
             vm.title = "修改";
             
             vm.getInfo(${pk.attrname})
@@ -89,11 +94,46 @@ var vm = new Vue({
         },
         reload: function (event) {
             vm.showList = true;
+            vm.showDetailList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
                 page:page
             }).trigger("reloadGrid");
         },
+
+
+        //单据明细的相关操作
+        queryDetail:function(){
+            var id = getSelectedRow();
+            if (id == null) {
+                return;
+            }
+            vm.showDetailList = true;
+
+            $("#jqGridDetail").jqGrid('setGridParam', {
+                page: 1,
+                postData:{'formid':id},
+                datatype: "json"
+            }).trigger("reloadGrid");
+        },
+        additem:function(){
+            var idx=vm.${classname}.details.length;
+            var item={billno:"*",serialno:idx};
+            vm.${classname}.details.push(item);
+        },
+
+        selectitem:function(index){
+            var sel=index;
+            var item=vm.${classname}.details[sel];
+        },
+        delitem:function(event){
+            var obj=event.currentTarget;
+            var index=obj.attributes['idx'].value
+            vm.${classname}.details.splice(index, 1);
+            for(var i=0;i<vm.${classname}.details.length;i++){
+                vm.${classname}.details[i].serialno=i;
+            }
+        }
 	}
 });
 
@@ -139,5 +179,48 @@ $(function () {
         }
     });
 
-	initGridHeight();
+
+    $("#jqGridDetail").jqGrid({
+        url: '../${pathName}/listdetail',
+        datatype: "local",
+        colModel: [
+			#foreach($column in $detailcolumns)
+				#if($column.columnName == $pk.columnName)
+                    { label: '${column.attrname}', name: '${column.attrname}', width: 50, key: true },
+				#else
+                    { label: '${column.comments}', name: '${column.attrname}', width: 80 }#if($velocityCount != $columns.size()), #end
+
+				#end
+			#end
+        ],
+        viewrecords: true,
+        height: 385,
+        rowNum: 10,
+        rowList : [10,30,50],
+        rownumbers: true,
+        rownumWidth: 25,
+        autowidth: true,
+        autoScroll: true,
+        multiselect: true,
+        pager: "#jqGridPagerDetail",
+        jsonReader : {
+            root: "page.list",
+            page: "page.currPage",
+            total: "page.totalPage",
+            records: "page.totalCount"
+        },
+        prmNames : {
+            page:"page",
+            rows:"limit",
+            order: "order"
+        },
+        shrinkToFit:false,
+        gridComplete:function(){
+            //隐藏grid底部滚动条
+            //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+        }
+    });
+
+    initGridHeightHalf("#jqGrid");
+    initGridHeightHalf("#jqGridDetail");
 });

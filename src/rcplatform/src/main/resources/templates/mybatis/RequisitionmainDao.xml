@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.RequisitionmainDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity">
+		select * from requisitionmain where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity">
+		select * from requisitionmain 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from requisitionmain 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into requisitionmain
+		(
+			`billno`, 
+			`requser`, 
+			`reqdepartment`, 
+			`reqtype`, 
+			`billstatus`, 
+			`makeuser`, 
+			`makedate`, 
+			`accuser`, 
+			`accdate`, 
+			`uptdate`, 
+			`remark`
+		)
+		values
+		(
+			#{billno}, 
+			#{requser}, 
+			#{reqdepartment}, 
+			#{reqtype}, 
+			#{billstatus}, 
+			#{makeuser}, 
+			#{makedate}, 
+			#{accuser}, 
+			#{accdate}, 
+			#{uptdate}, 
+			#{remark}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity">
+		update requisitionmain 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="requser != null">`requser` = #{requser}, </if>
+			<if test="reqdepartment != null">`reqdepartment` = #{reqdepartment}, </if>
+			<if test="reqtype != null">`reqtype` = #{reqtype}, </if>
+			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
+			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
+			<if test="makedate != null">`makedate` = #{makedate}, </if>
+			<if test="accuser != null">`accuser` = #{accuser}, </if>
+			<if test="accdate != null">`accdate` = #{accdate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}, </if>
+			<if test="remark != null">`remark` = #{remark}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from requisitionmain where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from requisitionmain where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

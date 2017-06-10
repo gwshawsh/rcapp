@@ -86,7 +86,7 @@ public class TakeboxmainController extends AbstractController {
 	}
 
 	/**
-	 * 列表
+	 * 查询明细列表
 	 */
 	@ResponseBody
 	@RequestMapping("/listdetail")
@@ -115,9 +115,10 @@ public class TakeboxmainController extends AbstractController {
 	public R info(@PathVariable("id") Long id){
 		TakeboxmainEntity takeboxmain = takeboxmainService.queryObject(id);
 
+		//查询明细数据
 		Map<String, Object> map = new HashMap<>();
 		map.put("formid",id);
-		//查询列表数据
+
 		List<TakeboxdetailEntity> takeboxdetailList = takeboxdetailService.queryList(map);
 		takeboxmain.setDetails(takeboxdetailList);
 		return R.ok().put("takeboxmain", takeboxmain);
