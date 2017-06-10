@@ -1,6 +1,5 @@
 package com.ruanchuangsoft.platform.service;
 
-
 import com.ruanchuangsoft.platform.entity.GoodsEntity;
 
 import java.util.List;
@@ -9,13 +8,13 @@ import java.util.Map;
 /**
  * 商品表
  * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2017-03-20 17:51:23
+ * @author lidongfeng
+ * @email lidongfeng78@qq.com
+ * @date 2017-06-09 14:27:43
  */
 public interface GoodsService {
 	
-	GoodsEntity queryObject(Long goodsId);
+	GoodsEntity queryObject(Long id);
 	
 	List<GoodsEntity> queryList(Map<String, Object> map);
 	
@@ -25,7 +24,7 @@ public interface GoodsService {
 	
 	void update(GoodsEntity goods);
 	
-	void delete(Long goodsId);
+	void delete(Long id);
 	
-	void deleteBatch(Long[] goodsIds);
+	void deleteBatch(Long[] ids);
 }

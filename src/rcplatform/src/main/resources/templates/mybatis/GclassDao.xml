@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.GclassDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.GclassEntity">
+		select * from gclass where id = #{value}
+	</select>
+
+    <select id="queryListParentId" resultType="com.ruanchuangsoft.platform.entity.GclassEntity">
+        select * from gclass where parent_id = #{parentId} order by order_num asc
+    </select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.GclassEntity">
+		select * from gclass
+        select m.*,(select p.name from gclass p where p.dept_id = m.parent_id) as parentName
+        from gclass m
+        <where>
+            <if test="id!=null" >
+                m.parent_id=#{id}
+            </if>
+        </where>
+        order by m.order_num asc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from gclass 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.GclassEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into gclass
+		(
+			`parentid`, 
+			`name`, 
+			`code`
+		)
+		values
+		(
+			#{parentid}, 
+			#{name}, 
+			#{code}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.GclassEntity">
+		update gclass 
+		<set>
+			<if test="parentid != null">`parentid` = #{parentid}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="code != null">`code` = #{code}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from gclass where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from gclass where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
