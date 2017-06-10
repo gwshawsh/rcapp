@@ -8,7 +8,12 @@
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TranscontractdetailEntity">
-		select * from transcontractdetail 
+		select * from transcontractdetail
+		<where>
+			<if test="formid != null">
+				billno in (select billno from transcontractmain where id= #{formid})
+			</if>
+		</where>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

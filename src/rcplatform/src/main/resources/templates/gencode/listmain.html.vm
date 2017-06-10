@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>${comments}</title>
-    #set($header='<# include "sys/header.html">')
+    #set($header='<#include "sys/header.html">')
     #set($query='<@shiro.hasPermission name="'+${pathName}+':list">')
     #set($save='<@shiro.hasPermission name="'+${pathName}+':save">')
     #set($update='<@shiro.hasPermission name="'+${pathName}+':update">')

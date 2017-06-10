@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.StorecontractdetailDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.StorecontractdetailEntity">
+		select * from storecontractdetail where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.StorecontractdetailEntity">
+		select * from storecontractdetail
+		<where>
+			<if test="formid != null">
+				billno in (select billno from storecontractmain where id= #{formid})
+			</if>
+		</where>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from storecontractdetail 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.StorecontractdetailEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into storecontractdetail
+		(
+			`billno`, 
+			`serialno`, 
+			`lineid`, 
+			`boxtype`, 
+			`weighttype`, 
+			`boxprice`
+		)
+		values
+		(
+			#{billno}, 
+			#{serialno}, 
+			#{lineid}, 
+			#{boxtype}, 
+			#{weighttype}, 
+			#{boxprice}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.StorecontractdetailEntity">
+		update storecontractdetail 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="serialno != null">`serialno` = #{serialno}, </if>
+			<if test="lineid != null">`lineid` = #{lineid}, </if>
+			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
+			<if test="weighttype != null">`weighttype` = #{weighttype}, </if>
+			<if test="boxprice != null">`boxprice` = #{boxprice}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from storecontractdetail where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from storecontractdetail where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
