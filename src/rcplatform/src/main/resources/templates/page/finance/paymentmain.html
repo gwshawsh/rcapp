@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>付款主表</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <@shiro.hasPermission name="paymentmain:list">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="paymentmain:save">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="paymentmain:update">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="paymentmain:delete">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </button>
+            </@shiro.hasPermission>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="showDetailList" class="panel panel-default">
+        <div class="panel-heading">明细</div>
+        <table id="jqGridDetail"></table>
+        <div id="jqGridPagerDetail"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">单据号:{{paymentmain.billno}}<span class="panel-right">制单人:{{paymentmain.makeuser}} 制单日期:{{paymentmain.makedate}}</span></div>
+
+        <div class="layui-btn-group">
+            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="saveOrUpdate"  ><i class="fa fa-save"></i>保存</button>
+            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="reload"  ><i class="fa fa-reply"></i>返回</button>
+
+        </div>
+        <form class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+                                                                                                            <div clacc="layui-inline">
+                        <label class="layui-form-label">请购单据号</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="paymentmain.reqbillno"
+                                       placeholder="请购单据号"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">请购人</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="paymentmain.requser"
+                                       placeholder="请购人"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">请购部门</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="paymentmain.reqdepartment"
+                                       placeholder="请购部门"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">请购日期</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" lay-verify="date" v-model="paymentmain.reqdate" v-on:click="selectreqdate"
+                                       placeholder="请购日期"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">订购单据号</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="paymentmain.orderbillno"
+                                       placeholder="订购单据号"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">付款比例</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="paymentmain.percent"
+                                       placeholder="付款比例"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">付款金额</label>
+                        <div class="layui-input-inline">
+                                                            <input type="number" class="layui-input" v-model="paymentmain.paytotal"
+                                       placeholder="付款金额"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">付款来源</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="paymentmain.paysource"
+                                       placeholder="付款来源"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">收款人</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="paymentmain.payee"
+                                       placeholder="收款人"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">收款人账号</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="paymentmain.payeeaccount"
+                                       placeholder="收款人账号"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">付款方式</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="paymentmain.paytype"
+                                       placeholder="付款方式"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">说明</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="paymentmain.payreason"
+                                       placeholder="说明"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">物品类别</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="paymentmain.ordertype"
+                                       placeholder="物品类别"/>
+                                                    </div>
+                        </div>
+
+                                                                                                                                                                                                             </div>
+        </form>
+
+        <table id="details" class="layui-table">
+            <colgroup>
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                            </colgroup>
+            <thead>
+            <tr>
+                <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                                    <th></th>
+                                    <th>单据号</th>
+                                    <th>序号</th>
+                                    <th>物品名</th>
+                                    <th>物品数量</th>
+                                    <th>物品单价</th>
+                                    <th>物品规格</th>
+                                    <th>物品用途</th>
+                                    <th>物品需用日期</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(item,index) in paymentmain.details">
+                <td><input type="checkbox" name="" lay-skin="primary"/>
+                    <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="additem"><i class="layui-icon">&#xe654;</i></button>
+                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="delitem" v-bind:id="'btn-del-'+index" v-bind:idx="index"><i class="layui-icon">&#xe640;</i></button>
+                    </div>
+                </td>
+                <td>{{index}}</td>
+                                                                                            <td><input v-model="item.billno"></td>
+                                                                            <td><input v-model="item.serialno"></td>
+                                                                            <td><input v-model="item.goodsname"></td>
+                                                                            <td><input v-model="item.goodscount"></td>
+                                                                            <td><input v-model="item.goodscost"></td>
+                                                                            <td><input v-model="item.goodsspec"></td>
+                                                                            <td><input v-model="item.goodsuse"></td>
+                                                                            <td><input v-model="item.enddate"></td>
+                                    
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/finance/paymentmain.js"></script>
+</body>
+</html>
