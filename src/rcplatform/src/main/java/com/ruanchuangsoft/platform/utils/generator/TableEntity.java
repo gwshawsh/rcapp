@@ -23,7 +23,17 @@ public class TableEntity {
 	private String className;
 	//类名(第一个字母小写)，如：sys_user => sysUser
 	private String classname;
-	
+
+	private TableEntity details;
+
+	public TableEntity getDetails() {
+		return details;
+	}
+
+	public void setDetails(TableEntity details) {
+		this.details = details;
+	}
+
 	public String getTableName() {
 		return tableName;
 	}

@@ -12,6 +12,7 @@ var vm = new Vue({
         },
         add: function () {
             vm.showList = false;
+            vm.showDetailList=false;
             vm.title = "新增";
             vm.takeboxmain = {};
         },

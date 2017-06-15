@@ -1,0 +1,226 @@
+
+var vm = new Vue({
+	el:'#rrapp',
+	data:{
+		showList: true,
+        showDetailList:true,
+		title: null,
+		${classname}: {}
+	},
+	methods: {
+		query: function () {
+			vm.reload();
+		},
+		add: function(){
+            var mktime=moment().format("YYYY-MM-DD");
+			vm.showList = false;
+            vm.showDetailList=false;
+			vm.title = "新增";
+			vm.${classname} = {billno:"*",makeuser:gUserName,makedate:mktime,details:[]};
+            vm.additem();
+		},
+		update: function (event) {
+			var $pk.attrname = getSelectedRow();
+			if($pk.attrname == null){
+				return ;
+			}
+			vm.showList = false;
+            vm.showDetailList=false;
+            vm.title = "修改";
+            
+            vm.getInfo(${pk.attrname})
+		},
+		saveOrUpdate: function (event) {
+			var url = vm.${classname}.${pk.attrname} == null ? "../${pathName}/save" : "../${pathName}/update";
+			$.ajax({
+				type: "POST",
+			    url: url,
+			    data: JSON.stringify(vm.${classname}),
+			    success: function(r){
+			    	if(r.code === 0){
+						alert('操作成功', function(index){
+							vm.reload();
+						});
+					}else{
+						alert(r.msg);
+					}
+				}
+			});
+		},
+		del: function (event) {
+			var ${pk.attrname}s = getSelectedRows();
+			if(${pk.attrname}s == null){
+				return ;
+			}
+			
+			confirm('确定要删除选中的记录？', function(){
+				$.ajax({
+					type: "POST",
+				    url: "../${pathName}/delete",
+				    data: JSON.stringify(${pk.attrname}s),
+				    success: function(r){
+						if(r.code == 0){
+							alert('操作成功', function(index){
+								$("#jqGrid").trigger("reloadGrid");
+							});
+						}else{
+							alert(r.msg);
+						}
+					}
+				});
+			});
+		},
+		#foreach($column in $columns)
+			#if($column.columnName.endsWith("date") && $column.columnName!="uptdate")
+                select${column.attrname}: function (event) {
+                    var option = {
+                        elem: event.currentTarget,
+                        istime: true,
+                        format: 'YYYY-MM-DD hh:mm:ss',
+                        choose: function (dates) {
+                            vm.${classname}.${column.attrname} = dates;
+                        }
+                    }
+                    layui.laydate(option);
+                },
+			#end
+		#end
+
+
+        getInfo: function(${pk.attrname}){
+            $.get("../${pathName}/info/"+${pk.attrname}, function(r){
+                vm.${classname} = r.${classname};
+            });
+        },
+        reload: function (event) {
+            vm.showList = true;
+            vm.showDetailList = true;
+            var page = $("#jqGrid").jqGrid('getGridParam','page');
+            $("#jqGrid").jqGrid('setGridParam',{
+                page:page
+            }).trigger("reloadGrid");
+        },
+
+
+        //单据明细的相关操作
+        queryDetail:function(){
+            var id = getSelectedRow();
+            if (id == null) {
+                return;
+            }
+            vm.showDetailList = true;
+
+            $("#jqGridDetail").jqGrid('setGridParam', {
+                page: 1,
+                postData:{'formid':id},
+                datatype: "json"
+            }).trigger("reloadGrid");
+        },
+        additem:function(){
+            var idx=vm.${classname}.details.length;
+            var item={billno:"*",serialno:idx};
+            vm.${classname}.details.push(item);
+        },
+
+        selectitem:function(index){
+            var sel=index;
+            var item=vm.${classname}.details[sel];
+        },
+        delitem:function(event){
+            var obj=event.currentTarget;
+            var index=obj.attributes['idx'].value
+            vm.${classname}.details.splice(index, 1);
+            for(var i=0;i<vm.${classname}.details.length;i++){
+                vm.${classname}.details[i].serialno=i;
+            }
+        }
+	}
+});
+
+$(function () {
+    $("#jqGrid").jqGrid({
+        url: '../${pathName}/list',
+        datatype: "json",
+        colModel: [
+			#foreach($column in $columns)
+				#if($column.columnName == $pk.columnName)
+                    { label: '${column.attrname}', name: '${column.attrname}', width: 50, key: true },
+				#else
+                    { label: '${column.comments}', name: '${column.attrname}', width: 80 }#if($velocityCount != $columns.size()), #end
+
+				#end
+			#end
+        ],
+        viewrecords: true,
+        height: 385,
+        rowNum: 10,
+        rowList : [10,30,50],
+        rownumbers: true,
+        rownumWidth: 25,
+        autowidth: true,
+        autoScroll: true,
+        multiselect: true,
+        pager: "#jqGridPager",
+        jsonReader : {
+            root: "page.list",
+            page: "page.currPage",
+            total: "page.totalPage",
+            records: "page.totalCount"
+        },
+        prmNames : {
+            page:"page",
+            rows:"limit",
+            order: "order"
+        },
+        shrinkToFit:false,
+        gridComplete:function(){
+            //隐藏grid底部滚动条
+            //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+        }
+    });
+
+
+    $("#jqGridDetail").jqGrid({
+        url: '../${pathName}/listdetail',
+        datatype: "local",
+        colModel: [
+			#foreach($column in $detailcolumns)
+				#if($column.columnName == $pk.columnName)
+                    { label: '${column.attrname}', name: '${column.attrname}', width: 50, key: true },
+				#else
+                    { label: '${column.comments}', name: '${column.attrname}', width: 80 }#if($velocityCount != $columns.size()), #end
+
+				#end
+			#end
+        ],
+        viewrecords: true,
+        height: 385,
+        rowNum: 10,
+        rowList : [10,30,50],
+        rownumbers: true,
+        rownumWidth: 25,
+        autowidth: true,
+        autoScroll: true,
+        multiselect: true,
+        pager: "#jqGridPagerDetail",
+        jsonReader : {
+            root: "page.list",
+            page: "page.currPage",
+            total: "page.totalPage",
+            records: "page.totalCount"
+        },
+        prmNames : {
+            page:"page",
+            rows:"limit",
+            order: "order"
+        },
+        shrinkToFit:false,
+        gridComplete:function(){
+            //隐藏grid底部滚动条
+            //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+        }
+    });
+
+    initGridHeightHalf("#jqGrid");
+    initGridHeightHalf("#jqGridDetail");
+});

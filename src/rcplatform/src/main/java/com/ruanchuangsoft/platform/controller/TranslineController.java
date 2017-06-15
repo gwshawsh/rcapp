@@ -45,7 +45,7 @@ public class TranslineController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("transline/transline");
+        setViewname("base/transline");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;

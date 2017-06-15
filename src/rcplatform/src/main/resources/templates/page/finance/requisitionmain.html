@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>请购主表</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <@shiro.hasPermission name="requisitionmain:list">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="requisitionmain:save">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="requisitionmain:update">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="requisitionmain:delete">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </button>
+            </@shiro.hasPermission>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="showDetailList" class="panel panel-default">
+        <div class="panel-heading">明细</div>
+        <table id="jqGridDetail"></table>
+        <div id="jqGridPagerDetail"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">单据号:{{requisitionmain.billno}}<span class="panel-right">制单人:{{requisitionmain.makeuser}} 制单日期:{{requisitionmain.makedate}}</span></div>
+
+        <div class="layui-btn-group">
+            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="saveOrUpdate"  ><i class="fa fa-save"></i>保存</button>
+            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="reload"  ><i class="fa fa-cancel"></i>返回</button>
+
+        </div>
+        <form class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+                                                                                <div clacc="layui-inline">
+                        <label class="layui-form-label">单据号</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="requisitionmain.billno"
+                                       placeholder="单据号"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">请购人</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="requisitionmain.requser"
+                                       placeholder="请购人"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">所属部门</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="requisitionmain.reqdepartment"
+                                       placeholder="所属部门"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">请购类别</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="requisitionmain.reqtype"
+                                       placeholder="请购类别"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">单据状态</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="requisitionmain.billstatus"
+                                       placeholder="单据状态"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">制单人</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="requisitionmain.makeuser"
+                                       placeholder="制单人"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">制单日期</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" lay-verify="date" v-model="requisitionmain.makedate" v-on:click="selectmakedate"
+                                       placeholder="制单日期"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">审核人</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="requisitionmain.accuser"
+                                       placeholder="审核人"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">审核日期</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" lay-verify="date" v-model="requisitionmain.accdate" v-on:click="selectaccdate"
+                                       placeholder="审核日期"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">更新时间</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="requisitionmain.uptdate"
+                                       placeholder="更新时间"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="requisitionmain.remark"
+                                       placeholder="备注"/>
+                                                    </div>
+                        </div>
+
+                                     </div>
+        </form>
+
+        <table id="details" class="layui-table">
+            <colgroup>
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                            </colgroup>
+            <thead>
+            <tr>
+                <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                                    <th></th>
+                                    <th>单据号</th>
+                                    <th>序号</th>
+                                    <th>商品id</th>
+                                    <th>品名</th>
+                                    <th>数量</th>
+                                    <th>规格</th>
+                                    <th>用途</th>
+                                    <th>需用日期</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(item,index) in requisitionmain.details">
+                <td><input type="checkbox" name="" lay-skin="primary"/>
+                    <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="additem"><i class="layui-icon">&#xe654;</i></button>
+                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="delitem" v-bind:id="'btn-del-'+index" v-bind:idx="index"><i class="layui-icon">&#xe640;</i></button>
+                    </div>
+                </td>
+                <td>{{index}}</td>
+                                    <td><input v-model="item.id"></td>
+                                    <td><input v-model="item.billno"></td>
+                                    <td><input v-model="item.serialno"></td>
+                                    <td><input v-model="item.goodId"></td>
+                                    <td><input v-model="item.goodsname"></td>
+                                    <td><input v-model="item.goodscount"></td>
+                                    <td><input v-model="item.goodsspec"></td>
+                                    <td><input v-model="item.goodsuse"></td>
+                                    <td><input v-model="item.enddate"></td>
+                
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/finance/requisitionmain.js"></script>
+</body>
+</html>

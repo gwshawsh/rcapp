@@ -51,7 +51,7 @@ public class TranscontractmainController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("transcontractmain/transcontractmain");
+        setViewname("contract/transcontractmain");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -85,10 +85,11 @@ public class TranscontractmainController extends AbstractController {
 	@ResponseBody
 	@RequestMapping("/listdetail")
 	@RequiresPermissions("transcontractdetail:list")
-	public R listdetail(Integer page, Integer limit){
+	public R listdetail(Long formid,Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
+		map.put("formid",formid);
 
 		//查询列表数据
 		List<TranscontractdetailEntity> transcontractdetailList = transcontractdetailService.queryList(map);

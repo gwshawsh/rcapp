@@ -1,13 +1,15 @@
 package com.ruanchuangsoft.platform.service.impl;
 
-import com.ruanchuangsoft.platform.dao.GoodsDao;
-import com.ruanchuangsoft.platform.entity.GoodsEntity;
-import com.ruanchuangsoft.platform.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+
+import com.ruanchuangsoft.platform.dao.GoodsDao;
+import com.ruanchuangsoft.platform.entity.GoodsEntity;
+import com.ruanchuangsoft.platform.service.GoodsService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("goodsService")
@@ -16,8 +18,8 @@ public class GoodsServiceImpl implements GoodsService {
 	private GoodsDao goodsDao;
 	
 	@Override
-	public GoodsEntity queryObject(Long goodsId){
-		return goodsDao.queryObject(goodsId);
+	public GoodsEntity queryObject(Long id){
+		return goodsDao.queryObject(id);
 	}
 	
 	@Override
@@ -41,13 +43,13 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 	
 	@Override
-	public void delete(Long goodsId){
-		goodsDao.delete(goodsId);
+	public void delete(Long id){
+		goodsDao.delete(id);
 	}
 	
 	@Override
-	public void deleteBatch(Long[] goodsIds){
-		goodsDao.deleteBatch(goodsIds);
+	public void deleteBatch(Long[] ids){
+		goodsDao.deleteBatch(ids);
 	}
 	
 }

@@ -30,157 +30,96 @@
         <div id="jqGridPager"></div>
     </div>
 
-<div v-show="showDetailList" class="panel panel-default">
-    <div class="panel-heading">明细</div>
-    <table id="jqGridDetail"></table>
-    <div id="jqGridPagerDetail"></div>
-</div>
+    <div v-show="showDetailList" class="panel panel-default">
+        <div class="panel-heading">明细</div>
+        <table id="jqGridDetail"></table>
+        <div id="jqGridPagerDetail"></div>
+    </div>
 
     <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">{{title}}</div>
+        <div class="panel-heading">单据号:{{transcontractmain.billno}}<span class="panel-right">制单人:{{transcontractmain.makeuser}} 制单日期:{{transcontractmain.makedate}}</span></div>
+
         <div class="layui-btn-group">
             <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="saveOrUpdate"  ><i class="fa fa-save"></i>保存</button>
             <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="reload"  ><i class="fa fa-cancel"></i>返回</button>
 
         </div>
         <form class="layui-form layui-form-pane">
+            <div class="layui-form-item">
 
-                                                                        <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">单据号</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.billno"
-                                   placeholder="单据号"/>
-                        </div>
-                        </div>
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">客户</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transcontractmain.orgid"
+                               placeholder="客户"/>
+                    </div>
                 </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">客户</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.orgid"
-                                   placeholder="客户"/>
-                        </div>
-                        </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">付款方式</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transcontractmain.paytype"
+                               placeholder="付款方式"/>
+                    </div>
                 </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">付款方式</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.paytype"
-                                   placeholder="付款方式"/>
-                        </div>
-                        </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">币别</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transcontractmain.boctid"
+                               placeholder="币别"/>
+                    </div>
                 </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">币别</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.boctid"
-                                   placeholder="币别"/>
-                        </div>
-                        </div>
+            </div>
+            <div class="layui-form-item">
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">汇率</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transcontractmain.rate"
+                               placeholder="汇率"/>
+                    </div>
                 </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">汇率</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.rate"
-                                   placeholder="汇率"/>
-                        </div>
-                        </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">税率</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transcontractmain.taxrate"
+                               placeholder="税率"/>
+                    </div>
                 </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">税率</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.taxrate"
-                                   placeholder="税率"/>
-                        </div>
-                        </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">生效日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transcontractmain.bgndate"
+                               placeholder="生效日期"/>
+                    </div>
                 </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">生效日期</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.bgndate"
-                                   placeholder="生效日期"/>
-                        </div>
-                        </div>
+</div>
+            <div class="layui-form-item">
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">失效日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transcontractmain.enddate"
+                               placeholder="失效日期"/>
+                    </div>
                 </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">失效日期</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.enddate"
-                                   placeholder="失效日期"/>
-                        </div>
-                        </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="transcontractmain.remark"
+                               placeholder="备注"/>
+                    </div>
                 </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">备注</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.remark"
-                                   placeholder="备注"/>
-                        </div>
-                        </div>
-                </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">单据状态</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.billstatus"
-                                   placeholder="单据状态:0：新增 1：审核 2：作废"/>
-                        </div>
-                        </div>
-                </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">制单人</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.makeuser"
-                                   placeholder="制单人"/>
-                        </div>
-                        </div>
-                </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">制单日期</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.makedate"
-                                   placeholder="制单日期"/>
-                        </div>
-                        </div>
-                </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">审核人</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.accuser"
-                                   placeholder="审核人"/>
-                        </div>
-                        </div>
-                </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">审核日期</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.accdate"
-                                   placeholder="审核日期"/>
-                        </div>
-                        </div>
-                </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">更新时间</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="transcontractmain.uptdate"
-                                   placeholder="更新时间"/>
-                        </div>
-                        </div>
-                </div>
-                            
+            </div>
         </form>
 
         <div class="box-body table-responsive no-padding">

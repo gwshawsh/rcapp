@@ -73,6 +73,28 @@ public class SysGeneratorController {
 		IOUtils.write(data, response.getOutputStream());
 	}
 
+
+	/**
+	 * 生成主从表代码
+	 */
+	@RequestMapping("/codebill")
+	@RequiresPermissions("sys:generator:code")
+	public void codebill(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		//获取表名，不进行xss过滤
+		HttpServletRequest orgRequest = XssHttpServletRequestWrapper.getOrgRequest(request);
+		String tables = orgRequest.getParameter("tables");
+		String[] tableNames=tables.split(",");
+
+		byte[] data = sysGeneratorService.generatorBillCode(tableNames);
+
+		response.reset();
+		response.setHeader("Content-Disposition", "attachment; filename=\"renren.zip\"");
+		response.addHeader("Content-Length", "" + data.length);
+		response.setContentType("application/octet-stream; charset=UTF-8");
+
+		IOUtils.write(data, response.getOutputStream());
+	}
+
 	/**
 	 * 生成tree代码
 	 */

@@ -2,6 +2,7 @@ var vm = new Vue({
     el: '#rrapp',
     data: {
         showList: true,
+        showDetailList:true,
         title: null,
         transcontractmain: {}
     },
@@ -10,9 +11,12 @@ var vm = new Vue({
             vm.reload();
         },
         add: function () {
+            var mktime=moment().format("YYYY-MM-DD");
             vm.showList = false;
+            vm.showDetailList=false;
             vm.title = "新增";
-            vm.transcontractmain = {};
+            vm.transcontractmain = {billno:"*",makeuser:gUserName,makedate:mktime,details:[]};
+            vm.additem();
         },
         update: function (event) {
             var id = getSelectedRow();
@@ -75,6 +79,39 @@ var vm = new Vue({
             $("#jqGrid").jqGrid('setGridParam', {
                 page: page
             }).trigger("reloadGrid");
+        },
+
+        //单据明细的相关操作
+        queryDetail:function(){
+            var id = getSelectedRow();
+            if (id == null) {
+                return;
+            }
+            vm.showDetailList = true;
+
+            $("#jqGridDetail").jqGrid('setGridParam', {
+                page: 1,
+                postData:{'formid':id},
+                datatype: "json"
+            }).trigger("reloadGrid");
+        },
+        additem:function(){
+            var idx=vm.transcontractmain.details.length;
+            var item={billno:"*",serialno:idx};
+            vm.transcontractmain.details.push(item);
+        },
+
+        selectitem:function(index){
+            var sel=index;
+            var item=vm.budgetform.details[sel];
+        },
+        delitem:function(event){
+            var obj=event.currentTarget;
+            var index=obj.attributes['idx'].value
+            vm.budgetform.details.splice(index, 1);
+            for(var i=0;i<vm.budgetform.details.length;i++){
+                vm.budgetform.details[i].serialno=i;
+            }
         }
     }
 });
@@ -133,8 +170,8 @@ $(function () {
         url: '../transcontractmain/listdetail',
         datatype: "json",
         colModel: [
-            { label: 'id', name: 'id', width: 50, key: true },
-            { label: '单据号', name: 'billno', width: 80 },
+            { label: 'id', name: 'id', width: 50, key: true ,hidden:true},
+            { label: '单据号', name: 'billno', width: 80 ,hidden:true},
             { label: '序号', name: 'serialno', width: 80 },
             { label: '线路', name: 'lineid', width: 80 },
             { label: '箱型', name: 'boxtype', width: 80 },
@@ -152,7 +189,7 @@ $(function () {
         autowidth: true,
         autoScroll: true,
         multiselect: true,
-        pager: "#jqGridPager",
+        pager: "#jqGridPagerDetail",
         jsonReader : {
             root: "page.list",
             page: "page.currPage",

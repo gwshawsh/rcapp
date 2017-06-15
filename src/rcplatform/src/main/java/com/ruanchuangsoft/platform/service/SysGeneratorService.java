@@ -24,5 +24,6 @@ public interface SysGeneratorService {
 	 * 生成代码
 	 */
 	byte[] generatorCode(String[] tableNames);
+	byte[] generatorBillCode(String[] tableNames);
 	byte[] generatorTreeCode(String[] tableNames);
 }

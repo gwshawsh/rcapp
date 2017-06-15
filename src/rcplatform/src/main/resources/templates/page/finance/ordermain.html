@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>订购主表</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <@shiro.hasPermission name="ordermain:list">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="ordermain:save">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="ordermain:update">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="ordermain:delete">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </button>
+            </@shiro.hasPermission>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="showDetailList" class="panel panel-default">
+        <div class="panel-heading">明细</div>
+        <table id="jqGridDetail"></table>
+        <div id="jqGridPagerDetail"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">单据号:{{ordermain.billno}}<span class="panel-right">制单人:{{ordermain.makeuser}} 制单日期:{{ordermain.makedate}}</span></div>
+
+        <div class="layui-btn-group">
+            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="saveOrUpdate"  ><i class="fa fa-save"></i>保存</button>
+            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="reload"  ><i class="fa fa-cancel"></i>返回</button>
+
+        </div>
+        <form class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+                                                                                <div clacc="layui-inline">
+                        <label class="layui-form-label">单据号</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="ordermain.billno"
+                                       placeholder="单据号"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">供应商id</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="ordermain.supplyid"
+                                       placeholder="供应商id"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">请购单据号</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="ordermain.reqbillno"
+                                       placeholder="请购单据号"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">请购人</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="ordermain.requser"
+                                       placeholder="请购人"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">请购部门</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="ordermain.reqdepartment"
+                                       placeholder="请购部门"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">请购日期</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" lay-verify="date" v-model="ordermain.reqdate" v-on:click="selectreqdate"
+                                       placeholder="请购日期"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">订购单来源</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="ordermain.ordersource"
+                                       placeholder="订购单来源"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">订购类别</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="ordermain.ordertype"
+                                       placeholder="订购类别"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">单据状态</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="ordermain.billstatus"
+                                       placeholder="单据状态"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">制单人</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="ordermain.makeuser"
+                                       placeholder="制单人"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">制单日期</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" lay-verify="date" v-model="ordermain.makedate" v-on:click="selectmakedate"
+                                       placeholder="制单日期"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">审核人</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="ordermain.accuser"
+                                       placeholder="审核人"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">审核日期</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" lay-verify="date" v-model="ordermain.accdate" v-on:click="selectaccdate"
+                                       placeholder="审核日期"/>
+                                                    </div>
+                        </div>
+
+                                                                    <div clacc="layui-inline">
+                        <label class="layui-form-label">更新时间</label>
+                        <div class="layui-input-inline">
+                                                            <input type="text" class="layui-input" v-model="ordermain.uptdate"
+                                       placeholder="更新时间"/>
+                                                    </div>
+                        </div>
+
+                                     </div>
+        </form>
+
+        <table id="details" class="layui-table">
+            <colgroup>
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                                     <col width="100">
+                            </colgroup>
+            <thead>
+            <tr>
+                <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                                    <th></th>
+                                    <th>单据号</th>
+                                    <th>序号</th>
+                                    <th>商品id</th>
+                                    <th>品名</th>
+                                    <th>数量</th>
+                                    <th>规格</th>
+                                    <th>用途</th>
+                                    <th>单价</th>
+                                    <th>金额</th>
+                                    <th>需用日期</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(item,index) in ordermain.details">
+                <td><input type="checkbox" name="" lay-skin="primary"/>
+                    <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="additem"><i class="layui-icon">&#xe654;</i></button>
+                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="delitem" v-bind:id="'btn-del-'+index" v-bind:idx="index"><i class="layui-icon">&#xe640;</i></button>
+                    </div>
+                </td>
+                <td>{{index}}</td>
+
+                                    <td><input v-model="item.billno"></td>
+                                    <td><input v-model="item.serialno"></td>
+                                    <td><input v-model="item.goodid"></td>
+                                    <td><input v-model="item.goodsname"></td>
+                                    <td><input v-model="item.goodscount"></td>
+                                    <td><input v-model="item.goodsspec"></td>
+                                    <td><input v-model="item.goodsuse"></td>
+                                    <td><input v-model="item.goodsprice"></td>
+                                    <td><input v-model="item.goodscost"></td>
+                                    <td><input v-model="item.enddate"></td>
+                
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/finance/ordermain.js"></script>
+</body>
+</html>

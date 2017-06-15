@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>仓储合同</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <@shiro.hasPermission name="storecontractmain:list">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="storecontractmain:save">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="storecontractmain:update">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="storecontractmain:delete">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </button>
+            </@shiro.hasPermission>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+<div v-show="showDetailList" class="panel panel-default">
+    <div class="panel-heading">明细</div>
+    <table id="jqGridDetail"></table>
+    <div id="jqGridPagerDetail"></div>
+</div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">单据号:{{storecontractmain.billno}}<span class="panel-right">制单人:{{storecontractmain.makeuser}} 制单日期:{{storecontractmain.makedate}}</span></div>
+
+        <div class="layui-btn-group">
+            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="saveOrUpdate"  ><i class="fa fa-save"></i>保存</button>
+            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="reload"  ><i class="fa fa-cancel"></i>返回</button>
+
+        </div>
+        <form class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+                                                        
+
+
+                                            
+                        <div clacc="layui-inline">
+                        <label class="layui-form-label">客户</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" v-model="storecontractmain.orgid"
+                                   placeholder="客户"/>
+                        </div>
+                        </div>
+
+                                            
+                        <div clacc="layui-inline">
+                        <label class="layui-form-label">付款方式</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" v-model="storecontractmain.paytype"
+                                   placeholder="付款方式"/>
+                        </div>
+                        </div>
+
+                                            
+                        <div clacc="layui-inline">
+                        <label class="layui-form-label">币别</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" v-model="storecontractmain.boctid"
+                                   placeholder="币别"/>
+                        </div>
+                        </div>
+</div>
+            <div class="layui-form-item">
+                                            
+                        <div clacc="layui-inline">
+                        <label class="layui-form-label">汇率</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input" v-model="storecontractmain.rate"
+                                   placeholder="汇率"/>
+                        </div>
+                        </div>
+
+                                            
+                        <div clacc="layui-inline">
+                        <label class="layui-form-label">税率</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input" v-model="storecontractmain.taxrate"
+                                   placeholder="税率"/>
+                        </div>
+                        </div>
+
+                                            
+                        <div clacc="layui-inline">
+                        <label class="layui-form-label">放箱费单价</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input" v-model="storecontractmain.takeboxfee"
+                                   placeholder="放箱费单价"/>
+                        </div>
+                        </div>
+</div>
+            <div class="layui-form-item">
+                                            
+                        <div clacc="layui-inline">
+                        <label class="layui-form-label">放箱费含税单价</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input" v-model="storecontractmain.takeboxfeetax"
+                                   placeholder="放箱费含税单价"/>
+                        </div>
+                        </div>
+
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">生效日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="storecontractmain.bgndate" v-on:click="selectbgndate"
+                               placeholder="生效日期"/>
+                    </div>
+                </div>
+
+                <div clacc="layui-inline">
+                    <label class="layui-form-label">失效日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" v-model="storecontractmain.enddate" v-on:click="selectenddate"
+                               placeholder="失效日期"/>
+                    </div>
+                </div>
+</div>
+            <div class="layui-form-item">
+                                            
+                        <div clacc="layui-inline">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" v-model="storecontractmain.remark"
+                                   placeholder="备注"/>
+                        </div>
+                        </div>
+
+        </div>
+        </form>
+
+        <div class="box-body table-responsive no-padding">
+
+            <table id="details" class="table table-hover">
+                <colgroup>
+                    <col width="10">
+                    <col width="20">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+
+                </colgroup>
+                <thead>
+                <tr style="background-color: #f2f2f2">
+                    <th><input type="checkbox" name=""></th>
+                    <th></th>
+                    <th>线路</th>
+                    <th>箱型</th>
+                    <th>空重类型</th>
+                    <th>应付单价</th>
+                    <th>含税应付单价</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(item,index) in storecontractmain.details">
+                    <td>
+                        <input type="checkbox" name="" lay-skin="primary"/>
+
+                    </td>
+                    <td> {{index}}</td>
+
+                    <td><input v-model="item.lineid" class="layui-input" style="width: 100px"></td>
+                    <td><input v-model="item.boxtype" class="layui-input" style="width: 100px"></td>
+                    <td><input v-model="item.weighttype" class="layui-input" style="width: 100px"></td>
+                    <td><input v-model="item.boxprice" class="layui-input" style="width: 100px"></td>
+                    <td><input v-model="item.boxpricetax" class="layui-input" style="width: 100px"></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/contract/storecontractmain.js"></script>
+</body>
+</html>

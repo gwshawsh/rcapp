@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.OrderdetailDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.OrderdetailEntity">
+		select * from orderdetail where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.OrderdetailEntity">
+		select * from orderdetail 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from orderdetail 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.OrderdetailEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into orderdetail
+		(
+			`billno`, 
+			`serialno`, 
+			`goodid`, 
+			`goodsname`, 
+			`goodscount`, 
+			`goodsspec`, 
+			`goodsuse`, 
+			`goodsprice`, 
+			`goodscost`, 
+			`enddate`
+		)
+		values
+		(
+			#{billno}, 
+			#{serialno}, 
+			#{goodid}, 
+			#{goodsname}, 
+			#{goodscount}, 
+			#{goodsspec}, 
+			#{goodsuse}, 
+			#{goodsprice}, 
+			#{goodscost}, 
+			#{enddate}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.OrderdetailEntity">
+		update orderdetail 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="serialno != null">`serialno` = #{serialno}, </if>
+			<if test="goodid != null">`goodid` = #{goodid}, </if>
+			<if test="goodsname != null">`goodsname` = #{goodsname}, </if>
+			<if test="goodscount != null">`goodscount` = #{goodscount}, </if>
+			<if test="goodsspec != null">`goodsspec` = #{goodsspec}, </if>
+			<if test="goodsuse != null">`goodsuse` = #{goodsuse}, </if>
+			<if test="goodsprice != null">`goodsprice` = #{goodsprice}, </if>
+			<if test="goodscost != null">`goodscost` = #{goodscost}, </if>
+			<if test="enddate != null">`enddate` = #{enddate}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from orderdetail where id = #{value}
+	</delete>
+
+    <delete id="deleteByBillNo">
+        delete from orderdetail where billno = #{value}
+    </delete>
+	
+	<delete id="deleteBatch">
+		delete from orderdetail where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

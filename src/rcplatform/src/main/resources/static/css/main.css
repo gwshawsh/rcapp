@@ -51,7 +51,7 @@ html { overflow-x:hidden; }
 tbody > tr > th {font-weight: normal; }
 .panel .table { margin:0 0; }
 .panel .pagination { margin:0; }
-.panel-default>.panel-heading {background-color: #f5f5f5;}
+.panel-default>.panel-heading {background-color: rgb(221, 241, 226);}
 .row{
 	border-top: 1px solid #ddd;
 	margin:0;
@@ -75,3 +75,6 @@ tbody > tr > th {font-weight: normal; }
     right: 10px;
 }
 
+.layui-table thead tr{
+    background-color: rgb(221, 241, 226)
+}
