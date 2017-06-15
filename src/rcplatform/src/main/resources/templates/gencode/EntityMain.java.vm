@@ -25,6 +25,17 @@ public class ${className}Entity implements Serializable {
 	private $column.attrType $column.attrname;
 #end
 
+
+	#foreach ($column in $columns)
+
+		#if($column.refColumn)
+            //$column.comments
+            private String ${column.attrname}$column.refColumnName;
+		#end
+
+
+	#end
+
 	//单据明细
 	private List<${detailClassName}Entity> details;
 
@@ -51,5 +62,22 @@ public class ${className}Entity implements Serializable {
 	public $column.attrType get${column.attrName}() {
 		return $column.attrname;
 	}
+#end
+
+#foreach ($column in $columns)
+	#if($column.refColumn)
+        /**
+         * 设置：${column.comments}${column.refColumnName}
+         */
+        public void set${column.attrName}${column.refColumnName}(String $column.refColumnName)} {
+            this.${column.attrname}${column.refColumnName} = $column.refColumnName;
+            }
+    /**
+     * 获取：${column.comments}${column.refColumnName}
+     */
+    public String get${column.attrName}${column.refColumnName}() {
+            return ${column.attrname}${column.refColumnName};
+            }
+	#end
 #end
 }

@@ -133,8 +133,8 @@ public class EmptymainController extends AbstractController {
 	 * 审核要想计划,自动生成方向计划,同时关联合同,生成应收费用
 	 */
 	@ResponseBody
-	@RequestMapping("/shenhe")
-	@RequiresPermissions("emptymain:shenhe")
+	@RequestMapping("/audit")
+	@RequiresPermissions("emptymain:audit")
 	public R accbill(@RequestBody  Long[] ids){
 		for(long id:ids){
 			EmptymainEntity emptymain=emptymainService.queryObject(id);

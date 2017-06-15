@@ -4,6 +4,13 @@ var vm = new Vue({
 	data:{
 		showList: true,
 		title: null,
+		#foreach($column in $refcolumns)
+			#if($column.columnName != $pk.columnName)
+                #if($column.refType=="combo")
+					ref_${column.refTable}:[],
+				#end
+			#end
+		#end
 		${classname}: {}
 	},
 	methods: {
@@ -65,6 +72,7 @@ var vm = new Vue({
 				});
 			});
 		},
+		//生成日期控件
 		#foreach($column in $columns)
 			#if($column.columnName.endsWith("date") && $column.columnName!="uptdate")
                 select${column.attrname}: function (event) {
@@ -80,6 +88,31 @@ var vm = new Vue({
                 },
 			#end
 		#end
+
+        //生成参照调用弹出框函数
+		#foreach($column in $columns)
+			#if($column.refColumn && $column.refType.equalsIgnoreCase("dialog"))
+                select${column.attrname}${column.refTable}: function (event) {
+                    showrefgrid_${column.refTable}("参照", function (data) {
+                        var seldata = data;
+                        vm.${classname}.${column.attrname} =seldata['id'];
+                        vm.${classname}.${column.attrname}${column.refTable}${column.refColumnName} =seldata['name'];
+                    });
+                },
+			#end
+		#end
+
+        //生成参照调用下拉框函数
+		#foreach($column in $refcolumns)
+			#if($column.refColumn && $column.refType.equalsIgnoreCase("combo"))
+                getRef${column.refTable}: function () {
+                    $.get("../${column.refTable}/list?page=1&limit=1000", function (r) {
+                        vm.ref_${column.refTable} = r.page.list;
+                    });
+                },
+			#end
+		#end
+
 
 
         getInfo: function(${pk.attrname}){

@@ -98,7 +98,7 @@ var vm = new Vue({
             confirm('确定要审核选中的记录？', function () {
                 $.ajax({
                     type: "POST",
-                    url: "../emptymain/shenhe",
+                    url: "../emptymain/audit",
                     data: JSON.stringify(ids),
                     success: function (r) {
                         if (r.code == 0) {

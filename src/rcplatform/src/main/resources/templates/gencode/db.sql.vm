@@ -7,5 +7,6 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_add', '${pathName}', '新增', NULL, '${pathName}:save,${pathName}:select', '2', NULL, '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_edit', '${pathName}', '修改', NULL, '${pathName}:update,${pathName}:select', '2', NULL, '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_delete', '${pathName}', '删除', NULL, '${pathName}:delete', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_audit', '${pathName}', '审核', NULL, '${pathName}:shenhe,${pathName}:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_audit', '${pathName}', '审核', NULL, '${pathName}:audit,${pathName}:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_unaudit', '${pathName}', '反审核', NULL, '${pathName}:unaudit,${pathName}:select', '2', NULL, '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('${pathName}_detail', '${pathName}', '明细', NULL, '${pathName}:list,${pathName}:info', '2', NULL, '0');

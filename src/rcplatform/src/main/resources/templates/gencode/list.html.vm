@@ -51,16 +51,28 @@
                         <div clacc="layui-inline">
                         <label class="layui-form-label">${column.comments}</label>
                         <div class="layui-input-inline">
-                         #if($column.columnName.endsWith("date") && $column.columnName!="uptdate")
-                            <input type="text" class="layui-input" lay-verify="date" v-model="${classname}.${column.attrname}" v-on:click="select${column.attrname}"
-                                   placeholder="${column.comments}"/>
-                         #elseif($column.attrType=="Double"||$column.attrType=="double")
-                             <input type="number" class="layui-input" v-model="${classname}.${column.attrname}"
+
+                            #if($column.columnName.endsWith("date") && $column.columnName!="uptdate")
+                                <input type="text" class="layui-input" lay-verify="date" v-model="${classname}.${column.attrname}" v-on:click="select${column.attrname}"
+                                       placeholder="${column.comments}"/>
+                            #elseif($column.attrType=="Double"||$column.attrType=="double")
+                               <input type="number" class="layui-input" v-model="${classname}.${column.attrname}"
                                     placeholder="${column.comments}"/>
-                         #else
-                             <input type="text" class="layui-input" v-model="${classname}.${column.attrname}"
+                            #elseif($column.refType.equalsIgnoreCase("dialog"))
+
+                                 <input type="text" class="layui-input"  v-model="${classname}.${column.attrname}${column.refColumnName}" v-on:click="select${column.attrname}${column.refTable}"
+                                        placeholder="${column.comments}"/>
+
+                             #elseif($column.refType.equalsIgnoreCase("combo"))
+                                 <select v-model="${classname}.${column.attrname}" lay-verify="" lay-search>
+
+                                     <option v-bind:value="item.${column.refColumnId}" v-for="(item,index) in ref_${column.refTable}">{{item.${column.refColumnName}}</option>
+
+                                   </select>
+                             #else
+                                  <input type="text" class="layui-input" v-model="${classname}.${column.attrname}"
                                     placeholder="${column.comments}"/>
-                         #end
+                              #end
                         </div>
                         </div>
                 </div>

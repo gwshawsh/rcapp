@@ -3,6 +3,7 @@ var vm = new Vue({
     data: {
         showList: true,
         title: null,
+        refplaces:[],
         transline: {}
     },
     methods: {
@@ -69,6 +70,7 @@ var vm = new Vue({
                 vm.transline = r.transline;
             });
         },
+
         reload: function (event) {
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
@@ -77,6 +79,12 @@ var vm = new Vue({
             }).trigger("reloadGrid");
         },
 
+        //初始化参照字段
+        getRefPlace: function () {
+            $.get("../place/list?page=1&limit=100",function(r){
+                vm.refplaces= r.page.list;
+            });
+        },
         selectStart:function(){
             showrefgrid_place("选择地点", function (data) {
                 var seldata = data;
@@ -134,6 +142,6 @@ $(function () {
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
-
+    vm.getRefPlace();
     initGridHeight();
 });

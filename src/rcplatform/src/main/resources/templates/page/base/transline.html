@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>线路管理</title>
-    <# include "sys/header.html">
+    <#include "sys/header.html">
         </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -67,8 +67,13 @@
                 <div clacc="layui-inline">
                     <label class="layui-form-label">起始地点</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="transline.startname"
-                               placeholder="起始地点" v-on:click="selectStart"/>
+
+
+                        <select v-model="transline.startlocation" lay-verify="" lay-search>
+
+                            <option v-bind:value="item.id" v-for="(item,index) in refplaces">{{item.name}}</option>
+
+                        </select>
                     </div>
                 </div>
             </div>
@@ -103,7 +108,7 @@
         </form>
     </div>
 </div>
-
+<#include "/base/place_ref.html">
 <script src="${ctxPath}/static/js/base/transline.js"></script>
 </body>
 </html>

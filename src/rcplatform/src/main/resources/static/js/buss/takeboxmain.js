@@ -96,7 +96,7 @@ var vm = new Vue({
             confirm('确定要审核选中的记录？', function () {
                 $.ajax({
                     type: "POST",
-                    url: "../takeboxmain/shenhe",
+                    url: "../takeboxmain/audit",
                     data: JSON.stringify(ids),
                     success: function (r) {
                         if (r.code == 0) {
@@ -121,7 +121,7 @@ var vm = new Vue({
 
                 $.ajax({
                     type: "POST",
-                    url: "../takeboxmain/shenhe",
+                    url: "../takeboxmain/audit",
                     data: JSON.stringify(ids),
                     success: function (r) {
                         if (r.code == 0) {

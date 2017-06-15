@@ -33,7 +33,6 @@ public class GenUtils {
         templates.add("templates/gencode/ServiceImpl.java.vm");
         templates.add("templates/gencode/Controller.java.vm");
         templates.add("templates/gencode/list.html.vm");
-        templates.add("templates/gencode/listmain.html.vm");
         templates.add("templates/gencode/list.js.vm");
         templates.add("templates/gencode/ref.html.vm");
         templates.add("templates/gencode/db.sql.vm");
@@ -44,8 +43,8 @@ public class GenUtils {
         List<String> templates = new ArrayList<String>();
         templates.add("templates/gencode/EntityMain.java.vm");
         templates.add("templates/gencode/Dao.java.vm");
-        templates.add("templates/gencode/Dao.xml.vm");
-        templates.add("templates/gencode/Service.java.vm");
+        templates.add("templates/gencode/DaoMain.xml.vm");
+        templates.add("templates/gencode/ServiceMain.java.vm");
         templates.add("templates/gencode/ServiceImplMain.java.vm");
         templates.add("templates/gencode/ControllerMain.java.vm");
         templates.add("templates/gencode/listmain.html.vm");
@@ -147,6 +146,7 @@ public class GenUtils {
         map.put("classname", tableEntity.getClassname());
         map.put("pathName", tableEntity.getClassname().toLowerCase());
         map.put("columns", tableEntity.getColumns());
+        map.put("refcolumns", tableEntity.getRefColumns());
         map.put("package", config.getString("package"));
         map.put("author", config.getString("author"));
         map.put("email", config.getString("email"));

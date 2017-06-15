@@ -1,5 +1,6 @@
 package com.ruanchuangsoft.platform.utils.generator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +19,38 @@ public class TableEntity {
 	private ColumnEntity pk;
 	//表的列名(不包含主键)
 	private List<ColumnEntity> columns;
+
+	//表的参照列,去掉重复的参照
+	private List<ColumnEntity> refColumns;
+
+	public boolean containsRefColumn(ColumnEntity pcol){
+		for(ColumnEntity item:refColumns){
+			if(item.getRefTable().equalsIgnoreCase(pcol.getRefTable())){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public List<ColumnEntity> getRefColumns() {
+		if(refColumns==null){
+			refColumns=new ArrayList<>();
+			for (ColumnEntity item :
+					columns) {
+				if(item.isRefColumn()&&!containsRefColumn(item)){
+					refColumns.add(item);
+				}
+			}
+		}
+		return refColumns;
+	}
+
+	public void setRefColumns(List<ColumnEntity> refColumns) {
+
+		this.refColumns = refColumns;
+	}
+
+
 	
 	//类名(第一个字母大写)，如：sys_user => SysUser
 	private String className;
@@ -70,4 +103,6 @@ public class TableEntity {
 	public void setClassname(String classname) {
 		this.classname = classname;
 	}
+
+
 }

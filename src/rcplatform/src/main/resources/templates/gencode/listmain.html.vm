@@ -7,6 +7,8 @@
     #set($save='<@shiro.hasPermission name="'+${pathName}+':save">')
     #set($update='<@shiro.hasPermission name="'+${pathName}+':update">')
     #set($delete='<@shiro.hasPermission name="'+${pathName}+':delete">')
+    #set($audit='<@shiro.hasPermission name="'+${pathName}+':audit">')
+    #set($unaudit='<@shiro.hasPermission name="'+${pathName}+':unaudit">')
     #set($end='</@shiro.hasPermission>')
     $header
 </head>
@@ -31,6 +33,14 @@
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </button>
             $end
+            $audit
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
+            </button>
+            $end
+            $unaudit
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
+            </button>
+            $end
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -43,13 +53,13 @@
     </div>
 
     <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">单据号:{{${classname}.billno}}<span class="panel-right">制单人:{{${classname}.makeuser}} 制单日期:{{${classname}.makedate}}</span></div>
-
-        <div class="layui-btn-group">
+        <div class="layui-elem-quote">
             <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="saveOrUpdate"  ><i class="fa fa-save"></i>保存</button>
             <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="reload"  ><i class="fa fa-reply"></i>返回</button>
-
         </div>
+
+        <div class="panel-heading">单据号:{{${classname}.billno}}<span class="panel-right">制单人:{{${classname}.makeuser}} 制单日期:{{${classname}.makedate}}</span></div>
+
         <form class="layui-form layui-form-pane">
         <div class="layui-form-item">
             #foreach($column in $columns)

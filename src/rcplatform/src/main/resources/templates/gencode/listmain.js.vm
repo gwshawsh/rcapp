@@ -47,6 +47,54 @@ var vm = new Vue({
 				}
 			});
 		},
+        audit:function(event){
+            var ${pk.attrname}s = getSelectedRows();
+            if(${pk.attrname}s == null){
+                return ;
+            }
+
+            confirm('确定要删除选中的记录？', function(){
+                $.ajax({
+                    type: "POST",
+                    url: "../${pathName}/audit",
+                    data: JSON.stringify(${pk.attrname}s),
+                    success: function(r){
+                        if(r.code == 0){
+                            alert('操作成功', function(index){
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        }else{
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+
+        unaudit:function(){
+            var ${pk.attrname}s = getSelectedRows();
+            if(${pk.attrname}s == null){
+                return ;
+            }
+
+            confirm('确定要删除选中的记录？', function(){
+                $.ajax({
+                    type: "POST",
+                    url: "../${pathName}/unaudit",
+                    data: JSON.stringify(${pk.attrname}s),
+                    success: function(r){
+                        if(r.code == 0){
+                            alert('操作成功', function(index){
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        }else{
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+
 		del: function (event) {
 			var ${pk.attrname}s = getSelectedRows();
 			if(${pk.attrname}s == null){
@@ -85,7 +133,18 @@ var vm = new Vue({
                 },
 			#end
 		#end
-
+        //生成参照调用函数
+        #foreach($column in $columns)
+            #if($column.refColumn)
+                select${column.attrname}${column.refTable}: function (event) {
+                    showrefgrid_${column.refTable}("参照", function (data) {
+                        var seldata = data;
+                        vm.${classname}.${column.attrname} =seldata['id'];
+                        vm.${classname}.${column.attrname}${column.refTable}${column.refColumnName} =seldata['name'];
+                    });
+                },
+            #end
+        #end
 
         getInfo: function(${pk.attrname}){
             $.get("../${pathName}/info/"+${pk.attrname}, function(r){
