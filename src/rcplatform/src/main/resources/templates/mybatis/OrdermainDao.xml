@@ -25,7 +25,7 @@
 			`supplyid`, 
 			`reqbillno`, 
 			`requser`, 
-			`reqdepartment`, 
+			`deptid`, 
 			`reqdate`, 
 			`ordersource`, 
 			`ordertype`, 
@@ -42,7 +42,7 @@
 			#{supplyid}, 
 			#{reqbillno}, 
 			#{requser}, 
-			#{reqdepartment}, 
+			#{deptid}, 
 			#{reqdate}, 
 			#{ordersource}, 
 			#{ordertype}, 
@@ -62,7 +62,7 @@
 			<if test="supplyid != null">`supplyid` = #{supplyid}, </if>
 			<if test="reqbillno != null">`reqbillno` = #{reqbillno}, </if>
 			<if test="requser != null">`requser` = #{requser}, </if>
-			<if test="reqdepartment != null">`reqdepartment` = #{reqdepartment}, </if>
+			<if test="deptid != null">`deptid` = #{deptid}, </if>
 			<if test="reqdate != null">`reqdate` = #{reqdate}, </if>
 			<if test="ordersource != null">`ordersource` = #{ordersource}, </if>
 			<if test="ordertype != null">`ordertype` = #{ordertype}, </if>
@@ -75,6 +75,21 @@
 		</set>
 		where id = #{id}
 	</update>
+
+
+    <update id="auditBatch">
+        update  ordermain set billstatus=billstatus+1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="unauditBatch">
+        update  ordermain set billstatus=billstatus-1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
 	
 	<delete id="delete">
 		delete from ordermain where id = #{value}

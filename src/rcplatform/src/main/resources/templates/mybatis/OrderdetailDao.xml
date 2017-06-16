@@ -23,27 +23,29 @@
 		(
 			`billno`, 
 			`serialno`, 
-			`goodid`, 
+			`goodsid`, 
 			`goodsname`, 
 			`goodscount`, 
 			`goodsspec`, 
 			`goodsuse`, 
 			`goodsprice`, 
 			`goodscost`, 
-			`enddate`
+			`enddate`, 
+			`uptdate`
 		)
 		values
 		(
 			#{billno}, 
 			#{serialno}, 
-			#{goodid}, 
+			#{goodsid}, 
 			#{goodsname}, 
 			#{goodscount}, 
 			#{goodsspec}, 
 			#{goodsuse}, 
 			#{goodsprice}, 
 			#{goodscost}, 
-			#{enddate}
+			#{enddate}, 
+			#{uptdate}
 		)
 	</insert>
 	 
@@ -52,14 +54,15 @@
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
 			<if test="serialno != null">`serialno` = #{serialno}, </if>
-			<if test="goodid != null">`goodid` = #{goodid}, </if>
+			<if test="goodsid != null">`goodsid` = #{goodsid}, </if>
 			<if test="goodsname != null">`goodsname` = #{goodsname}, </if>
 			<if test="goodscount != null">`goodscount` = #{goodscount}, </if>
 			<if test="goodsspec != null">`goodsspec` = #{goodsspec}, </if>
 			<if test="goodsuse != null">`goodsuse` = #{goodsuse}, </if>
 			<if test="goodsprice != null">`goodsprice` = #{goodsprice}, </if>
 			<if test="goodscost != null">`goodscost` = #{goodscost}, </if>
-			<if test="enddate != null">`enddate` = #{enddate}</if>
+			<if test="enddate != null">`enddate` = #{enddate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
 		</set>
 		where id = #{id}
 	</update>

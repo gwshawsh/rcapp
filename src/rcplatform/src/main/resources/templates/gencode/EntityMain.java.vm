@@ -39,7 +39,7 @@ public class ${className}Entity implements Serializable {
 	//单据明细
 	private List<${detailClassName}Entity> details;
 
-	public void setDetials(List<${detailClassName}Entity> details) {
+	public void setDetails(List<${detailClassName}Entity> details) {
         this.details = details;
     }
 
@@ -69,7 +69,7 @@ public class ${className}Entity implements Serializable {
         /**
          * 设置：${column.comments}${column.refColumnName}
          */
-        public void set${column.attrName}${column.refColumnName}(String $column.refColumnName)} {
+        public void set${column.attrName}${column.refColumnName}(String $column.refColumnName) {
             this.${column.attrname}${column.refColumnName} = $column.refColumnName;
             }
     /**

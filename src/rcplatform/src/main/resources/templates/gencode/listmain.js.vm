@@ -34,13 +34,32 @@ var vm = new Vue({
             #if($column.columnName != $pk.columnName)
                 #if($column.refType=="combo")
                     ref_${column.refTable}:[],
+                #elseif($column.refType=="enum")
+                    ref_enum${column.refTable}:[],
+
                 #end
             #end
         #end
 
 
         //单据主表实体类
-		${classname}: {}
+		${classname}: {
+            #foreach($column in $columns)
+                #if($column.columnName != $pk.columnName)
+                    #if($column.columnName.equalsIgnoreCase('billno'))
+                        ${column.attrname}:"*",
+                    #elseif ($column.columnName.equalsIgnoreCase('makeuser'))
+                        ${column.attrname}:gUserName,
+                    #elseif ($column.columnName.equalsIgnoreCase('makedate'))
+                        ${column.attrname}:""#if($velocityCount != $columns.size()), #end
+                    #else
+                        ${column.attrname}:"",
+                    #end
+                #end
+            #end
+            details:[]
+
+        }
 	},
 	methods: {
 		query: function () {
@@ -53,14 +72,19 @@ var vm = new Vue({
 			vm.title = "新增";
 			vm.${classname} = {
                 #foreach($column in $columns)
-                    #if($column.columnName.equalsIgnoreCase('billno'))
-                        ${column.attrname}:"*",
-                    #elseif ($column.columnName.equalsIgnoreCase('makeuser'))
-                        ${column.attrname}:gUserName,
-                    #else
-                        ${column.attrname}:"",
+                    #if($column.columnName != $pk.columnName)
+                        #if($column.columnName.equalsIgnoreCase('billno'))
+                            ${column.attrname}:"*",
+                        #elseif ($column.columnName.equalsIgnoreCase('makeuser'))
+                            ${column.attrname}:gUserName,
+                        #elseif ($column.columnName.equalsIgnoreCase('makedate'))
+                            ${column.attrname}:mktime#if($velocityCount != $columns.size()), #end
+                        #else
+                            ${column.attrname}:"",
+                        #end
                     #end
-                #enddetails:[]};
+                #end
+                details:[]};
             vm.additem();
 		},
 		update: function (event) {
@@ -165,7 +189,7 @@ var vm = new Vue({
 
         //生成参照调用函数
         #foreach($column in $columns)
-            #if($column.refColumn)
+            #if($column.refColumn && $column.refType.equalsIgnoreCase("dialog"))
                 select${column.attrname}${column.refTable}: function (event) {
                     showrefgrid_${column.refTable}("参照", function (data) {
                         var seldata = data;
@@ -182,6 +206,12 @@ var vm = new Vue({
                 getRef${column.refTable}: function () {
                     $.get("../${column.refTable}/list?page=1&limit=1000", function (r) {
                         vm.ref_${column.refTable} = r.page.list;
+                    });
+                },
+            #elseif($column.refColumn && $column.refType.equalsIgnoreCase("enum"))
+                getRefEnum${column.refTable}: function () {
+                    $.get("../enumtable/listone?enumid=${column.refTable}&page=1&limit=1000", function (r) {
+                        vm.ref_enum${column.refTable} = r.page.list;
                     });
                 },
             #end
@@ -216,9 +246,27 @@ var vm = new Vue({
                 datatype: "json"
             }).trigger("reloadGrid");
         },
+
+        //增加明细表一条记录
         additem:function(){
+            var mktime=moment().format("YYYY-MM-DD");
             var idx=vm.${classname}.details.length;
-            var item={billno:"*",serialno:idx};
+            var item={
+                #foreach($column in $detailcolumns)
+                    #if($column.columnName.equalsIgnoreCase('billno'))
+                        ${column.attrname}:"*"#if($velocityCount != $columns.size()), #end
+                    #elseif ($column.columnName.equalsIgnoreCase('serialno'))
+                        ${column.attrname}:idx#if($velocityCount != $columns.size()), #end
+                    #elseif ($column.columnName.endsWith('date'))
+                        ${column.attrname}:mktime#if($velocityCount != $columns.size()), #end
+                    #else
+                        ${column.attrname}:""#if($velocityCount != $columns.size()), #end
+                    #end
+                #end
+
+            };
+
+
             vm.${classname}.details.push(item);
         },
 
@@ -328,6 +376,8 @@ $(function () {
     #foreach($column in $refcolumns)
         #if($column.refColumn && $column.refType.equalsIgnoreCase("combo"))
             vm.getRef${column.refTable}();
+        #elseif($column.refColumn && $column.refType.equalsIgnoreCase("enum"))
+            vm.getRefEnum${column.refTable}();
         #end
     #end
 

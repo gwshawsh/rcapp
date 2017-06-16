@@ -54,7 +54,7 @@ public class ${className}Entity implements Serializable {
         /**
          * 设置：${column.comments}${column.refColumnName}
          */
-        public void set${column.attrName}${column.refColumnName}(String $column.refColumnName)} {
+        public void set${column.attrName}${column.refColumnName}(String $column.refColumnName) {
             this.${column.attrname}${column.refColumnName} = $column.refColumnName;
         }
         /**

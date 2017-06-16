@@ -27,13 +27,19 @@ var vm = new Vue({
             }
         }]
     },
+        //创建参照
 		#foreach($column in $refcolumns)
 			#if($column.columnName != $pk.columnName)
                 #if($column.refType=="combo")
 					ref_${column.refTable}:[],
-				#end
+
+                #elseif($column.refType=="enum")
+                    ref_enum${column.refTable}:[],
+                #end
 			#end
 		#end
+
+        //创建实体类
         ${classname}: {
             #foreach($column in $columns)
                 #if($column.columnName != $pk.columnName)
@@ -47,9 +53,24 @@ var vm = new Vue({
 			vm.reload();
 		},
 		add: function(){
+            var mktime = moment().format("YYYY-MM-DD");
 			vm.showList = false;
 			vm.title = "新增";
-			vm.${classname} = {};
+			vm.${classname} = {
+                    #foreach($column in $columns)
+                        #if($column.columnName != $pk.columnName)
+                            #if($column.columnName.equalsIgnoreCase('billno'))
+                                ${column.attrname}:"*"#if($velocityCount != $columns.size()), #end
+                            #elseif ($column.columnName.equalsIgnoreCase('makeuser'))
+                                ${column.attrname}:gUserName#if($velocityCount != $columns.size()), #end
+                            #elseif ($column.columnName.equalsIgnoreCase('makedate'))
+                                ${column.attrname}:mktime#if($velocityCount != $columns.size()), #end
+                            #else
+                                ${column.attrname}:""#if($velocityCount != $columns.size()), #end
+                            #end
+                        #end
+                    #end
+            };
 		},
 		update: function (event) {
 			var $pk.attrname = getSelectedRow();
@@ -123,7 +144,14 @@ var vm = new Vue({
                         vm.ref_${column.refTable} = r.page.list;
                     });
                 },
-			#end
+
+            #elseif($column.refColumn && $column.refType.equalsIgnoreCase("enum"))
+                getRef${column.refTable}: function () {
+                    $.get("../enumtable/listone?enumid=${column.refTable}&page=1&limit=1000", function (r) {
+                        vm.ref_enum${column.refTable} = r.page.list;
+                    });
+                },
+            #end
 		#end
 
 

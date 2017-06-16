@@ -109,8 +109,6 @@
 
                         #else
                             <el-input v-model="${classname}.${column.attrname}" placeholder="${column.comments}"></el-input>
-
-
                         #end
 
                     </el-form-item>
@@ -128,7 +126,7 @@
             </colgroup>
             <thead>
             <tr>
-                <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                <th>操作</th>
                 #foreach($column in $detailcolumns)
                     <th>${column.comments}</th>
                 #end
@@ -137,16 +135,42 @@
             </thead>
             <tbody>
             <tr v-for="(item,index) in ${pathName}.details">
-                <td><input type="checkbox" name="" lay-skin="primary"/>
-                    <div class="layui-btn-group">
-                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="additem"><i class="layui-icon">&#xe654;</i></button>
-                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="delitem" v-bind:id="'btn-del-'+index" v-bind:idx="index"><i class="layui-icon">&#xe640;</i></button>
-                    </div>
+                <td>
+                    <el-button-group>
+                        <el-button type="primary" icon="add" size="mini" v-on:click="additem"></el-button>
+                        <el-button type="primary" icon="delete"  size="mini" v-on:click="delitem"></el-button>
+                    </el-button-group>
                 </td>
                 <td>{{index}}</td>
                 #foreach($column in $detailcolumns)
-                    #if($column.columnName != $pk.columnName)
-                    <td><input v-model="item.${column.attrname}"></td>
+                    #if($column.columnName.endsWith("date"))
+
+                       <td><el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="item.${column.attrname}" style="width: 100%;"></el-date-picker></td>
+                    #elseif($column.columnName.endsWith("time"))
+
+                    <td><el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="item.${column.attrname}" style="width: 100%;"></el-date-picker></td>
+
+                    #elseif($column.attrType=="Double"||$column.attrType=="double")
+
+                    <td><el-input-number v-model="item.${column.attrname}" :min="1" ></el-input-number></td>
+                    #elseif($column.refType.equalsIgnoreCase("dialog"))
+                    <td><el-input v-model="item.${column.attrname}${column.refColumnName}" v-on:click="select${column.attrname}${column.refTable}"
+                                  placeholder="${column.comments}"></el-input></td>
+
+
+                    #elseif($column.refType.equalsIgnoreCase("combo"))
+                    <td><el-select v-model="item.${column.attrname}"  filterable placeholder="请选择">
+                            <el-option
+                                    v-for="itemref in ref_${column.refTable}"
+                                    :key="itemref.${column.refColumnId}"
+                                    :label="itemref.${column.refColumnName}"
+                                    :value="itemref.${column.refColumnId}">
+                            </el-option>
+                        </el-select></td>
+
+
+                    #else
+                    <td><el-input v-model="item.${column.attrname}" placeholder="${column.comments}"></el-input></td>
                     #end
                 #end
 

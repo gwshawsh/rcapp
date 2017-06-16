@@ -267,6 +267,7 @@ public class GenUtils {
         map.put("detailClassName", tableEntity2.getClassName());
         map.put("detailclassname", tableEntity2.getClassname());
         map.put("detailcolumns", tableEntity2.getColumns());
+        map.put("detailrefcolumns", tableEntity2.getRefColumns());
         map.put("package", config.getString("package"));
         map.put("author", config.getString("author"));
         map.put("email", config.getString("email"));
@@ -274,6 +275,8 @@ public class GenUtils {
         VelocityContext context = new VelocityContext(map);
         //获取模板列表
         List<String> templates;
+
+
 
         templates = getBillTemplates();
 
