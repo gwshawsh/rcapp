@@ -262,6 +262,7 @@ public class GenUtils {
         map.put("classname", tableEntity.getClassname());
         map.put("pathName", tableEntity.getClassname().toLowerCase());
         map.put("columns", tableEntity.getColumns());
+        map.put("refcolumns", tableEntity.getRefColumns());
         map.put("details", tableEntity2.getClassName());
         map.put("detailClassName", tableEntity2.getClassName());
         map.put("detailclassname", tableEntity2.getClassname());
@@ -387,7 +388,7 @@ public class GenUtils {
             return packagePath + "dao" + File.separator + className + "Dao.xml";
         }
 
-        if (template.contains("Service.java.vm")) {
+        if (template.contains("Service.java.vm")||template.contains("ServiceMain.java.vm")) {
             return packagePath + "service" + File.separator + className + "Service.java";
         }
 

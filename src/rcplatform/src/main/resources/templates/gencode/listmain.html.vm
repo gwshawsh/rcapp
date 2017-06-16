@@ -16,31 +16,33 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-            $query
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
-            </button>
-            $end
-            $save
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
-            </button>
-            $end
-            $update
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
-                    class="fa fa-pencil-square-o"></i>&nbsp;修改
-            </button>
-            $end
-            $delete
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-            </button>
-            $end
-            $audit
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
-            </button>
-            $end
-            $unaudit
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
-            </button>
-            $end
+            <el-button-group>
+                $query
+                <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+                </el-button>
+                $end
+                $save
+                <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+                </el-button>
+                $end
+                $update
+                <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+                </el-button>
+                $end
+                $delete
+                <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                </el-button>
+                $end
+                $audit
+                <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
+                </el-button>
+                $end
+                $unaudit
+                <el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
+                </el-button>
+                $end
+            </el-button-group>
+
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -53,45 +55,70 @@
     </div>
 
     <div v-show="!showList" class="panel panel-default">
-        <div class="layui-elem-quote">
-            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="saveOrUpdate"  ><i class="fa fa-save"></i>保存</button>
-            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="reload"  ><i class="fa fa-reply"></i>返回</button>
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+                    <el-button-group>
+                        <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                        <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+                    </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    <div class="billno">单据号:{{${classname}.billno}}<span class="panel-right">制单人:{{${classname}.makeuser}} 制单日期:{{${classname}.makedate}}</span></div>
+
+                </el-col>
+            </el-row>
         </div>
+        <el-form label-position="right" inline="true" label-width="80px" style="padding:30px">
 
-        <div class="panel-heading">单据号:{{${classname}.billno}}<span class="panel-right">制单人:{{${classname}.makeuser}} 制单日期:{{${classname}.makedate}}</span></div>
-
-        <form class="layui-form layui-form-pane">
-        <div class="layui-form-item">
             #foreach($column in $columns)
                 #if($column.columnName != $pk.columnName
-                       &&$column.columnName != "billno"
-                       &&$column.columnName != "makeuser"
-                       &&$column.columnName != "makedate"
-                       &&$column.columnName != "billstatus"
-                       &&$column.columnName != "accuser"
-                       &&$column.columnName != "accdate"
-                       &&$column.columnName != "uptdate"
-                )
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">${column.comments}</label>
-                        <div class="layui-input-inline">
-                            #if($column.columnName.endsWith("date") && $column.columnName!="uptdate")
-                                <input type="text" class="layui-input" lay-verify="date" v-model="${classname}.${column.attrname}" v-on:click="select${column.attrname}"
-                                       placeholder="${column.comments}"/>
-                            #elseif($column.attrType=="Double"||$column.attrType=="double")
-                                <input type="number" class="layui-input" v-model="${classname}.${column.attrname}"
-                                       placeholder="${column.comments}"/>
-                            #else
-                                <input type="text" class="layui-input" v-model="${classname}.${column.attrname}"
-                                       placeholder="${column.comments}"/>
-                            #end
-                        </div>
-                        </div>
+                    &&$column.columnName != "billno"
+                    &&$column.columnName != "makeuser"
+                    &&$column.columnName != "makedate"
+                    &&$column.columnName != "billstatus"
+                    &&$column.columnName != "accuser"
+                    &&$column.columnName != "accdate"
+                    &&$column.columnName != "uptdate")
+                    <el-form-item label="${column.comments}">
+                        #if($column.columnName.endsWith("date"))
 
+                            <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 100%;"></el-date-picker>
+                        #elseif($column.columnName.endsWith("time"))
+
+                            <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 100%;"></el-date-picker>
+
+                        #elseif($column.attrType=="Double"||$column.attrType=="double")
+
+                            <el-input-number v-model="${classname}.${column.attrname}" :min="1" ></el-input-number>
+                        #elseif($column.refType.equalsIgnoreCase("dialog"))
+                            <el-input v-model="${classname}.${column.attrname}${column.refColumnName}" v-on:click="select${column.attrname}${column.refTable}"
+                                      placeholder="${column.comments}"></el-input>
+
+
+                        #elseif($column.refType.equalsIgnoreCase("combo"))
+                            <el-select v-model="${classname}.${column.attrname}"  filterable placeholder="请选择">
+                                <el-option
+                                        v-for="item in ref_${column.refTable}"
+                                        :key="item.${column.refColumnId}"
+                                        :label="item.${column.refColumnName}"
+                                        :value="item.${column.refColumnId}">
+                                </el-option>
+                            </el-select>
+
+
+                        #else
+                            <el-input v-model="${classname}.${column.attrname}" placeholder="${column.comments}"></el-input>
+
+
+                        #end
+
+                    </el-form-item>
                 #end
             #end
-         </div>
-        </form>
+
+
+        </el-form>
 
         <table id="details" class="layui-table">
             <colgroup>

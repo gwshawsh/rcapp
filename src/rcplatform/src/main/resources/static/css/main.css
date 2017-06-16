@@ -78,3 +78,8 @@ tbody > tr > th {font-weight: normal; }
 .layui-table thead tr{
     background-color: rgb(221, 241, 226)
 }
+
+.billno{
+    height:40px;
+    line-height:40px;
+}

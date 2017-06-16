@@ -4,7 +4,7 @@ CREATE TABLE `requisitionmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `requser` varchar(50) COMMENT '请购人',
-  `deptid` bigint COMMENT '所属部门:dept:dept_id:name',
+  `deptid` bigint COMMENT '所属部门:combo:dept:dept_id:name',
   `reqtype` int COMMENT '请购类别', --  不同的请购类别对应到不同的协办部门
   `billstatus` int COMMENT '单据状态',
   `makeuser` varchar(20) COMMENT '制单人',
@@ -726,7 +726,7 @@ CREATE TABLE `emptymain`(
   `bgnplanarrtime` datetime COMMENT '最早到场时间',
   `endplanarrtime` datetime COMMENT '最晚到场时间',
   `remark` varchar(1000) COMMENT '备注',
-  `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
+  `billstatus` varchar(50) COMMENT '单据状态',-- :0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
   `makeuser` varchar(20) COMMENT '制单人',
   `makedate` datetime COMMENT '制单日期',
   `accuser` varchar(20) COMMENT '审核人',
@@ -968,17 +968,17 @@ DROP TABLE IF EXISTS `storecontractmain`;
 CREATE TABLE `storecontractmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `orgid` bigint COMMENT '客户',
+  `orgid` bigint COMMENT '客户:combo:organization:id:name',
   `paytype` varchar(10) COMMENT '付款方式',
   `boctid` bigint COMMENT '币别',
   `rate` double COMMENT '汇率',
   `taxrate` double COMMENT '税率',
-  `takeboxfee` double COMMENT '放箱费单价',
-  `takeboxfeetax` double COMMENT '放箱费含税单价',
+  `takeboxfee` double COMMENT '放箱单价',
+  `takeboxfeetax` double COMMENT '放箱单价(税)',
   `bgndate` datetime COMMENT '生效日期',--  
   `enddate` datetime COMMENT '失效日期',
   `remark` varchar(1000) COMMENT '备注',
-  `billstatus` int COMMENT '单据状态:0：新增 1：审核 2：作废',
+  `billstatus` int COMMENT '单据状态',-- :0：新增 1：审核 2：作废',
   `makeuser` varchar(20) COMMENT '制单人',
   `makedate` datetime COMMENT '制单日期',
   `accuser` varchar(20) COMMENT '审核人',
@@ -995,7 +995,7 @@ CREATE TABLE `storecontractdetail`(
   `serialno` bigint COMMENT '序号',
   `lineid` bigint COMMENT '线路',
   `boxtype` varchar(50) COMMENT '箱型',
-  `weighttype` varchar(50) COMMENT '空重类型：0-空箱 1-重箱',
+  `weighttype` varchar(50) COMMENT '空重类型',-- ：0-空箱 1-重箱',
   `boxprice` double COMMENT '应收单价',-- 一个箱子的应收费用
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓储合同明细';
@@ -1013,7 +1013,7 @@ CREATE TABLE `transcontractmain`(
   `bgndate` datetime COMMENT '生效日期',--  
   `enddate` datetime COMMENT '失效日期',
   `remark` varchar(1000) COMMENT '备注',
-  `billstatus` int COMMENT '单据状态:0：新增 1：审核 2：作废',
+  `billstatus` int COMMENT '单据状态',-- :0：新增 1：审核 2：作废',
   `makeuser` varchar(20) COMMENT '制单人',
   `makedate` datetime COMMENT '制单日期',
   `accuser` varchar(20) COMMENT '审核人',

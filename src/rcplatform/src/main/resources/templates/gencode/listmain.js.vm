@@ -5,6 +5,41 @@ var vm = new Vue({
 		showList: true,
         showDetailList:true,
 		title: null,
+    //用于日期快捷控件
+    pickerOptions1: {
+        shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+                picker.$emit('pick', new Date());
+            }
+        }, {
+            text: '昨天',
+            onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                picker.$emit('pick', date);
+            }
+        }, {
+            text: '一周前',
+            onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit('pick', date);
+            }
+        }]
+    },
+
+        //用户下拉参照的属性
+        #foreach($column in $refcolumns)
+            #if($column.columnName != $pk.columnName)
+                #if($column.refType=="combo")
+                    ref_${column.refTable}:[],
+                #end
+            #end
+        #end
+
+
+        //单据主表实体类
 		${classname}: {}
 	},
 	methods: {
@@ -16,7 +51,16 @@ var vm = new Vue({
 			vm.showList = false;
             vm.showDetailList=false;
 			vm.title = "新增";
-			vm.${classname} = {billno:"*",makeuser:gUserName,makedate:mktime,details:[]};
+			vm.${classname} = {
+                #foreach($column in $columns)
+                    #if($column.columnName.equalsIgnoreCase('billno'))
+                        ${column.attrname}:"*",
+                    #elseif ($column.columnName.equalsIgnoreCase('makeuser'))
+                        ${column.attrname}:gUserName,
+                    #else
+                        ${column.attrname}:"",
+                    #end
+                #enddetails:[]};
             vm.additem();
 		},
 		update: function (event) {
@@ -118,21 +162,7 @@ var vm = new Vue({
 				});
 			});
 		},
-		#foreach($column in $columns)
-			#if($column.columnName.endsWith("date") && $column.columnName!="uptdate")
-                select${column.attrname}: function (event) {
-                    var option = {
-                        elem: event.currentTarget,
-                        istime: true,
-                        format: 'YYYY-MM-DD hh:mm:ss',
-                        choose: function (dates) {
-                            vm.${classname}.${column.attrname} = dates;
-                        }
-                    }
-                    layui.laydate(option);
-                },
-			#end
-		#end
+
         //生成参照调用函数
         #foreach($column in $columns)
             #if($column.refColumn)
@@ -141,6 +171,17 @@ var vm = new Vue({
                         var seldata = data;
                         vm.${classname}.${column.attrname} =seldata['id'];
                         vm.${classname}.${column.attrname}${column.refTable}${column.refColumnName} =seldata['name'];
+                    });
+                },
+            #end
+        #end
+
+        //生成参照调用下拉框函数,用来初始化远程数据
+        #foreach($column in $refcolumns)
+            #if($column.refColumn && $column.refType.equalsIgnoreCase("combo"))
+                getRef${column.refTable}: function () {
+                    $.get("../${column.refTable}/list?page=1&limit=1000", function (r) {
+                        vm.ref_${column.refTable} = r.page.list;
                     });
                 },
             #end
@@ -204,7 +245,10 @@ $(function () {
 			#foreach($column in $columns)
 				#if($column.columnName == $pk.columnName)
                     { label: '${column.attrname}', name: '${column.attrname}', width: 50, key: true },
-				#else
+                #elseif($column.columnName.equalsIgnoreCase("billstatus"))
+                    { label: '${column.comments}', name: '${column.attrname}', width: 80 ,formatter:formater_billstatus}#if($velocityCount != $columns.size()), #end
+
+                #else
                     { label: '${column.comments}', name: '${column.attrname}', width: 80 }#if($velocityCount != $columns.size()), #end
 
 				#end
@@ -279,6 +323,13 @@ $(function () {
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
+
+    //执行调用参照调用下拉框函数,初始化下拉数据
+    #foreach($column in $refcolumns)
+        #if($column.refColumn && $column.refType.equalsIgnoreCase("combo"))
+            vm.getRef${column.refTable}();
+        #end
+    #end
 
     initGridHeightHalf("#jqGrid");
     initGridHeightHalf("#jqGridDetail");

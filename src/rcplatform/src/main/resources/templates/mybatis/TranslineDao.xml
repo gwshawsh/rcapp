@@ -7,7 +7,7 @@
 		select a.*,
 		(select name from place b where a.startlocation=b.id) as startname,
 		(select name from place b where a.endlocation=b.id) as endname
-		from transline where id = #{value}
+		from transline a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TranslineEntity">
