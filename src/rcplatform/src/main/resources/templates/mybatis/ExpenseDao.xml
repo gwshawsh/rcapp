@@ -4,11 +4,16 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.ExpenseDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.ExpenseEntity">
-		select * from expense where id = #{value}
+		select m.*, (select p.name from sys_dept p where p.dept_id = m.dept_id) as deptName,
+		 (select q.name from costcategory q where q.id = m.costcategory_id) as costcategoryName
+		from expense m where m.id = #{value}
+
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.ExpenseEntity">
-		select * from expense 
+		select m.*, (select p.name from sys_dept p where p.dept_id = m.dept_id) as deptName,
+		(select q.name from costcategory q where q.id = m.costcategory_id) as costcategoryName
+		from expense m
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

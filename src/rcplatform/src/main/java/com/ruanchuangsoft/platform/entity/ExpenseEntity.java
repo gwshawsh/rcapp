@@ -21,12 +21,17 @@ public class ExpenseEntity implements Serializable {
 	private String billno;
 	//申请人
 	private String applyuser;
-	//部门
+	//部门Id
 	private Long deptId;
+	//部门名称
+	private String deptName;
 	//申请日期
 	private Date applydate;
-	//费用项目
+	//费用项目Id
 	private Long costcategoryId;
+	//费用项目
+	private Long costcategoryName;
+
 	//报销金额
 	private Double expensemoney;
 	//报销事由
@@ -183,5 +188,21 @@ public class ExpenseEntity implements Serializable {
 	 */
 	public Date getAccdate() {
 		return accdate;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public Long getCostcategoryName() {
+		return costcategoryName;
+	}
+
+	public void setCostcategoryName(Long costcategoryName) {
+		this.costcategoryName = costcategoryName;
 	}
 }

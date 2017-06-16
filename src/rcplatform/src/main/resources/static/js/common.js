@@ -188,3 +188,49 @@ function formater_orgtype(value, options, row){
 	}
 
 }
+function show_tree(json) {
+	if($("#menuLayer").length<=0){
+        var div = document.createElement("div");
+        div.setAttribute("id", "menuLayer");
+        div.setAttribute("style", "display: none;padding:10px;");
+        div.innerHTML = "<ul id=\"menuTree\" class=\"ztree\"></ul>";
+        document.body.appendChild(div);
+
+	}
+    var setting = {
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: json.idKey || "",
+                pIdKey: "parentId",
+                rootPId: -1
+            },
+            key: {
+                url:"nourl"
+            }
+        }
+    };
+
+    $.get(json.url, function(r){
+        var ztree = $.fn.zTree.init(jQuery("#menuLayer").children(".ztree"), setting, r[json.listName||"treeList"]);
+		var node = ztree.getNodeByParam(json.idKey, json.currentId);
+		 ztree.selectNode(node);
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: "选择",
+            area: ['300px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#menuLayer"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var node = ztree.getSelectedNodes();
+                json.select(node)
+                layer.close(index);
+            }
+        });
+    })
+}
+

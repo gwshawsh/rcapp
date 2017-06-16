@@ -44,7 +44,6 @@ var vm = new Vue({
 				ztree.selectNode(node);
 				vm.user.deptName = node.name;
 
-
 			})
 		},
 		query: function () {

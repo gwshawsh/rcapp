@@ -194,7 +194,7 @@ CREATE TABLE `sys_dept` (
 CREATE TABLE `sys_user` (
   `user_id` bigint NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL COMMENT '用户编码',
-  `fullname` varchar(50) NOT NULL COMMENT '姓名',
+  `fullname` varchar(50)  COMMENT '姓名',
   `password` varchar(100) COMMENT '密码',
   `email` varchar(100) COMMENT '邮箱',
   `mobile` varchar(100) COMMENT '手机号',
@@ -487,7 +487,6 @@ CREATE TABLE `organization` (
   `city` varchar(50) COMMENT '城市',
   `notice` varchar(50) COMMENT '备注',
   `taxcode` varchar(50) COMMENT '纳税人识别号',
-  `receipt` varchar(50) COMMENT '回单天数',
   `accperiod` varchar(50) COMMENT '账期',
   `receipt` varchar(50) COMMENT '回单天数',
   `policyrate` double COMMENT '保险客户费率',
@@ -1095,14 +1094,14 @@ CREATE TABLE `budgetdetail`(
 -- 费用科目
 DROP TABLE IF EXISTS `costcategory`;
 create table `costcategory`(
-  `costcategory_id` bigint NOT NULL AUTO_INCREMENT,
-  `parent_id` bigint NOT NULL COMMENT '上级科目',
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `parent_id` bigint  COMMENT '上级科目',
   `code` varchar(50) COMMENT '科目编号',
   `name` varchar(20) COMMENT '科目名称',
   `remark` varchar(50) COMMENT '备注',
   `status` bigint COMMENT '状态',
   `order_num` int COMMENT '排序',
-PRIMARY KEY (`costcategory_id`)
+PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='费用科目';
 
 -- 报销管理
