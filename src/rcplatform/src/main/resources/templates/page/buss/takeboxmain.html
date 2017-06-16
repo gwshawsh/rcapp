@@ -21,12 +21,12 @@
                     class="fa fa-pencil-square-o"></i>&nbsp;修改
             </button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="takeboxmain:shenhe">
+            <@shiro.hasPermission name="takeboxmain:audit">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="accbill">
                 <i class="fa fa-pencil-square-o"></i>&nbsp;审核
             </button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="takeboxmain:shenhe">
+            <@shiro.hasPermission name="takeboxmain:audit">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="changeTakeBoxPlace"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;改单
             </button>
@@ -49,7 +49,7 @@
 
 
     <div v-show="!showList">
-        <div class="layui-btn-group">
+        <div class="layui-elem-quote">
             <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="selectTransteam"><i
                     class="fa fa-save"></i>车队
             </button>

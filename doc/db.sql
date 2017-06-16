@@ -4,7 +4,7 @@ CREATE TABLE `requisitionmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `requser` varchar(50) COMMENT '请购人',
-  `reqdepartment` bigint COMMENT '所属部门',
+  `deptid` bigint COMMENT '所属部门:combo:dept:dept_id:name',
   `reqtype` int COMMENT '请购类别', --  不同的请购类别对应到不同的协办部门
   `billstatus` int COMMENT '单据状态',
   `makeuser` varchar(20) COMMENT '制单人',
@@ -22,7 +22,7 @@ CREATE TABLE `requisitiondetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `good_id` bigint COMMENT '商品id',
+  `goodid` bigint COMMENT '商品id',
   `goodsname` varchar(50) COMMENT '品名',
   `goodscount` int COMMENT '数量',
   `goodsspec` varchar(1000) COMMENT '规格',
@@ -41,7 +41,7 @@ CREATE TABLE `ordermain`(
   `supplyid` bigint COMMENT '供应商id',
   `reqbillno` varchar(50) COMMENT '请购单据号',
   `requser` varchar(50) COMMENT '请购人',
-  `reqdepartment` bigint COMMENT '请购部门',
+  `deptid` bigint COMMENT '请购部门',
   `reqdate` datetime COMMENT '请购日期',
   `ordersource` int COMMENT '订购单来源', -- 订购单来源，1.请购单转入。2.新增
   `ordertype` int COMMENT '订购类别', --  不同的订购类别对应到不同的协办部门
@@ -60,7 +60,7 @@ CREATE TABLE `orderdetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `goodid` bigint COMMENT '商品id',
+  `goodsid` bigint COMMENT '商品id',
   `goodsname` varchar(50) COMMENT '品名',
   `goodscount` int COMMENT '数量',
   `goodsspec` varchar(1000) COMMENT '规格',
@@ -80,7 +80,7 @@ CREATE TABLE `paymentmain`(
   `billno` varchar(50) COMMENT '单据号',
   `reqbillno` varchar(50) COMMENT '请购单据号',
   `requser` varchar(50) COMMENT '请购人',
-  `reqdepartment` varchar(50) COMMENT '请购部门',
+  `deptid` varchar(50) COMMENT '请购部门',
   `reqdate` varchar(50) COMMENT '请购日期', --  关联请购表制表日期
   `orderbillno` varchar(50) COMMENT '订购单据号',
   `percent` varchar(50) COMMENT '付款比例',
@@ -106,6 +106,7 @@ CREATE TABLE `paymentdetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
+  `goodsid` bigint COMMENT '商品id',
   `goodsname` varchar(50) COMMENT '品名',
   `goodscount` int COMMENT '数量',
   `goodscost` double COMMENT '单价',
@@ -167,6 +168,16 @@ CREATE TABLE `sys_menu` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单管理';
 
+
+--  部门
+CREATE TABLE `dept` (
+  `dept_id` bigint NOT NULL AUTO_INCREMENT,
+  `parent_id` bigint COMMENT '上级部门ID，一级部门为0',
+  `name` varchar(50) COMMENT '部门名称',
+  `type` int COMMENT '类型   0：目录   1：菜单   ', 
+  `order_num` int COMMENT '排序',
+  PRIMARY KEY (`dept_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门管理';
 
 --  部门
 CREATE TABLE `sys_dept` (
@@ -508,8 +519,8 @@ CREATE TABLE `transline` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COMMENT '编码',
   `name` varchar(50) COMMENT '名称',
-  `startlocation` bigint COMMENT '起始地点',
-  `endlocation`  bigint COMMENT '结束地点',
+  `startlocation` bigint COMMENT '起始地点:dialog:place:id:name',
+  `endlocation`  bigint COMMENT '结束地点:dialog:place:id:name',
   `distance` double COMMENT '距离',
   `helpcode` varchar(200) COMMENT '助记码',
   PRIMARY KEY (`id`)
@@ -715,7 +726,7 @@ CREATE TABLE `emptymain`(
   `bgnplanarrtime` datetime COMMENT '最早到场时间',
   `endplanarrtime` datetime COMMENT '最晚到场时间',
   `remark` varchar(1000) COMMENT '备注',
-  `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
+  `billstatus` varchar(50) COMMENT '单据状态',-- :0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
   `makeuser` varchar(20) COMMENT '制单人',
   `makedate` datetime COMMENT '制单日期',
   `accuser` varchar(20) COMMENT '审核人',
@@ -957,17 +968,17 @@ DROP TABLE IF EXISTS `storecontractmain`;
 CREATE TABLE `storecontractmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `orgid` bigint COMMENT '客户',
+  `orgid` bigint COMMENT '客户:combo:organization:id:name',
   `paytype` varchar(10) COMMENT '付款方式',
   `boctid` bigint COMMENT '币别',
   `rate` double COMMENT '汇率',
   `taxrate` double COMMENT '税率',
-  `takeboxfee` double COMMENT '放箱费单价',
-  `takeboxfeetax` double COMMENT '放箱费含税单价',
+  `takeboxfee` double COMMENT '放箱单价',
+  `takeboxfeetax` double COMMENT '放箱单价(税)',
   `bgndate` datetime COMMENT '生效日期',--  
   `enddate` datetime COMMENT '失效日期',
   `remark` varchar(1000) COMMENT '备注',
-  `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：作废',
+  `billstatus` int COMMENT '单据状态',-- :0：新增 1：审核 2：作废',
   `makeuser` varchar(20) COMMENT '制单人',
   `makedate` datetime COMMENT '制单日期',
   `accuser` varchar(20) COMMENT '审核人',
@@ -984,7 +995,7 @@ CREATE TABLE `storecontractdetail`(
   `serialno` bigint COMMENT '序号',
   `lineid` bigint COMMENT '线路',
   `boxtype` varchar(50) COMMENT '箱型',
-  `weighttype` varchar(50) COMMENT '空重类型：0-空箱 1-重箱',
+  `weighttype` varchar(50) COMMENT '空重类型',-- ：0-空箱 1-重箱',
   `boxprice` double COMMENT '应收单价',-- 一个箱子的应收费用
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓储合同明细';
@@ -1002,7 +1013,7 @@ CREATE TABLE `transcontractmain`(
   `bgndate` datetime COMMENT '生效日期',--  
   `enddate` datetime COMMENT '失效日期',
   `remark` varchar(1000) COMMENT '备注',
-  `billstatus` varchar(50) COMMENT '单据状态:0：新增 1：审核 2：作废',
+  `billstatus` int COMMENT '单据状态',-- :0：新增 1：审核 2：作废',
   `makeuser` varchar(20) COMMENT '制单人',
   `makedate` datetime COMMENT '制单日期',
   `accuser` varchar(20) COMMENT '审核人',
@@ -1111,6 +1122,9 @@ CREATE TABLE `expense`(
   `accdate` datetime COMMENT '审核日期',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报销管理';
+
+
+
 
 
 

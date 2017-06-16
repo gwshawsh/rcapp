@@ -136,14 +136,12 @@ public class BudgetformController extends AbstractController {
 	@ResponseBody
 	@RequestMapping("/update")
 	@RequiresPermissions("budgetform:update")
-	@Transactional
-	public R update(@RequestBody BudgetformEntity budgetform) throws Exception {
+	public R update(@RequestBody BudgetformEntity budgetform) {
 		budgetformService.update(budgetform);
 		for(BudgetdetailEntity item:budgetform.getDetails()){
 			budgetdetailService.update(item);
 		}
-		throw new Exception("tttt");
-		//return R.ok();
+		return R.ok();
 	}
 
 	/**

@@ -2,105 +2,107 @@
 <html>
 <head>
     <title>线路管理</title>
-    <# include "sys/header.html">
-        </head>
+        <#include "sys/header.html">
+</head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-        <div class="grid-btn">
+        <div class="panel-heading">
+            <el-button-group>
             <@shiro.hasPermission name="transline:list">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
-            </button>
-              </@shiro.hasPermission>
-                    <@shiro.hasPermission name="transline:save">
-                    <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
-                    </button>
-                </@shiro.hasPermission>
-                <@shiro.hasPermission name="transline:update">
-                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
-                        class="fa fa-pencil-square-o"></i>&nbsp;修改
-                </button>
+            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="transline:save">
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="transline:update">
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="transline:delete">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-            </button>
+            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
             </@shiro.hasPermission>
-
-
-
+            </el-button-group>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
     </div>
 
     <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">{{title}}</div>
-        <div class="layui-btn-group">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="saveOrUpdate"><i
-                    class="fa fa-save"></i>保存
-            </button>
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="reload"><i class="fa fa-cancel"></i>返回
-            </button>
-
+        <div class="panel-heading">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
         </div>
-        <form class="layui-form layui-form-pane">
+        <el-form label-position="right"  label-width="80px" style="padding:30px">
 
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">编码</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="transline.code"
-                               placeholder="编码"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">名称</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="transline.name"
-                               placeholder="名称"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">起始地点</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="transline.startname"
-                               placeholder="起始地点" v-on:click="selectStart"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">结束地点</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="transline.endname"
-                               placeholder="结束地点" v-on:click="selectEnd"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">距离</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="transline.distance"
-                               placeholder="距离"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">助记码</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="transline.helpcode"
-                               placeholder="助记码"/>
-                    </div>
-                </div>
-            </div>
+                                                                            <el-form-item label="编码">
 
-        </form>
+
+                                                            <el-input v-model="transline.code" placeholder="编码"></el-input>
+
+
+
+                    </el-form-item>
+                                                                <el-form-item label="名称">
+
+
+                                                            <el-input v-model="transline.name" placeholder="名称"></el-input>
+
+
+
+                    </el-form-item>
+                                                                <el-form-item label="起始地点">
+
+
+                                                            <el-select v-model="transline.startlocation"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_place"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+
+
+
+                    </el-form-item>
+                                                                <el-form-item label="结束地点">
+
+
+                                                            <el-select v-model="transline.endlocation"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_place"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+
+
+
+                    </el-form-item>
+                                                                <el-form-item label="距离">
+
+
+
+                                <el-input-number v-model="transline.distance" :min="1" ></el-input-number>
+
+                    </el-form-item>
+                                                                <el-form-item label="助记码">
+
+
+                                                            <el-input v-model="transline.helpcode" placeholder="助记码"></el-input>
+
+
+
+                    </el-form-item>
+
+        </el-form>
     </div>
 </div>
 

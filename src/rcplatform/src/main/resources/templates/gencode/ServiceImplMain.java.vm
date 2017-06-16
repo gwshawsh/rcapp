@@ -67,8 +67,17 @@ public class ${className}ServiceImpl implements ${className}Service {
 	}
 	
 	@Override
-	public void deleteBatch(${pk.attrType}[] ${pk.attrname}s){
-		${classname}Dao.deleteBatch(${pk.attrname}s);
-	}
-	
+    public void deleteBatch(${pk.attrType}[] ${pk.attrname}s){
+			${classname}Dao.deleteBatch(${pk.attrname}s);
+    }
+
+    @Override
+    public void auditBatch(${pk.attrType}[] ${pk.attrname}s){
+			${classname}Dao.auditBatch(${pk.attrname}s);
+    }
+
+    @Override
+    public void unauditBatch(${pk.attrType}[] ${pk.attrname}s){
+			${classname}Dao.unauditBatch(${pk.attrname}s);
+    }
 }

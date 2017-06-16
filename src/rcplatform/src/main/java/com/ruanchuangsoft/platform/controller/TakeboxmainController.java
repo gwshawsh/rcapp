@@ -163,8 +163,8 @@ public class TakeboxmainController extends AbstractController {
 	* 审核,生成运输单据
 	*/
 	@ResponseBody
-	@RequestMapping("/shenhe")
-	@RequiresPermissions("takeboxmain:shenhe")
+	@RequestMapping("/audit")
+	@RequiresPermissions("takeboxmain:audit")
 	public R accbill(@RequestBody  Long[] ids){
 		for(long id:ids) {
 			TakeboxmainEntity takeboxmainEntity=takeboxmainService.queryObject(id);
