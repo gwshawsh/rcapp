@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>报销管理</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <@shiro.hasPermission name="expense:list">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="expense:save">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="expense:update">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="expense:delete">
+            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </button>
+            </@shiro.hasPermission>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+
+        <form class="form-horizontal">
+                                                                            <div class="form-group">
+                        <div class="col-sm-2 control-label">报销单号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="expense.billno"
+                                   placeholder="报销单号"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">申请人</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="expense.applyuser"
+                                   placeholder="申请人"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">部门</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="expense.deptName"
+                                   placeholder="部门" readonly="readonly" v-on:click = "deptTree"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">申请日期</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="expense.applydate"
+                                   placeholder="申请日期"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">费用项目</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="expense.costcategoryName"
+                                   placeholder="费用项目" readonly="readonly" v-on:click = "costcategoryTree"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">报销金额</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="expense.expensemoney"
+                                   placeholder="报销金额"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">报销事由</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="expense.reason"
+                                   placeholder="报销事由"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">收款人</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="expense.receiver"
+                                   placeholder="收款人"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">支付方式</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="expense.paytype"
+                                   placeholder="支付方式"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">审批人</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="expense.accuser"
+                                   placeholder="审批人"/>
+                        </div>
+                    </div>
+                                                                <div class="form-group">
+                        <div class="col-sm-2 control-label">审核日期</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="expense.accdate"
+                                   placeholder="审核日期"/>
+                        </div>
+                    </div>
+                                        <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--<div id="menuLayer" style="display: none;padding:10px;">
+    <ul id="menuTree" class="ztree"></ul>
+</div>-->
+<div id="costcategoryLayer" style="display: none;padding:10px;">
+    <ul id="costcategoryTree" class="ztree"></ul>
+</div>
+
+<script src="${ctxPath}/static/js/finance/expense.js"></script>
+</body>
+</html>
