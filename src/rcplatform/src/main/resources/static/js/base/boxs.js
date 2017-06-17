@@ -3,16 +3,47 @@ var vm = new Vue({
     data: {
         showList: true,
         title: null,
-        boxs: {}
+        //用于日期快捷控件
+        pickerOptions1: {
+            shortcuts: [{
+                text: '今天',
+                onClick(picker) {
+                    picker.$emit('pick', new Date());
+                }
+            }, {
+                text: '昨天',
+                onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24);
+                    picker.$emit('pick', date);
+                }
+            }, {
+                text: '一周前',
+                onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                    picker.$emit('pick', date);
+                }
+            }]
+        },
+        //创建参照
+
+        //创建实体类
+        boxs: {
+            code: "", boxsize: "", weight: ""
+        }
     },
     methods: {
         query: function () {
             vm.reload();
         },
         add: function () {
+            var mktime = moment().format("YYYY-MM-DD");
             vm.showList = false;
             vm.title = "新增";
-            vm.boxs = {};
+            vm.boxs = {
+                code: "", boxsize: "", weight: ""
+            };
         },
         update: function (event) {
             var id = getSelectedRow();
@@ -64,6 +95,12 @@ var vm = new Vue({
                 });
             });
         },
+
+        //生成参照调用弹出框函数
+
+        //生成参照调用下拉框函数,用来初始化远程数据
+
+
         getInfo: function (id) {
             $.get("../boxs/info/" + id, function (r) {
                 vm.boxs = r.boxs;
@@ -75,7 +112,7 @@ var vm = new Vue({
             $("#jqGrid").jqGrid('setGridParam', {
                 page: page
             }).trigger("reloadGrid");
-        }
+        },
     }
 });
 
@@ -84,9 +121,9 @@ $(function () {
         url: '../boxs/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', width: 50, key: true,hidden:true},
+            {label: 'id', name: 'id', width: 50, key: true},
             {label: '编码', name: 'code', width: 80},
-            {label: '箱型尺寸', name: 'boxSize', width: 80},
+            {label: '箱型尺寸', name: 'boxsize', width: 80},
             {label: '重量', name: 'weight', width: 80}
         ],
         viewrecords: true,
@@ -96,6 +133,7 @@ $(function () {
         rownumbers: true,
         rownumWidth: 25,
         autowidth: true,
+        autoScroll: true,
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader: {
@@ -109,11 +147,15 @@ $(function () {
             rows: "limit",
             order: "order"
         },
+        shrinkToFit: false,
         gridComplete: function () {
             //隐藏grid底部滚动条
-            //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
+            //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
+
+    //执行调用参照调用下拉框函数,初始化下拉数据
+
 
     initGridHeight();
 });

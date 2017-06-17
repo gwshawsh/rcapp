@@ -63,6 +63,6 @@
     <ul id="menuTree" class="ztree"></ul>
 </div>
 
-<script src="${ctxPath}/static/js/${pathName}/${pathName}.js"></script>
+<script src="${ctxPath}/static/js/${parent}/${pathName}.js"></script>
 </body>
 </html>

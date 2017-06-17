@@ -2,125 +2,137 @@
 <html>
 <head>
     <title>地点管理</title>
-    <#include "sys/header.html">
+        <#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-        <div class="grid-btn">
+        <div class="panel-heading">
+            <el-button-group>
             <@shiro.hasPermission name="place:list">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
-            </button>
+            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="place:save">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
-            </button>
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="place:update">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
-                    class="fa fa-pencil-square-o"></i>&nbsp;修改
-            </button>
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="place:delete">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-            </button>
+            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
             </@shiro.hasPermission>
+            </el-button-group>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
     </div>
 
     <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">{{title}}</div>
-        <div class="layui-btn-group">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="saveOrUpdate"><i
-                    class="fa fa-save"></i>保存
-            </button>
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="reload"><i class="fa fa-cancel"></i>返回
-            </button>
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    <div class="billno">单据号:{{place.billno}}<span class="panel-right">制单人:{{place.makeuser}} 制单日期:{{place.makedate}}</span></div>
 
+                </el-col>
+            </el-row>
         </div>
-        <form class="layui-form layui-form-pane">
+        <el-form label-position="right"  label-width="80px" style="padding:30px">
 
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">编码</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="place.code"
-                               placeholder="编码"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">名称</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="place.name"
-                               placeholder="名称"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">联系人</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="place.linkman"
-                               placeholder="联系人"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">联系电话</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="place.phone"
-                               placeholder="联系电话"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">地址</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="place.address"
-                               placeholder="地址"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">经度</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="place.longitude"
-                               placeholder="经度"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div clacc="layui-inline">
-                    <label class="layui-form-label">纬度</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" v-model="place.latitude"
-                               placeholder="纬度"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                    <label class="layui-form-label">地点类型</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="placetype" v-model="place.placetype" value="0" title="仓库" checked=""/>
-                        <input type="radio" name="placetype" v-model="place.placetype" value="1" title="工厂" />
-                        <input type="radio" name="placetype" v-model="place.placetype"  value="2" title="堆场" />
-                        <input type="radio" name="placetype" v-model="place.placetype" value="3" title="港口" />
+                                                                            <el-form-item label="编码">
 
-                    </div>
 
-            </div>
+                                                            <el-input v-model="place.code" placeholder="编码"></el-input>
 
-        </form>
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="名称">
+
+
+                                                            <el-input v-model="place.name" placeholder="名称"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="联系人">
+
+
+                                                            <el-input v-model="place.linkman" placeholder="联系人"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="联系电话">
+
+
+                                                            <el-input v-model="place.phone" placeholder="联系电话"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="地址">
+
+
+                                                            <el-input v-model="place.address" placeholder="地址"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="经度">
+
+
+                                                            <el-input v-model="place.longitude" placeholder="经度"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="纬度">
+
+
+                                                            <el-input v-model="place.latitude" placeholder="纬度"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="所属组织">
+
+
+                                                            <el-input v-model="place.organizationname" v-on:click="selectorganizationorganization"
+                                          placeholder="所属组织"></el-input>
+
+
+                             
+                    </el-form-item>
+                                                                <el-form-item label="地点类型">
+
+
+                                                            <el-select v-model="place.placetype"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_enum2004"
+                                            :key="item.enumvalueid"
+                                            :label="item.enumvaluename"
+                                            :value="item.enumvalueid">
+                                    </el-option>
+                                </el-select>
+
+
+                             
+                    </el-form-item>
+                            
+        </el-form>
     </div>
 </div>
 
-<script src="${rc.contextPath}/static/js/base/place.js"></script>
+<script src="${ctxPath}/static/js/base/place.js"></script>
 </body>
 </html>

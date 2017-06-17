@@ -72,6 +72,27 @@ public class EnumtableController extends AbstractController {
 		return R.ok().put("page", pageUtil);
 	}
 
+	/**
+	 * 返回枚举类型的值
+	 */
+	@ResponseBody
+	@RequestMapping("/listone")
+	@RequiresPermissions("enumtable:list")
+	public R listone(String enumid,Integer page, Integer limit){
+		Map<String, Object> map = new HashMap<>();
+		map.put("enumtype", enumid);
+		map.put("offset", (page - 1) * limit);
+		map.put("limit", limit);
+
+		//查询列表数据
+		List<EnumtableEntity> enumtableList = enumtableService.queryList(map);
+		int total = enumtableService.queryTotal(map);
+
+		PageUtils pageUtil = new PageUtils(enumtableList, total, limit, page);
+
+		return R.ok().put("page", pageUtil);
+	}
+
 
 	/**
 	 * 信息

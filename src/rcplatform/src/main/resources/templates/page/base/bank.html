@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>银行管理</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="panel-heading">
+            <el-button-group>
+            <@shiro.hasPermission name="bank:list">
+            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="bank:save">
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="bank:update">
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="bank:delete">
+            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
+            </@shiro.hasPermission>
+            </el-button-group>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    <div class="billno">单据号:{{bank.billno}}<span class="panel-right">制单人:{{bank.makeuser}} 制单日期:{{bank.makedate}}</span></div>
+
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right"  label-width="80px" style="padding:30px">
+
+                                                                            <el-form-item label="编码">
+
+
+                                                            <el-input v-model="bank.code" placeholder="编码"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="名称">
+
+
+                                                            <el-input v-model="bank.name" placeholder="名称"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="帐号">
+
+
+                                                            <el-input v-model="bank.accountno" placeholder="帐号"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="币别">
+
+
+                                                            <el-input v-model="bank.boctid" placeholder="币别"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="地址">
+
+
+                                                            <el-input v-model="bank.address" placeholder="地址"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="电话">
+
+
+                                                            <el-input v-model="bank.tel" placeholder="电话"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="传真">
+
+
+                                                            <el-input v-model="bank.fax" placeholder="传真"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="联系人">
+
+
+                                                            <el-input v-model="bank.man" placeholder="联系人"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="假删">
+
+
+                                                            <el-input v-model="bank.del" placeholder="假删"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="创建人员">
+
+
+                                                            <el-input v-model="bank.addpid" placeholder="创建人员"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="创建日期">
+
+
+                            
+                                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="bank.adddate" style="width: 100%;"></el-date-picker>
+                            
+                    </el-form-item>
+                                                                <el-form-item label="备注">
+
+
+                                                            <el-input v-model="bank.remark" placeholder="备注"></el-input>
+
+
+                              
+                    </el-form-item>
+                            
+        </el-form>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/bank/bank.js"></script>
+</body>
+</html>

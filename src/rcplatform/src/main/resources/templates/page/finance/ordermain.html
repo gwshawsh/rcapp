@@ -33,6 +33,8 @@
 <el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
 </el-button>
 </@shiro.hasPermission>
+<el-button type="primary" v-on:click="showdetail"><i class="fa fa-reply"></i>&nbsp;明细
+</el-button>
 </el-button-group>
 
         </div>
@@ -63,22 +65,22 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right" inline="true" label-width="100px" style="padding:30px">
+        <el-form label-position="right" inline="true" label-width="100px" style="padding-top: 22px">
 
             <el-form-item label="供应商id">
-                <el-input v-model="ordermain.supplyid" placeholder="供应商id"></el-input>
+                <el-input v-model="ordermain.supplyid" placeholder="供应商id" style="width:168px"></el-input>
 
             </el-form-item>
             <el-form-item label="请购单据号">
-                <el-input v-model="ordermain.reqbillno" placeholder="请购单据号"></el-input>
+                <el-input v-model="ordermain.reqbillno" placeholder="请购单据号" style="width:168px"></el-input>
 
             </el-form-item>
             <el-form-item label="请购人">
-                <el-input v-model="ordermain.requser" placeholder="请购人"></el-input>
+                <el-input v-model="ordermain.requser" placeholder="请购人" style="width:168px"></el-input>
 
             </el-form-item>
             <el-form-item label="请购部门">
-                <el-select v-model="ordermain.deptid" filterable placeholder="请选择">
+                <el-select v-model="ordermain.deptid" filterable placeholder="请选择" style="width:168px">
                     <el-option
                             v-for="item in ref_dept"
                             :key="item.dept_id"
@@ -92,15 +94,15 @@
             <el-form-item label="请购日期">
 
                 <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
-                                v-model="ordermain.reqdate" style="width: 100%;"></el-date-picker>
+                                v-model="ordermain.reqdate" style="width:168px"></el-date-picker>
 
             </el-form-item>
             <el-form-item label="订购单来源">
-                <el-input v-model="ordermain.ordersource" placeholder="订购单来源"></el-input>
+                <el-input v-model="ordermain.ordersource" placeholder="订购单来源" style="width:168px"></el-input>
 
             </el-form-item>
             <el-form-item label="订购类别">
-                <el-input v-model="ordermain.ordertype" placeholder="订购类别"></el-input>
+                <el-input v-model="ordermain.ordertype" placeholder="订购类别" style="width:168px"></el-input>
 
             </el-form-item>
 
@@ -109,7 +111,7 @@
 
         <table id="details" class="layui-table">
             <colgroup>
-                <col width="100">
+                <col width="70">
                 <col width="100">
                 <col width="100">
                 <col width="100">
@@ -143,7 +145,7 @@
                         <el-button type="primary" icon="delete"  size="mini" v-on:click="delitem"></el-button>
                     </el-button-group>
                 </td>
-                <td>{{index}}</td>
+
                 <td><el-input v-model="item.serialno" placeholder="序号"></el-input></td>
                 <td><el-select v-model="item.goodsid"  filterable placeholder="请选择">
                     <el-option
@@ -162,7 +164,8 @@
                 <td><el-input v-model="item.goodsprice" placeholder="单价"></el-input></td>
                 <td><el-input v-model="item.goodscost" placeholder="金额"></el-input></td>
 
-                <td><el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="item.enddate" style="width: 100%;"></el-date-picker></td>
+                <td><el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
+                                    v-model="item.enddate" style="width: 100%;"></el-date-picker></td>
 
 
             </tr>

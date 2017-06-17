@@ -6,11 +6,11 @@ import java.util.Date;
 
 
 /**
- * 司机基础信息表
+ * 司机管理
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 20:02:48
+ * @date 2017-06-17 16:28:44
  */
 public class DriversEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -24,13 +24,42 @@ public class DriversEntity implements Serializable {
 	//电话
 	private String phone;
 	//所属车队
-	private String fleet;
+	private Long transteam;
 	//证件号
 	private String documentno;
 	//驾龄
 	private Integer driveage;
-	//类型（有、无车）
+	//类型
 	private String type;
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	        //所属车队
+        private String transteamname;
+	
+
+
+	
+
+
+	
+
+
+	        //类型
+        private String typeenumvaluename;
+	
+
 
 	/**
 	 * 设置：
@@ -83,14 +112,14 @@ public class DriversEntity implements Serializable {
 	/**
 	 * 设置：所属车队
 	 */
-	public void setFleet(String fleet) {
-		this.fleet = fleet;
+	public void setTransteam(Long transteam) {
+		this.transteam = transteam;
 	}
 	/**
 	 * 获取：所属车队
 	 */
-	public String getFleet() {
-		return fleet;
+	public Long getTransteam() {
+		return transteam;
 	}
 	/**
 	 * 设置：证件号
@@ -117,15 +146,41 @@ public class DriversEntity implements Serializable {
 		return driveage;
 	}
 	/**
-	 * 设置：类型（有、无车）
+	 * 设置：类型
 	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 	/**
-	 * 获取：类型（有、无车）
+	 * 获取：类型
 	 */
 	public String getType() {
 		return type;
 	}
-}
+
+
+															        /**
+         * 设置：所属车队name
+         */
+        public void setTransteamname(String name) {
+            this.transteamname = name;
+        }
+        /**
+         * 获取：所属车队name
+         */
+        public String getTransteamname() {
+            return transteamname;
+        }
+        									        /**
+         * 设置：类型enumvaluename
+         */
+        public void setTypeenumvaluename(String enumvaluename) {
+            this.typeenumvaluename = enumvaluename;
+        }
+        /**
+         * 获取：类型enumvaluename
+         */
+        public String getTypeenumvaluename() {
+            return typeenumvaluename;
+        }
+        	}

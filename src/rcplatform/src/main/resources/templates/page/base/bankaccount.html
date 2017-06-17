@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>银行账户表</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="panel-heading">
+            <el-button-group>
+            <@shiro.hasPermission name="bankaccount:list">
+            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="bankaccount:save">
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="bankaccount:update">
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="bankaccount:delete">
+            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
+            </@shiro.hasPermission>
+            </el-button-group>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    <div class="billno">单据号:{{bankaccount.billno}}<span class="panel-right">制单人:{{bankaccount.makeuser}} 制单日期:{{bankaccount.makedate}}</span></div>
+
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right"  label-width="80px" style="padding:30px">
+
+                                                                            <el-form-item label="银行名称">
+
+
+                                                            <el-input v-model="bankaccount.bankname" placeholder="银行名称"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="开户支行">
+
+
+                                                            <el-input v-model="bankaccount.subbank" placeholder="开户支行"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="账号法人">
+
+
+                                                            <el-input v-model="bankaccount.accountperson" placeholder="账号法人"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="银行账号">
+
+
+                                                            <el-input v-model="bankaccount.accountno" placeholder="银行账号"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="更新时间">
+
+
+                            
+                                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="bankaccount.uptdate" style="width: 100%;"></el-date-picker>
+                            
+                    </el-form-item>
+                            
+        </el-form>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/bankaccount/bankaccount.js"></script>
+</body>
+</html>

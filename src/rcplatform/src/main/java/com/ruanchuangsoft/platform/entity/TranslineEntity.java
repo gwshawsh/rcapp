@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 15:36:40
+ * @date 2017-06-17 16:33:23
  */
 public class TranslineEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,6 +19,8 @@ public class TranslineEntity implements Serializable {
 	private Long id;
 	//编码
 	private String code;
+	//名称
+	private String name;
 	//起始地点
 	private Long startlocation;
 	//结束地点
@@ -29,34 +31,30 @@ public class TranslineEntity implements Serializable {
 	private String helpcode;
 
 
-	private String startname;
-	private String endname;
+	
 
-	private String name;
 
-	public String getName() {
-		return name;
-	}
+	
 
-	public void setName(String name) {
-		this.name = name;
-	}
 
-	public String getStartname() {
-		return startname;
-	}
+	
 
-	public void setStartname(String startname) {
-		this.startname = startname;
-	}
 
-	public String getEndname() {
-		return endname;
-	}
+	        //起始地点
+        private String startlocationname;
+	
 
-	public void setEndname(String endname) {
-		this.endname = endname;
-	}
+
+	        //结束地点
+        private String endlocationname;
+	
+
+
+	
+
+
+	
+
 
 	/**
 	 * 设置：
@@ -81,6 +79,18 @@ public class TranslineEntity implements Serializable {
 	 */
 	public String getCode() {
 		return code;
+	}
+	/**
+	 * 设置：名称
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * 获取：名称
+	 */
+	public String getName() {
+		return name;
 	}
 	/**
 	 * 设置：起始地点
@@ -130,4 +140,30 @@ public class TranslineEntity implements Serializable {
 	public String getHelpcode() {
 		return helpcode;
 	}
-}
+
+
+												        /**
+         * 设置：起始地点name
+         */
+        public void setStartlocationname(String name) {
+            this.startlocationname = name;
+        }
+        /**
+         * 获取：起始地点name
+         */
+        public String getStartlocationname() {
+            return startlocationname;
+        }
+        			        /**
+         * 设置：结束地点name
+         */
+        public void setEndlocationname(String name) {
+            this.endlocationname = name;
+        }
+        /**
+         * 获取：结束地点name
+         */
+        public String getEndlocationname() {
+            return endlocationname;
+        }
+        							}

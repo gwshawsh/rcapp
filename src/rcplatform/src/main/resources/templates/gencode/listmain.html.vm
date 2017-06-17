@@ -41,6 +41,8 @@
                 <el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
                 </el-button>
                 $end
+                <el-button type="primary" v-on:click="showdetail"><i class="fa fa-reply"></i>&nbsp;明细
+                </el-button>
             </el-button-group>
 
         </div>
@@ -80,24 +82,22 @@
                     &&$column.columnName != "accuser"
                     &&$column.columnName != "accdate"
                     &&$column.columnName != "uptdate")
-                    <el-form-item label="${column.comments}">
+                    <el-form-item label="${column.comments}"  style="padding-top: 22px">
                         #if($column.columnName.endsWith("date"))
 
-                            <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 168px;"></el-date-picker>
                         #elseif($column.columnName.endsWith("time"))
 
-                            <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 168px;"></el-date-picker>
 
                         #elseif($column.attrType=="Double"||$column.attrType=="double")
 
-                            <el-input-number v-model="${classname}.${column.attrname}" :min="1" ></el-input-number>
+                            <el-input-number v-model="${classname}.${column.attrname}" :min="1" style="width: 168px;"></el-input-number>
                         #elseif($column.refType.equalsIgnoreCase("dialog"))
                             <el-input v-model="${classname}.${column.attrname}${column.refColumnName}" v-on:click="select${column.attrname}${column.refTable}"
-                                      placeholder="${column.comments}"></el-input>
-
-
+                                      placeholder="${column.comments}" style="width: 168px;"></el-input>
                         #elseif($column.refType.equalsIgnoreCase("combo"))
-                            <el-select v-model="${classname}.${column.attrname}"  filterable placeholder="请选择">
+                            <el-select v-model="${classname}.${column.attrname}"  filterable placeholder="请选择" style="width: 168px;">
                                 <el-option
                                         v-for="item in ref_${column.refTable}"
                                         :key="item.${column.refColumnId}"
@@ -105,10 +105,18 @@
                                         :value="item.${column.refColumnId}">
                                 </el-option>
                             </el-select>
-
+                        #elseif( $column.refType.equalsIgnoreCase("enum"))
+                            <el-select v-model="${classname}.${column.attrname}"  filterable placeholder="请选择">
+                                <el-option
+                                        v-for="item in ref_enum${column.refTable}"
+                                        :key="item.${column.refColumnId}"
+                                        :label="item.${column.refColumnName}"
+                                        :value="item.${column.refColumnId}">
+                                </el-option>
+                            </el-select>
 
                         #else
-                            <el-input v-model="${classname}.${column.attrname}" placeholder="${column.comments}"></el-input>
+                            <el-input v-model="${classname}.${column.attrname}" placeholder="${column.comments}" style="width: 168px;"></el-input>
                         #end
 
                     </el-form-item>
@@ -120,8 +128,13 @@
 
         <table id="details" class="layui-table">
             <colgroup>
+                <col width="50">
                 #foreach($column in $detailcolumns)
-                     <col width="100">
+                    #if($column.columnName=="serialno")
+                        <col width="50">
+                    #else
+                        <col width="100">
+                    #end
                 #end
             </colgroup>
             <thead>
@@ -141,7 +154,7 @@
                         <el-button type="primary" icon="delete"  size="mini" v-on:click="delitem"></el-button>
                     </el-button-group>
                 </td>
-                <td>{{index}}</td>
+
                 #foreach($column in $detailcolumns)
                     #if($column.columnName.endsWith("date"))
 
@@ -158,8 +171,8 @@
                                   placeholder="${column.comments}"></el-input></td>
 
 
-                    #elseif($column.refType.equalsIgnoreCase("combo"))
-                    <td><el-select v-model="item.${column.attrname}"  filterable placeholder="请选择">
+                    #elseif($column.refType.equalsIgnoreCase("combo")||$column.refType.equalsIgnoreCase("enum"))
+                    <td><el-select v-model="item.${column.attrname}"  filterable placeholder="请选择" >
                             <el-option
                                     v-for="itemref in ref_${column.refTable}"
                                     :key="itemref.${column.refColumnId}"
@@ -181,6 +194,6 @@
     </div>
 </div>
 
-<script src="${ctxPath}/static/js/${pathName}/${pathName}.js"></script>
+<script src="${ctxPath}/static/js/${parent}/${pathName}.js"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.ruanchuangsoft.platform.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -10,108 +11,132 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-09 14:27:43
+ * @date 2017-06-17 16:28:44
  */
 public class GoodsEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
-	private Long id;
-	//类别ID
-	private Long classid;
-	//编码
-	private String code;
-	//名称
+	private Long goodsId;
+	//父菜单ID，一级菜单为0
+	private Long classId;
+	//菜单名称
 	private String name;
-	//单价
-	private Double price;
-	//含税单价
-	private Double pricetax;
-	//库存
+	//菜单URL
+	private BigDecimal price;
+	//类型   0：目录   1：菜单   2：按钮
 	private Integer gcount;
+	//菜单图标
+	private String icon;
+	//排序
+	private Integer orderNum;
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
 
 	/**
 	 * 设置：
 	 */
-	public void setId(Long id) {
-		this.id = id;
+	public void setGoodsId(Long goodsId) {
+		this.goodsId = goodsId;
 	}
 	/**
 	 * 获取：
 	 */
-	public Long getId() {
-		return id;
+	public Long getGoodsId() {
+		return goodsId;
 	}
 	/**
-	 * 设置：类别ID
+	 * 设置：父菜单ID，一级菜单为0
 	 */
-	public void setClassid(Long classid) {
-		this.classid = classid;
+	public void setClassId(Long classId) {
+		this.classId = classId;
 	}
 	/**
-	 * 获取：类别ID
+	 * 获取：父菜单ID，一级菜单为0
 	 */
-	public Long getClassid() {
-		return classid;
+	public Long getClassId() {
+		return classId;
 	}
 	/**
-	 * 设置：编码
-	 */
-	public void setCode(String code) {
-		this.code = code;
-	}
-	/**
-	 * 获取：编码
-	 */
-	public String getCode() {
-		return code;
-	}
-	/**
-	 * 设置：名称
+	 * 设置：菜单名称
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	/**
-	 * 获取：名称
+	 * 获取：菜单名称
 	 */
 	public String getName() {
 		return name;
 	}
 	/**
-	 * 设置：单价
+	 * 设置：菜单URL
 	 */
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 	/**
-	 * 获取：单价
+	 * 获取：菜单URL
 	 */
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 	/**
-	 * 设置：含税单价
-	 */
-	public void setPricetax(Double pricetax) {
-		this.pricetax = pricetax;
-	}
-	/**
-	 * 获取：含税单价
-	 */
-	public Double getPricetax() {
-		return pricetax;
-	}
-	/**
-	 * 设置：库存
+	 * 设置：类型   0：目录   1：菜单   2：按钮
 	 */
 	public void setGcount(Integer gcount) {
 		this.gcount = gcount;
 	}
 	/**
-	 * 获取：库存
+	 * 获取：类型   0：目录   1：菜单   2：按钮
 	 */
 	public Integer getGcount() {
 		return gcount;
 	}
-}
+	/**
+	 * 设置：菜单图标
+	 */
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	/**
+	 * 获取：菜单图标
+	 */
+	public String getIcon() {
+		return icon;
+	}
+	/**
+	 * 设置：排序
+	 */
+	public void setOrderNum(Integer orderNum) {
+		this.orderNum = orderNum;
+	}
+	/**
+	 * 获取：排序
+	 */
+	public Integer getOrderNum() {
+		return orderNum;
+	}
+
+
+																						}

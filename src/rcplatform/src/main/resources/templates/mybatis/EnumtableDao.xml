@@ -8,7 +8,13 @@
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.EnumtableEntity">
-		select * from enumtable 
+		select * from enumtable
+		<where>
+			<if test="enumtype != null">
+				enumtype=#{enumtype}
+			</if>
+		</where>
+
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

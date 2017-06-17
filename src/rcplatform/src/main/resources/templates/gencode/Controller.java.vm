@@ -45,7 +45,7 @@ public class ${className}Controller extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("${pathName}/${pathName}");
+        setViewname("${parent}/${pathName}");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;

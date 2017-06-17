@@ -33,10 +33,18 @@
 
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
             <el-button-group>
                 <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
                 <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
             </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    <div class="billno">单据号:{{transline.billno}}<span class="panel-right">制单人:{{transline.makeuser}} 制单日期:{{transline.makedate}}</span></div>
+
+                </el-col>
+            </el-row>
         </div>
         <el-form label-position="right"  label-width="80px" style="padding:30px">
 
@@ -46,7 +54,7 @@
                                                             <el-input v-model="transline.code" placeholder="编码"></el-input>
 
 
-
+                              
                     </el-form-item>
                                                                 <el-form-item label="名称">
 
@@ -54,44 +62,32 @@
                                                             <el-input v-model="transline.name" placeholder="名称"></el-input>
 
 
-
+                              
                     </el-form-item>
                                                                 <el-form-item label="起始地点">
 
 
-                                                            <el-select v-model="transline.startlocation"  filterable placeholder="请选择">
-                                    <el-option
-                                            v-for="item in ref_place"
-                                            :key="item.id"
-                                            :label="item.name"
-                                            :value="item.id">
-                                    </el-option>
-                                </el-select>
+                                                            <el-input v-model="transline.startlocationname" v-on:click="selectstartlocationplace"
+                                          placeholder="起始地点"></el-input>
 
 
-
+                             
                     </el-form-item>
                                                                 <el-form-item label="结束地点">
 
 
-                                                            <el-select v-model="transline.endlocation"  filterable placeholder="请选择">
-                                    <el-option
-                                            v-for="item in ref_place"
-                                            :key="item.id"
-                                            :label="item.name"
-                                            :value="item.id">
-                                    </el-option>
-                                </el-select>
+                                                            <el-input v-model="transline.endlocationname" v-on:click="selectendlocationplace"
+                                          placeholder="结束地点"></el-input>
 
 
-
+                             
                     </el-form-item>
                                                                 <el-form-item label="距离">
 
 
-
+                            
                                 <el-input-number v-model="transline.distance" :min="1" ></el-input-number>
-
+                            
                     </el-form-item>
                                                                 <el-form-item label="助记码">
 
@@ -99,13 +95,13 @@
                                                             <el-input v-model="transline.helpcode" placeholder="助记码"></el-input>
 
 
-
+                              
                     </el-form-item>
-
+                            
         </el-form>
     </div>
 </div>
 
-<script src="${ctxPath}/static/js/base/transline.js"></script>
+<script src="${ctxPath}/static/js/transline/transline.js"></script>
 </body>
 </html>

@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 22:34:33
+ * @date 2017-06-17 16:33:23
  */
 public class TransteamEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -27,12 +27,42 @@ public class TransteamEntity implements Serializable {
 	private String contact;
 	//联系电话
 	private String contactNumber;
-	//车辆类型（挂靠、自营、外协）
+	//车辆类型
 	private String vehicleType;
 	//开票信息
 	private String billingInformation;
 	//账户信息
 	private String accountInformation;
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	        //车辆类型
+        private String vehicleTypeenumvaluename;
+	
+
+
+	
+
+
+	
+
 
 	/**
 	 * 设置：
@@ -107,13 +137,13 @@ public class TransteamEntity implements Serializable {
 		return contactNumber;
 	}
 	/**
-	 * 设置：车辆类型（挂靠、自营、外协）
+	 * 设置：车辆类型
 	 */
 	public void setVehicleType(String vehicleType) {
 		this.vehicleType = vehicleType;
 	}
 	/**
-	 * 获取：车辆类型（挂靠、自营、外协）
+	 * 获取：车辆类型
 	 */
 	public String getVehicleType() {
 		return vehicleType;
@@ -142,4 +172,18 @@ public class TransteamEntity implements Serializable {
 	public String getAccountInformation() {
 		return accountInformation;
 	}
-}
+
+
+																					        /**
+         * 设置：车辆类型enumvaluename
+         */
+        public void setVehicleTypeenumvaluename(String enumvaluename) {
+            this.vehicleTypeenumvaluename = enumvaluename;
+        }
+        /**
+         * 获取：车辆类型enumvaluename
+         */
+        public String getVehicleTypeenumvaluename() {
+            return vehicleTypeenumvaluename;
+        }
+        							}

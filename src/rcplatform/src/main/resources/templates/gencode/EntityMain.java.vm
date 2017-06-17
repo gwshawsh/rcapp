@@ -5,9 +5,8 @@ import java.util.Date;
 import java.util.List;
 import ${package}.entity.${detailClassName}Entity;
 
-#if(${hasBigDecimal})
 import java.math.BigDecimal;
-#end
+
 
 
 /**

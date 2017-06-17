@@ -10,11 +10,11 @@ import java.util.Map;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-09 14:27:43
+ * @date 2017-06-17 16:28:44
  */
 public interface GoodsService {
 	
-	GoodsEntity queryObject(Long id);
+	GoodsEntity queryObject(Long goodsId);
 	
 	List<GoodsEntity> queryList(Map<String, Object> map);
 	
@@ -24,7 +24,7 @@ public interface GoodsService {
 	
 	void update(GoodsEntity goods);
 	
-	void delete(Long id);
+	void delete(Long goodsId);
 	
-	void deleteBatch(Long[] ids);
+	void deleteBatch(Long[] goodsIds);
 }

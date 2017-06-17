@@ -4,7 +4,7 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.GoodsDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.GoodsEntity">
-		select * from goods where id = #{value}
+		select * from goods where goods_id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.GoodsEntity">
@@ -18,48 +18,48 @@
 		select count(*) from goods 
 	</select>
 	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.GoodsEntity" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.GoodsEntity" useGeneratedKeys="true" keyProperty="goodsId">
 		insert into goods
 		(
-			`classid`, 
-			`code`, 
+			`class_id`, 
 			`name`, 
 			`price`, 
-			`pricetax`, 
-			`gcount`
+			`gcount`, 
+			`icon`, 
+			`order_num`
 		)
 		values
 		(
-			#{classid}, 
-			#{code}, 
+			#{classId}, 
 			#{name}, 
 			#{price}, 
-			#{pricetax}, 
-			#{gcount}
+			#{gcount}, 
+			#{icon}, 
+			#{orderNum}
 		)
 	</insert>
 	 
 	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.GoodsEntity">
 		update goods 
 		<set>
-			<if test="classid != null">`classid` = #{classid}, </if>
-			<if test="code != null">`code` = #{code}, </if>
+			<if test="classId != null">`class_id` = #{classId}, </if>
 			<if test="name != null">`name` = #{name}, </if>
 			<if test="price != null">`price` = #{price}, </if>
-			<if test="pricetax != null">`pricetax` = #{pricetax}, </if>
-			<if test="gcount != null">`gcount` = #{gcount}</if>
+			<if test="gcount != null">`gcount` = #{gcount}, </if>
+			<if test="icon != null">`icon` = #{icon}, </if>
+			<if test="orderNum != null">`order_num` = #{orderNum}</if>
 		</set>
-		where id = #{id}
+		where goods_id = #{goodsId}
 	</update>
 	
 	<delete id="delete">
-		delete from goods where id = #{value}
+		delete from goods where goods_id = #{value}
 	</delete>
 	
 	<delete id="deleteBatch">
-		delete from goods where id in 
-		<foreach item="id" collection="array" open="(" separator="," close=")">
-			#{id}
+		delete from goods where goods_id in 
+		<foreach item="goodsId" collection="array" open="(" separator="," close=")">
+			#{goodsId}
 		</foreach>
 	</delete>
 

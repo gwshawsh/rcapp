@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 司机基础信息表
+ * 司机管理
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 20:02:48
+ * @date 2017-06-17 16:28:44
  */
 public interface DriversService {
 	

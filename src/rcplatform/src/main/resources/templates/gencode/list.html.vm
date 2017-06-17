@@ -74,10 +74,20 @@
                                           placeholder="${column.comments}"></el-input>
 
 
-                             #elseif($column.refType.equalsIgnoreCase("combo"))
+                             #elseif($column.refType.equalsIgnoreCase("combo")
+                                    )
                                 <el-select v-model="${classname}.${column.attrname}"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_${column.refTable}"
+                                            :key="item.${column.refColumnId}"
+                                            :label="item.${column.refColumnName}"
+                                            :value="item.${column.refColumnId}">
+                                    </el-option>
+                                </el-select>
+                            #elseif( $column.refType.equalsIgnoreCase("enum"))
+                                <el-select v-model="${classname}.${column.attrname}"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_enum${column.refTable}"
                                             :key="item.${column.refColumnId}"
                                             :label="item.${column.refColumnName}"
                                             :value="item.${column.refColumnId}">
@@ -99,6 +109,6 @@
     </div>
 </div>
 
-<script src="${ctxPath}/static/js/${pathName}/${pathName}.js"></script>
+<script src="${ctxPath}/static/js/${parent}/${pathName}.js"></script>
 </body>
 </html>

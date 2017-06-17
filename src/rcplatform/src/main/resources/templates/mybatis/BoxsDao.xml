@@ -22,13 +22,13 @@
 		insert into boxs
 		(
 			`code`, 
-			`box_size`, 
+			`boxsize`, 
 			`weight`
 		)
 		values
 		(
 			#{code}, 
-			#{boxSize}, 
+			#{boxsize}, 
 			#{weight}
 		)
 	</insert>
@@ -37,7 +37,7 @@
 		update boxs 
 		<set>
 			<if test="code != null">`code` = #{code}, </if>
-			<if test="boxSize != null">`box_size` = #{boxSize}, </if>
+			<if test="boxsize != null">`boxsize` = #{boxsize}, </if>
 			<if test="weight != null">`weight` = #{weight}</if>
 		</set>
 		where id = #{id}

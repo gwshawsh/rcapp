@@ -8,6 +8,7 @@ import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +26,11 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-29 16:53:37
+ * @date 2017-06-17 18:59:41
  */
 @Controller
 @RequestMapping("place")
+@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class PlaceController extends AbstractController {
 	@Autowired
 	private PlaceService placeService;

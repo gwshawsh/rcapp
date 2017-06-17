@@ -65,6 +65,16 @@ var vm = new Vue({
 		query: function () {
 			vm.reload();
 		},
+        showdetail: function () {
+            vm.showDetailList=!vm.showDetailList;
+            if(vm.showDetailList){
+                initGridHeightHalf("#jqGrid");
+                initGridHeightHalf("#jqGridDetail");
+            }
+            else{
+                initGridHeight("#jqGrid");
+            }
+        },
 		add: function(){
             var mktime=moment().format("YYYY-MM-DD");
 			vm.showList = false;
@@ -209,7 +219,7 @@ var vm = new Vue({
                     });
                 },
             #elseif($column.refColumn && $column.refType.equalsIgnoreCase("enum"))
-                getRefEnum${column.refTable}: function () {
+                getRef${column.refTable}: function () {
                     $.get("../enumtable/listone?enumid=${column.refTable}&page=1&limit=1000", function (r) {
                         vm.ref_enum${column.refTable} = r.page.list;
                     });
@@ -296,6 +306,8 @@ $(function () {
                 #elseif($column.columnName.equalsIgnoreCase("billstatus"))
                     { label: '${column.comments}', name: '${column.attrname}', width: 80 ,formatter:formater_billstatus}#if($velocityCount != $columns.size()), #end
 
+                #elseif($column.refType.equalsIgnoreCase("combo")||$column.refType.equalsIgnoreCase("enum"))
+                    { label: '${column.comments}', name: '${column.attrname}${column.refColumnName}', width: 80 }#if($velocityCount != $columns.size()), #end
                 #else
                     { label: '${column.comments}', name: '${column.attrname}', width: 80 }#if($velocityCount != $columns.size()), #end
 
@@ -338,6 +350,10 @@ $(function () {
 			#foreach($column in $detailcolumns)
 				#if($column.columnName == $pk.columnName)
                     { label: '${column.attrname}', name: '${column.attrname}', width: 50, key: true },
+                #elseif($column.refType.equalsIgnoreCase("combo")
+                ||$column.refType.equalsIgnoreCase("enum")
+                ||$column.refType.equalsIgnoreCase("dialog"))
+                    { label: '${column.comments}', name: '${column.attrname}${column.refColumnName}', width: 80 }#if($velocityCount != $columns.size()), #end
 				#else
                     { label: '${column.comments}', name: '${column.attrname}', width: 80 }#if($velocityCount != $columns.size()), #end
 
@@ -377,7 +393,7 @@ $(function () {
         #if($column.refColumn && $column.refType.equalsIgnoreCase("combo"))
             vm.getRef${column.refTable}();
         #elseif($column.refColumn && $column.refType.equalsIgnoreCase("enum"))
-            vm.getRefEnum${column.refTable}();
+            vm.getRef${column.refTable}();
         #end
     #end
 

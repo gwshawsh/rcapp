@@ -397,7 +397,7 @@ CREATE TABLE `place` (
   `address` varchar(200) COMMENT '地址',
   `longitude` varchar(50) COMMENT '经度',
   `latitude` varchar(50) COMMENT '纬度',
-  `organization` varchar(50) COMMENT '所属组织:dialog:organization:id:name'
+  `organization` varchar(50) COMMENT '所属组织:dialog:organization:id:name',
   `placetype` int COMMENT '地点类型:enum:2004:enumvalueid:enumvaluename', --  0：仓库 1:工厂 2:堆场',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='地点管理';
@@ -470,7 +470,7 @@ CREATE TABLE `bank` (
   `tel` varchar(50) COMMENT '电话',
   `fax` varchar(50) COMMENT '传真',
   `man` varchar(50) COMMENT '联系人',
-  `del` bit COMMENT '假删',
+  `del` int COMMENT '假删',
   `addpid` int COMMENT '创建人员',
   `adddate` datetime COMMENT '创建日期',
   `remark` varchar(200) COMMENT '备注',
@@ -599,7 +599,7 @@ CREATE TABLE `car` (
   `carcode` varchar(50) COMMENT '编码',
   `carname` varchar(20) COMMENT '车牌号',
   `CarInfo`  varchar(1024) COMMENT '车辆辨识信息', 
-  `DriverId`  varchar(32) COMMENT, '主司机编码',
+  `DriverId`  varchar(32) COMMENT '主司机编码',
   `DriverName`  varchar(50) COMMENT '主司机姓名',
   `OwnerType`  varchar(4) COMMENT '车辆所属:enum:2003:enumvalueid:enumvaluename',--  1-自有车辆，2-挂靠车辆，3-外协车辆
   `transteam` bigint COMMENT '所属车队:combo:transteam:id:name',

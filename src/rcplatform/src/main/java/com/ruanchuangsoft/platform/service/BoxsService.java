@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 箱型基础信息表
+ * 箱型管理
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 23:03:41
+ * @date 2017-06-17 16:28:44
  */
 public interface BoxsService {
 	

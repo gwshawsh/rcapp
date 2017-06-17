@@ -1,96 +1,121 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>司机基础信息表</title>
-         <#include "sys/header.html">
+    <title>司机管理</title>
+        <#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-        <div class="grid-btn">
+        <div class="panel-heading">
+            <el-button-group>
             <@shiro.hasPermission name="drivers:list">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
-            </button>
+            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="drivers:save">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
-            </button>
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="drivers:update">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
-                    class="fa fa-pencil-square-o"></i>&nbsp;修改
-            </button>
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="drivers:delete">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-            </button>
+            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
             </@shiro.hasPermission>
+            </el-button-group>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
     </div>
 
     <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">{{title}}</div>
-        <form class="form-horizontal">
-                                                                            <div class="form-group">
-                        <div class="col-sm-2 control-label">编码</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="drivers.code"
-                                   placeholder="编码"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">姓名</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="drivers.name"
-                                   placeholder="姓名"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">电话</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="drivers.phone"
-                                   placeholder="电话"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">所属车队</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="drivers.fleet"
-                                   placeholder="所属车队"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">证件号</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="drivers.documentno"
-                                   placeholder="证件号"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">驾龄</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="drivers.driveage"
-                                   placeholder="驾龄"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">类型（有、无车）</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="drivers.type"
-                                   placeholder="类型（有、无车）"/>
-                        </div>
-                    </div>
-                                        <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
-                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
-            </div>
-        </form>
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    <div class="billno">单据号:{{drivers.billno}}<span class="panel-right">制单人:{{drivers.makeuser}} 制单日期:{{drivers.makedate}}</span></div>
+
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right"  label-width="80px" style="padding:30px">
+
+                                                                            <el-form-item label="编码">
+
+
+                                                            <el-input v-model="drivers.code" placeholder="编码"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="姓名">
+
+
+                                                            <el-input v-model="drivers.name" placeholder="姓名"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="电话">
+
+
+                                                            <el-input v-model="drivers.phone" placeholder="电话"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="所属车队">
+
+
+                                                            <el-select v-model="drivers.transteam"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_transteam"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+
+
+                             
+                    </el-form-item>
+                                                                <el-form-item label="证件号">
+
+
+                                                            <el-input v-model="drivers.documentno" placeholder="证件号"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="驾龄">
+
+
+                                                            <el-input v-model="drivers.driveage" placeholder="驾龄"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="类型">
+
+
+                                                            <el-input v-model="drivers.type" placeholder="类型"></el-input>
+
+
+                              
+                    </el-form-item>
+                            
+        </el-form>
     </div>
 </div>
 
-<script src="${rc.contextPath}/static/js/base/drivers.js"></script>
+<script src="${ctxPath}/static/js/drivers/drivers.js"></script>
 </body>
 </html>

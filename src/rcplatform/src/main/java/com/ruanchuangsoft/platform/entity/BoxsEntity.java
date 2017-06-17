@@ -6,11 +6,11 @@ import java.util.Date;
 
 
 /**
- * 箱型基础信息表
+ * 箱型管理
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 23:03:41
+ * @date 2017-06-17 16:28:44
  */
 public class BoxsEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,9 +20,22 @@ public class BoxsEntity implements Serializable {
 	//编码
 	private String code;
 	//箱型尺寸
-	private String boxSize;
+	private String boxsize;
 	//重量
 	private String weight;
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
 
 	/**
 	 * 设置：
@@ -51,14 +64,14 @@ public class BoxsEntity implements Serializable {
 	/**
 	 * 设置：箱型尺寸
 	 */
-	public void setBoxSize(String boxSize) {
-		this.boxSize = boxSize;
+	public void setBoxsize(String boxsize) {
+		this.boxsize = boxsize;
 	}
 	/**
 	 * 获取：箱型尺寸
 	 */
-	public String getBoxSize() {
-		return boxSize;
+	public String getBoxsize() {
+		return boxsize;
 	}
 	/**
 	 * 设置：重量
@@ -72,4 +85,6 @@ public class BoxsEntity implements Serializable {
 	public String getWeight() {
 		return weight;
 	}
-}
+
+
+													}

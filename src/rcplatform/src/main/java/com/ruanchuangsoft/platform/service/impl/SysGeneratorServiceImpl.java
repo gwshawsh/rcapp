@@ -7,9 +7,9 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 @Service
@@ -38,7 +38,7 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
     }
 
     @Override
-    public byte[] generatorCode(String[] tableNames) {
+    public byte[] generatorCode(String[] tableNames,String path) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
 
@@ -48,15 +48,44 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
             //查询列信息
             List<Map<String, String>> columns = queryColumns(tableName);
             //生成代码
-            GenUtils.generatorCode(table, columns, zip, 0);
+            GenUtils.generatorCode(table, columns,path, zip, 0);
         }
         IOUtils.closeQuietly(zip);
         return outputStream.toByteArray();
     }
 
+    @Override
+    public byte[] generatorSqlCode(String[] tableNames,String path) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ZipOutputStream zip = new ZipOutputStream(outputStream);
+
+        List<String> lstFilePath=new ArrayList<>();
+        String filepath="db.sql";
+        try {
+            zip.putNextEntry(new ZipEntry(filepath));
+
+            for (String tableName : tableNames) {
+                //查询表信息
+                Map<String, String> table = queryTable(tableName);
+                //查询列信息
+                List<Map<String, String>> columns = queryColumns(tableName);
+                //生成代码
+                GenUtils.generatorSqlCode(table, columns, path, zip);
+
+            }
+
+            IOUtils.closeQuietly(zip);
+
+        }
+        catch (Exception e){
+
+        }
+        return outputStream.toByteArray();
+    }
+
 
     @Override
-    public byte[] generatorBillCode(String[] tableNames) {
+    public byte[] generatorBillCode(String[] tableNames,String path) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
         String tableName;
@@ -81,14 +110,14 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
         List<Map<String, String>> columns2 = queryColumns(tableName2);
 
         //生成代码
-        GenUtils.generatorBillCode(table, columns, table2, columns2, zip);
+        GenUtils.generatorBillCode(table, columns, table2, columns2,path, zip);
 
         IOUtils.closeQuietly(zip);
         return outputStream.toByteArray();
     }
 
     @Override
-    public byte[] generatorTreeCode(String[] tableNames) {
+    public byte[] generatorTreeCode(String[] tableNames,String path) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
 
@@ -98,7 +127,7 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
             //查询列信息
             List<Map<String, String>> columns = queryColumns(tableName);
             //生成代码
-            GenUtils.generatorCode(table, columns, zip, 1);
+            GenUtils.generatorCode(table, columns,path, zip, 1);
         }
         IOUtils.closeQuietly(zip);
         return outputStream.toByteArray();

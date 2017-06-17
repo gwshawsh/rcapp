@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 15:31:52
+ * @date 2017-06-17 16:33:23
  */
 @Controller
 @RequestMapping("transline")
@@ -45,7 +45,7 @@ public class TranslineController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("base/transline");
+        setViewname("transline/transline");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;

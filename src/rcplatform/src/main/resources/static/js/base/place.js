@@ -3,16 +3,64 @@ var vm = new Vue({
     data: {
         showList: true,
         title: null,
-        place: {}
+        //用于日期快捷控件
+        pickerOptions1: {
+            shortcuts: [{
+                text: '今天',
+                onClick(picker) {
+                    picker.$emit('pick', new Date());
+                }
+            }, {
+                text: '昨天',
+                onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24);
+                    picker.$emit('pick', date);
+                }
+            }, {
+                text: '一周前',
+                onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                    picker.$emit('pick', date);
+                }
+            }]
+        },
+        //创建参照
+        ref_enum2004: [],
+
+        //创建实体类
+        place: {
+            code: "",
+            name: "",
+            linkman: "",
+            phone: "",
+            address: "",
+            longitude: "",
+            latitude: "",
+            organization: "",
+            placetype: ""
+        }
     },
     methods: {
         query: function () {
             vm.reload();
         },
         add: function () {
+            var mktime = moment().format("YYYY-MM-DD");
             vm.showList = false;
             vm.title = "新增";
-            vm.place = {};
+            vm.place = {
+                code: "",
+                name: "",
+                linkman: "",
+                phone: "",
+                address: "",
+                longitude: "",
+                latitude: "",
+                organization: "",
+                placetype: ""
+            };
         },
         update: function (event) {
             var id = getSelectedRow();
@@ -64,6 +112,24 @@ var vm = new Vue({
                 });
             });
         },
+
+        //生成参照调用弹出框函数
+        selectorganizationorganization: function (event) {
+            showrefgrid_organization("参照", function (data) {
+                var seldata = data;
+                vm.place.organization = seldata['id'];
+                vm.place.organizationorganizationname = seldata['name'];
+            });
+        },
+
+        //生成参照调用下拉框函数,用来初始化远程数据
+        getRef2004: function () {
+            $.get("../enumtable/listone?enumid=2004&page=1&limit=1000", function (r) {
+                vm.ref_enum2004 = r.page.list;
+            });
+        },
+
+
         getInfo: function (id) {
             $.get("../place/info/" + id, function (r) {
                 vm.place = r.place;
@@ -75,7 +141,7 @@ var vm = new Vue({
             $("#jqGrid").jqGrid('setGridParam', {
                 page: page
             }).trigger("reloadGrid");
-        }
+        },
     }
 });
 
@@ -92,8 +158,8 @@ $(function () {
             {label: '地址', name: 'address', width: 80},
             {label: '经度', name: 'longitude', width: 80},
             {label: '纬度', name: 'latitude', width: 80},
-            {label: '地点类型 0：仓库 1:工厂 2:堆场', name: 'placetype', width: 80}
-        ],
+            {label: '所属组织', name: 'organization', width: 80},
+            {label: '地点类型', name: 'placetypeenumvaluename', width: 80}],
         viewrecords: true,
         height: 385,
         rowNum: 10,
@@ -121,6 +187,10 @@ $(function () {
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
+
+    //执行调用参照调用下拉框函数,初始化下拉数据
+    vm.getRef2004();
+
 
     initGridHeight();
 });

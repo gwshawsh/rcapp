@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.BankDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.BankEntity">
+		select * from bank where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.BankEntity">
+		select * from bank 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from bank 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.BankEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into bank
+		(
+			`code`, 
+			`name`, 
+			`accountno`, 
+			`boctid`, 
+			`address`, 
+			`tel`, 
+			`fax`, 
+			`man`, 
+			`del`, 
+			`addpid`, 
+			`adddate`, 
+			`remark`
+		)
+		values
+		(
+			#{code}, 
+			#{name}, 
+			#{accountno}, 
+			#{boctid}, 
+			#{address}, 
+			#{tel}, 
+			#{fax}, 
+			#{man}, 
+			#{del}, 
+			#{addpid}, 
+			#{adddate}, 
+			#{remark}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.BankEntity">
+		update bank 
+		<set>
+			<if test="code != null">`code` = #{code}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="accountno != null">`accountno` = #{accountno}, </if>
+			<if test="boctid != null">`boctid` = #{boctid}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="tel != null">`tel` = #{tel}, </if>
+			<if test="fax != null">`fax` = #{fax}, </if>
+			<if test="man != null">`man` = #{man}, </if>
+			<if test="del != null">`del` = #{del}, </if>
+			<if test="addpid != null">`addpid` = #{addpid}, </if>
+			<if test="adddate != null">`adddate` = #{adddate}, </if>
+			<if test="remark != null">`remark` = #{remark}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from bank where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from bank where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

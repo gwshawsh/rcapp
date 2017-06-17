@@ -1,0 +1,101 @@
+<div id="ref_boctype" style="display: none;padding:10px;">
+    <table id="ref_grid_boctype"></table>
+    <div id="ref_gridpager_boctype"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_boctype(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_boctype"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_boctype");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_boctype").jqGrid({
+            url: '../boctype/list',
+            datatype: "json",
+            colModel: [
+                {label: 'id', name: 'id', width: 50, key: true},
+                {
+                    label: '编码',
+                    name: 'boctypecode',
+                    width: 80
+                },
+                {
+                    label: '币名',
+                    name: 'boctypename',
+                    width: 80
+                },
+                {
+                    label: '汇率',
+                    name: 'rate',
+                    width: 80
+                },
+                {
+                    label: '单位',
+                    name: 'unit',
+                    width: 80
+                },
+                {
+                    label: '更新时间',
+                    name: 'uptdate',
+                    width: 80
+                },
+                {
+                    label: '备注',
+                    name: 'remark',
+                    width: 80
+                }
+            ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_boctype",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_boctype").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

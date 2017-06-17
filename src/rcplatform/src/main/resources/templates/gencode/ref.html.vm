@@ -36,6 +36,11 @@
                 #foreach($column in $columns)
                     #if($column.columnName == $pk.columnName)
                         {label: '${column.attrname}', name: '${column.attrname}', width: 50, key: true},
+
+                    #elseif($column.refType.equalsIgnoreCase("combo")||
+                        $column.refType.equalsIgnoreCase("enum"))
+                        { label: '${column.comments}', name: '${column.refColumnName}', width: 80 }#if($velocityCount != $columns.size()), #end
+
                     #else
                         {
                             label: '${column.comments}',

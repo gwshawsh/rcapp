@@ -10,7 +10,7 @@ $(function () {
         ],
 		viewrecords: true,
         height: 385,
-        rowNum: 60,
+        rowNum: 1000,
 		rowList : [10,30,50,100,200],
         rownumbers: true, 
         rownumWidth: 25, 
@@ -56,21 +56,41 @@ var vm = new Vue({
 			if(tableNames == null){
 				return ;
 			}
-			location.href = "../sys/generator/code?tables=" + tableNames;
+            layer.prompt({title: '输入所属模块名称，并确认', formType: 2}, function(text, index){
+                layer.close(index);
+                location.href = "../sys/generator/code?tables=" + tableNames+"&path="+text;
+            });
 		},
         generatorbill: function() {
             var tableNames = getSelectedRows();
             if(tableNames == null){
                 return ;
             }
-            location.href = "../sys/generator/codebill?tables=" + tableNames;
+            layer.prompt({title: '输入所属模块名称，并确认', formType: 2}, function(text, index){
+                layer.close(index);
+                location.href = "../sys/generator/codebill?tables=" + tableNames+"&path="+text;
+            });
         },
         generatortree: function() {
             var tableNames = getSelectedRows();
             if(tableNames == null){
                 return ;
             }
-            location.href = "../sys/generator/treecode?tables=" + tableNames;
+            layer.prompt({title: '输入所属模块名称，并确认', formType: 2}, function(text, index){
+                layer.close(index);
+                location.href = "../sys/generator/treecode?tables=" + tableNames+"&path="+text;
+            });
+        },
+        generatorsql: function() {
+            var tableNames = getSelectedRows();
+            if(tableNames == null){
+                return ;
+            }
+            layer.prompt({title: '输入所属模块名称，并确认', formType: 2}, function(text, index){
+                layer.close(index);
+                location.href = "../sys/generator/sqlcode?tables=" + tableNames+"&path="+text;
+            });
+
         }
 
 	}

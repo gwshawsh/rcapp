@@ -52,25 +52,23 @@ var vm = new Vue({
             makedate: "", accuser: "",
             accdate: "",
             uptdate: "",
-            details: [{
-                billno: "*",
-                serialno: 0,
-                goodsid: "",
-                goodsname: "",
-                goodscount: "",
-                goodsspec: "",
-                goodsuse: "",
-                goodsprice: "",
-                goodscost: "",
-                enddate: "",
-                uptdate: ""
-            }]
+            details: []
 
         }
     },
     methods: {
         query: function () {
             vm.reload();
+        },
+        showdetail: function () {
+           vm.showDetailList=!vm.showDetailList;
+           if(vm.showDetailList){
+               initGridHeightHalf("#jqGrid");
+               initGridHeightHalf("#jqGridDetail");
+           }
+           else{
+               initGridHeight("#jqGrid");
+           }
         },
         add: function () {
             var mktime = moment().format("YYYY-MM-DD");
@@ -88,22 +86,11 @@ var vm = new Vue({
                 ordertype: "",
                 billstatus: "",
                 makeuser: gUserName,
-                makedate: mktime, accuser: "",
+                makedate: mktime,
+                accuser: "",
                 accdate: "",
                 uptdate: "",
-                details: [{
-                    billno: "*",
-                    serialno: 0,
-                    goodsid: "",
-                    goodsname: "",
-                    goodscount: "",
-                    goodsspec: "",
-                    goodsuse: "",
-                    goodsprice: "",
-                    goodscost: "",
-                    enddate: "",
-                    uptdate: ""
-                }]
+                details: []
             };
             vm.additem();
         },

@@ -17,7 +17,8 @@ public interface EnumtableService {
 	EnumtableEntity queryObject(Long id);
 	
 	List<EnumtableEntity> queryList(Map<String, Object> map);
-	
+
+
 	int queryTotal(Map<String, Object> map);
 	
 	void save(EnumtableEntity enumtable);

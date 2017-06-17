@@ -9,7 +9,7 @@ import java.util.Map;
 import com.ruanchuangsoft.platform.dao.TransteamDao;
 import com.ruanchuangsoft.platform.entity.TransteamEntity;
 import com.ruanchuangsoft.platform.service.TransteamService;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("transteamService")

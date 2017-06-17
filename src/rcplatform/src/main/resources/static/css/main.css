@@ -83,3 +83,7 @@ tbody > tr > th {font-weight: normal; }
     height:40px;
     line-height:40px;
 }
+
+.form-item{
+    width:168px;
+}

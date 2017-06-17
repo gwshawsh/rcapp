@@ -9,7 +9,7 @@ import java.util.Map;
 import com.ruanchuangsoft.platform.dao.BoxsDao;
 import com.ruanchuangsoft.platform.entity.BoxsEntity;
 import com.ruanchuangsoft.platform.service.BoxsService;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("boxsService")
