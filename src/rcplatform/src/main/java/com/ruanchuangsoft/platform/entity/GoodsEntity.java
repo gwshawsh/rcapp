@@ -1,8 +1,9 @@
 package com.ruanchuangsoft.platform.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
+
+import java.math.BigDecimal;
 
 
 
@@ -11,7 +12,7 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-17 16:28:44
+ * @date 2017-06-19 00:18:30
  */
 public class GoodsEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

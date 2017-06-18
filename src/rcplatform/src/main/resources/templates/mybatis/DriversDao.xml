@@ -4,11 +4,20 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.DriversDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.DriversEntity">
-		select * from drivers where id = #{value}
+		select
+				    			    			    			    						               		ifnull((select name from  transteam b where a.transteam=b.id),'') as transteamname,
+						    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.type=b.enumvalueid and b.enumtype='2005'),'') as typeenumvaluename,
+						    	        a.*
+
+		from drivers a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.DriversEntity">
-		select * from drivers 
+		select
+																													               		ifnull((select name from  transteam b where a.transteam=b.id),'') as transteamname,
+																										                    ifnull((select enumvaluename from  enumtable b where a.type=b.enumvalueid and b.enumtype='2005'),'') as typeenumvaluename,
+									        a.*
+		from drivers a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

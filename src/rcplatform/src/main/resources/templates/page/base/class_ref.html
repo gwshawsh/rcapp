@@ -1,10 +1,10 @@
-<div id="ref_transteam" style="display: none;padding:10px;">
-    <table id="ref_grid_transteam"></table>
-    <div id="ref_gridpager_transteam"></div>
+<div id="ref_class" style="display: none;padding:10px;">
+    <table id="ref_grid_class"></table>
+    <div id="ref_gridpager_class"></div>
 </div>
 <script>
     var mutilflag = false;
-    function showrefgrid_transteam(title, callback, pflag) {
+    function showrefgrid_class(title, callback, pflag) {
         mutiflag = pflag || false;
         layer.open({
             type: 1,
@@ -14,10 +14,10 @@
             area: ['450px', '450px'],
             shade: 0,
             shadeClose: false,
-            content: jQuery("#ref_transteam"),
+            content: jQuery("#ref_class"),
             btn: ['确定', '取消'],
             btn1: function (index) {
-                var row = getSelectedRowData("ref_grid_transteam");
+                var row = getSelectedRowData("ref_grid_class");
                 if (callback) {
                     callback(row);
                 }
@@ -29,15 +29,15 @@
 
 
     $(function () {
-        $("#ref_grid_transteam").jqGrid({
-            url: '../transteam/list',
+        $("#ref_grid_class").jqGrid({
+            url: '../class/list',
             datatype: "json",
             colModel: [
                                                             {label: 'id', name: 'id', width: 50, key: true},
 
                                                                                 {
-                            label: '编码',
-                            name: 'code',
+                            label: '上级类别ID',
+                            name: 'parentid',
                             width: 80
                         }, 
                                                                                 {
@@ -46,29 +46,8 @@
                             width: 80
                         }, 
                                                                                 {
-                            label: '地址',
-                            name: 'address',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '联系人',
-                            name: 'contact',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '联系电话',
-                            name: 'contactNumber',
-                            width: 80
-                        }, 
-                                                                                { label: '车辆类型', name: 'enumvaluename', width: 80 }, 
-                                                                                {
-                            label: '开票信息',
-                            name: 'billingInformation',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '账户信息',
-                            name: 'accountInformation',
+                            label: '编码',
+                            name: 'code',
                             width: 80
                         }
                                     ],
@@ -80,7 +59,7 @@
             rownumWidth: 25,
             autowidth: true,
             multiselect: true,
-            pager: "#ref_gridpager_transteam",
+            pager: "#ref_gridpager_class",
             jsonReader: {
                 root: "page.list",
                 page: "page.currPage",
@@ -94,7 +73,7 @@
             },
             beforeSelectRow: function () {
                 if (!mutiflag) {
-                    $("#ref_grid_transteam").jqGrid('resetSelection');
+                    $("#ref_grid_class").jqGrid('resetSelection');
                 }
                 return (true);
             },

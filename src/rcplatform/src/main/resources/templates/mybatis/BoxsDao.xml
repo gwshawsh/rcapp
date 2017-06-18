@@ -4,11 +4,16 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.BoxsDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.BoxsEntity">
-		select * from boxs where id = #{value}
+		select
+				    			    			    			    	        a.*
+
+		from boxs a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.BoxsEntity">
-		select * from boxs 
+		select
+																						        a.*
+		from boxs a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

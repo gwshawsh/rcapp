@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-17 16:33:23
+ * @date 2017-06-19 00:18:30
  */
 @Controller
 @RequestMapping("transteam")
@@ -45,7 +45,7 @@ public class TransteamController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("transteam/transteam");
+        setViewname("base/transteam");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;

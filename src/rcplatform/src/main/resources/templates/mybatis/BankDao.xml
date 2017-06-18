@@ -4,11 +4,16 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.BankDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.BankEntity">
-		select * from bank where id = #{value}
+		select
+				    			    			    			    			    			    			    			    			    			    			    			    			    	        a.*
+
+		from bank a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.BankEntity">
-		select * from bank 
+		select
+																																																																			        a.*
+		from bank a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

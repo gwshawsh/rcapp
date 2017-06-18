@@ -8,6 +8,7 @@ import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,16 +21,16 @@ import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
-
 /**
- * 区域管理表
+ * 区域管理
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 22:54:57
+ * @date 2017-06-19 00:18:30
  */
 @Controller
 @RequestMapping("region")
+@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class RegionController extends AbstractController {
 	@Autowired
 	private RegionService regionService;

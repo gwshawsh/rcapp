@@ -28,10 +28,10 @@ var vm = new Vue({
         }]
     },
         //创建参照
-					                					
+		
         //创建实体类
-        transline: {
-                                                                            code:"",                                                                 name:"",                                                                 startlocation:"",                                                                 endlocation:"",                                                                 distance:"",                                                                 helpcode:""                                    }
+        class: {
+                                                                            parentid:"",                                                                 name:"",                                                                 code:""                                    }
 	},
 	methods: {
 		query: function () {
@@ -41,8 +41,8 @@ var vm = new Vue({
             var mktime = moment().format("YYYY-MM-DD");
 			vm.showList = false;
 			vm.title = "新增";
-			vm.transline = {
-                                                                                                                                                    code:"",                                                                                                                                                             name:"",                                                                                                                                                             startlocation:"",                                                                                                                                                             endlocation:"",                                                                                                                                                             distance:"",                                                                                                                                                             helpcode:""                                                                                    };
+			vm.class = {
+                                                                                                                                                    parentid:"",                                                                                                                                                             name:"",                                                                                                                                                             code:""                                                                                    };
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -55,11 +55,11 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.transline.id == null ? "../transline/save" : "../transline/update";
+			var url = vm.class.id == null ? "../class/save" : "../class/update";
 			$.ajax({
 				type: "POST",
 			    url: url,
-			    data: JSON.stringify(vm.transline),
+			    data: JSON.stringify(vm.class),
 			    success: function(r){
 			    	if(r.code === 0){
 						alert('操作成功', function(index){
@@ -80,7 +80,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: "../transline/delete",
+				    url: "../class/delete",
 				    data: JSON.stringify(ids),
 				    success: function(r){
 						if(r.code == 0){
@@ -96,28 +96,14 @@ var vm = new Vue({
 		},
 
         //生成参照调用弹出框函数
-																				                selectstartlocationplace: function (event) {
-                    showrefgrid_place("参照", function (data) {
-                        var seldata = data;
-                        vm.transline.startlocation =seldata['id'];
-                        vm.transline.startlocationplacename =seldata['name'];
-                    });
-                },
-								                selectendlocationplace: function (event) {
-                    showrefgrid_place("参照", function (data) {
-                        var seldata = data;
-                        vm.transline.endlocation =seldata['id'];
-                        vm.transline.endlocationplacename =seldata['name'];
-                    });
-                },
-															
+																						
         //生成参照调用下拉框函数,用来初始化远程数据
-							
+		
 
 
         getInfo: function(id){
-            $.get("../transline/info/"+id, function(r){
-                vm.transline = r.transline;
+            $.get("../class/info/"+id, function(r){
+                vm.class = r.class;
             });
         },
         reload: function (event) {
@@ -132,14 +118,13 @@ var vm = new Vue({
 
 $(function () {
     $("#jqGrid").jqGrid({
-        url: '../transline/list',
+        url: '../class/list',
         datatype: "json",
         colModel: [
 							                    { label: 'id', name: 'id', width: 50, key: true },
-                							                    { label: '编码', name: 'code', width: 80 }, 
+                							                    { label: '上级类别ID', name: 'parentid', width: 80 }, 
 											                    { label: '名称', name: 'name', width: 80 }, 
-											                    { label: '起始地点', name: 'startlocationname', width: 80 },                 							                    { label: '结束地点', name: 'endlocationname', width: 80 },                 							                    { label: '距离', name: 'distance', width: 80 }, 
-											                    { label: '助记码', name: 'helpcode', width: 80 }
+											                    { label: '编码', name: 'code', width: 80 }
 							        ],
         viewrecords: true,
         height: 385,
@@ -170,7 +155,7 @@ $(function () {
     });
 
     //执行调用参照调用下拉框函数,初始化下拉数据
-				
+	
 
 
     initGridHeight();

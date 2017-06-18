@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-17 16:28:44
+ * @date 2017-06-19 00:18:30
  */
 @Controller
 @RequestMapping("goods")
@@ -45,7 +45,7 @@ public class GoodsController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("goods/goods");
+        setViewname("base/goods");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;

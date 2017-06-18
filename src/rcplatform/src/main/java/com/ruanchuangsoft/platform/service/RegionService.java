@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 区域管理表
+ * 区域管理
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 22:54:57
+ * @date 2017-06-19 00:18:30
  */
 public interface RegionService {
 	

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>区域管理</title>
+    <title>品类表</title>
         <#include "sys/header.html">
 </head>
 <body>
@@ -9,19 +9,19 @@
     <div v-show="showList">
         <div class="panel-heading">
             <el-button-group>
-            <@shiro.hasPermission name="region:list">
+            <@shiro.hasPermission name="class:list">
             <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="region:save">
+            <@shiro.hasPermission name="class:save">
             <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="region:update">
+            <@shiro.hasPermission name="class:update">
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="region:delete">
+            <@shiro.hasPermission name="class:delete">
             <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </el-button>
             </@shiro.hasPermission>
@@ -41,17 +41,17 @@
             </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    <div class="billno">单据号:{{region.billno}}<span class="panel-right">制单人:{{region.makeuser}} 制单日期:{{region.makedate}}</span></div>
+                    <div class="billno">单据号:{{class.billno}}<span class="panel-right">制单人:{{class.makeuser}} 制单日期:{{class.makedate}}</span></div>
 
                 </el-col>
             </el-row>
         </div>
         <el-form label-position="right"  label-width="80px" style="padding:30px">
 
-                                                                            <el-form-item label="编码">
+                                                                            <el-form-item label="上级类别ID">
 
 
-                                                            <el-input v-model="region.code" placeholder="编码"></el-input>
+                                                            <el-input v-model="class.parentid" placeholder="上级类别ID"></el-input>
 
 
                               
@@ -59,15 +59,15 @@
                                                                 <el-form-item label="名称">
 
 
-                                                            <el-input v-model="region.name" placeholder="名称"></el-input>
+                                                            <el-input v-model="class.name" placeholder="名称"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="上级区域编码">
+                                                                <el-form-item label="编码">
 
 
-                                                            <el-input v-model="region.regionalcode" placeholder="上级区域编码"></el-input>
+                                                            <el-input v-model="class.code" placeholder="编码"></el-input>
 
 
                               
@@ -77,6 +77,6 @@
     </div>
 </div>
                                                     
-<script src="${ctxPath}/static/js/base/region.js"></script>
+<script src="${ctxPath}/static/js/base/class.js"></script>
 </body>
 </html>

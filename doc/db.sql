@@ -307,9 +307,10 @@ CREATE TABLE `paytype` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='付款方式';
 
+DROP TABLE IF EXISTS `goods` ;
 CREATE TABLE `goods` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `classid` bigint COMMENT '类别ID',
+  `classid` bigint COMMENT '类别:combo:gclass:id:name',
   `code` varchar(50) COMMENT '编码',
   `name` varchar(200) COMMENT '名称',
 
@@ -320,7 +321,8 @@ CREATE TABLE `goods` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品表';
 
-CREATE TABLE `class` (
+DROP TABLE IF EXISTS `gclass` ;
+CREATE TABLE `gclass` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `parentid` bigint COMMENT '上级类别ID',
   `name` varchar(50) COMMENT '名称',

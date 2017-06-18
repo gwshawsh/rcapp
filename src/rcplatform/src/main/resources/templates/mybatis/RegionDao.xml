@@ -4,11 +4,16 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.RegionDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RegionEntity">
-		select * from region where id = #{value}
+		select
+				    			    			    			    	        a.*
+
+		from region a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RegionEntity">
-		select * from region 
+		select
+																						        a.*
+		from region a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

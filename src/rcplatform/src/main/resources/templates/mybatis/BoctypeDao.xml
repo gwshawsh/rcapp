@@ -4,11 +4,16 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.BoctypeDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.BoctypeEntity">
-		select * from boctype where id = #{value}
+		select
+				    			    			    			    			    			    			    	        a.*
+
+		from boctype a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.BoctypeEntity">
-		select * from boctype 
+		select
+																																					        a.*
+		from boctype a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

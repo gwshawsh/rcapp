@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-17 18:59:41
+ * @date 2017-06-19 00:18:30
  */
 public class PlaceEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

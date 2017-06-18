@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 船公司
+ * 船舶管理
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 20:14:30
+ * @date 2017-06-19 00:18:30
  */
 public interface ShipService {
 	

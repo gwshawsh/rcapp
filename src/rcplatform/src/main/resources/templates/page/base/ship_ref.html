@@ -1,10 +1,10 @@
-<div id="ref_transteam" style="display: none;padding:10px;">
-    <table id="ref_grid_transteam"></table>
-    <div id="ref_gridpager_transteam"></div>
+<div id="ref_ship" style="display: none;padding:10px;">
+    <table id="ref_grid_ship"></table>
+    <div id="ref_gridpager_ship"></div>
 </div>
 <script>
     var mutilflag = false;
-    function showrefgrid_transteam(title, callback, pflag) {
+    function showrefgrid_ship(title, callback, pflag) {
         mutiflag = pflag || false;
         layer.open({
             type: 1,
@@ -14,10 +14,10 @@
             area: ['450px', '450px'],
             shade: 0,
             shadeClose: false,
-            content: jQuery("#ref_transteam"),
+            content: jQuery("#ref_ship"),
             btn: ['确定', '取消'],
             btn1: function (index) {
-                var row = getSelectedRowData("ref_grid_transteam");
+                var row = getSelectedRowData("ref_grid_ship");
                 if (callback) {
                     callback(row);
                 }
@@ -29,8 +29,8 @@
 
 
     $(function () {
-        $("#ref_grid_transteam").jqGrid({
-            url: '../transteam/list',
+        $("#ref_grid_ship").jqGrid({
+            url: '../ship/list',
             datatype: "json",
             colModel: [
                                                             {label: 'id', name: 'id', width: 50, key: true},
@@ -41,13 +41,48 @@
                             width: 80
                         }, 
                                                                                 {
-                            label: '名称',
+                            label: '中文名称',
                             name: 'name',
                             width: 80
                         }, 
                                                                                 {
-                            label: '地址',
-                            name: 'address',
+                            label: '英文名称',
+                            name: 'enname',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '所属区域',
+                            name: 'region',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: 'UN代码',
+                            name: 'uncode',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '类型',
+                            name: 'type',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '所属船公司',
+                            name: 'company',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: 'COS代码',
+                            name: 'coscode',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: 'COS船英文名',
+                            name: 'cosshipenname',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '所属国家',
+                            name: 'country',
                             width: 80
                         }, 
                                                                                 {
@@ -56,19 +91,18 @@
                             width: 80
                         }, 
                                                                                 {
-                            label: '联系电话',
-                            name: 'contactNumber',
-                            width: 80
-                        }, 
-                                                                                { label: '车辆类型', name: 'enumvaluename', width: 80 }, 
-                                                                                {
-                            label: '开票信息',
-                            name: 'billingInformation',
+                            label: '地址',
+                            name: 'address',
                             width: 80
                         }, 
                                                                                 {
-                            label: '账户信息',
-                            name: 'accountInformation',
+                            label: '电话',
+                            name: 'phone',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '航线',
+                            name: 'route',
                             width: 80
                         }
                                     ],
@@ -80,7 +114,7 @@
             rownumWidth: 25,
             autowidth: true,
             multiselect: true,
-            pager: "#ref_gridpager_transteam",
+            pager: "#ref_gridpager_ship",
             jsonReader: {
                 root: "page.list",
                 page: "page.currPage",
@@ -94,7 +128,7 @@
             },
             beforeSelectRow: function () {
                 if (!mutiflag) {
-                    $("#ref_grid_transteam").jqGrid('resetSelection');
+                    $("#ref_grid_ship").jqGrid('resetSelection');
                 }
                 return (true);
             },

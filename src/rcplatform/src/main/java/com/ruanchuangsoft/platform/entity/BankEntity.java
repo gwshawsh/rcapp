@@ -3,6 +3,8 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import java.math.BigDecimal;
+
 
 
 /**
@@ -10,7 +12,7 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-17 16:28:44
+ * @date 2017-06-19 00:18:29
  */
 public class BankEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -34,6 +36,7 @@ public class BankEntity implements Serializable {
 	//联系人
 	private String man;
 	//假删
+	private Integer del;
 	//创建人员
 	private Integer addpid;
 	//创建日期
@@ -192,9 +195,15 @@ public class BankEntity implements Serializable {
 	/**
 	 * 设置：假删
 	 */
+	public void setDel(Integer del) {
+		this.del = del;
+	}
 	/**
 	 * 获取：假删
 	 */
+	public Integer getDel() {
+		return del;
+	}
 	/**
 	 * 设置：创建人员
 	 */

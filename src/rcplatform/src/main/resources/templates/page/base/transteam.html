@@ -91,10 +91,17 @@
                                                                 <el-form-item label="车辆类型">
 
 
-                                                            <el-input v-model="transteam.vehicleType" placeholder="车辆类型"></el-input>
+                                                            <el-select v-model="transteam.vehicleType"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_enum2003"
+                                            :key="item.enumvalueid"
+                                            :label="item.enumvaluename"
+                                            :value="item.enumvalueid">
+                                    </el-option>
+                                </el-select>
 
 
-                              
+                             
                     </el-form-item>
                                                                 <el-form-item label="开票信息">
 
@@ -116,7 +123,7 @@
         </el-form>
     </div>
 </div>
-
-<script src="${ctxPath}/static/js/transteam/transteam.js"></script>
+                                                                                                                
+<script src="${ctxPath}/static/js/base/transteam.js"></script>
 </body>
 </html>

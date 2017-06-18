@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-17 16:28:44
+ * @date 2017-06-19 00:18:29
  */
 @Mapper
 public interface BankDao extends BaseDao<BankEntity> {

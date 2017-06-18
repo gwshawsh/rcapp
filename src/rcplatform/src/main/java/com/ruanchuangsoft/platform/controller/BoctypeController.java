@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-17 16:28:44
+ * @date 2017-06-19 00:18:30
  */
 @Controller
 @RequestMapping("boctype")
@@ -45,7 +45,7 @@ public class BoctypeController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("boctype/boctype");
+        setViewname("base/boctype");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;

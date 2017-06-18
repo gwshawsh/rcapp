@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.ShipplanDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.ShipplanEntity">
+		select
+				    			    			    			    			    			    			    			    			    			    			    			    			    			    			    			    			    	        a.*
+
+		from shipplan a where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.ShipplanEntity">
+		select
+																																																																																							        a.*
+		from shipplan a
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from shipplan 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.ShipplanEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into shipplan
+		(
+			`enshipname`, 
+			`chshipname`, 
+			`expvoyage`, 
+			`Impvoyage`, 
+			`arrivalstate`, 
+			`arrivaldate`, 
+			`shipid`, 
+			`imono`, 
+			`dockcode`, 
+			`dockname`, 
+			`dockunit`, 
+			`route`, 
+			`arrivaltime`, 
+			`leavetime`, 
+			`shipment`, 
+			`remark`
+		)
+		values
+		(
+			#{enshipname}, 
+			#{chshipname}, 
+			#{expvoyage}, 
+			#{impvoyage}, 
+			#{arrivalstate}, 
+			#{arrivaldate}, 
+			#{shipid}, 
+			#{imono}, 
+			#{dockcode}, 
+			#{dockname}, 
+			#{dockunit}, 
+			#{route}, 
+			#{arrivaltime}, 
+			#{leavetime}, 
+			#{shipment}, 
+			#{remark}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.ShipplanEntity">
+		update shipplan 
+		<set>
+			<if test="enshipname != null">`enshipname` = #{enshipname}, </if>
+			<if test="chshipname != null">`chshipname` = #{chshipname}, </if>
+			<if test="expvoyage != null">`expvoyage` = #{expvoyage}, </if>
+			<if test="impvoyage != null">`Impvoyage` = #{impvoyage}, </if>
+			<if test="arrivalstate != null">`arrivalstate` = #{arrivalstate}, </if>
+			<if test="arrivaldate != null">`arrivaldate` = #{arrivaldate}, </if>
+			<if test="shipid != null">`shipid` = #{shipid}, </if>
+			<if test="imono != null">`imono` = #{imono}, </if>
+			<if test="dockcode != null">`dockcode` = #{dockcode}, </if>
+			<if test="dockname != null">`dockname` = #{dockname}, </if>
+			<if test="dockunit != null">`dockunit` = #{dockunit}, </if>
+			<if test="route != null">`route` = #{route}, </if>
+			<if test="arrivaltime != null">`arrivaltime` = #{arrivaltime}, </if>
+			<if test="leavetime != null">`leavetime` = #{leavetime}, </if>
+			<if test="shipment != null">`shipment` = #{shipment}, </if>
+			<if test="remark != null">`remark` = #{remark}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from shipplan where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from shipplan where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

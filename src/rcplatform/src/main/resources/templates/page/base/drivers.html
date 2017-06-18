@@ -83,9 +83,7 @@
                                             :value="item.id">
                                     </el-option>
                                 </el-select>
-
-
-                             
+                            
                     </el-form-item>
                                                                 <el-form-item label="证件号">
 
@@ -106,16 +104,23 @@
                                                                 <el-form-item label="类型">
 
 
-                                                            <el-input v-model="drivers.type" placeholder="类型"></el-input>
+                                                            <el-select v-model="drivers.type"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_enum2005"
+                                            :key="item.enumvalueid"
+                                            :label="item.enumvaluename"
+                                            :value="item.enumvalueid">
+                                    </el-option>
+                                </el-select>
 
 
-                              
+                             
                     </el-form-item>
                             
         </el-form>
     </div>
 </div>
-
-<script src="${ctxPath}/static/js/drivers/drivers.js"></script>
+                                                                                                    
+<script src="${ctxPath}/static/js/base/drivers.js"></script>
 </body>
 </html>

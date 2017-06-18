@@ -4,16 +4,45 @@ var vm = new Vue({
 	data:{
 		showList: true,
 		title: null,
-		ship: {}
+    //用于日期快捷控件
+    pickerOptions1: {
+        shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+                picker.$emit('pick', new Date());
+            }
+        }, {
+            text: '昨天',
+            onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                picker.$emit('pick', date);
+            }
+        }, {
+            text: '一周前',
+            onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit('pick', date);
+            }
+        }]
+    },
+        //创建参照
+					                					
+        //创建实体类
+        ship: {
+                                                                            code:"",                                                                 name:"",                                                                 enname:"",                                                                 region:"",                                                                 uncode:"",                                                                 type:"",                                                                 company:"",                                                                 coscode:"",                                                                 cosshipenname:"",                                                                 country:"",                                                                 contact:"",                                                                 address:"",                                                                 phone:"",                                                                 route:""                                    }
 	},
 	methods: {
 		query: function () {
 			vm.reload();
 		},
 		add: function(){
+            var mktime = moment().format("YYYY-MM-DD");
 			vm.showList = false;
 			vm.title = "新增";
-			vm.ship = {};
+			vm.ship = {
+                                                                                                                                                    code:"",                                                                                                                                                             name:"",                                                                                                                                                             enname:"",                                                                                                                                                             region:"",                                                                                                                                                             uncode:"",                                                                                                                                                             type:"",                                                                                                                                                             company:"",                                                                                                                                                             coscode:"",                                                                                                                                                             cosshipenname:"",                                                                                                                                                             country:"",                                                                                                                                                             contact:"",                                                                                                                                                             address:"",                                                                                                                                                             phone:"",                                                                                                                                                             route:""                                                                                    };
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -22,7 +51,7 @@ var vm = new Vue({
 			}
 			vm.showList = false;
             vm.title = "修改";
-            
+
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
@@ -47,7 +76,7 @@ var vm = new Vue({
 			if(ids == null){
 				return ;
 			}
-			
+
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
@@ -65,18 +94,32 @@ var vm = new Vue({
 				});
 			});
 		},
-		getInfo: function(id){
-			$.get("../ship/info/"+id, function(r){
+
+        //生成参照调用弹出框函数
+																									                selectregionregion: function (event) {
+                    showrefgrid_region("参照", function (data) {
+                        var seldata = data;
+                        vm.ship.region =seldata['id'];
+                        vm.ship.regionregionname =seldata['name'];
+                    });
+                },
+																																																							
+        //生成参照调用下拉框函数,用来初始化远程数据
+							
+
+
+        getInfo: function(id){
+            $.get("../ship/info/"+id, function(r){
                 vm.ship = r.ship;
             });
-		},
-		reload: function (event) {
-			vm.showList = true;
-			var page = $("#jqGrid").jqGrid('getGridParam','page');
-			$("#jqGrid").jqGrid('setGridParam',{ 
+        },
+        reload: function (event) {
+            vm.showList = true;
+            var page = $("#jqGrid").jqGrid('getGridParam','page');
+            $("#jqGrid").jqGrid('setGridParam',{
                 page:page
             }).trigger("reloadGrid");
-		}
+        },
 	}
 });
 
@@ -86,17 +129,16 @@ $(function () {
         datatype: "json",
         colModel: [
 							                    { label: 'id', name: 'id', width: 50, key: true },
-											                    { label: '编码', name: 'code', width: 80 }, 
+                							                    { label: '编码', name: 'code', width: 80 }, 
 											                    { label: '中文名称', name: 'name', width: 80 }, 
 											                    { label: '英文名称', name: 'enname', width: 80 }, 
-											                    { label: '所属区域', name: 'region', width: 80 }, 
-											                    { label: 'UN代码', name: 'uncode', width: 80 }, 
+											                    { label: '所属区域', name: 'regionname', width: 80 },                 							                    { label: 'UN代码', name: 'uncode', width: 80 }, 
 											                    { label: '类型', name: 'type', width: 80 }, 
 											                    { label: '所属船公司', name: 'company', width: 80 }, 
 											                    { label: 'COS代码', name: 'coscode', width: 80 }, 
 											                    { label: 'COS船英文名', name: 'cosshipenname', width: 80 }, 
 											                    { label: '所属国家', name: 'country', width: 80 }, 
-											                    { label: '联系人 ', name: 'contact', width: 80 }, 
+											                    { label: '联系人', name: 'contact', width: 80 }, 
 											                    { label: '地址', name: 'address', width: 80 }, 
 											                    { label: '电话', name: 'phone', width: 80 }, 
 											                    { label: '航线', name: 'route', width: 80 }
@@ -107,6 +149,8 @@ $(function () {
         rowList : [10,30,50],
         rownumbers: true,
         rownumWidth: 25,
+        autowidth: true,
+        autoScroll: true,
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader : {
@@ -120,14 +164,16 @@ $(function () {
             rows:"limit",
             order: "order"
         },
-		autowidth: true,
-		shrinkToFit:false,
-		autoScroll: true,
-		gridComplete:function(){
+        shrinkToFit:false,
+        gridComplete:function(){
             //隐藏grid底部滚动条
-          //  $("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
 
-	initGridHeight();
+    //执行调用参照调用下拉框函数,初始化下拉数据
+				
+
+
+    initGridHeight();
 });

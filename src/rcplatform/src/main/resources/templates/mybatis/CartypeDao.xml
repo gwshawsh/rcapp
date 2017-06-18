@@ -4,11 +4,16 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.CartypeDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.CartypeEntity">
-		select * from cartype where id = #{value}
+		select
+				    			    			    			    			    	        a.*
+
+		from cartype a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.CartypeEntity">
-		select * from cartype 
+		select
+																											        a.*
+		from cartype a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

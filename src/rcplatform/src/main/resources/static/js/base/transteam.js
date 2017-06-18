@@ -133,8 +133,7 @@ $(function () {
 											                    { label: '地址', name: 'address', width: 80 }, 
 											                    { label: '联系人', name: 'contact', width: 80 }, 
 											                    { label: '联系电话', name: 'contactNumber', width: 80 }, 
-											                    { label: '车辆类型', name: 'vehicleType', width: 80 }, 
-											                    { label: '开票信息', name: 'billingInformation', width: 80 }, 
+											                    { label: '车辆类型', name: 'vehicleTypeenumvaluename', width: 80 },                 							                    { label: '开票信息', name: 'billingInformation', width: 80 }, 
 											                    { label: '账户信息', name: 'accountInformation', width: 80 }
 							        ],
         viewrecords: true,
@@ -166,7 +165,8 @@ $(function () {
     });
 
     //执行调用参照调用下拉框函数,初始化下拉数据
-				
+			            vm.getRef2003();
+			
 
 
     initGridHeight();

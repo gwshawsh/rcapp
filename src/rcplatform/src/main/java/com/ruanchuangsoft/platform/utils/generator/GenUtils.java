@@ -57,6 +57,7 @@ public class GenUtils {
         templates.add("templates/gencode/ControllerMain.java.vm");
         templates.add("templates/gencode/listmain.html.vm");
         templates.add("templates/gencode/listmain.js.vm");
+        templates.add("templates/gencode/ref.html.vm");
         templates.add("templates/gencode/db.sql.vm");
         return templates;
     }
