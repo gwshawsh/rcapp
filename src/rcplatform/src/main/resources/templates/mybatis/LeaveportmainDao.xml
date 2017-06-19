@@ -4,11 +4,26 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.LeaveportmainDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.LeaveportmainEntity">
-		select * from leaveportmain where id = #{value}
+		select
+				    			    						               		ifnull((select name from  place b where a.port=b.id),'') as portname,
+						    						               		ifnull((select name from  organization b where a.shipcompany=b.id),'') as shipcompanyname,
+						    			    						               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+						    						               		ifnull((select name from  place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
+						    						               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
+						    			    			    			    			    			    			    			    	        a.*
+
+		from leaveportmain a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.LeaveportmainEntity">
-		select * from leaveportmain 
+		select
+																			               		ifnull((select name from  place b where a.port=b.id),'') as portname,
+																               		ifnull((select name from  organization b where a.shipcompany=b.id),'') as shipcompanyname,
+																					               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+																               		ifnull((select name from  place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
+																               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
+																																												        a.*
+		from leaveportmain a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -26,7 +41,8 @@
 			`shipcompany`, 
 			`boxqty`, 
 			`boxtype`, 
-			`endplaceid`,
+			`takeboxplaceid`, 
+			`endplaceid`, 
 			`planarrporttime`, 
 			`planarrtime`, 
 			`billuser`, 
@@ -42,7 +58,8 @@
 			#{shipcompany}, 
 			#{boxqty}, 
 			#{boxtype}, 
-			#{endplaceId}, 
+			#{takeboxplaceid}, 
+			#{endplaceid}, 
 			#{planarrporttime}, 
 			#{planarrtime}, 
 			#{billuser}, 
@@ -61,7 +78,8 @@
 			<if test="shipcompany != null">`shipcompany` = #{shipcompany}, </if>
 			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
 			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
-			<if test="endplaceId != null">`endplaceid` = #{endplaceId}, </if>
+			<if test="takeboxplaceid != null">`takeboxplaceid` = #{takeboxplaceid}, </if>
+			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
 			<if test="planarrporttime != null">`planarrporttime` = #{planarrporttime}, </if>
 			<if test="planarrtime != null">`planarrtime` = #{planarrtime}, </if>
 			<if test="billuser != null">`billuser` = #{billuser}, </if>

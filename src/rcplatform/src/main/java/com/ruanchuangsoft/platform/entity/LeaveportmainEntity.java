@@ -3,6 +3,8 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import java.math.BigDecimal;
+
 
 
 /**
@@ -10,7 +12,7 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-28 11:51:56
+ * @date 2017-06-19 23:53:29
  */
 public class LeaveportmainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,15 +22,17 @@ public class LeaveportmainEntity implements Serializable {
 	//单据号
 	private String billno;
 	//港口
-	private String port;
+	private Long port;
 	//船公司
-	private String shipcompany;
+	private Long shipcompany;
 	//箱量
-	private Long boxqty;
+	private Integer boxqty;
 	//箱型
-	private String boxtype;
+	private Long boxtype;
+	//提箱场站
+	private Long takeboxplaceid;
 	//目的地
-	private Long endplaceId;
+	private Long endplaceid;
 	//预计到港时间
 	private Date planarrporttime;
 	//预计到场时间
@@ -43,6 +47,62 @@ public class LeaveportmainEntity implements Serializable {
 	private Date accdate;
 	//更新时间
 	private Date uptdate;
+
+
+	
+
+
+	
+
+
+	        //港口
+        private String portname;
+	
+
+
+	        //船公司
+        private String shipcompanyname;
+	
+
+
+	
+
+
+	        //箱型
+        private String boxtypeboxsize;
+	
+
+
+	        //提箱场站
+        private String takeboxplaceidname;
+	
+
+
+	        //目的地
+        private String endplaceidname;
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
 
 	/**
 	 * 设置：
@@ -71,62 +131,74 @@ public class LeaveportmainEntity implements Serializable {
 	/**
 	 * 设置：港口
 	 */
-	public void setPort(String port) {
+	public void setPort(Long port) {
 		this.port = port;
 	}
 	/**
 	 * 获取：港口
 	 */
-	public String getPort() {
+	public Long getPort() {
 		return port;
 	}
 	/**
 	 * 设置：船公司
 	 */
-	public void setShipcompany(String shipcompany) {
+	public void setShipcompany(Long shipcompany) {
 		this.shipcompany = shipcompany;
 	}
 	/**
 	 * 获取：船公司
 	 */
-	public String getShipcompany() {
+	public Long getShipcompany() {
 		return shipcompany;
 	}
 	/**
 	 * 设置：箱量
 	 */
-	public void setBoxqty(Long boxqty) {
+	public void setBoxqty(Integer boxqty) {
 		this.boxqty = boxqty;
 	}
 	/**
 	 * 获取：箱量
 	 */
-	public Long getBoxqty() {
+	public Integer getBoxqty() {
 		return boxqty;
 	}
 	/**
 	 * 设置：箱型
 	 */
-	public void setBoxtype(String boxtype) {
+	public void setBoxtype(Long boxtype) {
 		this.boxtype = boxtype;
 	}
 	/**
 	 * 获取：箱型
 	 */
-	public String getBoxtype() {
+	public Long getBoxtype() {
 		return boxtype;
+	}
+	/**
+	 * 设置：提箱场站
+	 */
+	public void setTakeboxplaceid(Long takeboxplaceid) {
+		this.takeboxplaceid = takeboxplaceid;
+	}
+	/**
+	 * 获取：提箱场站
+	 */
+	public Long getTakeboxplaceid() {
+		return takeboxplaceid;
 	}
 	/**
 	 * 设置：目的地
 	 */
-	public void setEndplaceId(Long endplaceId) {
-		this.endplaceId = endplaceId;
+	public void setEndplaceid(Long endplaceid) {
+		this.endplaceid = endplaceid;
 	}
 	/**
 	 * 获取：目的地
 	 */
-	public Long getEndplaceId() {
-		return endplaceId;
+	public Long getEndplaceid() {
+		return endplaceid;
 	}
 	/**
 	 * 设置：预计到港时间
@@ -212,4 +284,66 @@ public class LeaveportmainEntity implements Serializable {
 	public Date getUptdate() {
 		return uptdate;
 	}
-}
+
+
+									        /**
+         * 设置：港口name
+         */
+        public void setPortname(String name) {
+            this.portname = name;
+        }
+        /**
+         * 获取：港口name
+         */
+        public String getPortname() {
+            return portname;
+        }
+        			        /**
+         * 设置：船公司name
+         */
+        public void setShipcompanyname(String name) {
+            this.shipcompanyname = name;
+        }
+        /**
+         * 获取：船公司name
+         */
+        public String getShipcompanyname() {
+            return shipcompanyname;
+        }
+        						        /**
+         * 设置：箱型boxsize
+         */
+        public void setBoxtypeboxsize(String boxsize) {
+            this.boxtypeboxsize = boxsize;
+        }
+        /**
+         * 获取：箱型boxsize
+         */
+        public String getBoxtypeboxsize() {
+            return boxtypeboxsize;
+        }
+        			        /**
+         * 设置：提箱场站name
+         */
+        public void setTakeboxplaceidname(String name) {
+            this.takeboxplaceidname = name;
+        }
+        /**
+         * 获取：提箱场站name
+         */
+        public String getTakeboxplaceidname() {
+            return takeboxplaceidname;
+        }
+        			        /**
+         * 设置：目的地name
+         */
+        public void setEndplaceidname(String name) {
+            this.endplaceidname = name;
+        }
+        /**
+         * 获取：目的地name
+         */
+        public String getEndplaceidname() {
+            return endplaceidname;
+        }
+        																						}

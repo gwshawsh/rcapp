@@ -89,7 +89,7 @@ public class OrganizationController extends AbstractController {
 		root.setOpen(true);
 		orgList.add(root);
 
-		return R.ok().put("orgList", orgList);
+		return R.ok().put("treeList", orgList);
 	}
 
 	/**

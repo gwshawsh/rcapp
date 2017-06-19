@@ -4,11 +4,30 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.FactorymainDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.FactorymainEntity">
-		select * from factorymain where id = #{value}
+		select
+				    			    						               		ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
+						    			    			    			    						               		ifnull((select name from  place b where a.portid=b.id),'') as portidname,
+						    			    						               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+						    						               		ifnull((select name from  place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
+						    						               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
+						    						               		ifnull((select name from  place b where a.backplaceid=b.id),'') as backplaceidname,
+						    			    			    			    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+						    			    			    			    			    			    	        a.*
+
+		from factorymain a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.FactorymainEntity">
-		select * from factorymain 
+		select
+																			               		ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
+																															               		ifnull((select name from  place b where a.portid=b.id),'') as portidname,
+																					               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+																               		ifnull((select name from  place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
+																               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
+																               		ifnull((select name from  place b where a.backplaceid=b.id),'') as backplaceidname,
+																																									                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																																		        a.*
+		from factorymain a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -22,16 +41,18 @@
 		insert into factorymain
 		(
 			`billno`, 
-			`orgid`,
+			`orgid`, 
 			`ladingcode`, 
 			`shipname`, 
 			`flight`, 
 			`portid`, 
 			`boxqty`, 
 			`boxtype`, 
-			`endplaceid`,
-			`bgnshipdate`, 
-			`endshipdate`, 
+			`takeboxplaceid`, 
+			`endplaceid`, 
+			`backplaceid`, 
+			`bgnshipdatetime`, 
+			`endshipdatetime`, 
 			`bgnplanarrtime`, 
 			`endplanarrtime`, 
 			`remark`, 
@@ -45,16 +66,18 @@
 		values
 		(
 			#{billno}, 
-			#{orgId}, 
+			#{orgid}, 
 			#{ladingcode}, 
 			#{shipname}, 
 			#{flight}, 
 			#{portid}, 
 			#{boxqty}, 
 			#{boxtype}, 
-			#{endplaceId}, 
-			#{bgnshipdate}, 
-			#{endshipdate}, 
+			#{takeboxplaceid}, 
+			#{endplaceid}, 
+			#{backplaceid}, 
+			#{bgnshipdatetime}, 
+			#{endshipdatetime}, 
 			#{bgnplanarrtime}, 
 			#{endplanarrtime}, 
 			#{remark}, 
@@ -71,16 +94,18 @@
 		update factorymain 
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="orgId != null">`orgid` = #{orgId}, </if>
+			<if test="orgid != null">`orgid` = #{orgid}, </if>
 			<if test="ladingcode != null">`ladingcode` = #{ladingcode}, </if>
 			<if test="shipname != null">`shipname` = #{shipname}, </if>
 			<if test="flight != null">`flight` = #{flight}, </if>
 			<if test="portid != null">`portid` = #{portid}, </if>
 			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
 			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
-			<if test="endplaceId != null">`endplaceid` = #{endplaceId}, </if>
-			<if test="bgnshipdate != null">`bgnshipdate` = #{bgnshipdate}, </if>
-			<if test="endshipdate != null">`endshipdate` = #{endshipdate}, </if>
+			<if test="takeboxplaceid != null">`takeboxplaceid` = #{takeboxplaceid}, </if>
+			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
+			<if test="backplaceid != null">`backplaceid` = #{backplaceid}, </if>
+			<if test="bgnshipdatetime != null">`bgnshipdatetime` = #{bgnshipdatetime}, </if>
+			<if test="endshipdatetime != null">`endshipdatetime` = #{endshipdatetime}, </if>
 			<if test="bgnplanarrtime != null">`bgnplanarrtime` = #{bgnplanarrtime}, </if>
 			<if test="endplanarrtime != null">`endplanarrtime` = #{endplanarrtime}, </if>
 			<if test="remark != null">`remark` = #{remark}, </if>

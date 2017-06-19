@@ -1,3 +1,19 @@
+//生成弹出树形空间参照
+
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url: "nourl"
+        }
+    }
+};
+
 var vm = new Vue({
     el: '#rrapp',
     data: {
@@ -26,16 +42,76 @@ var vm = new Vue({
                 }
             }]
         },
-        emptymain: {}
+        //创建参照
+        ref_boxs: [],
+
+        ref_enum1003: [],
+
+        //创建实体类
+        emptymain: {
+            orgidname: "",
+            portidname: "",
+            boxtypeboxsize: "",
+            billstatusenumvaluename: "",
+            billno: "",
+            orgid: "",
+            ladingcode: "",
+            shipname: "",
+            flight: "",
+            portid: "",
+            boxqty: "",
+            boxtype: "",
+            takeboxplaceid: "",
+            endplaceid: "",
+            bgnshipdatetime: "",
+            endshipdatetime: "",
+            bgnplanarrtime: "",
+            endplanarrtime: "",
+            remark: "",
+            billstatus: "",
+            makeuser: "",
+            makedate: "",
+            accuser: "",
+            accdate: "",
+            uptdate: ""
+        }
     },
     methods: {
         query: function () {
             vm.reload();
         },
         add: function () {
+            var mktime = moment().format("YYYY-MM-DD");
             vm.showList = false;
             vm.title = "新增";
-            vm.emptymain = {};
+            vm.emptymain = {
+                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                orgidname: "",
+                portidname: "",
+                boxtypeboxsize: "",
+                billstatusenumvaluename: "",
+                billno: "*",
+                orgid: "",
+                ladingcode: "",
+                shipname: "",
+                flight: "",
+                portid: "",
+                boxqty: "",
+                boxtype: "",
+                takeboxplaceid: "",
+                endplaceid: "",
+                bgnshipdatetime: "",
+                endshipdatetime: "",
+                bgnplanarrtime: "",
+                endplanarrtime: "",
+                remark: "",
+                billstatus: "",
+                makeuser: gUserName,
+                makedate: mktime,
+                accuser: "",
+                accdate: "",
+                uptdate: ""
+            };
         },
         update: function (event) {
             var id = getSelectedRow();
@@ -87,32 +163,8 @@ var vm = new Vue({
                 });
             });
         },
-        getInfo: function (id) {
-            var rowdata=getSelectedRowData();
-            if(rowdata!=null){
-                vm.emptymain=rowdata;
-            }
-            //$.get("../emptymain/info/" + id, function (r) {
-            //    vm.emptymain = r.emptymain;
-            //});
-        },
-        reload: function (event) {
-            vm.showList = true;
-            var page = $("#jqGrid").jqGrid('getGridParam', 'page');
-            $("#jqGrid").jqGrid('setGridParam', {
-                page: page
-            }).trigger("reloadGrid");
-        },
-        //放箱
-        takebox:function(){
-            vm.getInfo();
-            showrefgrid_place("选择提箱场站",function(data){
-                var seldata=data;
-                vm.emptymain.takeboxplaceid=seldata['id'];
-                vm.saveOrUpdate();
-            })
-        },
-        accbill:function(){
+
+        audit:function() {
             var ids = getSelectedRows();
             if (ids == null) {
                 return;
@@ -134,6 +186,65 @@ var vm = new Vue({
                     }
                 });
             });
+        },
+
+            //生成参照调用弹出框函数
+        selectorgidorganization: function (event) {
+            showrefgrid_organization("参照", function (data) {
+                var seldata = data;
+                vm.emptymain.orgid = seldata['id'];
+                vm.emptymain.orgidorganizationname = seldata['name'];
+            });
+        },
+        selectportidplace: function (event) {
+            showrefgrid_place("参照", function (data) {
+                var seldata = data;
+                vm.emptymain.portid = seldata['id'];
+                vm.emptymain.portidplacename = seldata['name'];
+            });
+        },
+        selecttakeboxplaceidplace: function (event) {
+            showrefgrid_place("参照", function (data) {
+                var seldata = data;
+                vm.emptymain.takeboxplaceid = seldata['id'];
+                vm.emptymain.takeboxplaceidplacename = seldata['name'];
+            });
+        },
+        selectendplaceidplace: function (event) {
+            showrefgrid_place("参照", function (data) {
+                var seldata = data;
+                vm.emptymain.endplaceid = seldata['id'];
+                vm.emptymain.endplaceidplacename = seldata['name'];
+            });
+        },
+
+        //生成参照调用下拉框函数,用来初始化远程数据
+        getRefboxs: function () {
+            $.get("../boxs/list?page=1&limit=1000", function (r) {
+                vm.ref_boxs = r.page.list;
+            });
+        },
+
+        getRef1003: function () {
+            $.get("../enumtable/listone?enumid=1003&page=1&limit=1000", function (r) {
+                vm.ref_enum1003 = r.page.list;
+            });
+        },
+
+        //生成弹出树形空间参照
+
+
+        getInfo: function (id) {
+            $.get("../emptymain/info/" + id, function (r) {
+                vm.emptymain = r.emptymain;
+            });
+        },
+        reload: function (event) {
+            vm.showList = true;
+            var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            $("#jqGrid").jqGrid('setGridParam', {
+                page: page
+            }).trigger("reloadGrid");
         }
     }
 });
@@ -145,22 +256,20 @@ $(function () {
         colModel: [
             {label: 'id', name: 'id', width: 50, key: true,hidden:true},
             {label: '单据号', name: 'billno', width: 80},
-            {label: '客户', name: 'orgname', width: 80,hidden:true},
-            {label: '提单号', name: 'ladingcode', width: 80},
+            {label: '客户id', name: 'orgidname', width: 80}, {label: '提单号', name: 'ladingcode', width: 80},
             {label: '船名', name: 'shipname', width: 80},
             {label: '航次', name: 'flight', width: 80},
-            {label: '港口', name: 'portid', width: 80},
-            {label: '箱量', name: 'boxqty', width: 80},
-            {label: '箱型', name: 'boxtype', width: 80},
-            {label: '状态', name: 'billstatus', width: 80,formatter: formater_billstatus},
-            {label: '提箱场站', name: 'takeboxplacename', width: 80},
-            {label: '目的地', name: 'endplacename', width: 80},
-            {label: '集港时间', name: 'bgnshipdate', width: 80},
-            {label: '截港时间', name: 'endshipdate', width: 80},
+            {label: '港口id', name: 'portidname', width: 80}, {label: '箱量', name: 'boxqty', width: 80},
+            {label: '箱型', name: 'boxtypeboxsize', width: 80}, {
+                label: '提箱场站',
+                name: 'takeboxplaceidname',
+                width: 80
+            }, {label: '目的地', name: 'endplaceidname', width: 80}, {label: '集港时间', name: 'bgnshipdatetime', width: 80},
+            {label: '截港时间', name: 'endshipdatetime', width: 80},
             {label: '最早到场时间', name: 'bgnplanarrtime', width: 80},
             {label: '最晚到场时间', name: 'endplanarrtime', width: 80},
             {label: '备注', name: 'remark', width: 80},
-
+            {label: '单据状态', name: 'billstatus', width: 80, formatter: formater_billstatus},
             {label: '制单人', name: 'makeuser', width: 80},
             {label: '制单日期', name: 'makedate', width: 80},
             {label: '审核人', name: 'accuser', width: 80},
@@ -194,6 +303,11 @@ $(function () {
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
+
+    //执行调用参照调用下拉框函数,初始化下拉数据
+    vm.getRefboxs();
+    vm.getRef1003();
+
 
     initGridHeight();
 });

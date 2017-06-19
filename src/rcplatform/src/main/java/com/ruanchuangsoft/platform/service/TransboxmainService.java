@@ -10,7 +10,7 @@ import java.util.Map;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-30 23:44:01
+ * @date 2017-06-20 00:43:25
  */
 public interface TransboxmainService {
 	
@@ -27,4 +27,8 @@ public interface TransboxmainService {
 	void delete(Long id);
 	
 	void deleteBatch(Long[] ids);
+
+    void auditBatch(Long[] ids);
+
+    void unauditBatch(Long[] ids);
 }

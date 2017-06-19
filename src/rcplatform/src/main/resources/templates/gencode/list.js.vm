@@ -1,3 +1,23 @@
+//生成弹出树形空间参照
+#foreach($column in $columns)
+    #if($column.refColumn && $column.refType.equalsIgnoreCase("dialogtree"))
+       var ztree${column.attrname};
+    #end
+#end
+
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    }
+};
 
 var vm = new Vue({
 	el:'#rrapp',
@@ -41,11 +61,17 @@ var vm = new Vue({
 
         //创建实体类
         ${classname}: {
+            #foreach($column in $refcolumns)
+                #if($column.columnName != $pk.columnName)
+                    ${column.attrname}${column.refColumnName}:"",
+                #end
+            #end
             #foreach($column in $columns)
                 #if($column.columnName != $pk.columnName)
                     ${column.attrname}:""#if($velocityCount != $columns.size()), #end
                 #end
             #end
+
         }
 	},
 	methods: {
@@ -57,6 +83,12 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.${classname} = {
+            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+            #foreach($column in $refcolumns)
+                #if($column.columnName != $pk.columnName)
+                    ${column.attrname}${column.refColumnName}:"",
+                #end
+            #end
                     #foreach($column in $columns)
                         #if($column.columnName != $pk.columnName)
                             #if($column.columnName.equalsIgnoreCase('billno'))
@@ -70,6 +102,7 @@ var vm = new Vue({
                             #end
                         #end
                     #end
+
             };
 		},
 		update: function (event) {
@@ -154,6 +187,44 @@ var vm = new Vue({
             #end
 		#end
 
+        //生成弹出树形空间参照
+#foreach($column in $columns)
+#if($column.refColumn && $column.refType.equalsIgnoreCase("dialogtree"))
+
+        getRefTree${column.refTable}${column.attrname}: function(menuId){
+            //加载菜单树
+            $.get("../${column.refTable}/select", function(r){
+                ztree${column.attrname} = $.fn.zTree.init($("#refTree${column.refTable}"), setting, r.treeList);
+                var node = ztree${column.attrname}.getNodeByParam("id", vm.${classname}.${column.attrname});
+                ztree${column.attrname}.selectNode(node);
+                vm.${classname}.${column.attrname}${column.refColumnName} = node.name;
+
+            })
+        },
+
+        openRefTree${column.refTable}${column.attrname}: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#treelayer${column.refTable}"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztree${column.attrname}.getSelectedNodes();
+                    //选择上级菜单
+                    vm.${classname}.${column.attrname} = node[0].id;
+                    vm.${classname}.${column.attrname}${column.refColumnName} = node[0].name;
+
+                    layer.close(index);
+                }
+            });
+        },
+#end
+#end
 
 
         getInfo: function(${pk.attrname}){
@@ -167,7 +238,7 @@ var vm = new Vue({
             $("#jqGrid").jqGrid('setGridParam',{
                 page:page
             }).trigger("reloadGrid");
-        },
+        }
 	}
 });
 
@@ -184,7 +255,10 @@ $(function () {
 
                 #elseif($column.refType.equalsIgnoreCase("combo")
                       ||$column.refType.equalsIgnoreCase("enum")
-                      ||$column.refType.equalsIgnoreCase("dialog"))
+                      ||$column.refType.equalsIgnoreCase("dialog")
+                ||$column.refType.equalsIgnoreCase("dialogtree")
+
+                )
                     { label: '${column.comments}', name: '${column.attrname}${column.refColumnName}', width: 80 }#if($velocityCount != $columns.size()), #end
                 #else
                     { label: '${column.comments}', name: '${column.attrname}', width: 80 }#if($velocityCount != $columns.size()), #end
@@ -226,8 +300,11 @@ $(function () {
             vm.getRef${column.refTable}();
         #elseif($column.refColumn && $column.refType.equalsIgnoreCase("enum"))
             vm.getRef${column.refTable}();
+        #elseif($column.refColumn && $column.refType.equalsIgnoreCase("dialogtree"))
+            vm.getRefTree${column.refTable}${column.attrname}();
 		#end
 	#end
+
 
 
 

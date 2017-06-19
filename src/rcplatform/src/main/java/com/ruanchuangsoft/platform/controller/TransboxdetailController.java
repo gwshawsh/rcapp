@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-30 23:44:01
+ * @date 2017-06-20 00:43:25
  */
 @Controller
 @RequestMapping("transboxdetail")
@@ -45,7 +45,7 @@ public class TransboxdetailController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("transboxdetail/transboxdetail");
+        setViewname("buss/transboxdetail");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;

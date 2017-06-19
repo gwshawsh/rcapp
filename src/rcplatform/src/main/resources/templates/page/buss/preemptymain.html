@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>重箱计划</title>
+    <title>预约用箱</title>
         <#include "sys/header.html">
 </head>
 <body>
@@ -9,19 +9,19 @@
     <div v-show="showList">
         <div class="panel-heading">
             <el-button-group>
-            <@shiro.hasPermission name="heavymain:list">
+            <@shiro.hasPermission name="preemptymain:list">
             <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="heavymain:save">
+            <@shiro.hasPermission name="preemptymain:save">
             <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="heavymain:update">
+            <@shiro.hasPermission name="preemptymain:update">
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="heavymain:delete">
+            <@shiro.hasPermission name="preemptymain:delete">
             <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </el-button>
             </@shiro.hasPermission>
@@ -41,8 +41,8 @@
             </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                                            <div class="billno">单据号:{{heavymain.billno}}<span class="panel-right">制单人:{{heavymain.makeuser}} 制单日期:{{heavymain.makedate}}</span></div>
-                    
+                    <div class="billno">单据号:{{preemptymain.billno}}<span class="panel-right">制单人:{{preemptymain.makeuser}} 制单日期:{{preemptymain.makedate}}</span></div>
+
                 </el-col>
             </el-row>
         </div>
@@ -51,7 +51,7 @@
                                                                             <el-form-item label="单据号">
 
 
-                                                            <el-input style="width: 350px"  v-model="heavymain.billno" placeholder="单据号"></el-input>
+                                                            <el-input v-model="preemptymain.billno" placeholder="单据号"></el-input>
 
 
                               
@@ -59,16 +59,16 @@
                                                                 <el-form-item label="客户id">
 
 
-                            
-                                <input style="width: 350px" v-model="heavymain.orgidname" :click="selectorgidorganization"
-                                          placeholder="客户id" class="el-input el-input__inner"></input>
+                                                            <el-input v-model="preemptymain.orgidname" v-on:click="selectorgidorganization"
+                                          placeholder="客户id"></el-input>
 
-                            
+
+                             
                     </el-form-item>
                                                                 <el-form-item label="提单号">
 
 
-                                                            <el-input style="width: 350px"  v-model="heavymain.ladingcode" placeholder="提单号"></el-input>
+                                                            <el-input v-model="preemptymain.ladingcode" placeholder="提单号"></el-input>
 
 
                               
@@ -76,7 +76,7 @@
                                                                 <el-form-item label="船名">
 
 
-                                                            <el-input style="width: 350px"  v-model="heavymain.shipname" placeholder="船名"></el-input>
+                                                            <el-input v-model="preemptymain.shipname" placeholder="船名"></el-input>
 
 
                               
@@ -84,7 +84,7 @@
                                                                 <el-form-item label="航次">
 
 
-                                                            <el-input style="width: 350px"  v-model="heavymain.flight" placeholder="航次"></el-input>
+                                                            <el-input v-model="preemptymain.flight" placeholder="航次"></el-input>
 
 
                               
@@ -92,16 +92,16 @@
                                                                 <el-form-item label="港口">
 
 
-                            
-                                <input style="width: 350px" v-model="heavymain.portidname" :click="selectportidplace"
-                                          placeholder="港口" class="el-input el-input__inner"></input>
+                                                            <el-input v-model="preemptymain.portidname" v-on:click="selectportidplace"
+                                          placeholder="港口"></el-input>
 
-                            
+
+                             
                     </el-form-item>
                                                                 <el-form-item label="箱量">
 
 
-                                                            <el-input style="width: 350px"  v-model="heavymain.boxqty" placeholder="箱量"></el-input>
+                                                            <el-input v-model="preemptymain.boxqty" placeholder="箱量"></el-input>
 
 
                               
@@ -109,7 +109,7 @@
                                                                 <el-form-item label="箱型">
 
 
-                                                            <el-select style="width: 350px" v-model="heavymain.boxtype"  filterable placeholder="请选择">
+                                                            <el-select v-model="preemptymain.boxtype"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_boxs"
                                             :key="item.id"
@@ -122,57 +122,39 @@
                                                                 <el-form-item label="提箱场站">
 
 
-                            
-                                <input style="width: 350px" v-model="heavymain.takeboxplaceidname" :click="selecttakeboxplaceidplace"
-                                          placeholder="提箱场站" class="el-input el-input__inner"></input>
+                                                            <el-input v-model="preemptymain.takeboxplaceidname" v-on:click="selecttakeboxplaceidplace"
+                                          placeholder="提箱场站"></el-input>
 
-                            
+
+                             
                     </el-form-item>
                                                                 <el-form-item label="目的地">
 
 
-                            
-                                <input style="width: 350px" v-model="heavymain.endplaceidname" :click="selectendplaceidplace"
-                                          placeholder="目的地" class="el-input el-input__inner"></input>
+                                                            <el-input v-model="preemptymain.endplaceidname" v-on:click="selectendplaceidplace"
+                                          placeholder="目的地"></el-input>
 
+
+                             
+                    </el-form-item>
+                                                                <el-form-item label="计划开始日期">
+
+
+                            
+                                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="preemptymain.bgntakedate" style="width: 100%;"></el-date-picker>
                             
                     </el-form-item>
-                                                                <el-form-item label="集港时间">
+                                                                <el-form-item label="计划截止日期">
 
 
                             
-                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="heavymain.bgnshipdatetime" style="width: 100%;"></el-date-picker>
-
-                            
-                    </el-form-item>
-                                                                <el-form-item label="截港时间">
-
-
-                            
-                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="heavymain.endshipdatetime" style="width: 100%;"></el-date-picker>
-
-                            
-                    </el-form-item>
-                                                                <el-form-item label="最早到场时间">
-
-
-                            
-                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="heavymain.bgnplanarrtime" style="width: 100%;"></el-date-picker>
-
-                            
-                    </el-form-item>
-                                                                <el-form-item label="最晚到场时间">
-
-
-                            
-                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="heavymain.endplanarrtime" style="width: 100%;"></el-date-picker>
-
+                                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="preemptymain.endtakedate" style="width: 100%;"></el-date-picker>
                             
                     </el-form-item>
                                                                 <el-form-item label="备注">
 
 
-                                                            <el-input style="width: 350px"  v-model="heavymain.remark" placeholder="备注"></el-input>
+                                                            <el-input v-model="preemptymain.remark" placeholder="备注"></el-input>
 
 
                               
@@ -180,7 +162,7 @@
                                                                 <el-form-item label="单据状态">
 
 
-                                                            <el-select style="width: 350px" v-model="heavymain.billstatus"  filterable placeholder="请选择">
+                                                            <el-select v-model="preemptymain.billstatus"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_enum1003"
                                             :key="item.enumvalueid"
@@ -195,7 +177,7 @@
                                                                 <el-form-item label="制单人">
 
 
-                                                            <el-input style="width: 350px"  v-model="heavymain.makeuser" placeholder="制单人"></el-input>
+                                                            <el-input v-model="preemptymain.makeuser" placeholder="制单人"></el-input>
 
 
                               
@@ -204,13 +186,13 @@
 
 
                             
-                                <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="heavymain.makedate" style="width: 100%;"></el-date-picker>
+                                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="preemptymain.makedate" style="width: 100%;"></el-date-picker>
                             
                     </el-form-item>
                                                                 <el-form-item label="审核人">
 
 
-                                                            <el-input style="width: 350px"  v-model="heavymain.accuser" placeholder="审核人"></el-input>
+                                                            <el-input v-model="preemptymain.accuser" placeholder="审核人"></el-input>
 
 
                               
@@ -219,28 +201,25 @@
 
 
                             
-                                <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="heavymain.accdate" style="width: 100%;"></el-date-picker>
+                                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="preemptymain.accdate" style="width: 100%;"></el-date-picker>
                             
                     </el-form-item>
                                                                 <el-form-item label="更新时间">
 
 
                             
-                                <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="heavymain.uptdate" style="width: 100%;"></el-date-picker>
+                                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="preemptymain.uptdate" style="width: 100%;"></el-date-picker>
                             
                     </el-form-item>
                             
         </el-form>
     </div>
 </div>
-
-
                                                 <#include "buss/organization_ref.html"
                                                                     <#include "buss/place_ref.html"
                                                         <#include "buss/place_ref.html"
                                 <#include "buss/place_ref.html"
-                                                                                                                                                
-
-<script src="${ctxPath}/static/js/buss/heavymain.js"></script>
+                                                                                                                        
+<script src="${ctxPath}/static/js/buss/preemptymain.js"></script>
 </body>
 </html>

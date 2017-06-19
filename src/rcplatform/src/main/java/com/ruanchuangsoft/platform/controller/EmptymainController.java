@@ -135,7 +135,7 @@ public class EmptymainController extends AbstractController {
 	@ResponseBody
 	@RequestMapping("/audit")
 	@RequiresPermissions("emptymain:audit")
-	public R accbill(@RequestBody  Long[] ids){
+	public R audit(@RequestBody  Long[] ids){
 		for(long id:ids){
 			EmptymainEntity emptymain=emptymainService.queryObject(id);
 			if(emptymain!=null){
@@ -147,43 +147,52 @@ public class EmptymainController extends AbstractController {
 				emptymain.setAccuser(ShiroUtils.getUserName());
 				emptymainService.update(emptymain);
 
-				TakeboxmainEntity takeboxmainEntity=new TakeboxmainEntity();
-				String billno=getBillNo("TB");
-				takeboxmainEntity.setBillno(billno);
-				takeboxmainEntity.setRefbillno(emptymain.getBillno());
-				takeboxmainEntity.setRefbilltype(TranBillType.EMPTYBILL);
-				takeboxmainEntity.setOrgId(emptymain.getOrgId());
-				takeboxmainEntity.setLadingcode(emptymain.getLadingcode());
-				takeboxmainEntity.setShipname(emptymain.getShipname());
-				takeboxmainEntity.setFlight(emptymain.getFlight());
-				takeboxmainEntity.setPortid(emptymain.getPortid());
-				takeboxmainEntity.setBoxqty(emptymain.getBoxqty());
-				takeboxmainEntity.setBoxtype(emptymain.getBoxtype());
-				takeboxmainEntity.setTakeboxplaceid(emptymain.getTakeboxplaceid());
-				takeboxmainEntity.setEndplaceid(emptymain.getEndplaceId());
-				takeboxmainEntity.setBgnplanarrtime(emptymain.getBgnplanarrtime());
-				takeboxmainEntity.setEndplanarrtime(emptymain.getEndplanarrtime());
-				takeboxmainEntity.setMakedate(new Date());
-				takeboxmainEntity.setMakeuser(ShiroUtils.getUserName());
+				//判断是否需要放箱,如果是则生成放箱单,如果不是,则判断是否需要生成运输单
+				if(emptymain.getIstakebox()==1) {
+					TakeboxmainEntity takeboxmainEntity = new TakeboxmainEntity();
+					String billno = getBillNo("TB");
+					takeboxmainEntity.setBillno(billno);
+					takeboxmainEntity.setRefbillno(emptymain.getBillno());
+					takeboxmainEntity.setRefbilltype(TranBillType.EMPTYBILL);
+					takeboxmainEntity.setOrgid(emptymain.getOrgid());
+					takeboxmainEntity.setLadingcode(emptymain.getLadingcode());
+					takeboxmainEntity.setShipname(emptymain.getShipname());
+					takeboxmainEntity.setFlight(emptymain.getFlight());
+					takeboxmainEntity.setPortid(emptymain.getPortid());
+					takeboxmainEntity.setBoxqty(emptymain.getBoxqty());
+					takeboxmainEntity.setBoxtype(emptymain.getBoxtype());
+					takeboxmainEntity.setTakeboxplaceid(emptymain.getTakeboxplaceid());
+					takeboxmainEntity.setEndplaceid(emptymain.getEndplaceid());
+					takeboxmainEntity.setBgnplanarrtime(emptymain.getBgnplanarrtime());
+					takeboxmainEntity.setEndplanarrtime(emptymain.getEndplanarrtime());
+					takeboxmainEntity.setMakedate(new Date());
+					takeboxmainEntity.setMakeuser(ShiroUtils.getUserName());
 
-				List<TakeboxdetailEntity> details=new ArrayList<>();
+					List<TakeboxdetailEntity> details = new ArrayList<>();
 
-				//创建明细
-				for(int i=0;i<emptymain.getBoxqty();i++){
-					TakeboxdetailEntity takeboxdetailEntity=new TakeboxdetailEntity();
-					takeboxdetailEntity.setBillno(billno);
-					takeboxdetailEntity.setSerialno((long)i);
-					takeboxdetailEntity.setBoxno("");
-					takeboxdetailEntity.setStartplaceid1(emptymain.getTakeboxplaceid());
-					takeboxdetailEntity.setStartplaceid2(emptymain.getTakeboxplaceid());
-					takeboxdetailEntity.setEndplaceid(emptymain.getEndplaceId());
+					//创建明细
+					for (int i = 0; i < emptymain.getBoxqty(); i++) {
+						TakeboxdetailEntity takeboxdetailEntity = new TakeboxdetailEntity();
+						takeboxdetailEntity.setBillno(billno);
+						takeboxdetailEntity.setSerialno((long) i);
+						takeboxdetailEntity.setBoxno("");
+						takeboxdetailEntity.setStartplaceid1(emptymain.getTakeboxplaceid());
+						takeboxdetailEntity.setStartplaceid2(emptymain.getTakeboxplaceid());
+						takeboxdetailEntity.setEndplaceid(emptymain.getEndplaceid());
 
-					details.add(takeboxdetailEntity);
+						details.add(takeboxdetailEntity);
+
+					}
+					takeboxmainEntity.setDetails(details);
+
+					takeboxmainService.save(takeboxmainEntity);
+				}
+				//判断是否直接生成运输单
+				else if(emptymain.getIstrans()==1){
+
+
 
 				}
-				takeboxmainEntity.setDetails(details);
-
-				takeboxmainService.save(takeboxmainEntity);
 			}
 		}
 

@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("heavymainService")
-@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class HeavymainServiceImpl implements HeavymainService {
 	@Autowired
 	private HeavymainDao heavymainDao;

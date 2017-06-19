@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("factorymainService")
-@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class FactorymainServiceImpl implements FactorymainService {
 	@Autowired
 	private FactorymainDao factorymainDao;

@@ -20,12 +20,12 @@ var vm = new Vue({
         getTree: function(menuId){
             //加载菜单树
             $.get("../organization/select", function(r){
-                ztree = $.fn.zTree.init($("#menuTree"), setting, r.orgList);
+                ztree = $.fn.zTree.init($("#menuTree"), setting, r.treeList);
                 var node = ztree.getNodeByParam("id", vm.organization.parentId);
                 ztree.selectNode(node);
                 vm.organization.parentName = node.name;
 
-                ztreeLeft = $.fn.zTree.init($("#leftTree"), setting, r.orgList);
+                ztreeLeft = $.fn.zTree.init($("#leftTree"), setting, r.treeList);
                 var node2 = ztreeLeft.getNodeByParam("id", vm.organization.parentId);
                 ztreeLeft.selectNode(node2);
 

@@ -6,8 +6,6 @@ import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
-import com.ruanchuangsoft.platform.entity.TransboxdetailEntity;
-import com.ruanchuangsoft.platform.service.TransboxdetailService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +17,9 @@ import org.springframework.stereotype.Controller;
 
 import com.ruanchuangsoft.platform.entity.TransboxmainEntity;
 import com.ruanchuangsoft.platform.service.TransboxmainService;
+import com.ruanchuangsoft.platform.entity.TransboxdetailEntity;
+import com.ruanchuangsoft.platform.service.TransboxdetailService;
+
 import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-30 23:44:01
+ * @date 2017-06-20 00:43:25
  */
 @Controller
 @RequestMapping("transboxmain")
@@ -37,10 +38,10 @@ public class TransboxmainController extends AbstractController {
 	@Autowired
 	private TransboxmainService transboxmainService;
 
-	@Autowired
-	private TransboxdetailService transboxdetailService;
+    @Autowired
+    private TransboxdetailService transboxdetailService;
 
-	@RequestMapping("/transboxmain")
+    @RequestMapping("/transboxmain")
 	public String list(){
 		return "transboxmain/transboxmain";
 	}
@@ -77,6 +78,26 @@ public class TransboxmainController extends AbstractController {
 		return R.ok().put("page", pageUtil);
 	}
 
+    /**
+     * 列表
+     */
+    @ResponseBody
+    @RequestMapping("/listdetail")
+    @RequiresPermissions("transboxmain:list")
+    public R listdetail(Long formid,Integer page, Integer limit){
+        Map<String, Object> map = new HashMap<>();
+        map.put("offset", (page - 1) * limit);
+        map.put("limit", limit);
+        map.put("formid",formid);
+
+        //查询列表数据
+        List<TransboxdetailEntity> transboxdetailList = transboxdetailService.queryList(map);
+        int total = transboxdetailService.queryTotal(map);
+
+        PageUtils pageUtil = new PageUtils(transboxdetailList, total, limit, page);
+
+        return R.ok().put("page", pageUtil);
+    }
 
 	/**
 	 * 信息
@@ -87,29 +108,15 @@ public class TransboxmainController extends AbstractController {
 	public R info(@PathVariable("id") Long id){
 		TransboxmainEntity transboxmain = transboxmainService.queryObject(id);
 
+        //查询明细数据
+        Map<String, Object> map = new HashMap<>();
+        map.put("formid",id);
+
+        List<TransboxdetailEntity> transboxdetailList = transboxdetailService.queryList(map);
+		transboxmain.setDetails(transboxdetailList );
+
 		return R.ok().put("transboxmain", transboxmain);
 	}
-
-	/**
-	 * 列表
-	 */
-	@ResponseBody
-	@RequestMapping("/listdetail")
-	@RequiresPermissions("transboxmain:list")
-	public R listdetail(Long formid,Integer page, Integer limit){
-		Map<String, Object> map = new HashMap<>();
-		map.put("offset", (page - 1) * limit);
-		map.put("limit", limit);
-
-		//查询列表数据
-		List<TransboxdetailEntity> transboxdetailList = transboxdetailService.queryList(map);
-		int total = transboxdetailService.queryTotal(map);
-
-		PageUtils pageUtil = new PageUtils(transboxdetailList, total, limit, page);
-
-		return R.ok().put("page", pageUtil);
-	}
-
 
 	/**
 	 * 保存
@@ -118,6 +125,16 @@ public class TransboxmainController extends AbstractController {
 	@RequestMapping("/save")
 	@RequiresPermissions("transboxmain:save")
 	public R save(@RequestBody TransboxmainEntity transboxmain){
+        if(transboxmain.getBillno().equals("*")){
+            String billno=getBillNo("**");
+			transboxmain.setBillno(billno);
+            if(transboxmain.getDetails()!=null&&transboxmain.getDetails().size()>0){
+                for(TransboxdetailEntity item:transboxmain.getDetails()){
+                    item.setBillno(billno);
+                }
+            }
+        }
+
 		transboxmainService.save(transboxmain);
 
 		return R.ok();
@@ -146,5 +163,30 @@ public class TransboxmainController extends AbstractController {
 
 		return R.ok();
 	}
+
+    /**
+     * 审核
+     */
+    @ResponseBody
+    @RequestMapping("/audit")
+    @RequiresPermissions("transboxmain:audit")
+    public R audit(@RequestBody Long[] ids){
+			transboxmainService.auditBatch(ids);
+
+        return R.ok();
+    }
+
+
+    /**
+     * 反审核
+     */
+    @ResponseBody
+    @RequestMapping("/unaudit")
+    @RequiresPermissions("transboxmain:unaudit")
+    public R unaudit(@RequestBody Long[] ids){
+			transboxmainService.unauditBatch(ids);
+
+        return R.ok();
+    }
 
 }

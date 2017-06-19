@@ -3,127 +3,152 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.TransboxmainDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TransboxmainEntity">
-		select a.*,
-		ifnull((select name from organization b where a.orgid=b.id),'') as orgname,
-		ifnull((select name from place b where a.takeboxplaceid=b.id),'') as takeboxplacename,
-		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename,
-		ifnull((select name from place b where a.portid=b.id),'') as portname,
-		ifnull((select name from transteam b where a.transcompanyid=b.id),'') as transcompanyname
+    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TransboxmainEntity">
+		select
+																                    ifnull((select enumvaluename from  enumtable b where a.refbilltype=b.enumvalueid and b.enumtype='1007'),'') as refbilltypeenumvaluename,
+												               		ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
+																					               		ifnull((select name from  place b where a.portid=b.id),'') as portidname,
+															               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+												               		ifnull((select name from  place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
+												               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
+																											                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																						        a.*
+
 		from transboxmain a where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TransboxmainEntity">
-		select a.*,
-		ifnull((select name from organization b where a.orgid=b.id),'') as orgname,
-		ifnull((select name from place b where a.takeboxplaceid=b.id),'') as takeboxplacename,
-		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename,
-		ifnull((select name from place b where a.portid=b.id),'') as portname,
-		ifnull((select name from transteam b where a.transcompanyid=b.id),'') as transcompanyname
-		from transboxmain a
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
-	</select>
+    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TransboxmainEntity">
+        select
+        ifnull((select enumvaluename from enumtable b where a.refbilltype=b.enumvalueid and b.enumtype='1007'),'') as
+        refbilltypeenumvaluename,
+        ifnull((select name from organization b where a.orgid=b.id),'') as orgidname,
+        ifnull((select name from place b where a.portid=b.id),'') as portidname,
+        ifnull((select boxsize from boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+        ifnull((select name from place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
+        ifnull((select name from place b where a.endplaceid=b.id),'') as endplaceidname,
+        ifnull((select enumvaluename from enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as
+        billstatusenumvaluename,
+        a.*
+        from transboxmain a
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
 
- 	<select id="queryTotal" resultType="int">
+    <select id="queryTotal" resultType="int">
 		select count(*) from transboxmain 
 	</select>
 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TransboxmainEntity" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TransboxmainEntity" useGeneratedKeys="true"
+            keyProperty="id">
 		insert into transboxmain
 		(
 			`billno`, 
-			`refbillno`,
-			`refbilltype`,
-			`orgid`,
-			`ladingcode`,
-			`shipname`,
-			`flight`,
-			`portid`,
-			`boxqty`,
-			`boxtype`,
-			`takeboxplaceid`,
-			`endplaceid`,
-			`bgnshipdate`,
-			`endshipdate`,
-			`bgnplanarrtime`,
-			`endplanarrtime`,
-			`remark`,
-			`billstatus`,
-			`makeuser`,
-			`makedate`,
-			`accuser`,
-			`accdate`,
+			`refbillno`, 
+			`refbilltype`, 
+			`orgid`, 
+			`ladingcode`, 
+			`shipname`, 
+			`flight`, 
+			`portid`, 
+			`boxqty`, 
+			`boxtype`, 
+			`takeboxplaceid`, 
+			`endplaceid`, 
+			`bgnshipdatetime`, 
+			`endshipdatetime`, 
+			`bgnplanarrtime`, 
+			`endplanarrtime`, 
+			`remark`, 
+			`billstatus`, 
+			`makeuser`, 
+			`makedate`, 
+			`accuser`, 
+			`accdate`, 
 			`uptdate`
 		)
 		values
 		(
-			#{billno},
-			#{refbillno},
-			#{refbilltype},
-			#{orgid},
-			#{ladingcode},
-			#{shipname},
-			#{flight},
-			#{portid},
-			#{boxqty},
-			#{boxtype},
-			#{takeboxplaceid},
-			#{endplaceid},
-			#{bgnshipdate},
-			#{endshipdate},
-			#{bgnplanarrtime},
-			#{endplanarrtime},
-			#{remark},
-			#{billstatus},
-			#{makeuser},
-			#{makedate},
-			#{accuser},
-			#{accdate},
+			#{billno}, 
+			#{refbillno}, 
+			#{refbilltype}, 
+			#{orgid}, 
+			#{ladingcode}, 
+			#{shipname}, 
+			#{flight}, 
+			#{portid}, 
+			#{boxqty}, 
+			#{boxtype}, 
+			#{takeboxplaceid}, 
+			#{endplaceid}, 
+			#{bgnshipdatetime}, 
+			#{endshipdatetime}, 
+			#{bgnplanarrtime}, 
+			#{endplanarrtime}, 
+			#{remark}, 
+			#{billstatus}, 
+			#{makeuser}, 
+			#{makedate}, 
+			#{accuser}, 
+			#{accdate}, 
 			#{uptdate}
 		)
 	</insert>
 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TransboxmainEntity">
-		update transboxmain
-		<set>
-			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="refbillno != null">`refbillno` = #{refbillno}, </if>
-			<if test="refbilltype != null">`refbilltype` = #{refbilltype}, </if>
-			<if test="orgid != null">`orgid` = #{orgid}, </if>
-			<if test="ladingcode != null">`ladingcode` = #{ladingcode}, </if>
-			<if test="shipname != null">`shipname` = #{shipname}, </if>
-			<if test="flight != null">`flight` = #{flight}, </if>
-			<if test="portid != null">`portid` = #{portid}, </if>
-			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
-			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
-			<if test="takeboxplaceid != null">`takeboxplaceid` = #{takeboxplaceid}, </if>
-			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
-			<if test="bgnshipdate != null">`bgnshipdate` = #{bgnshipdate}, </if>
-			<if test="endshipdate != null">`endshipdate` = #{endshipdate}, </if>
-			<if test="bgnplanarrtime != null">`bgnplanarrtime` = #{bgnplanarrtime}, </if>
-			<if test="endplanarrtime != null">`endplanarrtime` = #{endplanarrtime}, </if>
-			<if test="remark != null">`remark` = #{remark}, </if>
-			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
-			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
-			<if test="makedate != null">`makedate` = #{makedate}, </if>
-			<if test="accuser != null">`accuser` = #{accuser}, </if>
-			<if test="accdate != null">`accdate` = #{accdate}, </if>
-			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
-		</set>
-		where id = #{id}
-	</update>
-	
-	<delete id="delete">
+    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.TransboxmainEntity">
+        update transboxmain
+        <set>
+            <if test="billno != null">`billno` = #{billno},</if>
+            <if test="refbillno != null">`refbillno` = #{refbillno},</if>
+            <if test="refbilltype != null">`refbilltype` = #{refbilltype},</if>
+            <if test="orgid != null">`orgid` = #{orgid},</if>
+            <if test="ladingcode != null">`ladingcode` = #{ladingcode},</if>
+            <if test="shipname != null">`shipname` = #{shipname},</if>
+            <if test="flight != null">`flight` = #{flight},</if>
+            <if test="portid != null">`portid` = #{portid},</if>
+            <if test="boxqty != null">`boxqty` = #{boxqty},</if>
+            <if test="boxtype != null">`boxtype` = #{boxtype},</if>
+            <if test="takeboxplaceid != null">`takeboxplaceid` = #{takeboxplaceid},</if>
+            <if test="endplaceid != null">`endplaceid` = #{endplaceid},</if>
+            <if test="bgnshipdatetime != null">`bgnshipdatetime` = #{bgnshipdatetime},</if>
+            <if test="endshipdatetime != null">`endshipdatetime` = #{endshipdatetime},</if>
+            <if test="bgnplanarrtime != null">`bgnplanarrtime` = #{bgnplanarrtime},</if>
+            <if test="endplanarrtime != null">`endplanarrtime` = #{endplanarrtime},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            <if test="billstatus != null">`billstatus` = #{billstatus},</if>
+            <if test="makeuser != null">`makeuser` = #{makeuser},</if>
+            <if test="makedate != null">`makedate` = #{makedate},</if>
+            <if test="accuser != null">`accuser` = #{accuser},</if>
+            <if test="accdate != null">`accdate` = #{accdate},</if>
+            <if test="uptdate != null">`uptdate` = #{uptdate}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <update id="auditBatch">
+        update transboxmain set billstatus=billstatus+1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="unauditBatch">
+        update transboxmain set billstatus=billstatus-1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <delete id="delete">
 		delete from transboxmain where id = #{value}
 	</delete>
-	
-	<delete id="deleteBatch">
-		delete from transboxmain where id in 
-		<foreach item="id" collection="array" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</delete>
+
+    <delete id="deleteBatch">
+        delete from transboxmain where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

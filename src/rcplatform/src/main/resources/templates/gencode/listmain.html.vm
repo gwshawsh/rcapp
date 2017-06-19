@@ -94,8 +94,14 @@
 
                             <el-input-number v-model="${classname}.${column.attrname}" :min="1" style="width: 168px;"></el-input-number>
                         #elseif($column.refType.equalsIgnoreCase("dialog"))
-                            <el-input v-model="${classname}.${column.attrname}${column.refColumnName}" v-on:click="select${column.attrname}${column.refTable}"
-                                      placeholder="${column.comments}" style="width: 168px;"></el-input>
+                            <input v-model="${classname}.${column.attrname}${column.refColumnName}" v-on:click="select${column.attrname}${column.refTable}"
+                                      placeholder="${column.comments}" style="width: 168px;" class="el-input el-input__inner"></input>
+
+                        #elseif($column.refType.equalsIgnoreCase("dialogtree"))
+
+                            <input v-model="${classname}.${column.attrname}${column.refColumnName}"  :click="openRefTree${column.refTable}${column.attrname}"
+                                   placeholder="${column.comments}" style="width: 168px;" class="el-input el-input__inner"></input>
+
                         #elseif($column.refType.equalsIgnoreCase("combo"))
                             <el-select v-model="${classname}.${column.attrname}"  filterable placeholder="请选择" style="width: 168px;">
                                 <el-option
@@ -202,6 +208,15 @@
             $ref${parent}/${column.refTable}$refend
         #end
     #end
+
+    #foreach($column in $columns)
+        #if($column.refColumn && $column.refType.equalsIgnoreCase("dialogtree"))
+        <div id="treelayer${column.refTable}" style="display: none;padding:10px;">
+            <ul id="refTree${column.refTable}" class="ztree"></ul>
+        </div>
+        #end
+    #end
+
 
 <script src="${ctxPath}/static/js/${parent}/${pathName}.js"></script>
 </body>

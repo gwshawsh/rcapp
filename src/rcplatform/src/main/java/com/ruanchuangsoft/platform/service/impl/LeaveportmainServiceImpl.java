@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("leaveportmainService")
-@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class LeaveportmainServiceImpl implements LeaveportmainService {
 	@Autowired
 	private LeaveportmainDao leaveportmainDao;

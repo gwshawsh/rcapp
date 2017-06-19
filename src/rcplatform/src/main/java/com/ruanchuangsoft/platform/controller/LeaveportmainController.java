@@ -8,6 +8,7 @@ import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +26,11 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 20:02:48
+ * @date 2017-06-19 23:53:29
  */
 @Controller
 @RequestMapping("leaveportmain")
+@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class LeaveportmainController extends AbstractController {
 	@Autowired
 	private LeaveportmainService leaveportmainService;
