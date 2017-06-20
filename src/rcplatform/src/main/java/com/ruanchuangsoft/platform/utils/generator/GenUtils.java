@@ -50,7 +50,7 @@ public class GenUtils {
     public static List<String> getBillTemplates() {
         List<String> templates = new ArrayList<String>();
         templates.add("templates/gencode/EntityMain.java.vm");
-        templates.add("templates/gencode/Dao.java.vm");
+        templates.add("templates/gencode/DaoMain.java.vm");
         templates.add("templates/gencode/DaoMain.xml.vm");
         templates.add("templates/gencode/ServiceMain.java.vm");
         templates.add("templates/gencode/ServiceImplMain.java.vm");

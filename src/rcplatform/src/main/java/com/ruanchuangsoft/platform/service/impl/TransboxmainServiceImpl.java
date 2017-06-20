@@ -73,11 +73,12 @@ public class TransboxmainServiceImpl implements TransboxmainService {
 
     @Override
     public void auditBatch(Long[] ids){
-			transboxmainDao.auditBatch(ids);
+			//transboxmainDao.auditBatch(ids);
     }
 
     @Override
     public void unauditBatch(Long[] ids){
-			transboxmainDao.unauditBatch(ids);
+
+//		transboxmainDao.unauditBatch(ids);
     }
 }

@@ -911,6 +911,75 @@ CREATE TABLE `transboxdetail`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运输计划明细表';
 
 
+-- 租赁合同
+DROP TABLE IF EXISTS `rentcontractmain`;
+CREATE TABLE `storecontractmain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `orgid` bigint COMMENT '客户:dialogtree:organization:id:name',
+  `linkman` varchar(50) null COMMENT '客户联系人',
+  `mobile` varchar(20) null COMMENT '客户联系电话',
+  `paytype` bigint COMMENT '付款方式:combo:paytype:id:name',
+  `paytime` int COMMENT '结算周期:enum:1010:enumvalueid:enumvaluename',
+  `boctid` bigint COMMENT '币别:combo:boctype:id:boctypename',
+  `rate` decimal(19,4) COMMENT '汇率',
+  `taxrate` decimal(19,4) COMMENT '税率',
+  `rentprice` decimal(19,4) COMMENT '月租金',
+  `renttotal` decimal(19,4) COMMENT '总金额',
+  `bgndate` datetime COMMENT '生效日期',--  
+  `enddate` datetime COMMENT '失效日期',
+  `remark` varchar(1000) COMMENT '备注',
+  `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',-- :0：新增 1：审核 2：作废',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `uptdate` datetime COMMENT '更新时间', 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='租赁合同';
+
+
+-- 机械维修合同
+DROP TABLE IF EXISTS `repaircontractmain`;
+CREATE TABLE `storecontractmain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `orgid` bigint COMMENT '客户:dialogtree:organization:id:name',
+  `paytype` bigint COMMENT '付款方式:combo:paytype:id:name',
+  `boctid` bigint COMMENT '币别:combo:boctype:id:boctypename',
+  `rate` decimal(19,4) COMMENT '汇率',
+  `taxrate` decimal(19,4) COMMENT '税率',
+  `total` decimal(19,4) COMMENT '总金额',
+  `bgndate` datetime COMMENT '生效日期',--  
+  `enddate` datetime COMMENT '失效日期',
+  `remark` varchar(1000) COMMENT '备注',
+  `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',-- :0：新增 1：审核 2：作废',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `uptdate` datetime COMMENT '更新时间', 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓储合同';
+
+-- 机械维修合同明细
+DROP TABLE IF EXISTS `repaircontractdetail`;
+CREATE TABLE `storecontractdetail`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `serialno` bigint COMMENT '序号',
+  `goodsid` bigint COMMENT '设备:dialog:goods:id:name',
+  `boxtype` bigint COMMENT '箱型:combo:boxs:id:boxsize',
+  `weighttype` bigint COMMENT '空重类型:enum:1009:enumvalueid:enumvaluename',-- ：0-空箱 1-重箱',
+  `price` decimal(19,4) COMMENT '维修单价',-- 一 
+  `transprice` decimal(19,4) COMMENT '运输单价',-- 一 
+  `goodsqty` decimal(19,4) COMMENT '数量',-- 一 
+  `total` decimal(19,4) COMMENT '维修费用',--  
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓储合同明细';
+
+
+
 -- 仓储合同
 DROP TABLE IF EXISTS `storecontractmain`;
 CREATE TABLE `storecontractmain`(
@@ -918,6 +987,7 @@ CREATE TABLE `storecontractmain`(
   `billno` varchar(50) COMMENT '单据号',
   `orgid` bigint COMMENT '客户:dialogtree:organization:id:name',
   `paytype` bigint COMMENT '付款方式:combo:paytype:id:name',
+  `paytime` int COMMENT '结算周期:enum:1010:enumvalueid:enumvaluename',
   `boctid` bigint COMMENT '币别:combo:boctype:id:boctypename',
   `rate` decimal(19,4) COMMENT '汇率',
   `taxrate` decimal(19,4) COMMENT '税率',
