@@ -3,7 +3,7 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.EmptymainDao">
 
-    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.EmptymainEntity">
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.EmptymainEntity">
 		select
 				    			    						               		ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
 						    			    			    			    						               		ifnull((select name from  place b where a.portid=b.id),'') as portidname,
@@ -14,36 +14,81 @@
 						    						                    ifnull((select enumvaluename from  enumtable b where a.istrans=b.enumvalueid and b.enumtype='0001'),'') as istransenumvaluename,
 						    			    						                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
 						    			    			    			    			    			    	        a.*
-
 		from emptymain a where id = #{value}
 	</select>
 
-    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.EmptymainEntity">
-        select
-        ifnull((select name from organization b where a.orgid=b.id),'') as orgidname,
-        ifnull((select name from place b where a.portid=b.id),'') as portidname,
-        ifnull((select boxsize from boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
-        ifnull((select name from place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
-        ifnull((select name from place b where a.endplaceid=b.id),'') as endplaceidname,
-        ifnull((select enumvaluename from enumtable b where a.istakebox=b.enumvalueid and b.enumtype='0001'),'') as
-        istakeboxenumvaluename,
-        ifnull((select enumvaluename from enumtable b where a.istrans=b.enumvalueid and b.enumtype='0001'),'') as
-        istransenumvaluename,
-        ifnull((select enumvaluename from enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as
-        billstatusenumvaluename,
-        a.*
-        from emptymain a
-        <if test="offset != null and limit != null">
-            limit #{offset}, #{limit}
-        </if>
-    </select>
-
-    <select id="queryTotal" resultType="int">
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.EmptymainEntity">
+		select
+																			               		ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
+																															               		ifnull((select name from  place b where a.portid=b.id),'') as portidname,
+																					               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+																               		ifnull((select name from  place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
+																               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
+																																				                    ifnull((select enumvaluename from  enumtable b where a.istakebox=b.enumvalueid and b.enumtype='0001'),'') as istakeboxenumvaluename,
+																                    ifnull((select enumvaluename from  enumtable b where a.istrans=b.enumvalueid and b.enumtype='0001'),'') as istransenumvaluename,
+																					                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																																		        a.*
+		from emptymain a
+		<where>
+			                <if test="id != null and id != '' ">
+                `id` = #{id} and 				</if>
+			                <if test="billno != null and billno != '' ">
+                `billno` = #{billno} and 				</if>
+			                <if test="orgid != null and orgid != '' ">
+                `orgid` = #{orgid} and 				</if>
+			                <if test="ladingcode != null and ladingcode != '' ">
+                `ladingcode` = #{ladingcode} and 				</if>
+			                <if test="shipname != null and shipname != '' ">
+                `shipname` = #{shipname} and 				</if>
+			                <if test="flight != null and flight != '' ">
+                `flight` = #{flight} and 				</if>
+			                <if test="portid != null and portid != '' ">
+                `portid` = #{portid} and 				</if>
+			                <if test="boxqty != null and boxqty != '' ">
+                `boxqty` = #{boxqty} and 				</if>
+			                <if test="boxtype != null and boxtype != '' ">
+                `boxtype` = #{boxtype} and 				</if>
+			                <if test="takeboxplaceid != null and takeboxplaceid != '' ">
+                `takeboxplaceid` = #{takeboxplaceid} and 				</if>
+			                <if test="endplaceid != null and endplaceid != '' ">
+                `endplaceid` = #{endplaceid} and 				</if>
+			                <if test="bgnshipdatetime != null and bgnshipdatetime != '' ">
+                `bgnshipdatetime` = #{bgnshipdatetime} and 				</if>
+			                <if test="endshipdatetime != null and endshipdatetime != '' ">
+                `endshipdatetime` = #{endshipdatetime} and 				</if>
+			                <if test="bgnplanarrtime != null and bgnplanarrtime != '' ">
+                `bgnplanarrtime` = #{bgnplanarrtime} and 				</if>
+			                <if test="endplanarrtime != null and endplanarrtime != '' ">
+                `endplanarrtime` = #{endplanarrtime} and 				</if>
+			                <if test="istakebox != null and istakebox != '' ">
+                `istakebox` = #{istakebox} and 				</if>
+			                <if test="istrans != null and istrans != '' ">
+                `istrans` = #{istrans} and 				</if>
+			                <if test="remark != null and remark != '' ">
+                `remark` = #{remark} and 				</if>
+			                <if test="billstatus != null and billstatus != '' ">
+                `billstatus` = #{billstatus} and 				</if>
+			                <if test="makeuser != null and makeuser != '' ">
+                `makeuser` = #{makeuser} and 				</if>
+			                <if test="makedate != null and makedate != '' ">
+                `makedate` = #{makedate} and 				</if>
+			                <if test="accuser != null and accuser != '' ">
+                `accuser` = #{accuser} and 				</if>
+			                <if test="accdate != null and accdate != '' ">
+                `accdate` = #{accdate} and 				</if>
+			                <if test="uptdate != null and uptdate != '' ">
+                `uptdate` = #{uptdate}				</if>
+					</where>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
 		select count(*) from emptymain 
 	</select>
-
-    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.EmptymainEntity" useGeneratedKeys="true"
-            keyProperty="id">
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.EmptymainEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into emptymain
 		(
 			`billno`, 
@@ -97,46 +142,46 @@
 			#{uptdate}
 		)
 	</insert>
-
-    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.EmptymainEntity">
-        update emptymain
-        <set>
-            <if test="billno != null">`billno` = #{billno},</if>
-            <if test="orgid != null">`orgid` = #{orgid},</if>
-            <if test="ladingcode != null">`ladingcode` = #{ladingcode},</if>
-            <if test="shipname != null">`shipname` = #{shipname},</if>
-            <if test="flight != null">`flight` = #{flight},</if>
-            <if test="portid != null">`portid` = #{portid},</if>
-            <if test="boxqty != null">`boxqty` = #{boxqty},</if>
-            <if test="boxtype != null">`boxtype` = #{boxtype},</if>
-            <if test="takeboxplaceid != null">`takeboxplaceid` = #{takeboxplaceid},</if>
-            <if test="endplaceid != null">`endplaceid` = #{endplaceid},</if>
-            <if test="bgnshipdatetime != null">`bgnshipdatetime` = #{bgnshipdatetime},</if>
-            <if test="endshipdatetime != null">`endshipdatetime` = #{endshipdatetime},</if>
-            <if test="bgnplanarrtime != null">`bgnplanarrtime` = #{bgnplanarrtime},</if>
-            <if test="endplanarrtime != null">`endplanarrtime` = #{endplanarrtime},</if>
-            <if test="istakebox != null">`istakebox` = #{istakebox},</if>
-            <if test="istrans != null">`istrans` = #{istrans},</if>
-            <if test="remark != null">`remark` = #{remark},</if>
-            <if test="billstatus != null">`billstatus` = #{billstatus},</if>
-            <if test="makeuser != null">`makeuser` = #{makeuser},</if>
-            <if test="makedate != null">`makedate` = #{makedate},</if>
-            <if test="accuser != null">`accuser` = #{accuser},</if>
-            <if test="accdate != null">`accdate` = #{accdate},</if>
-            <if test="uptdate != null">`uptdate` = #{uptdate}</if>
-        </set>
-        where id = #{id}
-    </update>
-
-    <delete id="delete">
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.EmptymainEntity">
+		update emptymain 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="orgid != null">`orgid` = #{orgid}, </if>
+			<if test="ladingcode != null">`ladingcode` = #{ladingcode}, </if>
+			<if test="shipname != null">`shipname` = #{shipname}, </if>
+			<if test="flight != null">`flight` = #{flight}, </if>
+			<if test="portid != null">`portid` = #{portid}, </if>
+			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
+			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
+			<if test="takeboxplaceid != null">`takeboxplaceid` = #{takeboxplaceid}, </if>
+			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
+			<if test="bgnshipdatetime != null">`bgnshipdatetime` = #{bgnshipdatetime}, </if>
+			<if test="endshipdatetime != null">`endshipdatetime` = #{endshipdatetime}, </if>
+			<if test="bgnplanarrtime != null">`bgnplanarrtime` = #{bgnplanarrtime}, </if>
+			<if test="endplanarrtime != null">`endplanarrtime` = #{endplanarrtime}, </if>
+			<if test="istakebox != null">`istakebox` = #{istakebox}, </if>
+			<if test="istrans != null">`istrans` = #{istrans}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
+			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
+			<if test="makedate != null">`makedate` = #{makedate}, </if>
+			<if test="accuser != null">`accuser` = #{accuser}, </if>
+			<if test="accdate != null">`accdate` = #{accdate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
 		delete from emptymain where id = #{value}
 	</delete>
-
-    <delete id="deleteBatch">
-        delete from emptymain where id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
+	
+	<delete id="deleteBatch">
+		delete from emptymain where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
 
 </mapper>

@@ -7,9 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 21:36:50
+ * @date 2017-06-21 19:55:19
  */
 @Mapper
 public interface TakeboxmainDao extends BaseDao<TakeboxmainEntity> {
-	
+    int auditBatch(Object[] id);
+    int unauditBatch(Object[] id);
 }

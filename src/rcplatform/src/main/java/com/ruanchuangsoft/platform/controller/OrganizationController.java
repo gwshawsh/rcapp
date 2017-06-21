@@ -8,7 +8,6 @@ import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +25,10 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 19:02:25
+ * @date 2017-06-21 18:46:43
  */
 @Controller
 @RequestMapping("organization")
-@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class OrganizationController extends AbstractController {
 	@Autowired
 	private OrganizationService organizationService;
@@ -72,8 +70,31 @@ public class OrganizationController extends AbstractController {
 		return R.ok().put("page", pageUtil);
 	}
 
+    /**
+     * 选择菜单(添加、修改菜单)
+     */
+    @ResponseBody
+    @RequestMapping("/select")
+    @RequiresPermissions("organization:select")
+    public R select() {
+        //查询列表数据
+        Map<String, Object> map = new HashMap<>();
+        List<OrganizationEntity> organizationList = organizationService.queryList(map);
 
-	/**
+        //添加顶级菜单
+		OrganizationEntity root = new OrganizationEntity();
+        root.setId(0L);
+        root.setName("组织管理");
+        root.setParentId(-1L);
+        root.setOpen(true);
+		organizationList.add(root);
+
+        return R.ok().put("treeList", organizationList);
+    }
+
+
+
+    /**
 	 * 信息
 	 */
 	@ResponseBody

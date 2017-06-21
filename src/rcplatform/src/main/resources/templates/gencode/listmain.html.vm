@@ -204,7 +204,7 @@
     #foreach($column in $columns)
         #if($column.refColumn && $column.refType.equalsIgnoreCase("dialog"))
             #set($ref ='<#include "')
-            #set($refend='_ref.html"')
+            #set($refend='_ref.html>"')
             $ref${parent}/${column.refTable}$refend
         #end
     #end

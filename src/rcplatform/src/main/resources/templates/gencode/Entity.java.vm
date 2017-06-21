@@ -3,6 +3,7 @@ package ${package}.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+
 import java.math.BigDecimal;
 
 
@@ -23,13 +24,10 @@ public class ${className}Entity implements Serializable {
 #end
 
 #foreach ($column in $columns)
-
 	#if($column.refColumn)
         //$column.comments
         private String ${column.attrname}$column.refColumnName;
 	#end
-
-
 #end
 
 #foreach ($column in $columns)

@@ -2,9 +2,7 @@ package com.ruanchuangsoft.platform.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import java.math.BigDecimal;
-
+import java.util.List;
 
 
 /**
@@ -12,138 +10,91 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 19:02:25
+ * @date 2017-06-21 18:46:43
  */
 public class OrganizationEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	//
+    /**
+     * ztree属性
+     */
+    private Boolean open;
+    private List<?> list;
+
+    public Boolean getOpen() {
+        return open;
+    }
+
+    public void setOpen(Boolean open) {
+        this.open = open;
+    }
+
+    public List<?> getList() {
+        return list;
+    }
+
+    public void setList(List<?> list) {
+        this.list = list;
+    }
+
+
+		//
 	private Long id;
-	//编码
+    	//编码
 	private String code;
-	//名称
+    	//名称
 	private String name;
-	//上级组织
+    	//上级组织
 	private Long parentId;
-	//联系电话
+    	//联系电话
 	private String phone;
-	//传真
+    	//传真
 	private String fax;
-	//地址
+    	//地址
 	private String address;
-	//邮箱
+    	//邮箱
 	private String email;
-	//网址
+    	//网址
 	private String webaddress;
-	//经度
+    	//经度
 	private String longitude;
-	//纬度
+    	//纬度
 	private String latitude;
-	//联系人
+    	//联系人
 	private String linkman;
-	//付款方式
+    	//付款方式
 	private String paytype;
-	//财务编码
+    	//财务编码
 	private String financecode;
-	//省
+    	//省
 	private String province;
-	//城市
+    	//城市
 	private String city;
-	//备注
+    	//备注
 	private String remark;
-	//纳税人识别号
+    	//纳税人识别号
 	private String taxcode;
-	//账期
+    	//账期
 	private String accperiod;
-	//保险客户费率
+    	//保险客户费率
 	private Double policyrate;
-	//关联单位
+    	//关联单位
 	private Long relationid;
-	//注册资质
+    	//注册资质
 	private String zizhi;
-	//业务类型
+    	//业务类型
 	private String busstype;
-	//类型
+    	//类型
 	private Integer type;
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	        //付款方式
-        private String paytypename;
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	        //业务类型
-        private String busstypeenumvaluename;
-	
-
-
-	        //类型
-        private String typeenumvaluename;
-	
-
+    
+                                                            //上级组织
+            private String parentIdname;
+                                                                                                                                //付款方式
+            private String paytypename;
+                                                                                                                                            //业务类型
+            private String busstypeenumvaluename;
+                                //类型
+            private String typeenumvaluename;
+            
 
 	/**
 	 * 设置：
@@ -157,6 +108,7 @@ public class OrganizationEntity implements Serializable {
 	public Long getId() {
 		return id;
 	}
+
 	/**
 	 * 设置：编码
 	 */
@@ -169,6 +121,7 @@ public class OrganizationEntity implements Serializable {
 	public String getCode() {
 		return code;
 	}
+
 	/**
 	 * 设置：名称
 	 */
@@ -181,6 +134,7 @@ public class OrganizationEntity implements Serializable {
 	public String getName() {
 		return name;
 	}
+
 	/**
 	 * 设置：上级组织
 	 */
@@ -193,6 +147,7 @@ public class OrganizationEntity implements Serializable {
 	public Long getParentId() {
 		return parentId;
 	}
+
 	/**
 	 * 设置：联系电话
 	 */
@@ -205,6 +160,7 @@ public class OrganizationEntity implements Serializable {
 	public String getPhone() {
 		return phone;
 	}
+
 	/**
 	 * 设置：传真
 	 */
@@ -217,6 +173,7 @@ public class OrganizationEntity implements Serializable {
 	public String getFax() {
 		return fax;
 	}
+
 	/**
 	 * 设置：地址
 	 */
@@ -229,6 +186,7 @@ public class OrganizationEntity implements Serializable {
 	public String getAddress() {
 		return address;
 	}
+
 	/**
 	 * 设置：邮箱
 	 */
@@ -241,6 +199,7 @@ public class OrganizationEntity implements Serializable {
 	public String getEmail() {
 		return email;
 	}
+
 	/**
 	 * 设置：网址
 	 */
@@ -253,6 +212,7 @@ public class OrganizationEntity implements Serializable {
 	public String getWebaddress() {
 		return webaddress;
 	}
+
 	/**
 	 * 设置：经度
 	 */
@@ -265,6 +225,7 @@ public class OrganizationEntity implements Serializable {
 	public String getLongitude() {
 		return longitude;
 	}
+
 	/**
 	 * 设置：纬度
 	 */
@@ -277,6 +238,7 @@ public class OrganizationEntity implements Serializable {
 	public String getLatitude() {
 		return latitude;
 	}
+
 	/**
 	 * 设置：联系人
 	 */
@@ -289,6 +251,7 @@ public class OrganizationEntity implements Serializable {
 	public String getLinkman() {
 		return linkman;
 	}
+
 	/**
 	 * 设置：付款方式
 	 */
@@ -301,6 +264,7 @@ public class OrganizationEntity implements Serializable {
 	public String getPaytype() {
 		return paytype;
 	}
+
 	/**
 	 * 设置：财务编码
 	 */
@@ -313,6 +277,7 @@ public class OrganizationEntity implements Serializable {
 	public String getFinancecode() {
 		return financecode;
 	}
+
 	/**
 	 * 设置：省
 	 */
@@ -325,6 +290,7 @@ public class OrganizationEntity implements Serializable {
 	public String getProvince() {
 		return province;
 	}
+
 	/**
 	 * 设置：城市
 	 */
@@ -337,6 +303,7 @@ public class OrganizationEntity implements Serializable {
 	public String getCity() {
 		return city;
 	}
+
 	/**
 	 * 设置：备注
 	 */
@@ -349,6 +316,7 @@ public class OrganizationEntity implements Serializable {
 	public String getRemark() {
 		return remark;
 	}
+
 	/**
 	 * 设置：纳税人识别号
 	 */
@@ -361,6 +329,7 @@ public class OrganizationEntity implements Serializable {
 	public String getTaxcode() {
 		return taxcode;
 	}
+
 	/**
 	 * 设置：账期
 	 */
@@ -373,6 +342,7 @@ public class OrganizationEntity implements Serializable {
 	public String getAccperiod() {
 		return accperiod;
 	}
+
 	/**
 	 * 设置：保险客户费率
 	 */
@@ -385,6 +355,7 @@ public class OrganizationEntity implements Serializable {
 	public Double getPolicyrate() {
 		return policyrate;
 	}
+
 	/**
 	 * 设置：关联单位
 	 */
@@ -397,6 +368,7 @@ public class OrganizationEntity implements Serializable {
 	public Long getRelationid() {
 		return relationid;
 	}
+
 	/**
 	 * 设置：注册资质
 	 */
@@ -409,6 +381,7 @@ public class OrganizationEntity implements Serializable {
 	public String getZizhi() {
 		return zizhi;
 	}
+
 	/**
 	 * 设置：业务类型
 	 */
@@ -421,6 +394,7 @@ public class OrganizationEntity implements Serializable {
 	public String getBusstype() {
 		return busstype;
 	}
+
 	/**
 	 * 设置：类型
 	 */
@@ -435,40 +409,52 @@ public class OrganizationEntity implements Serializable {
 	}
 
 
-																																							        /**
-         * 设置：付款方式name
-         */
-        public void setPaytypename(String name) {
-            this.paytypename = name;
-        }
-        /**
-         * 获取：付款方式name
-         */
-        public String getPaytypename() {
-            return paytypename;
-        }
-        																														        /**
-         * 设置：业务类型enumvaluename
-         */
-        public void setBusstypeenumvaluename(String enumvaluename) {
-            this.busstypeenumvaluename = enumvaluename;
-        }
-        /**
-         * 获取：业务类型enumvaluename
-         */
-        public String getBusstypeenumvaluename() {
-            return busstypeenumvaluename;
-        }
-        			        /**
-         * 设置：类型enumvaluename
-         */
-        public void setTypeenumvaluename(String enumvaluename) {
-            this.typeenumvaluename = enumvaluename;
-        }
-        /**
-         * 获取：类型enumvaluename
-         */
-        public String getTypeenumvaluename() {
-            return typeenumvaluename;
-        }
-        	}
+                                                            /**
+             * 设置：上级组织name
+             */
+            public void setParentIdname(String name) {
+                this.parentIdname = name;
+            }
+            /**
+             * 获取：上级组织name
+             */
+            public String getParentIdname() {
+                return parentIdname;
+            }
+                                                                                                                                /**
+             * 设置：付款方式name
+             */
+            public void setPaytypename(String name) {
+                this.paytypename = name;
+            }
+            /**
+             * 获取：付款方式name
+             */
+            public String getPaytypename() {
+                return paytypename;
+            }
+                                                                                                                                            /**
+             * 设置：业务类型enumvaluename
+             */
+            public void setBusstypeenumvaluename(String enumvaluename) {
+                this.busstypeenumvaluename = enumvaluename;
+            }
+            /**
+             * 获取：业务类型enumvaluename
+             */
+            public String getBusstypeenumvaluename() {
+                return busstypeenumvaluename;
+            }
+                                /**
+             * 设置：类型enumvaluename
+             */
+            public void setTypeenumvaluename(String enumvaluename) {
+                this.typeenumvaluename = enumvaluename;
+            }
+            /**
+             * 获取：类型enumvaluename
+             */
+            public String getTypeenumvaluename() {
+                return typeenumvaluename;
+            }
+            }

@@ -10,7 +10,7 @@ import java.util.Map;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 21:36:50
+ * @date 2017-06-21 19:55:19
  */
 public interface TakeboxdetailService {
 	

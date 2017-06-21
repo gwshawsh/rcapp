@@ -18,6 +18,10 @@
         <div class="panel-heading">
             <el-button-group>
             $query
+            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+            </el-button>
+            $end
+            $query
             <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
             </el-button>
             $end
@@ -209,7 +213,7 @@
     #foreach($column in $columns)
         #if($column.refColumn && $column.refType.equalsIgnoreCase("dialog"))
             #set($ref ='<#include "')
-            #set($refend='_ref.html"')
+            #set($refend='_ref.html>"')
             $ref${parent}/${column.refTable}$refend
         #end
     #end

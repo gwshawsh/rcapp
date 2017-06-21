@@ -95,25 +95,25 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.${classname} = {
-            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
-            #foreach($column in $refcolumns)
-                #if($column.columnName != $pk.columnName)
-                    ${column.attrname}${column.refColumnName}:"",
+                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                #foreach($column in $refcolumns)
+                    #if($column.columnName != $pk.columnName)
+                        ${column.attrname}${column.refColumnName}:"",
+                    #end
                 #end
-            #end
-                    #foreach($column in $columns)
-                        #if($column.columnName != $pk.columnName)
-                            #if($column.columnName.equalsIgnoreCase('billno'))
-                                ${column.attrname}:"*"#if($velocityCount != $columns.size()), #end
-                            #elseif ($column.columnName.equalsIgnoreCase('makeuser'))
-                                ${column.attrname}:gUserName#if($velocityCount != $columns.size()), #end
-                            #elseif ($column.columnName.equalsIgnoreCase('makedate'))
-                                ${column.attrname}:mktime#if($velocityCount != $columns.size()), #end
-                            #else
-                                ${column.attrname}:""#if($velocityCount != $columns.size()), #end
-                            #end
+                #foreach($column in $columns)
+                    #if($column.columnName != $pk.columnName)
+                        #if($column.columnName.equalsIgnoreCase('billno'))
+                            ${column.attrname}:"*"#if($velocityCount != $columns.size()), #end
+                        #elseif ($column.columnName.equalsIgnoreCase('makeuser'))
+                            ${column.attrname}:gUserName#if($velocityCount != $columns.size()), #end
+                        #elseif ($column.columnName.equalsIgnoreCase('makedate'))
+                            ${column.attrname}:mktime#if($velocityCount != $columns.size()), #end
+                        #else
+                            ${column.attrname}:""#if($velocityCount != $columns.size()), #end
                         #end
                     #end
+                #end
 
             };
 		},
@@ -244,7 +244,7 @@ var vm = new Vue({
                 return ;
             }
 
-            confirm('确定要删除选中的记录？', function(){
+            confirm('确定要审核选中的记录？', function(){
                 $.ajax({
                     type: "POST",
                     url: "../${pathName}/audit",
@@ -268,7 +268,7 @@ var vm = new Vue({
                 return ;
             }
 
-            confirm('确定要删除选中的记录？', function(){
+            confirm('确定要反审核选中的记录？', function(){
                 $.ajax({
                     type: "POST",
                     url: "../${pathName}/unaudit",

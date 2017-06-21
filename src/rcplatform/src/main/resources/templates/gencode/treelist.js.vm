@@ -1,4 +1,13 @@
 var ztree;
+//生成弹出树形空间参照
+#foreach($column in $columns)
+    #if($column.refColumn && $column.refType.equalsIgnoreCase("dialogtree"))
+    var ztree${column.attrname};
+    #end
+#end
+
+
+
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
@@ -7,25 +16,64 @@ var vm = new Vue({
         },
 		showList: true,
 		title: null,
-		${classname}: {
-             parentName: null,
-             parentId: 0,
-             orderNum: 0
+        //用于日期快捷控件
+        pickerOptions1: {
+            shortcuts: [{
+                text: '今天',
+                onClick(picker) {
+                    picker.$emit('pick', new Date());
+                }
+            }, {
+                text: '昨天',
+                onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24);
+                    picker.$emit('pick', date);
+                }
+            }, {
+                text: '一周前',
+                onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                    picker.$emit('pick', date);
+                }
+            }]
+        },
+            //创建参照
+        #foreach($column in $refcolumns)
+            #if($column.columnName != $pk.columnName)
+                #if($column.refType=="combo")
+                    ref_${column.refTable}:[],
+
+                #elseif($column.refType=="enum")
+                    ref_enum${column.refTable}:[],
+                #end
+            #end
+        #end
+
+        //创建实体类
+        ${classname}: {
+            #foreach($column in $refcolumns)
+                #if($column.columnName != $pk.columnName)
+                    ${column.attrname}${column.refColumnName}:"",
+                #end
+            #end
+            #foreach($column in $columns)
+                #if($column.columnName != $pk.columnName)
+                    ${column.attrname}:""#if($velocityCount != $columns.size()), #end
+                #end
+            #end
+
         }
 	},
 	methods: {
 		query: function () {
             vm.reload();
-            vm.getTree();
+            vm.getLeftTree();
 		},
-        getTree: function(menuId){
+        getLeftTree: function(menuId){
             //加载菜单树
             $.get("../${classname}/select", function(r){
-                ztree = $.fn.zTree.init($("#menuTree"), setting, r.treeList);
-                var node = ztree.getNodeByParam("id", vm.${classname}.parentId);
-                ztree.selectNode(node);
-                vm. accountcategory.parentName = node.name;
-
                 ztreeLeft = $.fn.zTree.init($("#leftTree"), setting, r.treeList);
                 var node2 = ztreeLeft.getNodeByParam("id", vm.${classname}.parentId);
                 ztreeLeft.selectNode(node2);
@@ -33,9 +81,31 @@ var vm = new Vue({
             })
         },
 		add: function(){
-			vm.showList = false;
-			vm.title = "新增";
-			vm.${classname} = {};
+            var mktime = moment().format("YYYY-MM-DD");
+            vm.showList = false;
+            vm.title = "新增";
+            vm.${classname} = {
+            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+            #foreach($column in $refcolumns)
+                #if($column.columnName != $pk.columnName)
+                    ${column.attrname}${column.refColumnName}:"",
+                #end
+            #end
+            #foreach($column in $columns)
+                #if($column.columnName != $pk.columnName)
+                    #if($column.columnName.equalsIgnoreCase('billno'))
+                        ${column.attrname}:"*"#if($velocityCount != $columns.size()), #end
+                    #elseif ($column.columnName.equalsIgnoreCase('makeuser'))
+                        ${column.attrname}:gUserName#if($velocityCount != $columns.size()), #end
+                    #elseif ($column.columnName.equalsIgnoreCase('makedate'))
+                        ${column.attrname}:mktime#if($velocityCount != $columns.size()), #end
+                    #else
+                        ${column.attrname}:""#if($velocityCount != $columns.size()), #end
+                    #end
+                #end
+            #end
+
+        };
 		},
 		update: function (event) {
 			var $pk.attrname = getSelectedRow();
@@ -92,6 +162,74 @@ var vm = new Vue({
                 vm.${classname} = r.${classname};
             });
 		},
+        //生成参照调用弹出框函数
+        #foreach($column in $columns)
+            #if($column.refColumn && $column.refType.equalsIgnoreCase("dialog"))
+                select${column.attrname}${column.refTable}: function (event) {
+                    showrefgrid_${column.refTable}("参照", function (data) {
+                        var seldata = data;
+                        vm.${classname}.${column.attrname} =seldata['id'];
+                        vm.${classname}.${column.attrname}${column.refTable}${column.refColumnName} =seldata['name'];
+                    });
+                },
+            #end
+        #end
+
+        //生成参照调用下拉框函数,用来初始化远程数据
+        #foreach($column in $refcolumns)
+            #if($column.refColumn && $column.refType.equalsIgnoreCase("combo"))
+                getRef${column.refTable}: function () {
+                    $.get("../${column.refTable}/list?page=1&limit=1000", function (r) {
+                        vm.ref_${column.refTable} = r.page.list;
+                    });
+                },
+
+            #elseif($column.refColumn && $column.refType.equalsIgnoreCase("enum"))
+                getRef${column.refTable}: function () {
+                    $.get("../enumtable/listone?enumid=${column.refTable}&page=1&limit=1000", function (r) {
+                        vm.ref_enum${column.refTable} = r.page.list;
+                    });
+                },
+            #end
+        #end
+        //生成弹出树形空间参照
+        #foreach($column in $columns)
+            #if($column.refColumn && $column.refType.equalsIgnoreCase("dialogtree"))
+
+                getRefTree${column.refTable}${column.attrname}: function(menuId){
+                    //加载菜单树
+                    $.get("../${column.refTable}/select", function(r){
+                        ztree${column.attrname} = $.fn.zTree.init($("#refTree${column.refTable}"), setting, r.treeList);
+                        var node = ztree${column.attrname}.getNodeByParam("id", vm.${classname}.${column.attrname});
+                        ztree${column.attrname}.selectNode(node);
+                        vm.${classname}.${column.attrname}${column.refColumnName} = node.name;
+
+                    })
+                },
+
+                openRefTree${column.refTable}${column.attrname}: function(){
+                    layer.open({
+                        type: 1,
+                        offset: '50px',
+                        skin: 'layui-layer-molv',
+                        title: "选择",
+                        area: ['300px', '450px'],
+                        shade: 0,
+                        shadeClose: false,
+                        content: jQuery("#treelayer${column.refTable}"),
+                        btn: ['确定', '取消'],
+                        btn1: function (index) {
+                            var node = ztree${column.attrname}.getSelectedNodes();
+                            //选择上级菜单
+                            vm.${classname}.${column.attrname} = node[0].id;
+                            vm.${classname}.${column.attrname}${column.refColumnName} = node[0].name;
+
+                            layer.close(index);
+                        }
+                    });
+                },
+            #end
+        #end
         menuTree: function(){
             layer.open({
                 type: 1,
@@ -170,7 +308,9 @@ $(function () {
         rowList : [10,30,50],
         rownumbers: true,
         rownumWidth: 25,
-        autowidth:true,
+        autowidth: true,
+        autoScroll: true,
+        shrinkToFit:false,
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader : {
@@ -189,7 +329,18 @@ $(function () {
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
+    //执行调用参照调用下拉框函数,初始化下拉数据
+    #foreach($column in $refcolumns)
+        #if($column.refColumn && $column.refType.equalsIgnoreCase("combo"))
+            vm.getRef${column.refTable}();
+        #elseif($column.refColumn && $column.refType.equalsIgnoreCase("enum"))
+            vm.getRef${column.refTable}();
+        #elseif($column.refColumn && $column.refType.equalsIgnoreCase("dialogtree"))
+            vm.getRefTree${column.refTable}${column.attrname}();
+        #end
+    #end
 
-    vm.getTree();
+    vm.getLeftTree();
+
 	initGridHeight();
 });

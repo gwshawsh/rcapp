@@ -7,257 +7,235 @@
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-        <div class="panel-heading">
-            <el-button-group>
-            <@shiro.hasPermission name="organization:list">
-            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
-            </el-button>
-            </@shiro.hasPermission>
-            <@shiro.hasPermission name="organization:save">
-            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
-            </el-button>
-            </@shiro.hasPermission>
-            <@shiro.hasPermission name="organization:update">
-            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
-            </el-button>
-            </@shiro.hasPermission>
-            <@shiro.hasPermission name="organization:delete">
-            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-            </el-button>
-            </@shiro.hasPermission>
-            </el-button-group>
+        <div class="col-sm-2 panel-border-right">
+            <ul id="leftTree" class="ztree"></ul>
         </div>
-        <table id="jqGrid"></table>
-        <div id="jqGridPager"></div>
+        <div class="col-sm-10">
+            <div class="grid-btn">
+                <@shiro.hasPermission name="organization:save">
+                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+                </button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="organization:update">
+                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
+                        class="fa fa-pencil-square-o"></i>&nbsp;修改
+                </button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="organization:delete">
+                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                </button>
+                </@shiro.hasPermission>
+            </div>
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
+        </div>
     </div>
 
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">
             <el-row>
                 <el-col :span="14">
-            <el-button-group>
-                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
-                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
-            </el-button-group>
+                    <el-button-group>
+                        <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                        <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+                    </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    
+
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right"  label-width="80px" style="padding:30px">
+        <el-form label-position="right"  label-width="100px" style="padding:30px">
 
                                                                             <el-form-item label="编码">
 
+                                                    <el-input style="width: 350px"  v-model="organization.code" placeholder="编码"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.code" placeholder="编码"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="名称">
 
+                                                    <el-input style="width: 350px"  v-model="organization.name" placeholder="名称"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.name" placeholder="名称"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="上级组织">
 
+                        
+                            <input style="width: 350px" v-model="organization.parentIdname"  v-on:click="openRefTreeorganizationparentId"
+                                   placeholder="上级组织" class="el-input el-input__inner"></input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.parentId" placeholder="上级组织"></el-input>
-
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="联系电话">
 
+                                                    <el-input style="width: 350px"  v-model="organization.phone" placeholder="联系电话"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.phone" placeholder="联系电话"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="传真">
 
+                                                    <el-input style="width: 350px"  v-model="organization.fax" placeholder="传真"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.fax" placeholder="传真"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="地址">
 
+                                                    <el-input style="width: 350px"  v-model="organization.address" placeholder="地址"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.address" placeholder="地址"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="邮箱">
 
+                                                    <el-input style="width: 350px"  v-model="organization.email" placeholder="邮箱"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.email" placeholder="邮箱"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="网址">
 
+                                                    <el-input style="width: 350px"  v-model="organization.webaddress" placeholder="网址"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.webaddress" placeholder="网址"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="经度">
 
+                                                    <el-input style="width: 350px"  v-model="organization.longitude" placeholder="经度"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.longitude" placeholder="经度"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="纬度">
 
+                                                    <el-input style="width: 350px"  v-model="organization.latitude" placeholder="纬度"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.latitude" placeholder="纬度"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="联系人">
 
+                                                    <el-input style="width: 350px"  v-model="organization.linkman" placeholder="联系人"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.linkman" placeholder="联系人"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="付款方式">
 
-
-                                                            <el-select style="width: 350px" v-model="organization.paytype"  filterable placeholder="请选择">
-                                    <el-option
-                                            v-for="item in ref_paytype"
-                                            :key="item.id"
-                                            :label="item.name"
-                                            :value="item.id">
-                                    </el-option>
-                                </el-select>
-                            
+                                                    <el-select style="width: 350px" v-model="organization.paytype"  filterable placeholder="请选择">
+                                <el-option
+                                        v-for="item in ref_paytype"
+                                        :key="item.id"
+                                        :label="item.name"
+                                        :value="item.id">
+                                </el-option>
+                            </el-select>
+                        
                     </el-form-item>
                                                                 <el-form-item label="财务编码">
 
+                                                    <el-input style="width: 350px"  v-model="organization.financecode" placeholder="财务编码"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.financecode" placeholder="财务编码"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="省">
 
+                                                    <el-input style="width: 350px"  v-model="organization.province" placeholder="省"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.province" placeholder="省"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="城市">
 
+                                                    <el-input style="width: 350px"  v-model="organization.city" placeholder="城市"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.city" placeholder="城市"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="备注">
 
+                                                    <el-input style="width: 350px"  v-model="organization.remark" placeholder="备注"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.remark" placeholder="备注"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="纳税人识别号">
 
+                                                    <el-input style="width: 350px"  v-model="organization.taxcode" placeholder="纳税人识别号"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.taxcode" placeholder="纳税人识别号"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="账期">
 
+                                                    <el-input style="width: 350px"  v-model="organization.accperiod" placeholder="账期"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.accperiod" placeholder="账期"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="保险客户费率">
 
+                        
+                            <el-input-number style="width: 350px" v-model="organization.policyrate" :min="1" ></el-input-number>
 
-                            
-                                <el-input-number style="width: 350px" v-model="organization.policyrate" :min="1" ></el-input-number>
-
-                            
+                        
                     </el-form-item>
                                                                 <el-form-item label="关联单位">
 
+                                                    <el-input style="width: 350px"  v-model="organization.relationid" placeholder="关联单位"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.relationid" placeholder="关联单位"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="注册资质">
 
+                                                    <el-input style="width: 350px"  v-model="organization.zizhi" placeholder="注册资质"></el-input>
 
-                                                            <el-input style="width: 350px"  v-model="organization.zizhi" placeholder="注册资质"></el-input>
 
-
-                              
+                        
                     </el-form-item>
                                                                 <el-form-item label="业务类型">
 
+                                                    <el-select style="width: 350px" v-model="organization.busstype"  filterable placeholder="请选择">
+                                <el-option
+                                        v-for="item in ref_enum2002"
+                                        :key="item.enumvalueid"
+                                        :label="item.enumvaluename"
+                                        :value="item.enumvalueid">
+                                </el-option>
+                            </el-select>
 
-                                                            <el-select style="width: 350px" v-model="organization.busstype"  filterable placeholder="请选择">
-                                    <el-option
-                                            v-for="item in ref_enum2002"
-                                            :key="item.enumvalueid"
-                                            :label="item.enumvaluename"
-                                            :value="item.enumvalueid">
-                                    </el-option>
-                                </el-select>
 
-
-                             
+                        
                     </el-form-item>
                                                                 <el-form-item label="类型">
 
+                                                    <el-select style="width: 350px" v-model="organization.type"  filterable placeholder="请选择">
+                                <el-option
+                                        v-for="item in ref_enum2001"
+                                        :key="item.enumvalueid"
+                                        :label="item.enumvaluename"
+                                        :value="item.enumvalueid">
+                                </el-option>
+                            </el-select>
 
-                                                            <el-select style="width: 350px" v-model="organization.type"  filterable placeholder="请选择">
-                                    <el-option
-                                            v-for="item in ref_enum2001"
-                                            :key="item.enumvalueid"
-                                            :label="item.enumvaluename"
-                                            :value="item.enumvalueid">
-                                    </el-option>
-                                </el-select>
 
-
-                             
+                        
                     </el-form-item>
                             
         </el-form>
     </div>
 </div>
-
-
-                                                                                                                                                                                                                                                                                                    
-
+                                                        <div id="treelayerorganization" style="display: none;padding:10px;">
+            <ul id="refTreeorganization" class="ztree"></ul>
+        </div>
+                                                                                                                                                                                                                                                            
 <script src="${ctxPath}/static/js/base/organization.js"></script>
 </body>
 </html>

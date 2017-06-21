@@ -354,7 +354,7 @@ CREATE TABLE `organization` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COMMENT '编码',
   `name` varchar(50) COMMENT '名称',
-  `parent_id` bigint COMMENT '上级组织', 
+  `parent_id` bigint COMMENT '上级组织:dialogtree:organization:id:name', 
   `phone` varchar(20) COMMENT '联系电话',
   `fax` varchar(20) COMMENT '传真',
   `address` varchar(200) COMMENT '地址',

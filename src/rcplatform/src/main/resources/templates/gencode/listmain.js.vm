@@ -163,7 +163,7 @@ var vm = new Vue({
                 return ;
             }
 
-            confirm('确定要删除选中的记录？', function(){
+            confirm('确定要审核选中的记录？', function(){
                 $.ajax({
                     type: "POST",
                     url: "../${pathName}/audit",
@@ -187,7 +187,7 @@ var vm = new Vue({
                 return ;
             }
 
-            confirm('确定要删除选中的记录？', function(){
+            confirm('确定要反审核选中的记录？', function(){
                 $.ajax({
                     type: "POST",
                     url: "../${pathName}/unaudit",
