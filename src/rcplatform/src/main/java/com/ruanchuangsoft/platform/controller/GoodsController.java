@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-19 00:18:30
+ * @date 2017-06-20 18:02:55
  */
 @Controller
 @RequestMapping("goods")
@@ -77,10 +77,10 @@ public class GoodsController extends AbstractController {
 	 * 信息
 	 */
 	@ResponseBody
-	@RequestMapping("/info/{goodsId}")
+	@RequestMapping("/info/{id}")
 	@RequiresPermissions("goods:info")
-	public R info(@PathVariable("goodsId") Long goodsId){
-		GoodsEntity goods = goodsService.queryObject(goodsId);
+	public R info(@PathVariable("id") Long id){
+		GoodsEntity goods = goodsService.queryObject(id);
 
 		return R.ok().put("goods", goods);
 	}
@@ -115,8 +115,8 @@ public class GoodsController extends AbstractController {
 	@ResponseBody
 	@RequestMapping("/delete")
 	@RequiresPermissions("goods:delete")
-	public R delete(@RequestBody Long[] goodsIds){
-		goodsService.deleteBatch(goodsIds);
+	public R delete(@RequestBody Long[] ids){
+		goodsService.deleteBatch(ids);
 
 		return R.ok();
 	}

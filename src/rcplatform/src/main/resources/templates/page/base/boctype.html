@@ -41,8 +41,7 @@
             </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    <div class="billno">单据号:{{boctype.billno}}<span class="panel-right">制单人:{{boctype.makeuser}} 制单日期:{{boctype.makedate}}</span></div>
-
+                    
                 </el-col>
             </el-row>
         </div>
@@ -51,7 +50,7 @@
                                                                             <el-form-item label="编码">
 
 
-                                                            <el-input v-model="boctype.boctypecode" placeholder="编码"></el-input>
+                                                            <el-input style="width: 350px"  v-model="boctype.boctypecode" placeholder="编码"></el-input>
 
 
                               
@@ -59,7 +58,7 @@
                                                                 <el-form-item label="币名">
 
 
-                                                            <el-input v-model="boctype.boctypename" placeholder="币名"></el-input>
+                                                            <el-input style="width: 350px"  v-model="boctype.boctypename" placeholder="币名"></el-input>
 
 
                               
@@ -68,13 +67,14 @@
 
 
                             
-                                <el-input-number v-model="boctype.rate" :min="1" ></el-input-number>
+                                <el-input-number style="width: 350px" v-model="boctype.rate" :min="1" ></el-input-number>
+
                             
                     </el-form-item>
                                                                 <el-form-item label="单位">
 
 
-                                                            <el-input v-model="boctype.unit" placeholder="单位"></el-input>
+                                                            <el-input style="width: 350px"  v-model="boctype.unit" placeholder="单位"></el-input>
 
 
                               
@@ -83,13 +83,13 @@
 
 
                             
-                                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="boctype.uptdate" style="width: 100%;"></el-date-picker>
+                                <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="boctype.uptdate" style="width: 100%;"></el-date-picker>
                             
                     </el-form-item>
                                                                 <el-form-item label="备注">
 
 
-                                                            <el-input v-model="boctype.remark" placeholder="备注"></el-input>
+                                                            <el-input style="width: 350px"  v-model="boctype.remark" placeholder="备注"></el-input>
 
 
                               
@@ -98,7 +98,10 @@
         </el-form>
     </div>
 </div>
+
+
                                                                                         
+
 <script src="${ctxPath}/static/js/base/boctype.js"></script>
 </body>
 </html>

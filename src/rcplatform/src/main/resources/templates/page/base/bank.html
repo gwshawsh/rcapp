@@ -41,8 +41,7 @@
             </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    <div class="billno">单据号:{{bank.billno}}<span class="panel-right">制单人:{{bank.makeuser}} 制单日期:{{bank.makedate}}</span></div>
-
+                    
                 </el-col>
             </el-row>
         </div>
@@ -51,7 +50,7 @@
                                                                             <el-form-item label="编码">
 
 
-                                                            <el-input v-model="bank.code" placeholder="编码"></el-input>
+                                                            <el-input style="width: 350px"  v-model="bank.code" placeholder="编码"></el-input>
 
 
                               
@@ -59,7 +58,7 @@
                                                                 <el-form-item label="名称">
 
 
-                                                            <el-input v-model="bank.name" placeholder="名称"></el-input>
+                                                            <el-input style="width: 350px"  v-model="bank.name" placeholder="名称"></el-input>
 
 
                               
@@ -67,7 +66,7 @@
                                                                 <el-form-item label="帐号">
 
 
-                                                            <el-input v-model="bank.accountno" placeholder="帐号"></el-input>
+                                                            <el-input style="width: 350px"  v-model="bank.accountno" placeholder="帐号"></el-input>
 
 
                               
@@ -75,7 +74,7 @@
                                                                 <el-form-item label="币别">
 
 
-                                                            <el-input v-model="bank.boctid" placeholder="币别"></el-input>
+                                                            <el-input style="width: 350px"  v-model="bank.boctid" placeholder="币别"></el-input>
 
 
                               
@@ -83,7 +82,7 @@
                                                                 <el-form-item label="地址">
 
 
-                                                            <el-input v-model="bank.address" placeholder="地址"></el-input>
+                                                            <el-input style="width: 350px"  v-model="bank.address" placeholder="地址"></el-input>
 
 
                               
@@ -91,7 +90,7 @@
                                                                 <el-form-item label="电话">
 
 
-                                                            <el-input v-model="bank.tel" placeholder="电话"></el-input>
+                                                            <el-input style="width: 350px"  v-model="bank.tel" placeholder="电话"></el-input>
 
 
                               
@@ -99,7 +98,7 @@
                                                                 <el-form-item label="传真">
 
 
-                                                            <el-input v-model="bank.fax" placeholder="传真"></el-input>
+                                                            <el-input style="width: 350px"  v-model="bank.fax" placeholder="传真"></el-input>
 
 
                               
@@ -107,7 +106,7 @@
                                                                 <el-form-item label="联系人">
 
 
-                                                            <el-input v-model="bank.man" placeholder="联系人"></el-input>
+                                                            <el-input style="width: 350px"  v-model="bank.man" placeholder="联系人"></el-input>
 
 
                               
@@ -115,7 +114,7 @@
                                                                 <el-form-item label="假删">
 
 
-                                                            <el-input v-model="bank.del" placeholder="假删"></el-input>
+                                                            <el-input style="width: 350px"  v-model="bank.del" placeholder="假删"></el-input>
 
 
                               
@@ -123,7 +122,7 @@
                                                                 <el-form-item label="创建人员">
 
 
-                                                            <el-input v-model="bank.addpid" placeholder="创建人员"></el-input>
+                                                            <el-input style="width: 350px"  v-model="bank.makeuser" placeholder="创建人员"></el-input>
 
 
                               
@@ -132,13 +131,13 @@
 
 
                             
-                                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="bank.adddate" style="width: 100%;"></el-date-picker>
+                                <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="bank.makedate" style="width: 100%;"></el-date-picker>
                             
                     </el-form-item>
                                                                 <el-form-item label="备注">
 
 
-                                                            <el-input v-model="bank.remark" placeholder="备注"></el-input>
+                                                            <el-input style="width: 350px"  v-model="bank.remark" placeholder="备注"></el-input>
 
 
                               
@@ -147,7 +146,10 @@
         </el-form>
     </div>
 </div>
+
+
                                                                                                                                                                 
+
 <script src="${ctxPath}/static/js/base/bank.js"></script>
 </body>
 </html>

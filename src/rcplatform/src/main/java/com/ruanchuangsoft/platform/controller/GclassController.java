@@ -1,14 +1,14 @@
 package com.ruanchuangsoft.platform.controller;
 
-// import java.util.HashMap;
-// import java.util.List;
-// import java.util.Map;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,17 +26,18 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-09 18:39:54
+ * @date 2017-06-20 19:02:25
  */
 @Controller
 @RequestMapping("gclass")
+@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class GclassController extends AbstractController {
 	@Autowired
 	private GclassService gclassService;
 
 	@RequestMapping("/gclass")
 	public String list(){
-		return "base/gclass";
+		return "gclass/gclass";
 	}
 
 
@@ -71,31 +72,8 @@ public class GclassController extends AbstractController {
 		return R.ok().put("page", pageUtil);
 	}
 
-    /**
-     * 选择菜单(添加、修改菜单)
-     */
-    @ResponseBody
-    @RequestMapping("/select")
-    @RequiresPermissions("gclass:select")
-    public R select() {
-        //查询列表数据
-        Map<String, Object> map = new HashMap<>();
-        List<GclassEntity> gclassList = gclassService.queryList(map);
 
-        //添加顶级菜单
-		GclassEntity root = new GclassEntity();
-        root.setId(0L);
-        root.setName("品类表");
-        root.setParentid(-1L);
-        root.setOpen(true);
-		gclassList.add(root);
-
-        return R.ok().put("treeList", gclassList);
-    }
-
-
-
-    /**
+	/**
 	 * 信息
 	 */
 	@ResponseBody

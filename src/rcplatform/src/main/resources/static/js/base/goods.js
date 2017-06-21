@@ -1,3 +1,18 @@
+//生成弹出树形空间参照
+                            
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    }
+};
 
 var vm = new Vue({
 	el:'#rrapp',
@@ -28,10 +43,14 @@ var vm = new Vue({
         }]
     },
         //创建参照
-		
+					                					ref_gclass:[],
+
+                					
         //创建实体类
         goods: {
-                                                                            classId:"",                                                                 name:"",                                                                 price:"",                                                                 gcount:"",                                                                 icon:"",                                                                 orderNum:""                                    }
+                                                classidname:"",
+                                                                                                        classid:"",                                                                 code:"",                                                                 name:"",                                                                 price:"",                                                                 pricetax:"",                                                                 gcount:""                            
+        }
 	},
 	methods: {
 		query: function () {
@@ -42,20 +61,23 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.goods = {
-                                                                                                                                                    classId:"",                                                                                                                                                             name:"",                                                                                                                                                             price:"",                                                                                                                                                             gcount:"",                                                                                                                                                             icon:"",                                                                                                                                                             orderNum:""                                                                                    };
+            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                classidname:"",
+                                                                                                                                                                                classid:"",                                                                                                                                                             code:"",                                                                                                                                                             name:"",                                                                                                                                                             price:"",                                                                                                                                                             pricetax:"",                                                                                                                                                             gcount:""                                                                        
+            };
 		},
 		update: function (event) {
-			var goodsId = getSelectedRow();
-			if(goodsId == null){
+			var id = getSelectedRow();
+			if(id == null){
 				return ;
 			}
 			vm.showList = false;
             vm.title = "修改";
 
-            vm.getInfo(goodsId)
+            vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.goods.goodsId == null ? "../goods/save" : "../goods/update";
+			var url = vm.goods.id == null ? "../goods/save" : "../goods/update";
 			$.ajax({
 				type: "POST",
 			    url: url,
@@ -72,8 +94,8 @@ var vm = new Vue({
 			});
 		},
 		del: function (event) {
-			var goodsIds = getSelectedRows();
-			if(goodsIds == null){
+			var ids = getSelectedRows();
+			if(ids == null){
 				return ;
 			}
 
@@ -81,7 +103,7 @@ var vm = new Vue({
 				$.ajax({
 					type: "POST",
 				    url: "../goods/delete",
-				    data: JSON.stringify(goodsIds),
+				    data: JSON.stringify(ids),
 				    success: function(r){
 						if(r.code == 0){
 							alert('操作成功', function(index){
@@ -98,11 +120,18 @@ var vm = new Vue({
         //生成参照调用弹出框函数
 																																					
         //生成参照调用下拉框函数,用来初始化远程数据
-		
+					                getRefgclass: function () {
+                    $.get("../gclass/list?page=1&limit=1000", function (r) {
+                        vm.ref_gclass = r.page.list;
+                    });
+                },
+
+            		
+        //生成弹出树形空间参照
 
 
-        getInfo: function(goodsId){
-            $.get("../goods/info/"+goodsId, function(r){
+        getInfo: function(id){
+            $.get("../goods/info/"+id, function(r){
                 vm.goods = r.goods;
             });
         },
@@ -112,7 +141,7 @@ var vm = new Vue({
             $("#jqGrid").jqGrid('setGridParam',{
                 page:page
             }).trigger("reloadGrid");
-        },
+        }
 	}
 });
 
@@ -121,13 +150,12 @@ $(function () {
         url: '../goods/list',
         datatype: "json",
         colModel: [
-							                    { label: 'goodsId', name: 'goodsId', width: 50, key: true },
-                							                    { label: '父菜单ID，一级菜单为0', name: 'classId', width: 80 }, 
-											                    { label: '菜单名称', name: 'name', width: 80 }, 
-											                    { label: '菜单URL', name: 'price', width: 80 }, 
-											                    { label: '类型   0：目录   1：菜单   2：按钮', name: 'gcount', width: 80 }, 
-											                    { label: '菜单图标', name: 'icon', width: 80 }, 
-											                    { label: '排序', name: 'orderNum', width: 80 }
+							                    { label: 'id', name: 'id', width: 50, key: true },
+                							                    { label: '类别', name: 'classidname', width: 80 },                 							                    { label: '编码', name: 'code', width: 80 }, 
+											                    { label: '名称', name: 'name', width: 80 }, 
+											                    { label: '单价', name: 'price', width: 80 }, 
+											                    { label: '含税单价', name: 'pricetax', width: 80 }, 
+											                    { label: '库存', name: 'gcount', width: 80 }
 							        ],
         viewrecords: true,
         height: 385,
@@ -158,7 +186,9 @@ $(function () {
     });
 
     //执行调用参照调用下拉框函数,初始化下拉数据
-	
+			            vm.getRefgclass();
+        	
+
 
 
     initGridHeight();

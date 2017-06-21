@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("storeService")
-@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class StoreServiceImpl implements StoreService {
 	@Autowired
 	private StoreDao storeDao;

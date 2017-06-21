@@ -41,8 +41,7 @@
             </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    <div class="billno">单据号:{{transteam.billno}}<span class="panel-right">制单人:{{transteam.makeuser}} 制单日期:{{transteam.makedate}}</span></div>
-
+                    
                 </el-col>
             </el-row>
         </div>
@@ -51,7 +50,7 @@
                                                                             <el-form-item label="编码">
 
 
-                                                            <el-input v-model="transteam.code" placeholder="编码"></el-input>
+                                                            <el-input style="width: 350px"  v-model="transteam.code" placeholder="编码"></el-input>
 
 
                               
@@ -59,7 +58,7 @@
                                                                 <el-form-item label="名称">
 
 
-                                                            <el-input v-model="transteam.name" placeholder="名称"></el-input>
+                                                            <el-input style="width: 350px"  v-model="transteam.name" placeholder="名称"></el-input>
 
 
                               
@@ -67,7 +66,7 @@
                                                                 <el-form-item label="地址">
 
 
-                                                            <el-input v-model="transteam.address" placeholder="地址"></el-input>
+                                                            <el-input style="width: 350px"  v-model="transteam.address" placeholder="地址"></el-input>
 
 
                               
@@ -75,7 +74,7 @@
                                                                 <el-form-item label="联系人">
 
 
-                                                            <el-input v-model="transteam.contact" placeholder="联系人"></el-input>
+                                                            <el-input style="width: 350px"  v-model="transteam.contact" placeholder="联系人"></el-input>
 
 
                               
@@ -83,7 +82,7 @@
                                                                 <el-form-item label="联系电话">
 
 
-                                                            <el-input v-model="transteam.contactNumber" placeholder="联系电话"></el-input>
+                                                            <el-input style="width: 350px"  v-model="transteam.contactNumber" placeholder="联系电话"></el-input>
 
 
                               
@@ -91,7 +90,7 @@
                                                                 <el-form-item label="车辆类型">
 
 
-                                                            <el-select v-model="transteam.vehicleType"  filterable placeholder="请选择">
+                                                            <el-select style="width: 350px" v-model="transteam.vehicleType"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_enum2003"
                                             :key="item.enumvalueid"
@@ -106,7 +105,7 @@
                                                                 <el-form-item label="开票信息">
 
 
-                                                            <el-input v-model="transteam.billingInformation" placeholder="开票信息"></el-input>
+                                                            <el-input style="width: 350px"  v-model="transteam.billingInformation" placeholder="开票信息"></el-input>
 
 
                               
@@ -114,7 +113,7 @@
                                                                 <el-form-item label="账户信息">
 
 
-                                                            <el-input v-model="transteam.accountInformation" placeholder="账户信息"></el-input>
+                                                            <el-input style="width: 350px"  v-model="transteam.accountInformation" placeholder="账户信息"></el-input>
 
 
                               
@@ -123,7 +122,10 @@
         </el-form>
     </div>
 </div>
+
+
                                                                                                                 
+
 <script src="${ctxPath}/static/js/base/transteam.js"></script>
 </body>
 </html>

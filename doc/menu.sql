@@ -64,6 +64,7 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('organization_detail', 'organization', '明细', NULL, 'organization:list,organization:info', '2', NULL, '0');
 
 
+
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
 VALUES ('bank', 'base', '银行管理', 'bank/index', NULL, '1', 'fa fa-circle-o', '1');
 
@@ -113,7 +114,45 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('boxs_detail', 'boxs', '明细', NULL, 'boxs:list,boxs:info', '2', NULL, '0');
 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+VALUES ('car', 'base', '车辆管理', 'car/index', NULL, '1', 'fa fa-circle-o', '1');
+
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('car_view', 'car', '查看', NULL, 'car:list,car:info', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('car_add', 'car', '新增', NULL, 'car:save,car:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('car_edit', 'car', '修改', NULL, 'car:update,car:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('car_delete', 'car', '删除', NULL, 'car:delete', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('car_audit', 'car', '审核', NULL, 'car:audit,car:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('car_unaudit', 'car', '反审核', NULL, 'car:unaudit,car:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('car_detail', 'car', '明细', NULL, 'car:list,car:info', '2', NULL, '0');
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
 VALUES ('cartype', 'base', '车辆类型', 'cartype/index', NULL, '1', 'fa fa-circle-o', '1');
+
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+VALUES ('containeryard', 'base', '堆场管理', 'containeryard/index', NULL, '1', 'fa fa-circle-o', '1');
+
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('containeryard_view', 'containeryard', '查看', NULL, 'containeryard:list,containeryard:info', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('containeryard_add', 'containeryard', '新增', NULL, 'containeryard:save,containeryard:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('containeryard_edit', 'containeryard', '修改', NULL, 'containeryard:update,containeryard:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('containeryard_delete', 'containeryard', '删除', NULL, 'containeryard:delete', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('containeryard_audit', 'containeryard', '审核', NULL, 'containeryard:audit,containeryard:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('containeryard_unaudit', 'containeryard', '反审核', NULL, 'containeryard:unaudit,containeryard:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('containeryard_detail', 'containeryard', '明细', NULL, 'containeryard:list,containeryard:info', '2', NULL, '0');
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+VALUES ('baseopbank', 'base', '银行表', 'baseopbank/index', NULL, '1', 'fa fa-circle-o', '1');
+
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_view', 'baseopbank', '查看', NULL, 'baseopbank:list,baseopbank:info', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_add', 'baseopbank', '新增', NULL, 'baseopbank:save,baseopbank:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_edit', 'baseopbank', '修改', NULL, 'baseopbank:update,baseopbank:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_delete', 'baseopbank', '删除', NULL, 'baseopbank:delete', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_audit', 'baseopbank', '审核', NULL, 'baseopbank:audit,baseopbank:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_unaudit', 'baseopbank', '反审核', NULL, 'baseopbank:unaudit,baseopbank:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('baseopbank_detail', 'baseopbank', '明细', NULL, 'baseopbank:list,baseopbank:info', '2', NULL, '0');
+
 
 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('cartype_view', 'cartype', '查看', NULL, 'cartype:list,cartype:info', '2', NULL, '0');
@@ -127,6 +166,19 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
 VALUES ('drivers', 'base', '司机管理', 'drivers/index', NULL, '1', 'fa fa-circle-o', '1');
 
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+VALUES ('gclass', 'base', '品类表', 'gclass/index', NULL, '1', 'fa fa-circle-o', '1');
+
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('gclass_view', 'gclass', '查看', NULL, 'gclass:list,gclass:info', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('gclass_add', 'gclass', '新增', NULL, 'gclass:save,gclass:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('gclass_edit', 'gclass', '修改', NULL, 'gclass:update,gclass:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('gclass_delete', 'gclass', '删除', NULL, 'gclass:delete', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('gclass_audit', 'gclass', '审核', NULL, 'gclass:audit,gclass:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('gclass_unaudit', 'gclass', '反审核', NULL, 'gclass:unaudit,gclass:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('gclass_detail', 'gclass', '明细', NULL, 'gclass:list,gclass:info', '2', NULL, '0');
+
+
 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('drivers_view', 'drivers', '查看', NULL, 'drivers:list,drivers:info', '2', NULL, '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('drivers_add', 'drivers', '新增', NULL, 'drivers:save,drivers:select', '2', NULL, '0');
@@ -135,6 +187,7 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('drivers_audit', 'drivers', '审核', NULL, 'drivers:audit,drivers:select', '2', NULL, '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('drivers_unaudit', 'drivers', '反审核', NULL, 'drivers:unaudit,drivers:select', '2', NULL, '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('drivers_detail', 'drivers', '明细', NULL, 'drivers:list,drivers:info', '2', NULL, '0');
+
 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
 VALUES ('goods', 'base', '商品表', 'goods/index', NULL, '1', 'fa fa-circle-o', '1');
@@ -220,6 +273,18 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('transteam_unaudit', 'transteam', '反审核', NULL, 'transteam:unaudit,transteam:select', '2', NULL, '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('transteam_detail', 'transteam', '明细', NULL, 'transteam:list,transteam:info', '2', NULL, '0');
 
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+VALUES ('store', 'base', '仓库管理', 'store/index', NULL, '1', 'fa fa-circle-o', '1');
+
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('store_view', 'store', '查看', NULL, 'store:list,store:info', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('store_add', 'store', '新增', NULL, 'store:save,store:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('store_edit', 'store', '修改', NULL, 'store:update,store:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('store_delete', 'store', '删除', NULL, 'store:delete', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('store_audit', 'store', '审核', NULL, 'store:audit,store:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('store_unaudit', 'store', '反审核', NULL, 'store:unaudit,store:select', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('store_detail', 'store', '明细', NULL, 'store:list,store:info', '2', NULL, '0');
 
 
 -- 业务管理

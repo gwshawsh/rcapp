@@ -1,3 +1,18 @@
+//生成弹出树形空间参照
+                                    
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    }
+};
 
 var vm = new Vue({
 	el:'#rrapp',
@@ -32,7 +47,9 @@ var vm = new Vue({
                 					
         //创建实体类
         transteam: {
-                                                                            code:"",                                                                 name:"",                                                                 address:"",                                                                 contact:"",                                                                 contactNumber:"",                                                                 vehicleType:"",                                                                 billingInformation:"",                                                                 accountInformation:""                                    }
+                                                vehicleTypeenumvaluename:"",
+                                                                                                        code:"",                                                                 name:"",                                                                 address:"",                                                                 contact:"",                                                                 contactNumber:"",                                                                 vehicleType:"",                                                                 billingInformation:"",                                                                 accountInformation:""                            
+        }
 	},
 	methods: {
 		query: function () {
@@ -43,7 +60,10 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.transteam = {
-                                                                                                                                                    code:"",                                                                                                                                                             name:"",                                                                                                                                                             address:"",                                                                                                                                                             contact:"",                                                                                                                                                             contactNumber:"",                                                                                                                                                             vehicleType:"",                                                                                                                                                             billingInformation:"",                                                                                                                                                             accountInformation:""                                                                                    };
+            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                vehicleTypeenumvaluename:"",
+                                                                                                                                                                                code:"",                                                                                                                                                             name:"",                                                                                                                                                             address:"",                                                                                                                                                             contact:"",                                                                                                                                                             contactNumber:"",                                                                                                                                                             vehicleType:"",                                                                                                                                                             billingInformation:"",                                                                                                                                                             accountInformation:""                                                                        
+            };
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -105,6 +125,7 @@ var vm = new Vue({
                     });
                 },
             		
+        //生成弹出树形空间参照
 
 
         getInfo: function(id){
@@ -118,7 +139,7 @@ var vm = new Vue({
             $("#jqGrid").jqGrid('setGridParam',{
                 page:page
             }).trigger("reloadGrid");
-        },
+        }
 	}
 });
 
@@ -166,7 +187,8 @@ $(function () {
 
     //执行调用参照调用下拉框函数,初始化下拉数据
 			            vm.getRef2003();
-			
+        	
+
 
 
     initGridHeight();

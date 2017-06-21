@@ -4,27 +4,19 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.GclassDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.GclassEntity">
-		select * from gclass where id = #{value}
+		select
+				    			    			    			    	        a.*
+
+		from gclass a where id = #{value}
 	</select>
 
-    <select id="queryListParentId" resultType="com.ruanchuangsoft.platform.entity.GclassEntity">
-        select * from gclass where parent_id = #{parentId} order by order_num asc
-    </select>
-
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.GclassEntity">
-		select * from gclass
-        select m.*,(select p.name from gclass p where p.dept_id = m.parent_id) as parentName
-        from gclass m
-        <where>
-            <if test="id!=null" >
-                m.parent_id=#{id}
-            </if>
-        </where>
-        order by m.order_num asc
-        <if test="offset != null and limit != null">
-            limit #{offset}, #{limit}
-        </if>
-
+		select
+																						        a.*
+		from gclass a
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">

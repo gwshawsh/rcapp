@@ -33,36 +33,32 @@
             url: '../goods/list',
             datatype: "json",
             colModel: [
-                                                            {label: 'goodsId', name: 'goodsId', width: 50, key: true},
+                                                            {label: 'id', name: 'id', width: 50, key: true},
 
+                                                                                { label: '类别', name: 'name', width: 80 }, 
                                                                                 {
-                            label: '父菜单ID，一级菜单为0',
-                            name: 'classId',
+                            label: '编码',
+                            name: 'code',
                             width: 80
                         }, 
                                                                                 {
-                            label: '菜单名称',
+                            label: '名称',
                             name: 'name',
                             width: 80
                         }, 
                                                                                 {
-                            label: '菜单URL',
+                            label: '单价',
                             name: 'price',
                             width: 80
                         }, 
                                                                                 {
-                            label: '类型   0：目录   1：菜单   2：按钮',
+                            label: '含税单价',
+                            name: 'pricetax',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '库存',
                             name: 'gcount',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '菜单图标',
-                            name: 'icon',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '排序',
-                            name: 'orderNum',
                             width: 80
                         }
                                     ],

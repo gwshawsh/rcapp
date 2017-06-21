@@ -41,8 +41,7 @@
             </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    <div class="billno">单据号:{{transline.billno}}<span class="panel-right">制单人:{{transline.makeuser}} 制单日期:{{transline.makedate}}</span></div>
-
+                    
                 </el-col>
             </el-row>
         </div>
@@ -51,7 +50,7 @@
                                                                             <el-form-item label="编码">
 
 
-                                                            <el-input v-model="transline.code" placeholder="编码"></el-input>
+                                                            <el-input style="width: 350px"  v-model="transline.code" placeholder="编码"></el-input>
 
 
                               
@@ -59,7 +58,7 @@
                                                                 <el-form-item label="名称">
 
 
-                                                            <el-input v-model="transline.name" placeholder="名称"></el-input>
+                                                            <el-input style="width: 350px"  v-model="transline.name" placeholder="名称"></el-input>
 
 
                               
@@ -67,32 +66,41 @@
                                                                 <el-form-item label="起始地点">
 
 
-                                                            <el-input v-model="transline.startlocationname" v-on:click="selectstartlocationplace"
-                                          placeholder="起始地点"></el-input>
-
-
-                             
+                                                            <el-select style="width: 350px" v-model="transline.startlocation"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_place"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            
                     </el-form-item>
                                                                 <el-form-item label="结束地点">
 
 
-                                                            <el-input v-model="transline.endlocationname" v-on:click="selectendlocationplace"
-                                          placeholder="结束地点"></el-input>
-
-
-                             
+                                                            <el-select style="width: 350px" v-model="transline.endlocation"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_place"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            
                     </el-form-item>
                                                                 <el-form-item label="距离">
 
 
                             
-                                <el-input-number v-model="transline.distance" :min="1" ></el-input-number>
+                                <el-input-number style="width: 350px" v-model="transline.distance" :min="1" ></el-input-number>
+
                             
                     </el-form-item>
                                                                 <el-form-item label="助记码">
 
 
-                                                            <el-input v-model="transline.helpcode" placeholder="助记码"></el-input>
+                                                            <el-input style="width: 350px"  v-model="transline.helpcode" placeholder="助记码"></el-input>
 
 
                               
@@ -101,9 +109,10 @@
         </el-form>
     </div>
 </div>
-                                                            <#include "base/place_ref.html"
-                                <#include "base/place_ref.html"
-                                    
+
+
+                                                                                        
+
 <script src="${ctxPath}/static/js/base/transline.js"></script>
 </body>
 </html>

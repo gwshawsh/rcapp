@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-19 00:18:29
+ * @date 2017-06-20 19:02:25
  */
 public class BankEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -38,9 +38,9 @@ public class BankEntity implements Serializable {
 	//假删
 	private Integer del;
 	//创建人员
-	private Integer addpid;
+	private Integer makeuser;
 	//创建日期
-	private Date adddate;
+	private Date makedate;
 	//备注
 	private String remark;
 
@@ -207,26 +207,26 @@ public class BankEntity implements Serializable {
 	/**
 	 * 设置：创建人员
 	 */
-	public void setAddpid(Integer addpid) {
-		this.addpid = addpid;
+	public void setMakeuser(Integer makeuser) {
+		this.makeuser = makeuser;
 	}
 	/**
 	 * 获取：创建人员
 	 */
-	public Integer getAddpid() {
-		return addpid;
+	public Integer getMakeuser() {
+		return makeuser;
 	}
 	/**
 	 * 设置：创建日期
 	 */
-	public void setAdddate(Date adddate) {
-		this.adddate = adddate;
+	public void setMakedate(Date makedate) {
+		this.makedate = makedate;
 	}
 	/**
 	 * 获取：创建日期
 	 */
-	public Date getAdddate() {
-		return adddate;
+	public Date getMakedate() {
+		return makedate;
 	}
 	/**
 	 * 设置：备注
