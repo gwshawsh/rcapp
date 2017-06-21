@@ -41,8 +41,7 @@
             </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    <div class="billno">单据号:{{boxs.billno}}<span class="panel-right">制单人:{{boxs.makeuser}} 制单日期:{{boxs.makedate}}</span></div>
-
+                    
                 </el-col>
             </el-row>
         </div>
@@ -51,7 +50,7 @@
                                                                             <el-form-item label="编码">
 
 
-                                                            <el-input v-model="boxs.code" placeholder="编码"></el-input>
+                                                            <el-input style="width: 350px"  v-model="boxs.code" placeholder="编码"></el-input>
 
 
                               
@@ -59,7 +58,7 @@
                                                                 <el-form-item label="箱型尺寸">
 
 
-                                                            <el-input v-model="boxs.boxsize" placeholder="箱型尺寸"></el-input>
+                                                            <el-input style="width: 350px"  v-model="boxs.boxsize" placeholder="箱型尺寸"></el-input>
 
 
                               
@@ -67,7 +66,7 @@
                                                                 <el-form-item label="重量">
 
 
-                                                            <el-input v-model="boxs.weight" placeholder="重量"></el-input>
+                                                            <el-input style="width: 350px"  v-model="boxs.weight" placeholder="重量"></el-input>
 
 
                               
@@ -76,7 +75,10 @@
         </el-form>
     </div>
 </div>
+
+
                                                     
+
 <script src="${ctxPath}/static/js/base/boxs.js"></script>
 </body>
 </html>

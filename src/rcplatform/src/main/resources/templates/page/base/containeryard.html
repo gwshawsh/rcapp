@@ -2,95 +2,115 @@
 <html>
 <head>
     <title>堆场管理</title>
-    <#include "sys/header.html">
+        <#include "sys/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-        <div class="grid-btn">
+        <div class="panel-heading">
+            <el-button-group>
             <@shiro.hasPermission name="containeryard:list">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
-            </button>
+            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="containeryard:save">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
-            </button>
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="containeryard:update">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
-                    class="fa fa-pencil-square-o"></i>&nbsp;修改
-            </button>
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="containeryard:delete">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-            </button>
+            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
             </@shiro.hasPermission>
+            </el-button-group>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
     </div>
 
     <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">{{title}}</div>
-        <form class="form-horizontal">
-                                                                            <div class="form-group">
-                        <div class="col-sm-2 control-label">编码</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="containeryard.code"
-                                   placeholder="编码"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">名称</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="containeryard.name"
-                                   placeholder="名称"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">联系人</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="containeryard.linkman"
-                                   placeholder="联系人"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">联系电话</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="containeryard.phone"
-                                   placeholder="联系电话"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">地址</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="containeryard.address"
-                                   placeholder="地址"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">经度</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="containeryard.longitude"
-                                   placeholder="经度"/>
-                        </div>
-                    </div>
-                                                                <div class="form-group">
-                        <div class="col-sm-2 control-label">纬度</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="containeryard.latitude"
-                                   placeholder="纬度"/>
-                        </div>
-                    </div>
-                                        <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
-                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
-            </div>
-        </form>
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right"  label-width="80px" style="padding:30px">
+
+                                                                            <el-form-item label="编码">
+
+
+                                                            <el-input style="width: 350px"  v-model="containeryard.code" placeholder="编码"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="名称">
+
+
+                                                            <el-input style="width: 350px"  v-model="containeryard.name" placeholder="名称"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="联系人">
+
+
+                                                            <el-input style="width: 350px"  v-model="containeryard.linkman" placeholder="联系人"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="联系电话">
+
+
+                                                            <el-input style="width: 350px"  v-model="containeryard.phone" placeholder="联系电话"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="地址">
+
+
+                                                            <el-input style="width: 350px"  v-model="containeryard.address" placeholder="地址"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="经度">
+
+
+                                                            <el-input style="width: 350px"  v-model="containeryard.longitude" placeholder="经度"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="纬度">
+
+
+                                                            <el-input style="width: 350px"  v-model="containeryard.latitude" placeholder="纬度"></el-input>
+
+
+                              
+                    </el-form-item>
+                            
+        </el-form>
     </div>
 </div>
 
-<script src="${rc.contextPath}/static/js/base/containeryard.js"></script>
+
+                                                                                                    
+
+<script src="${ctxPath}/static/js/base/containeryard.js"></script>
 </body>
 </html>

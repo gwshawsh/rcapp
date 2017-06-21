@@ -1,0 +1,132 @@
+<div id="ref_baseopbank" style="display: none;padding:10px;">
+    <table id="ref_grid_baseopbank"></table>
+    <div id="ref_gridpager_baseopbank"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_baseopbank(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_baseopbank"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_baseopbank");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_baseopbank").jqGrid({
+            url: '../baseopbank/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'bobTid', name: 'bobTid', width: 50, key: true},
+
+                                                                                {
+                            label: '编码',
+                            name: 'bobJobcode',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '名称',
+                            name: 'bobName',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '帐号',
+                            name: 'bobAccountno',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '币别',
+                            name: 'bobBoctid',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '地址',
+                            name: 'bobAddress',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '电话',
+                            name: 'bobTel',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '传真',
+                            name: 'bobFax',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '联系人',
+                            name: 'bobMan',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '假删',
+                            name: 'bobDel',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '创建人员',
+                            name: 'bobAddpid',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '创建日期',
+                            name: 'bobAdddate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '备注',
+                            name: 'bobNote',
+                            width: 80
+                        }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_baseopbank",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_baseopbank").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

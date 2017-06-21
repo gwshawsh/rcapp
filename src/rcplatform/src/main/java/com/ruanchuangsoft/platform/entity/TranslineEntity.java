@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-19 00:18:30
+ * @date 2017-06-20 19:02:25
  */
 public class TranslineEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

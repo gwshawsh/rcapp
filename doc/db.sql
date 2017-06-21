@@ -326,7 +326,7 @@ CREATE TABLE `goods` (
 DROP TABLE IF EXISTS `gclass` ;
 CREATE TABLE `gclass` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `parentid` bigint COMMENT '上级类别ID',
+  `parent_id` bigint COMMENT '上级类别ID',
   `name` varchar(50) COMMENT '名称',
   `code` int COMMENT '编码',
   PRIMARY KEY (`id`)
@@ -344,7 +344,7 @@ CREATE TABLE `leavework` (
   `createtime` datetime COMMENT '创建时间',
   `realendtime` datetime COMMENT '完结时间',
    `pocessinstanceid` varchar(64) COMMENT '流程ID',
-  PRIMARY KEY (`leave_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='请假表';
 
 

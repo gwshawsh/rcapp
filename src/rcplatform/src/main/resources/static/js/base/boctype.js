@@ -1,3 +1,18 @@
+//生成弹出树形空间参照
+                            
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    }
+};
 
 var vm = new Vue({
 	el:'#rrapp',
@@ -31,7 +46,8 @@ var vm = new Vue({
 		
         //创建实体类
         boctype: {
-                                                                            boctypecode:"",                                                                 boctypename:"",                                                                 rate:"",                                                                 unit:"",                                                                 uptdate:"",                                                                 remark:""                                    }
+                                                                                        boctypecode:"",                                                                 boctypename:"",                                                                 rate:"",                                                                 unit:"",                                                                 uptdate:"",                                                                 remark:""                            
+        }
 	},
 	methods: {
 		query: function () {
@@ -42,7 +58,9 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.boctype = {
-                                                                                                                                                    boctypecode:"",                                                                                                                                                             boctypename:"",                                                                                                                                                             rate:"",                                                                                                                                                             unit:"",                                                                                                                                                             uptdate:"",                                                                                                                                                             remark:""                                                                                    };
+            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                                                                                                                                boctypecode:"",                                                                                                                                                             boctypename:"",                                                                                                                                                             rate:"",                                                                                                                                                             unit:"",                                                                                                                                                             uptdate:"",                                                                                                                                                             remark:""                                                                        
+            };
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -99,6 +117,7 @@ var vm = new Vue({
 																																					
         //生成参照调用下拉框函数,用来初始化远程数据
 		
+        //生成弹出树形空间参照
 
 
         getInfo: function(id){
@@ -112,7 +131,7 @@ var vm = new Vue({
             $("#jqGrid").jqGrid('setGridParam',{
                 page:page
             }).trigger("reloadGrid");
-        },
+        }
 	}
 });
 
@@ -159,6 +178,7 @@ $(function () {
 
     //执行调用参照调用下拉框函数,初始化下拉数据
 	
+
 
 
     initGridHeight();

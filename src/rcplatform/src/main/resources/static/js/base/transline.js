@@ -1,3 +1,18 @@
+//生成弹出树形空间参照
+                            
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    }
+};
 
 var vm = new Vue({
 	el:'#rrapp',
@@ -28,10 +43,14 @@ var vm = new Vue({
         }]
     },
         //创建参照
-					                					
+					                					ref_place:[],
+
+                					
         //创建实体类
         transline: {
-                                                                            code:"",                                                                 name:"",                                                                 startlocation:"",                                                                 endlocation:"",                                                                 distance:"",                                                                 helpcode:""                                    }
+                                                startlocationname:"",
+                                                                                                        code:"",                                                                 name:"",                                                                 startlocation:"",                                                                 endlocation:"",                                                                 distance:"",                                                                 helpcode:""                            
+        }
 	},
 	methods: {
 		query: function () {
@@ -42,7 +61,10 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.transline = {
-                                                                                                                                                    code:"",                                                                                                                                                             name:"",                                                                                                                                                             startlocation:"",                                                                                                                                                             endlocation:"",                                                                                                                                                             distance:"",                                                                                                                                                             helpcode:""                                                                                    };
+            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                startlocationname:"",
+                                                                                                                                                                                code:"",                                                                                                                                                             name:"",                                                                                                                                                             startlocation:"",                                                                                                                                                             endlocation:"",                                                                                                                                                             distance:"",                                                                                                                                                             helpcode:""                                                                        
+            };
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -96,23 +118,16 @@ var vm = new Vue({
 		},
 
         //生成参照调用弹出框函数
-																				                selectstartlocationplace: function (event) {
-                    showrefgrid_place("参照", function (data) {
-                        var seldata = data;
-                        vm.transline.startlocation =seldata['id'];
-                        vm.transline.startlocationplacename =seldata['name'];
-                    });
-                },
-								                selectendlocationplace: function (event) {
-                    showrefgrid_place("参照", function (data) {
-                        var seldata = data;
-                        vm.transline.endlocation =seldata['id'];
-                        vm.transline.endlocationplacename =seldata['name'];
-                    });
-                },
-															
+																																					
         //生成参照调用下拉框函数,用来初始化远程数据
-							
+					                getRefplace: function () {
+                    $.get("../place/list?page=1&limit=1000", function (r) {
+                        vm.ref_place = r.page.list;
+                    });
+                },
+
+            		
+        //生成弹出树形空间参照
 
 
         getInfo: function(id){
@@ -126,7 +141,7 @@ var vm = new Vue({
             $("#jqGrid").jqGrid('setGridParam',{
                 page:page
             }).trigger("reloadGrid");
-        },
+        }
 	}
 });
 
@@ -170,7 +185,9 @@ $(function () {
     });
 
     //执行调用参照调用下拉框函数,初始化下拉数据
-				
+			            vm.getRefplace();
+        	
+
 
 
     initGridHeight();

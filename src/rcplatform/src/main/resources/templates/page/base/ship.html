@@ -41,8 +41,7 @@
             </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    <div class="billno">单据号:{{ship.billno}}<span class="panel-right">制单人:{{ship.makeuser}} 制单日期:{{ship.makedate}}</span></div>
-
+                    
                 </el-col>
             </el-row>
         </div>
@@ -51,7 +50,7 @@
                                                                             <el-form-item label="编码">
 
 
-                                                            <el-input v-model="ship.code" placeholder="编码"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.code" placeholder="编码"></el-input>
 
 
                               
@@ -59,7 +58,7 @@
                                                                 <el-form-item label="中文名称">
 
 
-                                                            <el-input v-model="ship.name" placeholder="中文名称"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.name" placeholder="中文名称"></el-input>
 
 
                               
@@ -67,7 +66,7 @@
                                                                 <el-form-item label="英文名称">
 
 
-                                                            <el-input v-model="ship.enname" placeholder="英文名称"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.enname" placeholder="英文名称"></el-input>
 
 
                               
@@ -75,16 +74,20 @@
                                                                 <el-form-item label="所属区域">
 
 
-                                                            <el-input v-model="ship.regionname" v-on:click="selectregionregion"
-                                          placeholder="所属区域"></el-input>
-
-
-                             
+                                                            <el-select style="width: 350px" v-model="ship.region"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_region"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            
                     </el-form-item>
                                                                 <el-form-item label="UN代码">
 
 
-                                                            <el-input v-model="ship.uncode" placeholder="UN代码"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.uncode" placeholder="UN代码"></el-input>
 
 
                               
@@ -92,7 +95,7 @@
                                                                 <el-form-item label="类型">
 
 
-                                                            <el-input v-model="ship.type" placeholder="类型"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.type" placeholder="类型"></el-input>
 
 
                               
@@ -100,7 +103,7 @@
                                                                 <el-form-item label="所属船公司">
 
 
-                                                            <el-input v-model="ship.company" placeholder="所属船公司"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.company" placeholder="所属船公司"></el-input>
 
 
                               
@@ -108,7 +111,7 @@
                                                                 <el-form-item label="COS代码">
 
 
-                                                            <el-input v-model="ship.coscode" placeholder="COS代码"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.coscode" placeholder="COS代码"></el-input>
 
 
                               
@@ -116,7 +119,7 @@
                                                                 <el-form-item label="COS船英文名">
 
 
-                                                            <el-input v-model="ship.cosshipenname" placeholder="COS船英文名"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.cosshipenname" placeholder="COS船英文名"></el-input>
 
 
                               
@@ -124,7 +127,7 @@
                                                                 <el-form-item label="所属国家">
 
 
-                                                            <el-input v-model="ship.country" placeholder="所属国家"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.country" placeholder="所属国家"></el-input>
 
 
                               
@@ -132,7 +135,7 @@
                                                                 <el-form-item label="联系人">
 
 
-                                                            <el-input v-model="ship.contact" placeholder="联系人"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.contact" placeholder="联系人"></el-input>
 
 
                               
@@ -140,7 +143,7 @@
                                                                 <el-form-item label="地址">
 
 
-                                                            <el-input v-model="ship.address" placeholder="地址"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.address" placeholder="地址"></el-input>
 
 
                               
@@ -148,7 +151,7 @@
                                                                 <el-form-item label="电话">
 
 
-                                                            <el-input v-model="ship.phone" placeholder="电话"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.phone" placeholder="电话"></el-input>
 
 
                               
@@ -156,7 +159,7 @@
                                                                 <el-form-item label="航线">
 
 
-                                                            <el-input v-model="ship.route" placeholder="航线"></el-input>
+                                                            <el-input style="width: 350px"  v-model="ship.route" placeholder="航线"></el-input>
 
 
                               
@@ -165,8 +168,10 @@
         </el-form>
     </div>
 </div>
-                                                                        <#include "base/region_ref.html"
-                                                                                                                                    
+
+
+                                                                                                                                                                                        
+
 <script src="${ctxPath}/static/js/base/ship.js"></script>
 </body>
 </html>

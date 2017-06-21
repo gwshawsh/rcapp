@@ -41,8 +41,7 @@
             </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    <div class="billno">单据号:{{drivers.billno}}<span class="panel-right">制单人:{{drivers.makeuser}} 制单日期:{{drivers.makedate}}</span></div>
-
+                    
                 </el-col>
             </el-row>
         </div>
@@ -51,7 +50,7 @@
                                                                             <el-form-item label="编码">
 
 
-                                                            <el-input v-model="drivers.code" placeholder="编码"></el-input>
+                                                            <el-input style="width: 350px"  v-model="drivers.code" placeholder="编码"></el-input>
 
 
                               
@@ -59,7 +58,7 @@
                                                                 <el-form-item label="姓名">
 
 
-                                                            <el-input v-model="drivers.name" placeholder="姓名"></el-input>
+                                                            <el-input style="width: 350px"  v-model="drivers.name" placeholder="姓名"></el-input>
 
 
                               
@@ -67,7 +66,7 @@
                                                                 <el-form-item label="电话">
 
 
-                                                            <el-input v-model="drivers.phone" placeholder="电话"></el-input>
+                                                            <el-input style="width: 350px"  v-model="drivers.phone" placeholder="电话"></el-input>
 
 
                               
@@ -75,7 +74,7 @@
                                                                 <el-form-item label="所属车队">
 
 
-                                                            <el-select v-model="drivers.transteam"  filterable placeholder="请选择">
+                                                            <el-select style="width: 350px" v-model="drivers.transteam"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_transteam"
                                             :key="item.id"
@@ -88,7 +87,7 @@
                                                                 <el-form-item label="证件号">
 
 
-                                                            <el-input v-model="drivers.documentno" placeholder="证件号"></el-input>
+                                                            <el-input style="width: 350px"  v-model="drivers.documentno" placeholder="证件号"></el-input>
 
 
                               
@@ -96,7 +95,7 @@
                                                                 <el-form-item label="驾龄">
 
 
-                                                            <el-input v-model="drivers.driveage" placeholder="驾龄"></el-input>
+                                                            <el-input style="width: 350px"  v-model="drivers.driveage" placeholder="驾龄"></el-input>
 
 
                               
@@ -104,7 +103,7 @@
                                                                 <el-form-item label="类型">
 
 
-                                                            <el-select v-model="drivers.type"  filterable placeholder="请选择">
+                                                            <el-select style="width: 350px" v-model="drivers.type"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_enum2005"
                                             :key="item.enumvalueid"
@@ -120,7 +119,10 @@
         </el-form>
     </div>
 </div>
+
+
                                                                                                     
+
 <script src="${ctxPath}/static/js/base/drivers.js"></script>
 </body>
 </html>

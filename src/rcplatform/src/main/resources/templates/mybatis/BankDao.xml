@@ -35,8 +35,8 @@
 			`fax`, 
 			`man`, 
 			`del`, 
-			`addpid`, 
-			`adddate`, 
+			`makeuser`, 
+			`makedate`, 
 			`remark`
 		)
 		values
@@ -50,8 +50,8 @@
 			#{fax}, 
 			#{man}, 
 			#{del}, 
-			#{addpid}, 
-			#{adddate}, 
+			#{makeuser}, 
+			#{makedate}, 
 			#{remark}
 		)
 	</insert>
@@ -68,8 +68,8 @@
 			<if test="fax != null">`fax` = #{fax}, </if>
 			<if test="man != null">`man` = #{man}, </if>
 			<if test="del != null">`del` = #{del}, </if>
-			<if test="addpid != null">`addpid` = #{addpid}, </if>
-			<if test="adddate != null">`adddate` = #{adddate}, </if>
+			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
+			<if test="makedate != null">`makedate` = #{makedate}, </if>
 			<if test="remark != null">`remark` = #{remark}</if>
 		</set>
 		where id = #{id}

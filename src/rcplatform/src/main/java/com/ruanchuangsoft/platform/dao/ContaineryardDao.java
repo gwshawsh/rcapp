@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 19:54:17
+ * @date 2017-06-20 19:02:25
  */
 @Mapper
 public interface ContaineryardDao extends BaseDao<ContaineryardEntity> {
-	
+
 }

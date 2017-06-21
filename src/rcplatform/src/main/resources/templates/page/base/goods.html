@@ -41,57 +41,61 @@
             </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    <div class="billno">单据号:{{goods.billno}}<span class="panel-right">制单人:{{goods.makeuser}} 制单日期:{{goods.makedate}}</span></div>
-
+                    
                 </el-col>
             </el-row>
         </div>
         <el-form label-position="right"  label-width="80px" style="padding:30px">
 
-                                                                            <el-form-item label="父菜单ID，一级菜单为0">
+                                                                            <el-form-item label="类别">
 
 
-                                                            <el-input v-model="goods.classId" placeholder="父菜单ID，一级菜单为0"></el-input>
+                                                            <el-select style="width: 350px" v-model="goods.classid"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_gclass"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            
+                    </el-form-item>
+                                                                <el-form-item label="编码">
+
+
+                                                            <el-input style="width: 350px"  v-model="goods.code" placeholder="编码"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="菜单名称">
+                                                                <el-form-item label="名称">
 
 
-                                                            <el-input v-model="goods.name" placeholder="菜单名称"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="菜单URL">
-
-
-                                                            <el-input v-model="goods.price" placeholder="菜单URL"></el-input>
+                                                            <el-input style="width: 350px"  v-model="goods.name" placeholder="名称"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="类型   0：目录   1：菜单   2：按钮">
+                                                                <el-form-item label="单价">
 
 
-                                                            <el-input v-model="goods.gcount" placeholder="类型   0：目录   1：菜单   2：按钮"></el-input>
+                            
+                                <el-input-number style="width: 350px" v-model="goods.price" :min="1" ></el-input-number>
 
-
-                              
+                            
                     </el-form-item>
-                                                                <el-form-item label="菜单图标">
+                                                                <el-form-item label="含税单价">
 
 
-                                                            <el-input v-model="goods.icon" placeholder="菜单图标"></el-input>
+                            
+                                <el-input-number style="width: 350px" v-model="goods.pricetax" :min="1" ></el-input-number>
 
-
-                              
+                            
                     </el-form-item>
-                                                                <el-form-item label="排序">
+                                                                <el-form-item label="库存">
 
 
-                                                            <el-input v-model="goods.orderNum" placeholder="排序"></el-input>
+                                                            <el-input style="width: 350px"  v-model="goods.gcount" placeholder="库存"></el-input>
 
 
                               
@@ -100,7 +104,10 @@
         </el-form>
     </div>
 </div>
+
+
                                                                                         
+
 <script src="${ctxPath}/static/js/base/goods.js"></script>
 </body>
 </html>

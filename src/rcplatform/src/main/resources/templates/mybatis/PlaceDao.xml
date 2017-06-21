@@ -3,32 +3,31 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.PlaceDao">
 
-    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.PlaceEntity">
-		select ifnull((select name from  organization b where a.organization=b.id),'') as organizationname,
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.PlaceEntity">
+		select
+				    			    			    			    			    			    			    			    						               		ifnull((select name from  organization b where a.organization=b.id),'') as organizationname,
 						    						                    ifnull((select enumvaluename from  enumtable b where a.placetype=b.enumvalueid and b.enumtype='2001'),'') as placetypeenumvaluename,
 						    	        a.*
 
 		from place a where id = #{value}
 	</select>
 
-    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.PlaceEntity">
-        select
-        ifnull((select name from organization b where a.organization=b.id),'') as organizationname,
-        ifnull((select enumvaluename from enumtable b where a.placetype=b.enumvalueid and b.enumtype='2001'),'') as
-        placetypeenumvaluename,
-        a.*
-        from place a
-        <if test="offset != null and limit != null">
-            limit #{offset}, #{limit}
-        </if>
-    </select>
-
-    <select id="queryTotal" resultType="int">
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.PlaceEntity">
+		select
+																																																	               		ifnull((select name from  organization b where a.organization=b.id),'') as organizationname,
+																                    ifnull((select enumvaluename from  enumtable b where a.placetype=b.enumvalueid and b.enumtype='2001'),'') as placetypeenumvaluename,
+									        a.*
+		from place a
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
 		select count(*) from place 
 	</select>
-
-    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.PlaceEntity" useGeneratedKeys="true"
-            keyProperty="id">
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.PlaceEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into place
 		(
 			`code`, 
@@ -54,32 +53,32 @@
 			#{placetype}
 		)
 	</insert>
-
-    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.PlaceEntity">
-        update place
-        <set>
-            <if test="code != null">`code` = #{code},</if>
-            <if test="name != null">`name` = #{name},</if>
-            <if test="linkman != null">`linkman` = #{linkman},</if>
-            <if test="phone != null">`phone` = #{phone},</if>
-            <if test="address != null">`address` = #{address},</if>
-            <if test="longitude != null">`longitude` = #{longitude},</if>
-            <if test="latitude != null">`latitude` = #{latitude},</if>
-            <if test="organization != null">`organization` = #{organization},</if>
-            <if test="placetype != null">`placetype` = #{placetype}</if>
-        </set>
-        where id = #{id}
-    </update>
-
-    <delete id="delete">
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.PlaceEntity">
+		update place 
+		<set>
+			<if test="code != null">`code` = #{code}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="linkman != null">`linkman` = #{linkman}, </if>
+			<if test="phone != null">`phone` = #{phone}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="longitude != null">`longitude` = #{longitude}, </if>
+			<if test="latitude != null">`latitude` = #{latitude}, </if>
+			<if test="organization != null">`organization` = #{organization}, </if>
+			<if test="placetype != null">`placetype` = #{placetype}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
 		delete from place where id = #{value}
 	</delete>
-
-    <delete id="deleteBatch">
-        delete from place where id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
+	
+	<delete id="deleteBatch">
+		delete from place where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
 
 </mapper>

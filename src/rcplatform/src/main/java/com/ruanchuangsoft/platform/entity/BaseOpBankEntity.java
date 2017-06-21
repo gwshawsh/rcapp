@@ -3,6 +3,8 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import java.math.BigDecimal;
+
 
 
 /**
@@ -10,7 +12,7 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-05 17:23:06
+ * @date 2017-06-20 19:02:25
  */
 public class BaseOpBankEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -41,6 +43,46 @@ public class BaseOpBankEntity implements Serializable {
 	private Date bobAdddate;
 	//备注
 	private String bobNote;
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
 
 	/**
 	 * 设置：
@@ -198,4 +240,6 @@ public class BaseOpBankEntity implements Serializable {
 	public String getBobNote() {
 		return bobNote;
 	}
-}
+
+
+																																								}

@@ -1,0 +1,175 @@
+<div id="ref_organization" style="display: none;padding:10px;">
+    <table id="ref_grid_organization"></table>
+    <div id="ref_gridpager_organization"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_organization(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_organization"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_organization");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_organization").jqGrid({
+            url: '../organization/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '编码',
+                            name: 'code',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '名称',
+                            name: 'name',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '上级组织',
+                            name: 'parentId',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '联系电话',
+                            name: 'phone',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '传真',
+                            name: 'fax',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '地址',
+                            name: 'address',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '邮箱',
+                            name: 'email',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '网址',
+                            name: 'webaddress',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '经度',
+                            name: 'longitude',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '纬度',
+                            name: 'latitude',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '联系人',
+                            name: 'linkman',
+                            width: 80
+                        }, 
+                                                                                { label: '付款方式', name: 'name', width: 80 }, 
+                                                                                {
+                            label: '财务编码',
+                            name: 'financecode',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '省',
+                            name: 'province',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '城市',
+                            name: 'city',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '备注',
+                            name: 'remark',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '纳税人识别号',
+                            name: 'taxcode',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '账期',
+                            name: 'accperiod',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '保险客户费率',
+                            name: 'policyrate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '关联单位',
+                            name: 'relationid',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '注册资质',
+                            name: 'zizhi',
+                            width: 80
+                        }, 
+                                                                                { label: '业务类型', name: 'enumvaluename', width: 80 }, 
+                                                                                { label: '类型', name: 'enumvaluename', width: 80 }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_organization",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_organization").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

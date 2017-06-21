@@ -4,11 +4,16 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.StoreDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.StoreEntity">
-		select * from store where id = #{value}
+		select
+				    			    			    			    			    			    			    			    	        a.*
+
+		from store a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.StoreEntity">
-		select * from store 
+		select
+																																										        a.*
+		from store a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

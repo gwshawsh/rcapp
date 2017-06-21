@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.CarDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.CarEntity">
+		select
+				    			    			    			    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.OwnerType=b.enumvalueid and b.enumtype='2003'),'') as ownertypeenumvaluename,
+						    						               		ifnull((select name from  transteam b where a.transteam=b.id),'') as transteamname,
+						    						               		ifnull((select name from  cartype b where a.cartype=b.id),'') as cartypename,
+						    	        a.*
+
+		from car a where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.CarEntity">
+		select
+																																							                    ifnull((select enumvaluename from  enumtable b where a.OwnerType=b.enumvalueid and b.enumtype='2003'),'') as ownertypeenumvaluename,
+																               		ifnull((select name from  transteam b where a.transteam=b.id),'') as transteamname,
+																               		ifnull((select name from  cartype b where a.cartype=b.id),'') as cartypename,
+									        a.*
+		from car a
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from car 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.CarEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into car
+		(
+			`carcode`, 
+			`carname`, 
+			`CarInfo`, 
+			`DriverId`, 
+			`DriverName`, 
+			`OwnerType`, 
+			`transteam`, 
+			`cartype`
+		)
+		values
+		(
+			#{carcode}, 
+			#{carname}, 
+			#{carinfo}, 
+			#{driverid}, 
+			#{drivername}, 
+			#{ownertype}, 
+			#{transteam}, 
+			#{cartype}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.CarEntity">
+		update car 
+		<set>
+			<if test="carcode != null">`carcode` = #{carcode}, </if>
+			<if test="carname != null">`carname` = #{carname}, </if>
+			<if test="carinfo != null">`CarInfo` = #{carinfo}, </if>
+			<if test="driverid != null">`DriverId` = #{driverid}, </if>
+			<if test="drivername != null">`DriverName` = #{drivername}, </if>
+			<if test="ownertype != null">`OwnerType` = #{ownertype}, </if>
+			<if test="transteam != null">`transteam` = #{transteam}, </if>
+			<if test="cartype != null">`cartype` = #{cartype}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from car where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from car where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
