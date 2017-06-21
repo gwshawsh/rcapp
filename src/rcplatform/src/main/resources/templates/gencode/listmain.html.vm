@@ -71,7 +71,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right" inline="true" label-width="80px" style="padding:30px">
+        <el-form label-position="right" inline="true" label-width="100px" style="padding:30px">
 
             #foreach($column in $columns)
                 #if($column.columnName != $pk.columnName
@@ -99,7 +99,7 @@
 
                         #elseif($column.refType.equalsIgnoreCase("dialogtree"))
 
-                            <input v-model="${classname}.${column.attrname}${column.refColumnName}"  :click="openRefTree${column.refTable}${column.attrname}"
+                            <input v-model="${classname}.${column.attrname}${column.refColumnName}"  v-on:click="openRefTree${column.refTable}${column.attrname}"
                                    placeholder="${column.comments}" style="width: 168px;" class="el-input el-input__inner"></input>
 
                         #elseif($column.refType.equalsIgnoreCase("combo"))

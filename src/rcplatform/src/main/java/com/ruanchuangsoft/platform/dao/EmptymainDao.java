@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-19 23:53:29
+ * @date 2017-06-20 23:21:01
  */
 @Mapper
 public interface EmptymainDao extends BaseDao<EmptymainEntity> {

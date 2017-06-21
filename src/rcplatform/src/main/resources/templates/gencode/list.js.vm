@@ -22,7 +22,16 @@ var setting = {
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+	    q:{
+            #foreach($column in $columns)
+                #if($column.columnName != $pk.columnName)
+                    ${column.attrname}:""#if($velocityCount != $columns.size()), #end
+                #end
+            #end
+
+        },
 		showList: true,
+        showQuery:false,
 		title: null,
     //用于日期快捷控件
     pickerOptions1: {
@@ -75,6 +84,9 @@ var vm = new Vue({
         }
 	},
 	methods: {
+	    showQueryPanel:function(){
+	        vm.showQuery=!vm.showQuery;
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -225,7 +237,55 @@ var vm = new Vue({
         },
 #end
 #end
+        #if($classname.endsWith("main"))
+        audit:function(event){
+            var ${pk.attrname}s = getSelectedRows();
+            if(${pk.attrname}s == null){
+                return ;
+            }
 
+            confirm('确定要删除选中的记录？', function(){
+                $.ajax({
+                    type: "POST",
+                    url: "../${pathName}/audit",
+                    data: JSON.stringify(${pk.attrname}s),
+                    success: function(r){
+                        if(r.code == 0){
+                            alert('操作成功', function(index){
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        }else{
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+
+        unaudit:function(){
+            var ${pk.attrname}s = getSelectedRows();
+            if(${pk.attrname}s == null){
+                return ;
+            }
+
+            confirm('确定要删除选中的记录？', function(){
+                $.ajax({
+                    type: "POST",
+                    url: "../${pathName}/unaudit",
+                    data: JSON.stringify(${pk.attrname}s),
+                    success: function(r){
+                        if(r.code == 0){
+                            alert('操作成功', function(index){
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        }else{
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+        #end
 
         getInfo: function(${pk.attrname}){
             $.get("../${pathName}/info/"+${pk.attrname}, function(r){
@@ -236,6 +296,7 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
+                postData: {'query': JSON.stringify(vm.q)},
                 page:page
             }).trigger("reloadGrid");
         }

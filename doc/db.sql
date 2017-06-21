@@ -607,7 +607,7 @@ CREATE TABLE `car` (
   `DriverName`  varchar(50) COMMENT '主司机姓名',
   `OwnerType`  varchar(4) COMMENT '车辆所属:enum:2003:enumvalueid:enumvaluename',--  1-自有车辆，2-挂靠车辆，3-外协车辆
   `transteam` bigint COMMENT '所属车队:combo:transteam:id:name',
-  `cartype` bigint COMMENT '车辆类型:combo:cartype:id:name',
+  `cartype` bigint COMMENT '车辆类型:enum:1007:enumvalueid:enumvaluename',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='车辆管理';
 
@@ -660,7 +660,7 @@ CREATE TABLE `emptymain`(
   `ladingcode` varchar(50) COMMENT '提单号',
   `shipname` varchar(20) COMMENT '船名',
   `flight` varchar(50) COMMENT '航次', 
-  `portid` bigint COMMENT '港口id:combo:place:id:name',
+  `portid` bigint COMMENT '港口:combo:place:id:name',
   `boxqty` int COMMENT '箱量',
   `boxtype` bigint COMMENT '箱型:combo:boxs:id:boxsize',
   `takeboxplaceid` bigint COMMENT '提箱场站:combo:place:id:name', 
@@ -669,8 +669,8 @@ CREATE TABLE `emptymain`(
   `endshipdatetime` datetime COMMENT '截港时间',
   `bgnplanarrtime` datetime COMMENT '最早到场时间',
   `endplanarrtime` datetime COMMENT '最晚到场时间',
-  `istakebox` int COMMENT '是否放箱:combo:enum:0001:enumvalueid:enumvaluename',
-  `istrans` int COMMENT '是否运输:combo:enum:0001:enumvalueid:enumvaluename',
+  `istakebox` int COMMENT '是否放箱:enum:0001:enumvalueid:enumvaluename',
+  `istrans` int COMMENT '是否运输:enum:0001:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
   `billstatus` varchar(50) COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',-- :0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
   `makeuser` varchar(20) COMMENT '制单人',
@@ -854,7 +854,7 @@ CREATE TABLE `transboxmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `refbillno` varchar(50) COMMENT '参照单据号',
-  `refbilltype` int COMMENT '参照单据类型:enum:1007:enumvalueid:enumvaluename', -- :0:无参照  1-放箱计划  2:重箱计划  3:门点计划 4:司机预约',
+  `refbilltype` int COMMENT '参照单据类型:enum:1006:enumvalueid:enumvaluename', -- :0:无参照  1-放箱计划  2:重箱计划  3:门点计划 4:司机预约',
   `orgid` bigint COMMENT '客户:dialogtree:organization:id:name',
   `ladingcode` varchar(50) COMMENT '提单号',
   `shipname` varchar(20) COMMENT '船名',
@@ -885,8 +885,8 @@ CREATE TABLE `transboxdetail`(
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
   `transcompanyid` bigint COMMENT '运输公司:dialog:organization:id:name',
-  `refbillno` varchar(50) COMMENT '放箱计划单据号',
-  `refserialno` bigint COMMENT '放箱计划序号',
+  `refbillno` varchar(50) COMMENT '参照单据号',
+  `refserialno` bigint COMMENT '参照单据序号',
   `startplaceid1` bigint COMMENT '原起运地点:combo:place:id:name',
   `startplaceid2` bigint COMMENT '现起运点:combo:place:id:name',
   `endplaceid` bigint COMMENT '目的地:combo:place:id:name',
@@ -960,7 +960,7 @@ CREATE TABLE `storecontractmain`(
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓储合同';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='机械维修合同';
 
 -- 机械维修合同明细
 DROP TABLE IF EXISTS `repaircontractdetail`;
@@ -976,7 +976,7 @@ CREATE TABLE `storecontractdetail`(
   `goodsqty` decimal(19,4) COMMENT '数量',-- 一 
   `total` decimal(19,4) COMMENT '维修费用',--  
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓储合同明细';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='机械维修合同明细';
 
 
 
@@ -1047,8 +1047,8 @@ CREATE TABLE `transcontractdetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `lineid` bigint COMMENT '线路',
-  `boxtype` varchar(50) COMMENT '箱型',
+  `lineid` bigint COMMENT '线路:combo:transline:id:name',
+  `boxtype` bigint COMMENT '箱型:combo:boxs:id:boxsize',
   `weighttype` varchar(50) COMMENT '空重类型:enum:1009:enumvalueid:enumvaluename',
   `boxprice` decimal(19,4) COMMENT '应付单价',-- 一个箱子的应付费用
   `boxpricetax` decimal(19,4) COMMENT '含税应付单价',-- 一个箱子的应付费用
@@ -1058,6 +1058,23 @@ CREATE TABLE `transcontractdetail`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运输合同明细';
 
 
+-- 运输成本
+DROP TABLE IF EXISTS `transcosting`;
+CREATE TABLE `transcontractmain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `bgndate` datetime COMMENT '生效日期',--  
+  `enddate` datetime COMMENT '失效日期',
+  `lineid` bigint COMMENT '线路:combo:transline:id:name',
+  `boxtype` bigint COMMENT '箱型:combo:boxs:id:boxsize',
+  `boxprice` decimal(19,4) COMMENT '最低成本',
+  `remark` varchar(1000) COMMENT '备注',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `uptdate` datetime COMMENT '更新时间', 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运输成本';
 
 
 
@@ -1085,8 +1102,8 @@ CREATE TABLE `budgetform`(
   `deptid` bigint COMMENT '部门:combo:dept:dept_id:name',
   `billtype` varchar(50) COMMENT '预算类型',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
-  `mkuser` varchar(20) COMMENT '制单人',
-  `mkdate` datetime COMMENT '制单日期',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
   `accuser` varchar(20) COMMENT '审核人',
   `accdate` datetime COMMENT '审核日期',
   `rzuser` varchar(20) COMMENT '签批人',
@@ -1137,13 +1154,17 @@ CREATE TABLE `expense`(
   `applyuser` varchar(50) COMMENT '申请人',
   `dept_id` bigint COMMENT '部门',
   `applydate` datetime COMMENT '申请日期',
-  `costcategory_id` bigint COMMENT '费用项目',
+  `costcategoryid` bigint COMMENT '费用项目:dialogtree:costcategory:id:name',
   `expensemoney` double COMMENT '报销金额',
   `reason` varchar(1000) COMMENT '报销事由',
   `receiver` varchar(50) COMMENT '收款人',
   `paytype` varchar(50) COMMENT '支付方式',
-  `accuser` varchar(50) COMMENT '审批人',
-  `accdate` datetime COMMENT '审核日期',
+  `bankaccount` varchar(50) COMMENT '银行账户',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期', 
+  `uptdate` datetime COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报销管理';
 

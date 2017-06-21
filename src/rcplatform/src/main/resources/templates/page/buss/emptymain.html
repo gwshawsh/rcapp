@@ -10,7 +10,7 @@
         <div class="panel-heading">
             <el-button-group>
             <@shiro.hasPermission name="emptymain:list">
-            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
             </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="emptymain:save">
@@ -21,15 +21,231 @@
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             </@shiro.hasPermission>
-    <@shiro.hasPermission name="emptymain:audit">
-    <el-button type="primary" v-on:click="audit"><i class="fa fa-pencil-square-o"></i>&nbsp;审核
-    </el-button>
-</@shiro.hasPermission>
-            <@shiro.hasPermission name="emptymain:delete">
+                        <@shiro.hasPermission name="emptymain:audit">
+            <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="emptymain:unaudit">
+            <el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
+            </el-button>
+            </@shiro.hasPermission>
+                        <@shiro.hasPermission name="emptymain:delete">
             <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </el-button>
             </@shiro.hasPermission>
             </el-button-group>
+
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
+
+                                                                                                                    <el-form-item label="单据号">
+
+                                                                    <el-input style="width: 350px"  v-model="emptymain.billno" placeholder="单据号"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="客户">
+
+                                
+                                    <input style="width: 350px" v-model="emptymain.orgidname"  v-on:click="openRefTreeorganizationorgid"
+                                           placeholder="客户" class="el-input el-input__inner"></input>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="提单号">
+
+                                                                    <el-input style="width: 350px"  v-model="emptymain.ladingcode" placeholder="提单号"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="船名">
+
+                                                                    <el-input style="width: 350px"  v-model="emptymain.shipname" placeholder="船名"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="航次">
+
+                                                                    <el-input style="width: 350px"  v-model="emptymain.flight" placeholder="航次"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="港口">
+
+                                                                    <el-select style="width: 350px" v-model="emptymain.portid"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_place"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="箱量">
+
+                                                                    <el-input style="width: 350px"  v-model="emptymain.boxqty" placeholder="箱量"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="箱型">
+
+                                                                    <el-select style="width: 350px" v-model="emptymain.boxtype"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_boxs"
+                                                :key="item.id"
+                                                :label="item.boxsize"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="提箱场站">
+
+                                                                    <el-select style="width: 350px" v-model="emptymain.takeboxplaceid"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_place"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="目的地">
+
+                                                                    <el-select style="width: 350px" v-model="emptymain.endplaceid"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_place"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="集港时间">
+
+                                
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="emptymain.bgnshipdatetime" style="width: 100%;"></el-date-picker>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="截港时间">
+
+                                
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="emptymain.endshipdatetime" style="width: 100%;"></el-date-picker>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="最早到场时间">
+
+                                
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="emptymain.bgnplanarrtime" style="width: 100%;"></el-date-picker>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="最晚到场时间">
+
+                                
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="emptymain.endplanarrtime" style="width: 100%;"></el-date-picker>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="是否放箱">
+
+                                                                    <el-select style="width: 350px" v-model="emptymain.istakebox"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum0001"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="是否运输">
+
+                                                                    <el-select style="width: 350px" v-model="emptymain.istrans"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum0001"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="备注">
+
+                                                                    <el-input style="width: 350px"  v-model="emptymain.remark" placeholder="备注"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="单据状态">
+
+                                                                    <el-select style="width: 350px" v-model="emptymain.billstatus"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum1003"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="制单人">
+
+                                                                    <el-input style="width: 350px"  v-model="emptymain.makeuser" placeholder="制单人"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="制单日期">
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="emptymain.makedate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="审核人">
+
+                                                                    <el-input style="width: 350px"  v-model="emptymain.accuser" placeholder="审核人"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="审核日期">
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="emptymain.accdate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="更新时间">
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="emptymain.uptdate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+
+
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -50,70 +266,59 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right"  label-width="80px" style="padding:30px">
+        <el-form label-position="right"  label-width="100px" style="padding:30px">
 
-                                                                            <el-form-item label="单据号">
+                                                                                                        <el-form-item label="客户">
 
+                             
+                                <input style="width: 350px" v-model="emptymain.orgidname"  v-on:click="openRefTreeorganizationorgid"
+                                          placeholder="客户" class="el-input el-input__inner"></input>
 
-                                                            <el-input style="width: 350px"  v-model="emptymain.billno" placeholder="单据号"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="客户id">
-
-
-                            
-                                <input style="width: 350px" v-model="emptymain.orgidname" :click="selectorgidorganization"
-                                          placeholder="客户id" class="el-input el-input__inner"></input>
-
-                            
+                             
                     </el-form-item>
                                                                 <el-form-item label="提单号">
 
-
-                                                            <el-input style="width: 350px"  v-model="emptymain.ladingcode" placeholder="提单号"></el-input>
+                                                             <el-input style="width: 350px"  v-model="emptymain.ladingcode" placeholder="提单号"></el-input>
 
 
                               
                     </el-form-item>
                                                                 <el-form-item label="船名">
 
-
-                                                            <el-input style="width: 350px"  v-model="emptymain.shipname" placeholder="船名"></el-input>
+                                                             <el-input style="width: 350px"  v-model="emptymain.shipname" placeholder="船名"></el-input>
 
 
                               
                     </el-form-item>
                                                                 <el-form-item label="航次">
 
-
-                                                            <el-input style="width: 350px"  v-model="emptymain.flight" placeholder="航次"></el-input>
+                                                             <el-input style="width: 350px"  v-model="emptymain.flight" placeholder="航次"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="港口id">
+                                                                <el-form-item label="港口">
 
-
-                            
-                                <input style="width: 350px" v-model="emptymain.portidname" :click="selectportidplace"
-                                          placeholder="港口id" class="el-input el-input__inner"></input>
-
+                                                             <el-select style="width: 350px" v-model="emptymain.portid"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_place"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
                             
                     </el-form-item>
                                                                 <el-form-item label="箱量">
 
-
-                                                            <el-input style="width: 350px"  v-model="emptymain.boxqty" placeholder="箱量"></el-input>
+                                                             <el-input style="width: 350px"  v-model="emptymain.boxqty" placeholder="箱量"></el-input>
 
 
                               
                     </el-form-item>
                                                                 <el-form-item label="箱型">
 
-
-                                                            <el-select style="width: 350px" v-model="emptymain.boxtype"  filterable placeholder="请选择">
+                                                             <el-select style="width: 350px" v-model="emptymain.boxtype"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_boxs"
                                             :key="item.id"
@@ -125,68 +330,61 @@
                     </el-form-item>
                                                                 <el-form-item label="提箱场站">
 
-
-                            
-                                <input style="width: 350px" v-model="emptymain.takeboxplaceidname" :click="selecttakeboxplaceidplace"
-                                          placeholder="提箱场站" class="el-input el-input__inner"></input>
-
+                                                             <el-select style="width: 350px" v-model="emptymain.takeboxplaceid"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_place"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
                             
                     </el-form-item>
                                                                 <el-form-item label="目的地">
 
-
-                            
-                                <input style="width: 350px" v-model="emptymain.endplaceidname" :click="selectendplaceidplace"
-                                          placeholder="目的地" class="el-input el-input__inner"></input>
-
+                                                             <el-select style="width: 350px" v-model="emptymain.endplaceid"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_place"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
                             
                     </el-form-item>
                                                                 <el-form-item label="集港时间">
 
-
-                            
+                             
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="emptymain.bgnshipdatetime" style="width: 100%;"></el-date-picker>
 
                             
                     </el-form-item>
                                                                 <el-form-item label="截港时间">
 
-
-                            
+                             
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="emptymain.endshipdatetime" style="width: 100%;"></el-date-picker>
 
                             
                     </el-form-item>
                                                                 <el-form-item label="最早到场时间">
 
-
-                            
+                             
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="emptymain.bgnplanarrtime" style="width: 100%;"></el-date-picker>
 
                             
                     </el-form-item>
                                                                 <el-form-item label="最晚到场时间">
 
-
-                            
+                             
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="emptymain.endplanarrtime" style="width: 100%;"></el-date-picker>
 
                             
                     </el-form-item>
-                                                                <el-form-item label="备注">
+                                                                <el-form-item label="是否放箱">
 
-
-                                                            <el-input style="width: 350px"  v-model="emptymain.remark" placeholder="备注"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="单据状态">
-
-
-                                                            <el-select style="width: 350px" v-model="emptymain.billstatus"  filterable placeholder="请选择">
+                                                             <el-select style="width: 350px" v-model="emptymain.istakebox"  filterable placeholder="请选择">
                                     <el-option
-                                            v-for="item in ref_enum1003"
+                                            v-for="item in ref_enum0001"
                                             :key="item.enumvalueid"
                                             :label="item.enumvaluename"
                                             :value="item.enumvalueid">
@@ -196,54 +394,37 @@
 
                              
                     </el-form-item>
-                                                                <el-form-item label="制单人">
+                                                                <el-form-item label="是否运输">
+
+                                                             <el-select style="width: 350px" v-model="emptymain.istrans"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_enum0001"
+                                            :key="item.enumvalueid"
+                                            :label="item.enumvaluename"
+                                            :value="item.enumvalueid">
+                                    </el-option>
+                                </el-select>
 
 
-                                                            <el-input style="width: 350px"  v-model="emptymain.makeuser" placeholder="制单人"></el-input>
+                             
+                    </el-form-item>
+                                                                <el-form-item label="备注">
+
+                                                             <el-input style="width: 350px"  v-model="emptymain.remark" placeholder="备注"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="制单日期">
-
-
-                            
-                                <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="emptymain.makedate" style="width: 100%;"></el-date-picker>
-                            
-                    </el-form-item>
-                                                                <el-form-item label="审核人">
-
-
-                                                            <el-input style="width: 350px"  v-model="emptymain.accuser" placeholder="审核人"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="审核日期">
-
-
-                            
-                                <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="emptymain.accdate" style="width: 100%;"></el-date-picker>
-                            
-                    </el-form-item>
-                                                                <el-form-item label="更新时间">
-
-
-                            
-                                <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="emptymain.uptdate" style="width: 100%;"></el-date-picker>
-                            
-                    </el-form-item>
-                            
+                                                                                                                                                                                                    
         </el-form>
     </div>
 </div>
 
 
-                                                <#include "buss/organization_ref.html"
-                                                                    <#include "buss/place_ref.html"
-                                                        <#include "buss/place_ref.html"
-                                <#include "buss/place_ref.html"
-                                                                                                                                                
+                                                                                                                                                                                                                                                                                                    
+<div id="treelayerorganization" style="display: none;padding:10px;">
+    <ul id="refTreeorganization" class="ztree"></ul>
+</div>
 
 <script src="${ctxPath}/static/js/buss/emptymain.js"></script>
 </body>

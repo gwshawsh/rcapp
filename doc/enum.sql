@@ -26,8 +26,13 @@ INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) V
 
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1006', '0', '无参照', '放箱参照');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1006', '1', '空箱计划', '放箱参照');
-INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1006', '2', '门点计划', '放箱参照');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1006', '2', '放箱计划', '放箱参照');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1006', '3', '重箱计划', '放箱参照');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1006', '4', '门点计划', '放箱参照');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1006', '5', '疏港计划', '放箱参照');
 
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1007', '0', '五轴车', '车辆类型');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1007', '1', '六轴车', '车辆类型');
 
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1008', '0', '燃油', '汽车油耗类型');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1008', '1', '燃气', '汽车油耗类型');
