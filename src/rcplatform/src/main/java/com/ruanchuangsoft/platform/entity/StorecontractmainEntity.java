@@ -3,6 +3,10 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import com.ruanchuangsoft.platform.entity.StorecontractdetailEntity;
+
+import java.math.BigDecimal;
+
 
 
 /**
@@ -10,7 +14,7 @@ import java.util.List;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 20:39:26
+ * @date 2017-06-22 12:07:01
  */
 public class StorecontractmainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -22,25 +26,27 @@ public class StorecontractmainEntity implements Serializable {
 	//客户
 	private Long orgid;
 	//付款方式
-	private String paytype;
+	private Long paytype;
+	//结算周期
+	private Integer paytime;
 	//币别
 	private Long boctid;
 	//汇率
-	private Double rate;
+	private BigDecimal rate;
 	//税率
-	private Double taxrate;
-	//放箱费单价
-	private Double takeboxfee;
-	//放箱费含税单价
-	private Double takeboxfeetax;
+	private BigDecimal taxrate;
+	//放箱单价
+	private BigDecimal takeboxfee;
+	//放箱单价(税)
+	private BigDecimal takeboxfeetax;
 	//生效日期
 	private Date bgndate;
 	//失效日期
 	private Date enddate;
 	//备注
 	private String remark;
-	//单据状态:0：新增 1：审核 2：作废
-	private String billstatus;
+	//单据状态
+	private Integer billstatus;
 	//制单人
 	private String makeuser;
 	//制单日期
@@ -52,15 +58,87 @@ public class StorecontractmainEntity implements Serializable {
 	//更新时间
 	private Date uptdate;
 
+
+	
+		
+
+	
+		
+
+	
+		            //客户
+            private String orgidname;
+		
+
+	
+		            //付款方式
+            private String paytypename;
+		
+
+	
+		            //结算周期
+            private String paytimeenumvaluename;
+		
+
+	
+		            //币别
+            private String boctidboctypename;
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		            //单据状态
+            private String billstatusenumvaluename;
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+	//单据明细
 	private List<StorecontractdetailEntity> details;
 
-	public List<StorecontractdetailEntity> getDetails() {
-		return details;
-	}
-
 	public void setDetails(List<StorecontractdetailEntity> details) {
-		this.details = details;
-	}
+        this.details = details;
+    }
+
+    public List<StorecontractdetailEntity> getDetails() {
+        return details;
+    }
+
+
 
 	/**
 	 * 设置：
@@ -101,14 +179,26 @@ public class StorecontractmainEntity implements Serializable {
 	/**
 	 * 设置：付款方式
 	 */
-	public void setPaytype(String paytype) {
+	public void setPaytype(Long paytype) {
 		this.paytype = paytype;
 	}
 	/**
 	 * 获取：付款方式
 	 */
-	public String getPaytype() {
+	public Long getPaytype() {
 		return paytype;
+	}
+	/**
+	 * 设置：结算周期
+	 */
+	public void setPaytime(Integer paytime) {
+		this.paytime = paytime;
+	}
+	/**
+	 * 获取：结算周期
+	 */
+	public Integer getPaytime() {
+		return paytime;
 	}
 	/**
 	 * 设置：币别
@@ -125,49 +215,49 @@ public class StorecontractmainEntity implements Serializable {
 	/**
 	 * 设置：汇率
 	 */
-	public void setRate(Double rate) {
+	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
 	/**
 	 * 获取：汇率
 	 */
-	public Double getRate() {
+	public BigDecimal getRate() {
 		return rate;
 	}
 	/**
 	 * 设置：税率
 	 */
-	public void setTaxrate(Double taxrate) {
+	public void setTaxrate(BigDecimal taxrate) {
 		this.taxrate = taxrate;
 	}
 	/**
 	 * 获取：税率
 	 */
-	public Double getTaxrate() {
+	public BigDecimal getTaxrate() {
 		return taxrate;
 	}
 	/**
-	 * 设置：放箱费单价
+	 * 设置：放箱单价
 	 */
-	public void setTakeboxfee(Double takeboxfee) {
+	public void setTakeboxfee(BigDecimal takeboxfee) {
 		this.takeboxfee = takeboxfee;
 	}
 	/**
-	 * 获取：放箱费单价
+	 * 获取：放箱单价
 	 */
-	public Double getTakeboxfee() {
+	public BigDecimal getTakeboxfee() {
 		return takeboxfee;
 	}
 	/**
-	 * 设置：放箱费含税单价
+	 * 设置：放箱单价(税)
 	 */
-	public void setTakeboxfeetax(Double takeboxfeetax) {
+	public void setTakeboxfeetax(BigDecimal takeboxfeetax) {
 		this.takeboxfeetax = takeboxfeetax;
 	}
 	/**
-	 * 获取：放箱费含税单价
+	 * 获取：放箱单价(税)
 	 */
-	public Double getTakeboxfeetax() {
+	public BigDecimal getTakeboxfeetax() {
 		return takeboxfeetax;
 	}
 	/**
@@ -207,15 +297,15 @@ public class StorecontractmainEntity implements Serializable {
 		return remark;
 	}
 	/**
-	 * 设置：单据状态:0：新增 1：审核 2：作废
+	 * 设置：单据状态
 	 */
-	public void setBillstatus(String billstatus) {
+	public void setBillstatus(Integer billstatus) {
 		this.billstatus = billstatus;
 	}
 	/**
-	 * 获取：单据状态:0：新增 1：审核 2：作废
+	 * 获取：单据状态
 	 */
-	public String getBillstatus() {
+	public Integer getBillstatus() {
 		return billstatus;
 	}
 	/**
@@ -278,4 +368,65 @@ public class StorecontractmainEntity implements Serializable {
 	public Date getUptdate() {
 		return uptdate;
 	}
-}
+
+			        /**
+         * 设置：客户name
+         */
+        public void setOrgidname(String name) {
+            this.orgidname = name;
+            }
+    /**
+     * 获取：客户name
+     */
+    public String getOrgidname() {
+            return orgidname;
+            }
+		        /**
+         * 设置：付款方式name
+         */
+        public void setPaytypename(String name) {
+            this.paytypename = name;
+            }
+    /**
+     * 获取：付款方式name
+     */
+    public String getPaytypename() {
+            return paytypename;
+            }
+		        /**
+         * 设置：结算周期enumvaluename
+         */
+        public void setPaytimeenumvaluename(String enumvaluename) {
+            this.paytimeenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：结算周期enumvaluename
+     */
+    public String getPaytimeenumvaluename() {
+            return paytimeenumvaluename;
+            }
+		        /**
+         * 设置：币别boctypename
+         */
+        public void setBoctidboctypename(String boctypename) {
+            this.boctidboctypename = boctypename;
+            }
+    /**
+     * 获取：币别boctypename
+     */
+    public String getBoctidboctypename() {
+            return boctidboctypename;
+            }
+									        /**
+         * 设置：单据状态enumvaluename
+         */
+        public void setBillstatusenumvaluename(String enumvaluename) {
+            this.billstatusenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：单据状态enumvaluename
+     */
+    public String getBillstatusenumvaluename() {
+            return billstatusenumvaluename;
+            }
+						}

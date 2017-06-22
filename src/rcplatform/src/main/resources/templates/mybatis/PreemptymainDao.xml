@@ -4,11 +4,69 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.PreemptymainDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.PreemptymainEntity">
-		select * from preemptymain where id = #{value}
+		select
+				    			    						               		ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
+						    			    			    			    						               		ifnull((select name from  place b where a.portid=b.id),'') as portidname,
+						    			    						               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+						    						               		ifnull((select name from  place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
+						    						               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
+						    			    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+						    			    			    			    			    			    	        a.*
+		from preemptymain a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.PreemptymainEntity">
-		select * from preemptymain 
+		select
+																			               		ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
+																															               		ifnull((select name from  place b where a.portid=b.id),'') as portidname,
+																					               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+																               		ifnull((select name from  place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
+																               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
+																															                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																																		        a.*
+		from preemptymain a
+		<where>
+			                <if test="id != null and id != '' ">
+                `id` = #{id} and 				</if>
+			                <if test="billno != null and billno != '' ">
+                `billno` = #{billno} and 				</if>
+			                <if test="orgid != null and orgid != '' ">
+                `orgid` = #{orgid} and 				</if>
+			                <if test="ladingcode != null and ladingcode != '' ">
+                `ladingcode` = #{ladingcode} and 				</if>
+			                <if test="shipname != null and shipname != '' ">
+                `shipname` = #{shipname} and 				</if>
+			                <if test="flight != null and flight != '' ">
+                `flight` = #{flight} and 				</if>
+			                <if test="portid != null and portid != '' ">
+                `portid` = #{portid} and 				</if>
+			                <if test="boxqty != null and boxqty != '' ">
+                `boxqty` = #{boxqty} and 				</if>
+			                <if test="boxtype != null and boxtype != '' ">
+                `boxtype` = #{boxtype} and 				</if>
+			                <if test="takeboxplaceid != null and takeboxplaceid != '' ">
+                `takeboxplaceid` = #{takeboxplaceid} and 				</if>
+			                <if test="endplaceid != null and endplaceid != '' ">
+                `endplaceid` = #{endplaceid} and 				</if>
+			                <if test="bgntakedate != null and bgntakedate != '' ">
+                `bgntakedate` = #{bgntakedate} and 				</if>
+			                <if test="endtakedate != null and endtakedate != '' ">
+                `endtakedate` = #{endtakedate} and 				</if>
+			                <if test="remark != null and remark != '' ">
+                `remark` = #{remark} and 				</if>
+			                <if test="billstatus != null and billstatus != '' ">
+                `billstatus` = #{billstatus} and 				</if>
+			                <if test="makeuser != null and makeuser != '' ">
+                `makeuser` = #{makeuser} and 				</if>
+			                <if test="makedate != null and makedate != '' ">
+                `makedate` = #{makedate} and 				</if>
+			                <if test="accuser != null and accuser != '' ">
+                `accuser` = #{accuser} and 				</if>
+			                <if test="accdate != null and accdate != '' ">
+                `accdate` = #{accdate} and 				</if>
+			                <if test="uptdate != null and uptdate != '' ">
+                `uptdate` = #{uptdate}				</if>
+					</where>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -22,14 +80,15 @@
 		insert into preemptymain
 		(
 			`billno`, 
-			`orgid`,
+			`orgid`, 
 			`ladingcode`, 
 			`shipname`, 
 			`flight`, 
 			`portid`, 
 			`boxqty`, 
 			`boxtype`, 
-			`endplaceid`,
+			`takeboxplaceid`, 
+			`endplaceid`, 
 			`bgntakedate`, 
 			`endtakedate`, 
 			`remark`, 
@@ -43,14 +102,15 @@
 		values
 		(
 			#{billno}, 
-			#{orgId}, 
+			#{orgid}, 
 			#{ladingcode}, 
 			#{shipname}, 
 			#{flight}, 
 			#{portid}, 
 			#{boxqty}, 
 			#{boxtype}, 
-			#{endplaceId}, 
+			#{takeboxplaceid}, 
+			#{endplaceid}, 
 			#{bgntakedate}, 
 			#{endtakedate}, 
 			#{remark}, 
@@ -67,14 +127,15 @@
 		update preemptymain 
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="orgId != null">`orgid` = #{orgId}, </if>
+			<if test="orgid != null">`orgid` = #{orgid}, </if>
 			<if test="ladingcode != null">`ladingcode` = #{ladingcode}, </if>
 			<if test="shipname != null">`shipname` = #{shipname}, </if>
 			<if test="flight != null">`flight` = #{flight}, </if>
 			<if test="portid != null">`portid` = #{portid}, </if>
 			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
 			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
-			<if test="endplaceId != null">`endplaceid` = #{endplaceId}, </if>
+			<if test="takeboxplaceid != null">`takeboxplaceid` = #{takeboxplaceid}, </if>
+			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
 			<if test="bgntakedate != null">`bgntakedate` = #{bgntakedate}, </if>
 			<if test="endtakedate != null">`endtakedate` = #{endtakedate}, </if>
 			<if test="remark != null">`remark` = #{remark}, </if>

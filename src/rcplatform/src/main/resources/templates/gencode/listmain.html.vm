@@ -18,7 +18,11 @@
         <div class="grid-btn">
             <el-button-group>
                 $query
-                <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+                <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+                </el-button>
+                $end
+                $query
+                <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
                 </el-button>
                 $end
                 $save
@@ -44,7 +48,72 @@
                 <el-button type="primary" v-on:click="showdetail"><i class="fa fa-reply"></i>&nbsp;明细
                 </el-button>
             </el-button-group>
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
 
+                    #foreach($column in $columns)
+                        #if($column.columnName != $pk.columnName
+
+                        )
+                            <el-form-item label="${column.comments}">
+
+                                #if($column.columnName.endsWith("date"))
+
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.${column.attrname}" style="width: 100%;"></el-date-picker>
+                                #elseif($column.columnName.endsWith("time"))
+
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.${column.attrname}" style="width: 100%;"></el-date-picker>
+
+                                #elseif($column.attrType=="Double"||$column.attrType=="double")
+
+                                    <el-input-number style="width: 350px" v-model="q.${column.attrname}" :min="1" ></el-input-number>
+
+                                #elseif($column.refType.equalsIgnoreCase("dialog"))
+
+                                    <input style="width: 350px" v-model="q.${column.attrname}${column.refColumnName}" v-on:click="select${column.attrname}${column.refTable}"
+                                           placeholder="${column.comments}" class="el-input el-input__inner"></input>
+
+                                #elseif($column.refType.equalsIgnoreCase("dialogtree"))
+
+                                    <input style="width: 350px" v-model="q.${column.attrname}${column.refColumnName}"  v-on:click="openRefTree${column.refTable}${column.attrname}"
+                                           placeholder="${column.comments}" class="el-input el-input__inner"></input>
+
+                                #elseif($column.refType.equalsIgnoreCase("combo")
+                                )
+                                    <el-select style="width: 350px" v-model="q.${column.attrname}"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_${column.refTable}"
+                                                :key="item.${column.refColumnId}"
+                                                :label="item.${column.refColumnName}"
+                                                :value="item.${column.refColumnId}">
+                                        </el-option>
+                                    </el-select>
+                                #elseif( $column.refType.equalsIgnoreCase("enum"))
+                                    <el-select style="width: 350px" v-model="q.${column.attrname}"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum${column.refTable}"
+                                                :key="item.${column.refColumnId}"
+                                                :label="item.${column.refColumnName}"
+                                                :value="item.${column.refColumnId}">
+                                        </el-option>
+                                    </el-select>
+
+
+                                #else
+                                    <el-input style="width: 350px"  v-model="q.${column.attrname}" placeholder="${column.comments}"></el-input>
+
+
+                                #end
+
+                            </el-form-item>
+                        #end
+                    #end
+
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -71,7 +140,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right" inline="true" label-width="100px" style="padding:30px">
+        <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
 
             #foreach($column in $columns)
                 #if($column.columnName != $pk.columnName
@@ -134,7 +203,7 @@
 
         <table id="details" class="layui-table">
             <colgroup>
-                <col width="50">
+                <col width="80">
                 #foreach($column in $detailcolumns)
                     #if($column.columnName=="serialno")
                         <col width="50">
@@ -156,8 +225,8 @@
             <tr v-for="(item,index) in ${pathName}.details">
                 <td>
                     <el-button-group>
-                        <el-button type="primary" icon="add" size="mini" v-on:click="additem"></el-button>
-                        <el-button type="primary" icon="delete"  size="mini" v-on:click="delitem"></el-button>
+                        <el-button type="primary" icon="plus" size="mini" v-on:click="additem"> </el-button>
+                        <el-button type="primary" icon="delete"  size="mini" v-on:click="delitem"  v-bind:id="'btn-del-'+index" v-bind:idx="index"></el-button>
                     </el-button-group>
                 </td>
 
@@ -204,7 +273,7 @@
     #foreach($column in $columns)
         #if($column.refColumn && $column.refType.equalsIgnoreCase("dialog"))
             #set($ref ='<#include "')
-            #set($refend='_ref.html>"')
+            #set($refend='_ref.html">')
             $ref${parent}/${column.refTable}$refend
         #end
     #end

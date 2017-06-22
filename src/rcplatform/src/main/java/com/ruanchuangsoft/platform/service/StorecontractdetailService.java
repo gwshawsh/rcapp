@@ -10,7 +10,7 @@ import java.util.Map;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 20:39:26
+ * @date 2017-06-22 12:07:01
  */
 public interface StorecontractdetailService {
 	

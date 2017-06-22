@@ -48,6 +48,9 @@ public class TakeboxmainServiceImpl implements TakeboxmainService {
 	
 	@Override
 	public void update(TakeboxmainEntity takeboxmain){
+
+		takeboxdetailDao.deleteByBillNo(takeboxmain.getBillno());
+
         for(TakeboxdetailEntity item:takeboxmain.getDetails()){
 				takeboxdetailDao.save(item);
         }

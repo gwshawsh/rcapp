@@ -3,6 +3,10 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import com.ruanchuangsoft.platform.entity.TranscontractdetailEntity;
+
+import java.math.BigDecimal;
+
 
 
 /**
@@ -10,7 +14,7 @@ import java.util.List;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 15:52:16
+ * @date 2017-06-22 12:08:04
  */
 public class TranscontractmainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -26,17 +30,17 @@ public class TranscontractmainEntity implements Serializable {
 	//币别
 	private Long boctid;
 	//汇率
-	private Double rate;
+	private BigDecimal rate;
 	//税率
-	private Double taxrate;
+	private BigDecimal taxrate;
 	//生效日期
 	private Date bgndate;
 	//失效日期
 	private Date enddate;
 	//备注
 	private String remark;
-	//单据状态:0：新增 1：审核 2：作废
-	private String billstatus;
+	//单据状态
+	private Integer billstatus;
 	//制单人
 	private String makeuser;
 	//制单日期
@@ -48,15 +52,76 @@ public class TranscontractmainEntity implements Serializable {
 	//更新时间
 	private Date uptdate;
 
+
+	
+		
+
+	
+		
+
+	
+		            //客户
+            private String orgidname;
+		
+
+	
+		            //付款方式
+            private String paytypename;
+		
+
+	
+		            //币别
+            private String boctidboctypename;
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		            //单据状态
+            private String billstatusenumvaluename;
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+	//单据明细
 	private List<TranscontractdetailEntity> details;
 
-	public List<TranscontractdetailEntity> getDetails() {
-		return details;
-	}
-
 	public void setDetails(List<TranscontractdetailEntity> details) {
-		this.details = details;
-	}
+        this.details = details;
+    }
+
+    public List<TranscontractdetailEntity> getDetails() {
+        return details;
+    }
+
+
 
 	/**
 	 * 设置：
@@ -121,25 +186,25 @@ public class TranscontractmainEntity implements Serializable {
 	/**
 	 * 设置：汇率
 	 */
-	public void setRate(Double rate) {
+	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
 	/**
 	 * 获取：汇率
 	 */
-	public Double getRate() {
+	public BigDecimal getRate() {
 		return rate;
 	}
 	/**
 	 * 设置：税率
 	 */
-	public void setTaxrate(Double taxrate) {
+	public void setTaxrate(BigDecimal taxrate) {
 		this.taxrate = taxrate;
 	}
 	/**
 	 * 获取：税率
 	 */
-	public Double getTaxrate() {
+	public BigDecimal getTaxrate() {
 		return taxrate;
 	}
 	/**
@@ -179,15 +244,15 @@ public class TranscontractmainEntity implements Serializable {
 		return remark;
 	}
 	/**
-	 * 设置：单据状态:0：新增 1：审核 2：作废
+	 * 设置：单据状态
 	 */
-	public void setBillstatus(String billstatus) {
+	public void setBillstatus(Integer billstatus) {
 		this.billstatus = billstatus;
 	}
 	/**
-	 * 获取：单据状态:0：新增 1：审核 2：作废
+	 * 获取：单据状态
 	 */
-	public String getBillstatus() {
+	public Integer getBillstatus() {
 		return billstatus;
 	}
 	/**
@@ -250,4 +315,53 @@ public class TranscontractmainEntity implements Serializable {
 	public Date getUptdate() {
 		return uptdate;
 	}
-}
+
+			        /**
+         * 设置：客户name
+         */
+        public void setOrgidname(String name) {
+            this.orgidname = name;
+            }
+    /**
+     * 获取：客户name
+     */
+    public String getOrgidname() {
+            return orgidname;
+            }
+		        /**
+         * 设置：付款方式name
+         */
+        public void setPaytypename(String name) {
+            this.paytypename = name;
+            }
+    /**
+     * 获取：付款方式name
+     */
+    public String getPaytypename() {
+            return paytypename;
+            }
+		        /**
+         * 设置：币别boctypename
+         */
+        public void setBoctidboctypename(String boctypename) {
+            this.boctidboctypename = boctypename;
+            }
+    /**
+     * 获取：币别boctypename
+     */
+    public String getBoctidboctypename() {
+            return boctidboctypename;
+            }
+							        /**
+         * 设置：单据状态enumvaluename
+         */
+        public void setBillstatusenumvaluename(String enumvaluename) {
+            this.billstatusenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：单据状态enumvaluename
+     */
+    public String getBillstatusenumvaluename() {
+            return billstatusenumvaluename;
+            }
+						}

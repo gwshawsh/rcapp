@@ -3,6 +3,7 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+
 import java.math.BigDecimal;
 
 
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 23:21:01
+ * @date 2017-06-22 09:03:59
  */
 public class HeavymainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -21,7 +22,7 @@ public class HeavymainEntity implements Serializable {
 	private Long id;
 	//单据号
 	private String billno;
-	//客户id
+	//客户
 	private Long orgid;
 	//提单号
 	private String ladingcode;
@@ -62,85 +63,19 @@ public class HeavymainEntity implements Serializable {
 	//更新时间
 	private Date uptdate;
 
-
-	
-
-
-	
-
-
-	        //客户id
+			        //客户
         private String orgidname;
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	        //港口
+					        //港口
         private String portidname;
-	
-
-
-	
-
-
-	        //箱型
+			        //箱型
         private String boxtypeboxsize;
-	
-
-
-	        //提箱场站
+		        //提箱场站
         private String takeboxplaceidname;
-	
-
-
-	        //目的地
+		        //目的地
         private String endplaceidname;
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	        //单据状态
+							        //单据状态
         private String billstatusenumvaluename;
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
+						
 	/**
 	 * 设置：
 	 */
@@ -166,13 +101,13 @@ public class HeavymainEntity implements Serializable {
 		return billno;
 	}
 	/**
-	 * 设置：客户id
+	 * 设置：客户
 	 */
 	public void setOrgid(Long orgid) {
 		this.orgid = orgid;
 	}
 	/**
-	 * 获取：客户id
+	 * 获取：客户
 	 */
 	public Long getOrgid() {
 		return orgid;
@@ -408,13 +343,13 @@ public class HeavymainEntity implements Serializable {
 
 
 									        /**
-         * 设置：客户idname
+         * 设置：客户name
          */
         public void setOrgidname(String name) {
             this.orgidname = name;
         }
         /**
-         * 获取：客户idname
+         * 获取：客户name
          */
         public String getOrgidname() {
             return orgidname;

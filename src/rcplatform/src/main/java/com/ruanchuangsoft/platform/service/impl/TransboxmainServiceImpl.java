@@ -48,10 +48,13 @@ public class TransboxmainServiceImpl implements TransboxmainService {
 	
 	@Override
 	public void update(TransboxmainEntity transboxmain){
+		transboxdetailDao.deleteByBillNo(transboxmain.getBillno());
+
         for(TransboxdetailEntity item:transboxmain.getDetails()){
 				transboxdetailDao.save(item);
         }
-			transboxmainDao.update(transboxmain);
+
+		transboxmainDao.update(transboxmain);
 	}
 	
 	@Override
@@ -73,12 +76,11 @@ public class TransboxmainServiceImpl implements TransboxmainService {
 
     @Override
     public void auditBatch(Long[] ids){
-			//transboxmainDao.auditBatch(ids);
+			transboxmainDao.auditBatch(ids);
     }
 
     @Override
     public void unauditBatch(Long[] ids){
-
-//		transboxmainDao.unauditBatch(ids);
+			transboxmainDao.unauditBatch(ids);
     }
 }

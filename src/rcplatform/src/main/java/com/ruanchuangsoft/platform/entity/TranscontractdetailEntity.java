@@ -4,13 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+import java.math.BigDecimal;
+
+
 
 /**
  * 运输合同明细
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 15:52:16
+ * @date 2017-06-22 12:08:04
  */
 public class TranscontractdetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -24,16 +27,27 @@ public class TranscontractdetailEntity implements Serializable {
 	//线路
 	private Long lineid;
 	//箱型
-	private String boxtype;
-	//空重类型：0-空箱 1-重箱
+	private Long boxtype;
+	//空重类型
 	private String weighttype;
 	//应付单价
-	private Double boxprice;
+	private BigDecimal boxprice;
 	//含税应付单价
-	private Double boxpricetax;
+	private BigDecimal boxpricetax;
 	//车型
 	private String cartype;
+	//更新时间
+	private Date uptdate;
 
+				        //线路
+        private String lineidname;
+		        //箱型
+        private String boxtypeboxsize;
+		        //空重类型
+        private String weighttypeenumvaluename;
+				        //车型
+        private String cartypecartypename;
+		
 	/**
 	 * 设置：
 	 */
@@ -85,23 +99,23 @@ public class TranscontractdetailEntity implements Serializable {
 	/**
 	 * 设置：箱型
 	 */
-	public void setBoxtype(String boxtype) {
+	public void setBoxtype(Long boxtype) {
 		this.boxtype = boxtype;
 	}
 	/**
 	 * 获取：箱型
 	 */
-	public String getBoxtype() {
+	public Long getBoxtype() {
 		return boxtype;
 	}
 	/**
-	 * 设置：空重类型：0-空箱 1-重箱
+	 * 设置：空重类型
 	 */
 	public void setWeighttype(String weighttype) {
 		this.weighttype = weighttype;
 	}
 	/**
-	 * 获取：空重类型：0-空箱 1-重箱
+	 * 获取：空重类型
 	 */
 	public String getWeighttype() {
 		return weighttype;
@@ -109,25 +123,25 @@ public class TranscontractdetailEntity implements Serializable {
 	/**
 	 * 设置：应付单价
 	 */
-	public void setBoxprice(Double boxprice) {
+	public void setBoxprice(BigDecimal boxprice) {
 		this.boxprice = boxprice;
 	}
 	/**
 	 * 获取：应付单价
 	 */
-	public Double getBoxprice() {
+	public BigDecimal getBoxprice() {
 		return boxprice;
 	}
 	/**
 	 * 设置：含税应付单价
 	 */
-	public void setBoxpricetax(Double boxpricetax) {
+	public void setBoxpricetax(BigDecimal boxpricetax) {
 		this.boxpricetax = boxpricetax;
 	}
 	/**
 	 * 获取：含税应付单价
 	 */
-	public Double getBoxpricetax() {
+	public BigDecimal getBoxpricetax() {
 		return boxpricetax;
 	}
 	/**
@@ -142,4 +156,66 @@ public class TranscontractdetailEntity implements Serializable {
 	public String getCartype() {
 		return cartype;
 	}
-}
+	/**
+	 * 设置：更新时间
+	 */
+	public void setUptdate(Date uptdate) {
+		this.uptdate = uptdate;
+	}
+	/**
+	 * 获取：更新时间
+	 */
+	public Date getUptdate() {
+		return uptdate;
+	}
+
+
+												        /**
+         * 设置：线路name
+         */
+        public void setLineidname(String name) {
+            this.lineidname = name;
+        }
+        /**
+         * 获取：线路name
+         */
+        public String getLineidname() {
+            return lineidname;
+        }
+        			        /**
+         * 设置：箱型boxsize
+         */
+        public void setBoxtypeboxsize(String boxsize) {
+            this.boxtypeboxsize = boxsize;
+        }
+        /**
+         * 获取：箱型boxsize
+         */
+        public String getBoxtypeboxsize() {
+            return boxtypeboxsize;
+        }
+        			        /**
+         * 设置：空重类型enumvaluename
+         */
+        public void setWeighttypeenumvaluename(String enumvaluename) {
+            this.weighttypeenumvaluename = enumvaluename;
+        }
+        /**
+         * 获取：空重类型enumvaluename
+         */
+        public String getWeighttypeenumvaluename() {
+            return weighttypeenumvaluename;
+        }
+        									        /**
+         * 设置：车型cartypename
+         */
+        public void setCartypecartypename(String cartypename) {
+            this.cartypecartypename = cartypename;
+        }
+        /**
+         * 获取：车型cartypename
+         */
+        public String getCartypecartypename() {
+            return cartypecartypename;
+        }
+        				}

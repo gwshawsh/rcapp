@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 23:21:01
+ * @date 2017-06-22 09:03:59
  */
 @Mapper
 public interface HeavymainDao extends BaseDao<HeavymainEntity> {

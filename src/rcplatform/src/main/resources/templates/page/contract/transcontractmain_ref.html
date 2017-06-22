@@ -1,10 +1,10 @@
-<div id="ref_heavymain" style="display: none;padding:10px;">
-    <table id="ref_grid_heavymain"></table>
-    <div id="ref_gridpager_heavymain"></div>
+<div id="ref_transcontractmain" style="display: none;padding:10px;">
+    <table id="ref_grid_transcontractmain"></table>
+    <div id="ref_gridpager_transcontractmain"></div>
 </div>
 <script>
     var mutilflag = false;
-    function showrefgrid_heavymain(title, callback, pflag) {
+    function showrefgrid_transcontractmain(title, callback, pflag) {
         mutiflag = pflag || false;
         layer.open({
             type: 1,
@@ -14,10 +14,10 @@
             area: ['450px', '450px'],
             shade: 0,
             shadeClose: false,
-            content: jQuery("#ref_heavymain"),
+            content: jQuery("#ref_transcontractmain"),
             btn: ['确定', '取消'],
             btn1: function (index) {
-                var row = getSelectedRowData("ref_grid_heavymain");
+                var row = getSelectedRowData("ref_grid_transcontractmain");
                 if (callback) {
                     callback(row);
                 }
@@ -29,8 +29,8 @@
 
 
     $(function () {
-        $("#ref_grid_heavymain").jqGrid({
-            url: '../heavymain/list',
+        $("#ref_grid_transcontractmain").jqGrid({
+            url: '../transcontractmain/list',
             datatype: "json",
             colModel: [
                                                             {label: 'id', name: 'id', width: 50, key: true},
@@ -40,53 +40,27 @@
                             name: 'billno',
                             width: 80
                         }, 
+                                                                                { label: '客户', name: 'name', width: 80 }, 
+                                                                                { label: '付款方式', name: 'name', width: 80 }, 
+                                                                                { label: '币别', name: 'boctypename', width: 80 }, 
                                                                                 {
-                            label: '客户',
-                            name: 'orgid',
+                            label: '汇率',
+                            name: 'rate',
                             width: 80
                         }, 
                                                                                 {
-                            label: '提单号',
-                            name: 'ladingcode',
+                            label: '税率',
+                            name: 'taxrate',
                             width: 80
                         }, 
                                                                                 {
-                            label: '船名',
-                            name: 'shipname',
+                            label: '生效日期',
+                            name: 'bgndate',
                             width: 80
                         }, 
                                                                                 {
-                            label: '航次',
-                            name: 'flight',
-                            width: 80
-                        }, 
-                                                                                { label: '港口', name: 'name', width: 80 }, 
-                                                                                {
-                            label: '箱量',
-                            name: 'boxqty',
-                            width: 80
-                        }, 
-                                                                                { label: '箱型', name: 'boxsize', width: 80 }, 
-                                                                                { label: '提箱场站', name: 'name', width: 80 }, 
-                                                                                { label: '目的地', name: 'name', width: 80 }, 
-                                                                                {
-                            label: '集港时间',
-                            name: 'bgnshipdatetime',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '截港时间',
-                            name: 'endshipdatetime',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '最早到场时间',
-                            name: 'bgnplanarrtime',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '最晚到场时间',
-                            name: 'endplanarrtime',
+                            label: '失效日期',
+                            name: 'enddate',
                             width: 80
                         }, 
                                                                                 {
@@ -129,7 +103,7 @@
             rownumWidth: 25,
             autowidth: true,
             multiselect: true,
-            pager: "#ref_gridpager_heavymain",
+            pager: "#ref_gridpager_transcontractmain",
             jsonReader: {
                 root: "page.list",
                 page: "page.currPage",
@@ -143,7 +117,7 @@
             },
             beforeSelectRow: function () {
                 if (!mutiflag) {
-                    $("#ref_grid_heavymain").jqGrid('resetSelection');
+                    $("#ref_grid_transcontractmain").jqGrid('resetSelection');
                 }
                 return (true);
             },

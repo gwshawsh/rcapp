@@ -5,7 +5,7 @@
 
     <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TransboxmainEntity">
 		select
-																                    ifnull((select enumvaluename from  enumtable b where a.refbilltype=b.enumvalueid and b.enumtype='1007'),'') as refbilltypeenumvaluename,
+																                    ifnull((select enumvaluename from  enumtable b where a.refbilltype=b.enumvalueid and b.enumtype='1006'),'') as refbilltypeenumvaluename,
 												               		ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
 																					               		ifnull((select name from  place b where a.portid=b.id),'') as portidname,
 															               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
@@ -19,7 +19,7 @@
 
     <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TransboxmainEntity">
         select
-        ifnull((select enumvaluename from enumtable b where a.refbilltype=b.enumvalueid and b.enumtype='1007'),'') as
+        ifnull((select enumvaluename from enumtable b where a.refbilltype=b.enumvalueid and b.enumtype='1006'),'') as
         refbilltypeenumvaluename,
         ifnull((select name from organization b where a.orgid=b.id),'') as orgidname,
         ifnull((select name from place b where a.portid=b.id),'') as portidname,

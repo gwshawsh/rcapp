@@ -32,6 +32,13 @@
 		#end
         a.*
         from ${tableName} a
+        <where>
+			#foreach($column in $columns)
+                <if test="$column.attrname != null and $column.attrname != '' ">
+                    `$column.columnName` = #{$column.attrname}#if($velocityCount != $columns.size()) and #end
+                </if>
+			#end
+        </where>
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>

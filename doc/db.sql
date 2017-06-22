@@ -699,6 +699,8 @@ CREATE TABLE `heavymain`(
   `endshipdatetime` datetime COMMENT '截港时间',
   `bgnplanarrtime` datetime COMMENT '最早到场时间',
   `endplanarrtime` datetime COMMENT '最晚到场时间',
+  `fengxiangtime` datetime COMMENT '封箱时间',
+  `baoguantime` datetime COMMENT '报关时间',
   `remark` varchar(1000) COMMENT '备注',
   `billstatus` varchar(50) COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename', -- 0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
   `makeuser` varchar(20) COMMENT '制单人',
@@ -722,13 +724,15 @@ CREATE TABLE `factorymain`(
   `portid` bigint COMMENT '港口:combo:place:id:name',
   `boxqty` int COMMENT '箱量',
   `boxtype` bigint COMMENT '箱型:combo:boxs:id:boxsize',
-  `takeboxplaceid` bigint COMMENT '提箱场站:dialog:place:id:name', 
+  `takeboxplaceid` bigint COMMENT '提箱场站:combo:place:id:name', 
   `endplaceid` bigint COMMENT '装卸地:combo:place:id:name', 
   `backplaceid` bigint COMMENT '返回地:combo:place:id:name', 
   `bgnshipdatetime` datetime COMMENT '集港时间',
   `endshipdatetime` datetime COMMENT '截港时间',
   `bgnplanarrtime` datetime COMMENT '最早到场时间',
   `endplanarrtime` datetime COMMENT '最晚到场时间',
+  `fengxiangtime` datetime COMMENT '封箱时间',
+  `baoguantime` datetime COMMENT '报关时间',
   `remark` varchar(1000) COMMENT '备注',
   `billstatus` varchar(50) COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename', -- 0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
   `makeuser` varchar(20) COMMENT '制单人',
@@ -738,6 +742,36 @@ CREATE TABLE `factorymain`(
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='门点计划';
+ 
+
+
+-- 疏港计划主表
+DROP TABLE IF EXISTS `leaveportmain`;
+CREATE TABLE `leaveportmain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `orgid` bigint COMMENT '客户:dialogtree:organization:id:name',
+  `ladingcode` varchar(50) COMMENT '提单号',
+  `shipname` varchar(20) COMMENT '船名',
+  `flight` varchar(50) COMMENT '航次', 
+  `portid` bigint COMMENT '港口:combo:place:id:name',
+  `shipcompany` bigint COMMENT '船公司:combo:organization:id:name',
+  `boxqty` int COMMENT '箱量',
+  `boxtype` bigint COMMENT '箱型:combo:boxs:id:boxsize',
+  `takeboxplaceid` bigint COMMENT '起运地:combo:place:id:name', 
+  `endplaceid` bigint COMMENT '目的地:combo:place:id:name', 
+  `planarrporttime` datetime COMMENT '预计到港时间',
+  `planarrtime` datetime COMMENT '预计到场时间',
+  `remark` varchar(1000) COMMENT '备注',
+  `billstatus` varchar(50) COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename', -- 0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
+  `makeuser` varchar(20) COMMENT '制单人',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` varchar(20) COMMENT '审核人',
+  `accdate` datetime COMMENT '审核日期',
+  `uptdate` datetime COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='疏港计划';
+ 
  
 
 
@@ -766,29 +800,6 @@ CREATE TABLE `preemptymain`(
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预约用箱';
- 
-
--- 疏港计划主表
-DROP TABLE IF EXISTS `leaveportmain`;
-CREATE TABLE `leaveportmain`(
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `billno` varchar(50) COMMENT '单据号',
-  `port` bigint COMMENT '港口:combo:place:id:name',
-  `shipcompany` bigint COMMENT '船公司:combo:organization:id:name',
-  `boxqty` int COMMENT '箱量',
-  `boxtype` bigint COMMENT '箱型:combo:boxs:id:boxsize',
-  `takeboxplaceid` bigint COMMENT '提箱场站:combo:place:id:name', 
-  `endplaceid` bigint COMMENT '目的地:combo:place:id:name', 
-  `planarrporttime` datetime COMMENT '预计到港时间',
-  `planarrtime` datetime COMMENT '预计到场时间',
-  `makeuser` varchar(20) COMMENT '制单人',
-  `makedate` datetime COMMENT '制单日期',
-  `accuser` varchar(20) COMMENT '审核人',
-  `accdate` datetime COMMENT '审核日期',
-  `uptdate` datetime COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='疏港计划';
- 
  
 
 -- 放箱计划主表
@@ -1060,7 +1071,7 @@ CREATE TABLE `transcontractdetail`(
 
 -- 运输成本
 DROP TABLE IF EXISTS `transcosting`;
-CREATE TABLE `transcontractmain`(
+CREATE TABLE `transcosting`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `bgndate` datetime COMMENT '生效日期',--  
   `enddate` datetime COMMENT '失效日期',

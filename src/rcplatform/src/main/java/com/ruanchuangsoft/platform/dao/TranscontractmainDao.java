@@ -7,9 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 15:52:16
+ * @date 2017-06-22 12:08:04
  */
 @Mapper
 public interface TranscontractmainDao extends BaseDao<TranscontractmainEntity> {
-	
+    int auditBatch(Object[] id);
+    int unauditBatch(Object[] id);
 }

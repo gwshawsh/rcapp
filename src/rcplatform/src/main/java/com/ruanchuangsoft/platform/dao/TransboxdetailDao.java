@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 00:43:25
+ * @date 2017-06-22 09:37:11
  */
 @Mapper
 public interface TransboxdetailDao extends BaseDao<TransboxdetailEntity> {

@@ -14,7 +14,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 00:43:25
+ * @date 2017-06-22 09:37:11
  */
 public class TransboxmainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

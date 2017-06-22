@@ -17,6 +17,32 @@ var setting = {
 var vm = new Vue({
     el: '#rrapp',
     data: {
+        q: {
+            billno: "",
+            refbillno: "",
+            refbilltype: "",
+            orgid: "",
+            ladingcode: "",
+            shipname: "",
+            flight: "",
+            portid: "",
+            boxqty: "",
+            boxtype: "",
+            takeboxplaceid: "",
+            endplaceid: "",
+            bgnshipdatetime: "",
+            endshipdatetime: "",
+            bgnplanarrtime: "",
+            endplanarrtime: "",
+            remark: "",
+            billstatus: "",
+            makeuser: "",
+            makedate: "",
+            accuser: "",
+            accdate: "",
+            uptdate: ""
+        },
+        showQuery: false,
         showList: true,
         showDetailList: true,
         title: null,
@@ -45,7 +71,7 @@ var vm = new Vue({
         },
 
         //用户下拉参照的属性
-        ref_enum1007: [],
+        ref_enum1006: [],
 
         ref_place: [],
         ref_boxs: [],
@@ -82,6 +108,9 @@ var vm = new Vue({
         }
     },
     methods: {
+        showQueryPanel: function () {
+            vm.showQuery = !vm.showQuery;
+        },
         query: function () {
             vm.reload();
         },
@@ -168,7 +197,7 @@ var vm = new Vue({
                 return;
             }
 
-            confirm('确定要删除选中的记录？', function () {
+            confirm('确定要审核选中的记录？', function () {
                 $.ajax({
                     type: "POST",
                     url: "../transboxmain/audit",
@@ -192,7 +221,7 @@ var vm = new Vue({
                 return;
             }
 
-            confirm('确定要删除选中的记录？', function () {
+            confirm('确定要反审核选中的记录？', function () {
                 $.ajax({
                     type: "POST",
                     url: "../transboxmain/unaudit",
@@ -237,9 +266,9 @@ var vm = new Vue({
         //生成参照调用函数
 
         //生成参照调用下拉框函数,用来初始化远程数据
-        getRef1007: function () {
-            $.get("../enumtable/listone?enumid=1007&page=1&limit=1000", function (r) {
-                vm.ref_enum1007 = r.page.list;
+        getRef1006: function () {
+            $.get("../enumtable/listone?enumid=1006&page=1&limit=1000", function (r) {
+                vm.ref_enum1006 = r.page.list;
             });
         },
         getRefplace: function () {
@@ -303,6 +332,7 @@ var vm = new Vue({
             vm.showDetailList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
+                postData: {'query': JSON.stringify(vm.q)},
                 page: page
             }).trigger("reloadGrid");
         },
@@ -353,7 +383,7 @@ var vm = new Vue({
                 feein: "",
                 feeout: "",
                 profit: "",
-                uptdate: mktime,
+                uptdate: mktime
             };
 
 
@@ -380,7 +410,7 @@ $(function () {
         url: '../transboxmain/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', width: 50, key: true},
+            {label: 'id', name: 'id', width: 50, key: true, hidden: true},
             {label: '单据号', name: 'billno', width: 80},
             {label: '参照单据号', name: 'refbillno', width: 80},
             {label: '参照单据类型', name: 'refbilltypeenumvaluename', width: 80}, {label: '客户', name: 'orgid', width: 80},
@@ -426,6 +456,9 @@ $(function () {
             order: "order"
         },
         shrinkToFit: false,
+        onSelectRow: function () {
+            vm.queryDetail();
+        },
         gridComplete: function () {
             //隐藏grid底部滚动条
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
@@ -437,11 +470,9 @@ $(function () {
         url: '../transboxmain/listdetail',
         datatype: "local",
         colModel: [
-            {label: 'id', name: 'id', width: 50, key: true},
-            {label: '单据号', name: 'billno', width: 80},
+            {label: 'id', name: 'id', width: 50, key: true, hidden: true},
             {label: '序号', name: 'serialno', width: 80},
-            {label: '运输公司', name: 'transcompanyidname', width: 80}, {label: '放箱计划单据号', name: 'refbillno', width: 80},
-            {label: '放箱计划序号', name: 'refserialno', width: 80},
+            {label: '运输公司', name: 'transcompanyidname', width: 80}, {label: '参照单据号', name: 'refbillno', width: 80},
             {label: '原起运地点', name: 'startplaceid1name', width: 80}, {
                 label: '现起运点',
                 name: 'startplaceid2name',
@@ -453,20 +484,22 @@ $(function () {
             }, {label: '箱号', name: 'boxno', width: 80},
             {label: '铅封号', name: 'fengno', width: 80},
             {label: '温度', name: 'wendu', width: 80},
-            {label: '计划提箱时间', name: 'plantaketime', width: 80},
-            {label: '实际提箱时间', name: 'realtaketime', width: 80},
-            {label: '计划到场时间', name: 'planarrvetime', width: 80},
-            {label: '实际到场时间', name: 'realarrvetime', width: 80},
+            {label: '计划提箱', name: 'plantaketime', width: 80},
+            {label: '实际提箱', name: 'realtaketime', width: 80},
+            {label: '计划到场', name: 'planarrvetime', width: 80},
+            {label: '实际到场', name: 'realarrvetime', width: 80},
             {label: '车牌号', name: 'carno', width: 80},
             {label: '车型', name: 'cartypecartypename', width: 80}, {
                 label: '燃料',
                 name: 'carenergytypeenumvaluename',
                 width: 80
-            }, {label: '司机编码', name: 'driversidname', width: 80}, {label: '司机姓名', name: 'driversname', width: 80},
+            },
+            {label: '司机编码', name: 'driversidname', width: 80},
+            {label: '司机姓名', name: 'driversname', width: 80},
             {label: '应收费用', name: 'feein', width: 80},
             {label: '应付费用', name: 'feeout', width: 80},
             {label: '利润', name: 'profit', width: 80},
-            {label: '更新时间', name: 'uptdate', width: 80},
+            {label: '更新时间', name: 'uptdate', width: 80}
         ],
         viewrecords: true,
         height: 385,
@@ -497,7 +530,7 @@ $(function () {
     });
 
     //执行调用参照调用下拉框函数,初始化下拉数据
-    vm.getRef1007();
+    vm.getRef1006();
     vm.getRefTreeorganizationorgid();
     vm.getRefplace();
     vm.getRefboxs();

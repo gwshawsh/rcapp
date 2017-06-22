@@ -1,8 +1,28 @@
+//生成弹出树形空间参照
+                   var ztreeorgid;
+                                                                        
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    }
+};
 
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+	    q:{
+                                                                            billno:"",                                                                 orgid:"",                                                                 ladingcode:"",                                                                 shipname:"",                                                                 flight:"",                                                                 portid:"",                                                                 boxqty:"",                                                                 boxtype:"",                                                                 takeboxplaceid:"",                                                                 endplaceid:"",                                                                 bgntakedate:"",                                                                 endtakedate:"",                                                                 remark:"",                                                                 billstatus:"",                                                                 makeuser:"",                                                                 makedate:"",                                                                 accuser:"",                                                                 accdate:"",                                                                 uptdate:""                            
+        },
 		showList: true,
+        showQuery:false,
 		title: null,
     //用于日期快捷控件
     pickerOptions1: {
@@ -28,15 +48,25 @@ var vm = new Vue({
         }]
     },
         //创建参照
-					                								                								                					ref_boxs:[],
+					                								                					ref_place:[],
+
+                								                					ref_boxs:[],
 
                 								                                    ref_enum1003:[],
                 					
         //创建实体类
         preemptymain: {
-                                                                            billno:"",                                                                 orgid:"",                                                                 ladingcode:"",                                                                 shipname:"",                                                                 flight:"",                                                                 portid:"",                                                                 boxqty:"",                                                                 boxtype:"",                                                                 takeboxplaceid:"",                                                                 endplaceid:"",                                                                 bgntakedate:"",                                                                 endtakedate:"",                                                                 remark:"",                                                                 billstatus:"",                                                                 makeuser:"",                                                                 makedate:"",                                                                 accuser:"",                                                                 accdate:"",                                                                 uptdate:""                                    }
+                                                orgidname:"",
+                                                                portidname:"",
+                                                                boxtypeboxsize:"",
+                                                                billstatusenumvaluename:"",
+                                                                                                        billno:"",                                                                 orgid:"",                                                                 ladingcode:"",                                                                 shipname:"",                                                                 flight:"",                                                                 portid:"",                                                                 boxqty:"",                                                                 boxtype:"",                                                                 takeboxplaceid:"",                                                                 endplaceid:"",                                                                 bgntakedate:"",                                                                 endtakedate:"",                                                                 remark:"",                                                                 billstatus:"",                                                                 makeuser:"",                                                                 makedate:"",                                                                 accuser:"",                                                                 accdate:"",                                                                 uptdate:""                            
+        }
 	},
 	methods: {
+	    showQueryPanel:function(){
+	        vm.showQuery=!vm.showQuery;
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -45,7 +75,13 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.preemptymain = {
-                                                                                                                                                    billno:"*",                                                                                                                                                             orgid:"",                                                                                                                                                             ladingcode:"",                                                                                                                                                             shipname:"",                                                                                                                                                             flight:"",                                                                                                                                                             portid:"",                                                                                                                                                             boxqty:"",                                                                                                                                                             boxtype:"",                                                                                                                                                             takeboxplaceid:"",                                                                                                                                                             endplaceid:"",                                                                                                                                                             bgntakedate:"",                                                                                                                                                             endtakedate:"",                                                                                                                                                             remark:"",                                                                                                                                                             billstatus:"",                                                                                                                                                             makeuser:gUserName,                                                                                                                                                             makedate:mktime,                                                                                                                                                             accuser:"",                                                                                                                                                             accdate:"",                                                                                                                                                             uptdate:""                                                                                    };
+                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                            orgidname:"",
+                                                                                portidname:"",
+                                                                                boxtypeboxsize:"",
+                                                                                billstatusenumvaluename:"",
+                                                                                                                                                                billno:"*",                                                                                                                                     orgid:"",                                                                                                                                     ladingcode:"",                                                                                                                                     shipname:"",                                                                                                                                     flight:"",                                                                                                                                     portid:"",                                                                                                                                     boxqty:"",                                                                                                                                     boxtype:"",                                                                                                                                     takeboxplaceid:"",                                                                                                                                     endplaceid:"",                                                                                                                                     bgntakedate:"",                                                                                                                                     endtakedate:"",                                                                                                                                     remark:"",                                                                                                                                     billstatus:"",                                                                                                                                     makeuser:gUserName,                                                                                                                                     makedate:mktime,                                                                                                                                     accuser:"",                                                                                                                                     accdate:"",                                                                                                                                     uptdate:""                                                            
+            };
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -99,37 +135,15 @@ var vm = new Vue({
 		},
 
         //生成参照调用弹出框函数
-															                selectorgidorganization: function (event) {
-                    showrefgrid_organization("参照", function (data) {
-                        var seldata = data;
-                        vm.preemptymain.orgid =seldata['id'];
-                        vm.preemptymain.orgidorganizationname =seldata['name'];
-                    });
-                },
-																							                selectportidplace: function (event) {
-                    showrefgrid_place("参照", function (data) {
-                        var seldata = data;
-                        vm.preemptymain.portid =seldata['id'];
-                        vm.preemptymain.portidplacename =seldata['name'];
-                    });
-                },
-																		                selecttakeboxplaceidplace: function (event) {
-                    showrefgrid_place("参照", function (data) {
-                        var seldata = data;
-                        vm.preemptymain.takeboxplaceid =seldata['id'];
-                        vm.preemptymain.takeboxplaceidplacename =seldata['name'];
-                    });
-                },
-								                selectendplaceidplace: function (event) {
-                    showrefgrid_place("参照", function (data) {
-                        var seldata = data;
-                        vm.preemptymain.endplaceid =seldata['id'];
-                        vm.preemptymain.endplaceidplacename =seldata['name'];
-                    });
-                },
-																																																		
+																																																																																																						
         //生成参照调用下拉框函数,用来初始化远程数据
-															                getRefboxs: function () {
+										                getRefplace: function () {
+                    $.get("../place/list?page=1&limit=1000", function (r) {
+                        vm.ref_place = r.page.list;
+                    });
+                },
+
+            					                getRefboxs: function () {
                     $.get("../boxs/list?page=1&limit=1000", function (r) {
                         vm.ref_boxs = r.page.list;
                     });
@@ -141,8 +155,88 @@ var vm = new Vue({
                     });
                 },
             		
+        //生成弹出树形空间参照
 
+        getRefTreeorganizationorgid: function(menuId){
+            //加载菜单树
+            $.get("../organization/select", function(r){
+                ztreeorgid = $.fn.zTree.init($("#refTreeorganization"), setting, r.treeList);
+                var node = ztreeorgid.getNodeByParam("id", vm.preemptymain.orgid);
+                ztreeorgid.selectNode(node);
+                vm.preemptymain.orgidname = node.name;
 
+            })
+        },
+
+        openRefTreeorganizationorgid: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#treelayerorganization"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztreeorgid.getSelectedNodes();
+                    //选择上级菜单
+                    vm.preemptymain.orgid = node[0].id;
+                    vm.preemptymain.orgidname = node[0].name;
+
+                    layer.close(index);
+                }
+            });
+        },
+                audit:function(event){
+            var ids = getSelectedRows();
+            if(ids == null){
+                return ;
+            }
+
+            confirm('确定要审核选中的记录？', function(){
+                $.ajax({
+                    type: "POST",
+                    url: "../preemptymain/audit",
+                    data: JSON.stringify(ids),
+                    success: function(r){
+                        if(r.code == 0){
+                            alert('操作成功', function(index){
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        }else{
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+
+        unaudit:function(){
+            var ids = getSelectedRows();
+            if(ids == null){
+                return ;
+            }
+
+            confirm('确定要反审核选中的记录？', function(){
+                $.ajax({
+                    type: "POST",
+                    url: "../preemptymain/unaudit",
+                    data: JSON.stringify(ids),
+                    success: function(r){
+                        if(r.code == 0){
+                            alert('操作成功', function(index){
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        }else{
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+        
         getInfo: function(id){
             $.get("../preemptymain/info/"+id, function(r){
                 vm.preemptymain = r.preemptymain;
@@ -152,9 +246,10 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
+                postData: {'query': JSON.stringify(vm.q)},
                 page:page
             }).trigger("reloadGrid");
-        },
+        }
 	}
 });
 
@@ -163,9 +258,9 @@ $(function () {
         url: '../preemptymain/list',
         datatype: "json",
         colModel: [
-							                    { label: 'id', name: 'id', width: 50, key: true },
+							                    { label: 'id', name: 'id', width: 50, key: true,hidden:true },
                 							                    { label: '单据号', name: 'billno', width: 80 }, 
-											                    { label: '客户id', name: 'orgidname', width: 80 },                 							                    { label: '提单号', name: 'ladingcode', width: 80 }, 
+											                    { label: '客户', name: 'orgidname', width: 80 },                 							                    { label: '提单号', name: 'ladingcode', width: 80 }, 
 											                    { label: '船名', name: 'shipname', width: 80 }, 
 											                    { label: '航次', name: 'flight', width: 80 }, 
 											                    { label: '港口', name: 'portidname', width: 80 },                 							                    { label: '箱量', name: 'boxqty', width: 80 }, 
@@ -208,9 +303,12 @@ $(function () {
     });
 
     //执行调用参照调用下拉框函数,初始化下拉数据
-									            vm.getRefboxs();
+			            vm.getRefTreeorganizationorgid();
+					            vm.getRefplace();
+        			            vm.getRefboxs();
         			            vm.getRef1003();
-			
+        	
+
 
 
     initGridHeight();

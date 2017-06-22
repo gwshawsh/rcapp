@@ -6,9 +6,6 @@ import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
-import com.ruanchuangsoft.platform.entity.StorecontractdetailEntity;
-import com.ruanchuangsoft.platform.entity.TranscontractdetailEntity;
-import com.ruanchuangsoft.platform.service.StorecontractdetailService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +17,9 @@ import org.springframework.stereotype.Controller;
 
 import com.ruanchuangsoft.platform.entity.StorecontractmainEntity;
 import com.ruanchuangsoft.platform.service.StorecontractmainService;
+import com.ruanchuangsoft.platform.entity.StorecontractdetailEntity;
+import com.ruanchuangsoft.platform.service.StorecontractdetailService;
+
 import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 20:39:26
+ * @date 2017-06-22 12:07:01
  */
 @Controller
 @RequestMapping("storecontractmain")
@@ -38,11 +38,10 @@ public class StorecontractmainController extends AbstractController {
 	@Autowired
 	private StorecontractmainService storecontractmainService;
 
-	@Autowired
-	private StorecontractdetailService storecontractdetailService;
+    @Autowired
+    private StorecontractdetailService storecontractdetailService;
 
-
-	@RequestMapping("/storecontractmain")
+    @RequestMapping("/storecontractmain")
 	public String list(){
 		return "storecontractmain/storecontractmain";
 	}
@@ -79,30 +78,26 @@ public class StorecontractmainController extends AbstractController {
 		return R.ok().put("page", pageUtil);
 	}
 
+    /**
+     * 列表
+     */
+    @ResponseBody
+    @RequestMapping("/listdetail")
+    @RequiresPermissions("storecontractmain:list")
+    public R listdetail(Long formid,Integer page, Integer limit){
+        Map<String, Object> map = new HashMap<>();
+        map.put("offset", (page - 1) * limit);
+        map.put("limit", limit);
+        map.put("formid",formid);
 
-	/**
-	 * 列表
-	 */
-	@ResponseBody
-	@RequestMapping("/listdetail")
-	@RequiresPermissions("storecontractmain:list")
-	public R listdetail(Long formid,Integer page, Integer limit){
-		Map<String, Object> map = new HashMap<>();
-		map.put("offset", (page - 1) * limit);
-		map.put("limit", limit);
-		map.put("formid",formid);
+        //查询列表数据
+        List<StorecontractdetailEntity> storecontractdetailList = storecontractdetailService.queryList(map);
+        int total = storecontractdetailService.queryTotal(map);
 
-		//查询列表数据
-		List<StorecontractdetailEntity> storecontractdetailList = storecontractdetailService.queryList(map);
-		int total = storecontractdetailService.queryTotal(map);
+        PageUtils pageUtil = new PageUtils(storecontractdetailList, total, limit, page);
 
-		PageUtils pageUtil = new PageUtils(storecontractdetailList, total, limit, page);
-
-		return R.ok().put("page", pageUtil);
-	}
-
-
-
+        return R.ok().put("page", pageUtil);
+    }
 
 	/**
 	 * 信息
@@ -112,6 +107,13 @@ public class StorecontractmainController extends AbstractController {
 	@RequiresPermissions("storecontractmain:info")
 	public R info(@PathVariable("id") Long id){
 		StorecontractmainEntity storecontractmain = storecontractmainService.queryObject(id);
+
+        //查询明细数据
+        Map<String, Object> map = new HashMap<>();
+        map.put("formid",id);
+
+        List<StorecontractdetailEntity> storecontractdetailList = storecontractdetailService.queryList(map);
+		storecontractmain.setDetails(storecontractdetailList );
 
 		return R.ok().put("storecontractmain", storecontractmain);
 	}
@@ -123,22 +125,17 @@ public class StorecontractmainController extends AbstractController {
 	@RequestMapping("/save")
 	@RequiresPermissions("storecontractmain:save")
 	public R save(@RequestBody StorecontractmainEntity storecontractmain){
-		if(storecontractmain.getBillno().equals("*")){
-			String billno=getBillNo("SC");
+        if(storecontractmain.getBillno().equals("*")){
+            String billno=getBillNo("**");
 			storecontractmain.setBillno(billno);
-			if(storecontractmain.getDetails()!=null&&storecontractmain.getDetails().size()>0){
-				for(StorecontractdetailEntity item:storecontractmain.getDetails()){
-					item.setBillno(billno);
-
-				}
-			}
-		}
+            if(storecontractmain.getDetails()!=null&&storecontractmain.getDetails().size()>0){
+                for(StorecontractdetailEntity item:storecontractmain.getDetails()){
+                    item.setBillno(billno);
+                }
+            }
+        }
 
 		storecontractmainService.save(storecontractmain);
-
-		for(StorecontractdetailEntity item:storecontractmain.getDetails()){
-			storecontractdetailService.save(item);
-		}
 
 		return R.ok();
 	}
@@ -166,5 +163,30 @@ public class StorecontractmainController extends AbstractController {
 
 		return R.ok();
 	}
+
+    /**
+     * 审核
+     */
+    @ResponseBody
+    @RequestMapping("/audit")
+    @RequiresPermissions("storecontractmain:audit")
+    public R audit(@RequestBody Long[] ids){
+			storecontractmainService.auditBatch(ids);
+
+        return R.ok();
+    }
+
+
+    /**
+     * 反审核
+     */
+    @ResponseBody
+    @RequestMapping("/unaudit")
+    @RequiresPermissions("storecontractmain:unaudit")
+    public R unaudit(@RequestBody Long[] ids){
+			storecontractmainService.unauditBatch(ids);
+
+        return R.ok();
+    }
 
 }

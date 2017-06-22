@@ -3,6 +3,7 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+
 import java.math.BigDecimal;
 
 
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 00:43:25
+ * @date 2017-06-22 09:37:11
  */
 public class TransboxdetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -25,9 +26,9 @@ public class TransboxdetailEntity implements Serializable {
 	private Long serialno;
 	//运输公司
 	private Long transcompanyid;
-	//放箱计划单据号
+	//参照单据号
 	private String refbillno;
-	//放箱计划序号
+	//参照单据序号
 	private Long refserialno;
 	//原起运地点
 	private Long startplaceid1;
@@ -70,101 +71,23 @@ public class TransboxdetailEntity implements Serializable {
 	//更新时间
 	private Date uptdate;
 
-
-	
-
-
-	
-
-
-	
-
-
-	        //运输公司
+				        //运输公司
         private String transcompanyidname;
-	
-
-
-	
-
-
-	
-
-
-	        //原起运地点
+				        //原起运地点
         private String startplaceid1name;
-	
-
-
-	        //现起运点
+		        //现起运点
         private String startplaceid2name;
-	
-
-
-	        //目的地
+		        //目的地
         private String endplaceidname;
-	
-
-
-	        //线路
+		        //线路
         private String lineidname;
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	        //车型
+										        //车型
         private String cartypecartypename;
-	
-
-
-	        //燃料
+		        //燃料
         private String carenergytypeenumvaluename;
-	
-
-
-	        //司机编码
+		        //司机编码
         private String driversidname;
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
+						
 	/**
 	 * 设置：
 	 */
@@ -214,25 +137,25 @@ public class TransboxdetailEntity implements Serializable {
 		return transcompanyid;
 	}
 	/**
-	 * 设置：放箱计划单据号
+	 * 设置：参照单据号
 	 */
 	public void setRefbillno(String refbillno) {
 		this.refbillno = refbillno;
 	}
 	/**
-	 * 获取：放箱计划单据号
+	 * 获取：参照单据号
 	 */
 	public String getRefbillno() {
 		return refbillno;
 	}
 	/**
-	 * 设置：放箱计划序号
+	 * 设置：参照单据序号
 	 */
 	public void setRefserialno(Long refserialno) {
 		this.refserialno = refserialno;
 	}
 	/**
-	 * 获取：放箱计划序号
+	 * 获取：参照单据序号
 	 */
 	public Long getRefserialno() {
 		return refserialno;

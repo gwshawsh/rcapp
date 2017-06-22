@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -68,8 +70,7 @@ public class ${className}Controller extends AbstractController {
                 String tmpquery =query.replaceAll("&quot;","\"");
 				${className}Entity param = JSON.parseObject(tmpquery, ${className}Entity.class);
 				#foreach($column in $columns)
-
-        	        map.put(${column.attrname}, param.get${column.attrName}());
+        	        map.put("${column.attrname}", param.get${column.attrName}());
                 #end
 
             }catch(Exception e){

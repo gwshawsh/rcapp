@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -26,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 15:52:16
+ * @date 2017-06-22 12:08:04
  */
 @Controller
 @RequestMapping("transcontractdetail")
@@ -45,7 +47,7 @@ public class TranscontractdetailController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("transcontractdetail/transcontractdetail");
+        setViewname("contract/transcontractdetail");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -58,10 +60,31 @@ public class TranscontractdetailController extends AbstractController {
 	@ResponseBody
 	@RequestMapping("/list")
 	@RequiresPermissions("transcontractdetail:list")
-	public R list(Integer page, Integer limit){
+	public R list(Integer page, Integer limit,String query){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
+
+        if(query!=null&&query.length()>0){
+            try {
+                String tmpquery =query.replaceAll("&quot;","\"");
+				TranscontractdetailEntity param = JSON.parseObject(tmpquery, TranscontractdetailEntity.class);
+				        	        map.put("id", param.getId());
+                        	        map.put("billno", param.getBillno());
+                        	        map.put("serialno", param.getSerialno());
+                        	        map.put("lineid", param.getLineid());
+                        	        map.put("boxtype", param.getBoxtype());
+                        	        map.put("weighttype", param.getWeighttype());
+                        	        map.put("boxprice", param.getBoxprice());
+                        	        map.put("boxpricetax", param.getBoxpricetax());
+                        	        map.put("cartype", param.getCartype());
+                        	        map.put("uptdate", param.getUptdate());
+                
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+        }
 
 		//查询列表数据
 		List<TranscontractdetailEntity> transcontractdetailList = transcontractdetailService.queryList(map);

@@ -48,10 +48,13 @@ public class ${className}ServiceImpl implements ${className}Service {
 	
 	@Override
 	public void update(${className}Entity ${classname}){
+		${detailclassname}Dao.deleteByBillNo(${classname}.getBillno());
+
         for(${detailClassName}Entity item:${classname}.getDetails()){
 				${detailclassname}Dao.save(item);
         }
-			${classname}Dao.update(${classname});
+
+		${classname}Dao.update(${classname});
 	}
 	
 	@Override
