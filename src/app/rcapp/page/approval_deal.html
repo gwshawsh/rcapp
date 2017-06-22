@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div id="rrapp">
+			<rc-header title="审批" btn=""></rc-header>
+			<div class="mui-content">
+				<form class="mui-input-group">
+					<div class="mui-input-row" @click="pickuser()">
+						<label>申请人</label>
+						<input type="text" class=" mui-input mui-text-right" placeholder="" v-model='applier' readonly="readonly">
+					</div>
+					<div class="mui-input-row">
+						<label>部门</label>
+						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly">
+					</div>
+					<div class="mui-input-row">
+						<label>申请日期</label>
+						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly">
+					</div>
+					<div class="mui-input-row">
+						<label>申请单号</label>
+						<input i type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly">
+					</div>
+					<div class="mui-input-row">
+						<label>收款人</label>
+						<input type="text" class="mui-input mui-text-right" placeholder="" readonly="readonly">
+					</div>
+					<div class="mui-input-row">
+						<label>支付方式</label>
+						<input type="text" class="mui-input mui-text-right" placeholder="" readonly="readonly">
+					</div>
+					
+					<div class="mui-input-row">
+						<label>备注</label>
+						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly">
+					</div>
+					<div class="mui-input-row">
+						<label>金额</label> 
+						<input type="number" class=" mui-input mui-text-right font-warning" style="font-size: 20px;" placeholder="" readonly="readonly" v-model='money'>
+					</div>
+				
+					
+				</form>
+				<div>
+					<button class="mui-btn mui-btn-block mui-btn-warning  btn-bottom " @click="reject" style="width: 50%;">驳回申请</button>
+				<button class="mui-btn mui-btn-block mui-btn-green btn-bottom" v-on:click="" style="width: 50%;right: 0;">审批通过</button>
+					
+				</div>
+				
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: '#rrapp',
+				data: {
+					applier: '12',
+					dept: '',
+					applytime: '',
+					no: '',
+					money: '25.5',
+					reciver: '',
+					paytype: '',
+					approver: '',
+					
+				},
+				methods:{
+					reject:function(){
+						var btnArray = ['取消', '确定'];
+						mui.prompt('', '请输入....', '请输入驳回意见', btnArray, function(e) {
+					if (e.index == 1) {
+						
+					} 
+				})
+					},
+				}
+			});
+			mui.init()
+		</script>
+	</body>
+
+</html>

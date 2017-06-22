@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+	</head>
+
+	<body>
+		<div id="rrapp">
+			<rc-header title="请假申请"></rc-header>
+			<div class="mui-content" >
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							请假事由 <span style="position:absolute ;right: 40px;">{{leave_type}}</span>
+						</a>
+					</li>
+
+				</ul>
+				<ul class="mui-table-view" style="margin-top: 20px;">
+					<li class="mui-table-view-cell" @click="begin">
+						<a class="mui-navigate-right">
+							请假开始时间 <span style="position:absolute ;right: 40px;">{{leave_begin}}</span>
+						</a>
+					</li>
+					<li class="mui-table-view-cell" @click="end">
+						<a class="mui-navigate-right">
+							请假结束时间<span style="position:absolute ;right: 40px;">{{leave_end}}</span>
+						</a>
+					</li>
+
+				</ul>
+				<div class="row mui-input-row" style="margin-top: 20px;"> 
+					<textarea class="mui-input-clear question" style="height: 200px;" placeholder="请假说明">{{leave_reason}}</textarea>
+				</div>
+			</div>
+		</div>
+		<button class="mui-btn mui-btn-block mui-btn-green" v-on:click="login" style="position:absolute; width: 100%;border-radius: 0;bottom: 0;margin-bottom: 0;">提交申请</button>
+		<script src="../js/mui.min.js"></script>
+		
+		<script src="../js/vue.min.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var vm = new Vue({
+				el: '#rrapp',
+				data: {
+					leave_type: '病假',
+					leave_begin: '',
+					leave_end: '',
+					leave_reason: ''
+				},
+
+				methods: {
+					begin: function() {
+						var picker = new mui.DtPicker(JSON.parse('{}'));
+						picker.show(function(rs) {
+							vm.leave_begin = rs.text;
+							picker.dispose();
+						});
+					},
+					end: function() {
+						var picker = new mui.DtPicker(JSON.parse('{}'));
+						picker.show(function(rs) {
+							vm.leave_end = rs.text;
+							picker.dispose();
+						});
+					},
+					commit: function() {
+
+					},
+				}
+			});
+		</script>
+	</body>
+
+</html>
