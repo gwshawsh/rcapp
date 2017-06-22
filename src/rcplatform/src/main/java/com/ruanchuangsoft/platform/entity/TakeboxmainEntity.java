@@ -3,6 +3,10 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import com.ruanchuangsoft.platform.entity.TakeboxdetailEntity;
+
+import java.math.BigDecimal;
+
 
 
 /**
@@ -10,7 +14,7 @@ import java.util.List;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-28 10:49:15
+ * @date 2017-06-21 19:55:19
  */
 public class TakeboxmainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -21,10 +25,10 @@ public class TakeboxmainEntity implements Serializable {
 	private String billno;
 	//参照单据号
 	private String refbillno;
-	//参照单据类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约
+	//参照单据类型
 	private Integer refbilltype;
 	//客户id
-	private Long orgId;
+	private Long orgid;
 	//提单号
 	private String ladingcode;
 	//船名
@@ -34,28 +38,28 @@ public class TakeboxmainEntity implements Serializable {
 	//港口
 	private Long portid;
 	//箱量
-	private Long boxqty;
+	private Integer boxqty;
 	//箱型
-	private String boxtype;
+	private Long boxtype;
 	//提箱场站
 	private Long takeboxplaceid;
 	//目的地
 	private Long endplaceid;
 	//集港时间
-	private Date bgnshipdate;
+	private Date bgnshipdatetime;
 	//截港时间
-	private Date endshipdate;
+	private Date endshipdatetime;
 	//最早到场时间
 	private Date bgnplanarrtime;
 	//最晚到场时间
 	private Date endplanarrtime;
 	//应收费用
-	private Double yingshou;
+	private BigDecimal yingshou;
 	//应付费用
-	private Double yingfu;
+	private BigDecimal yingfu;
 	//备注
 	private String remark;
-	//单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成
+	//单据状态
 	private String billstatus;
 	//制单人
 	private String makeuser;
@@ -68,15 +72,112 @@ public class TakeboxmainEntity implements Serializable {
 	//更新时间
 	private Date uptdate;
 
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		            //参照单据类型
+            private String refbilltypeenumvaluename;
+		
+
+	
+		            //客户id
+            private String orgidname;
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		            //港口
+            private String portidname;
+		
+
+	
+		
+
+	
+		            //箱型
+            private String boxtypeboxsize;
+		
+
+	
+		            //提箱场站
+            private String takeboxplaceidname;
+		
+
+	
+		            //目的地
+            private String endplaceidname;
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		            //单据状态
+            private String billstatusenumvaluename;
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+	//单据明细
 	private List<TakeboxdetailEntity> details;
 
-	public List<TakeboxdetailEntity> getDetails() {
-		return details;
-	}
-
 	public void setDetails(List<TakeboxdetailEntity> details) {
-		this.details = details;
-	}
+        this.details = details;
+    }
+
+    public List<TakeboxdetailEntity> getDetails() {
+        return details;
+    }
+
+
 
 	/**
 	 * 设置：
@@ -95,7 +196,6 @@ public class TakeboxmainEntity implements Serializable {
 	 */
 	public void setBillno(String billno) {
 		this.billno = billno;
-
 	}
 	/**
 	 * 获取：单据号
@@ -116,13 +216,13 @@ public class TakeboxmainEntity implements Serializable {
 		return refbillno;
 	}
 	/**
-	 * 设置：参照单据类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约
+	 * 设置：参照单据类型
 	 */
 	public void setRefbilltype(Integer refbilltype) {
 		this.refbilltype = refbilltype;
 	}
 	/**
-	 * 获取：参照单据类型:0:无参照  1-空箱计划  2:重箱计划  3:门点计划 4:司机预约
+	 * 获取：参照单据类型
 	 */
 	public Integer getRefbilltype() {
 		return refbilltype;
@@ -130,14 +230,14 @@ public class TakeboxmainEntity implements Serializable {
 	/**
 	 * 设置：客户id
 	 */
-	public void setOrgId(Long orgId) {
-		this.orgId = orgId;
+	public void setOrgid(Long orgid) {
+		this.orgid = orgid;
 	}
 	/**
 	 * 获取：客户id
 	 */
-	public Long getOrgId() {
-		return orgId;
+	public Long getOrgid() {
+		return orgid;
 	}
 	/**
 	 * 设置：提单号
@@ -190,25 +290,25 @@ public class TakeboxmainEntity implements Serializable {
 	/**
 	 * 设置：箱量
 	 */
-	public void setBoxqty(Long boxqty) {
+	public void setBoxqty(Integer boxqty) {
 		this.boxqty = boxqty;
 	}
 	/**
 	 * 获取：箱量
 	 */
-	public Long getBoxqty() {
+	public Integer getBoxqty() {
 		return boxqty;
 	}
 	/**
 	 * 设置：箱型
 	 */
-	public void setBoxtype(String boxtype) {
+	public void setBoxtype(Long boxtype) {
 		this.boxtype = boxtype;
 	}
 	/**
 	 * 获取：箱型
 	 */
-	public String getBoxtype() {
+	public Long getBoxtype() {
 		return boxtype;
 	}
 	/**
@@ -238,26 +338,26 @@ public class TakeboxmainEntity implements Serializable {
 	/**
 	 * 设置：集港时间
 	 */
-	public void setBgnshipdate(Date bgnshipdate) {
-		this.bgnshipdate = bgnshipdate;
+	public void setBgnshipdatetime(Date bgnshipdatetime) {
+		this.bgnshipdatetime = bgnshipdatetime;
 	}
 	/**
 	 * 获取：集港时间
 	 */
-	public Date getBgnshipdate() {
-		return bgnshipdate;
+	public Date getBgnshipdatetime() {
+		return bgnshipdatetime;
 	}
 	/**
 	 * 设置：截港时间
 	 */
-	public void setEndshipdate(Date endshipdate) {
-		this.endshipdate = endshipdate;
+	public void setEndshipdatetime(Date endshipdatetime) {
+		this.endshipdatetime = endshipdatetime;
 	}
 	/**
 	 * 获取：截港时间
 	 */
-	public Date getEndshipdate() {
-		return endshipdate;
+	public Date getEndshipdatetime() {
+		return endshipdatetime;
 	}
 	/**
 	 * 设置：最早到场时间
@@ -286,25 +386,25 @@ public class TakeboxmainEntity implements Serializable {
 	/**
 	 * 设置：应收费用
 	 */
-	public void setYingshou(Double yingshou) {
+	public void setYingshou(BigDecimal yingshou) {
 		this.yingshou = yingshou;
 	}
 	/**
 	 * 获取：应收费用
 	 */
-	public Double getYingshou() {
+	public BigDecimal getYingshou() {
 		return yingshou;
 	}
 	/**
 	 * 设置：应付费用
 	 */
-	public void setYingfu(Double yingfu) {
+	public void setYingfu(BigDecimal yingfu) {
 		this.yingfu = yingfu;
 	}
 	/**
 	 * 获取：应付费用
 	 */
-	public Double getYingfu() {
+	public BigDecimal getYingfu() {
 		return yingfu;
 	}
 	/**
@@ -320,13 +420,13 @@ public class TakeboxmainEntity implements Serializable {
 		return remark;
 	}
 	/**
-	 * 设置：单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成
+	 * 设置：单据状态
 	 */
 	public void setBillstatus(String billstatus) {
 		this.billstatus = billstatus;
 	}
 	/**
-	 * 获取：单据状态:0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成
+	 * 获取：单据状态
 	 */
 	public String getBillstatus() {
 		return billstatus;
@@ -392,50 +492,88 @@ public class TakeboxmainEntity implements Serializable {
 		return uptdate;
 	}
 
-	//以下为虚拟字段
-	private String orgname;
-	private String portname;
-	private String takeboxplacename;
-	private String endplacename;
-	private String transcompanyname;
-
-	public String getTranscompanyname() {
-		return transcompanyname;
-	}
-
-	public void setTranscompanyname(String transcompanyname) {
-		this.transcompanyname = transcompanyname;
-	}
-
-	public String getOrgname() {
-		return orgname;
-	}
-
-	public void setOrgname(String orgname) {
-		this.orgname = orgname;
-	}
-
-	public String getPortname() {
-		return portname;
-	}
-
-	public void setPortname(String portname) {
-		this.portname = portname;
-	}
-
-	public String getTakeboxplacename() {
-		return takeboxplacename;
-	}
-
-	public void setTakeboxplacename(String takeboxplacename) {
-		this.takeboxplacename = takeboxplacename;
-	}
-
-	public String getEndplacename() {
-		return endplacename;
-	}
-
-	public void setEndplacename(String endplacename) {
-		this.endplacename = endplacename;
-	}
-}
+				        /**
+         * 设置：参照单据类型enumvaluename
+         */
+        public void setRefbilltypeenumvaluename(String enumvaluename) {
+            this.refbilltypeenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：参照单据类型enumvaluename
+     */
+    public String getRefbilltypeenumvaluename() {
+            return refbilltypeenumvaluename;
+            }
+		        /**
+         * 设置：客户idname
+         */
+        public void setOrgidname(String name) {
+            this.orgidname = name;
+            }
+    /**
+     * 获取：客户idname
+     */
+    public String getOrgidname() {
+            return orgidname;
+            }
+					        /**
+         * 设置：港口name
+         */
+        public void setPortidname(String name) {
+            this.portidname = name;
+            }
+    /**
+     * 获取：港口name
+     */
+    public String getPortidname() {
+            return portidname;
+            }
+			        /**
+         * 设置：箱型boxsize
+         */
+        public void setBoxtypeboxsize(String boxsize) {
+            this.boxtypeboxsize = boxsize;
+            }
+    /**
+     * 获取：箱型boxsize
+     */
+    public String getBoxtypeboxsize() {
+            return boxtypeboxsize;
+            }
+		        /**
+         * 设置：提箱场站name
+         */
+        public void setTakeboxplaceidname(String name) {
+            this.takeboxplaceidname = name;
+            }
+    /**
+     * 获取：提箱场站name
+     */
+    public String getTakeboxplaceidname() {
+            return takeboxplaceidname;
+            }
+		        /**
+         * 设置：目的地name
+         */
+        public void setEndplaceidname(String name) {
+            this.endplaceidname = name;
+            }
+    /**
+     * 获取：目的地name
+     */
+    public String getEndplaceidname() {
+            return endplaceidname;
+            }
+									        /**
+         * 设置：单据状态enumvaluename
+         */
+        public void setBillstatusenumvaluename(String enumvaluename) {
+            this.billstatusenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：单据状态enumvaluename
+     */
+    public String getBillstatusenumvaluename() {
+            return billstatusenumvaluename;
+            }
+						}

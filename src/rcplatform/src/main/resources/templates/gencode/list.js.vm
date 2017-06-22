@@ -1,8 +1,37 @@
+//生成弹出树形空间参照
+#foreach($column in $columns)
+    #if($column.refColumn && $column.refType.equalsIgnoreCase("dialogtree"))
+       var ztree${column.attrname};
+    #end
+#end
+
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    }
+};
 
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+	    q:{
+            #foreach($column in $columns)
+                #if($column.columnName != $pk.columnName)
+                    ${column.attrname}:""#if($velocityCount != $columns.size()), #end
+                #end
+            #end
+
+        },
 		showList: true,
+        showQuery:false,
 		title: null,
     //用于日期快捷控件
     pickerOptions1: {
@@ -27,29 +56,66 @@ var vm = new Vue({
             }
         }]
     },
+        //创建参照
 		#foreach($column in $refcolumns)
 			#if($column.columnName != $pk.columnName)
                 #if($column.refType=="combo")
 					ref_${column.refTable}:[],
-				#end
+
+                #elseif($column.refType=="enum")
+                    ref_enum${column.refTable}:[],
+                #end
 			#end
 		#end
+
+        //创建实体类
         ${classname}: {
+            #foreach($column in $refcolumns)
+                #if($column.columnName != $pk.columnName)
+                    ${column.attrname}${column.refColumnName}:"",
+                #end
+            #end
             #foreach($column in $columns)
                 #if($column.columnName != $pk.columnName)
                     ${column.attrname}:""#if($velocityCount != $columns.size()), #end
                 #end
             #end
+
         }
 	},
 	methods: {
+	    showQueryPanel:function(){
+	        vm.showQuery=!vm.showQuery;
+        },
 		query: function () {
 			vm.reload();
 		},
 		add: function(){
+            var mktime = moment().format("YYYY-MM-DD");
 			vm.showList = false;
 			vm.title = "新增";
-			vm.${classname} = {};
+			vm.${classname} = {
+                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                #foreach($column in $refcolumns)
+                    #if($column.columnName != $pk.columnName)
+                        ${column.attrname}${column.refColumnName}:"",
+                    #end
+                #end
+                #foreach($column in $columns)
+                    #if($column.columnName != $pk.columnName)
+                        #if($column.columnName.equalsIgnoreCase('billno'))
+                            ${column.attrname}:"*"#if($velocityCount != $columns.size()), #end
+                        #elseif ($column.columnName.equalsIgnoreCase('makeuser'))
+                            ${column.attrname}:gUserName#if($velocityCount != $columns.size()), #end
+                        #elseif ($column.columnName.equalsIgnoreCase('makedate'))
+                            ${column.attrname}:mktime#if($velocityCount != $columns.size()), #end
+                        #else
+                            ${column.attrname}:""#if($velocityCount != $columns.size()), #end
+                        #end
+                    #end
+                #end
+
+            };
 		},
 		update: function (event) {
 			var $pk.attrname = getSelectedRow();
@@ -123,10 +189,103 @@ var vm = new Vue({
                         vm.ref_${column.refTable} = r.page.list;
                     });
                 },
-			#end
+
+            #elseif($column.refColumn && $column.refType.equalsIgnoreCase("enum"))
+                getRef${column.refTable}: function () {
+                    $.get("../enumtable/listone?enumid=${column.refTable}&page=1&limit=1000", function (r) {
+                        vm.ref_enum${column.refTable} = r.page.list;
+                    });
+                },
+            #end
 		#end
 
+        //生成弹出树形空间参照
+#foreach($column in $columns)
+#if($column.refColumn && $column.refType.equalsIgnoreCase("dialogtree"))
 
+        getRefTree${column.refTable}${column.attrname}: function(menuId){
+            //加载菜单树
+            $.get("../${column.refTable}/select", function(r){
+                ztree${column.attrname} = $.fn.zTree.init($("#refTree${column.refTable}"), setting, r.treeList);
+                var node = ztree${column.attrname}.getNodeByParam("id", vm.${classname}.${column.attrname});
+                ztree${column.attrname}.selectNode(node);
+                vm.${classname}.${column.attrname}${column.refColumnName} = node.name;
+
+            })
+        },
+
+        openRefTree${column.refTable}${column.attrname}: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#treelayer${column.refTable}"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztree${column.attrname}.getSelectedNodes();
+                    //选择上级菜单
+                    vm.${classname}.${column.attrname} = node[0].id;
+                    vm.${classname}.${column.attrname}${column.refColumnName} = node[0].name;
+
+                    layer.close(index);
+                }
+            });
+        },
+#end
+#end
+        #if($classname.endsWith("main"))
+        audit:function(event){
+            var ${pk.attrname}s = getSelectedRows();
+            if(${pk.attrname}s == null){
+                return ;
+            }
+
+            confirm('确定要审核选中的记录？', function(){
+                $.ajax({
+                    type: "POST",
+                    url: "../${pathName}/audit",
+                    data: JSON.stringify(${pk.attrname}s),
+                    success: function(r){
+                        if(r.code == 0){
+                            alert('操作成功', function(index){
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        }else{
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+
+        unaudit:function(){
+            var ${pk.attrname}s = getSelectedRows();
+            if(${pk.attrname}s == null){
+                return ;
+            }
+
+            confirm('确定要反审核选中的记录？', function(){
+                $.ajax({
+                    type: "POST",
+                    url: "../${pathName}/unaudit",
+                    data: JSON.stringify(${pk.attrname}s),
+                    success: function(r){
+                        if(r.code == 0){
+                            alert('操作成功', function(index){
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        }else{
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+        #end
 
         getInfo: function(${pk.attrname}){
             $.get("../${pathName}/info/"+${pk.attrname}, function(r){
@@ -137,9 +296,10 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
+                postData: {'query': JSON.stringify(vm.q)},
                 page:page
             }).trigger("reloadGrid");
-        },
+        }
 	}
 });
 
@@ -150,9 +310,17 @@ $(function () {
         colModel: [
 			#foreach($column in $columns)
 				#if($column.columnName == $pk.columnName)
-                    { label: '${column.attrname}', name: '${column.attrname}', width: 50, key: true },
+                    { label: '${column.attrname}', name: '${column.attrname}', width: 50, key: true,hidden:true },
                 #elseif($column.columnName.equalsIgnoreCase("billstatus"))
                     { label: '${column.comments}', name: '${column.attrname}', width: 80 ,formatter:formater_billstatus}#if($velocityCount != $columns.size()), #end
+
+                #elseif($column.refType.equalsIgnoreCase("combo")
+                      ||$column.refType.equalsIgnoreCase("enum")
+                      ||$column.refType.equalsIgnoreCase("dialog")
+                ||$column.refType.equalsIgnoreCase("dialogtree")
+
+                )
+                    { label: '${column.comments}', name: '${column.attrname}${column.refColumnName}', width: 80 }#if($velocityCount != $columns.size()), #end
                 #else
                     { label: '${column.comments}', name: '${column.attrname}', width: 80 }#if($velocityCount != $columns.size()), #end
 
@@ -191,8 +359,13 @@ $(function () {
 	#foreach($column in $refcolumns)
 		#if($column.refColumn && $column.refType.equalsIgnoreCase("combo"))
             vm.getRef${column.refTable}();
+        #elseif($column.refColumn && $column.refType.equalsIgnoreCase("enum"))
+            vm.getRef${column.refTable}();
+        #elseif($column.refColumn && $column.refType.equalsIgnoreCase("dialogtree"))
+            vm.getRefTree${column.refTable}${column.attrname}();
 		#end
 	#end
+
 
 
 

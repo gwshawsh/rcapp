@@ -1,0 +1,152 @@
+<div id="ref_paymentmain" style="display: none;padding:10px;">
+    <table id="ref_grid_paymentmain"></table>
+    <div id="ref_gridpager_paymentmain"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_paymentmain(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_paymentmain"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_paymentmain");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_paymentmain").jqGrid({
+            url: '../paymentmain/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '单据号',
+                            name: 'billno',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '请购单据号',
+                            name: 'reqbillno',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '请购人',
+                            name: 'requser',
+                            width: 80
+                        }, 
+                                                                                { label: '请购部门', name: 'name', width: 80 }, 
+                                                                                {
+                            label: '请购日期',
+                            name: 'reqdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '订购单据号',
+                            name: 'orderbillno',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '付款比例',
+                            name: 'percent',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '付款金额',
+                            name: 'paytotal',
+                            width: 80
+                        }, 
+                                                                                { label: '付款来源', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '收款人',
+                            name: 'payee',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '收款人账号',
+                            name: 'payeeaccount',
+                            width: 80
+                        }, 
+                                                                                { label: '付款方式', name: 'name', width: 80 }, 
+                                                                                {
+                            label: '说明',
+                            name: 'payreason',
+                            width: 80
+                        }, 
+                                                                                { label: '物品类别', name: 'enumvaluename', width: 80 }, 
+                                                                                { label: '单据状态', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '制单人',
+                            name: 'makeuser',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '制单日期',
+                            name: 'makedate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '审核人',
+                            name: 'accuser',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '审核日期',
+                            name: 'accdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '更新时间',
+                            name: 'uptdate',
+                            width: 80
+                        }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_paymentmain",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_paymentmain").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

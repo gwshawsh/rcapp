@@ -33,16 +33,45 @@
             url: '../transteam/list',
             datatype: "json",
             colModel: [
-                {label: 'id', name: 'id', width: 50, key: true},
-                {label: '编码', name: 'code', width: 80},
-                {label: '名称', name: 'name', width: 80},
-                {label: '地址', name: 'address', width: 80},
-                {label: '联系人', name: 'contact', width: 80},
-                {label: '联系电话', name: 'contactNumber', width: 80},
-                {label: '车辆类型（挂靠、自营、外协）', name: 'vehicleType', width: 80},
-                {label: '开票信息', name: 'billingInformation', width: 80},
-                {label: '账户信息', name: 'accountInformation', width: 80}
-            ],
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '编码',
+                            name: 'code',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '名称',
+                            name: 'name',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '地址',
+                            name: 'address',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '联系人',
+                            name: 'contact',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '联系电话',
+                            name: 'contactNumber',
+                            width: 80
+                        }, 
+                                                                                { label: '车辆类型', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '开票信息',
+                            name: 'billingInformation',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '账户信息',
+                            name: 'accountInformation',
+                            width: 80
+                        }
+                                    ],
             viewrecords: true,
             height: 385,
             rowNum: 10,

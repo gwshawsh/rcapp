@@ -4,7 +4,7 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.SysDeptDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.SysDeptEntity">
-		select * from sys_dept where dept_id = #{value}
+		select * from sys_dept where id = #{value}
 	</select>
 
 	<select id="queryListParentId" resultType="com.ruanchuangsoft.platform.entity.SysDeptEntity">
@@ -13,11 +13,11 @@
 
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.SysDeptEntity">
-		select m.*,(select p.name from sys_dept p where p.dept_id = m.parent_id) as parentName
+		select m.*,(select p.name from sys_dept p where p.id = m.parent_id) as parentName
 		from sys_dept m
 		<where>
-			<if test="deptId!=null" >
-				m.parent_id=#{deptId}
+			<if test="id!=null" >
+				m.parent_id=#{id}
 			</if>
 		</where>
 		order by m.order_num asc
@@ -31,7 +31,7 @@
 		select count(*) from sys_dept 
 	</select>
 	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.SysDeptEntity" useGeneratedKeys="true" keyProperty="deptId">
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.SysDeptEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_dept
 		(
 			`parent_id`, 
@@ -56,17 +56,17 @@
 			<if test="type != null">`type` = #{type}, </if>
 			<if test="orderNum != null">`order_num` = #{orderNum}</if>
 		</set>
-		where dept_id = #{deptId}
+		where id = #{id}
 	</update>
 	
 	<delete id="delete">
-		delete from sys_dept where dept_id = #{value}
+		delete from sys_dept where id = #{value}
 	</delete>
 	
 	<delete id="deleteBatch">
-		delete from sys_dept where dept_id in 
-		<foreach item="deptId" collection="array" open="(" separator="," close=")">
-			#{deptId}
+		delete from sys_dept where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
 		</foreach>
 	</delete>
 

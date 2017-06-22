@@ -29,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-10 20:13:30
+ * @date 2017-06-22 15:53:05
  */
 @Controller
 @RequestMapping("requisitionmain")
@@ -163,5 +163,30 @@ public class RequisitionmainController extends AbstractController {
 
 		return R.ok();
 	}
+
+    /**
+     * 审核
+     */
+    @ResponseBody
+    @RequestMapping("/audit")
+    @RequiresPermissions("requisitionmain:audit")
+    public R audit(@RequestBody Long[] ids){
+			requisitionmainService.auditBatch(ids);
+
+        return R.ok();
+    }
+
+
+    /**
+     * 反审核
+     */
+    @ResponseBody
+    @RequestMapping("/unaudit")
+    @RequiresPermissions("requisitionmain:unaudit")
+    public R unaudit(@RequestBody Long[] ids){
+			requisitionmainService.unauditBatch(ids);
+
+        return R.ok();
+    }
 
 }

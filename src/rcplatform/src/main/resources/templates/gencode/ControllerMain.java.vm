@@ -51,7 +51,7 @@ public class ${className}Controller extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("${pathName}/${pathName}");
+        setViewname("${parent}/${pathName}");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -170,7 +170,7 @@ public class ${className}Controller extends AbstractController {
     @ResponseBody
     @RequestMapping("/audit")
     @RequiresPermissions("${pathName}:audit")
-    public R delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
+    public R audit(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
 			${classname}Service.auditBatch(${pk.attrname}s);
 
         return R.ok();
@@ -183,7 +183,7 @@ public class ${className}Controller extends AbstractController {
     @ResponseBody
     @RequestMapping("/unaudit")
     @RequiresPermissions("${pathName}:unaudit")
-    public R delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
+    public R unaudit(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
 			${classname}Service.unauditBatch(${pk.attrname}s);
 
         return R.ok();

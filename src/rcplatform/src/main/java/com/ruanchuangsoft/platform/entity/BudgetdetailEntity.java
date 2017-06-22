@@ -4,13 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+import java.math.BigDecimal;
+
+
 
 /**
  * 预算明细表
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-22 16:47:18
+ * @date 2017-06-22 15:45:16
  */
 public class BudgetdetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -30,7 +33,7 @@ public class BudgetdetailEntity implements Serializable {
 	//说明
 	private String remark;
 	//预算金额
-	private Double planmoney;
+	private BigDecimal planmoney;
 	//已用预算
 	private String usagemoney;
 	//剩余预算
@@ -38,6 +41,9 @@ public class BudgetdetailEntity implements Serializable {
 	//更新时间
 	private Date uptdate;
 
+				        //预算科目
+        private String accountidname;
+								
 	/**
 	 * 设置：
 	 */
@@ -125,13 +131,13 @@ public class BudgetdetailEntity implements Serializable {
 	/**
 	 * 设置：预算金额
 	 */
-	public void setPlanmoney(Double planmoney) {
+	public void setPlanmoney(BigDecimal planmoney) {
 		this.planmoney = planmoney;
 	}
 	/**
 	 * 获取：预算金额
 	 */
-	public Double getPlanmoney() {
+	public BigDecimal getPlanmoney() {
 		return planmoney;
 	}
 	/**
@@ -170,4 +176,18 @@ public class BudgetdetailEntity implements Serializable {
 	public Date getUptdate() {
 		return uptdate;
 	}
-}
+
+
+												        /**
+         * 设置：预算科目name
+         */
+        public void setAccountidname(String name) {
+            this.accountidname = name;
+        }
+        /**
+         * 获取：预算科目name
+         */
+        public String getAccountidname() {
+            return accountidname;
+        }
+        																						}

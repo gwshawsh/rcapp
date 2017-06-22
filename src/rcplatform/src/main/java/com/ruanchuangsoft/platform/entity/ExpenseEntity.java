@@ -4,13 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+import java.math.BigDecimal;
+
+
 
 /**
- * 报销管理
+ * 报销单
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 13:27:49
+ * @date 2017-06-22 17:01:14
  */
 public class ExpenseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -21,17 +24,12 @@ public class ExpenseEntity implements Serializable {
 	private String billno;
 	//申请人
 	private String applyuser;
-	//部门Id
-	private Long deptId;
-	//部门名称
-	private String deptName;
+	//部门
+	private Long deptid;
 	//申请日期
 	private Date applydate;
-	//费用项目Id
-	private Long costcategoryId;
 	//费用项目
-	private Long costcategoryName;
-
+	private Long costcategoryid;
 	//报销金额
 	private Double expensemoney;
 	//报销事由
@@ -40,11 +38,22 @@ public class ExpenseEntity implements Serializable {
 	private String receiver;
 	//支付方式
 	private String paytype;
-	//审批人
+	//银行账户
+	private String bankaccount;
+	//制单人
+	private String makeuser;
+	//制单日期
+	private Date makedate;
+	//审核人
 	private String accuser;
 	//审核日期
 	private Date accdate;
+	//更新时间
+	private Date uptdate;
 
+						        //费用项目
+        private String costcategoryidname;
+											
 	/**
 	 * 设置：
 	 */
@@ -84,14 +93,14 @@ public class ExpenseEntity implements Serializable {
 	/**
 	 * 设置：部门
 	 */
-	public void setDeptId(Long deptId) {
-		this.deptId = deptId;
+	public void setDeptid(Long deptid) {
+		this.deptid = deptid;
 	}
 	/**
 	 * 获取：部门
 	 */
-	public Long getDeptId() {
-		return deptId;
+	public Long getDeptid() {
+		return deptid;
 	}
 	/**
 	 * 设置：申请日期
@@ -108,14 +117,14 @@ public class ExpenseEntity implements Serializable {
 	/**
 	 * 设置：费用项目
 	 */
-	public void setCostcategoryId(Long costcategoryId) {
-		this.costcategoryId = costcategoryId;
+	public void setCostcategoryid(Long costcategoryid) {
+		this.costcategoryid = costcategoryid;
 	}
 	/**
 	 * 获取：费用项目
 	 */
-	public Long getCostcategoryId() {
-		return costcategoryId;
+	public Long getCostcategoryid() {
+		return costcategoryid;
 	}
 	/**
 	 * 设置：报销金额
@@ -166,13 +175,49 @@ public class ExpenseEntity implements Serializable {
 		return paytype;
 	}
 	/**
-	 * 设置：审批人
+	 * 设置：银行账户
+	 */
+	public void setBankaccount(String bankaccount) {
+		this.bankaccount = bankaccount;
+	}
+	/**
+	 * 获取：银行账户
+	 */
+	public String getBankaccount() {
+		return bankaccount;
+	}
+	/**
+	 * 设置：制单人
+	 */
+	public void setMakeuser(String makeuser) {
+		this.makeuser = makeuser;
+	}
+	/**
+	 * 获取：制单人
+	 */
+	public String getMakeuser() {
+		return makeuser;
+	}
+	/**
+	 * 设置：制单日期
+	 */
+	public void setMakedate(Date makedate) {
+		this.makedate = makedate;
+	}
+	/**
+	 * 获取：制单日期
+	 */
+	public Date getMakedate() {
+		return makedate;
+	}
+	/**
+	 * 设置：审核人
 	 */
 	public void setAccuser(String accuser) {
 		this.accuser = accuser;
 	}
 	/**
-	 * 获取：审批人
+	 * 获取：审核人
 	 */
 	public String getAccuser() {
 		return accuser;
@@ -189,20 +234,30 @@ public class ExpenseEntity implements Serializable {
 	public Date getAccdate() {
 		return accdate;
 	}
-
-	public String getDeptName() {
-		return deptName;
+	/**
+	 * 设置：更新时间
+	 */
+	public void setUptdate(Date uptdate) {
+		this.uptdate = uptdate;
+	}
+	/**
+	 * 获取：更新时间
+	 */
+	public Date getUptdate() {
+		return uptdate;
 	}
 
-	public void setDeptName(String deptName) {
-		this.deptName = deptName;
-	}
 
-	public Long getCostcategoryName() {
-		return costcategoryName;
-	}
-
-	public void setCostcategoryName(Long costcategoryName) {
-		this.costcategoryName = costcategoryName;
-	}
-}
+																		        /**
+         * 设置：费用项目name
+         */
+        public void setCostcategoryidname(String name) {
+            this.costcategoryidname = name;
+        }
+        /**
+         * 获取：费用项目name
+         */
+        public String getCostcategoryidname() {
+            return costcategoryidname;
+        }
+        																															}

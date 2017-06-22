@@ -3,6 +3,10 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import com.ruanchuangsoft.platform.entity.OrderdetailEntity;
+
+import java.math.BigDecimal;
+
 
 
 /**
@@ -10,7 +14,7 @@ import java.util.List;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-10 19:20:37
+ * @date 2017-06-22 15:51:59
  */
 public class OrdermainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,20 +23,22 @@ public class OrdermainEntity implements Serializable {
 	private Long id;
 	//单据号
 	private String billno;
-	//供应商id
+	//供应商
 	private Long supplyid;
 	//请购单据号
 	private String reqbillno;
 	//请购人
 	private String requser;
 	//请购部门
-	private Long reqdepartment;
+	private Long deptid;
 	//请购日期
 	private Date reqdate;
 	//订购单来源
 	private Integer ordersource;
 	//订购类别
 	private Integer ordertype;
+	//预算计划
+	private Long budgetmainid;
 	//单据状态
 	private Integer billstatus;
 	//制单人
@@ -46,6 +52,66 @@ public class OrdermainEntity implements Serializable {
 	//更新时间
 	private Date uptdate;
 
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		            //请购部门
+            private String deptidname;
+		
+
+	
+		
+
+	
+		            //订购单来源
+            private String ordersourceenumvaluename;
+		
+
+	
+		            //订购类别
+            private String ordertypeenumvaluename;
+		
+
+	
+		            //预算计划
+            private String budgetmainidbillno;
+		
+
+	
+		            //单据状态
+            private String billstatusenumvaluename;
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
 	//单据明细
 	private List<OrderdetailEntity> details;
 
@@ -84,13 +150,13 @@ public class OrdermainEntity implements Serializable {
 		return billno;
 	}
 	/**
-	 * 设置：供应商id
+	 * 设置：供应商
 	 */
 	public void setSupplyid(Long supplyid) {
 		this.supplyid = supplyid;
 	}
 	/**
-	 * 获取：供应商id
+	 * 获取：供应商
 	 */
 	public Long getSupplyid() {
 		return supplyid;
@@ -122,14 +188,14 @@ public class OrdermainEntity implements Serializable {
 	/**
 	 * 设置：请购部门
 	 */
-	public void setReqdepartment(Long reqdepartment) {
-		this.reqdepartment = reqdepartment;
+	public void setDeptid(Long deptid) {
+		this.deptid = deptid;
 	}
 	/**
 	 * 获取：请购部门
 	 */
-	public Long getReqdepartment() {
-		return reqdepartment;
+	public Long getDeptid() {
+		return deptid;
 	}
 	/**
 	 * 设置：请购日期
@@ -166,6 +232,18 @@ public class OrdermainEntity implements Serializable {
 	 */
 	public Integer getOrdertype() {
 		return ordertype;
+	}
+	/**
+	 * 设置：预算计划
+	 */
+	public void setBudgetmainid(Long budgetmainid) {
+		this.budgetmainid = budgetmainid;
+	}
+	/**
+	 * 获取：预算计划
+	 */
+	public Long getBudgetmainid() {
+		return budgetmainid;
 	}
 	/**
 	 * 设置：单据状态
@@ -239,4 +317,65 @@ public class OrdermainEntity implements Serializable {
 	public Date getUptdate() {
 		return uptdate;
 	}
-}
+
+						        /**
+         * 设置：请购部门name
+         */
+        public void setDeptidname(String name) {
+            this.deptidname = name;
+            }
+    /**
+     * 获取：请购部门name
+     */
+    public String getDeptidname() {
+            return deptidname;
+            }
+			        /**
+         * 设置：订购单来源enumvaluename
+         */
+        public void setOrdersourceenumvaluename(String enumvaluename) {
+            this.ordersourceenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：订购单来源enumvaluename
+     */
+    public String getOrdersourceenumvaluename() {
+            return ordersourceenumvaluename;
+            }
+		        /**
+         * 设置：订购类别enumvaluename
+         */
+        public void setOrdertypeenumvaluename(String enumvaluename) {
+            this.ordertypeenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：订购类别enumvaluename
+     */
+    public String getOrdertypeenumvaluename() {
+            return ordertypeenumvaluename;
+            }
+		        /**
+         * 设置：预算计划billno
+         */
+        public void setBudgetmainidbillno(String billno) {
+            this.budgetmainidbillno = billno;
+            }
+    /**
+     * 获取：预算计划billno
+     */
+    public String getBudgetmainidbillno() {
+            return budgetmainidbillno;
+            }
+		        /**
+         * 设置：单据状态enumvaluename
+         */
+        public void setBillstatusenumvaluename(String enumvaluename) {
+            this.billstatusenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：单据状态enumvaluename
+     */
+    public String getBillstatusenumvaluename() {
+            return billstatusenumvaluename;
+            }
+						}

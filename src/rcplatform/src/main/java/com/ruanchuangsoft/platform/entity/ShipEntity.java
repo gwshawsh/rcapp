@@ -3,14 +3,16 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import java.math.BigDecimal;
+
 
 
 /**
- * 船公司
+ * 船舶管理
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 20:14:30
+ * @date 2017-06-20 19:02:25
  */
 public class ShipEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -37,7 +39,7 @@ public class ShipEntity implements Serializable {
 	private String cosshipenname;
 	//所属国家
 	private String country;
-	//联系人 
+	//联系人
 	private String contact;
 	//地址
 	private String address;
@@ -45,6 +47,54 @@ public class ShipEntity implements Serializable {
 	private String phone;
 	//航线
 	private String route;
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	        //所属区域
+        private String regionname;
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
 
 	/**
 	 * 设置：
@@ -179,13 +229,13 @@ public class ShipEntity implements Serializable {
 		return country;
 	}
 	/**
-	 * 设置：联系人 
+	 * 设置：联系人
 	 */
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
 	/**
-	 * 获取：联系人 
+	 * 获取：联系人
 	 */
 	public String getContact() {
 		return contact;
@@ -226,4 +276,18 @@ public class ShipEntity implements Serializable {
 	public String getRoute() {
 		return route;
 	}
-}
+
+
+															        /**
+         * 设置：所属区域name
+         */
+        public void setRegionname(String name) {
+            this.regionname = name;
+        }
+        /**
+         * 获取：所属区域name
+         */
+        public String getRegionname() {
+            return regionname;
+        }
+        																															}

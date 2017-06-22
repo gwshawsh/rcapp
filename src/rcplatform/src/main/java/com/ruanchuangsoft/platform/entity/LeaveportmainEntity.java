@@ -4,13 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+import java.math.BigDecimal;
+
+
 
 /**
  * 疏港计划
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-28 11:51:56
+ * @date 2017-06-22 11:44:55
  */
 public class LeaveportmainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,24 +22,38 @@ public class LeaveportmainEntity implements Serializable {
 	private Long id;
 	//单据号
 	private String billno;
+	//客户
+	private Long orgid;
+	//提单号
+	private String ladingcode;
+	//船名
+	private String shipname;
+	//航次
+	private String flight;
 	//港口
-	private String port;
+	private Long portid;
 	//船公司
-	private String shipcompany;
+	private Long shipcompany;
 	//箱量
-	private Long boxqty;
+	private Integer boxqty;
 	//箱型
-	private String boxtype;
+	private Long boxtype;
+	//起运地
+	private Long takeboxplaceid;
 	//目的地
-	private Long endplaceId;
+	private Long endplaceid;
 	//预计到港时间
 	private Date planarrporttime;
 	//预计到场时间
 	private Date planarrtime;
+	//备注
+	private String remark;
+	//单据状态
+	private String billstatus;
 	//制单人
-	private String billuser;
+	private String makeuser;
 	//制单日期
-	private Date billdate;
+	private Date makedate;
 	//审核人
 	private String accuser;
 	//审核日期
@@ -44,6 +61,21 @@ public class LeaveportmainEntity implements Serializable {
 	//更新时间
 	private Date uptdate;
 
+			        //客户
+        private String orgidname;
+					        //港口
+        private String portidname;
+		        //船公司
+        private String shipcompanyname;
+			        //箱型
+        private String boxtypeboxsize;
+		        //起运地
+        private String takeboxplaceidname;
+		        //目的地
+        private String endplaceidname;
+					        //单据状态
+        private String billstatusenumvaluename;
+						
 	/**
 	 * 设置：
 	 */
@@ -69,64 +101,124 @@ public class LeaveportmainEntity implements Serializable {
 		return billno;
 	}
 	/**
+	 * 设置：客户
+	 */
+	public void setOrgid(Long orgid) {
+		this.orgid = orgid;
+	}
+	/**
+	 * 获取：客户
+	 */
+	public Long getOrgid() {
+		return orgid;
+	}
+	/**
+	 * 设置：提单号
+	 */
+	public void setLadingcode(String ladingcode) {
+		this.ladingcode = ladingcode;
+	}
+	/**
+	 * 获取：提单号
+	 */
+	public String getLadingcode() {
+		return ladingcode;
+	}
+	/**
+	 * 设置：船名
+	 */
+	public void setShipname(String shipname) {
+		this.shipname = shipname;
+	}
+	/**
+	 * 获取：船名
+	 */
+	public String getShipname() {
+		return shipname;
+	}
+	/**
+	 * 设置：航次
+	 */
+	public void setFlight(String flight) {
+		this.flight = flight;
+	}
+	/**
+	 * 获取：航次
+	 */
+	public String getFlight() {
+		return flight;
+	}
+	/**
 	 * 设置：港口
 	 */
-	public void setPort(String port) {
-		this.port = port;
+	public void setPortid(Long portid) {
+		this.portid = portid;
 	}
 	/**
 	 * 获取：港口
 	 */
-	public String getPort() {
-		return port;
+	public Long getPortid() {
+		return portid;
 	}
 	/**
 	 * 设置：船公司
 	 */
-	public void setShipcompany(String shipcompany) {
+	public void setShipcompany(Long shipcompany) {
 		this.shipcompany = shipcompany;
 	}
 	/**
 	 * 获取：船公司
 	 */
-	public String getShipcompany() {
+	public Long getShipcompany() {
 		return shipcompany;
 	}
 	/**
 	 * 设置：箱量
 	 */
-	public void setBoxqty(Long boxqty) {
+	public void setBoxqty(Integer boxqty) {
 		this.boxqty = boxqty;
 	}
 	/**
 	 * 获取：箱量
 	 */
-	public Long getBoxqty() {
+	public Integer getBoxqty() {
 		return boxqty;
 	}
 	/**
 	 * 设置：箱型
 	 */
-	public void setBoxtype(String boxtype) {
+	public void setBoxtype(Long boxtype) {
 		this.boxtype = boxtype;
 	}
 	/**
 	 * 获取：箱型
 	 */
-	public String getBoxtype() {
+	public Long getBoxtype() {
 		return boxtype;
+	}
+	/**
+	 * 设置：起运地
+	 */
+	public void setTakeboxplaceid(Long takeboxplaceid) {
+		this.takeboxplaceid = takeboxplaceid;
+	}
+	/**
+	 * 获取：起运地
+	 */
+	public Long getTakeboxplaceid() {
+		return takeboxplaceid;
 	}
 	/**
 	 * 设置：目的地
 	 */
-	public void setEndplaceId(Long endplaceId) {
-		this.endplaceId = endplaceId;
+	public void setEndplaceid(Long endplaceid) {
+		this.endplaceid = endplaceid;
 	}
 	/**
 	 * 获取：目的地
 	 */
-	public Long getEndplaceId() {
-		return endplaceId;
+	public Long getEndplaceid() {
+		return endplaceid;
 	}
 	/**
 	 * 设置：预计到港时间
@@ -153,28 +245,52 @@ public class LeaveportmainEntity implements Serializable {
 		return planarrtime;
 	}
 	/**
+	 * 设置：备注
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	/**
+	 * 获取：备注
+	 */
+	public String getRemark() {
+		return remark;
+	}
+	/**
+	 * 设置：单据状态
+	 */
+	public void setBillstatus(String billstatus) {
+		this.billstatus = billstatus;
+	}
+	/**
+	 * 获取：单据状态
+	 */
+	public String getBillstatus() {
+		return billstatus;
+	}
+	/**
 	 * 设置：制单人
 	 */
-	public void setBilluser(String billuser) {
-		this.billuser = billuser;
+	public void setMakeuser(String makeuser) {
+		this.makeuser = makeuser;
 	}
 	/**
 	 * 获取：制单人
 	 */
-	public String getBilluser() {
-		return billuser;
+	public String getMakeuser() {
+		return makeuser;
 	}
 	/**
 	 * 设置：制单日期
 	 */
-	public void setBilldate(Date billdate) {
-		this.billdate = billdate;
+	public void setMakedate(Date makedate) {
+		this.makedate = makedate;
 	}
 	/**
 	 * 获取：制单日期
 	 */
-	public Date getBilldate() {
-		return billdate;
+	public Date getMakedate() {
+		return makedate;
 	}
 	/**
 	 * 设置：审核人
@@ -212,4 +328,90 @@ public class LeaveportmainEntity implements Serializable {
 	public Date getUptdate() {
 		return uptdate;
 	}
-}
+
+
+									        /**
+         * 设置：客户name
+         */
+        public void setOrgidname(String name) {
+            this.orgidname = name;
+        }
+        /**
+         * 获取：客户name
+         */
+        public String getOrgidname() {
+            return orgidname;
+        }
+        												        /**
+         * 设置：港口name
+         */
+        public void setPortidname(String name) {
+            this.portidname = name;
+        }
+        /**
+         * 获取：港口name
+         */
+        public String getPortidname() {
+            return portidname;
+        }
+        			        /**
+         * 设置：船公司name
+         */
+        public void setShipcompanyname(String name) {
+            this.shipcompanyname = name;
+        }
+        /**
+         * 获取：船公司name
+         */
+        public String getShipcompanyname() {
+            return shipcompanyname;
+        }
+        						        /**
+         * 设置：箱型boxsize
+         */
+        public void setBoxtypeboxsize(String boxsize) {
+            this.boxtypeboxsize = boxsize;
+        }
+        /**
+         * 获取：箱型boxsize
+         */
+        public String getBoxtypeboxsize() {
+            return boxtypeboxsize;
+        }
+        			        /**
+         * 设置：起运地name
+         */
+        public void setTakeboxplaceidname(String name) {
+            this.takeboxplaceidname = name;
+        }
+        /**
+         * 获取：起运地name
+         */
+        public String getTakeboxplaceidname() {
+            return takeboxplaceidname;
+        }
+        			        /**
+         * 设置：目的地name
+         */
+        public void setEndplaceidname(String name) {
+            this.endplaceidname = name;
+        }
+        /**
+         * 获取：目的地name
+         */
+        public String getEndplaceidname() {
+            return endplaceidname;
+        }
+        												        /**
+         * 设置：单据状态enumvaluename
+         */
+        public void setBillstatusenumvaluename(String enumvaluename) {
+            this.billstatusenumvaluename = enumvaluename;
+        }
+        /**
+         * 获取：单据状态enumvaluename
+         */
+        public String getBillstatusenumvaluename() {
+            return billstatusenumvaluename;
+        }
+        																}

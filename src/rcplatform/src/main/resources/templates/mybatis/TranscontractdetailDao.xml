@@ -4,19 +4,27 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.TranscontractdetailDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TranscontractdetailEntity">
-		select * from transcontractdetail where id = #{value}
+		select
+																               		ifnull((select name from  transline b where a.lineid=b.id),'') as lineidname,
+												               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+												                    ifnull((select enumvaluename from  enumtable b where a.weighttype=b.enumvalueid and b.enumtype='1009'),'') as weighttypeenumvaluename,
+																		               		ifnull((select cartypename from  cartype b where a.cartype=b.id),'') as cartypecartypename,
+										        a.*
+
+		from transcontractdetail a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TranscontractdetailEntity">
-		select * from transcontractdetail
-		<where>
-			<if test="formid != null">
-				billno in (select billno from transcontractmain where id= #{formid})
-			</if>
-		</where>
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
+        select
+																								                    ifnull((select name from  transline b where a.lineid=b.id),'') as lineidname,
+																                    ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+																                    ifnull((select enumvaluename from  enumtable b where a.weighttype=b.enumvalueid and b.enumtype='1009'),'') as weighttypeenumvaluename,
+																										                    ifnull((select cartypename from  cartype b where a.cartype=b.id),'') as cartypecartypename,
+														        a.*
+        from transcontractdetail a
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
@@ -33,7 +41,8 @@
 			`weighttype`, 
 			`boxprice`, 
 			`boxpricetax`, 
-			`cartype`
+			`cartype`, 
+			`uptdate`
 		)
 		values
 		(
@@ -44,7 +53,8 @@
 			#{weighttype}, 
 			#{boxprice}, 
 			#{boxpricetax}, 
-			#{cartype}
+			#{cartype}, 
+			#{uptdate}
 		)
 	</insert>
 	 
@@ -58,7 +68,8 @@
 			<if test="weighttype != null">`weighttype` = #{weighttype}, </if>
 			<if test="boxprice != null">`boxprice` = #{boxprice}, </if>
 			<if test="boxpricetax != null">`boxpricetax` = #{boxpricetax}, </if>
-			<if test="cartype != null">`cartype` = #{cartype}</if>
+			<if test="cartype != null">`cartype` = #{cartype}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -66,6 +77,10 @@
 	<delete id="delete">
 		delete from transcontractdetail where id = #{value}
 	</delete>
+
+    <delete id="deleteByBillNo">
+        delete from transcontractdetail where billno = #{value}
+    </delete>
 	
 	<delete id="deleteBatch">
 		delete from transcontractdetail where id in 

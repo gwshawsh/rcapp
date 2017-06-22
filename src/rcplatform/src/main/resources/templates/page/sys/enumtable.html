@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>枚举表</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="panel-heading">
+            <el-button-group>
+            <@shiro.hasPermission name="enumtable:list">
+            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="enumtable:save">
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="enumtable:update">
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="enumtable:delete">
+            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
+            </@shiro.hasPermission>
+            </el-button-group>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    <div class="billno">单据号:{{enumtable.billno}}<span class="panel-right">制单人:{{enumtable.makeuser}} 制单日期:{{enumtable.makedate}}</span></div>
+
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right"  label-width="80px" style="padding:10px">
+
+                                                                            <el-form-item label="枚举类型">
+
+
+                                                            <el-input v-model="enumtable.enumtype" placeholder="枚举类型"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="枚举值">
+
+
+                                                            <el-input v-model="enumtable.enumvalueid" placeholder="枚举值"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="枚举名称">
+
+
+                                                            <el-input v-model="enumtable.enumvaluename" placeholder="枚举名称"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="备注">
+
+
+                                                            <el-input v-model="enumtable.remark" placeholder="备注"></el-input>
+
+
+                              
+                    </el-form-item>
+                            
+        </el-form>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/sys/enumtable.js"></script>
+</body>
+</html>

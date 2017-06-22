@@ -1,0 +1,152 @@
+<div id="ref_shipplan" style="display: none;padding:10px;">
+    <table id="ref_grid_shipplan"></table>
+    <div id="ref_gridpager_shipplan"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_shipplan(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_shipplan"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_shipplan");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_shipplan").jqGrid({
+            url: '../shipplan/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '英文船名',
+                            name: 'enshipname',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '中文船名',
+                            name: 'chshipname',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '出口航次',
+                            name: 'expvoyage',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '进口航次',
+                            name: 'impvoyage',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '到港状态',
+                            name: 'arrivalstate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '预计到港日期',
+                            name: 'arrivaldate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '船舶呼号',
+                            name: 'shipid',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: 'IMO编号',
+                            name: 'imono',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '码头代码',
+                            name: 'dockcode',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '码头名称',
+                            name: 'dockname',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '靠泊单位',
+                            name: 'dockunit',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '航线',
+                            name: 'route',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '预计到港时间',
+                            name: 'arrivaltime',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '预计离港时间',
+                            name: 'leavetime',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '船期',
+                            name: 'shipment',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '备注',
+                            name: 'remark',
+                            width: 80
+                        }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_shipplan",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_shipplan").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

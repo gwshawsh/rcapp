@@ -3,6 +3,8 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import java.math.BigDecimal;
+
 
 
 /**
@@ -10,7 +12,7 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-29 16:53:37
+ * @date 2017-06-20 19:02:25
  */
 public class PlaceEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -31,8 +33,45 @@ public class PlaceEntity implements Serializable {
 	private String longitude;
 	//纬度
 	private String latitude;
-	//地点类型 0：仓库 1:工厂 2:堆场
+	//所属组织
+	private String organization;
+	//地点类型
 	private Integer placetype;
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	        //所属组织
+        private String organizationname;
+	
+
+
+	        //地点类型
+        private String placetypeenumvaluename;
+	
+
 
 	/**
 	 * 设置：
@@ -131,15 +170,53 @@ public class PlaceEntity implements Serializable {
 		return latitude;
 	}
 	/**
-	 * 设置：地点类型 0：仓库 1:工厂 2:堆场
+	 * 设置：所属组织
+	 */
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+	/**
+	 * 获取：所属组织
+	 */
+	public String getOrganization() {
+		return organization;
+	}
+	/**
+	 * 设置：地点类型
 	 */
 	public void setPlacetype(Integer placetype) {
 		this.placetype = placetype;
 	}
 	/**
-	 * 获取：地点类型 0：仓库 1:工厂 2:堆场
+	 * 获取：地点类型
 	 */
 	public Integer getPlacetype() {
 		return placetype;
 	}
-}
+
+
+																											        /**
+         * 设置：所属组织name
+         */
+        public void setOrganizationname(String name) {
+            this.organizationname = name;
+        }
+        /**
+         * 获取：所属组织name
+         */
+        public String getOrganizationname() {
+            return organizationname;
+        }
+        			        /**
+         * 设置：地点类型enumvaluename
+         */
+        public void setPlacetypeenumvaluename(String enumvaluename) {
+            this.placetypeenumvaluename = enumvaluename;
+        }
+        /**
+         * 获取：地点类型enumvaluename
+         */
+        public String getPlacetypeenumvaluename() {
+            return placetypeenumvaluename;
+        }
+        	}

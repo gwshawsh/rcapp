@@ -4,14 +4,21 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.PaymentdetailDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.PaymentdetailEntity">
-		select * from paymentdetail where id = #{value}
+		select
+																               		ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
+																												        a.*
+
+		from paymentdetail a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.PaymentdetailEntity">
-		select * from paymentdetail 
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
+        select
+																								                    ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
+																																												        a.*
+        from paymentdetail a
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
@@ -23,23 +30,27 @@
 		(
 			`billno`, 
 			`serialno`, 
-			`goodsname`, 
+			`goodsid`, 
 			`goodscount`, 
+			`goodsprice`, 
 			`goodscost`, 
 			`goodsspec`, 
 			`goodsuse`, 
-			`enddate`
+			`enddate`, 
+			`uptdate`
 		)
 		values
 		(
 			#{billno}, 
 			#{serialno}, 
-			#{goodsname}, 
+			#{goodsid}, 
 			#{goodscount}, 
+			#{goodsprice}, 
 			#{goodscost}, 
 			#{goodsspec}, 
 			#{goodsuse}, 
-			#{enddate}
+			#{enddate}, 
+			#{uptdate}
 		)
 	</insert>
 	 
@@ -48,12 +59,14 @@
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
 			<if test="serialno != null">`serialno` = #{serialno}, </if>
-			<if test="goodsname != null">`goodsname` = #{goodsname}, </if>
+			<if test="goodsid != null">`goodsid` = #{goodsid}, </if>
 			<if test="goodscount != null">`goodscount` = #{goodscount}, </if>
+			<if test="goodsprice != null">`goodsprice` = #{goodsprice}, </if>
 			<if test="goodscost != null">`goodscost` = #{goodscost}, </if>
 			<if test="goodsspec != null">`goodsspec` = #{goodsspec}, </if>
 			<if test="goodsuse != null">`goodsuse` = #{goodsuse}, </if>
-			<if test="enddate != null">`enddate` = #{enddate}</if>
+			<if test="enddate != null">`enddate` = #{enddate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
 		</set>
 		where id = #{id}
 	</update>

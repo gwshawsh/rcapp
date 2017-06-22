@@ -23,7 +23,8 @@ public interface SysGeneratorService {
 	/**
 	 * 生成代码
 	 */
-	byte[] generatorCode(String[] tableNames);
-	byte[] generatorBillCode(String[] tableNames);
-	byte[] generatorTreeCode(String[] tableNames);
+	byte[] generatorCode(String[] tableNames,String path);
+	byte[] generatorBillCode(String[] tableNames,String path);
+	byte[] generatorTreeCode(String[] tableNames,String path);
+	byte[] generatorSqlCode(String[] tableNames,String path);
 }

@@ -2,39 +2,195 @@
 <html>
 <head>
     <title>仓储合同</title>
-        <#include "sys/header.html">
-</head>
+    <#include "sys/header.html">
+        </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
             <el-button-group>
                 <@shiro.hasPermission name="storecontractmain:list">
-                <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+                <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
                 </el-button>
-                </@shiro.hasPermission>
-                <@shiro.hasPermission name="storecontractmain:save">
-                <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
-                </el-button>
-                </@shiro.hasPermission>
-                <@shiro.hasPermission name="storecontractmain:update">
-                <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
-                </el-button>
-                </@shiro.hasPermission>
-                <@shiro.hasPermission name="storecontractmain:delete">
-                <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-                </el-button>
-                </@shiro.hasPermission>
-                <@shiro.hasPermission name="storecontractmain:audit">
-                <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
-                </el-button>
-                </@shiro.hasPermission>
-                <@shiro.hasPermission name="storecontractmain:unaudit">
-                <el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
-                </el-button>
-                </@shiro.hasPermission>
-            </el-button-group>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="storecontractmain:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
+        </@shiro.hasPermission>
+        <@shiro.hasPermission name="storecontractmain:save">
+        <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+        </el-button>
+    </@shiro.hasPermission>
+    <@shiro.hasPermission name="storecontractmain:update">
+    <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+    </el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="storecontractmain:delete">
+<el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="storecontractmain:audit">
+<el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="storecontractmain:unaudit">
+<el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
+</el-button>
+</@shiro.hasPermission>
+<el-button type="primary" v-on:click="showdetail"><i class="fa fa-reply"></i>&nbsp;明细
+</el-button>
+</el-button-group>
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
 
+                    <el-form-item label="单据号">
+
+                        <el-input style="width: 350px" v-model="q.billno" placeholder="单据号"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="客户">
+
+
+                        <input style="width: 350px" v-model="q.orgidname" v-on:click="openRefTreeorganizationorgid"
+                               placeholder="客户" class="el-input el-input__inner"></input>
+
+
+                    </el-form-item>
+                    <el-form-item label="付款方式">
+
+                        <el-select style="width: 350px" v-model="q.paytype" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in ref_paytype"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
+                            </el-option>
+                        </el-select>
+
+                    </el-form-item>
+                    <el-form-item label="结算周期">
+
+
+                        <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
+                                        :picker-options="pickerOptions1" v-model="q.paytime"
+                                        style="width: 100%;"></el-date-picker>
+
+
+                    </el-form-item>
+                    <el-form-item label="币别">
+
+                        <el-select style="width: 350px" v-model="q.boctid" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in ref_boctype"
+                                    :key="item.id"
+                                    :label="item.boctypename"
+                                    :value="item.id">
+                            </el-option>
+                        </el-select>
+
+                    </el-form-item>
+                    <el-form-item label="汇率">
+
+                        <el-input style="width: 350px" v-model="q.rate" placeholder="汇率"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="税率">
+
+                        <el-input style="width: 350px" v-model="q.taxrate" placeholder="税率"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="放箱单价">
+
+                        <el-input style="width: 350px" v-model="q.takeboxfee" placeholder="放箱单价"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="放箱单价(税)">
+
+                        <el-input style="width: 350px" v-model="q.takeboxfeetax" placeholder="放箱单价(税)"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="生效日期">
+
+
+                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                                        :picker-options="pickerOptions1" v-model="q.bgndate"
+                                        style="width: 100%;"></el-date-picker>
+
+                    </el-form-item>
+                    <el-form-item label="失效日期">
+
+
+                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                                        :picker-options="pickerOptions1" v-model="q.enddate"
+                                        style="width: 100%;"></el-date-picker>
+
+                    </el-form-item>
+                    <el-form-item label="备注">
+
+                        <el-input style="width: 350px" v-model="q.remark" placeholder="备注"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="单据状态">
+
+                        <el-select style="width: 350px" v-model="q.billstatus" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in ref_enum1003"
+                                    :key="item.enumvalueid"
+                                    :label="item.enumvaluename"
+                                    :value="item.enumvalueid">
+                            </el-option>
+                        </el-select>
+
+
+                    </el-form-item>
+                    <el-form-item label="制单人">
+
+                        <el-input style="width: 350px" v-model="q.makeuser" placeholder="制单人"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="制单日期">
+
+
+                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                                        :picker-options="pickerOptions1" v-model="q.makedate"
+                                        style="width: 100%;"></el-date-picker>
+
+                    </el-form-item>
+                    <el-form-item label="审核人">
+
+                        <el-input style="width: 350px" v-model="q.accuser" placeholder="审核人"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="审核日期">
+
+
+                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                                        :picker-options="pickerOptions1" v-model="q.accdate"
+                                        style="width: 100%;"></el-date-picker>
+
+                    </el-form-item>
+                    <el-form-item label="更新时间">
+
+
+                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                                        :picker-options="pickerOptions1" v-model="q.uptdate"
+                                        style="width: 100%;"></el-date-picker>
+
+                    </el-form-item>
+
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -51,128 +207,179 @@
             <el-row>
                 <el-col :span="14">
                     <el-button-group>
-                        <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
-                        <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+                        <el-button type="primary" v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存
+                        </el-button>
+                        <el-button type="primary" v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
                     </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    <div class="billno">单据号:{{storecontractmain.billno}}<span class="panel-right">制单人:{{storecontractmain.makeuser}} 制单日期:{{storecontractmain.makedate}}</span></div>
+                    <div class="billno">单据号:{{storecontractmain.billno}}<span class="panel-right">制单人:{{storecontractmain.makeuser}} 制单日期:{{storecontractmain.makedate}}</span>
+                    </div>
 
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right" inline="true" label-width="80px" style="padding:30px">
+        <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
 
-                                                                                                        <el-form-item label="客户">
-                                                    <el-select v-model="storecontractmain.orgid"  filterable placeholder="请选择">
-                                <el-option
-                                        v-for="item in ref_organization"
-                                        :key="item.id"
-                                        :label="item.name"
-                                        :value="item.id">
-                                </el-option>
-                            </el-select>
+            <el-form-item label="客户" style="padding-top: 22px">
+
+                <input v-model="storecontractmain.orgidname" v-on:click="openRefTreeorganizationorgid"
+                       placeholder="客户" style="width: 168px;" class="el-input el-input__inner"></input>
 
 
-                        
-                    </el-form-item>
-                                                                <el-form-item label="付款方式">
-                                                    <el-input v-model="storecontractmain.paytype" placeholder="付款方式"></el-input>
+            </el-form-item>
+            <el-form-item label="付款方式" style="padding-top: 22px">
+                <el-select v-model="storecontractmain.paytype" filterable placeholder="请选择" style="width: 168px;">
+                    <el-option
+                            v-for="item in ref_paytype"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+
+            </el-form-item>
+            <el-form-item label="结算周期" style="padding-top: 22px">
+
+                <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
+                                v-model="storecontractmain.paytime" style="width: 168px;"></el-date-picker>
 
 
-                        
-                    </el-form-item>
-                                                                <el-form-item label="币别">
-                                                    <el-input v-model="storecontractmain.boctid" placeholder="币别"></el-input>
+            </el-form-item>
+            <el-form-item label="币别" style="padding-top: 22px">
+                <el-select v-model="storecontractmain.boctid" filterable placeholder="请选择" style="width: 168px;">
+                    <el-option
+                            v-for="item in ref_boctype"
+                            :key="item.id"
+                            :label="item.boctypename"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
 
+            </el-form-item>
+            <el-form-item label="汇率" style="padding-top: 22px">
+                <el-input v-model="storecontractmain.rate" placeholder="汇率" style="width: 168px;"></el-input>
 
-                        
-                    </el-form-item>
-                                                                <el-form-item label="汇率">
-                        
-                            <el-input-number v-model="storecontractmain.rate" :min="1" ></el-input-number>
-                        
-                    </el-form-item>
-                                                                <el-form-item label="税率">
-                        
-                            <el-input-number v-model="storecontractmain.taxrate" :min="1" ></el-input-number>
-                        
-                    </el-form-item>
-                                                                <el-form-item label="放箱单价">
-                        
-                            <el-input-number v-model="storecontractmain.takeboxfee" :min="1" ></el-input-number>
-                        
-                    </el-form-item>
-                                                                <el-form-item label="放箱单价(税)">
-                        
-                            <el-input-number v-model="storecontractmain.takeboxfeetax" :min="1" ></el-input-number>
-                        
-                    </el-form-item>
-                                                                <el-form-item label="生效日期">
-                        
-                            <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="storecontractmain.bgndate" style="width: 100%;"></el-date-picker>
-                        
-                    </el-form-item>
-                                                                <el-form-item label="失效日期">
-                        
-                            <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="storecontractmain.enddate" style="width: 100%;"></el-date-picker>
-                        
-                    </el-form-item>
-                                                                <el-form-item label="备注">
-                                                    <el-input v-model="storecontractmain.remark" placeholder="备注"></el-input>
+            </el-form-item>
+            <el-form-item label="税率" style="padding-top: 22px">
+                <el-input v-model="storecontractmain.taxrate" placeholder="税率" style="width: 168px;"></el-input>
 
+            </el-form-item>
+            <el-form-item label="放箱单价" style="padding-top: 22px">
+                <el-input v-model="storecontractmain.takeboxfee" placeholder="放箱单价" style="width: 168px;"></el-input>
 
-                        
-                    </el-form-item>
-                                                                                                                                                                                                    
+            </el-form-item>
+            <el-form-item label="放箱单价(税)" style="padding-top: 22px">
+                <el-input v-model="storecontractmain.takeboxfeetax" placeholder="放箱单价(税)"
+                          style="width: 168px;"></el-input>
+
+            </el-form-item>
+            <el-form-item label="生效日期" style="padding-top: 22px">
+
+                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
+                                v-model="storecontractmain.bgndate" style="width: 168px;"></el-date-picker>
+
+            </el-form-item>
+            <el-form-item label="失效日期" style="padding-top: 22px">
+
+                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
+                                v-model="storecontractmain.enddate" style="width: 168px;"></el-date-picker>
+
+            </el-form-item>
+            <el-form-item label="备注" style="padding-top: 22px">
+                <el-input v-model="storecontractmain.remark" placeholder="备注" style="width: 168px;"></el-input>
+
+            </el-form-item>
+
 
         </el-form>
 
         <table id="details" class="layui-table">
             <colgroup>
-                                     <col width="100">
-                                     <col width="100">
-                                     <col width="100">
-                                     <col width="100">
-                                     <col width="100">
-                                     <col width="100">
-                                     <col width="100">
-                            </colgroup>
+                <col width="80">
+                <col width="50">
+                <col width="100">
+                <col width="100">
+                <col width="100">
+                <col width="100">
+                <col width="100">
+            </colgroup>
             <thead>
             <tr>
-                <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
-                                    <th></th>
-                                    <th>单据号</th>
-                                    <th>序号</th>
-                                    <th>线路</th>
-                                    <th>箱型</th>
-                                    <th>空重类型</th>
-                                    <th>应收单价</th>
-                
+                <th>操作</th>
+                <th>序号</th>
+                <th>线路</th>
+                <th>箱型</th>
+                <th>空重类型</th>
+                <th>应收单价</th>
+                <th>更新时间</th>
+
             </tr>
             </thead>
             <tbody>
             <tr v-for="(item,index) in storecontractmain.details">
-                <td><input type="checkbox" name="" lay-skin="primary"/>
-                    <div class="layui-btn-group">
-                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="additem"><i class="layui-icon">&#xe654;</i></button>
-                        <button class="layui-btn layui-btn-primary layui-btn-small" v-on:click="delitem" v-bind:id="'btn-del-'+index" v-bind:idx="index"><i class="layui-icon">&#xe640;</i></button>
-                    </div>
+                <td>
+                    <el-button-group>
+                        <el-button type="primary" icon="plus" size="mini" v-on:click="additem"></el-button>
+                        <el-button type="primary" icon="delete" size="mini" v-on:click="delitem"
+                                   v-bind:id="'btn-del-'+index" v-bind:idx="index"></el-button>
+                    </el-button-group>
                 </td>
-                <td>{{index}}</td>
-                                                                                            <td><input v-model="item.billno"></td>
-                                                                            <td><input v-model="item.serialno"></td>
-                                                                            <td><input v-model="item.lineid"></td>
-                                                                            <td><input v-model="item.boxtype"></td>
-                                                                            <td><input v-model="item.weighttype"></td>
-                                                                            <td><input v-model="item.boxprice"></td>
-                                    
+
+                <td>
+                    <el-input v-model="item.serialno" placeholder="序号"></el-input>
+                </td>
+                <td>
+                <el-select v-model="storecontractmain.lineid" filterable placeholder="请选择" style="width: 168px;">
+                    <el-option
+                            v-for="item in ref_transline"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+                </td>
+                <td>
+                <el-select v-model="storecontractmain.boxtype" filterable placeholder="请选择" style="width: 168px;">
+                    <el-option
+                            v-for="item in ref_boxs"
+                            :key="item.id"
+                            :label="item.boxsize"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+                </td>
+                <td>
+                <el-select v-model="storecontractmain.weighttype" filterable placeholder="请选择">
+                    <el-option
+                            v-for="item in ref_enum1009"
+                            :key="item.enumvalueid"
+                            :label="item.enumvaluename"
+                            :value="item.enumvalueid">
+                    </el-option>
+                </el-select>
+                </td>
+                <td>
+                    <el-input v-model="item.boxprice" placeholder="应收单价"></el-input>
+                </td>
+
+                <td>
+                    <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
+                                    v-model="item.uptdate" style="width: 100%;"></el-date-picker>
+                </td>
+
             </tr>
             </tbody>
         </table>
 
     </div>
 </div>
+
+
+<div id="treelayerorganization" style="display: none;padding:10px;">
+    <ul id="refTreeorganization" class="ztree"></ul>
+</div>
+
 
 <script src="${ctxPath}/static/js/contract/storecontractmain.js"></script>
 </body>

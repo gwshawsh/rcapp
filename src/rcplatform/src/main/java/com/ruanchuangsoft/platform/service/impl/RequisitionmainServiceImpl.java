@@ -48,10 +48,13 @@ public class RequisitionmainServiceImpl implements RequisitionmainService {
 	
 	@Override
 	public void update(RequisitionmainEntity requisitionmain){
+		requisitiondetailDao.deleteByBillNo(requisitionmain.getBillno());
+
         for(RequisitiondetailEntity item:requisitionmain.getDetails()){
 				requisitiondetailDao.save(item);
         }
-			requisitionmainDao.update(requisitionmain);
+
+		requisitionmainDao.update(requisitionmain);
 	}
 	
 	@Override
@@ -67,8 +70,17 @@ public class RequisitionmainServiceImpl implements RequisitionmainService {
 	}
 	
 	@Override
-	public void deleteBatch(Long[] ids){
-		requisitionmainDao.deleteBatch(ids);
-	}
-	
+    public void deleteBatch(Long[] ids){
+			requisitionmainDao.deleteBatch(ids);
+    }
+
+    @Override
+    public void auditBatch(Long[] ids){
+			requisitionmainDao.auditBatch(ids);
+    }
+
+    @Override
+    public void unauditBatch(Long[] ids){
+			requisitionmainDao.unauditBatch(ids);
+    }
 }

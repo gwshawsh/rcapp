@@ -1,7 +1,5 @@
 package com.ruanchuangsoft.platform.service.impl;
 
-import com.ruanchuangsoft.platform.dao.OrderdetailDao;
-import com.ruanchuangsoft.platform.entity.OrderdetailEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.ruanchuangsoft.platform.dao.OrdermainDao;
+import com.ruanchuangsoft.platform.dao.OrderdetailDao;
 import com.ruanchuangsoft.platform.entity.OrdermainEntity;
+import com.ruanchuangsoft.platform.entity.OrderdetailEntity;
 import com.ruanchuangsoft.platform.service.OrdermainService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,10 +48,13 @@ public class OrdermainServiceImpl implements OrdermainService {
 	
 	@Override
 	public void update(OrdermainEntity ordermain){
+		orderdetailDao.deleteByBillNo(ordermain.getBillno());
+
         for(OrderdetailEntity item:ordermain.getDetails()){
 				orderdetailDao.save(item);
         }
-			ordermainDao.update(ordermain);
+
+		ordermainDao.update(ordermain);
 	}
 	
 	@Override
@@ -67,8 +70,17 @@ public class OrdermainServiceImpl implements OrdermainService {
 	}
 	
 	@Override
-	public void deleteBatch(Long[] ids){
-		ordermainDao.deleteBatch(ids);
-	}
-	
+    public void deleteBatch(Long[] ids){
+			ordermainDao.deleteBatch(ids);
+    }
+
+    @Override
+    public void auditBatch(Long[] ids){
+			ordermainDao.auditBatch(ids);
+    }
+
+    @Override
+    public void unauditBatch(Long[] ids){
+			ordermainDao.unauditBatch(ids);
+    }
 }

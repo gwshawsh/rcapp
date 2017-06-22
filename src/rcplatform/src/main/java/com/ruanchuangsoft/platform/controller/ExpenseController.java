@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -22,11 +24,11 @@ import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 报销管理
+ * 报销单
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 13:27:49
+ * @date 2017-06-22 17:01:14
  */
 @Controller
 @RequestMapping("expense")
@@ -58,10 +60,37 @@ public class ExpenseController extends AbstractController {
 	@ResponseBody
 	@RequestMapping("/list")
 	@RequiresPermissions("expense:list")
-	public R list(Integer page, Integer limit){
+	public R list(Integer page, Integer limit,String query){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
+
+        if(query!=null&&query.length()>0){
+            try {
+                String tmpquery =query.replaceAll("&quot;","\"");
+				ExpenseEntity param = JSON.parseObject(tmpquery, ExpenseEntity.class);
+				        	        map.put("id", param.getId());
+                        	        map.put("billno", param.getBillno());
+                        	        map.put("applyuser", param.getApplyuser());
+                        	        map.put("deptid", param.getDeptid());
+                        	        map.put("applydate", param.getApplydate());
+                        	        map.put("costcategoryid", param.getCostcategoryid());
+                        	        map.put("expensemoney", param.getExpensemoney());
+                        	        map.put("reason", param.getReason());
+                        	        map.put("receiver", param.getReceiver());
+                        	        map.put("paytype", param.getPaytype());
+                        	        map.put("bankaccount", param.getBankaccount());
+                        	        map.put("makeuser", param.getMakeuser());
+                        	        map.put("makedate", param.getMakedate());
+                        	        map.put("accuser", param.getAccuser());
+                        	        map.put("accdate", param.getAccdate());
+                        	        map.put("uptdate", param.getUptdate());
+                
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+        }
 
 		//查询列表数据
 		List<ExpenseEntity> expenseList = expenseService.queryList(map);

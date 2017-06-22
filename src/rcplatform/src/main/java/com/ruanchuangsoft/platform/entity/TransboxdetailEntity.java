@@ -4,18 +4,20 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+import java.math.BigDecimal;
+
+
 
 /**
  * 运输计划明细表
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-30 23:44:01
+ * @date 2017-06-22 09:37:11
  */
 public class TransboxdetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-
+	
 	//
 	private Long id;
 	//单据号
@@ -24,9 +26,9 @@ public class TransboxdetailEntity implements Serializable {
 	private Long serialno;
 	//运输公司
 	private Long transcompanyid;
-	//放箱计划单据号
+	//参照单据号
 	private String refbillno;
-	//放箱计划序号
+	//参照单据序号
 	private Long refserialno;
 	//原起运地点
 	private Long startplaceid1;
@@ -53,18 +55,39 @@ public class TransboxdetailEntity implements Serializable {
 	//车牌号
 	private String carno;
 	//车型
-	private String cartype;
+	private Long cartype;
+	//燃料
+	private Long carenergytype;
 	//司机编码
 	private Long driversid;
 	//司机姓名
 	private String driversname;
 	//应收费用
-	private Double feein;
+	private BigDecimal feein;
 	//应付费用
-	private Double feeout;
+	private BigDecimal feeout;
 	//利润
-	private Double profit;
+	private BigDecimal profit;
+	//更新时间
+	private Date uptdate;
 
+				        //运输公司
+        private String transcompanyidname;
+				        //原起运地点
+        private String startplaceid1name;
+		        //现起运点
+        private String startplaceid2name;
+		        //目的地
+        private String endplaceidname;
+		        //线路
+        private String lineidname;
+										        //车型
+        private String cartypecartypename;
+		        //燃料
+        private String carenergytypeenumvaluename;
+		        //司机编码
+        private String driversidname;
+						
 	/**
 	 * 设置：
 	 */
@@ -114,25 +137,25 @@ public class TransboxdetailEntity implements Serializable {
 		return transcompanyid;
 	}
 	/**
-	 * 设置：放箱计划单据号
+	 * 设置：参照单据号
 	 */
 	public void setRefbillno(String refbillno) {
 		this.refbillno = refbillno;
 	}
 	/**
-	 * 获取：放箱计划单据号
+	 * 获取：参照单据号
 	 */
 	public String getRefbillno() {
 		return refbillno;
 	}
 	/**
-	 * 设置：放箱计划序号
+	 * 设置：参照单据序号
 	 */
 	public void setRefserialno(Long refserialno) {
 		this.refserialno = refserialno;
 	}
 	/**
-	 * 获取：放箱计划序号
+	 * 获取：参照单据序号
 	 */
 	public Long getRefserialno() {
 		return refserialno;
@@ -284,14 +307,26 @@ public class TransboxdetailEntity implements Serializable {
 	/**
 	 * 设置：车型
 	 */
-	public void setCartype(String cartype) {
+	public void setCartype(Long cartype) {
 		this.cartype = cartype;
 	}
 	/**
 	 * 获取：车型
 	 */
-	public String getCartype() {
+	public Long getCartype() {
 		return cartype;
+	}
+	/**
+	 * 设置：燃料
+	 */
+	public void setCarenergytype(Long carenergytype) {
+		this.carenergytype = carenergytype;
+	}
+	/**
+	 * 获取：燃料
+	 */
+	public Long getCarenergytype() {
+		return carenergytype;
 	}
 	/**
 	 * 设置：司机编码
@@ -320,66 +355,147 @@ public class TransboxdetailEntity implements Serializable {
 	/**
 	 * 设置：应收费用
 	 */
-	public void setFeein(Double feein) {
+	public void setFeein(BigDecimal feein) {
 		this.feein = feein;
 	}
 	/**
 	 * 获取：应收费用
 	 */
-	public Double getFeein() {
+	public BigDecimal getFeein() {
 		return feein;
 	}
 	/**
 	 * 设置：应付费用
 	 */
-	public void setFeeout(Double feeout) {
+	public void setFeeout(BigDecimal feeout) {
 		this.feeout = feeout;
 	}
 	/**
 	 * 获取：应付费用
 	 */
-	public Double getFeeout() {
+	public BigDecimal getFeeout() {
 		return feeout;
 	}
 	/**
 	 * 设置：利润
 	 */
-	public void setProfit(Double profit) {
+	public void setProfit(BigDecimal profit) {
 		this.profit = profit;
 	}
 	/**
 	 * 获取：利润
 	 */
-	public Double getProfit() {
+	public BigDecimal getProfit() {
 		return profit;
 	}
-
-	//一下为虚拟字段
-	private String startplacename1;
-	private String startplacename2;
-	private String endplacename;
-
-	public String getStartplacename1() {
-		return startplacename1;
+	/**
+	 * 设置：更新时间
+	 */
+	public void setUptdate(Date uptdate) {
+		this.uptdate = uptdate;
+	}
+	/**
+	 * 获取：更新时间
+	 */
+	public Date getUptdate() {
+		return uptdate;
 	}
 
-	public void setStartplacename1(String startplacename1) {
-		this.startplacename1 = startplacename1;
-	}
 
-	public String getStartplacename2() {
-		return startplacename2;
-	}
-
-	public void setStartplacename2(String startplacename2) {
-		this.startplacename2 = startplacename2;
-	}
-
-	public String getEndplacename() {
-		return endplacename;
-	}
-
-	public void setEndplacename(String endplacename) {
-		this.endplacename = endplacename;
-	}
-}
+												        /**
+         * 设置：运输公司name
+         */
+        public void setTranscompanyidname(String name) {
+            this.transcompanyidname = name;
+        }
+        /**
+         * 获取：运输公司name
+         */
+        public String getTranscompanyidname() {
+            return transcompanyidname;
+        }
+        									        /**
+         * 设置：原起运地点name
+         */
+        public void setStartplaceid1name(String name) {
+            this.startplaceid1name = name;
+        }
+        /**
+         * 获取：原起运地点name
+         */
+        public String getStartplaceid1name() {
+            return startplaceid1name;
+        }
+        			        /**
+         * 设置：现起运点name
+         */
+        public void setStartplaceid2name(String name) {
+            this.startplaceid2name = name;
+        }
+        /**
+         * 获取：现起运点name
+         */
+        public String getStartplaceid2name() {
+            return startplaceid2name;
+        }
+        			        /**
+         * 设置：目的地name
+         */
+        public void setEndplaceidname(String name) {
+            this.endplaceidname = name;
+        }
+        /**
+         * 获取：目的地name
+         */
+        public String getEndplaceidname() {
+            return endplaceidname;
+        }
+        			        /**
+         * 设置：线路name
+         */
+        public void setLineidname(String name) {
+            this.lineidname = name;
+        }
+        /**
+         * 获取：线路name
+         */
+        public String getLineidname() {
+            return lineidname;
+        }
+        																											        /**
+         * 设置：车型cartypename
+         */
+        public void setCartypecartypename(String cartypename) {
+            this.cartypecartypename = cartypename;
+        }
+        /**
+         * 获取：车型cartypename
+         */
+        public String getCartypecartypename() {
+            return cartypecartypename;
+        }
+        			        /**
+         * 设置：燃料enumvaluename
+         */
+        public void setCarenergytypeenumvaluename(String enumvaluename) {
+            this.carenergytypeenumvaluename = enumvaluename;
+        }
+        /**
+         * 获取：燃料enumvaluename
+         */
+        public String getCarenergytypeenumvaluename() {
+            return carenergytypeenumvaluename;
+        }
+        			        /**
+         * 设置：司机编码name
+         */
+        public void setDriversidname(String name) {
+            this.driversidname = name;
+        }
+        /**
+         * 获取：司机编码name
+         */
+        public String getDriversidname() {
+            return driversidname;
+        }
+        																}

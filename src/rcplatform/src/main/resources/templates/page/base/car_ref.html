@@ -1,0 +1,100 @@
+<div id="ref_car" style="display: none;padding:10px;">
+    <table id="ref_grid_car"></table>
+    <div id="ref_gridpager_car"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_car(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_car"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_car");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_car").jqGrid({
+            url: '../car/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '编码',
+                            name: 'carcode',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '车牌号',
+                            name: 'carname',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '车辆辨识信息',
+                            name: 'carinfo',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '主司机编码',
+                            name: 'driverid',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '主司机姓名',
+                            name: 'drivername',
+                            width: 80
+                        }, 
+                                                                                { label: '车辆所属', name: 'enumvaluename', width: 80 }, 
+                                                                                { label: '所属车队', name: 'name', width: 80 }, 
+                                                                                { label: '车辆类型', name: 'name', width: 80 }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_car",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_car").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

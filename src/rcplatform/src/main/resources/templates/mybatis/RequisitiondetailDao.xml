@@ -4,14 +4,21 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.RequisitiondetailDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RequisitiondetailEntity">
-		select * from requisitiondetail where id = #{value}
+		select
+																               		ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
+																						        a.*
+
+		from requisitiondetail a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RequisitiondetailEntity">
-		select * from requisitiondetail 
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
+        select
+																								                    ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
+																																		        a.*
+        from requisitiondetail a
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
@@ -23,23 +30,23 @@
 		(
 			`billno`, 
 			`serialno`, 
-			`good_id`, 
-			`goodsname`, 
+			`goodsid`, 
 			`goodscount`, 
 			`goodsspec`, 
 			`goodsuse`, 
-			`enddate`
+			`enddate`, 
+			`uptdate`
 		)
 		values
 		(
 			#{billno}, 
 			#{serialno}, 
-			#{goodId}, 
-			#{goodsname}, 
+			#{goodsid}, 
 			#{goodscount}, 
 			#{goodsspec}, 
 			#{goodsuse}, 
-			#{enddate}
+			#{enddate}, 
+			#{uptdate}
 		)
 	</insert>
 	 
@@ -48,12 +55,12 @@
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
 			<if test="serialno != null">`serialno` = #{serialno}, </if>
-			<if test="goodId != null">`good_id` = #{goodId}, </if>
-			<if test="goodsname != null">`goodsname` = #{goodsname}, </if>
+			<if test="goodsid != null">`goodsid` = #{goodsid}, </if>
 			<if test="goodscount != null">`goodscount` = #{goodscount}, </if>
 			<if test="goodsspec != null">`goodsspec` = #{goodsspec}, </if>
 			<if test="goodsuse != null">`goodsuse` = #{goodsuse}, </if>
-			<if test="enddate != null">`enddate` = #{enddate}</if>
+			<if test="enddate != null">`enddate` = #{enddate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
 		</set>
 		where id = #{id}
 	</update>

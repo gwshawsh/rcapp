@@ -1,0 +1,99 @@
+<div id="ref_drivers" style="display: none;padding:10px;">
+    <table id="ref_grid_drivers"></table>
+    <div id="ref_gridpager_drivers"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_drivers(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_drivers"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_drivers");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_drivers").jqGrid({
+            url: '../drivers/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '编码',
+                            name: 'code',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '姓名',
+                            name: 'name',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '电话',
+                            name: 'phone',
+                            width: 80
+                        }, 
+                                                                                { label: '所属车队', name: 'name', width: 80 }, 
+                                                                                {
+                            label: '证件号',
+                            name: 'documentno',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '驾龄',
+                            name: 'driveage',
+                            width: 80
+                        }, 
+                                                                                { label: '类型', name: 'enumvaluename', width: 80 }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_drivers",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_drivers").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

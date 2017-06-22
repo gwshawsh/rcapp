@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("emptymainService")
-
 public class EmptymainServiceImpl implements EmptymainService {
 	@Autowired
 	private EmptymainDao emptymainDao;

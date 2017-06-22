@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("preemptymainService")
-@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class PreemptymainServiceImpl implements PreemptymainService {
 	@Autowired
 	private PreemptymainDao preemptymainDao;

@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-09 14:27:43
+ * @date 2017-06-20 18:02:55
  */
 @Controller
 @RequestMapping("goods")

@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ruanchuangsoft.platform.entity.SysDeptEntity;
+import com.ruanchuangsoft.platform.controller.AbstractController;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,13 +20,12 @@ import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
-
 /**
  * 组织管理
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-04-24 21:53:31
+ * @date 2017-06-21 18:46:43
  */
 @Controller
 @RequestMapping("organization")
@@ -33,22 +33,22 @@ public class OrganizationController extends AbstractController {
 	@Autowired
 	private OrganizationService organizationService;
 
-
-
-	@RequestMapping("/index")
-	public ModelAndView index() {
-
-		setViewname("base/organization");
-
-		ModelAndView view = getModelAndView();
-
-//		initModelAndViewI18N(view,keys);
-
-
-		return view;
-
+	@RequestMapping("/organization")
+	public String list(){
+		return "organization/organization";
 	}
 
+
+
+    @RequestMapping("/index")
+    public ModelAndView index() {
+
+        setViewname("base/organization");
+        ModelAndView view = getModelAndView();
+//		initModelAndViewI18N(view,keys);
+        return view;
+
+    }
 
 	/**
 	 * 列表
@@ -70,29 +70,31 @@ public class OrganizationController extends AbstractController {
 		return R.ok().put("page", pageUtil);
 	}
 
-	/**
-	 * 选择菜单(添加、修改菜单)
-	 */
-	@ResponseBody
-	@RequestMapping("/select")
-	@RequiresPermissions("organization:select")
-	public R select() {
-		//查询列表数据
-		Map<String, Object> map = new HashMap<>();
-		List<OrganizationEntity> orgList = organizationService.queryList(map);
+    /**
+     * 选择菜单(添加、修改菜单)
+     */
+    @ResponseBody
+    @RequestMapping("/select")
+    @RequiresPermissions("organization:select")
+    public R select() {
+        //查询列表数据
+        Map<String, Object> map = new HashMap<>();
+        List<OrganizationEntity> organizationList = organizationService.queryList(map);
 
-		//添加顶级菜单
+        //添加顶级菜单
 		OrganizationEntity root = new OrganizationEntity();
-		root.setId(0L);
-		root.setName("组织管理");
-		root.setParentId(-1L);
-		root.setOpen(true);
-		orgList.add(root);
+        root.setId(0L);
+        root.setName("组织管理");
+        root.setParentId(-1L);
+        root.setOpen(true);
+		organizationList.add(root);
 
-		return R.ok().put("orgList", orgList);
-	}
+        return R.ok().put("treeList", organizationList);
+    }
 
-	/**
+
+
+    /**
 	 * 信息
 	 */
 	@ResponseBody

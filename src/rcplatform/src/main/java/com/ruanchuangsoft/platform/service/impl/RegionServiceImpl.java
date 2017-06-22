@@ -9,7 +9,7 @@ import java.util.Map;
 import com.ruanchuangsoft.platform.dao.RegionDao;
 import com.ruanchuangsoft.platform.entity.RegionEntity;
 import com.ruanchuangsoft.platform.service.RegionService;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("regionService")

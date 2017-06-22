@@ -4,13 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+import java.math.BigDecimal;
+
+
 
 /**
  * 放箱计划明细表
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-28 10:49:15
+ * @date 2017-06-21 19:55:19
  */
 public class TakeboxdetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -31,6 +34,8 @@ public class TakeboxdetailEntity implements Serializable {
 	private Long endplaceid;
 	//箱号
 	private String boxno;
+	//铅封号
+	private String fengno;
 	//计划提箱时间
 	private Date plantaketime;
 	//实际提箱时间
@@ -40,48 +45,21 @@ public class TakeboxdetailEntity implements Serializable {
 	//实际到场时间
 	private Date realarrvetime;
 	//应收费用
-	private Double yingshou;
+	private BigDecimal yingshou;
 	//应付费用
-	private Double yingfu;
+	private BigDecimal yingfu;
+	//更新时间
+	private Date uptdate;
 
-	private String transcompanyname;
-	private String startplacename1;
-	private String startplacename2;
-	private String endplacename;
-
-
-	public String getTranscompanyname() {
-		return transcompanyname;
-	}
-
-	public void setTranscompanyname(String transcompanyname) {
-		this.transcompanyname = transcompanyname;
-	}
-
-	public String getStartplacename1() {
-		return startplacename1;
-	}
-
-	public void setStartplacename1(String startplacename1) {
-		this.startplacename1 = startplacename1;
-	}
-
-	public String getStartplacename2() {
-		return startplacename2;
-	}
-
-	public void setStartplacename2(String startplacename2) {
-		this.startplacename2 = startplacename2;
-	}
-
-	public String getEndplacename() {
-		return endplacename;
-	}
-
-	public void setEndplacename(String endplacename) {
-		this.endplacename = endplacename;
-	}
-
+				        //运输公司
+        private String transcompanyidname;
+		        //原起运地点
+        private String startplaceid1name;
+		        //现起运点
+        private String startplaceid2name;
+		        //目的地
+        private String endplaceidname;
+										
 	/**
 	 * 设置：
 	 */
@@ -179,6 +157,18 @@ public class TakeboxdetailEntity implements Serializable {
 		return boxno;
 	}
 	/**
+	 * 设置：铅封号
+	 */
+	public void setFengno(String fengno) {
+		this.fengno = fengno;
+	}
+	/**
+	 * 获取：铅封号
+	 */
+	public String getFengno() {
+		return fengno;
+	}
+	/**
 	 * 设置：计划提箱时间
 	 */
 	public void setPlantaketime(Date plantaketime) {
@@ -229,25 +219,87 @@ public class TakeboxdetailEntity implements Serializable {
 	/**
 	 * 设置：应收费用
 	 */
-	public void setYingshou(Double yingshou) {
+	public void setYingshou(BigDecimal yingshou) {
 		this.yingshou = yingshou;
 	}
 	/**
 	 * 获取：应收费用
 	 */
-	public Double getYingshou() {
+	public BigDecimal getYingshou() {
 		return yingshou;
 	}
 	/**
 	 * 设置：应付费用
 	 */
-	public void setYingfu(Double yingfu) {
+	public void setYingfu(BigDecimal yingfu) {
 		this.yingfu = yingfu;
 	}
 	/**
 	 * 获取：应付费用
 	 */
-	public Double getYingfu() {
+	public BigDecimal getYingfu() {
 		return yingfu;
 	}
-}
+	/**
+	 * 设置：更新时间
+	 */
+	public void setUptdate(Date uptdate) {
+		this.uptdate = uptdate;
+	}
+	/**
+	 * 获取：更新时间
+	 */
+	public Date getUptdate() {
+		return uptdate;
+	}
+
+
+												        /**
+         * 设置：运输公司name
+         */
+        public void setTranscompanyidname(String name) {
+            this.transcompanyidname = name;
+        }
+        /**
+         * 获取：运输公司name
+         */
+        public String getTranscompanyidname() {
+            return transcompanyidname;
+        }
+        			        /**
+         * 设置：原起运地点name
+         */
+        public void setStartplaceid1name(String name) {
+            this.startplaceid1name = name;
+        }
+        /**
+         * 获取：原起运地点name
+         */
+        public String getStartplaceid1name() {
+            return startplaceid1name;
+        }
+        			        /**
+         * 设置：现起运点name
+         */
+        public void setStartplaceid2name(String name) {
+            this.startplaceid2name = name;
+        }
+        /**
+         * 获取：现起运点name
+         */
+        public String getStartplaceid2name() {
+            return startplaceid2name;
+        }
+        			        /**
+         * 设置：目的地name
+         */
+        public void setEndplaceidname(String name) {
+            this.endplaceidname = name;
+        }
+        /**
+         * 获取：目的地name
+         */
+        public String getEndplaceidname() {
+            return endplaceidname;
+        }
+        																												}

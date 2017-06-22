@@ -14,9 +14,17 @@ import java.util.List;
  */
 public class SysDeptEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	//
-	private Long deptId;
+	private Long id;
 	//上级部门ID，一级部门为0
 	private Long parentId;
 
@@ -60,18 +68,7 @@ public class SysDeptEntity implements Serializable {
 		this.list = list;
 	}
 
-	/**
-	 * 设置：
-	 */
-	public void setDeptId(Long deptId) {
-		this.deptId = deptId;
-	}
-	/**
-	 * 获取：
-	 */
-	public Long getDeptId() {
-		return deptId;
-	}
+
 	/**
 	 * 设置：上级部门ID，一级部门为0
 	 */

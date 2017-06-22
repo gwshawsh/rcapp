@@ -43,7 +43,7 @@ public class ${className}Controller extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("${pathName}/${pathName}");
+        setViewname("${parent}/${pathName}");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -89,7 +89,7 @@ public class ${className}Controller extends AbstractController {
         root.setOpen(true);
 		${classname}List.add(root);
 
-        return R.ok().put("treeList", sysDeptList);
+        return R.ok().put("treeList", ${classname}List);
     }
 
 

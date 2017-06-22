@@ -4,86 +4,102 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.TransboxdetailDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TransboxdetailEntity">
-		select a.*,
-		ifnull((select name from place b where a.startplaceid1=b.id),'') as startplacename1,
-		ifnull((select name from place b where a.startplaceid2=b.id),'') as startplacename2,
-		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename
-		from transboxdetail a
-		where id = #{value}
+		select
+																               		ifnull((select name from  organization b where a.transcompanyid=b.id),'') as transcompanyidname,
+																		               		ifnull((select name from  place b where a.startplaceid1=b.id),'') as startplaceid1name,
+												               		ifnull((select name from  place b where a.startplaceid2=b.id),'') as startplaceid2name,
+												               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
+												               		ifnull((select name from  transline b where a.lineid=b.id),'') as lineidname,
+																																				               		ifnull((select cartypename from  cartype b where a.cartype=b.id),'') as cartypecartypename,
+												                    ifnull((select enumvaluename from  enumtable b where a.carenergytype=b.enumvalueid and b.enumtype='1008'),'') as carenergytypeenumvaluename,
+												               		ifnull((select name from  drivers b where a.driversid=b.id),'') as driversidname,
+																						        a.*
+
+		from transboxdetail a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TransboxdetailEntity">
-		select a.*,
-		ifnull((select name from place b where a.startplaceid=b.id),'') as startplacename1,
-		ifnull((select name from place b where a.startplaceid2=b.id),'') as startplacename2,
-		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename
-		from transboxdetail a
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
+        select
+																								                    ifnull((select name from  organization b where a.transcompanyid=b.id),'') as transcompanyidname,
+																										                    ifnull((select name from  place b where a.startplaceid1=b.id),'') as startplaceid1name,
+																                    ifnull((select name from  place b where a.startplaceid2=b.id),'') as startplaceid2name,
+																                    ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
+																                    ifnull((select name from  transline b where a.lineid=b.id),'') as lineidname,
+																																																								                    ifnull((select cartypename from  cartype b where a.cartype=b.id),'') as cartypecartypename,
+																                    ifnull((select enumvaluename from  enumtable b where a.carenergytype=b.enumvalueid and b.enumtype='1008'),'') as carenergytypeenumvaluename,
+																                    ifnull((select name from  drivers b where a.driversid=b.id),'') as driversidname,
+																																		        a.*
+        from transboxdetail a
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
 		select count(*) from transboxdetail 
 	</select>
-
+	 
 	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TransboxdetailEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into transboxdetail
 		(
 			`billno`, 
 			`serialno`, 
-			`transcompanyid`,
-			`refbillno`,
-			`refserialno`,
-			`startplaceid1`,
-			`startplaceid2`,
-			`endplaceid`,
-			`lineid`,
-			`boxno`,
-			`fengno`,
-			`wendu`,
-			`plantaketime`,
-			`realtaketime`,
-			`planarrvetime`,
-			`realarrvetime`,
-			`carno`,
-			`cartype`,
-			`driversid`,
-			`driversname`,
-			`feein`,
-			`feeout`,
-			`profit`
+			`transcompanyid`, 
+			`refbillno`, 
+			`refserialno`, 
+			`startplaceid1`, 
+			`startplaceid2`, 
+			`endplaceid`, 
+			`lineid`, 
+			`boxno`, 
+			`fengno`, 
+			`wendu`, 
+			`plantaketime`, 
+			`realtaketime`, 
+			`planarrvetime`, 
+			`realarrvetime`, 
+			`carno`, 
+			`cartype`, 
+			`carenergytype`, 
+			`driversid`, 
+			`driversname`, 
+			`feein`, 
+			`feeout`, 
+			`profit`, 
+			`uptdate`
 		)
 		values
 		(
-			#{billno},
-			#{serialno},
-			#{transcompanyid},
-			#{refbillno},
-			#{refserialno},
-			#{startplaceid1},
-			#{startplaceid2},
-			#{endplaceid},
-			#{lineid},
-			#{boxno},
-			#{fengno},
-			#{wendu},
-			#{plantaketime},
-			#{realtaketime},
-			#{planarrvetime},
-			#{realarrvetime},
-			#{carno},
-			#{cartype},
-			#{driversid},
-			#{driversname},
-			#{feein},
-			#{feeout},
-			#{profit}
+			#{billno}, 
+			#{serialno}, 
+			#{transcompanyid}, 
+			#{refbillno}, 
+			#{refserialno}, 
+			#{startplaceid1}, 
+			#{startplaceid2}, 
+			#{endplaceid}, 
+			#{lineid}, 
+			#{boxno}, 
+			#{fengno}, 
+			#{wendu}, 
+			#{plantaketime}, 
+			#{realtaketime}, 
+			#{planarrvetime}, 
+			#{realarrvetime}, 
+			#{carno}, 
+			#{cartype}, 
+			#{carenergytype}, 
+			#{driversid}, 
+			#{driversname}, 
+			#{feein}, 
+			#{feeout}, 
+			#{profit}, 
+			#{uptdate}
 		)
 	</insert>
-
+	 
 	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TransboxdetailEntity">
-		update transboxdetail
+		update transboxdetail 
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
 			<if test="serialno != null">`serialno` = #{serialno}, </if>
@@ -103,11 +119,13 @@
 			<if test="realarrvetime != null">`realarrvetime` = #{realarrvetime}, </if>
 			<if test="carno != null">`carno` = #{carno}, </if>
 			<if test="cartype != null">`cartype` = #{cartype}, </if>
+			<if test="carenergytype != null">`carenergytype` = #{carenergytype}, </if>
 			<if test="driversid != null">`driversid` = #{driversid}, </if>
 			<if test="driversname != null">`driversname` = #{driversname}, </if>
 			<if test="feein != null">`feein` = #{feein}, </if>
 			<if test="feeout != null">`feeout` = #{feeout}, </if>
-			<if test="profit != null">`profit` = #{profit}</if>
+			<if test="profit != null">`profit` = #{profit}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -115,6 +133,10 @@
 	<delete id="delete">
 		delete from transboxdetail where id = #{value}
 	</delete>
+
+    <delete id="deleteByBillNo">
+        delete from transboxdetail where billno = #{value}
+    </delete>
 	
 	<delete id="deleteBatch">
 		delete from transboxdetail where id in 

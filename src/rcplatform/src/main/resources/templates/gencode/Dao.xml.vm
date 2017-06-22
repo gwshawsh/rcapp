@@ -4,11 +4,40 @@
 <mapper namespace="${package}.dao.${className}Dao">
 
 	<select id="queryObject" resultType="${package}.entity.${className}Entity">
-		select * from ${tableName} where ${pk.columnName} = #{value}
+		select
+		#foreach($column in $columns)
+		#if($column.refColumn)
+			#if($column.refType!='enum')
+               		ifnull((select ${column.refColumnName} from  ${column.refTable} b where a.${column.columnName}=b.${column.refColumnId}),'') as ${column.attrname}${column.refColumnName},
+				#else
+                    ifnull((select enumvaluename from  enumtable b where a.${column.columnName}=b.enumvalueid and b.enumtype='${column.refTable}'),'') as ${column.attrname}${column.refColumnName},
+				#end
+		#end
+    	#end
+        a.*
+		from ${tableName} a where ${pk.columnName} = #{value}
 	</select>
 
 	<select id="queryList" resultType="${package}.entity.${className}Entity">
-		select * from ${tableName} 
+		select
+		#foreach($column in $columns)
+			#if($column.refColumn)
+				#if($column.refType!='enum')
+               		ifnull((select ${column.refColumnName} from  ${column.refTable} b where a.${column.columnName}=b.${column.refColumnId}),'') as ${column.attrname}${column.refColumnName},
+				#else
+                    ifnull((select enumvaluename from  enumtable b where a.${column.columnName}=b.enumvalueid and b.enumtype='${column.refTable}'),'') as ${column.attrname}${column.refColumnName},
+				#end
+			#end
+		#end
+        a.*
+		from ${tableName} a
+		<where>
+			#foreach($column in $columns)
+                <if test="$column.attrname != null and $column.attrname != '' ">
+                `$column.columnName` = #{$column.attrname}#if($velocityCount != $columns.size()) and #end
+				</if>
+			#end
+		</where>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

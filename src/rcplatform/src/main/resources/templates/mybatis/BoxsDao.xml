@@ -4,11 +4,16 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.BoxsDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.BoxsEntity">
-		select * from boxs where id = #{value}
+		select
+				    			    			    			    	        a.*
+
+		from boxs a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.BoxsEntity">
-		select * from boxs 
+		select
+																						        a.*
+		from boxs a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -22,13 +27,13 @@
 		insert into boxs
 		(
 			`code`, 
-			`box_size`, 
+			`boxsize`, 
 			`weight`
 		)
 		values
 		(
 			#{code}, 
-			#{boxSize}, 
+			#{boxsize}, 
 			#{weight}
 		)
 	</insert>
@@ -37,7 +42,7 @@
 		update boxs 
 		<set>
 			<if test="code != null">`code` = #{code}, </if>
-			<if test="boxSize != null">`box_size` = #{boxSize}, </if>
+			<if test="boxsize != null">`boxsize` = #{boxsize}, </if>
 			<if test="weight != null">`weight` = #{weight}</if>
 		</set>
 		where id = #{id}

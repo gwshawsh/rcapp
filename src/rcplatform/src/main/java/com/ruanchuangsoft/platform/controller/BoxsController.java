@@ -8,6 +8,7 @@ import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,23 +21,22 @@ import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
-
 /**
- * 箱型基础信息表
+ * 箱型管理
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 23:03:41
+ * @date 2017-06-20 19:02:25
  */
 @Controller
 @RequestMapping("boxs")
+@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class BoxsController extends AbstractController {
 	@Autowired
 	private BoxsService boxsService;
 
 	@RequestMapping("/boxs")
 	public String list(){
-
 		return "boxs/boxs";
 	}
 
@@ -44,8 +44,8 @@ public class BoxsController extends AbstractController {
 
     @RequestMapping("/index")
     public ModelAndView index() {
-		setViewname("activiti/modeler");
-//        setViewname("base/boxs");
+
+        setViewname("base/boxs");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;

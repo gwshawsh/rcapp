@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 报销管理
+ * 报销单
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 13:27:49
+ * @date 2017-06-22 17:01:14
  */
 public interface ExpenseService {
 	

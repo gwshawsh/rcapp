@@ -66,11 +66,11 @@ function initGridHeight(){
 }
 
 function initGridHeightHalf(pgrid){
-	$(pgrid).setGridHeight($(window).height()/2 - 150);
+	$(pgrid).setGridHeight(($(window).height()- 200)/2);
 
 	$(window).resize(function(){
 		$(window).unbind("onresize");
-		$(pgrid).setGridHeight($(window).height()/2 - 150);
+		$(pgrid).setGridHeight(($(window).height()-200)/2);
 		$(window).bind("onresize", this);
 	});
 }

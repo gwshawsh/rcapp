@@ -3,6 +3,8 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import java.math.BigDecimal;
+
 
 
 /**
@@ -10,14 +12,14 @@ import java.util.Date;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-09 14:27:43
+ * @date 2017-06-20 18:02:55
  */
 public class GoodsEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
 	private Long id;
-	//类别ID
+	//类别
 	private Long classid;
 	//编码
 	private String code;
@@ -29,6 +31,30 @@ public class GoodsEntity implements Serializable {
 	private Double pricetax;
 	//库存
 	private Integer gcount;
+
+
+	
+
+
+	        //类别
+        private String classidname;
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
 
 	/**
 	 * 设置：
@@ -43,13 +69,13 @@ public class GoodsEntity implements Serializable {
 		return id;
 	}
 	/**
-	 * 设置：类别ID
+	 * 设置：类别
 	 */
 	public void setClassid(Long classid) {
 		this.classid = classid;
 	}
 	/**
-	 * 获取：类别ID
+	 * 获取：类别
 	 */
 	public Long getClassid() {
 		return classid;
@@ -114,4 +140,18 @@ public class GoodsEntity implements Serializable {
 	public Integer getGcount() {
 		return gcount;
 	}
-}
+
+
+						        /**
+         * 设置：类别name
+         */
+        public void setClassidname(String name) {
+            this.classidname = name;
+        }
+        /**
+         * 获取：类别name
+         */
+        public String getClassidname() {
+            return classidname;
+        }
+        																}

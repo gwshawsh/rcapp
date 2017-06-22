@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -26,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-10 20:13:30
+ * @date 2017-06-22 15:53:05
  */
 @Controller
 @RequestMapping("requisitiondetail")
@@ -45,7 +47,7 @@ public class RequisitiondetailController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("requisitiondetail/requisitiondetail");
+        setViewname("finance/requisitiondetail");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -58,10 +60,30 @@ public class RequisitiondetailController extends AbstractController {
 	@ResponseBody
 	@RequestMapping("/list")
 	@RequiresPermissions("requisitiondetail:list")
-	public R list(Integer page, Integer limit){
+	public R list(Integer page, Integer limit,String query){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
+
+        if(query!=null&&query.length()>0){
+            try {
+                String tmpquery =query.replaceAll("&quot;","\"");
+				RequisitiondetailEntity param = JSON.parseObject(tmpquery, RequisitiondetailEntity.class);
+				        	        map.put("id", param.getId());
+                        	        map.put("billno", param.getBillno());
+                        	        map.put("serialno", param.getSerialno());
+                        	        map.put("goodsid", param.getGoodsid());
+                        	        map.put("goodscount", param.getGoodscount());
+                        	        map.put("goodsspec", param.getGoodsspec());
+                        	        map.put("goodsuse", param.getGoodsuse());
+                        	        map.put("enddate", param.getEnddate());
+                        	        map.put("uptdate", param.getUptdate());
+                
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+        }
 
 		//查询列表数据
 		List<RequisitiondetailEntity> requisitiondetailList = requisitiondetailService.queryList(map);

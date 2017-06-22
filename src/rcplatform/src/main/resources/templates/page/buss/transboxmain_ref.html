@@ -1,0 +1,163 @@
+<div id="ref_transboxmain" style="display: none;padding:10px;">
+    <table id="ref_grid_transboxmain"></table>
+    <div id="ref_gridpager_transboxmain"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_transboxmain(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_transboxmain"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_transboxmain");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_transboxmain").jqGrid({
+            url: '../transboxmain/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '单据号',
+                            name: 'billno',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '参照单据号',
+                            name: 'refbillno',
+                            width: 80
+                        }, 
+                                                                                { label: '参照单据类型', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '客户',
+                            name: 'orgid',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '提单号',
+                            name: 'ladingcode',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '船名',
+                            name: 'shipname',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '航次',
+                            name: 'flight',
+                            width: 80
+                        }, 
+                                                                                { label: '港口', name: 'name', width: 80 }, 
+                                                                                {
+                            label: '箱量',
+                            name: 'boxqty',
+                            width: 80
+                        }, 
+                                                                                { label: '箱型', name: 'boxsize', width: 80 }, 
+                                                                                { label: '提箱场站', name: 'name', width: 80 }, 
+                                                                                { label: '目的地', name: 'name', width: 80 }, 
+                                                                                {
+                            label: '集港时间',
+                            name: 'bgnshipdatetime',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '截港时间',
+                            name: 'endshipdatetime',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '最早到场时间',
+                            name: 'bgnplanarrtime',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '最晚到场时间',
+                            name: 'endplanarrtime',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '备注',
+                            name: 'remark',
+                            width: 80
+                        }, 
+                                                                                { label: '单据状态', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '制单人',
+                            name: 'makeuser',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '制单日期',
+                            name: 'makedate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '审核人',
+                            name: 'accuser',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '审核日期',
+                            name: 'accdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '更新时间',
+                            name: 'uptdate',
+                            width: 80
+                        }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_transboxmain",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_transboxmain").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

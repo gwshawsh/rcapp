@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @date 2017-04-18 21:22:26
  */
 @RestController
-@RequestMapping("/sys/dept")
+@RequestMapping("/sys_dept")
 public class SysDeptController extends AbstractController {
 
     @Autowired
@@ -83,13 +83,13 @@ public class SysDeptController extends AbstractController {
 
         //添加顶级菜单
         SysDeptEntity root = new SysDeptEntity();
-        root.setDeptId(0L);
+        root.setId(0L);
         root.setName("部门管理");
         root.setParentId(-1L);
         root.setOpen(true);
         sysDeptList.add(root);
 
-        return R.ok().put("deptList", sysDeptList);
+        return R.ok().put("treeList", sysDeptList);
     }
 
 

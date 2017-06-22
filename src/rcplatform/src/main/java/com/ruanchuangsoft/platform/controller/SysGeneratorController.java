@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * 代码生成器
- * 
+ *
  * @author chenshun
  * @email sunlightcs@gmail.com
  * @date 2016年12月19日 下午9:12:58
@@ -31,89 +31,114 @@ import java.util.Map;
 @Controller
 @RequestMapping("/sys/generator")
 public class SysGeneratorController {
-	@Autowired
-	private SysGeneratorService sysGeneratorService;
+    @Autowired
+    private SysGeneratorService sysGeneratorService;
 
-	/**
-	 * 列表
-	 */
-	@ResponseBody
-	@RequestMapping("/list")
-	@RequiresPermissions("sys:generator:list")
-	public R list(@RequestParam Map<String, Object> params){
-		//查询列表数据
-		Query query = new Query(params);
-		List<Map<String, Object>> list = sysGeneratorService.queryList(query);
-		int total = sysGeneratorService.queryTotal(query);
+    /**
+     * 列表
+     */
+    @ResponseBody
+    @RequestMapping("/list")
+    @RequiresPermissions("sys:generator:list")
+    public R list(@RequestParam Map<String, Object> params) {
+        //查询列表数据
+        Query query = new Query(params);
+        List<Map<String, Object>> list = sysGeneratorService.queryList(query);
+        int total = sysGeneratorService.queryTotal(query);
 
-		PageUtils pageUtil = new PageUtils(list, total, query.getLimit(), query.getPage());
+        PageUtils pageUtil = new PageUtils(list, total, query.getLimit(), query.getPage());
 
-		return R.ok().put("page", pageUtil);
-	}
+        return R.ok().put("page", pageUtil);
+    }
 
-	/**
-	 * 生成代码
-	 */
-	@RequestMapping("/code")
-	@RequiresPermissions("sys:generator:code")
-	public void code(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		//获取表名，不进行xss过滤
-		HttpServletRequest orgRequest = XssHttpServletRequestWrapper.getOrgRequest(request);
-		String tables = orgRequest.getParameter("tables");
-		String[] tableNames=tables.split(",");
+    /**
+     * 生成代码
+     */
+    @RequestMapping("/code")
+    @RequiresPermissions("sys:generator:code")
+    public void code(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //获取表名，不进行xss过滤
+        HttpServletRequest orgRequest = XssHttpServletRequestWrapper.getOrgRequest(request);
+        String tables = orgRequest.getParameter("tables");
+        String[] tableNames = tables.split(",");
+        String path = orgRequest.getParameter("path");
 //		String[] tableNames = new String[]{tables};// JSON.parseArray(tables).toArray(tableNames);
 
-		byte[] data = sysGeneratorService.generatorCode(tableNames);
+        byte[] data = sysGeneratorService.generatorCode(tableNames,path);
 
-		response.reset();
-		response.setHeader("Content-Disposition", "attachment; filename=\"renren.zip\"");
-		response.addHeader("Content-Length", "" + data.length);
-		response.setContentType("application/octet-stream; charset=UTF-8");
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=\"rcpsinglecode.zip\"");
+        response.addHeader("Content-Length", "" + data.length);
+        response.setContentType("application/octet-stream; charset=UTF-8");
 
-		IOUtils.write(data, response.getOutputStream());
-	}
+        IOUtils.write(data, response.getOutputStream());
+    }
 
 
-	/**
-	 * 生成主从表代码
-	 */
-	@RequestMapping("/codebill")
-	@RequiresPermissions("sys:generator:code")
-	public void codebill(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		//获取表名，不进行xss过滤
-		HttpServletRequest orgRequest = XssHttpServletRequestWrapper.getOrgRequest(request);
-		String tables = orgRequest.getParameter("tables");
-		String[] tableNames=tables.split(",");
+    /**
+     * 生成主从表代码
+     */
+    @RequestMapping("/codebill")
+    @RequiresPermissions("sys:generator:code")
+    public void codebill(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //获取表名，不进行xss过滤
+        HttpServletRequest orgRequest = XssHttpServletRequestWrapper.getOrgRequest(request);
+        String tables = orgRequest.getParameter("tables");
+        String[] tableNames = tables.split(",");
+        String path = orgRequest.getParameter("path");
+        byte[] data = sysGeneratorService.generatorBillCode(tableNames,path);
 
-		byte[] data = sysGeneratorService.generatorBillCode(tableNames);
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=\"rcpbillcode.zip\"");
+        response.addHeader("Content-Length", "" + data.length);
+        response.setContentType("application/octet-stream; charset=UTF-8");
 
-		response.reset();
-		response.setHeader("Content-Disposition", "attachment; filename=\"renren.zip\"");
-		response.addHeader("Content-Length", "" + data.length);
-		response.setContentType("application/octet-stream; charset=UTF-8");
+        IOUtils.write(data, response.getOutputStream());
+    }
 
-		IOUtils.write(data, response.getOutputStream());
-	}
+    /**
+     * 生成tree代码
+     */
+    @RequestMapping("/treecode")
+    @RequiresPermissions("sys:generator:code")
+    public void treecode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //获取表名，不进行xss过滤
+        HttpServletRequest orgRequest = XssHttpServletRequestWrapper.getOrgRequest(request);
+        String tables = orgRequest.getParameter("tables");
 
-	/**
-	 * 生成tree代码
-	 */
-	@RequestMapping("/treecode")
-	@RequiresPermissions("sys:generator:code")
-	public void treecode(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		//获取表名，不进行xss过滤
-		HttpServletRequest orgRequest = XssHttpServletRequestWrapper.getOrgRequest(request);
-		String tables = orgRequest.getParameter("tables");
-		String[] tableNames=tables.split(",");
+        String[] tableNames = tables.split(",");
+        String path = orgRequest.getParameter("path");
 //		String[] tableNames = new String[]{tables};// JSON.parseArray(tables).toArray(tableNames);
 
-		byte[] data = sysGeneratorService.generatorTreeCode(tableNames);
+        byte[] data = sysGeneratorService.generatorTreeCode(tableNames,path);
 
-		response.reset();
-		response.setHeader("Content-Disposition", "attachment; filename=\"renren.zip\"");
-		response.addHeader("Content-Length", "" + data.length);
-		response.setContentType("application/octet-stream; charset=UTF-8");
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=\"rcptreecode.zip\"");
+        response.addHeader("Content-Length", "" + data.length);
+        response.setContentType("application/octet-stream; charset=UTF-8");
 
-		IOUtils.write(data, response.getOutputStream());
-	}
+        IOUtils.write(data, response.getOutputStream());
+    }
+
+    /**
+     * 生成sql代码
+     */
+    @RequestMapping("/sqlcode")
+    @RequiresPermissions("sys:generator:code")
+    public void sqlcode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //获取表名，不进行xss过滤
+        HttpServletRequest orgRequest = XssHttpServletRequestWrapper.getOrgRequest(request);
+        String tables = orgRequest.getParameter("tables");
+        String path = orgRequest.getParameter("path");
+        String[] tableNames = tables.split(",");
+        byte[] data = sysGeneratorService.generatorSqlCode(tableNames, path);
+
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=\"rcpscripts.zip\"");
+        response.addHeader("Content-Length", "" + data.length);
+        response.setContentType("application/octet-stream; charset=UTF-8");
+
+        IOUtils.write(data, response.getOutputStream());
+    }
+
 }

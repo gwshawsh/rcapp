@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ruanchuangsoft.platform.controller.AbstractController;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +21,12 @@ import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
-
 /**
  * 车队管理
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-02 22:34:33
+ * @date 2017-06-20 19:02:25
  */
 @Controller
 @RequestMapping("transteam")
@@ -34,21 +35,22 @@ public class TransteamController extends AbstractController {
 	@Autowired
 	private TransteamService transteamService;
 
-
-
-	@RequestMapping("/index")
-	public ModelAndView index() {
-
-		setViewname("base/transteam");
-
-		ModelAndView view = getModelAndView();
-//		initModelAndViewI18N(view,keys);
-
-
-		return view;
-
+	@RequestMapping("/transteam")
+	public String list(){
+		return "transteam/transteam";
 	}
 
+
+
+    @RequestMapping("/index")
+    public ModelAndView index() {
+
+        setViewname("base/transteam");
+        ModelAndView view = getModelAndView();
+//		initModelAndViewI18N(view,keys);
+        return view;
+
+    }
 
 	/**
 	 * 列表

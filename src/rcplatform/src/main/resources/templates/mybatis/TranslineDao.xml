@@ -4,16 +4,19 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.TranslineDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TranslineEntity">
-		select a.*,
-		(select name from place b where a.startlocation=b.id) as startname,
-		(select name from place b where a.endlocation=b.id) as endname
+		select
+				    			    			    						               		ifnull((select name from  place b where a.startlocation=b.id),'') as startlocationname,
+						    						               		ifnull((select name from  place b where a.endlocation=b.id),'') as endlocationname,
+						    			    			    	        a.*
+
 		from transline a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TranslineEntity">
-		select a.*,
-		(select name from place b where a.startlocation=b.id) as startname,
-		(select name from place b where a.endlocation=b.id) as endname
+		select
+																								               		ifnull((select name from  place b where a.startlocation=b.id),'') as startlocationname,
+																               		ifnull((select name from  place b where a.endlocation=b.id),'') as endlocationname,
+																			        a.*
 		from transline a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
@@ -27,8 +30,8 @@
 	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TranslineEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into transline
 		(
-			`code`,
-			`name`,
+			`code`, 
+			`name`, 
 			`startlocation`, 
 			`endlocation`, 
 			`distance`, 
@@ -36,8 +39,8 @@
 		)
 		values
 		(
-			#{code},
-			#{name},
+			#{code}, 
+			#{name}, 
 			#{startlocation}, 
 			#{endlocation}, 
 			#{distance}, 

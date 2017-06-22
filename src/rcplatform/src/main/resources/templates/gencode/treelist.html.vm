@@ -38,31 +38,96 @@
     </div>
 
     <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">{{title}}</div>
-        <form class="form-horizontal">
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+                    <el-button-group>
+                        <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                        <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+                    </el-button-group>
+                </el-col>
+                <el-col :span="10">
+
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right"  label-width="100px" style="padding:30px">
+
             #foreach($column in $columns)
-                #if($column.columnName != $pk.columnName)
-                    <div class="form-group">
-                        <div class="col-sm-2 control-label">${column.comments}</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="${classname}.${column.attrname}"
-                                   placeholder="${column.comments}"/>
-                        </div>
-                    </div>
+                #if($column.columnName != $pk.columnName
+                &&$column.columnName != "billno"
+                &&$column.columnName != "makeuser"
+                &&$column.columnName != "makedate"
+                &&$column.columnName != "billstatus"
+                &&$column.columnName != "accuser"
+                &&$column.columnName != "accdate"
+                &&$column.columnName != "uptdate"
+                )
+                    <el-form-item label="${column.comments}">
+
+                        #if($column.columnName.endsWith("date"))
+
+                            <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 100%;"></el-date-picker>
+                        #elseif($column.columnName.endsWith("time"))
+
+                            <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 100%;"></el-date-picker>
+
+                        #elseif($column.attrType=="Double"||$column.attrType=="double")
+
+                            <el-input-number style="width: 350px" v-model="${classname}.${column.attrname}" :min="1" ></el-input-number>
+
+                        #elseif($column.refType.equalsIgnoreCase("dialog"))
+
+                            <input style="width: 350px" v-model="${classname}.${column.attrname}${column.refColumnName}" v-on:click="select${column.attrname}${column.refTable}"
+                                   placeholder="${column.comments}" class="el-input el-input__inner"></input>
+
+                        #elseif($column.refType.equalsIgnoreCase("dialogtree"))
+
+                            <input style="width: 350px" v-model="${classname}.${column.attrname}${column.refColumnName}"  v-on:click="openRefTree${column.refTable}${column.attrname}"
+                                   placeholder="${column.comments}" class="el-input el-input__inner"></input>
+
+                        #elseif($column.refType.equalsIgnoreCase("combo")
+                        )
+                            <el-select style="width: 350px" v-model="${classname}.${column.attrname}"  filterable placeholder="请选择">
+                                <el-option
+                                        v-for="item in ref_${column.refTable}"
+                                        :key="item.${column.refColumnId}"
+                                        :label="item.${column.refColumnName}"
+                                        :value="item.${column.refColumnId}">
+                                </el-option>
+                            </el-select>
+                        #elseif( $column.refType.equalsIgnoreCase("enum"))
+                            <el-select style="width: 350px" v-model="${classname}.${column.attrname}"  filterable placeholder="请选择">
+                                <el-option
+                                        v-for="item in ref_enum${column.refTable}"
+                                        :key="item.${column.refColumnId}"
+                                        :label="item.${column.refColumnName}"
+                                        :value="item.${column.refColumnId}">
+                                </el-option>
+                            </el-select>
+
+
+                        #else
+                            <el-input style="width: 350px"  v-model="${classname}.${column.attrname}" placeholder="${column.comments}"></el-input>
+
+
+                        #end
+
+                    </el-form-item>
                 #end
             #end
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <input type="button" class="btn btn-primary" v-on:click="saveOrUpdate" value="确定"/>
-                &nbsp;&nbsp;<input type="button" class="btn btn-warning" v-on:click="reload" value="返回"/>
-            </div>
-        </form>
+
+        </el-form>
     </div>
 </div>
-<div id="menuLayer" style="display: none;padding:10px;">
-    <ul id="menuTree" class="ztree"></ul>
-</div>
+    #foreach($column in $columns)
+        #if($column.refColumn && $column.refType.equalsIgnoreCase("dialogtree"))
+        <div id="treelayer${column.refTable}" style="display: none;padding:10px;">
+            <ul id="refTree${column.refTable}" class="ztree"></ul>
+        </div>
+        #end
+    #end
 
-<script src="${ctxPath}/static/js/${pathName}/${pathName}.js"></script>
+<script src="${ctxPath}/static/js/${parent}/${pathName}.js"></script>
 </body>
 </html>

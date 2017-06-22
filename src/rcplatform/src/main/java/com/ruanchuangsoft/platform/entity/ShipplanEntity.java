@@ -3,14 +3,16 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import java.math.BigDecimal;
+
 
 
 /**
- * 船舶计划表
+ * 船舶计划
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-05-27 20:14:30
+ * @date 2017-06-20 19:02:25
  */
 public class ShipplanEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -49,6 +51,58 @@ public class ShipplanEntity implements Serializable {
 	private String shipment;
 	//备注
 	private String remark;
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
+
+	
+
 
 	/**
 	 * 设置：
@@ -254,4 +308,6 @@ public class ShipplanEntity implements Serializable {
 	public String getRemark() {
 		return remark;
 	}
-}
+
+
+																																																				}

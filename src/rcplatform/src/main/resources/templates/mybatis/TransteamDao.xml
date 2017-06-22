@@ -4,11 +4,18 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.TransteamDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TransteamEntity">
-		select * from transteam where id = #{value}
+		select
+				    			    			    			    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.vehicle_type=b.enumvalueid and b.enumtype='2003'),'') as vehicleTypeenumvaluename,
+						    			    			    	        a.*
+
+		from transteam a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TransteamEntity">
-		select * from transteam 
+		select
+																																							                    ifnull((select enumvaluename from  enumtable b where a.vehicle_type=b.enumvalueid and b.enumtype='2003'),'') as vehicleTypeenumvaluename,
+																			        a.*
+		from transteam a
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

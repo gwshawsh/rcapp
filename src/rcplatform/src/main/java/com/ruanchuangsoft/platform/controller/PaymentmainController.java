@@ -29,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-15 10:53:56
+ * @date 2017-06-22 15:54:18
  */
 @Controller
 @RequestMapping("paymentmain")
@@ -163,5 +163,30 @@ public class PaymentmainController extends AbstractController {
 
 		return R.ok();
 	}
+
+    /**
+     * 审核
+     */
+    @ResponseBody
+    @RequestMapping("/audit")
+    @RequiresPermissions("paymentmain:audit")
+    public R audit(@RequestBody Long[] ids){
+			paymentmainService.auditBatch(ids);
+
+        return R.ok();
+    }
+
+
+    /**
+     * 反审核
+     */
+    @ResponseBody
+    @RequestMapping("/unaudit")
+    @RequiresPermissions("paymentmain:unaudit")
+    public R unaudit(@RequestBody Long[] ids){
+			paymentmainService.unauditBatch(ids);
+
+        return R.ok();
+    }
 
 }

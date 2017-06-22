@@ -9,7 +9,7 @@ import java.util.Map;
 import com.ruanchuangsoft.platform.dao.BudgetdetailDao;
 import com.ruanchuangsoft.platform.entity.BudgetdetailEntity;
 import com.ruanchuangsoft.platform.service.BudgetdetailService;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("budgetdetailService")

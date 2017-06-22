@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>机械维修合同</title>
+    <#include "sys/header.html">
+        </head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <el-button-group>
+                <@shiro.hasPermission name="repaircontractmain:list">
+                <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+                </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="repaircontractmain:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
+        </@shiro.hasPermission>
+        <@shiro.hasPermission name="repaircontractmain:save">
+        <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+        </el-button>
+    </@shiro.hasPermission>
+    <@shiro.hasPermission name="repaircontractmain:update">
+    <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+    </el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="repaircontractmain:delete">
+<el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="repaircontractmain:audit">
+<el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="repaircontractmain:unaudit">
+<el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
+</el-button>
+</@shiro.hasPermission>
+<el-button type="primary" v-on:click="showdetail"><i class="fa fa-reply"></i>&nbsp;明细
+</el-button>
+</el-button-group>
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
+
+                    <el-form-item label="单据号">
+
+                        <el-input style="width: 350px" v-model="q.billno" placeholder="单据号"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="客户">
+
+
+                        <input style="width: 350px" v-model="q.orgidname" v-on:click="openRefTreeorganizationorgid"
+                               placeholder="客户" class="el-input el-input__inner"></input>
+
+
+                    </el-form-item>
+                    <el-form-item label="付款方式">
+
+                        <el-select style="width: 350px" v-model="q.paytype" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in ref_paytype"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
+                            </el-option>
+                        </el-select>
+
+                    </el-form-item>
+                    <el-form-item label="币别">
+
+                        <el-select style="width: 350px" v-model="q.boctid" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in ref_boctype"
+                                    :key="item.id"
+                                    :label="item.boctypename"
+                                    :value="item.id">
+                            </el-option>
+                        </el-select>
+
+                    </el-form-item>
+                    <el-form-item label="汇率">
+
+                        <el-input style="width: 350px" v-model="q.rate" placeholder="汇率"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="税率">
+
+                        <el-input style="width: 350px" v-model="q.taxrate" placeholder="税率"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="总金额">
+
+                        <el-input style="width: 350px" v-model="q.total" placeholder="总金额"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="生效日期">
+
+
+                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                                        :picker-options="pickerOptions1" v-model="q.bgndate"
+                                        style="width: 100%;"></el-date-picker>
+
+                    </el-form-item>
+                    <el-form-item label="失效日期">
+
+
+                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                                        :picker-options="pickerOptions1" v-model="q.enddate"
+                                        style="width: 100%;"></el-date-picker>
+
+                    </el-form-item>
+                    <el-form-item label="备注">
+
+                        <el-input style="width: 350px" v-model="q.remark" placeholder="备注"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="单据状态">
+
+                        <el-select style="width: 350px" v-model="q.billstatus" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in ref_enum1003"
+                                    :key="item.enumvalueid"
+                                    :label="item.enumvaluename"
+                                    :value="item.enumvalueid">
+                            </el-option>
+                        </el-select>
+
+
+                    </el-form-item>
+                    <el-form-item label="制单人">
+
+                        <el-input style="width: 350px" v-model="q.makeuser" placeholder="制单人"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="制单日期">
+
+
+                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                                        :picker-options="pickerOptions1" v-model="q.makedate"
+                                        style="width: 100%;"></el-date-picker>
+
+                    </el-form-item>
+                    <el-form-item label="审核人">
+
+                        <el-input style="width: 350px" v-model="q.accuser" placeholder="审核人"></el-input>
+
+
+                    </el-form-item>
+                    <el-form-item label="审核日期">
+
+
+                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                                        :picker-options="pickerOptions1" v-model="q.accdate"
+                                        style="width: 100%;"></el-date-picker>
+
+                    </el-form-item>
+                    <el-form-item label="更新时间">
+
+
+                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                                        :picker-options="pickerOptions1" v-model="q.uptdate"
+                                        style="width: 100%;"></el-date-picker>
+
+                    </el-form-item>
+
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="showDetailList" class="panel panel-default">
+        <div class="panel-heading">明细</div>
+        <table id="jqGridDetail"></table>
+        <div id="jqGridPagerDetail"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+                    <el-button-group>
+                        <el-button type="primary" v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存
+                        </el-button>
+                        <el-button type="primary" v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+                    </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    <div class="billno">单据号:{{repaircontractmain.billno}}<span class="panel-right">制单人:{{repaircontractmain.makeuser}} 制单日期:{{repaircontractmain.makedate}}</span>
+                    </div>
+
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
+
+            <el-form-item label="客户" style="padding-top: 22px">
+
+                <input v-model="repaircontractmain.orgidname" v-on:click="openRefTreeorganizationorgid"
+                       placeholder="客户" style="width: 168px;" class="el-input el-input__inner"></input>
+
+
+            </el-form-item>
+            <el-form-item label="付款方式" style="padding-top: 22px">
+                <el-select v-model="repaircontractmain.paytype" filterable placeholder="请选择" style="width: 168px;">
+                    <el-option
+                            v-for="item in ref_paytype"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+
+            </el-form-item>
+            <el-form-item label="币别" style="padding-top: 22px">
+                <el-select v-model="repaircontractmain.boctid" filterable placeholder="请选择" style="width: 168px;">
+                    <el-option
+                            v-for="item in ref_boctype"
+                            :key="item.id"
+                            :label="item.boctypename"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+
+            </el-form-item>
+            <el-form-item label="汇率" style="padding-top: 22px">
+                <el-input v-model="repaircontractmain.rate" placeholder="汇率" style="width: 168px;"></el-input>
+
+            </el-form-item>
+            <el-form-item label="税率" style="padding-top: 22px">
+                <el-input v-model="repaircontractmain.taxrate" placeholder="税率" style="width: 168px;"></el-input>
+
+            </el-form-item>
+            <el-form-item label="总金额" style="padding-top: 22px">
+                <el-input v-model="repaircontractmain.total" placeholder="总金额" style="width: 168px;"></el-input>
+
+            </el-form-item>
+            <el-form-item label="生效日期" style="padding-top: 22px">
+
+                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
+                                v-model="repaircontractmain.bgndate" style="width: 168px;"></el-date-picker>
+
+            </el-form-item>
+            <el-form-item label="失效日期" style="padding-top: 22px">
+
+                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
+                                v-model="repaircontractmain.enddate" style="width: 168px;"></el-date-picker>
+
+            </el-form-item>
+            <el-form-item label="备注" style="padding-top: 22px">
+                <el-input v-model="repaircontractmain.remark" placeholder="备注" style="width: 168px;"></el-input>
+
+            </el-form-item>
+
+
+        </el-form>
+
+        <table id="details" class="layui-table">
+            <colgroup>
+                <col width="80">
+                <col width="50">
+                <col width="100">
+                <col width="100">
+                <col width="100">
+                <col width="100">
+                <col width="100">
+                <col width="100">
+                <col width="100">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>操作</th>
+                <th>序号</th>
+                <th>设备</th>
+                <th>箱型</th>
+                <th>空重类型</th>
+                <th>维修单价</th>
+                <th>运输单价</th>
+                <th>数量</th>
+                <th>维修费用</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(item,index) in repaircontractmain.details">
+                <td>
+                    <el-button-group>
+                        <el-button type="primary" icon="plus" size="mini" v-on:click="additem"></el-button>
+                        <el-button type="primary" icon="delete" size="mini" v-on:click="delitem"
+                                   v-bind:id="'btn-del-'+index" v-bind:idx="index"></el-button>
+                    </el-button-group>
+                </td>
+
+                <td>
+                    <el-input v-model="item.serialno" placeholder="序号"></el-input>
+                </td>
+                <td>
+                    <el-input v-model="item.goodsidname" v-on:click="selectgoodsidgoods"
+                              placeholder="设备"></el-input>
+                </td>
+
+                <td>
+                <el-select v-model="repaircontractmain.boxtype" filterable placeholder="请选择" style="width: 168px;">
+                    <el-option
+                            v-for="item in ref_boxs"
+                            :key="item.id"
+                            :label="item.boxsize"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+                </td>
+                <td>
+                <el-select v-model="repaircontractmain.weighttype" filterable placeholder="请选择">
+                    <el-option
+                            v-for="item in ref_enum1009"
+                            :key="item.enumvalueid"
+                            :label="item.enumvaluename"
+                            :value="item.enumvalueid">
+                    </el-option>
+                </el-select>
+                </td>
+                <td>
+                    <el-input v-model="item.price" placeholder="维修单价"></el-input>
+                </td>
+                <td>
+                    <el-input v-model="item.transprice" placeholder="运输单价"></el-input>
+                </td>
+                <td>
+                    <el-input v-model="item.goodsqty" placeholder="数量"></el-input>
+                </td>
+                <td>
+                    <el-input v-model="item.total" placeholder="维修费用"></el-input>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<div id="treelayerorganization" style="display: none;padding:10px;">
+    <ul id="refTreeorganization" class="ztree"></ul>
+</div>
+
+
+<script src="${ctxPath}/static/js/contract/repaircontractmain.js"></script>
+</body>
+</html>

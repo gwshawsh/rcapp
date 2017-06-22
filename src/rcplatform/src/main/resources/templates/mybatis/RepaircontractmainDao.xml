@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.RepaircontractmainDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RepaircontractmainEntity">
+		select
+													               		ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
+												               		ifnull((select name from  paytype b where a.paytype=b.id),'') as paytypename,
+												               		ifnull((select boctypename from  boctype b where a.boctid=b.id),'') as boctidboctypename,
+																														                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																						        a.*
+
+		from repaircontractmain a where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RepaircontractmainEntity">
+        select
+																			                    ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
+																                    ifnull((select name from  paytype b where a.paytype=b.id),'') as paytypename,
+																                    ifnull((select boctypename from  boctype b where a.boctid=b.id),'') as boctidboctypename,
+																																														                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																																		        a.*
+        from repaircontractmain a
+        <where>
+			                <if test="id != null and id != '' ">
+                    `id` = #{id} and                 </if>
+			                <if test="billno != null and billno != '' ">
+                    `billno` = #{billno} and                 </if>
+			                <if test="orgid != null and orgid != '' ">
+                    `orgid` = #{orgid} and                 </if>
+			                <if test="paytype != null and paytype != '' ">
+                    `paytype` = #{paytype} and                 </if>
+			                <if test="boctid != null and boctid != '' ">
+                    `boctid` = #{boctid} and                 </if>
+			                <if test="rate != null and rate != '' ">
+                    `rate` = #{rate} and                 </if>
+			                <if test="taxrate != null and taxrate != '' ">
+                    `taxrate` = #{taxrate} and                 </if>
+			                <if test="total != null and total != '' ">
+                    `total` = #{total} and                 </if>
+			                <if test="bgndate != null and bgndate != '' ">
+                    `bgndate` = #{bgndate} and                 </if>
+			                <if test="enddate != null and enddate != '' ">
+                    `enddate` = #{enddate} and                 </if>
+			                <if test="remark != null and remark != '' ">
+                    `remark` = #{remark} and                 </if>
+			                <if test="billstatus != null and billstatus != '' ">
+                    `billstatus` = #{billstatus} and                 </if>
+			                <if test="makeuser != null and makeuser != '' ">
+                    `makeuser` = #{makeuser} and                 </if>
+			                <if test="makedate != null and makedate != '' ">
+                    `makedate` = #{makedate} and                 </if>
+			                <if test="accuser != null and accuser != '' ">
+                    `accuser` = #{accuser} and                 </if>
+			                <if test="accdate != null and accdate != '' ">
+                    `accdate` = #{accdate} and                 </if>
+			                <if test="uptdate != null and uptdate != '' ">
+                    `uptdate` = #{uptdate}                </if>
+			        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from repaircontractmain 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.RepaircontractmainEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into repaircontractmain
+		(
+			`billno`, 
+			`orgid`, 
+			`paytype`, 
+			`boctid`, 
+			`rate`, 
+			`taxrate`, 
+			`total`, 
+			`bgndate`, 
+			`enddate`, 
+			`remark`, 
+			`billstatus`, 
+			`makeuser`, 
+			`makedate`, 
+			`accuser`, 
+			`accdate`, 
+			`uptdate`
+		)
+		values
+		(
+			#{billno}, 
+			#{orgid}, 
+			#{paytype}, 
+			#{boctid}, 
+			#{rate}, 
+			#{taxrate}, 
+			#{total}, 
+			#{bgndate}, 
+			#{enddate}, 
+			#{remark}, 
+			#{billstatus}, 
+			#{makeuser}, 
+			#{makedate}, 
+			#{accuser}, 
+			#{accdate}, 
+			#{uptdate}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.RepaircontractmainEntity">
+		update repaircontractmain 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="orgid != null">`orgid` = #{orgid}, </if>
+			<if test="paytype != null">`paytype` = #{paytype}, </if>
+			<if test="boctid != null">`boctid` = #{boctid}, </if>
+			<if test="rate != null">`rate` = #{rate}, </if>
+			<if test="taxrate != null">`taxrate` = #{taxrate}, </if>
+			<if test="total != null">`total` = #{total}, </if>
+			<if test="bgndate != null">`bgndate` = #{bgndate}, </if>
+			<if test="enddate != null">`enddate` = #{enddate}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
+			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
+			<if test="makedate != null">`makedate` = #{makedate}, </if>
+			<if test="accuser != null">`accuser` = #{accuser}, </if>
+			<if test="accdate != null">`accdate` = #{accdate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+
+    <update id="auditBatch">
+        update  repaircontractmain set billstatus=billstatus+1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="unauditBatch">
+        update  repaircontractmain set billstatus=billstatus-1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+	
+	<delete id="delete">
+		delete from repaircontractmain where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from repaircontractmain where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

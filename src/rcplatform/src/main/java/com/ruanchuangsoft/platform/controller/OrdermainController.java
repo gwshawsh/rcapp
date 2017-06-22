@@ -6,8 +6,6 @@ import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
-import com.ruanchuangsoft.platform.entity.OrderdetailEntity;
-import com.ruanchuangsoft.platform.service.OrderdetailService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +17,9 @@ import org.springframework.stereotype.Controller;
 
 import com.ruanchuangsoft.platform.entity.OrdermainEntity;
 import com.ruanchuangsoft.platform.service.OrdermainService;
+import com.ruanchuangsoft.platform.entity.OrderdetailEntity;
+import com.ruanchuangsoft.platform.service.OrderdetailService;
+
 import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-10 19:20:37
+ * @date 2017-06-22 15:51:59
  */
 @Controller
 @RequestMapping("ordermain")
@@ -90,10 +91,10 @@ public class OrdermainController extends AbstractController {
         map.put("formid",formid);
 
         //查询列表数据
-        List<OrderdetailEntity> OrderdetailList = orderdetailService.queryList(map);
+        List<OrderdetailEntity> orderdetailList = orderdetailService.queryList(map);
         int total = orderdetailService.queryTotal(map);
 
-        PageUtils pageUtil = new PageUtils(OrderdetailList, total, limit, page);
+        PageUtils pageUtil = new PageUtils(orderdetailList, total, limit, page);
 
         return R.ok().put("page", pageUtil);
     }
@@ -162,5 +163,30 @@ public class OrdermainController extends AbstractController {
 
 		return R.ok();
 	}
+
+    /**
+     * 审核
+     */
+    @ResponseBody
+    @RequestMapping("/audit")
+    @RequiresPermissions("ordermain:audit")
+    public R audit(@RequestBody Long[] ids){
+			ordermainService.auditBatch(ids);
+
+        return R.ok();
+    }
+
+
+    /**
+     * 反审核
+     */
+    @ResponseBody
+    @RequestMapping("/unaudit")
+    @RequiresPermissions("ordermain:unaudit")
+    public R unaudit(@RequestBody Long[] ids){
+			ordermainService.unauditBatch(ids);
+
+        return R.ok();
+    }
 
 }

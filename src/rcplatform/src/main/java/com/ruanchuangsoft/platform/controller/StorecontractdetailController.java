@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -26,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-07 20:39:26
+ * @date 2017-06-22 14:10:00
  */
 @Controller
 @RequestMapping("storecontractdetail")
@@ -45,7 +47,7 @@ public class StorecontractdetailController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("storecontractdetail/storecontractdetail");
+        setViewname("contract/storecontractdetail");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -58,10 +60,29 @@ public class StorecontractdetailController extends AbstractController {
 	@ResponseBody
 	@RequestMapping("/list")
 	@RequiresPermissions("storecontractdetail:list")
-	public R list(Integer page, Integer limit){
+	public R list(Integer page, Integer limit,String query){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
+
+        if(query!=null&&query.length()>0){
+            try {
+                String tmpquery =query.replaceAll("&quot;","\"");
+				StorecontractdetailEntity param = JSON.parseObject(tmpquery, StorecontractdetailEntity.class);
+				        	        map.put("id", param.getId());
+                        	        map.put("billno", param.getBillno());
+                        	        map.put("serialno", param.getSerialno());
+                        	        map.put("lineid", param.getLineid());
+                        	        map.put("boxtype", param.getBoxtype());
+                        	        map.put("weighttype", param.getWeighttype());
+                        	        map.put("boxprice", param.getBoxprice());
+                        	        map.put("uptdate", param.getUptdate());
+                
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+        }
 
 		//查询列表数据
 		List<StorecontractdetailEntity> storecontractdetailList = storecontractdetailService.queryList(map);

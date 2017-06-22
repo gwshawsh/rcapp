@@ -1,10 +1,205 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>控制台</title>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/plugins/jqgrid/ui.jqgrid-bootstrap.css">
+    <link rel="stylesheet" href="/static/plugins/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" href="/static/plugins/layui109/css/layui.css">
+    <link rel="stylesheet" href="/static/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/static/plugins/datepicker/datepicker3.css">
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+    <link rel="stylesheet" href="/static/css/elindex.css">
+    <!-- 引入组件库 -->
+
+
+    <script src="/static/libs/jquery.min.js"></script>
+    <script src="/static/libs/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+
+    <script src="/static/plugins/layer/layer.js"></script>
+    <script src="/static/plugins/layui109/layui.js"></script>
+    <script src="/static/libs/bootstrap.min.js"></script>
+    <script src="/static/plugins/jqgrid/grid.locale-cn.js"></script>
+    <script src="/static/plugins/jqgrid/jquery.jqGrid.min.js"></script>
+    <script src="/static/plugins/ztree/jquery.ztree.all.min.js"></script>
+    <script src="/static/js/common.js"></script>
+    <script src="/static/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="/static/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
+    <script src="/static/plugins/moment/moment.js"></script>
+    <script src="/static/plugins/chartjs/echarts.min.js"></script>
+
+    <script>
+        var gUserName = '${gUserName}';
+
+    </script>
 </head>
 <body>
-欢迎登录软创开发平台
+<div id="rrapp" v-cloak>
+
+    <div class="row">
+        <div class="col-lg-3 col-xs-3">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>150</h3>
+
+                    <p>空箱数量</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer">查看详情<i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-3">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                    <p>重箱数量</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer">查看详情<i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-3">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>44</h3>
+
+                    <p>运输任务</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="#" class="small-box-footer">查看详情<i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-3">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>65</h3>
+
+                    <p>预约箱量</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="#" class="small-box-footer">查看详情 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-6 col-xs-6">
+            <div class="box box-primary" style="position: relative; left: 0px; top: 0px;">
+                <div class="box-header ui-sortable-handle" style="cursor: move;">
+                    <i class="ion ion-clipboard"></i>
+
+                    <h3 class="box-title">待办事项</h3>
+
+                    <div class="box-tools pull-right">
+
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                </div>
+                <!-- /.box-body -->
+
+            </div>
+
+        </div>
+        <div class="col-lg-6 col-xs-6">
+            <div class="box box-solid bg-green-gradient">
+                <div class="box-header ui-sortable-handle" style="cursor: move;">
+                    <i class="fa fa-calendar"></i>
+
+                    <h3 class="box-title">日历</h3>
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <!-- button with a dropdown -->
+
+                    </div>
+                    <!-- /. tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                    <!--The calendar -->
+                    <div id="calendar" style="width: 100%"></div>
+                </div>
+                <!-- /.box-body -->
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-xs-6">
+            <div class="box box-primary" style="position: relative; left: 0px; top: 0px;">
+                <div class="box-header ui-sortable-handle" style="cursor: move;">
+                    <i class="ion ion-clipboard"></i>
+
+                    <h3 class="box-title">数据分析</h3>
+
+                    <div class="box-tools pull-right">
+
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="charts1" style="width:100%;height:400px"></div>
+                </div>
+                <!-- /.box-body -->
+
+            </div>
+
+        </div>
+        <div class="col-lg-6 col-xs-6">
+            <div class="box box-solid">
+                <div class="box-header ui-sortable-handle" style="cursor: move;">
+                    <i class=""></i>
+
+                    <h3 class="box-title">对比分析</h3>
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <!-- button with a dropdown -->
+
+                    </div>
+                    <!-- /. tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                    <!--The calendar -->
+                    <div id="charts2" style="width:100%;height:400px"></div>
+                </div>
+                <!-- /.box-body -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/sys/main.js"></script>
 </body>
 </html>

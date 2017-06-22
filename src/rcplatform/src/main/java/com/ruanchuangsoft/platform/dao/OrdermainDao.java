@@ -7,9 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-10 19:20:37
+ * @date 2017-06-22 15:51:59
  */
 @Mapper
 public interface OrdermainDao extends BaseDao<OrdermainEntity> {
-
+    int auditBatch(Object[] id);
+    int unauditBatch(Object[] id);
 }

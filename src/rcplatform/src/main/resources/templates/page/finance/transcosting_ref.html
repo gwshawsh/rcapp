@@ -1,0 +1,119 @@
+<div id="ref_transcosting" style="display: none;padding:10px;">
+    <table id="ref_grid_transcosting"></table>
+    <div id="ref_gridpager_transcosting"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_transcosting(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_transcosting"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_transcosting");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_transcosting").jqGrid({
+            url: '../transcosting/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '生效日期',
+                            name: 'bgndate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '失效日期',
+                            name: 'enddate',
+                            width: 80
+                        }, 
+                                                                                { label: '线路', name: 'name', width: 80 }, 
+                                                                                { label: '箱型', name: 'boxsize', width: 80 }, 
+                                                                                {
+                            label: '最低成本',
+                            name: 'boxprice',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '备注',
+                            name: 'remark',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '制单人',
+                            name: 'makeuser',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '制单日期',
+                            name: 'makedate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '审核人',
+                            name: 'accuser',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '审核日期',
+                            name: 'accdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '更新时间',
+                            name: 'uptdate',
+                            width: 80
+                        }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_transcosting",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_transcosting").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

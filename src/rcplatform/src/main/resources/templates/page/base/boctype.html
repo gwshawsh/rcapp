@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>币别</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="panel-heading">
+            <el-button-group>
+            <@shiro.hasPermission name="boctype:list">
+            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="boctype:save">
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="boctype:update">
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="boctype:delete">
+            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
+            </@shiro.hasPermission>
+            </el-button-group>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right"  label-width="80px" style="padding:10px">
+
+                                                                            <el-form-item label="编码">
+
+
+                                                            <el-input style="width: 350px"  v-model="boctype.boctypecode" placeholder="编码"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="币名">
+
+
+                                                            <el-input style="width: 350px"  v-model="boctype.boctypename" placeholder="币名"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="汇率">
+
+
+                            
+                                <el-input-number style="width: 350px" v-model="boctype.rate" :min="1" ></el-input-number>
+
+                            
+                    </el-form-item>
+                                                                <el-form-item label="单位">
+
+
+                                                            <el-input style="width: 350px"  v-model="boctype.unit" placeholder="单位"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="更新时间">
+
+
+                            
+                                <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="boctype.uptdate" style="width: 100%;"></el-date-picker>
+                            
+                    </el-form-item>
+                                                                <el-form-item label="备注">
+
+
+                                                            <el-input style="width: 350px"  v-model="boctype.remark" placeholder="备注"></el-input>
+
+
+                              
+                    </el-form-item>
+                            
+        </el-form>
+    </div>
+</div>
+
+
+                                                                                        
+
+<script src="${ctxPath}/static/js/base/boctype.js"></script>
+</body>
+</html>

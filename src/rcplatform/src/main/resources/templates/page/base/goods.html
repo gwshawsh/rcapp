@@ -7,98 +7,106 @@
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-        <div class="grid-btn">
+        <div class="panel-heading">
+            <el-button-group>
             <@shiro.hasPermission name="goods:list">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
-            </button>
+            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="goods:save">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
-            </button>
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="goods:update">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
-                    class="fa fa-pencil-square-o"></i>&nbsp;修改
-            </button>
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="goods:delete">
-            <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-            </button>
+            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
             </@shiro.hasPermission>
+            </el-button-group>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
     </div>
 
     <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">{{title}}</div>
-        <div class="layui-btn-group">
-            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="saveOrUpdate"  ><i class="fa fa-save"></i>保存</button>
-            <button  class="layui-btn layui-btn-small layui-btn-normal"  v-on:click="reload"  ><i class="fa fa-cancel"></i>返回</button>
-
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    
+                </el-col>
+            </el-row>
         </div>
-        <form class="layui-form layui-form-pane">
+        <el-form label-position="right"  label-width="80px" style="padding:10px">
 
-            <div class="layui-form-item">
-                 <div clacc="layui-inline">
-                        <label class="layui-form-label">类别ID</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="goods.classid"
-                                   placeholder="类别ID"/>
-                        </div>
-                  </div>
+                                                                            <el-form-item label="类别">
 
 
-                 </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">编码</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="goods.code"
-                                   placeholder="编码"/>
-                        </div>
-                        </div>
-                </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">名称</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="goods.name"
-                                   placeholder="名称"/>
-                        </div>
-                        </div>
-                </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">单价</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="goods.price"
-                                   placeholder="单价"/>
-                        </div>
-                        </div>
-                </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">含税单价</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="goods.pricetax"
-                                   placeholder="含税单价"/>
-                        </div>
-                        </div>
-                </div>
-                                                            <div class="layui-form-item">
-                        <div clacc="layui-inline">
-                        <label class="layui-form-label">库存</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" v-model="goods.gcount"
-                                   placeholder="库存"/>
-                        </div>
-                        </div>
-                </div>
+                                                            <el-select style="width: 350px" v-model="goods.classid"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_gclass"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
                             
-        </form>
+                    </el-form-item>
+                                                                <el-form-item label="编码">
+
+
+                                                            <el-input style="width: 350px"  v-model="goods.code" placeholder="编码"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="名称">
+
+
+                                                            <el-input style="width: 350px"  v-model="goods.name" placeholder="名称"></el-input>
+
+
+                              
+                    </el-form-item>
+                                                                <el-form-item label="单价">
+
+
+                            
+                                <el-input-number style="width: 350px" v-model="goods.price" :min="1" ></el-input-number>
+
+                            
+                    </el-form-item>
+                                                                <el-form-item label="含税单价">
+
+
+                            
+                                <el-input-number style="width: 350px" v-model="goods.pricetax" :min="1" ></el-input-number>
+
+                            
+                    </el-form-item>
+                                                                <el-form-item label="库存">
+
+
+                                                            <el-input style="width: 350px"  v-model="goods.gcount" placeholder="库存"></el-input>
+
+
+                              
+                    </el-form-item>
+                            
+        </el-form>
     </div>
 </div>
+
+
+                                                                                        
 
 <script src="${ctxPath}/static/js/base/goods.js"></script>
 </body>

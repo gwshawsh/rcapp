@@ -1,19 +1,66 @@
+//生成弹出树形空间参照
+                                
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    }
+};
 
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
 		showList: true,
 		title: null,
-		containeryard: {}
+    //用于日期快捷控件
+    pickerOptions1: {
+        shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+                picker.$emit('pick', new Date());
+            }
+        }, {
+            text: '昨天',
+            onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                picker.$emit('pick', date);
+            }
+        }, {
+            text: '一周前',
+            onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit('pick', date);
+            }
+        }]
+    },
+        //创建参照
+		
+        //创建实体类
+        containeryard: {
+                                                                                        code:"",                                                                 name:"",                                                                 linkman:"",                                                                 phone:"",                                                                 address:"",                                                                 longitude:"",                                                                 latitude:""                            
+        }
 	},
 	methods: {
 		query: function () {
 			vm.reload();
 		},
 		add: function(){
+            var mktime = moment().format("YYYY-MM-DD");
 			vm.showList = false;
 			vm.title = "新增";
-			vm.containeryard = {};
+			vm.containeryard = {
+            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                                                                                                                                code:"",                                                                                                                                                             name:"",                                                                                                                                                             linkman:"",                                                                                                                                                             phone:"",                                                                                                                                                             address:"",                                                                                                                                                             longitude:"",                                                                                                                                                             latitude:""                                                                        
+            };
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -22,7 +69,7 @@ var vm = new Vue({
 			}
 			vm.showList = false;
             vm.title = "修改";
-            
+
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
@@ -47,7 +94,7 @@ var vm = new Vue({
 			if(ids == null){
 				return ;
 			}
-			
+
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
@@ -65,18 +112,26 @@ var vm = new Vue({
 				});
 			});
 		},
-		getInfo: function(id){
-			$.get("../containeryard/info/"+id, function(r){
+
+        //生成参照调用弹出框函数
+																																										
+        //生成参照调用下拉框函数,用来初始化远程数据
+		
+        //生成弹出树形空间参照
+
+
+        getInfo: function(id){
+            $.get("../containeryard/info/"+id, function(r){
                 vm.containeryard = r.containeryard;
             });
-		},
-		reload: function (event) {
-			vm.showList = true;
-			var page = $("#jqGrid").jqGrid('getGridParam','page');
-			$("#jqGrid").jqGrid('setGridParam',{ 
+        },
+        reload: function (event) {
+            vm.showList = true;
+            var page = $("#jqGrid").jqGrid('getGridParam','page');
+            $("#jqGrid").jqGrid('setGridParam',{
                 page:page
             }).trigger("reloadGrid");
-		}
+        }
 	}
 });
 
@@ -86,7 +141,7 @@ $(function () {
         datatype: "json",
         colModel: [
 							                    { label: 'id', name: 'id', width: 50, key: true },
-											                    { label: '编码', name: 'code', width: 80 }, 
+                							                    { label: '编码', name: 'code', width: 80 }, 
 											                    { label: '名称', name: 'name', width: 80 }, 
 											                    { label: '联系人', name: 'linkman', width: 80 }, 
 											                    { label: '联系电话', name: 'phone', width: 80 }, 
@@ -100,7 +155,8 @@ $(function () {
         rowList : [10,30,50],
         rownumbers: true,
         rownumWidth: 25,
-        autowidth:true,
+        autowidth: true,
+        autoScroll: true,
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader : {
@@ -114,12 +170,17 @@ $(function () {
             rows:"limit",
             order: "order"
         },
-		shrinkToFit:false,
+        shrinkToFit:false,
         gridComplete:function(){
             //隐藏grid底部滚动条
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
 
-	initGridHeight();
+    //执行调用参照调用下拉框函数,初始化下拉数据
+	
+
+
+
+    initGridHeight();
 });

@@ -4,29 +4,33 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.TakeboxdetailDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
-		select a.*,
-		ifnull((select name from transteam b where a.transcompanyid=b.id),'') as transcompanyname,
-		ifnull((select name from place b where a.startplaceid1=b.id),'') as startplacename1,
-		ifnull((select name from place b where a.startplaceid2=b.id),'') as startplacename2,
-		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename
-		from takeboxdetail a  where a.id = #{value}
+		select
+																               		ifnull((select name from  organization b where a.transcompanyid=b.id),'') as transcompanyidname,
+												               		ifnull((select name from  place b where a.startplaceid1=b.id),'') as startplaceid1name,
+												               		ifnull((select name from  place b where a.startplaceid2=b.id),'') as startplaceid2name,
+												               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
+																																		        a.*
+
+		from takeboxdetail a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
-		select a.*,
-		ifnull((select name from transteam b where a.transcompanyid=b.id),'') as transcompanyname,
-		ifnull((select name from place b where a.startplaceid1=b.id),'') as startplacename1,
-		ifnull((select name from place b where a.startplaceid2=b.id),'') as startplacename2,
-		ifnull((select name from place b where a.endplaceid=b.id),'') as endplacename
-		from takeboxdetail a
+        select
+																								                    ifnull((select name from  organization b where a.transcompanyid=b.id),'') as transcompanyidname,
+																                    ifnull((select name from  place b where a.startplaceid1=b.id),'') as startplaceid1name,
+																                    ifnull((select name from  place b where a.startplaceid2=b.id),'') as startplaceid2name,
+																                    ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
+																																																						        a.*
+        from takeboxdetail a
 		<where>
 			<if test="formid != null">
 				billno in (select billno from takeboxmain where id= #{formid})
 			</if>
 		</where>
+
 		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
+            limit #{offset}, #{limit}
+        </if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
@@ -41,14 +45,16 @@
 			`transcompanyid`, 
 			`startplaceid1`, 
 			`startplaceid2`, 
-			`endplaceid`,
+			`endplaceid`, 
 			`boxno`, 
+			`fengno`, 
 			`plantaketime`, 
 			`realtaketime`, 
 			`planarrvetime`, 
 			`realarrvetime`, 
 			`yingshou`, 
-			`yingfu`
+			`yingfu`, 
+			`uptdate`
 		)
 		values
 		(
@@ -57,14 +63,16 @@
 			#{transcompanyid}, 
 			#{startplaceid1}, 
 			#{startplaceid2}, 
-			#{endplaceid},
+			#{endplaceid}, 
 			#{boxno}, 
+			#{fengno}, 
 			#{plantaketime}, 
 			#{realtaketime}, 
 			#{planarrvetime}, 
 			#{realarrvetime}, 
 			#{yingshou}, 
-			#{yingfu}
+			#{yingfu}, 
+			#{uptdate}
 		)
 	</insert>
 	 
@@ -78,12 +86,14 @@
 			<if test="startplaceid2 != null">`startplaceid2` = #{startplaceid2}, </if>
 			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
 			<if test="boxno != null">`boxno` = #{boxno}, </if>
+			<if test="fengno != null">`fengno` = #{fengno}, </if>
 			<if test="plantaketime != null">`plantaketime` = #{plantaketime}, </if>
 			<if test="realtaketime != null">`realtaketime` = #{realtaketime}, </if>
 			<if test="planarrvetime != null">`planarrvetime` = #{planarrvetime}, </if>
 			<if test="realarrvetime != null">`realarrvetime` = #{realarrvetime}, </if>
 			<if test="yingshou != null">`yingshou` = #{yingshou}, </if>
-			<if test="yingfu != null">`yingfu` = #{yingfu}</if>
+			<if test="yingfu != null">`yingfu` = #{yingfu}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -92,9 +102,9 @@
 		delete from takeboxdetail where id = #{value}
 	</delete>
 
-	<delete id="deleteByBillNo">
-		delete from takeboxdetail where billno = #{value}
-	</delete>
+    <delete id="deleteByBillNo">
+        delete from takeboxdetail where billno = #{value}
+    </delete>
 	
 	<delete id="deleteBatch">
 		delete from takeboxdetail where id in 

@@ -4,13 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+import java.math.BigDecimal;
+
+
 
 /**
  * 订购明细表
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-10 19:20:37
+ * @date 2017-06-22 15:51:59
  */
 public class OrderdetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -21,10 +24,8 @@ public class OrderdetailEntity implements Serializable {
 	private String billno;
 	//序号
 	private Long serialno;
-	//商品id
-	private Long goodid;
-	//品名
-	private String goodsname;
+	//商品
+	private Long goodsid;
 	//数量
 	private Integer goodscount;
 	//规格
@@ -32,12 +33,17 @@ public class OrderdetailEntity implements Serializable {
 	//用途
 	private String goodsuse;
 	//单价
-	private Double goodsprice;
+	private BigDecimal goodsprice;
 	//金额
-	private Double goodscost;
+	private BigDecimal goodscost;
 	//需用日期
 	private Date enddate;
+	//更新时间
+	private Date uptdate;
 
+				        //商品
+        private String goodsidname;
+								
 	/**
 	 * 设置：
 	 */
@@ -75,28 +81,16 @@ public class OrderdetailEntity implements Serializable {
 		return serialno;
 	}
 	/**
-	 * 设置：商品id
+	 * 设置：商品
 	 */
-	public void setGoodid(Long goodid) {
-		this.goodid = goodid;
+	public void setGoodsid(Long goodsid) {
+		this.goodsid = goodsid;
 	}
 	/**
-	 * 获取：商品id
+	 * 获取：商品
 	 */
-	public Long getGoodid() {
-		return goodid;
-	}
-	/**
-	 * 设置：品名
-	 */
-	public void setGoodsname(String goodsname) {
-		this.goodsname = goodsname;
-	}
-	/**
-	 * 获取：品名
-	 */
-	public String getGoodsname() {
-		return goodsname;
+	public Long getGoodsid() {
+		return goodsid;
 	}
 	/**
 	 * 设置：数量
@@ -137,25 +131,25 @@ public class OrderdetailEntity implements Serializable {
 	/**
 	 * 设置：单价
 	 */
-	public void setGoodsprice(Double goodsprice) {
+	public void setGoodsprice(BigDecimal goodsprice) {
 		this.goodsprice = goodsprice;
 	}
 	/**
 	 * 获取：单价
 	 */
-	public Double getGoodsprice() {
+	public BigDecimal getGoodsprice() {
 		return goodsprice;
 	}
 	/**
 	 * 设置：金额
 	 */
-	public void setGoodscost(Double goodscost) {
+	public void setGoodscost(BigDecimal goodscost) {
 		this.goodscost = goodscost;
 	}
 	/**
 	 * 获取：金额
 	 */
-	public Double getGoodscost() {
+	public BigDecimal getGoodscost() {
 		return goodscost;
 	}
 	/**
@@ -170,4 +164,30 @@ public class OrderdetailEntity implements Serializable {
 	public Date getEnddate() {
 		return enddate;
 	}
-}
+	/**
+	 * 设置：更新时间
+	 */
+	public void setUptdate(Date uptdate) {
+		this.uptdate = uptdate;
+	}
+	/**
+	 * 获取：更新时间
+	 */
+	public Date getUptdate() {
+		return uptdate;
+	}
+
+
+												        /**
+         * 设置：商品name
+         */
+        public void setGoodsidname(String name) {
+            this.goodsidname = name;
+        }
+        /**
+         * 获取：商品name
+         */
+        public String getGoodsidname() {
+            return goodsidname;
+        }
+        																						}

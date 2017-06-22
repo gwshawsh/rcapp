@@ -4,19 +4,21 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.BudgetdetailDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.BudgetdetailEntity">
-		select * from budgetdetail where id = #{value}
+		select
+																               		ifnull((select name from  accountcategory b where a.accountid=b.id),'') as accountidname,
+																												        a.*
+
+		from budgetdetail a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.BudgetdetailEntity">
-		select * from budgetdetail
-		<where>
-			<if test="formid != null">
-				billno in (select billno from budgetform where id= #{formid})
-			</if>
-		</where>
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
+        select
+																								                    ifnull((select name from  accountcategory b where a.accountid=b.id),'') as accountidname,
+																																												        a.*
+        from budgetdetail a
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
@@ -72,6 +74,10 @@
 	<delete id="delete">
 		delete from budgetdetail where id = #{value}
 	</delete>
+
+    <delete id="deleteByBillNo">
+        delete from budgetdetail where billno = #{value}
+    </delete>
 	
 	<delete id="deleteBatch">
 		delete from budgetdetail where id in 

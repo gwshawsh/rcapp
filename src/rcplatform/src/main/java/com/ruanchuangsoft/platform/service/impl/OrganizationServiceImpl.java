@@ -9,7 +9,7 @@ import java.util.Map;
 import com.ruanchuangsoft.platform.dao.OrganizationDao;
 import com.ruanchuangsoft.platform.entity.OrganizationEntity;
 import com.ruanchuangsoft.platform.service.OrganizationService;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("organizationService")
