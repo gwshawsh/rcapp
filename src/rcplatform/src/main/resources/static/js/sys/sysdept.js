@@ -22,14 +22,14 @@ var vm = new Vue({
 		},
 		getTree: function(menuId){
 			//加载菜单树
-			$.get("../dept/select", function(r){
-				ztree = $.fn.zTree.init($("#menuTree"), setting, r.deptList);
-				var node = ztree.getNodeByParam("deptId", vm.dept.parentId);
+			$.get("../sys_dept/select", function(r){
+				ztree = $.fn.zTree.init($("#menuTree"), setting, r.treeList);
+				var node = ztree.getNodeByParam("id", vm.dept.parentId);
 				ztree.selectNode(node);
 				vm.dept.parentName = node.name;
 
-				ztreeLeft = $.fn.zTree.init($("#leftTree"), setting, r.deptList);
-				var node2 = ztreeLeft.getNodeByParam("deptId", vm.dept.parentId);
+				ztreeLeft = $.fn.zTree.init($("#leftTree"), setting, r.treeList);
+				var node2 = ztreeLeft.getNodeByParam("id", vm.dept.parentId);
 				ztreeLeft.selectNode(node2);
 
 			})
@@ -46,7 +46,7 @@ var vm = new Vue({
 				return ;
 			}
 
-			$.get("../dept/info/"+menuId, function(r){
+			$.get("../sys_dept/info/"+menuId, function(r){
 				vm.showList = false;
 				vm.title = "修改";
 				vm.dept = r.dept;
@@ -63,7 +63,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-					url: "../dept/delete",
+					url: "../sys_dept/delete",
 					data: JSON.stringify(menuIds),
 					success: function(r){
 						if(r.code === 0){
@@ -78,7 +78,7 @@ var vm = new Vue({
 			});
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.dept.deptId == null ? "../dept/save" : "../dept/update";
+			var url = vm.dept.deptId == null ? "../sys_dept/save" : "../sys_dept/update";
 			$.ajax({
 				type: "POST",
 				url: url,
@@ -141,7 +141,7 @@ var setting = {
 	data: {
 		simpleData: {
 			enable: true,
-			idKey: "deptId",
+			idKey: "id",
 			pIdKey: "parentId",
 			rootPId: -1
 		},
@@ -157,10 +157,10 @@ var setting = {
 
 $(function () {
 	$("#jqGrid").jqGrid({
-		url: '../dept/list',
+		url: '../sys_dept/list',
 		datatype: "json",
 		colModel: [
-			{ label: '部门Id', name: 'deptId', width: 50, key: true },
+			{ label: '部门', name: 'id', width: 50, key: true },
 			{ label: '上级部门', name: 'parentName', width: 80 },
 			{ label: '部门名称', name: 'name', width: 80 },
 			{ label: '类型', name: 'type', width: 80 },

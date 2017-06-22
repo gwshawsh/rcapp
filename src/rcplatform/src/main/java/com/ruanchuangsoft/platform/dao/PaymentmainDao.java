@@ -7,9 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-15 10:53:56
+ * @date 2017-06-22 15:54:18
  */
 @Mapper
 public interface PaymentmainDao extends BaseDao<PaymentmainEntity> {
-
+    int auditBatch(Object[] id);
+    int unauditBatch(Object[] id);
 }

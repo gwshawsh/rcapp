@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import com.ruanchuangsoft.platform.entity.PaymentdetailEntity;
 
+import java.math.BigDecimal;
+
 
 
 /**
@@ -12,7 +14,7 @@ import com.ruanchuangsoft.platform.entity.PaymentdetailEntity;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-15 10:53:56
+ * @date 2017-06-22 15:54:18
  */
 public class PaymentmainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -26,23 +28,23 @@ public class PaymentmainEntity implements Serializable {
 	//请购人
 	private String requser;
 	//请购部门
-	private String reqdepartment;
+	private String deptid;
 	//请购日期
 	private String reqdate;
 	//订购单据号
 	private String orderbillno;
 	//付款比例
-	private String percent;
+	private BigDecimal percent;
 	//付款金额
-	private Double paytotal;
+	private BigDecimal paytotal;
 	//付款来源
 	private Integer paysource;
 	//收款人
 	private String payee;
 	//收款人账号
-	private Integer payeeaccount;
+	private Long payeeaccount;
 	//付款方式
-	private String paytype;
+	private Long paytype;
 	//说明
 	private String payreason;
 	//物品类别
@@ -60,6 +62,83 @@ public class PaymentmainEntity implements Serializable {
 	//更新时间
 	private Date uptdate;
 
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		            //请购部门
+            private String deptidname;
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		            //付款来源
+            private String paysourceenumvaluename;
+		
+
+	
+		
+
+	
+		            //收款人账号
+            private String payeeaccountaccountno;
+		
+
+	
+		            //付款方式
+            private String paytypename;
+		
+
+	
+		
+
+	
+		            //物品类别
+            private String ordertypeenumvaluename;
+		
+
+	
+		            //单据状态
+            private String billstatusenumvaluename;
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
 	//单据明细
 	private List<PaymentdetailEntity> details;
 
@@ -124,14 +203,14 @@ public class PaymentmainEntity implements Serializable {
 	/**
 	 * 设置：请购部门
 	 */
-	public void setReqdepartment(String reqdepartment) {
-		this.reqdepartment = reqdepartment;
+	public void setDeptid(String deptid) {
+		this.deptid = deptid;
 	}
 	/**
 	 * 获取：请购部门
 	 */
-	public String getReqdepartment() {
-		return reqdepartment;
+	public String getDeptid() {
+		return deptid;
 	}
 	/**
 	 * 设置：请购日期
@@ -160,25 +239,25 @@ public class PaymentmainEntity implements Serializable {
 	/**
 	 * 设置：付款比例
 	 */
-	public void setPercent(String percent) {
+	public void setPercent(BigDecimal percent) {
 		this.percent = percent;
 	}
 	/**
 	 * 获取：付款比例
 	 */
-	public String getPercent() {
+	public BigDecimal getPercent() {
 		return percent;
 	}
 	/**
 	 * 设置：付款金额
 	 */
-	public void setPaytotal(Double paytotal) {
+	public void setPaytotal(BigDecimal paytotal) {
 		this.paytotal = paytotal;
 	}
 	/**
 	 * 获取：付款金额
 	 */
-	public Double getPaytotal() {
+	public BigDecimal getPaytotal() {
 		return paytotal;
 	}
 	/**
@@ -208,25 +287,25 @@ public class PaymentmainEntity implements Serializable {
 	/**
 	 * 设置：收款人账号
 	 */
-	public void setPayeeaccount(Integer payeeaccount) {
+	public void setPayeeaccount(Long payeeaccount) {
 		this.payeeaccount = payeeaccount;
 	}
 	/**
 	 * 获取：收款人账号
 	 */
-	public Integer getPayeeaccount() {
+	public Long getPayeeaccount() {
 		return payeeaccount;
 	}
 	/**
 	 * 设置：付款方式
 	 */
-	public void setPaytype(String paytype) {
+	public void setPaytype(Long paytype) {
 		this.paytype = paytype;
 	}
 	/**
 	 * 获取：付款方式
 	 */
-	public String getPaytype() {
+	public Long getPaytype() {
 		return paytype;
 	}
 	/**
@@ -325,4 +404,77 @@ public class PaymentmainEntity implements Serializable {
 	public Date getUptdate() {
 		return uptdate;
 	}
-}
+
+					        /**
+         * 设置：请购部门name
+         */
+        public void setDeptidname(String name) {
+            this.deptidname = name;
+            }
+    /**
+     * 获取：请购部门name
+     */
+    public String getDeptidname() {
+            return deptidname;
+            }
+						        /**
+         * 设置：付款来源enumvaluename
+         */
+        public void setPaysourceenumvaluename(String enumvaluename) {
+            this.paysourceenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：付款来源enumvaluename
+     */
+    public String getPaysourceenumvaluename() {
+            return paysourceenumvaluename;
+            }
+			        /**
+         * 设置：收款人账号accountno
+         */
+        public void setPayeeaccountaccountno(String accountno) {
+            this.payeeaccountaccountno = accountno;
+            }
+    /**
+     * 获取：收款人账号accountno
+     */
+    public String getPayeeaccountaccountno() {
+            return payeeaccountaccountno;
+            }
+		        /**
+         * 设置：付款方式name
+         */
+        public void setPaytypename(String name) {
+            this.paytypename = name;
+            }
+    /**
+     * 获取：付款方式name
+     */
+    public String getPaytypename() {
+            return paytypename;
+            }
+			        /**
+         * 设置：物品类别enumvaluename
+         */
+        public void setOrdertypeenumvaluename(String enumvaluename) {
+            this.ordertypeenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：物品类别enumvaluename
+     */
+    public String getOrdertypeenumvaluename() {
+            return ordertypeenumvaluename;
+            }
+		        /**
+         * 设置：单据状态enumvaluename
+         */
+        public void setBillstatusenumvaluename(String enumvaluename) {
+            this.billstatusenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：单据状态enumvaluename
+     */
+    public String getBillstatusenumvaluename() {
+            return billstatusenumvaluename;
+            }
+						}

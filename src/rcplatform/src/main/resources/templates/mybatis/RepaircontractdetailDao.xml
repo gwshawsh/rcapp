@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.RepaircontractdetailDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RepaircontractdetailEntity">
+		select
+																               		ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
+												               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+												                    ifnull((select enumvaluename from  enumtable b where a.weighttype=b.enumvalueid and b.enumtype='1009'),'') as weighttypeenumvaluename,
+																			        a.*
+
+		from repaircontractdetail a where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RepaircontractdetailEntity">
+        select
+																								                    ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
+																                    ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+																                    ifnull((select enumvaluename from  enumtable b where a.weighttype=b.enumvalueid and b.enumtype='1009'),'') as weighttypeenumvaluename,
+																													        a.*
+        from repaircontractdetail a
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from repaircontractdetail 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.RepaircontractdetailEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into repaircontractdetail
+		(
+			`billno`, 
+			`serialno`, 
+			`goodsid`, 
+			`boxtype`, 
+			`weighttype`, 
+			`price`, 
+			`transprice`, 
+			`goodsqty`, 
+			`total`
+		)
+		values
+		(
+			#{billno}, 
+			#{serialno}, 
+			#{goodsid}, 
+			#{boxtype}, 
+			#{weighttype}, 
+			#{price}, 
+			#{transprice}, 
+			#{goodsqty}, 
+			#{total}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.RepaircontractdetailEntity">
+		update repaircontractdetail 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="serialno != null">`serialno` = #{serialno}, </if>
+			<if test="goodsid != null">`goodsid` = #{goodsid}, </if>
+			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
+			<if test="weighttype != null">`weighttype` = #{weighttype}, </if>
+			<if test="price != null">`price` = #{price}, </if>
+			<if test="transprice != null">`transprice` = #{transprice}, </if>
+			<if test="goodsqty != null">`goodsqty` = #{goodsqty}, </if>
+			<if test="total != null">`total` = #{total}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from repaircontractdetail where id = #{value}
+	</delete>
+
+    <delete id="deleteByBillNo">
+        delete from repaircontractdetail where billno = #{value}
+    </delete>
+	
+	<delete id="deleteBatch">
+		delete from repaircontractdetail where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

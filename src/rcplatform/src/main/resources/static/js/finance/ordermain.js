@@ -1,6 +1,39 @@
+//生成弹出树形空间参照
+
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url: "nourl"
+        }
+    }
+};
 var vm = new Vue({
     el: '#rrapp',
     data: {
+        q: {
+            billno: "",
+            supplyid: "",
+            reqbillno: "",
+            requser: "",
+            deptid: "",
+            reqdate: "",
+            ordersource: "",
+            ordertype: "",
+            budgetmainid: "",
+            billstatus: "",
+            makeuser: "",
+            makedate: "",
+            accuser: "",
+            accdate: "",
+            uptdate: ""
+        },
+        showQuery: false,
         showList: true,
         showDetailList: true,
         title: null,
@@ -29,13 +62,16 @@ var vm = new Vue({
         },
 
         //用户下拉参照的属性
-        ref_dept: [],
+        ref_sys_dept: [],
         ref_enum1001: [],
 
         ref_enum1002: [],
 
         ref_enum1003: [],
 
+
+        //明细表用户下拉参照的属性
+        ref_goods: [],
 
         //单据主表实体类
         ordermain: {
@@ -47,9 +83,11 @@ var vm = new Vue({
             reqdate: "",
             ordersource: "",
             ordertype: "",
+            budgetmainid: "",
             billstatus: "",
-            makeuser: "",
-            makedate: "", accuser: "",
+            makeuser: gUserName,
+            makedate: "",
+            accuser: "",
             accdate: "",
             uptdate: "",
             details: []
@@ -57,18 +95,21 @@ var vm = new Vue({
         }
     },
     methods: {
+        showQueryPanel: function () {
+            vm.showQuery = !vm.showQuery;
+        },
         query: function () {
             vm.reload();
         },
         showdetail: function () {
-           vm.showDetailList=!vm.showDetailList;
-           if(vm.showDetailList){
-               initGridHeightHalf("#jqGrid");
-               initGridHeightHalf("#jqGridDetail");
-           }
-           else{
-               initGridHeight("#jqGrid");
-           }
+            vm.showDetailList = !vm.showDetailList;
+            if (vm.showDetailList) {
+                initGridHeightHalf("#jqGrid");
+                initGridHeightHalf("#jqGridDetail");
+            }
+            else {
+                initGridHeight("#jqGrid");
+            }
         },
         add: function () {
             var mktime = moment().format("YYYY-MM-DD");
@@ -76,6 +117,12 @@ var vm = new Vue({
             vm.showDetailList = false;
             vm.title = "新增";
             vm.ordermain = {
+                deptidname: "",
+                ordersourceenumvaluename: "",
+                ordertypeenumvaluename: "",
+                budgetmainidbillno: "",
+                billstatusenumvaluename: "",
+
                 billno: "*",
                 supplyid: "",
                 reqbillno: "",
@@ -84,6 +131,7 @@ var vm = new Vue({
                 reqdate: "",
                 ordersource: "",
                 ordertype: "",
+                budgetmainid: "",
                 billstatus: "",
                 makeuser: gUserName,
                 makedate: mktime,
@@ -128,7 +176,7 @@ var vm = new Vue({
                 return;
             }
 
-            confirm('确定要删除选中的记录？', function () {
+            confirm('确定要审核选中的记录？', function () {
                 $.ajax({
                     type: "POST",
                     url: "../ordermain/audit",
@@ -152,7 +200,7 @@ var vm = new Vue({
                 return;
             }
 
-            confirm('确定要删除选中的记录？', function () {
+            confirm('确定要反审核选中的记录？', function () {
                 $.ajax({
                     type: "POST",
                     url: "../ordermain/unaudit",
@@ -195,28 +243,44 @@ var vm = new Vue({
         },
 
         //生成参照调用函数
-
-        //生成参照调用下拉框函数,用来初始化远程数据
-        getRefdept: function () {
-            $.get("../dept/list?page=1&limit=1000", function (r) {
-                vm.ref_dept = r.page.list;
+        selectbudgetmainidbudgetmain: function (event) {
+            showrefgrid_budgetmain("参照", function (data) {
+                var seldata = data;
+                vm.ordermain.budgetmainid = seldata['id'];
+                vm.ordermain.budgetmainidbudgetmainbillno = seldata['name'];
             });
         },
-        getRefEnum1001: function () {
+
+        //生成主表参照调用下拉框函数,用来初始化远程数据
+        getRefsys_dept: function () {
+            $.get("../sys_dept/list?page=1&limit=1000", function (r) {
+                vm.ref_sys_dept = r.page.list;
+            });
+        },
+        getRef1001: function () {
             $.get("../enumtable/listone?enumid=1001&page=1&limit=1000", function (r) {
                 vm.ref_enum1001 = r.page.list;
             });
         },
-        getRefEnum1002: function () {
+        getRef1002: function () {
             $.get("../enumtable/listone?enumid=1002&page=1&limit=1000", function (r) {
                 vm.ref_enum1002 = r.page.list;
             });
         },
-        getRefEnum1003: function () {
+        getRef1003: function () {
             $.get("../enumtable/listone?enumid=1003&page=1&limit=1000", function (r) {
                 vm.ref_enum1003 = r.page.list;
             });
         },
+
+        //生成明细表参照调用下拉框函数,用来初始化远程数据
+        getRefgoods: function () {
+            $.get("../goods/list?page=1&limit=1000", function (r) {
+                vm.ref_goods = r.page.list;
+            });
+        },
+
+        //生成弹出树形空间参照
 
         getInfo: function (id) {
             $.get("../ordermain/info/" + id, function (r) {
@@ -228,6 +292,7 @@ var vm = new Vue({
             vm.showDetailList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
+                postData: {'query': JSON.stringify(vm.q)},
                 page: page
             }).trigger("reloadGrid");
         },
@@ -253,18 +318,17 @@ var vm = new Vue({
             var mktime = moment().format("YYYY-MM-DD");
             var idx = vm.ordermain.details.length;
             var item = {
-
+                id: "",
                 billno: "*",
                 serialno: idx,
                 goodsid: "",
-                goodsname: "",
                 goodscount: "",
                 goodsspec: "",
                 goodsuse: "",
                 goodsprice: "",
                 goodscost: "",
                 enddate: mktime,
-                uptdate: mktime
+                uptdate: mktime,
             };
 
 
@@ -291,15 +355,17 @@ $(function () {
         url: '../ordermain/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', width: 50, key: true},
+            {label: 'id', name: 'id', width: 50, key: true, hidden: true},
             {label: '单据号', name: 'billno', width: 80},
-            {label: '供应商id', name: 'supplyid', width: 80},
+            {label: '供应商', name: 'supplyid', width: 80},
             {label: '请购单据号', name: 'reqbillno', width: 80},
             {label: '请购人', name: 'requser', width: 80},
-            {label: '请购部门', name: 'deptid', width: 80},
-            {label: '请购日期', name: 'reqdate', width: 80},
-            {label: '订购单来源', name: 'ordersource', width: 80},
-            {label: '订购类别', name: 'ordertype', width: 80},
+            {label: '请购部门', name: 'deptidname', width: 80}, {label: '请购日期', name: 'reqdate', width: 80},
+            {label: '订购单来源', name: 'ordersourceenumvaluename', width: 80}, {
+                label: '订购类别',
+                name: 'ordertypeenumvaluename',
+                width: 80
+            }, {label: '预算计划', name: 'budgetmainid', width: 80},
             {label: '单据状态', name: 'billstatus', width: 80, formatter: formater_billstatus},
             {label: '制单人', name: 'makeuser', width: 80},
             {label: '制单日期', name: 'makedate', width: 80},
@@ -329,6 +395,9 @@ $(function () {
             order: "order"
         },
         shrinkToFit: false,
+        onSelectRow: function () {
+            vm.queryDetail();
+        },
         gridComplete: function () {
             //隐藏grid底部滚动条
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
@@ -340,12 +409,9 @@ $(function () {
         url: '../ordermain/listdetail',
         datatype: "local",
         colModel: [
-            {label: 'id', name: 'id', width: 50, key: true},
-            {label: '单据号', name: 'billno', width: 80},
+            {label: 'id', name: 'id', width: 50, key: true, hidden: true},
             {label: '序号', name: 'serialno', width: 80},
-            {label: '商品', name: 'goodsid', width: 80},
-            {label: '品名', name: 'goodsname', width: 80},
-            {label: '数量', name: 'goodscount', width: 80},
+            {label: '商品', name: 'goodsidname', width: 80}, {label: '数量', name: 'goodscount', width: 80},
             {label: '规格', name: 'goodsspec', width: 80},
             {label: '用途', name: 'goodsuse', width: 80},
             {label: '单价', name: 'goodsprice', width: 80},
@@ -382,10 +448,15 @@ $(function () {
     });
 
     //执行调用参照调用下拉框函数,初始化下拉数据
-    vm.getRefdept();
-    vm.getRefEnum1001();
-    vm.getRefEnum1002();
-    vm.getRefEnum1003();
+    vm.getRefsys_dept();
+    vm.getRef1001();
+    vm.getRef1002();
+    vm.getRef1003();
+
+
+    //执行调用参照调用下拉框函数,初始化下拉数据
+    vm.getRefgoods();
+
 
     initGridHeightHalf("#jqGrid");
     initGridHeightHalf("#jqGridDetail");

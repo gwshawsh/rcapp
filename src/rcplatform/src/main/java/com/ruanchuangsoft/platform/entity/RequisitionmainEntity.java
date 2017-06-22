@@ -3,8 +3,9 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
 import com.ruanchuangsoft.platform.entity.RequisitiondetailEntity;
+
+import java.math.BigDecimal;
 
 
 
@@ -13,7 +14,7 @@ import com.ruanchuangsoft.platform.entity.RequisitiondetailEntity;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-10 20:13:30
+ * @date 2017-06-22 15:53:05
  */
 public class RequisitionmainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -25,9 +26,11 @@ public class RequisitionmainEntity implements Serializable {
 	//请购人
 	private String requser;
 	//所属部门
-	private Long reqdepartment;
+	private Long deptid;
 	//请购类别
 	private Integer reqtype;
+	//预算计划
+	private Long budgetmainid;
 	//单据状态
 	private Integer billstatus;
 	//制单人
@@ -43,6 +46,55 @@ public class RequisitionmainEntity implements Serializable {
 	//备注
 	private String remark;
 
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		            //所属部门
+            private String deptidname;
+		
+
+	
+		            //请购类别
+            private String reqtypeenumvaluename;
+		
+
+	
+		            //预算计划
+            private String budgetmainidbillno;
+		
+
+	
+		            //单据状态
+            private String billstatusenumvaluename;
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
+		
+
+	
 	//单据明细
 	private List<RequisitiondetailEntity> details;
 
@@ -95,14 +147,14 @@ public class RequisitionmainEntity implements Serializable {
 	/**
 	 * 设置：所属部门
 	 */
-	public void setReqdepartment(Long reqdepartment) {
-		this.reqdepartment = reqdepartment;
+	public void setDeptid(Long deptid) {
+		this.deptid = deptid;
 	}
 	/**
 	 * 获取：所属部门
 	 */
-	public Long getReqdepartment() {
-		return reqdepartment;
+	public Long getDeptid() {
+		return deptid;
 	}
 	/**
 	 * 设置：请购类别
@@ -115,6 +167,18 @@ public class RequisitionmainEntity implements Serializable {
 	 */
 	public Integer getReqtype() {
 		return reqtype;
+	}
+	/**
+	 * 设置：预算计划
+	 */
+	public void setBudgetmainid(Long budgetmainid) {
+		this.budgetmainid = budgetmainid;
+	}
+	/**
+	 * 获取：预算计划
+	 */
+	public Long getBudgetmainid() {
+		return budgetmainid;
 	}
 	/**
 	 * 设置：单据状态
@@ -200,4 +264,53 @@ public class RequisitionmainEntity implements Serializable {
 	public String getRemark() {
 		return remark;
 	}
-}
+
+				        /**
+         * 设置：所属部门name
+         */
+        public void setDeptidname(String name) {
+            this.deptidname = name;
+            }
+    /**
+     * 获取：所属部门name
+     */
+    public String getDeptidname() {
+            return deptidname;
+            }
+		        /**
+         * 设置：请购类别enumvaluename
+         */
+        public void setReqtypeenumvaluename(String enumvaluename) {
+            this.reqtypeenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：请购类别enumvaluename
+     */
+    public String getReqtypeenumvaluename() {
+            return reqtypeenumvaluename;
+            }
+		        /**
+         * 设置：预算计划billno
+         */
+        public void setBudgetmainidbillno(String billno) {
+            this.budgetmainidbillno = billno;
+            }
+    /**
+     * 获取：预算计划billno
+     */
+    public String getBudgetmainidbillno() {
+            return budgetmainidbillno;
+            }
+		        /**
+         * 设置：单据状态enumvaluename
+         */
+        public void setBillstatusenumvaluename(String enumvaluename) {
+            this.billstatusenumvaluename = enumvaluename;
+            }
+    /**
+     * 获取：单据状态enumvaluename
+     */
+    public String getBillstatusenumvaluename() {
+            return billstatusenumvaluename;
+            }
+							}

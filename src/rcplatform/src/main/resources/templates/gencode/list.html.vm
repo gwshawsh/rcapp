@@ -50,7 +50,7 @@
             </el-button-group>
 
             <div v-show="showQuery">
-                <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:10px">
 
                     #foreach($column in $columns)
                         #if($column.columnName != $pk.columnName

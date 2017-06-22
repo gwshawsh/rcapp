@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ruanchuangsoft.platform.dao.TranscontractmainDao">
+<mapper namespace="com.ruanchuangsoft.platform.dao.RepaircontractmainDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TranscontractmainEntity">
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RepaircontractmainEntity">
 		select
 													               		ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
 												               		ifnull((select name from  paytype b where a.paytype=b.id),'') as paytypename,
 												               		ifnull((select boctypename from  boctype b where a.boctid=b.id),'') as boctidboctypename,
-																											                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																														                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
 																						        a.*
 
-		from transcontractmain a where id = #{value}
+		from repaircontractmain a where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TranscontractmainEntity">
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RepaircontractmainEntity">
         select
 																			                    ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
 																                    ifnull((select name from  paytype b where a.paytype=b.id),'') as paytypename,
 																                    ifnull((select boctypename from  boctype b where a.boctid=b.id),'') as boctidboctypename,
-																																									                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																																														                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
 																																		        a.*
-        from transcontractmain a
+        from repaircontractmain a
         <where>
 			                <if test="id != null and id != '' ">
                     `id` = #{id} and                 </if>
@@ -37,6 +37,8 @@
                     `rate` = #{rate} and                 </if>
 			                <if test="taxrate != null and taxrate != '' ">
                     `taxrate` = #{taxrate} and                 </if>
+			                <if test="total != null and total != '' ">
+                    `total` = #{total} and                 </if>
 			                <if test="bgndate != null and bgndate != '' ">
                     `bgndate` = #{bgndate} and                 </if>
 			                <if test="enddate != null and enddate != '' ">
@@ -62,11 +64,11 @@
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from transcontractmain 
+		select count(*) from repaircontractmain 
 	</select>
 	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TranscontractmainEntity" useGeneratedKeys="true" keyProperty="id">
-		insert into transcontractmain
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.RepaircontractmainEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into repaircontractmain
 		(
 			`billno`, 
 			`orgid`, 
@@ -74,6 +76,7 @@
 			`boctid`, 
 			`rate`, 
 			`taxrate`, 
+			`total`, 
 			`bgndate`, 
 			`enddate`, 
 			`remark`, 
@@ -92,6 +95,7 @@
 			#{boctid}, 
 			#{rate}, 
 			#{taxrate}, 
+			#{total}, 
 			#{bgndate}, 
 			#{enddate}, 
 			#{remark}, 
@@ -104,8 +108,8 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TranscontractmainEntity">
-		update transcontractmain 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.RepaircontractmainEntity">
+		update repaircontractmain 
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
 			<if test="orgid != null">`orgid` = #{orgid}, </if>
@@ -113,6 +117,7 @@
 			<if test="boctid != null">`boctid` = #{boctid}, </if>
 			<if test="rate != null">`rate` = #{rate}, </if>
 			<if test="taxrate != null">`taxrate` = #{taxrate}, </if>
+			<if test="total != null">`total` = #{total}, </if>
 			<if test="bgndate != null">`bgndate` = #{bgndate}, </if>
 			<if test="enddate != null">`enddate` = #{enddate}, </if>
 			<if test="remark != null">`remark` = #{remark}, </if>
@@ -128,25 +133,25 @@
 
 
     <update id="auditBatch">
-        update  transcontractmain set billstatus=billstatus+1 where id in
+        update  repaircontractmain set billstatus=billstatus+1 where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
 
     <update id="unauditBatch">
-        update  transcontractmain set billstatus=billstatus-1 where id in
+        update  repaircontractmain set billstatus=billstatus-1 where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
 	
 	<delete id="delete">
-		delete from transcontractmain where id = #{value}
+		delete from repaircontractmain where id = #{value}
 	</delete>
 	
 	<delete id="deleteBatch">
-		delete from transcontractmain where id in 
+		delete from repaircontractmain where id in 
 		<foreach item="id" collection="array" open="(" separator="," close=")">
 			#{id}
 		</foreach>

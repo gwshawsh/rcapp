@@ -406,9 +406,8 @@ $(function () {
         datatype: "local",
         colModel: [
 							                    { label: 'id', name: 'id', width: 50, key: true,hidden:true},
-                							                    { label: '单据号', name: 'billno', width: 80 }, 
-											                    { label: '序号', name: 'serialno', width: 80 }, 
-											                    { label: '线路', name: 'lineidname', width: 80 }, 											                    { label: '箱型', name: 'boxtypeboxsize', width: 80 }, 											                    { label: '空重类型', name: 'weighttypeenumvaluename', width: 80 }, 											                    { label: '应收单价', name: 'boxprice', width: 80 }, 
+                														                    { label: '序号', name: 'serialno', width: 80 }, 
+											                    { label: '线路', name: 'lineidname', width: 80 },                 							                    { label: '箱型', name: 'boxtypeboxsize', width: 80 },                 							                    { label: '空重类型', name: 'weighttypeenumvaluename', width: 80 },                 							                    { label: '应收单价', name: 'boxprice', width: 80 }, 
 											                    { label: '更新时间', name: 'uptdate', width: 80 }, 
 							        ],
         viewrecords: true,

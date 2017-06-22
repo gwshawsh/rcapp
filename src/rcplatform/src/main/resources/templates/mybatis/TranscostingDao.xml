@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.TranscostingDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TranscostingEntity">
+		select
+				    			    			    						               		ifnull((select name from  transline b where a.lineid=b.id),'') as lineidname,
+						    						               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+						    			    			    			    			    			    			    			    	        a.*
+		from transcosting a where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TranscostingEntity">
+		select
+																								               		ifnull((select name from  transline b where a.lineid=b.id),'') as lineidname,
+																               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+																																												        a.*
+		from transcosting a
+		<where>
+			                <if test="id != null and id != '' ">
+                `id` = #{id} and 				</if>
+			                <if test="bgndate != null and bgndate != '' ">
+                `bgndate` = #{bgndate} and 				</if>
+			                <if test="enddate != null and enddate != '' ">
+                `enddate` = #{enddate} and 				</if>
+			                <if test="lineid != null and lineid != '' ">
+                `lineid` = #{lineid} and 				</if>
+			                <if test="boxtype != null and boxtype != '' ">
+                `boxtype` = #{boxtype} and 				</if>
+			                <if test="boxprice != null and boxprice != '' ">
+                `boxprice` = #{boxprice} and 				</if>
+			                <if test="remark != null and remark != '' ">
+                `remark` = #{remark} and 				</if>
+			                <if test="makeuser != null and makeuser != '' ">
+                `makeuser` = #{makeuser} and 				</if>
+			                <if test="makedate != null and makedate != '' ">
+                `makedate` = #{makedate} and 				</if>
+			                <if test="accuser != null and accuser != '' ">
+                `accuser` = #{accuser} and 				</if>
+			                <if test="accdate != null and accdate != '' ">
+                `accdate` = #{accdate} and 				</if>
+			                <if test="uptdate != null and uptdate != '' ">
+                `uptdate` = #{uptdate}				</if>
+					</where>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from transcosting 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TranscostingEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into transcosting
+		(
+			`bgndate`, 
+			`enddate`, 
+			`lineid`, 
+			`boxtype`, 
+			`boxprice`, 
+			`remark`, 
+			`makeuser`, 
+			`makedate`, 
+			`accuser`, 
+			`accdate`, 
+			`uptdate`
+		)
+		values
+		(
+			#{bgndate}, 
+			#{enddate}, 
+			#{lineid}, 
+			#{boxtype}, 
+			#{boxprice}, 
+			#{remark}, 
+			#{makeuser}, 
+			#{makedate}, 
+			#{accuser}, 
+			#{accdate}, 
+			#{uptdate}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TranscostingEntity">
+		update transcosting 
+		<set>
+			<if test="bgndate != null">`bgndate` = #{bgndate}, </if>
+			<if test="enddate != null">`enddate` = #{enddate}, </if>
+			<if test="lineid != null">`lineid` = #{lineid}, </if>
+			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
+			<if test="boxprice != null">`boxprice` = #{boxprice}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
+			<if test="makedate != null">`makedate` = #{makedate}, </if>
+			<if test="accuser != null">`accuser` = #{accuser}, </if>
+			<if test="accdate != null">`accdate` = #{accdate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from transcosting where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from transcosting where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

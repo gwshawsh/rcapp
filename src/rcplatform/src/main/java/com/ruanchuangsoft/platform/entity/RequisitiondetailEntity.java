@@ -4,13 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+import java.math.BigDecimal;
+
+
 
 /**
  * 请购明细表
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-10 20:13:30
+ * @date 2017-06-22 15:53:05
  */
 public class RequisitiondetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -21,10 +24,8 @@ public class RequisitiondetailEntity implements Serializable {
 	private String billno;
 	//序号
 	private Long serialno;
-	//商品id
-	private Long goodId;
-	//品名
-	private String goodsname;
+	//商品
+	private Long goodsid;
 	//数量
 	private Integer goodscount;
 	//规格
@@ -33,7 +34,12 @@ public class RequisitiondetailEntity implements Serializable {
 	private String goodsuse;
 	//需用日期
 	private Date enddate;
+	//更新时间
+	private Date uptdate;
 
+				        //商品
+        private String goodsidname;
+						
 	/**
 	 * 设置：
 	 */
@@ -71,28 +77,16 @@ public class RequisitiondetailEntity implements Serializable {
 		return serialno;
 	}
 	/**
-	 * 设置：商品id
+	 * 设置：商品
 	 */
-	public void setGoodId(Long goodId) {
-		this.goodId = goodId;
+	public void setGoodsid(Long goodsid) {
+		this.goodsid = goodsid;
 	}
 	/**
-	 * 获取：商品id
+	 * 获取：商品
 	 */
-	public Long getGoodId() {
-		return goodId;
-	}
-	/**
-	 * 设置：品名
-	 */
-	public void setGoodsname(String goodsname) {
-		this.goodsname = goodsname;
-	}
-	/**
-	 * 获取：品名
-	 */
-	public String getGoodsname() {
-		return goodsname;
+	public Long getGoodsid() {
+		return goodsid;
 	}
 	/**
 	 * 设置：数量
@@ -142,4 +136,30 @@ public class RequisitiondetailEntity implements Serializable {
 	public Date getEnddate() {
 		return enddate;
 	}
-}
+	/**
+	 * 设置：更新时间
+	 */
+	public void setUptdate(Date uptdate) {
+		this.uptdate = uptdate;
+	}
+	/**
+	 * 获取：更新时间
+	 */
+	public Date getUptdate() {
+		return uptdate;
+	}
+
+
+												        /**
+         * 设置：商品name
+         */
+        public void setGoodsidname(String name) {
+            this.goodsidname = name;
+        }
+        /**
+         * 获取：商品name
+         */
+        public String getGoodsidname() {
+            return goodsidname;
+        }
+        																}

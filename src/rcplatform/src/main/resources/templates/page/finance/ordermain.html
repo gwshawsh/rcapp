@@ -2,41 +2,181 @@
 <html>
 <head>
     <title>订购主表</title>
-    <#include "sys/header.html">
-        </head>
+        <#include "sys/header.html">
+</head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
             <el-button-group>
                 <@shiro.hasPermission name="ordermain:list">
-                <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+                <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
                 </el-button>
-            </@shiro.hasPermission>
-            <@shiro.hasPermission name="ordermain:save">
-            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
-            </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="ordermain:update">
-        <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
-        </el-button>
-    </@shiro.hasPermission>
-    <@shiro.hasPermission name="ordermain:delete">
-    <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-    </el-button>
-</@shiro.hasPermission>
-<@shiro.hasPermission name="ordermain:audit">
-<el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
-</el-button>
-</@shiro.hasPermission>
-<@shiro.hasPermission name="ordermain:unaudit">
-<el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
-</el-button>
-</@shiro.hasPermission>
-<el-button type="primary" v-on:click="showdetail"><i class="fa fa-reply"></i>&nbsp;明细
-</el-button>
-</el-button-group>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="ordermain:list">
+                <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="ordermain:save">
+                <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="ordermain:update">
+                <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="ordermain:delete">
+                <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="ordermain:audit">
+                <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="ordermain:unaudit">
+                <el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
+                </el-button>
+                </@shiro.hasPermission>
+                <el-button type="primary" v-on:click="showdetail"><i class="fa fa-reply"></i>&nbsp;明细
+                </el-button>
+            </el-button-group>
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
 
+                                                                                                                    <el-form-item label="单据号">
+
+                                                                    <el-input style="width: 350px"  v-model="q.billno" placeholder="单据号"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="供应商">
+
+                                                                    <el-input style="width: 350px"  v-model="q.supplyid" placeholder="供应商"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="请购单据号">
+
+                                                                    <el-input style="width: 350px"  v-model="q.reqbillno" placeholder="请购单据号"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="请购人">
+
+                                                                    <el-input style="width: 350px"  v-model="q.requser" placeholder="请购人"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="请购部门">
+
+                                                                    <el-select style="width: 350px" v-model="q.deptid"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_sys_dept"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="请购日期">
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.reqdate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="订购单来源">
+
+                                                                    <el-select style="width: 350px" v-model="q.ordersource"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum1001"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="订购类别">
+
+                                                                    <el-select style="width: 350px" v-model="q.ordertype"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum1002"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="预算计划">
+
+                                
+                                    <input style="width: 350px" v-model="q.budgetmainidbillno" v-on:click="selectbudgetmainidbudgetmain"
+                                           placeholder="预算计划" class="el-input el-input__inner"></input>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="单据状态">
+
+                                                                    <el-select style="width: 350px" v-model="q.billstatus"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum1003"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="制单人">
+
+                                                                    <el-input style="width: 350px"  v-model="q.makeuser" placeholder="制单人"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="制单日期">
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.makedate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="审核人">
+
+                                                                    <el-input style="width: 350px"  v-model="q.accuser" placeholder="审核人"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="审核日期">
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.accdate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="更新时间">
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.uptdate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -53,127 +193,147 @@
             <el-row>
                 <el-col :span="14">
                     <el-button-group>
-                        <el-button type="primary" v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存
-                        </el-button>
-                        <el-button type="primary" v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+                        <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                        <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
                     </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    <div class="billno">单据号:{{ordermain.billno}}<span class="panel-right">制单人:{{ordermain.makeuser}} 制单日期:{{ordermain.makedate}}</span>
-                    </div>
+                    <div class="billno">单据号:{{ordermain.billno}}<span class="panel-right">制单人:{{ordermain.makeuser}} 制单日期:{{ordermain.makedate}}</span></div>
 
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right" inline="true" label-width="100px" style="padding-top: 22px">
+        <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
 
-            <el-form-item label="供应商id">
-                <el-input v-model="ordermain.supplyid" placeholder="供应商id" style="width:168px"></el-input>
+                                                                                                        <el-form-item label="供应商"  style="padding-top: 22px">
+                                                    <el-input v-model="ordermain.supplyid" placeholder="供应商" style="width: 168px;"></el-input>
+                        
+                    </el-form-item>
+                                                                <el-form-item label="请购单据号"  style="padding-top: 22px">
+                                                    <el-input v-model="ordermain.reqbillno" placeholder="请购单据号" style="width: 168px;"></el-input>
+                        
+                    </el-form-item>
+                                                                <el-form-item label="请购人"  style="padding-top: 22px">
+                                                    <el-input v-model="ordermain.requser" placeholder="请购人" style="width: 168px;"></el-input>
+                        
+                    </el-form-item>
+                                                                <el-form-item label="请购部门"  style="padding-top: 22px">
+                                                    <el-select v-model="ordermain.deptid"  filterable placeholder="请选择" style="width: 168px;">
+                                <el-option
+                                        v-for="item in ref_sys_dept"
+                                        :key="item.id"
+                                        :label="item.name"
+                                        :value="item.id">
+                                </el-option>
+                            </el-select>
+                        
+                    </el-form-item>
+                                                                <el-form-item label="请购日期"  style="padding-top: 22px">
+                        
+                            <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="ordermain.reqdate" style="width: 168px;"></el-date-picker>
+                        
+                    </el-form-item>
+                                                                <el-form-item label="订购单来源"  style="padding-top: 22px">
+                                                    <el-select v-model="ordermain.ordersource"  filterable placeholder="请选择">
+                                <el-option
+                                        v-for="item in ref_enum1001"
+                                        :key="item.enumvalueid"
+                                        :label="item.enumvaluename"
+                                        :value="item.enumvalueid">
+                                </el-option>
+                            </el-select>
 
-            </el-form-item>
-            <el-form-item label="请购单据号">
-                <el-input v-model="ordermain.reqbillno" placeholder="请购单据号" style="width:168px"></el-input>
+                        
+                    </el-form-item>
+                                                                <el-form-item label="订购类别"  style="padding-top: 22px">
+                                                    <el-select v-model="ordermain.ordertype"  filterable placeholder="请选择">
+                                <el-option
+                                        v-for="item in ref_enum1002"
+                                        :key="item.enumvalueid"
+                                        :label="item.enumvaluename"
+                                        :value="item.enumvalueid">
+                                </el-option>
+                            </el-select>
 
-            </el-form-item>
-            <el-form-item label="请购人">
-                <el-input v-model="ordermain.requser" placeholder="请购人" style="width:168px"></el-input>
+                        
+                    </el-form-item>
+                                                                <el-form-item label="预算计划"  style="padding-top: 22px">
+                                                    <input v-model="ordermain.budgetmainidbillno" v-on:click="selectbudgetmainidbudgetmain"
+                                      placeholder="预算计划" style="width: 168px;" class="el-input el-input__inner"></input>
 
-            </el-form-item>
-            <el-form-item label="请购部门">
-                <el-select v-model="ordermain.deptid" filterable placeholder="请选择" style="width:168px">
-                    <el-option
-                            v-for="item in ref_dept"
-                            :key="item.dept_id"
-                            :label="item.name"
-                            :value="item.dept_id">
-                    </el-option>
-                </el-select>
-
-
-            </el-form-item>
-            <el-form-item label="请购日期">
-
-                <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
-                                v-model="ordermain.reqdate" style="width:168px"></el-date-picker>
-
-            </el-form-item>
-            <el-form-item label="订购单来源">
-                <el-input v-model="ordermain.ordersource" placeholder="订购单来源" style="width:168px"></el-input>
-
-            </el-form-item>
-            <el-form-item label="订购类别">
-                <el-input v-model="ordermain.ordertype" placeholder="订购类别" style="width:168px"></el-input>
-
-            </el-form-item>
-
+                        
+                    </el-form-item>
+                                                                                                                                                                                                    
 
         </el-form>
 
         <table id="details" class="layui-table">
             <colgroup>
-                <col width="70">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-            </colgroup>
+                <col width="80">
+                                                                                                                                                                <col width="50">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                        </colgroup>
             <thead>
             <tr>
                 <th>操作</th>
-                <th>序号</th>
-                <th>商品</th>
-                <th>品名</th>
-                <th>数量</th>
-                <th>规格</th>
-                <th>用途</th>
-                <th>单价</th>
-                <th>金额</th>
-                <th>需用日期</th>
-
+                                                                                                                       <th>序号</th>
+                                                                         <th>商品</th>
+                                                                         <th>数量</th>
+                                                                         <th>规格</th>
+                                                                         <th>用途</th>
+                                                                         <th>单价</th>
+                                                                         <th>金额</th>
+                                                                         <th>需用日期</th>
+                                                                         <th>更新时间</th>
+                                    
             </tr>
             </thead>
             <tbody>
             <tr v-for="(item,index) in ordermain.details">
                 <td>
                     <el-button-group>
-                        <el-button type="primary" icon="plus" size="mini" v-on:click="additem"></el-button>
-                        <el-button type="primary" icon="delete"  size="mini" v-on:click="delitem"></el-button>
+                        <el-button type="primary" icon="plus" size="mini" v-on:click="additem"> </el-button>
+                        <el-button type="primary" icon="delete"  size="mini" v-on:click="delitem"  v-bind:id="'btn-del-'+index" v-bind:idx="index"></el-button>
                     </el-button-group>
                 </td>
 
-                <td><el-input v-model="item.serialno" placeholder="序号"></el-input></td>
-                <td><el-select v-model="item.goodsid"  filterable placeholder="请选择">
-                    <el-option
-                            v-for="itemref in ref_goods"
-                            :key="itemref.id"
-                            :label="itemref.name"
-                            :value="itemref.id">
-                    </el-option>
-                </el-select></td>
-
-
-                <td><el-input v-model="item.goodsname" placeholder="品名"></el-input></td>
-                <td><el-input v-model="item.goodscount" placeholder="数量"></el-input></td>
-                <td><el-input v-model="item.goodsspec" placeholder="规格"></el-input></td>
-                <td><el-input v-model="item.goodsuse" placeholder="用途"></el-input></td>
-                <td><el-input v-model="item.goodsprice" placeholder="单价"></el-input></td>
-                <td><el-input v-model="item.goodscost" placeholder="金额"></el-input></td>
-
-                <td><el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
-                                    v-model="item.enddate" style="width: 100%;"></el-date-picker></td>
-
-
+                                                                                                                                <td><el-input v-model="item.serialno" placeholder="序号"></el-input></td>
+                                                                            <td><el-select v-model="ordermain.goodsid"  filterable placeholder="请选择" style="width: 168px;">
+                            <el-option
+                                    v-for="item in ref_goods"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
+                            </el-option>
+                    </el-select></td>
+                                                                            <td><el-input v-model="item.goodscount" placeholder="数量"></el-input></td>
+                                                                            <td><el-input v-model="item.goodsspec" placeholder="规格"></el-input></td>
+                                                                            <td><el-input v-model="item.goodsuse" placeholder="用途"></el-input></td>
+                                                                            <td><el-input v-model="item.goodsprice" placeholder="单价"></el-input></td>
+                                                                            <td><el-input v-model="item.goodscost" placeholder="金额"></el-input></td>
+                                                        
+                       <td><el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="item.enddate" style="width: 100%;"></el-date-picker></td>
+                                                        
+                       <td><el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="item.uptdate" style="width: 100%;"></el-date-picker></td>
+                                    
             </tr>
             </tbody>
         </table>
 
     </div>
 </div>
+
+
+                                                                                                                                    <#include "finance/budgetmain_ref.html">
+                                                                                    
+                                                                                                                                                                                                    
 
 <script src="${ctxPath}/static/js/finance/ordermain.js"></script>
 </body>

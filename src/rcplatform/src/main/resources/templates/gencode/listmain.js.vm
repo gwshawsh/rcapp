@@ -69,6 +69,18 @@ var vm = new Vue({
         #end
 
 
+        //明细表用户下拉参照的属性
+        #foreach($column in $detailrefcolumns)
+            #if($column.columnName != $pk.columnName)
+                #if($column.refType=="combo")
+                    ref_${column.refTable}:[],
+                #elseif($column.refType=="enum")
+                    ref_enum${column.refTable}:[],
+
+                #end
+            #end
+        #end
+
         //单据主表实体类
 		${classname}: {
             #foreach($column in $columns)
@@ -246,8 +258,25 @@ var vm = new Vue({
             #end
         #end
 
-        //生成参照调用下拉框函数,用来初始化远程数据
+        //生成主表参照调用下拉框函数,用来初始化远程数据
         #foreach($column in $refcolumns)
+            #if($column.refColumn && $column.refType.equalsIgnoreCase("combo"))
+                getRef${column.refTable}: function () {
+                    $.get("../${column.refTable}/list?page=1&limit=1000", function (r) {
+                        vm.ref_${column.refTable} = r.page.list;
+                    });
+                },
+            #elseif($column.refColumn && $column.refType.equalsIgnoreCase("enum"))
+                getRef${column.refTable}: function () {
+                    $.get("../enumtable/listone?enumid=${column.refTable}&page=1&limit=1000", function (r) {
+                        vm.ref_enum${column.refTable} = r.page.list;
+                    });
+                },
+            #end
+        #end
+
+        //生成明细表参照调用下拉框函数,用来初始化远程数据
+        #foreach($column in $detailrefcolumns)
             #if($column.refColumn && $column.refType.equalsIgnoreCase("combo"))
                 getRef${column.refTable}: function () {
                     $.get("../${column.refTable}/list?page=1&limit=1000", function (r) {
@@ -433,7 +462,7 @@ $(function () {
                 ||$column.refType.equalsIgnoreCase("enum")
                 ||$column.refType.equalsIgnoreCase("dialog"))
                     { label: '${column.comments}', name: '${column.attrname}${column.refColumnName}', width: 80 }#if($velocityCount != $columns.size()), #end
-				#else
+                #elseif(!$column.columnName.equalsIgnoreCase("billno"))
                     { label: '${column.comments}', name: '${column.attrname}', width: 80 }#if($velocityCount != $columns.size()), #end
 
 				#end
@@ -479,6 +508,16 @@ $(function () {
     #end
 
 
+    //执行调用参照调用下拉框函数,初始化下拉数据
+    #foreach($column in $detailrefcolumns)
+        #if($column.refColumn && $column.refType.equalsIgnoreCase("combo"))
+            vm.getRef${column.refTable}();
+        #elseif($column.refColumn && $column.refType.equalsIgnoreCase("enum"))
+            vm.getRef${column.refTable}();
+        #elseif($column.refColumn && $column.refType.equalsIgnoreCase("dialogtree"))
+            vm.getRefTree${column.refTable}${column.attrname}();
+        #end
+    #end
 
 
     initGridHeightHalf("#jqGrid");

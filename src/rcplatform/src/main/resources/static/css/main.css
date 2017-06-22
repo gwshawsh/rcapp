@@ -87,3 +87,12 @@ tbody > tr > th {font-weight: normal; }
 .form-item{
     width:168px;
 }
+
+
+.rcp-form{
+    padding:10px;
+}
+
+.rcp-form-item{
+    padding: 5px;
+}

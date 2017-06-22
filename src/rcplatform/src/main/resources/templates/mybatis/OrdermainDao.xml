@@ -4,14 +4,63 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.OrdermainDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.OrdermainEntity">
-		select * from ordermain where id = #{value}
+		select
+																						               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+															                    ifnull((select enumvaluename from  enumtable b where a.ordersource=b.enumvalueid and b.enumtype='1001'),'') as ordersourceenumvaluename,
+												                    ifnull((select enumvaluename from  enumtable b where a.ordertype=b.enumvalueid and b.enumtype='1002'),'') as ordertypeenumvaluename,
+												               		ifnull((select billno from  budgetmain b where a.budgetmainid=b.id),'') as budgetmainidbillno,
+												                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																						        a.*
+
+		from ordermain a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.OrdermainEntity">
-		select * from ordermain 
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
+        select
+																																		                    ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+																					                    ifnull((select enumvaluename from  enumtable b where a.ordersource=b.enumvalueid and b.enumtype='1001'),'') as ordersourceenumvaluename,
+																                    ifnull((select enumvaluename from  enumtable b where a.ordertype=b.enumvalueid and b.enumtype='1002'),'') as ordertypeenumvaluename,
+																                    ifnull((select billno from  budgetmain b where a.budgetmainid=b.id),'') as budgetmainidbillno,
+																                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																																		        a.*
+        from ordermain a
+        <where>
+			                <if test="id != null and id != '' ">
+                    `id` = #{id} and                 </if>
+			                <if test="billno != null and billno != '' ">
+                    `billno` = #{billno} and                 </if>
+			                <if test="supplyid != null and supplyid != '' ">
+                    `supplyid` = #{supplyid} and                 </if>
+			                <if test="reqbillno != null and reqbillno != '' ">
+                    `reqbillno` = #{reqbillno} and                 </if>
+			                <if test="requser != null and requser != '' ">
+                    `requser` = #{requser} and                 </if>
+			                <if test="deptid != null and deptid != '' ">
+                    `deptid` = #{deptid} and                 </if>
+			                <if test="reqdate != null and reqdate != '' ">
+                    `reqdate` = #{reqdate} and                 </if>
+			                <if test="ordersource != null and ordersource != '' ">
+                    `ordersource` = #{ordersource} and                 </if>
+			                <if test="ordertype != null and ordertype != '' ">
+                    `ordertype` = #{ordertype} and                 </if>
+			                <if test="budgetmainid != null and budgetmainid != '' ">
+                    `budgetmainid` = #{budgetmainid} and                 </if>
+			                <if test="billstatus != null and billstatus != '' ">
+                    `billstatus` = #{billstatus} and                 </if>
+			                <if test="makeuser != null and makeuser != '' ">
+                    `makeuser` = #{makeuser} and                 </if>
+			                <if test="makedate != null and makedate != '' ">
+                    `makedate` = #{makedate} and                 </if>
+			                <if test="accuser != null and accuser != '' ">
+                    `accuser` = #{accuser} and                 </if>
+			                <if test="accdate != null and accdate != '' ">
+                    `accdate` = #{accdate} and                 </if>
+			                <if test="uptdate != null and uptdate != '' ">
+                    `uptdate` = #{uptdate}                </if>
+			        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
@@ -29,6 +78,7 @@
 			`reqdate`, 
 			`ordersource`, 
 			`ordertype`, 
+			`budgetmainid`, 
 			`billstatus`, 
 			`makeuser`, 
 			`makedate`, 
@@ -46,6 +96,7 @@
 			#{reqdate}, 
 			#{ordersource}, 
 			#{ordertype}, 
+			#{budgetmainid}, 
 			#{billstatus}, 
 			#{makeuser}, 
 			#{makedate}, 
@@ -66,6 +117,7 @@
 			<if test="reqdate != null">`reqdate` = #{reqdate}, </if>
 			<if test="ordersource != null">`ordersource` = #{ordersource}, </if>
 			<if test="ordertype != null">`ordertype` = #{ordertype}, </if>
+			<if test="budgetmainid != null">`budgetmainid` = #{budgetmainid}, </if>
 			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
 			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
 			<if test="makedate != null">`makedate` = #{makedate}, </if>

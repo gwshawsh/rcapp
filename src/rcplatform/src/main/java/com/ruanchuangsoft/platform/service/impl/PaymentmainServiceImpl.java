@@ -48,10 +48,13 @@ public class PaymentmainServiceImpl implements PaymentmainService {
 	
 	@Override
 	public void update(PaymentmainEntity paymentmain){
+		paymentdetailDao.deleteByBillNo(paymentmain.getBillno());
+
         for(PaymentdetailEntity item:paymentmain.getDetails()){
 				paymentdetailDao.save(item);
         }
-			paymentmainDao.update(paymentmain);
+
+		paymentmainDao.update(paymentmain);
 	}
 	
 	@Override
@@ -67,8 +70,17 @@ public class PaymentmainServiceImpl implements PaymentmainService {
 	}
 	
 	@Override
-	public void deleteBatch(Long[] ids){
-		paymentmainDao.deleteBatch(ids);
-	}
-	
+    public void deleteBatch(Long[] ids){
+			paymentmainDao.deleteBatch(ids);
+    }
+
+    @Override
+    public void auditBatch(Long[] ids){
+			paymentmainDao.auditBatch(ids);
+    }
+
+    @Override
+    public void unauditBatch(Long[] ids){
+			paymentmainDao.unauditBatch(ids);
+    }
 }

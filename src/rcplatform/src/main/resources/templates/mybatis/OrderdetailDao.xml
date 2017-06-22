@@ -4,14 +4,21 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.OrderdetailDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.OrderdetailEntity">
-		select * from orderdetail where id = #{value}
+		select
+																               		ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
+																												        a.*
+
+		from orderdetail a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.OrderdetailEntity">
-		select * from orderdetail 
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
+        select
+																								                    ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
+																																												        a.*
+        from orderdetail a
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
@@ -24,7 +31,6 @@
 			`billno`, 
 			`serialno`, 
 			`goodsid`, 
-			`goodsname`, 
 			`goodscount`, 
 			`goodsspec`, 
 			`goodsuse`, 
@@ -38,7 +44,6 @@
 			#{billno}, 
 			#{serialno}, 
 			#{goodsid}, 
-			#{goodsname}, 
 			#{goodscount}, 
 			#{goodsspec}, 
 			#{goodsuse}, 
@@ -55,7 +60,6 @@
 			<if test="billno != null">`billno` = #{billno}, </if>
 			<if test="serialno != null">`serialno` = #{serialno}, </if>
 			<if test="goodsid != null">`goodsid` = #{goodsid}, </if>
-			<if test="goodsname != null">`goodsname` = #{goodsname}, </if>
 			<if test="goodscount != null">`goodscount` = #{goodscount}, </if>
 			<if test="goodsspec != null">`goodsspec` = #{goodsspec}, </if>
 			<if test="goodsuse != null">`goodsuse` = #{goodsuse}, </if>

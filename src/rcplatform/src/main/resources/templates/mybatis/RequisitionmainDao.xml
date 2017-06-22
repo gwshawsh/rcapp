@@ -4,14 +4,55 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.RequisitionmainDao">
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity">
-		select * from requisitionmain where id = #{value}
+		select
+																               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+												                    ifnull((select enumvaluename from  enumtable b where a.reqtype=b.enumvalueid and b.enumtype='1002'),'') as reqtypeenumvaluename,
+												               		ifnull((select billno from  budgetmain b where a.budgetmainid=b.id),'') as budgetmainidbillno,
+												                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																									        a.*
+
+		from requisitionmain a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity">
-		select * from requisitionmain 
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
+        select
+																								                    ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+																                    ifnull((select enumvaluename from  enumtable b where a.reqtype=b.enumvalueid and b.enumtype='1002'),'') as reqtypeenumvaluename,
+																                    ifnull((select billno from  budgetmain b where a.budgetmainid=b.id),'') as budgetmainidbillno,
+																                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																																							        a.*
+        from requisitionmain a
+        <where>
+			                <if test="id != null and id != '' ">
+                    `id` = #{id} and                 </if>
+			                <if test="billno != null and billno != '' ">
+                    `billno` = #{billno} and                 </if>
+			                <if test="requser != null and requser != '' ">
+                    `requser` = #{requser} and                 </if>
+			                <if test="deptid != null and deptid != '' ">
+                    `deptid` = #{deptid} and                 </if>
+			                <if test="reqtype != null and reqtype != '' ">
+                    `reqtype` = #{reqtype} and                 </if>
+			                <if test="budgetmainid != null and budgetmainid != '' ">
+                    `budgetmainid` = #{budgetmainid} and                 </if>
+			                <if test="billstatus != null and billstatus != '' ">
+                    `billstatus` = #{billstatus} and                 </if>
+			                <if test="makeuser != null and makeuser != '' ">
+                    `makeuser` = #{makeuser} and                 </if>
+			                <if test="makedate != null and makedate != '' ">
+                    `makedate` = #{makedate} and                 </if>
+			                <if test="accuser != null and accuser != '' ">
+                    `accuser` = #{accuser} and                 </if>
+			                <if test="accdate != null and accdate != '' ">
+                    `accdate` = #{accdate} and                 </if>
+			                <if test="uptdate != null and uptdate != '' ">
+                    `uptdate` = #{uptdate} and                 </if>
+			                <if test="remark != null and remark != '' ">
+                    `remark` = #{remark}                </if>
+			        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
@@ -23,8 +64,9 @@
 		(
 			`billno`, 
 			`requser`, 
-			`reqdepartment`, 
+			`deptid`, 
 			`reqtype`, 
+			`budgetmainid`, 
 			`billstatus`, 
 			`makeuser`, 
 			`makedate`, 
@@ -37,8 +79,9 @@
 		(
 			#{billno}, 
 			#{requser}, 
-			#{reqdepartment}, 
+			#{deptid}, 
 			#{reqtype}, 
+			#{budgetmainid}, 
 			#{billstatus}, 
 			#{makeuser}, 
 			#{makedate}, 
@@ -54,8 +97,9 @@
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
 			<if test="requser != null">`requser` = #{requser}, </if>
-			<if test="reqdepartment != null">`reqdepartment` = #{reqdepartment}, </if>
+			<if test="deptid != null">`deptid` = #{deptid}, </if>
 			<if test="reqtype != null">`reqtype` = #{reqtype}, </if>
+			<if test="budgetmainid != null">`budgetmainid` = #{budgetmainid}, </if>
 			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
 			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
 			<if test="makedate != null">`makedate` = #{makedate}, </if>
@@ -66,6 +110,21 @@
 		</set>
 		where id = #{id}
 	</update>
+
+
+    <update id="auditBatch">
+        update  requisitionmain set billstatus=billstatus+1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="unauditBatch">
+        update  requisitionmain set billstatus=billstatus-1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
 	
 	<delete id="delete">
 		delete from requisitionmain where id = #{value}

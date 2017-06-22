@@ -261,31 +261,27 @@
         <table id="details" class="layui-table">
             <colgroup>
                 <col width="80">
-                                                            <col width="100">
-                                                                                <col width="100">
-                                                                                <col width="50">
-                                                                                <col width="100">
-                                                                                <col width="100">
-                                                                                <col width="100">
-                                                                                <col width="100">
-                                                                                <col width="100">
-                                                                                <col width="100">
-                                                                                <col width="100">
-                                                </colgroup>
+                                                                                                                                                                <col width="50">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                                                                                    <col width="100">
+                                                                        </colgroup>
             <thead>
             <tr>
                 <th>操作</th>
-                                    <th></th>
-                                    <th>单据号</th>
-                                    <th>序号</th>
-                                    <th>线路</th>
-                                    <th>箱型</th>
-                                    <th>空重类型</th>
-                                    <th>应付单价</th>
-                                    <th>含税应付单价</th>
-                                    <th>车型</th>
-                                    <th>更新时间</th>
-                
+                                                                                                                       <th>序号</th>
+                                                                         <th>线路</th>
+                                                                         <th>箱型</th>
+                                                                         <th>空重类型</th>
+                                                                         <th>应付单价</th>
+                                                                         <th>含税应付单价</th>
+                                                                         <th>车型</th>
+                                                                         <th>更新时间</th>
+                                    
             </tr>
             </thead>
             <tbody>
@@ -297,51 +293,42 @@
                     </el-button-group>
                 </td>
 
-                                                        <td><el-input v-model="item.id" placeholder=""></el-input></td>
-                                                                            <td><el-input v-model="item.billno" placeholder="单据号"></el-input></td>
-                                                                            <td><el-input v-model="item.serialno" placeholder="序号"></el-input></td>
-                                                                            <td><el-select v-model="item.lineid"  filterable placeholder="请选择" >
+                                                                                                                                <td><el-input v-model="item.serialno" placeholder="序号"></el-input></td>
+                                                                                <el-select v-model="transcontractmain.lineid"  filterable placeholder="请选择" style="width: 168px;">
                             <el-option
-                                    v-for="itemref in ref_transline"
-                                    :key="itemref.id"
-                                    :label="itemref.name"
-                                    :value="itemref.id">
+                                    v-for="item in ref_transline"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
                             </el-option>
-                        </el-select></td>
-
-
-                                                                            <td><el-select v-model="item.boxtype"  filterable placeholder="请选择" >
+                        </el-select>
+                                                                                <el-select v-model="transcontractmain.boxtype"  filterable placeholder="请选择" style="width: 168px;">
                             <el-option
-                                    v-for="itemref in ref_boxs"
-                                    :key="itemref.id"
-                                    :label="itemref.boxsize"
-                                    :value="itemref.id">
+                                    v-for="item in ref_boxs"
+                                    :key="item.id"
+                                    :label="item.boxsize"
+                                    :value="item.id">
                             </el-option>
-                        </el-select></td>
-
-
-                                                                            <td><el-select v-model="item.weighttype"  filterable placeholder="请选择" >
+                        </el-select>
+                                                                                <el-select v-model="transcontractmain.weighttype"  filterable placeholder="请选择">
                             <el-option
-                                    v-for="itemref in ref_1009"
-                                    :key="itemref.enumvalueid"
-                                    :label="itemref.enumvaluename"
-                                    :value="itemref.enumvalueid">
+                                    v-for="item in ref_enum1009"
+                                    :key="item.enumvalueid"
+                                    :label="item.enumvaluename"
+                                    :value="item.enumvalueid">
                             </el-option>
-                        </el-select></td>
-
+                        </el-select>
 
                                                                             <td><el-input v-model="item.boxprice" placeholder="应付单价"></el-input></td>
                                                                             <td><el-input v-model="item.boxpricetax" placeholder="含税应付单价"></el-input></td>
-                                                                            <td><el-select v-model="item.cartype"  filterable placeholder="请选择" >
+                                                                                <el-select v-model="transcontractmain.cartype"  filterable placeholder="请选择" style="width: 168px;">
                             <el-option
-                                    v-for="itemref in ref_cartype"
-                                    :key="itemref.id"
-                                    :label="itemref.cartypename"
-                                    :value="itemref.id">
+                                    v-for="item in ref_cartype"
+                                    :key="item.id"
+                                    :label="item.cartypename"
+                                    :value="item.id">
                             </el-option>
-                        </el-select></td>
-
-
+                        </el-select>
                                                         
                        <td><el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="item.uptdate" style="width: 100%;"></el-date-picker></td>
                                     

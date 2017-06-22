@@ -78,8 +78,7 @@
                                     <input style="width: 350px" v-model="q.${column.attrname}${column.refColumnName}"  v-on:click="openRefTree${column.refTable}${column.attrname}"
                                            placeholder="${column.comments}" class="el-input el-input__inner"></input>
 
-                                #elseif($column.refType.equalsIgnoreCase("combo")
-                                )
+                                #elseif($column.refType.equalsIgnoreCase("combo"))
                                     <el-select style="width: 350px" v-model="q.${column.attrname}"  filterable placeholder="请选择">
                                         <el-option
                                                 v-for="item in ref_${column.refTable}"
@@ -205,10 +204,13 @@
             <colgroup>
                 <col width="80">
                 #foreach($column in $detailcolumns)
-                    #if($column.columnName=="serialno")
-                        <col width="50">
-                    #else
-                        <col width="100">
+                    #if( !$column.columnName.equalsIgnoreCase("billno")
+                          &&!$column.columnName.equalsIgnoreCase("id"))
+                        #if($column.columnName=="serialno")
+                            <col width="50">
+                        #else
+                            <col width="100">
+                        #end
                     #end
                 #end
             </colgroup>
@@ -216,7 +218,10 @@
             <tr>
                 <th>操作</th>
                 #foreach($column in $detailcolumns)
+                 #if( !$column.columnName.equalsIgnoreCase("billno")
+                         &&!$column.columnName.equalsIgnoreCase("id"))
                     <th>${column.comments}</th>
+                    #end
                 #end
 
             </tr>
@@ -246,18 +251,27 @@
                                   placeholder="${column.comments}"></el-input></td>
 
 
-                    #elseif($column.refType.equalsIgnoreCase("combo")||$column.refType.equalsIgnoreCase("enum"))
-                    <td><el-select v-model="item.${column.attrname}"  filterable placeholder="请选择" >
+                    #elseif($column.refType.equalsIgnoreCase("combo"))
+                    <td><el-select v-model="${classname}.${column.attrname}"  filterable placeholder="请选择" style="width: 168px;">
                             <el-option
-                                    v-for="itemref in ref_${column.refTable}"
-                                    :key="itemref.${column.refColumnId}"
-                                    :label="itemref.${column.refColumnName}"
-                                    :value="itemref.${column.refColumnId}">
+                                    v-for="item in ref_${column.refTable}"
+                                    :key="item.${column.refColumnId}"
+                                    :label="item.${column.refColumnName}"
+                                    :value="item.${column.refColumnId}">
+                            </el-option>
+                    </el-select></td>
+                    #elseif( $column.refType.equalsIgnoreCase("enum"))
+                    <td>  <el-select v-model="${classname}.${column.attrname}"  filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in ref_enum${column.refTable}"
+                                    :key="item.${column.refColumnId}"
+                                    :label="item.${column.refColumnName}"
+                                    :value="item.${column.refColumnId}">
                             </el-option>
                         </el-select></td>
 
-
-                    #else
+                    #elseif( !$column.columnName.equalsIgnoreCase("billno")
+                    &&!$column.columnName.equalsIgnoreCase("id"))
                     <td><el-input v-model="item.${column.attrname}" placeholder="${column.comments}"></el-input></td>
                     #end
                 #end

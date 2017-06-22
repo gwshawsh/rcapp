@@ -48,10 +48,13 @@ public class OrdermainServiceImpl implements OrdermainService {
 	
 	@Override
 	public void update(OrdermainEntity ordermain){
+		orderdetailDao.deleteByBillNo(ordermain.getBillno());
+
         for(OrderdetailEntity item:ordermain.getDetails()){
 				orderdetailDao.save(item);
         }
-			ordermainDao.update(ordermain);
+
+		ordermainDao.update(ordermain);
 	}
 	
 	@Override

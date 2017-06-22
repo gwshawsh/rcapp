@@ -4,6 +4,7 @@
 </div>
 <script>
     var mutilflag = false;
+
     function showrefgrid_storecontractmain(title, callback, pflag) {
         mutiflag = pflag || false;
         layer.open({
@@ -33,83 +34,83 @@
             url: '../storecontractmain/list',
             datatype: "json",
             colModel: [
-                                                            {label: 'id', name: 'id', width: 50, key: true},
+                {label: 'id', name: 'id', width: 50, key: true},
 
-                                                                                {
-                            label: '单据号',
-                            name: 'billno',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '客户',
-                            name: 'orgid',
-                            width: 80
-                        }, 
-                                                                                { label: '付款方式', name: 'name', width: 80 }, 
-                                                                                { label: '结算周期', name: 'enumvaluename', width: 80 }, 
-                                                                                { label: '币别', name: 'boctypename', width: 80 }, 
-                                                                                {
-                            label: '汇率',
-                            name: 'rate',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '税率',
-                            name: 'taxrate',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '放箱单价',
-                            name: 'takeboxfee',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '放箱单价(税)',
-                            name: 'takeboxfeetax',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '生效日期',
-                            name: 'bgndate',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '失效日期',
-                            name: 'enddate',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '备注',
-                            name: 'remark',
-                            width: 80
-                        }, 
-                                                                                { label: '单据状态', name: 'enumvaluename', width: 80 }, 
-                                                                                {
-                            label: '制单人',
-                            name: 'makeuser',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '制单日期',
-                            name: 'makedate',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '审核人',
-                            name: 'accuser',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '审核日期',
-                            name: 'accdate',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '更新时间',
-                            name: 'uptdate',
-                            width: 80
-                        }
-                                    ],
+                {
+                    label: '单据号',
+                    name: 'billno',
+                    width: 80
+                },
+                {
+                    label: '客户',
+                    name: 'orgid',
+                    width: 80
+                },
+                {label: '付款方式', name: 'name', width: 80},
+                {label: '结算周期', name: 'enumvaluename', width: 80},
+                {label: '币别', name: 'boctypename', width: 80},
+                {
+                    label: '汇率',
+                    name: 'rate',
+                    width: 80
+                },
+                {
+                    label: '税率',
+                    name: 'taxrate',
+                    width: 80
+                },
+                {
+                    label: '放箱单价',
+                    name: 'takeboxfee',
+                    width: 80
+                },
+                {
+                    label: '放箱单价(税)',
+                    name: 'takeboxfeetax',
+                    width: 80
+                },
+                {
+                    label: '生效日期',
+                    name: 'bgndate',
+                    width: 80
+                },
+                {
+                    label: '失效日期',
+                    name: 'enddate',
+                    width: 80
+                },
+                {
+                    label: '备注',
+                    name: 'remark',
+                    width: 80
+                },
+                {label: '单据状态', name: 'enumvaluename', width: 80},
+                {
+                    label: '制单人',
+                    name: 'makeuser',
+                    width: 80
+                },
+                {
+                    label: '制单日期',
+                    name: 'makedate',
+                    width: 80
+                },
+                {
+                    label: '审核人',
+                    name: 'accuser',
+                    width: 80
+                },
+                {
+                    label: '审核日期',
+                    name: 'accdate',
+                    width: 80
+                },
+                {
+                    label: '更新时间',
+                    name: 'uptdate',
+                    width: 80
+                }
+            ],
             viewrecords: true,
             height: 385,
             rowNum: 10,

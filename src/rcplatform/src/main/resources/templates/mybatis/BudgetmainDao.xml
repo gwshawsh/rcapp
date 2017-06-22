@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.BudgetmainDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.BudgetmainEntity">
+		select
+																			               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+															                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																												        a.*
+
+		from budgetmain a where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.BudgetmainEntity">
+        select
+																													                    ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+																					                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																																												        a.*
+        from budgetmain a
+        <where>
+			                <if test="id != null and id != '' ">
+                    `id` = #{id} and                 </if>
+			                <if test="billno != null and billno != '' ">
+                    `billno` = #{billno} and                 </if>
+			                <if test="begindate != null and begindate != '' ">
+                    `begindate` = #{begindate} and                 </if>
+			                <if test="enddate != null and enddate != '' ">
+                    `enddate` = #{enddate} and                 </if>
+			                <if test="deptid != null and deptid != '' ">
+                    `deptid` = #{deptid} and                 </if>
+			                <if test="billtype != null and billtype != '' ">
+                    `billtype` = #{billtype} and                 </if>
+			                <if test="billstatus != null and billstatus != '' ">
+                    `billstatus` = #{billstatus} and                 </if>
+			                <if test="makeuser != null and makeuser != '' ">
+                    `makeuser` = #{makeuser} and                 </if>
+			                <if test="makedate != null and makedate != '' ">
+                    `makedate` = #{makedate} and                 </if>
+			                <if test="accuser != null and accuser != '' ">
+                    `accuser` = #{accuser} and                 </if>
+			                <if test="accdate != null and accdate != '' ">
+                    `accdate` = #{accdate} and                 </if>
+			                <if test="rzuser != null and rzuser != '' ">
+                    `rzuser` = #{rzuser} and                 </if>
+			                <if test="rzdate != null and rzdate != '' ">
+                    `rzdate` = #{rzdate} and                 </if>
+			                <if test="uptdate != null and uptdate != '' ">
+                    `uptdate` = #{uptdate}                </if>
+			        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from budgetmain 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.BudgetmainEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into budgetmain
+		(
+			`billno`, 
+			`begindate`, 
+			`enddate`, 
+			`deptid`, 
+			`billtype`, 
+			`billstatus`, 
+			`makeuser`, 
+			`makedate`, 
+			`accuser`, 
+			`accdate`, 
+			`rzuser`, 
+			`rzdate`, 
+			`uptdate`
+		)
+		values
+		(
+			#{billno}, 
+			#{begindate}, 
+			#{enddate}, 
+			#{deptid}, 
+			#{billtype}, 
+			#{billstatus}, 
+			#{makeuser}, 
+			#{makedate}, 
+			#{accuser}, 
+			#{accdate}, 
+			#{rzuser}, 
+			#{rzdate}, 
+			#{uptdate}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.BudgetmainEntity">
+		update budgetmain 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="begindate != null">`begindate` = #{begindate}, </if>
+			<if test="enddate != null">`enddate` = #{enddate}, </if>
+			<if test="deptid != null">`deptid` = #{deptid}, </if>
+			<if test="billtype != null">`billtype` = #{billtype}, </if>
+			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
+			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
+			<if test="makedate != null">`makedate` = #{makedate}, </if>
+			<if test="accuser != null">`accuser` = #{accuser}, </if>
+			<if test="accdate != null">`accdate` = #{accdate}, </if>
+			<if test="rzuser != null">`rzuser` = #{rzuser}, </if>
+			<if test="rzdate != null">`rzdate` = #{rzdate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+
+    <update id="auditBatch">
+        update  budgetmain set billstatus=billstatus+1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="unauditBatch">
+        update  budgetmain set billstatus=billstatus-1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+	
+	<delete id="delete">
+		delete from budgetmain where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from budgetmain where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
