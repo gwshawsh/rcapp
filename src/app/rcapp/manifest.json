@@ -337,7 +337,8 @@
 				"refer": [
 					"page/leave.html",
 					"page/setting.html",
-					"page/approval.html"
+					"page/approval.html",
+					"page/checkin.html"
 				],
 				"priority": 0
 			},
@@ -452,6 +453,18 @@
 				"refer": [
 					"page/checkin_statis.html"
 				],
+				"priority": 0
+			},
+			"page/checkin_statis.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},

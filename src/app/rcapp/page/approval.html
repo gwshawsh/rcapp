@@ -18,14 +18,13 @@
 				float: right;
 			}
 			
-			.mui-control-item { 
+			.mui-control-item {
 				position: relative;
 			}
 			
 			.mui-control-content {
-				background-color: white; 
+				background-color: white;
 				min-height: 400px;
-
 			}
 			
 			.mui-control-content .mui-loading {
@@ -62,31 +61,8 @@
 					<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
 
 					<div class="mui-slider-group" style="">
-						<div id="item1mobile" class="mui-slider-item mui-control-content mui-active " >
-							<div id="scroll1" class="mui-scroll-wrapper">
-								<div class="mui-scroll">
-
-									<ul class="mui-table-view">
-										<li v-for="item in list_charge" class="mui-table-view-cell mui-media" >
-											<p class="mui-input-row" style="padding-left: 52px;">申请单号:&nbsp;&nbsp;&nbsp;{{item.no}} <span class="font-green position-right"> {{item.status}}</span></p>
-											<div class='mui-navigate-right' >
-												<img class="mui-media-object mui-pull-left" :src="item.src" onerror="src='../images/default_head.png'">
-												<div class="mui-media-body">
-
-													{{item.name}}
-													<span class="font-secondary"> {{item.dept}}</span>
-													<span class="font-warning position-right"> {{item.money}}元</span>
-													<p class="font-green">{{item.reason}}</p>
-													<p>申请人:&nbsp;&nbsp;&nbsp;{{item.applier}}</p>
-													<p class='mui-ellipsis'>申请时间:{{item.applytime}}</p>
-												</div>
-											</div>
-											<button class="mui-btn-green " v-on:click="" style="float: right;">审批</button>
-										</li>
-
-									</ul>
-								</div>
-							</div>
+						<div id="item1mobile" class="mui-slider-item mui-control-content mui-active ">
+							<rc-list :list="list_charge"></rc-list>
 						</div>
 						<div id="item2mobile" class="mui-slider-item mui-control-content">
 							<div id="scroll2" class="mui-scroll-wrapper">

@@ -107,7 +107,8 @@
       "js/vue.min.js",
       "js/mui.picker.min.js",
       "css/mui.picker.min.css"
-    ]
+    ],
+    "refer": []
   },
   "page/main.html": {
     "resources": [
@@ -121,7 +122,8 @@
     "refer": [
       "page/leave.html",
       "page/setting.html",
-      "page/approval.html"
+      "page/approval.html",
+      "page/checkin.html"
     ]
   },
   "page/leave.html": {
@@ -179,7 +181,8 @@
       "css/style.css",
       "images/default_head.png",
       "js/vue.min.js"
-    ]
+    ],
+    "refer": []
   },
   "page/approval.html": {
     "resources": [
@@ -207,12 +210,14 @@
       "js/mui.poppicker.js",
       "css/mui.poppicker.css",
       "css/mui.picker.min.css"
-    ]
+    ],
+    "refer": []
   },
   "page/personpage.html": {
     "resources": [
       "fonts/mui.ttf"
-    ]
+    ],
+    "refer": []
   },
   "page/checkin.html": {
     "resources": [
@@ -226,6 +231,16 @@
     ],
     "refer": [
       "page/checkin_statis.html"
+    ]
+  },
+  "page/checkin_statis.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/vue.min.js"
     ]
   }
 }

@@ -7,24 +7,64 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
 		<link href="../css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
 	</head>
 
 	<body>
 		<div id="rrapp">
 			<rc-header title="考勤统计" btn=""></rc-header>
 			<div class="mui-content">
-				
+					<button class=" mui-btn-block " v-on:click="selecttime" style="width: 90%;margin: auto;margin-bottom: 8px;margin-top: 8px;">{{date}}</button>
+					<ul class="mui-table-view" style="margin-top: 20px;">
+					<li v-for="item in list" class="mui-table-view-cell" style="padding-bottom: 5px;padding-top: 5px;">
+						<div>
+						<span class="font-green">{{item.time}} </span><span class="font-secondary position-right" >{{item.status}}</span>
+						<p class="">上班签到：{{item.in}}</p>
+						<p class="">下班签退：{{item.out}}</p>
+						</div>
+					</li>
+					</ul>
+					
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/vue.min.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
 		<script src="../js/app.js"></script>
 		<script type="text/javascript">
-			new Vue({
+			var vm = new Vue({
 				el: '#rrapp',
 				data: {
+					date:'',
+					list:[{
+						time:'06-07',
+						in:'08:36',
+						out:'18:00',
+						status:'迟到',
+					},{
+						time:'06-07',
+						in:'08:36',
+						out:'18:00', 
+						status:'迟到',
+					},
+					{
+						time:'06-07',
+						in:'08:36',
+						out:'18:00',
+						status:'迟到',
+					},
 					
+					],
 				},
+				methods:{
+					selecttime: function() {
+						var picker = new mui.DtPicker(JSON.parse('{"type":"month"}'));
+						picker.show(function(rs) {
+							vm.date = rs.text;
+							picker.dispose();
+						});
+					},
+				}
 			});
 			mui.init()
 		</script>

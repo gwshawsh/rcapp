@@ -49,8 +49,8 @@ header>span {
 	float: right;
 }
 .vertical-center{
-	position: absolute;
-	top:50% ;
+	position: relative;
+	top:50% ; 
 	transform: translateY(-50%);
 }
 .vertical-top{
@@ -64,7 +64,7 @@ header>span {
 }
 
 .background-green {
-	color: #35BD66;
+	background: #35BD66;
 }
 
 .font-secondary {

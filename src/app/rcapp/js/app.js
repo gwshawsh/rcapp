@@ -7,9 +7,9 @@
 var baseurl = "http://192.168.253.1:8888/";
 var header = {
 	props: {
-		title:'',
-		btn:'',
-		to:''
+		title: '',
+		btn: '',
+		to: ''
 	},
 	template: [
 
@@ -17,11 +17,41 @@ var header = {
 		'<span class="mui-icon mui-icon-back mui-action-back"></span>',
 		'<h1  class="mui-title">{{title}}</h1>',
 		'<button class=" mui-pull-right mui-btn-link" @click="navigate(to)" >{{btn}}</button>',
-		'</header>'	
+		'</header>'
 
 	].join('')
 };
-Vue.component('rc-header',header);
+Vue.component('rc-header', header);
+
+var listItem = {
+
+	props: {
+		list: []
+	},
+	template: [
+
+
+	'<div  class="mui-scroll-wrapper"><div class="mui-scroll">',		
+'<ul class="mui-table-view">', 
+		'<li v-for="item in list" class="mui-table-view-cell mui-media" >', 
+		'<p class="mui-input-row" style="padding-left: 52px;">申请单号:&nbsp;&nbsp;&nbsp;{{item.no}} <span class="font-green position-right"> {{item.status}}</span></p>',
+		'<div class=\'mui-navigate-right\' >',
+		'<img class="mui-media-object mui-pull-left" :src="item.src" onerror="src=\'../images/default_head.png\'">',
+		'<div class="mui-media-body">',
+
+		'{{item.name}}',
+		'<span class="font-secondary"> {{item.dept}}</span>',
+		'<span class="font-warning position-right"> {{item.money}}元</span>',
+		'<p class="font-green">{{item.reason}}</p>',
+		'<p>申请人:&nbsp;&nbsp;&nbsp;{{item.applier}}</p>',
+		'<p class=\'mui-ellipsis\'>申请时间:{{item.applytime}}</p>',
+		'</div></div>',		
+		'<button class="mui-btn-green " v-on:click="" style="float: right;">审批</button>',
+		'</li></ul></div></div>'	,
+
+	].join('')
+};
+Vue.component('rc-list', listItem);
 function navigate(murl) {
 	mui.openWindow({
 		url: murl,
