@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<style>
+			.mui-badge {
+				position: absolute;
+				color: #fff;
+				background: red;
+				top: 0.3rem;
+				right: 0.7rem;
+				float: right;
+			}
+			
+			.mui-control-item {
+				position: relative;
+			}
+			
+			.mui-control-content {
+				background-color: white;
+				min-height: 400px;
+			}
+			
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+			
+			.position-right {
+				right: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="rrapp">
+			<rc-header title="审批管理" btn="新增" to="approval_new.html"></rc-header>
+			<div class="mui-content" id="rrapp">
+				<div id="slider" class="mui-slider">
+					<div class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-positive">
+						<a class="mui-control-item" style="" href="#item1mobile">
+							费用审批
+							<span v-if="badge_charge!=''" class="mui-badge">{{badge_charge}}</span>
+						</a>
+
+						<a class="mui-control-item" href="#item2mobile">
+							付款审批
+							<span v-if="badge_pay!=''" class="mui-badge">{{badge_pay}}</span>
+						</a>
+						<a class="mui-control-item" href="#item3mobile">
+							合同审批
+							<span v-if="badge_contract!=''" class="mui-badge">{{badge_contract}}</span>
+						</a>
+					</div>
+
+					<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+
+					<div class="mui-slider-group" style="">
+						<div id="item1mobile" class="mui-slider-item mui-control-content mui-active ">
+							<rc-list :list="list_charge"></rc-list>
+						</div>
+						<div id="item2mobile" class="mui-slider-item mui-control-content">
+							<div id="scroll2" class="mui-scroll-wrapper">
+								<div class="mui-scroll">
+
+									<ul class="mui-table-view">
+										<li class="mui-table-view-cell">
+											第一个选项卡子项-2
+										</li>
+									</ul>
+
+								</div>
+							</div>
+
+						</div>
+						<div id="item3mobile" class="mui-slider-item mui-control-content">
+							<div id="scroll3" class="mui-scroll-wrapper">
+								<div class="mui-scroll">
+
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: '#rrapp',
+				data: {
+					badge_charge: '3',
+					badge_pay: '',
+					badge_contract: '',
+
+					list_charge: [{
+							no: '123456789',
+							src: '',
+							status: '通过',
+							name: '交通费报销申请单',
+							applytime: '1998-06-18 15:23',
+							applier: '王强',
+							money: '120.00'
+						},
+						{
+							no: '123456789',
+							src: '',
+							status: '通过',
+							name: '交通费报销申请单',
+							applytime: '1998-06-18 15:23',
+							applier: '王强',
+							money: '120.00'
+						},
+						{
+							no: '123456789',
+							src: '',
+							status: '未审批',
+							name: '交通费报销申请单',
+							applytime: '1998-06-18 15:23',
+							applier: '王强',
+							money: '120.00'
+						},
+					],
+					list_pay: [],
+					list_contract: [],
+				},
+			});
+			mui.init({
+				swipeBack: false
+			});
+			(function($) {
+				$('.mui-scroll-wrapper').scroll({
+					indicators: true //是否显示滚动条
+				});
+				var html2 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第二个选项卡子项-1</li><li class="mui-table-view-cell">第二个选项卡子项-2</li><li class="mui-table-view-cell">第二个选项卡子项-3</li><li class="mui-table-view-cell">第二个选项卡子项-4</li><li class="mui-table-view-cell">第二个选项卡子项-5</li></ul>';
+				var html3 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第三个选项卡子项-1</li><li class="mui-table-view-cell">第三个选项卡子项-2</li><li class="mui-table-view-cell">第三个选项卡子项-3</li><li class="mui-table-view-cell">第三个选项卡子项-4</li><li class="mui-table-view-cell">第三个选项卡子项-5</li></ul>';
+				var item2 = document.getElementById('item2mobile');
+				var item3 = document.getElementById('item3mobile');
+				document.getElementById('slider').addEventListener('slide', function(e) {
+					if(e.detail.slideNumber === 1) {
+						if(item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item2.querySelector('.mui-scroll').innerHTML = html2;
+							}, 500);
+						}
+					} else if(e.detail.slideNumber === 2) {
+						if(item3.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item3.querySelector('.mui-scroll').innerHTML = html3;
+							}, 500);
+						}
+					}
+				});
+				var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
+				$('.mui-input-group').on('change', 'input', function() {
+					if(this.checked) {
+						sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
+						//force repaint
+						sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
+					}
+				});
+			})(mui);
+		</script>
+	</body>
+
+</html>

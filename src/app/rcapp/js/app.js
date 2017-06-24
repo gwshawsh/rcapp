@@ -3,7 +3,71 @@
  * 当您要参考这个演示程序进行相关 app 的开发时，
  * 请注意将相关方法调整成 “基于服务端Service” 的实现。
  **/
+
 var baseurl = "http://192.168.253.1:8888/";
+var header = {
+	props: {
+		title: '',
+		btn: '',
+		to: ''
+	},
+	template: [
+
+		'<header class="mui-bar mui-bar-nav">',
+		'<span class="mui-icon mui-icon-back mui-action-back"></span>',
+		'<h1  class="mui-title">{{title}}</h1>',
+		'<button class=" mui-pull-right mui-btn-link" @click="navigate(to)" >{{btn}}</button>',
+		'</header>'
+
+	].join('')
+};
+Vue.component('rc-header', header);
+
+var listItem = {
+
+	props: {
+		list: []
+	},
+	template: [
+
+
+	'<div  class="mui-scroll-wrapper"><div class="mui-scroll">',		
+'<ul class="mui-table-view">', 
+		'<li v-for="item in list" class="mui-table-view-cell mui-media" >', 
+		'<p class="mui-input-row" style="padding-left: 52px;">申请单号:&nbsp;&nbsp;&nbsp;{{item.no}} <span class="font-green position-right"> {{item.status}}</span></p>',
+		'<div class=\'mui-navigate-right\' >',
+		'<img class="mui-media-object mui-pull-left" :src="item.src" onerror="src=\'../images/default_head.png\'">',
+		'<div class="mui-media-body">',
+
+		'{{item.name}}',
+		'<span class="font-secondary"> {{item.dept}}</span>',
+		'<span class="font-warning position-right"> {{item.money}}元</span>',
+		'<p class="font-green">{{item.reason}}</p>',
+		'<p>申请人:&nbsp;&nbsp;&nbsp;{{item.applier}}</p>',
+		'<p class=\'mui-ellipsis\'>申请时间:{{item.applytime}}</p>',
+		'</div></div>',		
+		'<button class="mui-btn-green " v-on:click="" style="float: right;">审批</button>',
+		'</li></ul></div></div>'	,
+
+	].join('')
+};
+Vue.component('rc-list', listItem);
+function navigate(murl) {
+	mui.openWindow({
+		url: murl,
+		id: murl,
+		preload: false,
+		show: {
+			aniShow: 'pop-in'
+		},
+		styles: {
+			popGesture: 'hide'
+		},
+		waiting: {
+			autoShow: true
+		}
+	});
+}
 (function($, owner) {
 	/**
 	 * 用户登录
@@ -13,20 +77,18 @@ var baseurl = "http://192.168.253.1:8888/";
 		loginInfo = loginInfo || {};
 		loginInfo.account = loginInfo.account || '';
 		loginInfo.password = loginInfo.password || '';
-		if (loginInfo.account.length < 5) {
+		if(loginInfo.account.length < 5) {
 			return callback('账号最短为 5 个字符');
 		}
-		if (loginInfo.password.length < 6) {
+		if(loginInfo.password.length < 6) {
 			return callback('密码最短为 6 个字符');
 		}
-		
-		
-		
+
 		var users = JSON.parse(localStorage.getItem('$users') || '[]');
 		var authed = users.some(function(user) {
 			return loginInfo.account == user.account && loginInfo.password == user.password;
 		});
-		if (authed) {
+		if(authed) {
 			return owner.createState(loginInfo.account, callback);
 		} else {
 			return callback('用户名或密码错误');
@@ -49,13 +111,13 @@ var baseurl = "http://192.168.253.1:8888/";
 		regInfo = regInfo || {};
 		regInfo.account = regInfo.account || '';
 		regInfo.password = regInfo.password || '';
-		if (regInfo.account.length < 5) {
+		if(regInfo.account.length < 5) {
 			return callback('用户名最短需要 5 个字符');
 		}
-		if (regInfo.password.length < 6) {
+		if(regInfo.password.length < 6) {
 			return callback('密码最短需要 6 个字符');
 		}
-		if (!checkEmail(regInfo.email)) {
+		if(!checkEmail(regInfo.email)) {
 			return callback('邮箱地址不合法');
 		}
 		var users = JSON.parse(localStorage.getItem('$users') || '[]');
@@ -85,7 +147,7 @@ var baseurl = "http://192.168.253.1:8888/";
 
 	var checkEmail = function(email) {
 		email = email || '';
-		return (email.length > 3 && email.indexOf('@') > -1);
+		return(email.length > 3 && email.indexOf('@') > -1);
 	};
 
 	/**
@@ -93,7 +155,7 @@ var baseurl = "http://192.168.253.1:8888/";
 	 **/
 	owner.forgetPassword = function(email, callback) {
 		callback = callback || $.noop;
-		if (!checkEmail(email)) {
+		if(!checkEmail(email)) {
 			return callback('邮箱地址不合法');
 		}
 		return callback(null, '新的随机密码已经发送到您的邮箱，请查收邮件。');
@@ -111,17 +173,17 @@ var baseurl = "http://192.168.253.1:8888/";
 	 * 设置应用本地配置
 	 **/
 	owner.getSettings = function() {
-			var settingsText = localStorage.getItem('$settings') || "{}";
-			return JSON.parse(settingsText);
-		}
-		/**
-		 * 获取本地是否安装客户端
-		 **/
+		var settingsText = localStorage.getItem('$settings') || "{}";
+		return JSON.parse(settingsText);
+	}
+	/**
+	 * 获取本地是否安装客户端
+	 **/
 	owner.isInstalled = function(id) {
-		if (id === 'qihoo' && mui.os.plus) {
+		if(id === 'qihoo' && mui.os.plus) {
 			return true;
 		}
-		if (mui.os.android) {
+		if(mui.os.android) {
 			var main = plus.android.runtimeMainActivity();
 			var packageManager = main.getPackageManager();
 			var PackageManager = plus.android.importClass(packageManager)
@@ -132,9 +194,9 @@ var baseurl = "http://192.168.253.1:8888/";
 			}
 			try {
 				return packageManager.getPackageInfo(packageName[id], PackageManager.GET_ACTIVITIES);
-			} catch (e) {}
+			} catch(e) {}
 		} else {
-			switch (id) {
+			switch(id) {
 				case "qq":
 					var TencentOAuth = plus.ios.import("TencentOAuth");
 					return TencentOAuth.iphoneQQInstalled();

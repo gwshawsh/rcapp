@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<link href="../css/mui.picker.min.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<style>
+			label {
+				color: #888888;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="rrapp">
+			<rc-header title="新增报销"></rc-header>
+			<div class="mui-content">
+				<form class="mui-input-group">
+					<div class="mui-input-row" @click="pickuser()">
+						<label>申请人</label>
+						<input type="text" class=" mui-input mui-text-right" placeholder="" v-model='applier' readonly="readonly">
+					</div>
+					<div class="mui-input-row">
+						<label>部门</label>
+						<input type="text" class=" mui-input mui-text-right" placeholder="">
+					</div>
+					<div class="mui-input-row">
+						<label>申请日期</label>
+						<input type="text" class=" mui-input mui-text-right" placeholder="">
+					</div>
+					<div class="mui-input-row">
+						<label>报销单号</label>
+						<input i type="text" class=" mui-input mui-text-right" placeholder="">
+					</div>
+					<div class="mui-input-row">
+						<label>报销金额</label>
+						<input type="number" class=" mui-input mui-text-right" placeholder="">
+					</div>
+					<div class="mui-input-row">
+						<label>收款人</label>
+						<input type="text" class="mui-input mui-text-right" placeholder="">
+					</div>
+					<div class="mui-input-row">
+						<label>支付方式</label>
+						<input type="text" class="mui-input mui-text-right" placeholder="">
+					</div>
+					<div class="mui-input-row">
+						<label>审批人</label>
+						<input type="text" class=" mui-input mui-text-right" placeholder="">
+					</div>
+					<div class="mui-input-row">
+						<label>备注：</label>
+						<input type="text" class=" mui-input mui-text-right" placeholder="">
+					</div>
+				</form>
+				<button class="mui-btn mui-btn-block mui-btn-green btn-bottom" v-on:click="" style="">提交申请</button>
+			</div>
+			
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			var userPicker = new mui.PopPicker();
+			var vm = new Vue({
+				el: '#rrapp',
+				data: {
+					applier: '12',
+					dept: '',
+					applytime: '',
+					no: '',
+					money: '',
+					reciver: '',
+					paytype: '',
+					approver: '',
+				},
+				methods: {
+					pickuser: function() {
+
+						userPicker.setData([{
+							value: 'ywj',
+							text: '董事长 叶文洁'
+						}, {
+							value: 'aaa',
+							text: '总经理 艾AA'
+						}, {
+							value: 'lj',
+							text: '罗辑'
+						}, {
+							value: 'ymt',
+							text: '云天明'
+						}, {
+							value: 'shq',
+							text: '史强'
+						}, {
+							value: 'zhbh',
+							text: '章北海'
+						}, {
+							value: 'zhy',
+							text: '庄颜'
+						}, {
+							value: 'gyf',
+							text: '关一帆'
+						}, {
+							value: 'zhz',
+							text: '智子'
+						}, {
+							value: 'gezh',
+							text: '歌者'
+						}]);
+						userPicker.show(function(items) {
+							vm.applier = items[0].text;
+						});
+					}
+				},
+			});
+		</script>
+	</body>
+
+</html>
