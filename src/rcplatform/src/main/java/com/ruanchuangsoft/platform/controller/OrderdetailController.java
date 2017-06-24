@@ -116,6 +116,10 @@ public class OrderdetailController extends AbstractController {
 	@RequestMapping("/save")
 	@RequiresPermissions("orderdetail:save")
 	public R save(@RequestBody OrderdetailEntity orderdetail){
+		if(orderdetail.getBillno().equalsIgnoreCase("*")) {
+			String billno = getBillNo("OD");
+			orderdetail.setBillno(billno);
+		}
 		orderdetailService.save(orderdetail);
 
 		return R.ok();

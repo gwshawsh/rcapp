@@ -126,7 +126,7 @@ public class StorecontractmainController extends AbstractController {
 	@RequiresPermissions("storecontractmain:save")
 	public R save(@RequestBody StorecontractmainEntity storecontractmain){
         if(storecontractmain.getBillno().equals("*")){
-            String billno=getBillNo("**");
+            String billno=getBillNo("ST");
 			storecontractmain.setBillno(billno);
             if(storecontractmain.getDetails()!=null&&storecontractmain.getDetails().size()>0){
                 for(StorecontractdetailEntity item:storecontractmain.getDetails()){

@@ -131,6 +131,10 @@ public class HeavymainController extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("heavymain:save")
     public R save(@RequestBody HeavymainEntity heavymain) {
+        if(heavymain.getBillno().equalsIgnoreCase("*")) {
+            String billno = getBillNo("HV");
+            heavymain.setBillno(billno);
+        }
         heavymainService.save(heavymain);
 
         return R.ok();

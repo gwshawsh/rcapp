@@ -133,6 +133,10 @@ public class LeaveportmainController extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("leaveportmain:save")
     public R save(@RequestBody LeaveportmainEntity leaveportmain) {
+        if(leaveportmain.getBillno().equalsIgnoreCase("*")) {
+            String billno = getBillNo("LP");
+            leaveportmain.setBillno(billno);
+        }
         leaveportmainService.save(leaveportmain);
 
         return R.ok();

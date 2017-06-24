@@ -126,7 +126,7 @@ public class RequisitionmainController extends AbstractController {
 	@RequiresPermissions("requisitionmain:save")
 	public R save(@RequestBody RequisitionmainEntity requisitionmain){
         if(requisitionmain.getBillno().equals("*")){
-            String billno=getBillNo("**");
+            String billno=getBillNo("RQ");
 			requisitionmain.setBillno(billno);
             if(requisitionmain.getDetails()!=null&&requisitionmain.getDetails().size()>0){
                 for(RequisitiondetailEntity item:requisitionmain.getDetails()){

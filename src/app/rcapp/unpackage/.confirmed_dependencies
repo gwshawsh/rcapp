@@ -1,13 +1,18 @@
 {
 	"main.html": {
 		"refer": [
-			"setting.html"
+			"setting.html",
+			"modules/daycheck/daycheck.html"
 		],
 		"resources": [
 			"js/app.js",
 			"js/mui.min.js",
 			"css/mui.min.css",
-			"fonts/mui.ttf"
+			"fonts/mui.ttf",
+			"images/main/main_top.png",
+			"css/font-awesome.css",
+			"fonts/fontawesome-webfont.woff",
+			"js/vue.min.js"
 		]
 	},
 	"login.html": {
@@ -27,7 +32,8 @@
 		"refer": [
 			"main.html",
 			"reg.html",
-			"forget_password.html"
+			"forget_password.html",
+			"unlock.html"
 		]
 	},
 	"setting.html": {
@@ -61,6 +67,11 @@
 			"fonts/mui.ttf",
 			"css/mui.min.css",
 			"css/style.css"
+		]
+	},
+	"unlock.html": {
+		"resources": [
+			"js/mui.locker.js"
 		]
 	}
 }

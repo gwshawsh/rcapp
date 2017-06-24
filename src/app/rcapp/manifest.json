@@ -208,10 +208,15 @@
 					"css/mui.min.css",
 					"fonts/mui.ttf",
 					"js/mui.min.js",
-					"js/app.js"
+					"js/app.js",
+					"images/main/main_top.png",
+					"css/font-awesome.css",
+					"fonts/fontawesome-webfont.woff",
+					"js/vue.min.js"
 				],
 				"refer": [
-					"setting.html"
+					"setting.html",
+					"modules/daycheck/daycheck.html"
 				],
 				"priority": 1
 			},

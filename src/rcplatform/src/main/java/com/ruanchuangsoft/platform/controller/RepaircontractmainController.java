@@ -126,7 +126,7 @@ public class RepaircontractmainController extends AbstractController {
 	@RequiresPermissions("repaircontractmain:save")
 	public R save(@RequestBody RepaircontractmainEntity repaircontractmain){
         if(repaircontractmain.getBillno().equals("*")){
-            String billno=getBillNo("**");
+            String billno=getBillNo("RP");
 			repaircontractmain.setBillno(billno);
             if(repaircontractmain.getDetails()!=null&&repaircontractmain.getDetails().size()>0){
                 for(RepaircontractdetailEntity item:repaircontractmain.getDetails()){

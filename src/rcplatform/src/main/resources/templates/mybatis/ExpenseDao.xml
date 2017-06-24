@@ -3,84 +3,147 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.ExpenseDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.ExpenseEntity">
-		select m.*, (select p.name from sys_dept p where p.dept_id = m.dept_id) as deptName,
-		 (select q.name from costcategory q where q.id = m.costcategory_id) as costcategoryName
-		from expense m where m.id = #{value}
-
+    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.ExpenseEntity">
+		select ((select name from  accountcategory b where a.costcategoryid=b.id),'') as costcategoryidname,
+		  	        a.*
+		from expense a where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.ExpenseEntity">
-		select m.*, (select p.name from sys_dept p where p.dept_id = m.dept_id) as deptName,
-		(select q.name from costcategory q where q.id = m.costcategory_id) as costcategoryName
-		from expense m
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
-	</select>
-	
- 	<select id="queryTotal" resultType="int">
+    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.ExpenseEntity">
+        select
+        ifnull((select name from accountcategory b where a.costcategoryid=b.id),'') as costcategoryidname,
+        a.*
+        from expense a
+        <where>
+            <if test="id != null and id != '' ">
+                `id` = #{id} and
+            </if>
+            <if test="billno != null and billno != '' ">
+                `billno` = #{billno} and
+            </if>
+            <if test="applyuser != null and applyuser != '' ">
+                `applyuser` = #{applyuser} and
+            </if>
+            <if test="deptid != null and deptid != '' ">
+                `deptid` = #{deptid} and
+            </if>
+            <if test="applydate != null and applydate != '' ">
+                `applydate` = #{applydate} and
+            </if>
+            <if test="costcategoryid != null and costcategoryid != '' ">
+                `costcategoryid` = #{costcategoryid} and
+            </if>
+            <if test="expensemoney != null and expensemoney != '' ">
+                `expensemoney` = #{expensemoney} and
+            </if>
+            <if test="reason != null and reason != '' ">
+                `reason` = #{reason} and
+            </if>
+            <if test="receiver != null and receiver != '' ">
+                `receiver` = #{receiver} and
+            </if>
+            <if test="paytype != null and paytype != '' ">
+                `paytype` = #{paytype} and
+            </if>
+            <if test="bankaccount != null and bankaccount != '' ">
+                `bankaccount` = #{bankaccount} and
+            </if>
+            <if test="makeuser != null and makeuser != '' ">
+                `makeuser` = #{makeuser} and
+            </if>
+            <if test="makedate != null and makedate != '' ">
+                `makedate` = #{makedate} and
+            </if>
+            <if test="accuser != null and accuser != '' ">
+                `accuser` = #{accuser} and
+            </if>
+            <if test="accdate != null and accdate != '' ">
+                `accdate` = #{accdate} and
+            </if>
+            <if test="uptdate != null and uptdate != '' ">
+                `uptdate` = #{uptdate}
+            </if>
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
 		select count(*) from expense 
 	</select>
-	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.ExpenseEntity" useGeneratedKeys="true" keyProperty="id">
+
+    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.ExpenseEntity" useGeneratedKeys="true"
+            keyProperty="id">
 		insert into expense
 		(
 			`billno`, 
 			`applyuser`, 
-			`dept_id`, 
+			`deptid`, 
 			`applydate`, 
-			`costcategory_id`, 
+			`costcategoryid`, 
 			`expensemoney`, 
 			`reason`, 
 			`receiver`, 
 			`paytype`, 
+			`bankaccount`, 
+			`makeuser`, 
+			`makedate`, 
 			`accuser`, 
-			`accdate`
+			`accdate`, 
+			`uptdate`
 		)
 		values
 		(
 			#{billno}, 
 			#{applyuser}, 
-			#{deptId}, 
+			#{deptid}, 
 			#{applydate}, 
-			#{costcategoryId}, 
+			#{costcategoryid}, 
 			#{expensemoney}, 
 			#{reason}, 
 			#{receiver}, 
 			#{paytype}, 
+			#{bankaccount}, 
+			#{makeuser}, 
+			#{makedate}, 
 			#{accuser}, 
-			#{accdate}
+			#{accdate}, 
+			#{uptdate}
 		)
 	</insert>
-	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.ExpenseEntity">
-		update expense 
-		<set>
-			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="applyuser != null">`applyuser` = #{applyuser}, </if>
-			<if test="deptId != null">`dept_id` = #{deptId}, </if>
-			<if test="applydate != null">`applydate` = #{applydate}, </if>
-			<if test="costcategoryId != null">`costcategory_id` = #{costcategoryId}, </if>
-			<if test="expensemoney != null">`expensemoney` = #{expensemoney}, </if>
-			<if test="reason != null">`reason` = #{reason}, </if>
-			<if test="receiver != null">`receiver` = #{receiver}, </if>
-			<if test="paytype != null">`paytype` = #{paytype}, </if>
-			<if test="accuser != null">`accuser` = #{accuser}, </if>
-			<if test="accdate != null">`accdate` = #{accdate}</if>
-		</set>
-		where id = #{id}
-	</update>
-	
-	<delete id="delete">
+
+    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.ExpenseEntity">
+        update expense
+        <set>
+            <if test="billno != null">`billno` = #{billno},</if>
+            <if test="applyuser != null">`applyuser` = #{applyuser},</if>
+            <if test="deptid != null">`deptid` = #{deptid},</if>
+            <if test="applydate != null">`applydate` = #{applydate},</if>
+            <if test="costcategoryid != null">`costcategoryid` = #{costcategoryid},</if>
+            <if test="expensemoney != null">`expensemoney` = #{expensemoney},</if>
+            <if test="reason != null">`reason` = #{reason},</if>
+            <if test="receiver != null">`receiver` = #{receiver},</if>
+            <if test="paytype != null">`paytype` = #{paytype},</if>
+            <if test="bankaccount != null">`bankaccount` = #{bankaccount},</if>
+            <if test="makeuser != null">`makeuser` = #{makeuser},</if>
+            <if test="makedate != null">`makedate` = #{makedate},</if>
+            <if test="accuser != null">`accuser` = #{accuser},</if>
+            <if test="accdate != null">`accdate` = #{accdate},</if>
+            <if test="uptdate != null">`uptdate` = #{uptdate}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
 		delete from expense where id = #{value}
 	</delete>
-	
-	<delete id="deleteBatch">
-		delete from expense where id in 
-		<foreach item="id" collection="array" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</delete>
+
+    <delete id="deleteBatch">
+        delete from expense where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

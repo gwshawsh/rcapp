@@ -115,6 +115,10 @@ public class EmptymainController extends AbstractController {
 	@RequestMapping("/save")
 	@RequiresPermissions("emptymain:save")
 	public R save(@RequestBody EmptymainEntity emptymain){
+		if(emptymain.getBillno().equalsIgnoreCase("*")) {
+			String billno = getBillNo("EM");
+			emptymain.setBillno(billno);
+		}
 		emptymainService.save(emptymain);
 
 		return R.ok();

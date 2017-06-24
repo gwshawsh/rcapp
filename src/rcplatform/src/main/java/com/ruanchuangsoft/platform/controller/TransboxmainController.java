@@ -126,7 +126,7 @@ public class TransboxmainController extends AbstractController {
 	@RequiresPermissions("transboxmain:save")
 	public R save(@RequestBody TransboxmainEntity transboxmain){
         if(transboxmain.getBillno().equals("*")){
-            String billno=getBillNo("**");
+            String billno=getBillNo("TS");
 			transboxmain.setBillno(billno);
             if(transboxmain.getDetails()!=null&&transboxmain.getDetails().size()>0){
                 for(TransboxdetailEntity item:transboxmain.getDetails()){
