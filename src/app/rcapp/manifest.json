@@ -332,13 +332,21 @@
 					"images/gongyingshang.png",
 					"images/shenpi.png",
 					"images/qingjia.png",
-					"images/hourglass.png"
+					"images/hourglass.png",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js",
+					"images/user-photo.png"
 				],
 				"refer": [
 					"page/leave.html",
 					"page/setting.html",
 					"page/approval.html",
-					"page/checkin.html"
+					"page/checkin.html",
+					"page/personpage.html",
+					"page/message.html"
 				],
 				"priority": 0
 			},
@@ -364,10 +372,12 @@
 					"css/style.css",
 					"js/vue.min.js",
 					"js/mui.enterfocus.js",
-					"images/user-photo.png"
+					"images/user-photo.png",
+					"fonts/mui.ttf"
 				],
 				"refer": [
-					"page/main.html"
+					"page/main.html",
+					"page/forget_password.html"
 				],
 				"priority": 0
 			},
@@ -435,9 +445,17 @@
 			},
 			"page/personpage.html": {
 				"resources": [
-					"fonts/mui.ttf"
+					"fonts/mui.ttf",
+					"js/app.js",
+					"js/vue.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/head.jpg"
 				],
-				"refer": [],
+				"refer": [
+					"page/setting.html"
+				],
 				"priority": 0
 			},
 			"page/checkin.html": {
@@ -448,7 +466,11 @@
 					"css/mui.min.css",
 					"css/style.css",
 					"js/vue.min.js",
-					"images/calendar.png"
+					"images/calendar.png",
+					"js/mui.poppicker.js",
+					"css/mui.poppicker.css",
+					"js/mui.picker.min.js",
+					"css/mui.picker.min.css"
 				],
 				"refer": [
 					"page/checkin_statis.html"
@@ -463,6 +485,61 @@
 					"css/mui.min.css",
 					"css/style.css",
 					"js/vue.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/forget_password.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/sublist.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/default_head.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/message.html": {
+				"resources": [
+					"page/sublist.html",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/setting.html": {
+				"resources": [
+					"css/mui.min.css",
+					"css/feedback-page.css",
+					"js/app.js",
+					"libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+					"fonts/mui.ttf",
+					"js/vue.min.js",
+					"js/mui.min.js",
+					"libs/easymob-webim-sdk/json2.js",
+					"libs/easymob-webim-sdk/jquery-1.11.1.js",
+					"js/mui.locker.js",
+					"js/feedback.js",
+					"js/feedback-page.js",
+					"libs/easymob-webim-sdk/strophe-custom-2.0.0.js",
+					"js/mui.view.js",
+					"images/iconfont-tianjia.png"
 				],
 				"refer": [],
 				"priority": 0

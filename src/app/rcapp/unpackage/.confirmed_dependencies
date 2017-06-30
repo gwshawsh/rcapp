@@ -1,246 +1,321 @@
 {
-  "main.html": {
-    "refer": [
-      "setting.html",
-      "leave.html"
-    ],
-    "resources": [
-      "js/app.js",
-      "js/mui.min.js",
-      "css/mui.min.css",
-      "fonts/mui.ttf",
-      "css/style.css",
-      "images/hourglass.png",
-      "css/iconfont.css",
-      "fonts/iconfont.ttf",
-      "images/weixin.png",
-      "images/shenpi.png",
-      "images/qingjia.png",
-      "images/kaoqin.png",
-      "images/shezhi.png",
-      "images/gongyingshang.png",
-      "images/user-photo.png",
-      "js/vue.min.js"
-    ]
-  },
-  "login.html": {
-    "resources": [
-      "js/app.js",
-      "js/mui.min.js",
-      "images/sinaweibo.png",
-      "css/mui.min.css",
-      "css/style.css",
-      "images/weixin.png",
-      "images/qq.png",
-      "js/mui.enterfocus.js",
-      "fonts/mui.ttf",
-      "js/vue.min.js",
-      "js/jquery.min.js",
-      "images/user-photo.png"
-    ],
-    "refer": [
-      "main.html",
-      "reg.html",
-      "forget_password.html"
-    ]
-  },
-  "setting.html": {
-    "resources": [
-      "libs/easymob-webim-sdk/easemob.im-1.0.5.js",
-      "fonts/mui.ttf",
-      "libs/easymob-webim-sdk/json2.js",
-      "libs/easymob-webim-sdk/jquery-1.11.1.js",
-      "js/mui.locker.js",
-      "js/feedback.js",
-      "css/feedback-page.css",
-      "js/feedback-page.js",
-      "libs/easymob-webim-sdk/strophe-custom-2.0.0.js",
-      "js/mui.view.js",
-      "images/iconfont-tianjia.png",
-      "js/app.js",
-      "js/mui.min.js",
-      "css/mui.min.css",
-      "js/vue.min.js"
-    ],
-    "refer": []
-  },
-  "forget_password.html": {
-    "resources": [
-      "fonts/mui.ttf",
-      "js/app.js",
-      "js/mui.min.js",
-      "css/mui.min.css",
-      "css/style.css"
-    ],
-    "refer": []
-  },
-  "reg.html": {
-    "resources": [
-      "js/app.js",
-      "js/mui.min.js",
-      "fonts/mui.ttf",
-      "css/mui.min.css",
-      "css/style.css"
-    ],
-    "refer": []
-  },
-  "leave.html": {
-    "resources": [
-      "leave_sub.html",
-      "fonts/mui.ttf",
-      "js/mui.min.js",
-      "css/mui.min.css",
-      "css/style.css"
-    ],
-    "refer": [
-      "leave_sub.html",
-      "leave_apply.html"
-    ]
-  },
-  "leave_apply.html": {
-    "resources": [
-      "js/mui.min.js",
-      "fonts/mui.ttf",
-      "css/mui.min.css",
-      "css/style.css",
-      "js/app.js",
-      "js/vue.min.js",
-      "js/mui.picker.min.js",
-      "css/mui.picker.min.css"
-    ],
-    "refer": []
-  },
-  "page/main.html": {
-    "resources": [
-      "images/kaoqin.png",
-      "images/shezhi.png",
-      "images/gongyingshang.png",
-      "images/shenpi.png",
-      "images/qingjia.png",
-      "images/hourglass.png"
-    ],
-    "refer": [
-      "page/leave.html",
-      "page/setting.html",
-      "page/approval.html",
-      "page/checkin.html"
-    ]
-  },
-  "page/leave.html": {
-    "resources": [
-      "fonts/mui.ttf",
-      "page/leave_sub.html",
-      "js/app.js",
-      "js/mui.min.js",
-      "css/mui.min.css",
-      "css/style.css",
-      "js/vue.min.js"
-    ],
-    "refer": [
-      "page/leave_sub.html"
-    ]
-  },
-  "page/login.html": {
-    "resources": [
-      "js/app.js",
-      "js/jquery.min.js",
-      "js/mui.min.js",
-      "css/mui.min.css",
-      "css/style.css",
-      "js/vue.min.js",
-      "js/mui.enterfocus.js",
-      "images/user-photo.png"
-    ],
-    "refer": [
-      "page/main.html"
-    ]
-  },
-  "page/leave_sub.html": {
-    "resources": [
-      "js/mui.min.js",
-      "fonts/mui.ttf",
-      "css/mui.min.css",
-      "images/cbd.jpg",
-      "images/shuijiao.jpg",
-      "css/style.css",
-      "images/default.png",
-      "images/default_head.png",
-      "js/app.js",
-      "js/vue.min.js"
-    ],
-    "refer": [
-      "page/leave_detail.html"
-    ]
-  },
-  "page/leave_detail.html": {
-    "resources": [
-      "js/app.js",
-      "js/mui.min.js",
-      "fonts/mui.ttf",
-      "css/mui.min.css",
-      "css/style.css",
-      "images/default_head.png",
-      "js/vue.min.js"
-    ],
-    "refer": []
-  },
-  "page/approval.html": {
-    "resources": [
-      "fonts/mui.ttf",
-      "js/app.js",
-      "js/mui.min.js",
-      "css/mui.min.css",
-      "css/style.css",
-      "js/vue.min.js",
-      "images/default_head.png"
-    ],
-    "refer": [
-      "page/approval_new.html"
-    ]
-  },
-  "page/approval_new.html": {
-    "resources": [
-      "js/app.js",
-      "js/mui.min.js",
-      "fonts/mui.ttf",
-      "css/mui.min.css",
-      "css/style.css",
-      "js/vue.min.js",
-      "js/mui.picker.min.js",
-      "js/mui.poppicker.js",
-      "css/mui.poppicker.css",
-      "css/mui.picker.min.css"
-    ],
-    "refer": []
-  },
-  "page/personpage.html": {
-    "resources": [
-      "fonts/mui.ttf"
-    ],
-    "refer": []
-  },
-  "page/checkin.html": {
-    "resources": [
-      "fonts/mui.ttf",
-      "js/app.js",
-      "js/mui.min.js",
-      "css/mui.min.css",
-      "css/style.css",
-      "js/vue.min.js",
-      "images/calendar.png"
-    ],
-    "refer": [
-      "page/checkin_statis.html"
-    ]
-  },
-  "page/checkin_statis.html": {
-    "resources": [
-      "js/app.js",
-      "js/mui.min.js",
-      "fonts/mui.ttf",
-      "css/mui.min.css",
-      "css/style.css",
-      "js/vue.min.js"
-    ]
-  }
+	"main.html": {
+		"refer": [
+			"setting.html",
+			"leave.html"
+		],
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"fonts/mui.ttf",
+			"css/style.css",
+			"images/hourglass.png",
+			"css/iconfont.css",
+			"fonts/iconfont.ttf",
+			"images/weixin.png",
+			"images/shenpi.png",
+			"images/qingjia.png",
+			"images/kaoqin.png",
+			"images/shezhi.png",
+			"images/gongyingshang.png",
+			"images/user-photo.png",
+			"js/vue.min.js"
+		]
+	},
+	"login.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"images/sinaweibo.png",
+			"css/mui.min.css",
+			"css/style.css",
+			"images/weixin.png",
+			"images/qq.png",
+			"js/mui.enterfocus.js",
+			"fonts/mui.ttf",
+			"js/vue.min.js",
+			"js/jquery.min.js",
+			"images/user-photo.png"
+		],
+		"refer": [
+			"main.html",
+			"reg.html",
+			"forget_password.html"
+		]
+	},
+	"setting.html": {
+		"resources": [
+			"libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+			"fonts/mui.ttf",
+			"libs/easymob-webim-sdk/json2.js",
+			"libs/easymob-webim-sdk/jquery-1.11.1.js",
+			"js/mui.locker.js",
+			"js/feedback.js",
+			"css/feedback-page.css",
+			"js/feedback-page.js",
+			"libs/easymob-webim-sdk/strophe-custom-2.0.0.js",
+			"js/mui.view.js",
+			"images/iconfont-tianjia.png",
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/vue.min.js"
+		],
+		"refer": []
+	},
+	"forget_password.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css"
+		],
+		"refer": []
+	},
+	"reg.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css"
+		],
+		"refer": []
+	},
+	"leave.html": {
+		"resources": [
+			"leave_sub.html",
+			"fonts/mui.ttf",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css"
+		],
+		"refer": [
+			"leave_sub.html",
+			"leave_apply.html"
+		]
+	},
+	"leave_apply.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/app.js",
+			"js/vue.min.js",
+			"js/mui.picker.min.js",
+			"css/mui.picker.min.css"
+		],
+		"refer": []
+	},
+	"page/main.html": {
+		"resources": [
+			"images/kaoqin.png",
+			"images/shezhi.png",
+			"images/gongyingshang.png",
+			"images/shenpi.png",
+			"images/qingjia.png",
+			"images/hourglass.png",
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/vue.min.js",
+			"images/user-photo.png"
+		],
+		"refer": [
+			"page/leave.html",
+			"page/setting.html",
+			"page/approval.html",
+			"page/checkin.html",
+			"page/personpage.html",
+			"page/message.html"
+		]
+	},
+	"page/leave.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"page/leave_sub.html",
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/vue.min.js"
+		],
+		"refer": [
+			"page/leave_sub.html"
+		]
+	},
+	"page/login.html": {
+		"resources": [
+			"js/app.js",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/vue.min.js",
+			"js/mui.enterfocus.js",
+			"images/user-photo.png",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"page/main.html",
+			"page/forget_password.html"
+		]
+	},
+	"page/leave_sub.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"images/cbd.jpg",
+			"images/shuijiao.jpg",
+			"css/style.css",
+			"images/default.png",
+			"images/default_head.png",
+			"js/app.js",
+			"js/vue.min.js"
+		],
+		"refer": [
+			"page/leave_detail.html"
+		]
+	},
+	"page/leave_detail.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"images/default_head.png",
+			"js/vue.min.js"
+		],
+		"refer": []
+	},
+	"page/approval.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/vue.min.js",
+			"images/default_head.png"
+		],
+		"refer": [
+			"page/approval_new.html"
+		]
+	},
+	"page/approval_new.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/vue.min.js",
+			"js/mui.picker.min.js",
+			"js/mui.poppicker.js",
+			"css/mui.poppicker.css",
+			"css/mui.picker.min.css"
+		],
+		"refer": []
+	},
+	"page/personpage.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/app.js",
+			"js/vue.min.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"images/head.jpg"
+		],
+		"refer": [
+			"page/setting.html"
+		]
+	},
+	"page/checkin.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/vue.min.js",
+			"images/calendar.png",
+			"js/mui.poppicker.js",
+			"css/mui.poppicker.css",
+			"js/mui.picker.min.js",
+			"css/mui.picker.min.css"
+		],
+		"refer": [
+			"page/checkin_statis.html"
+		]
+	},
+	"page/checkin_statis.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/vue.min.js"
+		],
+		"refer": []
+	},
+	"page/forget_password.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"fonts/mui.ttf"
+		],
+		"refer": []
+	},
+	"page/sublist.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"images/default_head.png"
+		],
+		"refer": []
+	},
+	"page/message.html": {
+		"resources": [
+			"page/sublist.html",
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/vue.min.js"
+		],
+		"refer": [
+			"page/sublist.html"
+		]
+	},
+	"page/setting.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/feedback-page.css",
+			"js/app.js",
+			"libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+			"fonts/mui.ttf",
+			"js/vue.min.js",
+			"js/mui.min.js",
+			"libs/easymob-webim-sdk/json2.js",
+			"libs/easymob-webim-sdk/jquery-1.11.1.js",
+			"js/mui.locker.js",
+			"js/feedback.js",
+			"js/feedback-page.js",
+			"libs/easymob-webim-sdk/strophe-custom-2.0.0.js",
+			"js/mui.view.js",
+			"images/iconfont-tianjia.png"
+		]
+	}
 }
