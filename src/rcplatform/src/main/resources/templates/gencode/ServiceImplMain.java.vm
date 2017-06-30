@@ -50,8 +50,10 @@ public class ${className}ServiceImpl implements ${className}Service {
 	public void update(${className}Entity ${classname}){
 		${detailclassname}Dao.deleteByBillNo(${classname}.getBillno());
 
-        for(${detailClassName}Entity item:${classname}.getDetails()){
-				${detailclassname}Dao.save(item);
+		if(${classname}.getDetails()!=null&&${classname}.getDetails().size()>0){
+            for (${detailClassName}Entity item :${classname}.getDetails()){
+					${detailclassname}Dao.save(item);
+            }
         }
 
 		${classname}Dao.update(${classname});
@@ -72,6 +74,11 @@ public class ${className}ServiceImpl implements ${className}Service {
 	@Override
     public void deleteBatch(${pk.attrType}[] ${pk.attrname}s){
 			${classname}Dao.deleteBatch(${pk.attrname}s);
+    }
+
+    @Override
+    public void claimBatch(${pk.attrType}[] ${pk.attrname}s){
+			${classname}Dao.claimBatch(${pk.attrname}s);
     }
 
     @Override

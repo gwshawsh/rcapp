@@ -3,10 +3,14 @@
 <head>
     <title>${comments}</title>
     #set($header='<#include "sys/header.html">')
+    #set($billcomments='<#include "base/billcomments_ref.html">')
     #set($query='<@shiro.hasPermission name="'+${pathName}+':list">')
     #set($save='<@shiro.hasPermission name="'+${pathName}+':save">')
     #set($update='<@shiro.hasPermission name="'+${pathName}+':update">')
     #set($delete='<@shiro.hasPermission name="'+${pathName}+':delete">')
+    #set($copybill='<@shiro.hasPermission name="'+${pathName}+':copybill">')
+    #set($cancel='<@shiro.hasPermission name="'+${pathName}+':cancel">')
+    #set($claim='<@shiro.hasPermission name="'+${pathName}+':claim">')
     #set($audit='<@shiro.hasPermission name="'+${pathName}+':audit">')
     #set($unaudit='<@shiro.hasPermission name="'+${pathName}+':unaudit">')
     #set($end='</@shiro.hasPermission>')
@@ -33,15 +37,31 @@
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             $end
+            $delete
+            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
+            $end
             #if($classname.endsWith("main"))
-            $audit
-            <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
-            </el-button>
-            $end
-            $unaudit
-            <el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
-            </el-button>
-            $end
+                $copybill
+                <el-button type="primary" v-on:click="copybill"><i class="fa fa-trash-o"></i>&nbsp;复制
+                </el-button>
+                $end
+                $cancel
+                <el-button type="primary" v-on:click="cancel"><i class="fa fa-trash-o"></i>&nbsp;作废
+                </el-button>
+                $end
+                $claim
+                <el-button type="primary" v-on:click="claim"><i class="fa fa-book"></i>&nbsp;签收
+                </el-button>
+                $end
+                $audit
+                <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
+                </el-button>
+                $end
+                $unaudit
+                <el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
+                </el-button>
+                $end
             #end
             $delete
             <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
@@ -154,9 +174,11 @@
                     <el-form-item label="${column.comments}">
 
                              #if($column.columnName.endsWith("date"))
-
                                 <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 100%;"></el-date-picker>
-                            #elseif($column.columnName.endsWith("time"))
+                             #elseif($column.columnName.equalsIgnoreCase("remark"))
+                                <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="${classname}.${column.attrname}" style="width: 100%;"></el-input>
+
+                             #elseif($column.columnName.endsWith("time"))
 
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 100%;"></el-date-picker>
 
@@ -226,6 +248,7 @@
 #end
 #end
 
+$billcomments
 <script src="${ctxPath}/static/js/${parent}/${pathName}.js"></script>
 </body>
 </html>

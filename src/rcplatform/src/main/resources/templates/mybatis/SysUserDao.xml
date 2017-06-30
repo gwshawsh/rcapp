@@ -3,12 +3,12 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.SysUserDao">
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.SysUserEntity">
-		select m.*, (select p.name from sys_dept p where p.dept_id = m.dept_id) as deptName
+		select m.*, (select p.name from sys_dept p where p.id = m.dept_id) as deptName
 		from sys_user m where m.user_id = #{value}
 	</select>
 	
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.SysUserEntity">
-		select m.*, (select p.name from sys_dept p where p.dept_id = m.dept_id) as deptName
+		select m.*, (select p.name from sys_dept p where p.id = m.dept_id) as deptName
 		from sys_user m
 		<where>
 			<if test="username != null and username.trim() != ''">
@@ -47,7 +47,7 @@
 	</select>
 	
 	<!-- 查询用户的所有菜单ID --> 
-	<select id="queryAllMenuId" resultType="Long">
+	<select id="queryAllMenuId" resultType="String">
 		select m.menu_id from sys_user_role ur 
 			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id 
 			LEFT JOIN sys_menu m on rm.menu_id = m.menu_id 

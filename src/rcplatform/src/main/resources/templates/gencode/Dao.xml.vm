@@ -31,13 +31,23 @@
 		#end
         a.*
 		from ${tableName} a
-		<where>
+        <where>
 			#foreach($column in $columns)
-                <if test="$column.attrname != null and $column.attrname != '' ">
-                `$column.columnName` = #{$column.attrname}#if($velocityCount != $columns.size()) and #end
-				</if>
+				#if(!$column.attrname.equalsIgnoreCase("pocessinstanceid"))
+                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
+						#if($velocityCount != 1) and #end `pocessinstanceid` = #{pocessinstanceid}
+                    </if>
+                    <if test="userid != null ">
+						#if($velocityCount != 1) and #end (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
+                    </if>
+				#else
+                    <if test="$column.attrname != null and $column.attrname != '' ">
+						#if($velocityCount != 1) and #end `$column.columnName` = #{$column.attrname}
+                    </if>
+				#end
+
 			#end
-		</where>
+        </where>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

@@ -126,12 +126,20 @@ function formater_billstatus(value, options, row){
 	if(value==0)
 		return	'<span class="label label-info">新增</span>';
 	else if (value==1){
-		return '<span class="label label-danger">审核</span>';
+		return '<span class="label label-danger">已提交</span>';
 	}
-	else if(value==2){
-		return '<span class="label label-success">完成</span>';
+    else if(value==2){
+        return '<span class="label label-success">已签收</span>';
+    }
+	else if(value==3){
+		return '<span class="label label-success">审核中</span>';
 	}
-
+    else if(value==4){
+        return '<span class="label label-success">完成</span>';
+    }
+    else if(value==9){
+        return '<span class="label label-success">作废</span>';
+    }
 }
 
 

@@ -238,16 +238,83 @@ var vm = new Vue({
 #end
 #end
         #if($classname.endsWith("main"))
-        audit:function(event){
+            //提交到工作流
+            submitworkflow:function () {
+                var row=getSelectedRow();
+                if (row == null) {
+                    return;
+                }
+                confirm('确定要提交选中的任务？', function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "../${pathName}/submitworkflow",
+                        data: JSON.stringify(row),
+                        success: function (r) {
+                            if (r.code == 0) {
+                                alert('操作成功', function (index) {
+                                    $("#jqGrid").trigger("reloadGrid");
+                                });
+                            } else {
+                                alert(r.msg);
+                            }
+                        }
+                    });
+                });
+            },
+            //复制单据
+            copybill: function (event) {
+                var $pk.attrname = getSelectedRow();
+                if($pk.attrname == null){
+                    return ;
+                }
+                vm.showList = false;
+                vm.showDetailList=false;
+                vm.title = "新增";
+                vm.getInfo(${pk.attrname});
+
+                $.get("../${pathName}/info/" + id, function (r) {
+                    vm.${classname} = r.${classname};
+                    vm.${classname}.id=null;
+                    vm.${classname}.billno="*";
+                });
+
+
+            },
+            //作废单据
+            cancel: function (event) {
+                var ${pk.attrname}s = getSelectedRows();
+                if(${pk.attrname}s == null){
+                    return ;
+                }
+                confirm('确定要作废选中的单据？', function(){
+                    $.ajax({
+                        type: "POST",
+                        url: "../${pathName}/cancel",
+                        data: JSON.stringify(${pk.attrname}s),
+                        success: function(r){
+                            if(r.code == 0){
+                                alert('操作成功', function(index){
+                                    $("#jqGrid").trigger("reloadGrid");
+                                });
+                            }else{
+                                alert(r.msg);
+                            }
+                        }
+                    });
+                });
+
+            },
+        //签收任务
+        claim:function(event){
             var ${pk.attrname}s = getSelectedRows();
             if(${pk.attrname}s == null){
                 return ;
             }
 
-            confirm('确定要审核选中的记录？', function(){
+            confirm('确定要签收选中的任务？', function(){
                 $.ajax({
                     type: "POST",
-                    url: "../${pathName}/audit",
+                    url: "../${pathName}/claim",
                     data: JSON.stringify(${pk.attrname}s),
                     success: function(r){
                         if(r.code == 0){
@@ -258,6 +325,39 @@ var vm = new Vue({
                             alert(r.msg);
                         }
                     }
+                });
+            });
+        },
+
+        audit:function(event){
+            var ${pk.attrname} = getSelectedRow();
+            if(${pk.attrname} == null){
+                return ;
+            }
+            $.get("../${pathName}/info/"+${pk.attrname}, function(r){
+                vm.${classname} = r.${classname};
+                showrefgrid_billcomments(function (data) {
+                    if(!vm.${classname}.billcommentsEntity){
+                        vm.${classname}.billcommentsEntity={};
+                    }
+                    vm.${classname}.billcommentsEntity.billno=vm.${classname}.billno;
+                    vm.${classname}.billcommentsEntity.refbilltype=0;
+                    vm.${classname}.billcommentsEntity.remark=data.remark;
+                    vm.${classname}.billcommentsEntity.auditstatus=data.auditstatus;
+                    $.ajax({
+                        type: "POST",
+                        url: "../${pathName}/audit",
+                        data: JSON.stringify(vm.${classname}),
+                        success: function(r){
+                            if(r.code == 0){
+                                alert('操作成功', function(index){
+                                    $("#jqGrid").trigger("reloadGrid");
+                                });
+                            }else{
+                                alert(r.msg);
+                            }
+                        }
+                    });
                 });
             });
         },

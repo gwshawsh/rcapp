@@ -12,11 +12,11 @@ import java.util.List;
  */
 public interface SysRoleMenuService {
 	
-	void saveOrUpdate(Long roleId, List<Long> menuIdList);
+	void saveOrUpdate(Long roleId, List<String> menuIdList);
 	
 	/**
 	 * 根据角色ID，获取菜单ID列表
 	 */
-	List<Long> queryMenuIdList(Long roleId);
+	List<String> queryMenuIdList(Long roleId);
 	
 }

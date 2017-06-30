@@ -1,0 +1,79 @@
+<div id="ref_billcomments" style="display: none;padding:10px;">
+
+    <el-form label-position="right" :inline="true" label-width="100px" style="padding:10px">
+
+
+        <el-form-item label="审批意见">
+
+            <el-select style="width: 350px" v-model="q.billstatus" filterable placeholder="请选择">
+                <el-option
+                        v-for="item in ref_enum1003"
+                        :key="item.enumvalueid"
+                        :label="item.enumvaluename"
+                        :value="item.enumvalueid">
+                </el-option>
+            </el-select>
+
+
+        </el-form-item>
+        <el-form-item label="备注">
+
+            <el-input style="width: 350px" v-model="q.remark" placeholder="备注"></el-input>
+
+
+        </el-form-item>
+
+    </el-form>
+
+
+</div>
+<script>
+    var mutilflag = false;
+    var vue_billcomments = new Vue({
+        el: '#ref_billcomments',
+        data: {
+            //创建实体类
+            billcomments: {
+                refbilltypeenumvaluename: "",
+                billstatusenumvaluename: "",
+                billno: "",
+                refbilltype: "",
+                serialno: "",
+                billstatus: "",
+                remark: "",
+                makeuser: "",
+                makedate: "",
+                uptdate: "",
+                pocessinstanceid: ""
+            }
+        },
+        methods: {}
+    });
+
+    function showrefgrid_billcomments(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_billcomments"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+
+
+</script>

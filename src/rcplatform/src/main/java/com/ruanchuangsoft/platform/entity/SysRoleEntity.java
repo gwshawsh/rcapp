@@ -30,7 +30,7 @@ public class SysRoleEntity implements Serializable {
 	 */
 	private String remark;
 	
-	private List<Long> menuIdList;
+	private List<String> menuIdList;
 	
 	/**
 	 * 创建时间
@@ -93,11 +93,11 @@ public class SysRoleEntity implements Serializable {
 		this.createTime = createTime;
 	}
 
-	public List<Long> getMenuIdList() {
+	public List<String> getMenuIdList() {
 		return menuIdList;
 	}
 
-	public void setMenuIdList(List<Long> menuIdList) {
+	public void setMenuIdList(List<String> menuIdList) {
 		this.menuIdList = menuIdList;
 	}
 	

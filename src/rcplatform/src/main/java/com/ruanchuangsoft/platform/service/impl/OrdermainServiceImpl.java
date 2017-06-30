@@ -50,9 +50,11 @@ public class OrdermainServiceImpl implements OrdermainService {
 	public void update(OrdermainEntity ordermain){
 		orderdetailDao.deleteByBillNo(ordermain.getBillno());
 
-        for(OrderdetailEntity item:ordermain.getDetails()){
+		if(ordermain.getDetails()!=null&&ordermain.getDetails().size()>0) {
+			for (OrderdetailEntity item : ordermain.getDetails()) {
 				orderdetailDao.save(item);
-        }
+			}
+		}
 
 		ordermainDao.update(ordermain);
 	}

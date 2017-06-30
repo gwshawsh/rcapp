@@ -3,10 +3,14 @@
 <head>
     <title>${comments}</title>
     #set($header='<#include "sys/header.html">')
+    #set($billcomments='<#include "base/billcomments_ref.html">')
     #set($query='<@shiro.hasPermission name="'+${pathName}+':list">')
     #set($save='<@shiro.hasPermission name="'+${pathName}+':save">')
     #set($update='<@shiro.hasPermission name="'+${pathName}+':update">')
     #set($delete='<@shiro.hasPermission name="'+${pathName}+':delete">')
+    #set($copybill='<@shiro.hasPermission name="'+${pathName}+':copybill">')
+    #set($cancel='<@shiro.hasPermission name="'+${pathName}+':cancel">')
+    #set($claim='<@shiro.hasPermission name="'+${pathName}+':claim">')
     #set($audit='<@shiro.hasPermission name="'+${pathName}+':audit">')
     #set($unaudit='<@shiro.hasPermission name="'+${pathName}+':unaudit">')
     #set($end='</@shiro.hasPermission>')
@@ -35,6 +39,18 @@
                 $end
                 $delete
                 <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                </el-button>
+                $end
+                $copybill
+                <el-button type="primary" v-on:click="copybill"><i class="fa fa-trash-o"></i>&nbsp;复制
+                </el-button>
+                $end
+                $cancel
+                <el-button type="primary" v-on:click="cancel"><i class="fa fa-trash-o"></i>&nbsp;作废
+                </el-button>
+                $end
+                $claim
+                <el-button type="primary" v-on:click="claim"><i class="fa fa-book"></i>&nbsp;签收
                 </el-button>
                 $end
                 $audit
@@ -119,9 +135,16 @@
     </div>
 
     <div v-show="showDetailList" class="panel panel-default">
-        <div class="panel-heading">明细</div>
-        <table id="jqGridDetail"></table>
-        <div id="jqGridPagerDetail"></div>
+        <el-tabs type="border-card">
+            <el-tab-pane>
+                <span slot="label"><i class="el-icon-document"></i> 明细</span>
+                <table id="jqGridDetail"></table>
+            </el-tab-pane>
+            <el-tab-pane>
+                <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                <table id="jqGridComments"></table>
+            </el-tab-pane>
+        </el-tabs>
     </div>
 
     <div v-show="!showList" class="panel panel-default">
@@ -154,6 +177,9 @@
                         #if($column.columnName.endsWith("date"))
 
                             <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 168px;"></el-date-picker>
+                        #elseif($column.columnName.equalsIgnoreCase("remark"))
+                            <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="${classname}.${column.attrname}" style="width: 100%;"></el-input>
+
                         #elseif($column.columnName.endsWith("time"))
 
                             <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 168px;"></el-date-picker>
@@ -299,6 +325,9 @@
         </div>
         #end
     #end
+
+$billcomments
+
 
 
 <script src="${ctxPath}/static/js/${parent}/${pathName}.js"></script>

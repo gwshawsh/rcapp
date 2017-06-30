@@ -80,7 +80,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-					url: "../sys/user/delete",
+					url: "../sys_user/delete",
 					data: JSON.stringify(userIds),
 					success: function(r){
 						if(r.code == 0){
@@ -95,7 +95,7 @@ var vm = new Vue({
 			});
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.user.userId == null ? "../sys/user/save" : "../sys/user/update";
+			var url = vm.user.userId == null ? "../sys_user/save" : "../sys_user/update";
 			$.ajax({
 				type: "POST",
 				url: url,
@@ -112,7 +112,7 @@ var vm = new Vue({
 			});
 		},
 		getUser: function(userId){
-			$.get("../sys/user/info/"+userId, function(r){
+			$.get("../sys_user/info/"+userId, function(r){
 				vm.user = r.user;
 			});
 		},
@@ -155,7 +155,7 @@ var vm = new Vue({
 
 $(function () {
     $("#jqGrid").jqGrid({
-        url: '../sys/user/list',
+        url: '../sys_user/list',
         datatype: "json",
 
         colModel: [			

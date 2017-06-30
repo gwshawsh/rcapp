@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.BillcommentsDao">
+
+    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.BillcommentsEntity">
+		select
+				    			    						                    ifnull((select enumvaluename from  enumtable b where a.refbilltype=b.enumvalueid and b.enumtype='1006'),'') as refbilltypeenumvaluename,
+						    			    						                    ifnull((select enumvaluename from  enumtable b where a.auditstatus=b.enumvalueid and b.enumtype='1013'),'') as auditstatusenumvaluename,
+						    			    			    			    			    			    	        a.*
+		from billcomments a where id = #{value}
+	</select>
+
+    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.BillcommentsEntity">
+        select
+        ifnull((select enumvaluename from enumtable b where a.refbilltype=b.enumvalueid and b.enumtype='1006'),'') as
+        refbilltypeenumvaluename,
+        ifnull((select enumvaluename from enumtable b where a.auditstatus=b.enumvalueid and b.enumtype='1013'),'') as
+        auditstatusenumvaluename,
+        a.*
+        from billcomments a
+        <where>
+            <if test="id != null and id != '' ">
+                `id` = #{id}
+            </if>
+            <if test="billno != null and billno != '' ">
+                and `billno` = #{billno}
+            </if>
+            <if test="refbilltype != null and refbilltype != '' ">
+                and `refbilltype` = #{refbilltype}
+            </if>
+            <if test="serialno != null and serialno != '' ">
+                and `serialno` = #{serialno}
+            </if>
+            <if test="auditstatus != null and auditstatus != '' ">
+                and `auditstatus` = #{auditstatus}
+            </if>
+            <if test="remark != null and remark != '' ">
+                and `remark` = #{remark}
+            </if>
+            <if test="makeuser != null and makeuser != '' ">
+                and `makeuser` = #{makeuser}
+            </if>
+            <if test="makedate != null and makedate != '' ">
+                and `makedate` = #{makedate}
+            </if>
+            <if test="uptdate != null and uptdate != '' ">
+                and `uptdate` = #{uptdate}
+            </if>
+            <if test="pocessinstanceid != null and pocessinstanceid != '' ">
+                and `pocessinstanceid` = #{pocessinstanceid}
+            </if>
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
+		select count(*) from billcomments 
+	</select>
+
+    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.BillcommentsEntity" useGeneratedKeys="true"
+            keyProperty="id">
+		insert into billcomments
+		(
+			`billno`, 
+			`refbilltype`, 
+			`serialno`, 
+			`auditstatus`, 
+			`remark`, 
+			`makeuser`, 
+			`makedate`, 
+			`uptdate`, 
+			`pocessinstanceid`
+		)
+		values
+		(
+			#{billno}, 
+			#{refbilltype}, 
+			#{serialno}, 
+			#{auditstatus}, 
+			#{remark}, 
+			#{makeuser}, 
+			#{makedate}, 
+			#{uptdate}, 
+			#{pocessinstanceid}
+		)
+	</insert>
+
+    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.BillcommentsEntity">
+        update billcomments
+        <set>
+            <if test="billno != null">`billno` = #{billno},</if>
+            <if test="refbilltype != null">`refbilltype` = #{refbilltype},</if>
+            <if test="serialno != null">`serialno` = #{serialno},</if>
+            <if test="auditstatus != null">`auditstatus` = #{auditstatus},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            <if test="makeuser != null">`makeuser` = #{makeuser},</if>
+            <if test="makedate != null">`makedate` = #{makedate},</if>
+            <if test="uptdate != null">`uptdate` = #{uptdate},</if>
+            <if test="pocessinstanceid != null">`pocessinstanceid` = #{pocessinstanceid}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+		delete from billcomments where id = #{value}
+	</delete>
+
+    <delete id="deleteBatch">
+        delete from billcomments where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
