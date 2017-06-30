@@ -10,7 +10,7 @@ import java.util.Map;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-22 15:53:05
+ * @date 2017-06-30 13:35:04
  */
 public interface RequisitionmainService {
 	
@@ -27,6 +27,7 @@ public interface RequisitionmainService {
 	void delete(Long id);
 	
 	void deleteBatch(Long[] ids);
+
 
     void auditBatch(Long[] ids);
 

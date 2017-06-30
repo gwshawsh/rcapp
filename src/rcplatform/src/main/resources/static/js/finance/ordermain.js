@@ -73,6 +73,8 @@ var vm = new Vue({
         //明细表用户下拉参照的属性
         ref_goods: [],
 
+
+
         //单据主表实体类
         ordermain: {
             billno: "*",
@@ -90,7 +92,8 @@ var vm = new Vue({
             accuser: "",
             accdate: "",
             uptdate: "",
-            details: []
+            details: [],
+            files:[]
 
         }
     },
@@ -170,8 +173,8 @@ var vm = new Vue({
             });
         },
         //提交到工作流
-        submitworkflow:function () {
-            var row=getSelectedRow();
+        submitworkflow: function () {
+            var row = getSelectedRow();
             if (row == null) {
                 return;
             }
@@ -203,8 +206,8 @@ var vm = new Vue({
             vm.title = "新增";
             $.get("../ordermain/info/" + id, function (r) {
                 vm.ordermain = r.ordermain;
-                vm.ordermain.id=null;
-                vm.ordermain.billno="*";
+                vm.ordermain.id = null;
+                vm.ordermain.billno = "*";
             });
 
         },
@@ -265,13 +268,13 @@ var vm = new Vue({
                 vm.ordermain = r.ordermain;
 
                 showrefgrid_billcomments(function (data) {
-                    if(!vm.ordermain.billcommentsEntity){
-                        vm.ordermain.billcommentsEntity={};
+                    if (!vm.ordermain.billcommentsEntity) {
+                        vm.ordermain.billcommentsEntity = {};
                     }
-                    vm.ordermain.billcommentsEntity.billno=vm.ordermain.billno;
-                    vm.ordermain.billcommentsEntity.refbilltype=0;
-                    vm.ordermain.billcommentsEntity.remark=data.remark;
-                    vm.ordermain.billcommentsEntity.auditstatus=data.auditstatus;
+                    vm.ordermain.billcommentsEntity.billno = vm.ordermain.billno;
+                    vm.ordermain.billcommentsEntity.refbilltype = 0;
+                    vm.ordermain.billcommentsEntity.remark = data.remark;
+                    vm.ordermain.billcommentsEntity.auditstatus = data.auditstatus;
                     $.ajax({
                         type: "POST",
                         url: "../ordermain/audit",
@@ -399,7 +402,7 @@ var vm = new Vue({
 
         //查询单据明细
         queryDetail: function () {
-            var row=getSelectedRowData();
+            var row = getSelectedRowData();
 
             var id = row.billno;
             if (id == null) {
@@ -456,7 +459,16 @@ var vm = new Vue({
             for (var i = 0; i < vm.ordermain.details.length; i++) {
                 vm.ordermain.details[i].serialno = i;
             }
+        },
+
+        upload_on_success:function (response,file,fileList) {
+            vm.ordermain.files=response.page.list;
+        },
+
+        upload_on_change: function (file, fileList) {
+            this.fileslist = fileList;
         }
+
     }
 });
 

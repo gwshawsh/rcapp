@@ -10,7 +10,7 @@ import java.util.List;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-21 18:46:43
+ * @date 2017-06-30 13:33:00
  */
 public class OrganizationEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

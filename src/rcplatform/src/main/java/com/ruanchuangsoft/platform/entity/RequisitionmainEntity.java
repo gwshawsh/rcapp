@@ -3,6 +3,7 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
 import com.ruanchuangsoft.platform.entity.RequisitiondetailEntity;
 
 import java.math.BigDecimal;
@@ -14,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-22 15:53:05
+ * @date 2017-06-30 13:35:04
  */
-public class RequisitionmainEntity implements Serializable {
+public class RequisitionmainEntity  extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -34,17 +35,19 @@ public class RequisitionmainEntity implements Serializable {
 	//单据状态
 	private Integer billstatus;
 	//制单人
-	private String makeuser;
+	private Long makeuser;
 	//制单日期
 	private Date makedate;
 	//审核人
-	private String accuser;
+	private Long accuser;
 	//审核日期
 	private Date accdate;
 	//更新时间
 	private Date uptdate;
 	//备注
 	private String remark;
+	//流程ID
+	private String pocessinstanceid;
 
 
 	
@@ -54,6 +57,8 @@ public class RequisitionmainEntity implements Serializable {
 		
 
 	
+		            //请购人
+            private String requserusername;
 		
 
 	
@@ -77,9 +82,16 @@ public class RequisitionmainEntity implements Serializable {
 		
 
 	
+		            //制单人
+            private String makeuserusername;
 		
 
 	
+		
+
+	
+		            //审核人
+            private String accuserusername;
 		
 
 	
@@ -195,13 +207,13 @@ public class RequisitionmainEntity implements Serializable {
 	/**
 	 * 设置：制单人
 	 */
-	public void setMakeuser(String makeuser) {
+	public void setMakeuser(Long makeuser) {
 		this.makeuser = makeuser;
 	}
 	/**
 	 * 获取：制单人
 	 */
-	public String getMakeuser() {
+	public Long getMakeuser() {
 		return makeuser;
 	}
 	/**
@@ -219,13 +231,13 @@ public class RequisitionmainEntity implements Serializable {
 	/**
 	 * 设置：审核人
 	 */
-	public void setAccuser(String accuser) {
+	public void setAccuser(Long accuser) {
 		this.accuser = accuser;
 	}
 	/**
 	 * 获取：审核人
 	 */
-	public String getAccuser() {
+	public Long getAccuser() {
 		return accuser;
 	}
 	/**
@@ -264,8 +276,32 @@ public class RequisitionmainEntity implements Serializable {
 	public String getRemark() {
 		return remark;
 	}
+	/**
+	 * 设置：流程ID
+	 */
+	public void setPocessinstanceid(String pocessinstanceid) {
+		this.pocessinstanceid = pocessinstanceid;
+	}
+	/**
+	 * 获取：流程ID
+	 */
+	public String getPocessinstanceid() {
+		return pocessinstanceid;
+	}
 
-				        /**
+			        /**
+         * 设置：请购人username
+         */
+        public void setRequserusername(String username) {
+            this.requserusername = username;
+            }
+    /**
+     * 获取：请购人username
+     */
+    public String getRequserusername() {
+            return requserusername;
+            }
+		        /**
          * 设置：所属部门name
          */
         public void setDeptidname(String name) {
@@ -313,4 +349,28 @@ public class RequisitionmainEntity implements Serializable {
     public String getBillstatusenumvaluename() {
             return billstatusenumvaluename;
             }
-							}
+		        /**
+         * 设置：制单人username
+         */
+        public void setMakeuserusername(String username) {
+            this.makeuserusername = username;
+            }
+    /**
+     * 获取：制单人username
+     */
+    public String getMakeuserusername() {
+            return makeuserusername;
+            }
+			        /**
+         * 设置：审核人username
+         */
+        public void setAccuserusername(String username) {
+            this.accuserusername = username;
+            }
+    /**
+     * 获取：审核人username
+     */
+    public String getAccuserusername() {
+            return accuserusername;
+            }
+					}

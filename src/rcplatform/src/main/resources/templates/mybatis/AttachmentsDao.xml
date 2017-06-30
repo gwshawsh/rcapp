@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ruanchuangsoft.platform.dao.RequisitiondetailDao">
+<mapper namespace="com.ruanchuangsoft.platform.dao.AttachmentsDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RequisitiondetailEntity">
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.AttachmentsEntity">
 		select
-																               		ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
-																						        a.*
-
-		from requisitiondetail a where id = #{value}
+				    			    			    			    			    						               		ifnull((select username from  sys_user b where a.makeuser=b.user_id),'') as makeuserusername,
+						    			    			    	        a.*
+		from attachments a where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RequisitiondetailEntity">
-        select
-																								                    ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
-																																		        a.*
-        from requisitiondetail a
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.AttachmentsEntity">
+		select
+																																		               		ifnull((select username from  sys_user b where a.makeuser=b.user_id),'') as makeuserusername,
+																			        a.*
+		from attachments a
         <where>
 							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
 						 `pocessinstanceid` = #{pocessinstanceid}
@@ -73,73 +72,59 @@
 						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
                     </if>
 				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
-                    </if>
-				
 			        </where>
-        <if test="offset != null and limit != null">
-            limit #{offset}, #{limit}
-        </if>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from requisitiondetail 
+		select count(*) from attachments 
 	</select>
 	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.RequisitiondetailEntity" useGeneratedKeys="true" keyProperty="id">
-		insert into requisitiondetail
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.AttachmentsEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into attachments
 		(
 			`billno`, 
-			`serialno`, 
-			`goodsid`, 
-			`goodscount`, 
-			`goodsspec`, 
-			`goodsuse`, 
-			`enddate`, 
+			`name`, 
+			`filename`, 
+			`fileurl`, 
+			`makeuser`, 
+			`makedate`, 
 			`uptdate`
 		)
 		values
 		(
 			#{billno}, 
-			#{serialno}, 
-			#{goodsid}, 
-			#{goodscount}, 
-			#{goodsspec}, 
-			#{goodsuse}, 
-			#{enddate}, 
+			#{name}, 
+			#{filename}, 
+			#{fileurl}, 
+			#{makeuser}, 
+			#{makedate}, 
 			#{uptdate}
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.RequisitiondetailEntity">
-		update requisitiondetail 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.AttachmentsEntity">
+		update attachments 
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="serialno != null">`serialno` = #{serialno}, </if>
-			<if test="goodsid != null">`goodsid` = #{goodsid}, </if>
-			<if test="goodscount != null">`goodscount` = #{goodscount}, </if>
-			<if test="goodsspec != null">`goodsspec` = #{goodsspec}, </if>
-			<if test="goodsuse != null">`goodsuse` = #{goodsuse}, </if>
-			<if test="enddate != null">`enddate` = #{enddate}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="filename != null">`filename` = #{filename}, </if>
+			<if test="fileurl != null">`fileurl` = #{fileurl}, </if>
+			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
+			<if test="makedate != null">`makedate` = #{makedate}, </if>
 			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
 		</set>
 		where id = #{id}
 	</update>
 	
 	<delete id="delete">
-		delete from requisitiondetail where id = #{value}
+		delete from attachments where id = #{value}
 	</delete>
-
-    <delete id="deleteByBillNo">
-        delete from requisitiondetail where billno = #{value}
-    </delete>
 	
 	<delete id="deleteBatch">
-		delete from requisitiondetail where id in 
+		delete from attachments where id in 
 		<foreach item="id" collection="array" open="(" separator="," close=")">
 			#{id}
 		</foreach>

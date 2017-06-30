@@ -37,19 +37,12 @@
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             $end
-            $delete
-            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-            </el-button>
-            $end
             #if($classname.endsWith("main"))
                 $copybill
                 <el-button type="primary" v-on:click="copybill"><i class="fa fa-trash-o"></i>&nbsp;复制
                 </el-button>
                 $end
-                $cancel
-                <el-button type="primary" v-on:click="cancel"><i class="fa fa-trash-o"></i>&nbsp;作废
-                </el-button>
-                $end
+
                 $claim
                 <el-button type="primary" v-on:click="claim"><i class="fa fa-book"></i>&nbsp;签收
                 </el-button>
@@ -58,13 +51,13 @@
                 <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
                 </el-button>
                 $end
-                $unaudit
-                <el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
+                $cancel
+                <el-button type="warning" v-on:click="cancel"><i class="fa fa-trash-o"></i>&nbsp;作废
                 </el-button>
                 $end
             #end
             $delete
-            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </el-button>
             $end
             </el-button-group>
@@ -170,6 +163,7 @@
                 &&$column.columnName != "accuser"
                 &&$column.columnName != "accdate"
                 &&$column.columnName != "uptdate"
+                &&$column.columnName != "pocessinstanceid"
              )
                     <el-form-item label="${column.comments}">
 

@@ -96,3 +96,7 @@ tbody > tr > th {font-weight: normal; }
 .rcp-form-item{
     padding: 5px;
 }
+
+input[type=file] {
+    display: none;
+}

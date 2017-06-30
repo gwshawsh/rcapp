@@ -1,6 +1,6 @@
-package
+package ${package}.controller;
 
-import com.ruanchuangsoft.platform.enums.BillStatus;${package}.controller;
+import com.ruanchuangsoft.platform.enums.BillStatus;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +8,9 @@ import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
+import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
+import com.ruanchuangsoft.platform.enums.BillStatus;
+import org.activiti.engine.task.Task;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -159,7 +162,7 @@ public class ${className}Controller extends AbstractController {
         //启动工作流
         Map<String,Object> params=new HashMap<>();
         params.put("userid", ShiroUtils.getUserId());
-        String processid=startWorkflow(${classname},${classname}Entity.getBillno(),params);
+        String processid=startWorkflow("${classname}",${classname}Entity.getBillno(),params);
 
         ${classname}Entity.setBillstatus(BillStatus.SUBMIT);
         ${classname}Entity.setPocessinstanceid(processid);
@@ -205,7 +208,7 @@ public class ${className}Controller extends AbstractController {
     public R claim(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
 
             for(${pk.attrType} attkey:${pk.attrname}s){
-                    ${className}Entity ${classname} = ${classname}Service.queryObject(attkey);
+                    ${className}Entity ${classname}Entity = ${classname}Service.queryObject(attkey);
                 if (${classname}Entity != null && ${classname}Entity.getBillstatus() == BillStatus.SUBMIT) {
                     ${classname}Entity.setBillstatus(BillStatus.CLAIM);
                     ${classname}Service.update(${classname}Entity);

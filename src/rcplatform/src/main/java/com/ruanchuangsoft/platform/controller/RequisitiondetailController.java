@@ -1,5 +1,6 @@
 package com.ruanchuangsoft.platform.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,9 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
+import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
+import com.ruanchuangsoft.platform.enums.BillStatus;
+import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-22 15:53:05
+ * @date 2017-06-30 13:35:04
  */
 @Controller
 @RequestMapping("requisitiondetail")
@@ -119,7 +123,25 @@ public class RequisitiondetailController extends AbstractController {
 		return R.ok();
 	}
 
-	/**
+    /**
+     * 提交
+     */
+    @ResponseBody
+    @RequestMapping("/submitworkflow")
+    @RequiresPermissions("requisitiondetail:update")
+    public R submitworkflow(@RequestBody Long id){
+			RequisitiondetailEntity requisitiondetailEntity=requisitiondetailService.queryObject(id);
+        if(requisitiondetailEntity==null){
+            return R.error("单据不存在，不能提交");
+        }
+
+
+
+        return R.ok();
+    }
+
+
+    /**
 	 * 修改
 	 */
 	@ResponseBody
@@ -142,5 +164,33 @@ public class RequisitiondetailController extends AbstractController {
 
 		return R.ok();
 	}
+
+    /**
+   * 签收
+   * 只有单据状态为提交状态的，才能够签收
+   */
+    @ResponseBody
+    @RequestMapping("/claim")
+    @RequiresPermissions("requisitiondetail:claim")
+    public R claim(@RequestBody Long[] ids){
+
+
+
+
+        return R.ok();
+    }
+
+    /**
+     * 审核
+     */
+    @ResponseBody
+    @RequestMapping("/audit")
+    @RequiresPermissions("requisitiondetail:audit")
+    public R audit(@RequestBody RequisitiondetailEntity requisitiondetailEntity){
+
+
+        return R.ok();
+    }
+
 
 }

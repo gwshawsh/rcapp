@@ -1306,6 +1306,21 @@ CREATE TABLE `expensemain`(
 
  
 
+-- 附件表
+DROP TABLE IF EXISTS `attachments`;
+CREATE TABLE `attachments`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '单据号',
+  `name` varchar(200) COMMENT '文件名',
+  `filename` varchar(200) COMMENT '文件名',
+  `fileurl` varchar(1000) COMMENT '地址',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:username',
+  `makedate` datetime COMMENT '制单日期',
+  `uptdate` datetime COMMENT '更新时间', 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='附件表';
+
+ 
 
 
 --   quartz相关表结构

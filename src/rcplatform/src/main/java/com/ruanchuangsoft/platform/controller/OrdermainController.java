@@ -7,11 +7,13 @@ import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
+import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
 import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.enums.EmptyBillStatus;
 import com.ruanchuangsoft.platform.service.BillcommentsService;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
+import org.activiti.engine.impl.persistence.entity.AttachmentEntity;
 import org.activiti.engine.task.Task;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,6 +145,11 @@ public class OrdermainController extends AbstractController {
                     item.setBillno(billno);
                 }
             }
+            if(ordermain.getFiles()!=null&&ordermain.getFiles().size()>0){
+                for(AttachmentsEntity item:ordermain.getFiles()){
+                    item.setBillno(billno);
+                }
+            }
         }
 
         ordermainService.save(ordermain);
@@ -165,7 +172,6 @@ public class OrdermainController extends AbstractController {
         Map<String,Object> params=new HashMap<>();
         params.put("userid", ShiroUtils.getUserId());
         String processid=startWorkflow("order",ordermainEntity.getBillno(),params);
-
         ordermainEntity.setBillstatus(BillStatus.SUBMIT);
         ordermainEntity.setPocessinstanceid(processid);
         ordermainService.update(ordermainEntity);
@@ -180,9 +186,15 @@ public class OrdermainController extends AbstractController {
     @RequestMapping("/update")
     @RequiresPermissions("ordermain:update")
     public R update(@RequestBody OrdermainEntity ordermain) {
-        ordermainService.update(ordermain);
+        if(ordermain.getBillstatus()==BillStatus.NEW) {
+            ordermainService.update(ordermain);
+            return R.ok();
+        }
+        else{
+            return R.error("当前单据不允许修改");
+        }
 
-        return R.ok();
+
     }
 
     /**
@@ -192,9 +204,17 @@ public class OrdermainController extends AbstractController {
     @RequestMapping("/delete")
     @RequiresPermissions("ordermain:delete")
     public R delete(@RequestBody Long[] ids) {
-        ordermainService.deleteBatch(ids);
+        for(Long id:ids) {
+            OrdermainEntity ordermainEntity=ordermainService.queryObject(id);
+            if(ordermainEntity.getBillstatus()==BillStatus.NEW) {
+                ordermainService.delete(id);
+                return R.ok();
+            }
+            else{
+                return R.error("当前单据不允许删除");
+            }
 
-        return R.ok();
+        }
     }
 
     /**

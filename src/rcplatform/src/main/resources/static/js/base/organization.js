@@ -290,7 +290,7 @@ $(function () {
         url: '../organization/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', width: 50, key: true},
+            {label: 'id', name: 'id', width: 50, key: true, hidden: true},
             {label: '编码', name: 'code', width: 80},
             {label: '名称', name: 'name', width: 80},
             {label: '上级组织', name: 'parentId', width: 80},

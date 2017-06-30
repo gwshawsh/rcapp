@@ -1,5 +1,7 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-22 15:53:05
+ * @date 2017-06-30 13:35:04
  */
-public class RequisitiondetailEntity implements Serializable {
+public class RequisitiondetailEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//

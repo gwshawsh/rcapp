@@ -76,10 +76,6 @@ public class ${className}ServiceImpl implements ${className}Service {
 			${classname}Dao.deleteBatch(${pk.attrname}s);
     }
 
-    @Override
-    public void claimBatch(${pk.attrType}[] ${pk.attrname}s){
-			${classname}Dao.claimBatch(${pk.attrname}s);
-    }
 
     @Override
     public void auditBatch(${pk.attrType}[] ${pk.attrname}s){

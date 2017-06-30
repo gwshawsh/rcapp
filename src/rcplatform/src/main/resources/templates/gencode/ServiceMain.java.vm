@@ -28,7 +28,6 @@ public interface ${className}Service {
 	
 	void deleteBatch(${pk.attrType}[] ${pk.attrname}s);
 
-    void claimBatch(${pk.attrType}[] ${pk.attrname}s);
 
     void auditBatch(${pk.attrType}[] ${pk.attrname}s);
 

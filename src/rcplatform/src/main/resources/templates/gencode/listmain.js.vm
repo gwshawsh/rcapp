@@ -520,16 +520,17 @@ $(function () {
         datatype: "json",
         colModel: [
 			#foreach($column in $columns)
-				#if($column.columnName == $pk.columnName)
-                    { label: '${column.attrname}', name: '${column.attrname}', width: 50, key: true,hidden:true },
-                #elseif($column.columnName.equalsIgnoreCase("billstatus"))
-                    { label: '${column.comments}', name: '${column.attrname}', width: 80 ,formatter:formater_billstatus}#if($velocityCount != $columns.size()), #end
+                #if($column.columnName != "pocessinstanceid")
+                    #if($column.columnName == $pk.columnName)
+                        { label: '${column.attrname}', name: '${column.attrname}', width: 50, key: true,hidden:true },
+                    #elseif($column.columnName.equalsIgnoreCase("billstatus"))
+                        { label: '${column.comments}', name: '${column.attrname}', width: 80 ,formatter:formater_billstatus}#if($velocityCount != $columns.size()), #end
 
-                #elseif($column.refType.equalsIgnoreCase("combo")||$column.refType.equalsIgnoreCase("enum"))
-                    { label: '${column.comments}', name: '${column.attrname}${column.refColumnName}', width: 80 }#if($velocityCount != $columns.size()), #end
-                #else
-                    { label: '${column.comments}', name: '${column.attrname}', width: 80 }#if($velocityCount != $columns.size()), #end
-
+                    #elseif($column.refType.equalsIgnoreCase("combo")||$column.refType.equalsIgnoreCase("enum"))
+                        { label: '${column.comments}', name: '${column.attrname}${column.refColumnName}', width: 80 }#if($velocityCount != $columns.size()), #end
+                    #else
+                        { label: '${column.comments}', name: '${column.attrname}', width: 80 }#if($velocityCount != $columns.size()), #end
+                    #end
 				#end
 			#end
         ],

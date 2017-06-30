@@ -2,6 +2,7 @@ package com.ruanchuangsoft.platform.controller;
 
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
 import com.ruanchuangsoft.platform.entity.SysUserEntity;
+import com.ruanchuangsoft.platform.service.AttachmentsService;
 import com.ruanchuangsoft.platform.service.BillcommentsService;
 import com.ruanchuangsoft.platform.service.IRedisService;
 import com.ruanchuangsoft.platform.service.LeaveworkService;
@@ -116,6 +117,9 @@ public abstract class AbstractController {
 	 */
 	@Autowired
 	public BillcommentsService billcommentsService;
+
+	@Autowired
+	public AttachmentsService attachmentsService;
 
 	/**
 	 * The Logger.

@@ -50,8 +50,10 @@ public class RequisitionmainServiceImpl implements RequisitionmainService {
 	public void update(RequisitionmainEntity requisitionmain){
 		requisitiondetailDao.deleteByBillNo(requisitionmain.getBillno());
 
-        for(RequisitiondetailEntity item:requisitionmain.getDetails()){
-				requisitiondetailDao.save(item);
+		if(requisitionmain.getDetails()!=null&&requisitionmain.getDetails().size()>0){
+            for (RequisitiondetailEntity item :requisitionmain.getDetails()){
+					requisitiondetailDao.save(item);
+            }
         }
 
 		requisitionmainDao.update(requisitionmain);

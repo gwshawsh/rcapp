@@ -7,7 +7,10 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
-
+import org.activiti.engine.task.Task;
+import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
+import com.ruanchuangsoft.platform.enums.BillStatus;
+import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,16 +35,15 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("${pathName}")
-@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
+@Transactional(rollbackFor = {RuntimeException.class, Exception.class})
 public class ${className}Controller extends AbstractController {
-	@Autowired
-	private ${className}Service ${classname}Service;
+    @Autowired
+    private ${className}Service ${classname}Service;
 
-	@RequestMapping("/${pathName}")
-	public String list(){
-		return "${pathName}/${pathName}";
-	}
-
+    @RequestMapping("/${pathName}")
+    public String list() {
+        return "${pathName}/${pathName}";
+    }
 
 
     @RequestMapping("/index")
@@ -54,87 +56,206 @@ public class ${className}Controller extends AbstractController {
 
     }
 
-	/**
-	 * 列表
-	 */
-	@ResponseBody
-	@RequestMapping("/list")
-	@RequiresPermissions("${pathName}:list")
-	public R list(Integer page, Integer limit,String query){
-		Map<String, Object> map = new HashMap<>();
-		map.put("offset", (page - 1) * limit);
-		map.put("limit", limit);
+    /**
+     * 列表
+     */
+    @ResponseBody
+    @RequestMapping("/list")
+    @RequiresPermissions("${pathName}:list")
+    public R list(Integer page, Integer limit, String query) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("offset", (page - 1) * limit);
+        map.put("limit", limit);
 
-        if(query!=null&&query.length()>0){
+        if (query != null && query.length() > 0) {
             try {
-                String tmpquery =query.replaceAll("&quot;","\"");
-				${className}Entity param = JSON.parseObject(tmpquery, ${className}Entity.class);
-				#foreach($column in $columns)
-        	        map.put("${column.attrname}", param.get${column.attrName}());
+                String tmpquery = query.replaceAll("&quot;", "\"");
+                    ${className}Entity param = JSON.parseObject(tmpquery, ${className}Entity.class);
+                #foreach($column in $columns)
+                    map.put("${column.attrname}", param.get${column.attrName}());
                 #end
 
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
 
-		//查询列表数据
-		List<${className}Entity> ${classname}List = ${classname}Service.queryList(map);
-		int total = ${classname}Service.queryTotal(map);
+        //查询列表数据
+        List<${className}Entity> ${classname}List = ${classname}Service.queryList(map);
+        int total = ${classname}Service.queryTotal(map);
 
-		PageUtils pageUtil = new PageUtils(${classname}List, total, limit, page);
+        PageUtils pageUtil = new PageUtils(${classname}List, total, limit, page);
 
-		return R.ok().put("page", pageUtil);
-	}
+        return R.ok().put("page", pageUtil);
+    }
 
 
-	/**
-	 * 信息
-	 */
-	@ResponseBody
-	@RequestMapping("/info/{${pk.attrname}}")
-	@RequiresPermissions("${pathName}:info")
-	public R info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
-		${className}Entity ${classname} = ${classname}Service.queryObject(${pk.attrname});
+    /**
+     * 信息
+     */
+    @ResponseBody
+    @RequestMapping("/info/{${pk.attrname}}")
+    @RequiresPermissions("${pathName}:info")
+    public R info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
+            ${className}Entity ${classname} = ${classname}Service.queryObject(${pk.attrname});
 
-		return R.ok().put("${classname}", ${classname});
-	}
+        return R.ok().put("${classname}", ${classname});
+    }
 
-	/**
-	 * 保存
-	 */
-	@ResponseBody
-	@RequestMapping("/save")
-	@RequiresPermissions("${pathName}:save")
-	public R save(@RequestBody ${className}Entity ${classname}){
-		${classname}Service.save(${classname});
+    /**
+     * 保存
+     */
+    @ResponseBody
+    @RequestMapping("/save")
+    @RequiresPermissions("${pathName}:save")
+    public R save(@RequestBody ${className}Entity ${classname}) {
+            ${classname}Service.save(${classname});
 
-		return R.ok();
-	}
+        return R.ok();
+    }
 
-	/**
+    /**
+     * 提交
+     */
+    @ResponseBody
+    @RequestMapping("/submitworkflow")
+    @RequiresPermissions("${pathName}:update")
+    public R submitworkflow(@RequestBody ${pk.attrType} ${pk.attrname}) {
+            ${className}Entity ${classname}Entity = ${classname}Service.queryObject(${pk.attrname});
+        if (${classname}Entity == null) {
+            return R.error("单据不存在，不能提交");
+        }
+
+        //判断是否存在工作流处理列，有则创建处理过程
+        #foreach($column in $columns)
+            #if($column.attrname.equalsIgnoreCase("pocessinstanceid"))
+
+                Map<String, Object> params = new HashMap<>();
+                params.put("userid", ShiroUtils.getUserId());
+                String processid = startWorkflow("${classname}", ${classname}Entity.getBillno(), params);
+
+                    ${classname}Entity.setBillstatus(BillStatus.SUBMIT);
+                    ${classname}Entity.setPocessinstanceid(processid);
+                    ${classname}Service.update(${classname}Entity);
+
+            #end
+        #end
+
+
+
+        return R.ok();
+    }
+
+
+    /**
 	 * 修改
 	 */
-	@ResponseBody
-	@RequestMapping("/update")
-	@RequiresPermissions("${pathName}:update")
-	public R update(@RequestBody ${className}Entity ${classname}){
-		${classname}Service.update(${classname});
+    @ResponseBody
+    @RequestMapping("/update")
+    @RequiresPermissions("${pathName}:update")
+    public R update(@RequestBody ${className}Entity ${classname}) {
+            ${classname}Service.update(${classname});
 
-		return R.ok();
-	}
+        return R.ok();
+    }
 
-	/**
-	 * 删除
-	 */
-	@ResponseBody
-	@RequestMapping("/delete")
-	@RequiresPermissions("${pathName}:delete")
-	public R delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
-		${classname}Service.deleteBatch(${pk.attrname}s);
+    /**
+     * 删除
+     */
+    @ResponseBody
+    @RequestMapping("/delete")
+    @RequiresPermissions("${pathName}:delete")
+    public R delete(@RequestBody ${pk.attrType}[]${pk.attrname}s) {
+            ${classname}Service.deleteBatch(${pk.attrname}s);
 
-		return R.ok();
-	}
+        return R.ok();
+    }
+
+    /**
+   * 签收
+   * 只有单据状态为提交状态的，才能够签收
+   */
+    @ResponseBody
+    @RequestMapping("/claim")
+    @RequiresPermissions("${pathName}:claim")
+    public R claim(@RequestBody ${pk.attrType}[]${pk.attrname}s) {
+
+        for (${pk.attrType} attkey:
+                                ${pk.attrname}s) {
+                ${className}Entity ${classname}Entity = ${classname}Service.queryObject(attkey);
+            if (${classname}Entity != null && ${classname}Entity.getBillstatus() == BillStatus.SUBMIT) {
+                    ${classname}Entity.setBillstatus(BillStatus.CLAIM);
+                    ${classname}Service.update(${classname}Entity);
+
+                BillcommentsEntity billcommentsEntity = new BillcommentsEntity();
+                billcommentsEntity.setBillno(${classname}Entity.getBillno());
+                billcommentsEntity.setMakedate(new Date());
+                billcommentsEntity.setMakeuser(ShiroUtils.getUserName());
+                billcommentsEntity.setAuditstatus(BillStatus.CLAIM);
+                List<BillcommentsEntity> billcommentsEntityList = getBillcomments(${classname}Entity.getBillno());
+                if (billcommentsEntityList != null && billcommentsEntityList.size() > 0) {
+                    billcommentsEntity.setSerialno(billcommentsEntityList.size());
+                    billcommentsService.save(billcommentsEntity);
+                } else {
+                    billcommentsEntity.setSerialno(0);
+                    billcommentsService.save(billcommentsEntity);
+                }
+
+
+                //执行工作流的签收任务处理
+                Task task = getTaskByBussinessKey(${classname}Entity.getBillno());
+                if (task != null) {
+                    claimTasks(task);
+                }
+            }
+        }
+
+
+        return R.ok();
+    }
+
+    /**
+     * 审核
+     */
+    @ResponseBody
+    @RequestMapping("/audit")
+    @RequiresPermissions("${pathName}:audit")
+    public R audit(@RequestBody ${className}Entity ${classname}Entity) {
+
+        BillcommentsEntity billcommentsEntity = ${classname}Entity.getBillcommentsEntity();
+            ${classname}Entity.setBillstatus(BillStatus.AUDIT);
+
+            ${classname}Service.update(${classname}Entity);
+
+
+        billcommentsEntity.setMakedate(new Date());
+        billcommentsEntity.setMakeuser(ShiroUtils.getUserName());
+        List<BillcommentsEntity> billcommentsEntityList = getBillcomments(${classname}Entity.getBillno());
+        if (billcommentsEntityList != null && billcommentsEntityList.size() > 0) {
+            billcommentsEntity.setSerialno(billcommentsEntityList.size());
+            billcommentsService.save(billcommentsEntity);
+        } else {
+            billcommentsEntity.setSerialno(0);
+            billcommentsService.save(billcommentsEntity);
+        }
+
+        //工作流处理
+        Task task = getTaskByBussinessKey(${classname}Entity.getBillno());
+        if (task != null) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("auditstatus", billcommentsEntity.getAuditstatus());
+            completeTask(task, billcommentsEntity.getRemark(), params);
+            //检查工作流是否结束，如果结束，则设置单据状态为已完成
+            boolean endflag = isProcessEnd(task.getProcessInstanceId());
+            if (endflag) {
+                    ${classname}Entity.setBillstatus(BillStatus.COMPLETE);
+                    ${classname}Service.update(${classname}Entity);
+            }
+        }
+
+        return R.ok();
+    }
+
 
 }

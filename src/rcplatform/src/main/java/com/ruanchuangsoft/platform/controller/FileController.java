@@ -1,6 +1,11 @@
 package com.ruanchuangsoft.platform.controller;
 
+import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
+import com.ruanchuangsoft.platform.service.AttachmentsService;
+import com.ruanchuangsoft.platform.utils.PageUtils;
 import com.ruanchuangsoft.platform.utils.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,11 +17,19 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("files")
 public class FileController {
+    @Autowired
+    private AttachmentsService attachmentsService;
+
+    @Value("${rcp.fileuploadpath}")
+    private String fileuploadpath;
+
     //文件上传相关代码
     @RequestMapping(value = "upload")
     @ResponseBody
@@ -52,7 +65,7 @@ public class FileController {
 
     //文件下载相关代码
     @RequestMapping("/download")
-    public String downloadFile(org.apache.catalina.servlet4preview.http.HttpServletRequest request, HttpServletResponse response){
+    public String downloadFile(@RequestParam("file") String fileid,org.apache.catalina.servlet4preview.http.HttpServletRequest request, HttpServletResponse response){
         String fileName = "FileUploadTests.java";
         if (fileName != null) {
             //当前是从该工程的WEB-INF//File//下获取文件(该目录可以在下面一行代码配置)然后下载到C:\\users\\downloads即本机的默认下载的目录
@@ -99,11 +112,19 @@ public class FileController {
         return null;
     }
     //多文件上传
-    @RequestMapping(value = "/batch/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/batchupload", method = RequestMethod.POST)
     @ResponseBody
-    public String handleFileUpload(HttpServletRequest request) {
+    public R handleFileUpload(HttpServletRequest request) {
+        List<AttachmentsEntity> lstfile=new ArrayList<>();
         List<MultipartFile> files = ((MultipartHttpServletRequest) request)
                 .getFiles("file");
+        String realPath = fileuploadpath+"uploads/";
+        File dir=new File(realPath);
+        if(!dir.exists()){
+            dir.mkdir();
+        }
+
+
         MultipartFile file = null;
         BufferedOutputStream stream = null;
         for (int i = 0; i < files.size(); ++i) {
@@ -111,21 +132,31 @@ public class FileController {
             if (!file.isEmpty()) {
                 try {
                     byte[] bytes = file.getBytes();
+                    String name=UUID.randomUUID().toString();
                     stream = new BufferedOutputStream(new FileOutputStream(
-                            new File(file.getOriginalFilename())));
+                            new File(realPath+file.getOriginalFilename())));
                     stream.write(bytes);
                     stream.close();
 
+                    AttachmentsEntity entity=new AttachmentsEntity();
+                    entity.setName(name);
+                    entity.setFilename(file.getOriginalFilename());
+                    entity.setFileurl("/download?file="+name);
+                    attachmentsService.save(entity);
+
+                    lstfile.add(entity);
+
+
                 } catch (Exception e) {
                     stream = null;
-                    return "You failed to upload " + i + " => "
-                            + e.getMessage();
+                    return R.error("上传失败"+e.getMessage());
                 }
             } else {
-                return "You failed to upload " + i
-                        + " because the file was empty.";
+                return R.error("上传失败");
             }
         }
-        return "upload successful";
+        PageUtils pageUtil = new PageUtils(lstfile, lstfile.size(), 100, 0);
+
+        return R.ok().put("page", pageUtil);
     }
 }

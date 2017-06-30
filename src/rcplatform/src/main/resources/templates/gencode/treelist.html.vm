@@ -17,21 +17,24 @@
             <ul id="leftTree" class="ztree"></ul>
         </div>
         <div class="col-sm-10">
-            <div class="grid-btn">
+            <el-button-group>
+                $query
+                <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+                </el-button>
+                $end
                 $save
-                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
-                </button>
+                <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+                </el-button>
                 $end
                 $update
-                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="update"><i
-                        class="fa fa-pencil-square-o"></i>&nbsp;修改
-                </button>
+                <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+                </el-button>
                 $end
                 $delete
-                <button class="layui-btn layui-btn-small layui-btn-normal" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-                </button>
+                <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                </el-button>
                 $end
-            </div>
+            </el-button-group>
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>
         </div>
