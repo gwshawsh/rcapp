@@ -157,10 +157,9 @@
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
-		<script src="../js/mui.enterfocus.js"></script>
-		<script src="../js/app.js"></script>
+		<script src="../js/mui.enterfocus.js"></script>		
 		<script src="../js/vue.min.js"></script>
-		<script src="../js/jquery.min.js"></script>
+		<script src="../js/app.js"></script>
 		<script>
 			var vm = new Vue({
 				el: '#rrapp',
@@ -182,7 +181,7 @@
 
 				methods: {
 					refreshCode: function() {
-						this.src = baseurl + "captcha.jpg?t=" + $.now();
+						this.src = baseurl + "captcha.jpg?t=" + new Date().getTime();
 
 					},
 					tomain: function() {
@@ -213,7 +212,19 @@
 							}
 							toMain();
 						});*/
-						vm.tomain();
+						
+						mui.post(baseurl+"sys/login",
+						{username:vm.username,password:vm.password},
+						function(data){
+							if(data.code ==0){
+								vm.tomain();
+							}else{
+								vm.refreshCode();
+								plus.nativeUI.toast(data.msg);
+							}
+							
+						},
+						'json');
 						/*var data = "username=" + vm.username + "&password=" + vm.password + "&captcha=" + vm.captcha;
 						$.ajax({
 							type: "POST",
@@ -289,7 +300,7 @@
 					return false;
 				};
 				$.plusReady(function() {
-					plus.nativeUI.toast('ready');
+
 					plus.screen.lockOrientation("portrait-primary");
 					var settings = app.getSettings();
 					var state = app.getState();
@@ -300,7 +311,7 @@
 
 					mainPage.addEventListener("loaded", function() {
 						main_loaded_flag = true;
-						plus.nativeUI.toast('首页加载完成');
+
 					});
 
 					//检查 "登录状态/锁屏状态" 开始
@@ -318,8 +329,9 @@
 					} else if(settings.autoLogin && state.token) {
 						toMain();
 					} else {
+						return;
 						app.setState(null);
-						//第三方登录
+						//第三方登录 
 						var authBtns = ['qihoo', 'weixin', 'sinaweibo', 'qq']; //配置业务支持的第三方登录
 						var auths = {};
 						var oauthArea = doc.querySelector('.oauth-area');
