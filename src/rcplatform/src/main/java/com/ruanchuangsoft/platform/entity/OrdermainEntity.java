@@ -3,6 +3,7 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
 import com.ruanchuangsoft.platform.entity.OrderdetailEntity;
 
 import java.math.BigDecimal;
@@ -14,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-22 15:51:59
+ * @date 2017-06-29 20:38:06
  */
-public class OrdermainEntity implements Serializable {
+public class OrdermainEntity  extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -41,8 +42,10 @@ public class OrdermainEntity implements Serializable {
 	private Long budgetmainid;
 	//单据状态
 	private Integer billstatus;
+	//备注
+	private String remark;
 	//制单人
-	private String makeuser;
+	private Long makeuser;
 	//制单日期
 	private Date makedate;
 	//审核人
@@ -51,6 +54,8 @@ public class OrdermainEntity implements Serializable {
 	private Date accdate;
 	//更新时间
 	private Date uptdate;
+	//流程ID
+	private String pocessinstanceid;
 
 
 	
@@ -94,6 +99,14 @@ public class OrdermainEntity implements Serializable {
 	
 		            //单据状态
             private String billstatusenumvaluename;
+		
+
+	
+		
+
+	
+		            //制单人
+            private String makeuserusername;
 		
 
 	
@@ -258,15 +271,27 @@ public class OrdermainEntity implements Serializable {
 		return billstatus;
 	}
 	/**
+	 * 设置：备注
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	/**
+	 * 获取：备注
+	 */
+	public String getRemark() {
+		return remark;
+	}
+	/**
 	 * 设置：制单人
 	 */
-	public void setMakeuser(String makeuser) {
+	public void setMakeuser(Long makeuser) {
 		this.makeuser = makeuser;
 	}
 	/**
 	 * 获取：制单人
 	 */
-	public String getMakeuser() {
+	public Long getMakeuser() {
 		return makeuser;
 	}
 	/**
@@ -316,6 +341,18 @@ public class OrdermainEntity implements Serializable {
 	 */
 	public Date getUptdate() {
 		return uptdate;
+	}
+	/**
+	 * 设置：流程ID
+	 */
+	public void setPocessinstanceid(String pocessinstanceid) {
+		this.pocessinstanceid = pocessinstanceid;
+	}
+	/**
+	 * 获取：流程ID
+	 */
+	public String getPocessinstanceid() {
+		return pocessinstanceid;
 	}
 
 						        /**
@@ -377,5 +414,17 @@ public class OrdermainEntity implements Serializable {
      */
     public String getBillstatusenumvaluename() {
             return billstatusenumvaluename;
+            }
+			        /**
+         * 设置：制单人username
+         */
+        public void setMakeuserusername(String username) {
+            this.makeuserusername = username;
+            }
+    /**
+     * 获取：制单人username
+     */
+    public String getMakeuserusername() {
+            return makeuserusername;
             }
 						}

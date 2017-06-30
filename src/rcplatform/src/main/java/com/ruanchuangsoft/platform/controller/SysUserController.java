@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,13 +30,25 @@ import java.util.Map;
  * @date 2016年10月31日 上午10:40:10
  */
 @RestController
-@RequestMapping("/sys/user")
+@RequestMapping("/sys_user")
 public class SysUserController extends AbstractController {
 	@Autowired
 	private SysUserService sysUserService;
 	@Autowired
 	private SysUserRoleService sysUserRoleService;
 
+	@RequestMapping("/index")
+	public ModelAndView index() {
+
+		setViewname("sys/user");
+
+		ModelAndView view = getModelAndView();
+//		initModelAndViewI18N(view,keys);
+
+
+		return view;
+
+	}
 	
 	/**
 	 * 所有用户列表
@@ -49,7 +62,7 @@ public class SysUserController extends AbstractController {
 		map.put("limit", limit);
 		map.put("sidx",sidx);
 		map.put("order",order);
-		
+
 		//查询列表数据
 		List<SysUserEntity> userList = sysUserService.queryList(map);
 		int total = sysUserService.queryTotal(map);

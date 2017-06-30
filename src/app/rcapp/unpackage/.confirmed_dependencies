@@ -123,7 +123,8 @@
       "page/leave.html",
       "page/setting.html",
       "page/approval.html",
-      "page/checkin.html"
+      "page/checkin.html",
+      "page/message.html"
     ]
   },
   "page/leave.html": {
@@ -137,7 +138,8 @@
       "js/vue.min.js"
     ],
     "refer": [
-      "page/leave_sub.html"
+      "page/leave_sub.html",
+      "page/leave_apply.html"
     ]
   },
   "page/login.html": {
@@ -241,6 +243,14 @@
       "css/mui.min.css",
       "css/style.css",
       "js/vue.min.js"
+    ]
+  },
+  "page/message.html": {
+    "resources": [
+      "page/sublist.html"
+    ],
+    "refer": [
+      "page/sublist.html"
     ]
   }
 }

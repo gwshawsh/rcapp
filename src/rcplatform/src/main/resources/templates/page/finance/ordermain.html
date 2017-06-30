@@ -24,9 +24,24 @@
                 <@shiro.hasPermission name="ordermain:update">
                 <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
                 </el-button>
+                <el-button type="primary" v-on:click="submitworkflow"><i class="fa fa-pencil-square-o"></i>&nbsp;提交
+                </el-button>
+
                 </@shiro.hasPermission>
                 <@shiro.hasPermission name="ordermain:delete">
                 <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="ordermain:copybill">
+                <el-button type="primary" v-on:click="copybill"><i class="fa fa-trash-o"></i>&nbsp;复制
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="ordermain:cancel">
+                <el-button type="primary" v-on:click="cancel"><i class="fa fa-trash-o"></i>&nbsp;作废
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="ordermain:claim">
+                <el-button type="primary" v-on:click="claim"><i class="fa fa-book"></i>&nbsp;签收
                 </el-button>
                 </@shiro.hasPermission>
                 <@shiro.hasPermission name="ordermain:audit">
@@ -183,9 +198,16 @@
     </div>
 
     <div v-show="showDetailList" class="panel panel-default">
-        <div class="panel-heading">明细</div>
-        <table id="jqGridDetail"></table>
-        <div id="jqGridPagerDetail"></div>
+        <el-tabs type="border-card">
+            <el-tab-pane>
+                <span slot="label"><i class="el-icon-document"></i> 明细</span>
+                <table id="jqGridDetail"></table>
+            </el-tab-pane>
+            <el-tab-pane>
+                <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                <table id="jqGridComments"></table>
+            </el-tab-pane>
+        </el-tabs>
     </div>
 
     <div v-show="!showList" class="panel panel-default">
@@ -334,6 +356,7 @@
                                                                                                                                     <#include "finance/budgetmain_ref.html">
                                                                                     
                                                                                                                                                                                                     
+<#include "base/billcomments_ref.html">
 
 <script src="${ctxPath}/static/js/finance/ordermain.js"></script>
 </body>

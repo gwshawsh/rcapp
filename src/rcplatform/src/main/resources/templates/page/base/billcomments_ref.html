@@ -1,0 +1,156 @@
+<div id="ref_billcomments" style="display: none;padding:10px;">
+
+    <el-form label-position="top"  label-width="100px" style="padding:10px">
+
+
+        <el-form-item label="审批意见">
+
+            <el-radio class="radio" v-model="billcomments.auditstatus" label="0">同意</el-radio>
+            <el-radio class="radio" v-model="billcomments.auditstatus" label="1">不同意</el-radio>
+
+
+        </el-form-item>
+        <el-form-item label="备注">
+
+            <el-input type="textarea" :rows="4" style="width: 350px" v-model="billcomments.remark" placeholder="备注"></el-input>
+
+
+        </el-form-item>
+
+    </el-form>
+
+
+</div>
+<script>
+
+    var vue_billcomments = new Vue({
+        el: '#ref_billcomments',
+        data: {
+            //创建实体类
+            billcomments: {
+                billno: "",
+                refbilltype: "",
+                serialno: "",
+                auditstatus: "",
+                remark: "",
+                makeuser: "",
+                makedate: "",
+                uptdate: "",
+                pocessinstanceid: ""
+            }
+        },
+        methods: {
+            cleardata:function () {
+                vm.billcomments={
+                    billno: "",
+                    refbilltype: "",
+                    serialno: "",
+                    auditstatus: "",
+                    remark: "",
+                    makeuser: "",
+                    makedate: "",
+                    uptdate: "",
+                    pocessinstanceid: ""
+                };
+            }
+        }
+    });
+
+    function showrefgrid_billcomments(callback) {
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: "审批",
+            area: ['450px', '400px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_billcomments"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+
+                if (callback) {
+                    callback(vue_billcomments.billcomments);
+                }
+                vue_billcomments.cleardata();
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#jqGridComments").jqGrid({
+            url: '../billcomments/list',
+            datatype: "local",
+            colModel: [
+                {label: 'id', name: 'id', width: 50, key: true,hidden:true},
+
+                {
+                    label: '单据号',
+                    name: 'billno',
+                    width: 80,hidden:true
+                },
+                {label: '参照单据类型', name: 'enumvaluename', width: 80,hidden:true},
+                {
+                    label: '序号',
+                    name: 'serialno',
+                    width: 80
+                },
+                {label: '审批', name: 'enumvaluename', width: 80},
+                {
+                    label: '备注',
+                    name: 'remark',
+                    width: 80
+                },
+                {
+                    label: '审核人',
+                    name: 'makeuser',
+                    width: 80
+                },
+                {
+                    label: '审核日期',
+                    name: 'makedate',
+                    width: 80
+                },
+                {
+                    label: '更新时间',
+                    name: 'uptdate',
+                    width: 80
+                }
+            ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_billcomments",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_billcomments").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

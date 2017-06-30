@@ -90,7 +90,7 @@
 	"plus": {
 		"splashscreen": {
 			"autoclose": true,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
-			"waiting": true,"delay":"1000"
+			"waiting": false,"delay":"1000"
 		},
 		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
 		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
@@ -173,8 +173,8 @@
 				"android": {
 					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
 					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
-					"hdpi": "", /*高分屏启动图片，分辨率：480x762*/
-					"xhdpi": "F:/web/main.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"hdpi": "/Users/lidongfeng/Desktop/lanucher1.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "/Users/lidongfeng/Desktop/lanucher.png", /*720P高分屏启动图片，分辨率：720x1242*/
 					"xxhdpi": ""
 				}
 			},
@@ -338,7 +338,8 @@
 					"page/leave.html",
 					"page/setting.html",
 					"page/approval.html",
-					"page/checkin.html"
+					"page/checkin.html",
+					"page/message.html"
 				],
 				"priority": 0
 			},
@@ -352,7 +353,9 @@
 					"css/style.css",
 					"js/vue.min.js"
 				],
-				"refer": [],
+				"refer": [
+					"page/leave_apply.html"
+				],
 				"priority": 0
 			},
 			"page/login.html": {
@@ -463,6 +466,13 @@
 					"css/mui.min.css",
 					"css/style.css",
 					"js/vue.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/message.html": {
+				"resources": [
+					"page/sublist.html"
 				],
 				"refer": [],
 				"priority": 0

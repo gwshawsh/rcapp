@@ -122,7 +122,6 @@ var vm = new Vue({
                 ordertypeenumvaluename: "",
                 budgetmainidbillno: "",
                 billstatusenumvaluename: "",
-
                 billno: "*",
                 supplyid: "",
                 reqbillno: "",
@@ -132,7 +131,7 @@ var vm = new Vue({
                 ordersource: "",
                 ordertype: "",
                 budgetmainid: "",
-                billstatus: "",
+                billstatus: "0",
                 makeuser: gUserName,
                 makedate: mktime,
                 accuser: "",
@@ -151,7 +150,7 @@ var vm = new Vue({
             vm.showDetailList = false;
             vm.title = "修改";
 
-            vm.getInfo(id)
+            vm.getInfo(id);
         },
         saveOrUpdate: function (event) {
             var url = vm.ordermain.id == null ? "../ordermain/save" : "../ordermain/update";
@@ -170,16 +169,55 @@ var vm = new Vue({
                 }
             });
         },
-        audit: function (event) {
+        //提交到工作流
+        submitworkflow:function () {
+            var row=getSelectedRow();
+            if (row == null) {
+                return;
+            }
+            confirm('确定要提交选中的任务？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "../ordermain/submitworkflow",
+                    data: JSON.stringify(row),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function (index) {
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+        //复制单据
+        copybill: function (event) {
+            var id = getSelectedRow();
+            if (id == null) {
+                return;
+            }
+            vm.showList = false;
+            vm.showDetailList = false;
+            vm.title = "新增";
+            $.get("../ordermain/info/" + id, function (r) {
+                vm.ordermain = r.ordermain;
+                vm.ordermain.id=null;
+                vm.ordermain.billno="*";
+            });
+
+        },
+        //作废单据
+        cancel: function (event) {
             var ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
-
-            confirm('确定要审核选中的记录？', function () {
+            confirm('确定要作废选中的单据？', function () {
                 $.ajax({
                     type: "POST",
-                    url: "../ordermain/audit",
+                    url: "../ordermain/cancel",
                     data: JSON.stringify(ids),
                     success: function (r) {
                         if (r.code == 0) {
@@ -191,6 +229,65 @@ var vm = new Vue({
                         }
                     }
                 });
+            });
+
+        },
+        //签收任务
+        claim: function (event) {
+            var ids = getSelectedRows();
+            if (ids == null) {
+                return;
+            }
+
+            confirm('确定要签收选中的任务？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "../ordermain/claim",
+                    data: JSON.stringify(ids),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function (index) {
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+        audit: function (event) {
+            var id = getSelectedRow();
+            if (id == null) {
+                return;
+            }
+            $.get("../ordermain/info/" + id, function (r) {
+                vm.ordermain = r.ordermain;
+
+                showrefgrid_billcomments(function (data) {
+                    if(!vm.ordermain.billcommentsEntity){
+                        vm.ordermain.billcommentsEntity={};
+                    }
+                    vm.ordermain.billcommentsEntity.billno=vm.ordermain.billno;
+                    vm.ordermain.billcommentsEntity.refbilltype=0;
+                    vm.ordermain.billcommentsEntity.remark=data.remark;
+                    vm.ordermain.billcommentsEntity.auditstatus=data.auditstatus;
+                    $.ajax({
+                        type: "POST",
+                        url: "../ordermain/audit",
+                        data: JSON.stringify(vm.ordermain),
+                        success: function (r) {
+                            if (r.code == 0) {
+                                alert('操作成功', function (index) {
+                                    $("#jqGrid").trigger("reloadGrid");
+                                });
+                            } else {
+                                alert(r.msg);
+                            }
+                        }
+                    });
+                });
+
             });
         },
 
@@ -299,18 +396,31 @@ var vm = new Vue({
 
 
         //单据明细的相关操作
+
+        //查询单据明细
         queryDetail: function () {
-            var id = getSelectedRow();
+            var row=getSelectedRowData();
+
+            var id = row.billno;
             if (id == null) {
                 return;
             }
             vm.showDetailList = true;
 
+            //查询单据明细
             $("#jqGridDetail").jqGrid('setGridParam', {
                 page: 1,
                 postData: {'formid': id},
                 datatype: "json"
             }).trigger("reloadGrid");
+
+            //查询单据审批明细
+            $("#jqGridComments").jqGrid('setGridParam', {
+                page: 1,
+                postData: {'formid': id},
+                datatype: "json"
+            }).trigger("reloadGrid");
+
         },
 
         //增加明细表一条记录
