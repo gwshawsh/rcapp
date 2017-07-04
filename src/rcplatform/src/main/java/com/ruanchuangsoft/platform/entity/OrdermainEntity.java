@@ -474,14 +474,11 @@ public class OrdermainEntity extends AbstractEntity implements Serializable {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
-        sb.append(" <div class=\"el-form-item\">\n" +
-                "  <label class=\"el-form-item__label\"></label>" +
-                "  <div class=\"el-form-item__content\"><span>" + getId() + "</span>\n" +
-                "  </div> </div>");
+
 
         sb.append(" <div class=\"el-form-item\">\n" +
                 "  <label class=\"el-form-item__label\">单据号</label>" +
-                "  <div class=\"el-form-item__content\"><span>" + getBillno() + "</span>\n" +
+                "  <div class=\"el-form-item__content\"><a class='billno' onclick=\"openfunc('ordermain/index','订购管理')\"><span>" + getBillno() + "</span></a>\n" +
                 "  </div> </div>");
 
         sb.append(" <div class=\"el-form-item\">\n" +

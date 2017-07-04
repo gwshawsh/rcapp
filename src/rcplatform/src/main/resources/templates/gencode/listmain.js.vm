@@ -88,7 +88,7 @@ var vm = new Vue({
                     #if($column.columnName.equalsIgnoreCase('billno'))
                         ${column.attrname}:"*",
                     #elseif ($column.columnName.equalsIgnoreCase('makeuser'))
-                        ${column.attrname}:gUserName,
+                        ${column.attrname}:gUserFullName,
                     #elseif ($column.columnName.equalsIgnoreCase('makedate'))
                         ${column.attrname}:"",
                     #else
@@ -134,7 +134,7 @@ var vm = new Vue({
                         #if($column.columnName.equalsIgnoreCase('billno'))
                             ${column.attrname}:"*",
                         #elseif ($column.columnName.equalsIgnoreCase('makeuser'))
-                            ${column.attrname}:gUserName,
+                            ${column.attrname}:gUserFullName,
                         #elseif ($column.columnName.equalsIgnoreCase('makedate'))
                             ${column.attrname}:mktime,
                         #else

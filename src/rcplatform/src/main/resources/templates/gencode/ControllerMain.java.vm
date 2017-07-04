@@ -213,21 +213,8 @@ public class ${className}Controller extends AbstractController {
                     ${classname}Entity.setBillstatus(BillStatus.CLAIM);
                     ${classname}Service.update(${classname}Entity);
 
-                    BillcommentsEntity billcommentsEntity=new BillcommentsEntity();
-                    billcommentsEntity.setBillno(${classname}Entity.getBillno());
-                    billcommentsEntity.setMakedate(new Date());
-                    billcommentsEntity.setMakeuser(ShiroUtils.getUserName());
-                    billcommentsEntity.setAuditstatus(BillStatus.CLAIM);
-                    List<BillcommentsEntity> billcommentsEntityList=getBillcomments(${classname}Entity.getBillno());
-                    if(billcommentsEntityList!=null&&billcommentsEntityList.size()>0) {
-                        billcommentsEntity.setSerialno(billcommentsEntityList.size());
-                        billcommentsService.save(billcommentsEntity);
-                    }
-                    else{
-                        billcommentsEntity.setSerialno(0);
-                        billcommentsService.save(billcommentsEntity);
-                    }
-
+                    //新增一条处理记录：签收
+                    newBillcomments(${classname}Entity.getBillno(),"签收", AuditType.CLAIM);
 
                     //执行工作流的签收任务处理
                     Task task = getTaskByBussinessKey(${classname}Entity.getBillno());
@@ -255,17 +242,14 @@ public class ${className}Controller extends AbstractController {
         ${classname}Service.update(${classname}Entity);
 
 
-        billcommentsEntity.setMakedate(new Date());
-        billcommentsEntity.setMakeuser(ShiroUtils.getUserName());
-        List<BillcommentsEntity> billcommentsEntityList=getBillcomments(${classname}Entity.getBillno());
-        if(billcommentsEntityList!=null&&billcommentsEntityList.size()>0) {
-            billcommentsEntity.setSerialno(billcommentsEntityList.size());
-            billcommentsService.save(billcommentsEntity);
-        }
-        else{
-            billcommentsEntity.setSerialno(0);
-            billcommentsService.save(billcommentsEntity);
-        }
+        //生成审核日志
+        //新增一条处理记录：审核
+        BillcommentsEntity billcommentsEntity=${classname}Entity.getBillcommentsEntity();
+        newBillcomments(${classname}Entity.getBillno(),
+                billcommentsEntity.getRemark(),
+                billcommentsEntity.getAuditstatus());
+
+
 
         //工作流处理
         Task task=getTaskByBussinessKey(${classname}Entity.getBillno());

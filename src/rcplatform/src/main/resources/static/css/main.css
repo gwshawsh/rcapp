@@ -175,3 +175,7 @@ input[type=file] {
     margin-bottom: 0;
     width: 40%
 }
+
+.billno{
+    cursor: pointer;
+}

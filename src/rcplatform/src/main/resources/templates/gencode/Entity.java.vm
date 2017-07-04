@@ -79,6 +79,11 @@ public class ${className}Entity extends AbstractEntity implements Serializable {
                         "  <label class=\"el-form-item__label\">${column.comments}</label>"+
                         "  <div class=\"el-form-item__content\"><span>"+get${column.attrName}${column.refColumnName}()+"</span>\n" +
                         "  </div> </div>");
+			#elseif($column.columnName.equalsIgnoreCase("billno"))
+                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">${column.comments}</label>"+
+                        "  <div class=\"el-form-item__content\"><a class='billno' onclick=\"openfunc('${pathName}/index','${comments}')\"><span>"+get${column.attrName}()+"</span></a>\n" +
+                        "  </div> </div>");
 			#elseif($column.columnName != $pk.columnName
 			&&$column.columnName != "pocessinstanceid")
                 sb.append(" <div class=\"el-form-item\">\n" +

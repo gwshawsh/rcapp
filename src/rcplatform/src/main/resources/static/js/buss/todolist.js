@@ -128,7 +128,7 @@ var vm = new Vue({
     }
 });
 
-function openfunc(funcurl, functitle,billdata) {
+function openfunc(funcurl, functitle) {
     var func = {
         href: funcurl, icon: "fa fa-circle-o", title: functitle
     }

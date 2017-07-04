@@ -209,7 +209,9 @@ public class TodolistController extends AbstractController {
 
 				//新增一条处理记录：审核
 				BillcommentsEntity billcommentsEntity=ordermainEntity.getBillcommentsEntity();
-				newBillcomments(ordermainEntity.getBillno(),ordermainEntity.getBillcommentsEntity().getRemark(),billcommentsEntity.getAuditstatus());
+				newBillcomments(ordermainEntity.getBillno(),
+						ordermainEntity.getBillcommentsEntity().getRemark(),
+						billcommentsEntity.getAuditstatus());
 
 
 				//执行工作流的签收任务处理
