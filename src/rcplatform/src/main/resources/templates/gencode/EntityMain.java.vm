@@ -1,45 +1,44 @@
 package ${package}.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+        import java.io.Serializable;
+        import java.util.Date;
+        import java.util.List;
 
-import ${package}.entity.${detailClassName}Entity;
+        import ${package}.entity.${detailClassName}Entity;
 
-import java.math.BigDecimal;
-
+        import java.math.BigDecimal;
 
 
 /**
  * ${comments}
- * 
+ *
  * @author ${author}
  * @email ${email}
  * @date ${datetime}
  */
-public class ${className}Entity  extends AbstractEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-#foreach ($column in $columns)
-	//$column.comments
-	private $column.attrType $column.attrname;
-#end
+public class ${className}Entity extends AbstractEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    #foreach ($column in $columns)
+        //$column.comments
+        private $column.attrType $column.attrname;
+    #end
 
 
-	#foreach ($column in $columns)
+    #foreach ($column in $columns)
 
-		#if($column.refColumn)
+        #if($column.refColumn)
             //$column.comments
             private String ${column.attrname}$column.refColumnName;
-		#end
+        #end
 
 
-	#end
+    #end
 
-	//单据明细
-	private List<${detailClassName}Entity> details;
+    //单据明细
+    private List<${detailClassName}Entity> details;
 
-	public void setDetails(List<${detailClassName}Entity> details) {
+    public void setDetails(List<${detailClassName}Entity> details) {
         this.details = details;
     }
 
@@ -49,35 +48,65 @@ public class ${className}Entity  extends AbstractEntity implements Serializable 
 
 
 
-#foreach ($column in $columns)
-	/**
-	 * 设置：${column.comments}
-	 */
-	public void set${column.attrName}($column.attrType $column.attrname) {
-		this.$column.attrname = $column.attrname;
-	}
-	/**
-	 * 获取：${column.comments}
-	 */
-	public $column.attrType get${column.attrName}() {
-		return $column.attrname;
-	}
-#end
-
-#foreach ($column in $columns)
-	#if($column.refColumn)
+    #foreach ($column in $columns)
         /**
-         * 设置：${column.comments}${column.refColumnName}
+         * 设置：${column.comments}
          */
-        public void set${column.attrName}${column.refColumnName}(String $column.refColumnName) {
-            this.${column.attrname}${column.refColumnName} = $column.refColumnName;
+        public void set${column.attrName}($column.attrType $column.attrname) {
+            this.$column.attrname = $column.attrname;
+        }
+
+        /**
+         * 获取：${column.comments}
+         */
+        public $column.attrType get${column.attrName}() {
+            return $column.attrname;
+        }
+    #end
+
+    #foreach ($column in $columns)
+        #if($column.refColumn)
+            /**
+             * 设置：${column.comments}${column.refColumnName}
+             */
+            public void set${column.attrName}${column.refColumnName}(String $column.refColumnName) {
+                this.${column.attrname}${column.refColumnName} = $column.refColumnName;
             }
+
+            /**
+             * 获取：${column.comments}${column.refColumnName}
+             */
+            public String get${column.attrName}${column.refColumnName}() {
+                return ${column.attrname}${column.refColumnName};
+            }
+        #end
+    #end
+
     /**
-     * 获取：${column.comments}${column.refColumnName}
-     */
-    public String get${column.attrName}${column.refColumnName}() {
-            return ${column.attrname}${column.refColumnName};
-            }
-	#end
-#end
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+        #foreach($column in $columns)
+            #if($column.refColumn)
+                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">${column.comments}</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+get${column.attrName}${column.refColumnName}()+"</span>\n" +
+                        "  </div> </div>");
+            #elseif($column.columnName != $pk.columnName
+                    &&$column.columnName != "pocessinstanceid")
+                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">${column.comments}</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+get${column.attrName}()+"</span>\n" +
+                        "  </div> </div>");
+            #end
+
+        #end
+        sb.append("</form>");
+        return sb.toString();
+
+    }
 }

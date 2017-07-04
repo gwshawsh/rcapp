@@ -32,6 +32,8 @@ public class SysPageController {
 	public ModelAndView page(@PathVariable("url") String url){
 		ModelAndView view = new ModelAndView("sys/" + url + "");
 		view.addObject("gUserName", ShiroUtils.getUserName());
+		view.addObject("gUserFullName",ShiroUtils.getUserFullName());
+		view.addObject("gUserId",ShiroUtils.getUserId());
 		//total 是模板的全局变量，可以直接访问
 		return view;
 

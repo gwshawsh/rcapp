@@ -1,7 +1,9 @@
 package com.ruanchuangsoft.platform.controller;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
 import com.ruanchuangsoft.platform.entity.SysUserEntity;
+import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.service.AttachmentsService;
 import com.ruanchuangsoft.platform.service.BillcommentsService;
 import com.ruanchuangsoft.platform.service.IRedisService;
@@ -154,6 +156,8 @@ public abstract class AbstractController {
 	public ModelAndView getModelAndView(){
 		ModelAndView view = new ModelAndView(getViewname());
 		view.addObject("gUserName",ShiroUtils.getUserName());
+		view.addObject("gUserFullName",ShiroUtils.getUserFullName());
+		view.addObject("gUserId",ShiroUtils.getUserId());
 		return view;
 	}
 
@@ -259,6 +263,8 @@ public abstract class AbstractController {
 
 
 
+
+
 	/**
 	 * Get workflow list query list.
 	 *
@@ -337,4 +343,34 @@ public abstract class AbstractController {
 		map.put("billno",billno);
 		return billcommentsService.queryList(map);
 	}
+
+
+	/**
+	 * New billcomments.
+	 *
+	 * @param billno    the billno
+	 * @param comments  the comments
+	 * @param auditType the audit type
+	 */
+	public void newBillcomments(String billno,String comments,int auditType){
+		BillcommentsEntity billcommentsEntity=new BillcommentsEntity();
+		billcommentsEntity.setBillno(billno);
+		billcommentsEntity.setMakedate(new Date());
+		billcommentsEntity.setMakeuser(ShiroUtils.getUserId());
+		billcommentsEntity.setRemark(comments);
+		billcommentsEntity.setAuditstatus(auditType);
+		List<BillcommentsEntity> billcommentsEntityList=getBillcomments(billno);
+		if(billcommentsEntityList!=null&&billcommentsEntityList.size()>0) {
+			billcommentsEntity.setSerialno(billcommentsEntityList.size());
+			billcommentsService.save(billcommentsEntity);
+		}
+		else{
+			billcommentsEntity.setSerialno(0);
+			billcommentsService.save(billcommentsEntity);
+		}
+
+	}
+
+
+
 }

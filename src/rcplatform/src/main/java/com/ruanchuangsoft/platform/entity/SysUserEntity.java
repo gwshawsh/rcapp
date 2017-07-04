@@ -24,6 +24,16 @@ public class SysUserEntity implements Serializable {
 	 */
 	private String username;
 
+	private String fullname;
+
+	public String getFullname() {
+		return fullname;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
 	/**
 	 * 密码
 	 */

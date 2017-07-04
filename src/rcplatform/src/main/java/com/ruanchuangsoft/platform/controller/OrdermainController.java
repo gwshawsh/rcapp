@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
@@ -171,6 +172,10 @@ public class OrdermainController extends AbstractController {
         //启动工作流
         Map<String,Object> params=new HashMap<>();
         params.put("userid", ShiroUtils.getUserId());
+        String descript=JSON.toJSONString(ordermainEntity);
+        params.put("billdata",descript);
+        params.put("htmldata",ordermainEntity.toString());
+
         String processid=startWorkflow("order",ordermainEntity.getBillno(),params);
         ordermainEntity.setBillstatus(BillStatus.SUBMIT);
         ordermainEntity.setPocessinstanceid(processid);
@@ -208,13 +213,9 @@ public class OrdermainController extends AbstractController {
             OrdermainEntity ordermainEntity=ordermainService.queryObject(id);
             if(ordermainEntity.getBillstatus()==BillStatus.NEW) {
                 ordermainService.delete(id);
-                return R.ok();
             }
-            else{
-                return R.error("当前单据不允许删除");
-            }
-
         }
+        return R.ok();
     }
 
     /**
@@ -233,7 +234,7 @@ public class OrdermainController extends AbstractController {
                 BillcommentsEntity billcommentsEntity=new BillcommentsEntity();
                 billcommentsEntity.setBillno(ordermainEntity.getBillno());
                 billcommentsEntity.setMakedate(new Date());
-                billcommentsEntity.setMakeuser(ShiroUtils.getUserName());
+                billcommentsEntity.setMakeuser(ShiroUtils.getUserId());
                 billcommentsEntity.setAuditstatus(BillStatus.CLAIM);
                 List<BillcommentsEntity> billcommentsEntityList=getBillcomments(ordermainEntity.getBillno());
                 if(billcommentsEntityList!=null&&billcommentsEntityList.size()>0) {
@@ -249,6 +250,7 @@ public class OrdermainController extends AbstractController {
                 //执行工作流的签收任务处理
                 Task task = getTaskByBussinessKey(ordermainEntity.getBillno());
                 if(task!=null) {
+
                     claimTasks(task);
                 }
             }
@@ -271,7 +273,7 @@ public class OrdermainController extends AbstractController {
 
 
         billcommentsEntity.setMakedate(new Date());
-        billcommentsEntity.setMakeuser(ShiroUtils.getUserName());
+        billcommentsEntity.setMakeuser(ShiroUtils.getUserId());
         List<BillcommentsEntity> billcommentsEntityList=getBillcomments(ordermain.getBillno());
         if(billcommentsEntityList!=null&&billcommentsEntityList.size()>0) {
             billcommentsEntity.setSerialno(billcommentsEntityList.size());

@@ -64,4 +64,32 @@ public class ${className}Entity extends AbstractEntity implements Serializable {
         }
         #end
 	#end
+
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+		#foreach($column in $columns)
+			#if($column.refColumn)
+                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">${column.comments}</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+get${column.attrName}${column.refColumnName}()+"</span>\n" +
+                        "  </div> </div>");
+			#elseif($column.columnName != $pk.columnName
+			&&$column.columnName != "pocessinstanceid")
+                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">${column.comments}</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+get${column.attrName}()+"</span>\n" +
+                        "  </div> </div>");
+			#end
+
+		#end
+        sb.append("</form>");
+        return sb.toString();
+
+    }
 }

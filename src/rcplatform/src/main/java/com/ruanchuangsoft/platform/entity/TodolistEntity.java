@@ -25,6 +25,26 @@ public class TodolistEntity implements Serializable {
 	private Date billdate;
 	//业务数据
 	private String billdata;
+	private String htmldata;
+	//制单人
+	private String makeuserusername;
+
+	public String getMakeuserusername() {
+		return makeuserusername;
+	}
+
+	public void setMakeuserusername(String makeuserusername) {
+		this.makeuserusername = makeuserusername;
+	}
+
+	public String getHtmldata() {
+		return htmldata;
+	}
+
+	public void setHtmldata(String htmldata) {
+		this.htmldata = htmldata;
+	}
+
 	//备注
 	private String remark;
 	//功能路径
@@ -114,4 +134,6 @@ public class TodolistEntity implements Serializable {
 	public String getTodourl() {
 		return todourl;
 	}
+
+
 }

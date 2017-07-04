@@ -1,13 +1,18 @@
 package com.ruanchuangsoft.platform.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ruanchuangsoft.platform.annotation.SysLog;
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
+import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
+import com.ruanchuangsoft.platform.entity.OrdermainEntity;
+import com.ruanchuangsoft.platform.enums.AuditType;
+import com.ruanchuangsoft.platform.enums.BillStatus;
+import com.ruanchuangsoft.platform.service.OrdermainService;
+import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.activiti.engine.task.Task;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +41,9 @@ public class TodolistController extends AbstractController {
 	@Autowired
 	private TodolistService todolistService;
 
+	@Autowired
+	private OrdermainService ordermainService;
+
 	@RequestMapping("/todolist")
 	public String list(){
 		return "todolist/todolist";
@@ -46,7 +54,7 @@ public class TodolistController extends AbstractController {
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("todolist/todolist");
+        setViewname("buss/todolist");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -69,22 +77,19 @@ public class TodolistController extends AbstractController {
 		List<TodolistEntity> todolistList = new ArrayList<>();
 		for(Task task:list){
 			TodolistEntity entity=new TodolistEntity();
+			entity.setTitle(task.getName());
 			entity.setBilldate(task.getCreateTime());
 			entity.setId(Long.parseLong(task.getId()));
-			String busskey=getBusinessKeyByTaskId(task);
-			if(busskey!=null&&busskey.length()>0){
-				String[] array=busskey.split(":");
-				if(array.length>1){
-					entity.setTitle(array[0]);
-					entity.setTodourl(array[1]);
-					entity.setBilldata(array[2]);
-				}
-			}
+			Map<String,Object> tmpdata=taskService.getVariables(task.getId());
+			String billdata=(String)tmpdata.get("billdata");
+			entity.setBilldata(billdata);
+			entity.setHtmldata((String)tmpdata.get("htmldata"));
+			todolistList.add(entity);
 
 		}
 		int total = list.size();
 
-		PageUtils pageUtil = new PageUtils(todolistList, total, limit, page);
+		PageUtils pageUtil = new PageUtils(todolistList, total, 20, 0);
 
 		return R.ok().put("page", pageUtil);
 	}
@@ -153,4 +158,77 @@ public class TodolistController extends AbstractController {
 	public String getRequestMapping() {
 		return "todolist/index";
 	}
+
+
+	/**
+	 * 签收
+	 */
+	@ResponseBody
+	@RequestMapping("/claim")
+	@RequiresPermissions("ordermain:claim")
+	public R claim(@RequestBody String data) {
+		JSONObject obj=JSON.parseObject(data);
+		String billno=obj.getString("billno");
+		if(billno!=null&&billno.length()>2){
+			String billtype=billno.substring(0,2);
+			if(billtype.equalsIgnoreCase("OR")){
+				OrdermainEntity ordermainEntity=JSON.parseObject(data,OrdermainEntity.class);
+				ordermainEntity.setBillstatus(BillStatus.CLAIM);
+				ordermainService.update(ordermainEntity);
+
+				//新增一条处理记录：签收
+				newBillcomments(ordermainEntity.getBillno(),"签收", AuditType.CLAIM);
+
+				//执行工作流的签收任务处理
+				Task task = getTaskByBussinessKey(ordermainEntity.getBillno());
+				if(task!=null) {
+					claimTasks(task);
+				}
+			}
+		}
+
+		return R.ok();
+	}
+
+
+	/**
+	 * 签收
+	 */
+	@ResponseBody
+	@RequestMapping("/audit")
+	@RequiresPermissions("ordermain:audit")
+	public R audit(@RequestBody String data) {
+		JSONObject obj=JSON.parseObject(data);
+		String billno=obj.getString("billno");
+		if(billno!=null&&billno.length()>2){
+			String billtype=billno.substring(0,2);
+			if(billtype.equalsIgnoreCase("OR")){
+				OrdermainEntity ordermainEntity=JSON.parseObject(data,OrdermainEntity.class);
+				ordermainEntity.setBillstatus(BillStatus.AUDIT);
+				ordermainService.update(ordermainEntity);
+
+				//新增一条处理记录：审核
+				BillcommentsEntity billcommentsEntity=ordermainEntity.getBillcommentsEntity();
+				newBillcomments(ordermainEntity.getBillno(),ordermainEntity.getBillcommentsEntity().getRemark(),billcommentsEntity.getAuditstatus());
+
+
+				//执行工作流的签收任务处理
+				Task task = getTaskByBussinessKey(ordermainEntity.getBillno());
+				if(task!=null) {
+					Map<String,Object> params=new HashMap<>();
+					params.put("auditstatus",billcommentsEntity.getAuditstatus());
+					completeTask(task,billcommentsEntity.getRemark(),params);
+					//检查工作流是否结束，如果结束，则设置单据状态为已完成
+					boolean endflag=isProcessEnd(task.getProcessInstanceId());
+					if(endflag){
+						ordermainEntity.setBillstatus(BillStatus.COMPLETE);
+						ordermainService.update(ordermainEntity);
+					}
+				}
+			}
+		}
+
+		return R.ok();
+	}
+
 }

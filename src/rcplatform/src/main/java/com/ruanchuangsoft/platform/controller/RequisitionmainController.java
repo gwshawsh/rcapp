@@ -215,7 +215,7 @@ public class RequisitionmainController extends AbstractController {
                 BillcommentsEntity billcommentsEntity = new BillcommentsEntity();
                 billcommentsEntity.setBillno(requisitionmainEntity.getBillno());
                 billcommentsEntity.setMakedate(new Date());
-                billcommentsEntity.setMakeuser(ShiroUtils.getUserName());
+                billcommentsEntity.setMakeuser(ShiroUtils.getUserId());
                 billcommentsEntity.setAuditstatus(BillStatus.CLAIM);
                 List<BillcommentsEntity> billcommentsEntityList = getBillcomments(requisitionmainEntity.getBillno());
                 if (billcommentsEntityList != null && billcommentsEntityList.size() > 0) {
@@ -254,7 +254,7 @@ public class RequisitionmainController extends AbstractController {
 
 
         billcommentsEntity.setMakedate(new Date());
-        billcommentsEntity.setMakeuser(ShiroUtils.getUserName());
+        billcommentsEntity.setMakeuser(ShiroUtils.getUserId());
         List<BillcommentsEntity> billcommentsEntityList = getBillcomments(requisitionmainEntity.getBillno());
         if (billcommentsEntityList != null && billcommentsEntityList.size() > 0) {
             billcommentsEntity.setSerialno(billcommentsEntityList.size());

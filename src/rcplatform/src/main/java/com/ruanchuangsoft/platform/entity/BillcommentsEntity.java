@@ -1,5 +1,7 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-28 16:16:47
+ * @date 2017-07-02 23:19:09
  */
-public class BillcommentsEntity implements Serializable {
+public class BillcommentsEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -31,7 +33,7 @@ public class BillcommentsEntity implements Serializable {
 	//备注
 	private String remark;
 	//审核人
-	private String makeuser;
+	private Long makeuser;
 	//审核日期
 	private Date makedate;
 	//更新时间
@@ -43,7 +45,9 @@ public class BillcommentsEntity implements Serializable {
         private String refbilltypeenumvaluename;
 			        //审批
         private String auditstatusenumvaluename;
-						
+			        //审核人
+        private String makeuserusername;
+				
 	/**
 	 * 设置：
 	 */
@@ -119,13 +123,13 @@ public class BillcommentsEntity implements Serializable {
 	/**
 	 * 设置：审核人
 	 */
-	public void setMakeuser(String makeuser) {
+	public void setMakeuser(Long makeuser) {
 		this.makeuser = makeuser;
 	}
 	/**
 	 * 获取：审核人
 	 */
-	public String getMakeuser() {
+	public Long getMakeuser() {
 		return makeuser;
 	}
 	/**
@@ -190,4 +194,71 @@ public class BillcommentsEntity implements Serializable {
         public String getAuditstatusenumvaluename() {
             return auditstatusenumvaluename;
         }
-        																}
+        						        /**
+         * 设置：审核人username
+         */
+        public void setMakeuserusername(String username) {
+            this.makeuserusername = username;
+        }
+        /**
+         * 获取：审核人username
+         */
+        public String getMakeuserusername() {
+            return makeuserusername;
+        }
+        										
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">单据号</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getBillno()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">参照单据类型</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRefbilltypeenumvaluename()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">序号</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getSerialno()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">审批</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getAuditstatusenumvaluename()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">备注</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRemark()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">审核人</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getMakeuserusername()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">审核日期</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getMakedate()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">更新时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getUptdate()+"</span>\n" +
+                        "  </div> </div>");
+			
+					
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

@@ -3,6 +3,10 @@ package com.ruanchuangsoft.platform.entity;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * The type Abstract entity.
+ * 所有的实体类窦继承自这个类，具备审核备注列表，附件列表
+ */
 public class AbstractEntity implements Serializable {
     public BillcommentsEntity billcommentsEntity;
 
