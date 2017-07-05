@@ -67,6 +67,64 @@ INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) V
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1014', '1', '冲借款', '付款方式');
 
 
+
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1015', '0', '男', '性别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1015', '1', '女', '性别');
+
+
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '0', '0', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '0.5', '0.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '1', '1', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '1.5', '1.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '2', '2', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '2.5', '2.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '3', '3', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '3.5', '3.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '4', '4', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '4.5', '4.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '5', '5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '5.5', '5.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '6', '6', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '6.5', '6.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '7', '7', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '7.5', '7.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '8', '8', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '8.5', '8.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '9', '9', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '9.5', '9.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '10', '10', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '10.5', '10.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '11', '11', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '11.5', '11.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '12', '12', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '13', '13', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '13.5', '13.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '14', '14', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '14.5', '14.5', '本年假天数');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1016', '15', '15', '本年假天数');
+ 
+
+
+
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1018', '0', '未婚', '婚姻状况');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1018', '1', '已婚', '婚姻状况');
+
+
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1019', '0', '无限期', '续约年限');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1019', '1', '一年', '续约年限');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1019', '2', '两年', '续约年限');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1019', '3', '三年', '续约年限');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1019', '4', '四年', '续约年限');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1019', '5', '五年', '续约年限');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1019', '6', '六年', '续约年限');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1019', '7', '七年', '续约年限');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1019', '8', '八年', '续约年限');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1019', '9', '九年', '续约年限');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1019', '10', '十年', '续约年限');
+
+
+
+
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2001', '0', '目录', '组织类型');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2001', '1', '港口', '组织类型');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2001', '2', '仓库', '组织类型');
@@ -91,7 +149,21 @@ INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) V
 
 
 
- 
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2003', '0', '自有', '车队类型');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2003', '1', '挂靠', '车队类型');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2003', '2', '外协', '车队类型');
+
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2004', '0', '目录', '树形目录');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2004', '1', '节点', '树形目录');
+
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2005', '0', '开船后', '账期类型');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2005', '1', '指定结账日', '账期类型');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2005', '2', '发票后', '账期类型');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2005', '3', '现金交易', '账期类型');
+
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2006', '0', '放单类', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2006', '1', '运费类', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2006', '2', '采购类', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2005', '3', '其他类', '费用项目类别');
+
+

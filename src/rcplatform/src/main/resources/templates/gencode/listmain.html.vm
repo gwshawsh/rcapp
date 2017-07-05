@@ -138,16 +138,33 @@
     </div>
 
     <div v-show="showDetailList" class="panel panel-default">
-        <el-tabs type="border-card">
-            <el-tab-pane>
-                <span slot="label"><i class="el-icon-document"></i> 明细</span>
-                <table id="jqGridDetail"></table>
-            </el-tab-pane>
-            <el-tab-pane>
-                <span slot="label"><i class="el-icon-time"></i> 审批</span>
-                <table id="jqGridComments"></table>
-            </el-tab-pane>
-        </el-tabs>
+        <el-row>
+            <el-col :span="18">
+                <el-tabs type="border-card">
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-document"></i> 明细</span>
+                        <table id="jqGridDetail"></table>
+                        <div id="jqGridPagerDetail"></div>
+                    </el-tab-pane>
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                        <table id="jqGridComments"></table>
+                        <div id="jqGridPagerComments"></div>
+                    </el-tab-pane>
+                </el-tabs>
+
+
+                <el-col :span="6">
+                    <el-tabs type="border-card">
+                        <el-tab-pane>
+                            <span slot="label"><i class="el-icon-document"></i> 附件</span>
+                            <table id="jqGridFiles"></table>
+                            <div id="jqGridPagerFiles"></div>
+                        </el-tab-pane>
+
+                    </el-tabs>
+                </el-col>
+        </el-row>
     </div>
 
     <div v-show="!showList" class="panel panel-default">
@@ -227,6 +244,16 @@
                 #end
             #end
 
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
 
         </el-form>
 

@@ -470,7 +470,14 @@ var vm = new Vue({
             //查询单据审批明细
             $("#jqGridComments").jqGrid('setGridParam', {
                 page: 1,
-                postData:{'billno':id},
+                postData: {'billno': id},
+                datatype: "json"
+            }).trigger("reloadGrid");
+
+            //查询单据审批明细
+            $("#jqGridFiles").jqGrid('setGridParam', {
+                page: 1,
+                postData: {'billno': id},
                 datatype: "json"
             }).trigger("reloadGrid");
 
@@ -510,8 +517,24 @@ var vm = new Vue({
             for(var i=0;i<vm.${classname}.details.length;i++){
                 vm.${classname}.details[i].serialno=i;
             }
+        },
+        upload_on_success:function (response,file,fileList) {
+
+            if(!vm.${classname}.files){
+                vm.${classname}.files=[];
+            }
+            if(response.page.list&&response.page.list.length>0){
+                vm.${classname}.files.push(response.page.list[0]);
+            }
+
+
+        },
+
+        upload_on_change: function (file, fileList) {
+            this.fileslist = fileList;
         }
-	}
+
+    }
 });
 
 $(function () {
@@ -634,6 +657,8 @@ $(function () {
         #end
     #end
 
+    createBillAttachmentsGrid();
+    createBillCommentsGrid();
 
     initGridHeightHalf("#jqGrid");
     initGridHeightHalf("#jqGridDetail");

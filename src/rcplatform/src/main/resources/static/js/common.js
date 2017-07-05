@@ -196,6 +196,17 @@ function formater_orgtype(value, options, row){
 	}
 
 }
+
+
+//通用文件下载
+function formater_files(value, options, row){
+     return "<a href='"+row['fileurl']+"'>"+value+"</a>";
+
+}
+
+
+
+
 function show_tree(json) {
 	if($("#menuLayer").length<=0){
         var div = document.createElement("div");
@@ -242,3 +253,85 @@ function show_tree(json) {
     })
 }
 
+//创建通用的审批过程表
+function createBillCommentsGrid() {
+    $("#jqGridComments").jqGrid({
+        url: '../billcomments/list',
+        datatype: "local",
+        colModel: [
+            { label: 'id', name: 'id', width: 50, key: true,hidden:true },
+            { label: '单据号', name: 'billno', width: 80 },
+            { label: '参照单据类型', name: 'refbilltypeenumvaluename', width: 80 },                                     			                                                            { label: '序号', name: 'serialno', width: 80 },
+            { label: '审批', name: 'auditstatusenumvaluename', width: 80 },                                     			                                                            { label: '备注', name: 'remark', width: 80 },
+            { label: '审核人', name: 'makeuserusername', width: 80 },                                     			                                                            { label: '审核日期', name: 'makedate', width: 80 },
+            { label: '更新时间', name: 'uptdate', width: 80 },
+        ],
+        viewrecords: true,
+        height: 385,
+        rowNum: 10,
+        rowList : [10,30,50],
+        rownumbers: true,
+        rownumWidth: 25,
+        autowidth: true,
+        autoScroll: true,
+        multiselect: true,
+        pager: "#jqGridPagerComments",
+        jsonReader : {
+            root: "page.list",
+            page: "page.currPage",
+            total: "page.totalPage",
+            records: "page.totalCount"
+        },
+        prmNames : {
+            page:"page",
+            rows:"limit",
+            order: "order"
+        },
+        shrinkToFit:false,
+        gridComplete:function(){
+            //隐藏grid底部滚动条
+            //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+        }
+    });
+}
+
+function createBillAttachmentsGrid() {
+    $("#jqGridFiles").jqGrid({
+        url: '../attachments/list',
+        datatype: "local",
+        colModel: [
+            { label: 'id', name: 'id', width: 50, key: true,hidden:true },
+            { label: '文件名', name: 'filename', width: 80 ,formatter:formater_files},
+            { label: '地址', name: 'fileurl', width: 80,hidden:true },
+            { label: '更新时间', name: 'uptdate', width: 80 }
+        ],
+        viewrecords: true,
+        height: 385,
+        rowNum: 10,
+        rowList : [10,30,50],
+        rownumbers: true,
+        rownumWidth: 25,
+        autowidth: true,
+        autoScroll: true,
+        multiselect: true,
+        pager: "#jqGridPagerFiles",
+        jsonReader : {
+            root: "page.list",
+            page: "page.currPage",
+            total: "page.totalPage",
+            records: "page.totalCount"
+        },
+        prmNames : {
+            page:"page",
+            rows:"limit",
+            order: "order"
+        },
+        shrinkToFit:false,
+        gridComplete:function(){
+            //隐藏grid底部滚动条
+            //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+        }
+    });
+
+   initGridHeightHalf("#jqGridFiles");
+}

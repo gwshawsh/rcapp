@@ -96,11 +96,11 @@ public class OrdermainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/listdetail")
     @RequiresPermissions("ordermain:list")
-    public R listdetail(Long formid, Integer page, Integer limit) {
+    public R listdetail(String billno, Integer page, Integer limit) {
         Map<String, Object> map = new HashMap<>();
         map.put("offset", (page - 1) * limit);
         map.put("limit", limit);
-        map.put("formid", formid);
+        map.put("billno", billno);
 
         //查询列表数据
         List<OrderdetailEntity> orderdetailList = orderdetailService.queryList(map);
@@ -122,7 +122,7 @@ public class OrdermainController extends AbstractController {
 
         //查询明细数据
         Map<String, Object> map = new HashMap<>();
-        map.put("formid", id);
+        map.put("id", id);
 
         List<OrderdetailEntity> orderdetailList = orderdetailService.queryList(map);
         ordermain.setDetails(orderdetailList);
@@ -149,6 +149,7 @@ public class OrdermainController extends AbstractController {
             if(ordermain.getFiles()!=null&&ordermain.getFiles().size()>0){
                 for(AttachmentsEntity item:ordermain.getFiles()){
                     item.setBillno(billno);
+                    attachmentsService.update(item);
                 }
             }
         }

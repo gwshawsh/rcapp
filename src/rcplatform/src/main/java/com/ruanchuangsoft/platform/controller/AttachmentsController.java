@@ -62,28 +62,28 @@ public class AttachmentsController extends AbstractController {
     @ResponseBody
     @RequestMapping("/list")
     @RequiresPermissions("attachments:list")
-    public R list(Integer page, Integer limit, String query) {
+    public R list(Integer page, Integer limit, String billno) {
         Map<String, Object> map = new HashMap<>();
         map.put("offset", (page - 1) * limit);
         map.put("limit", limit);
-
-        if (query != null && query.length() > 0) {
-            try {
-                String tmpquery = query.replaceAll("&quot;", "\"");
-                    AttachmentsEntity param = JSON.parseObject(tmpquery, AttachmentsEntity.class);
-                                    map.put("id", param.getId());
-                                    map.put("billno", param.getBillno());
-                                    map.put("filename", param.getFilename());
-                                    map.put("fileurl", param.getFileurl());
-                                    map.put("makeuser", param.getMakeuser());
-                                    map.put("makedate", param.getMakedate());
-                                    map.put("uptdate", param.getUptdate());
-                
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
+        map.put("billno", billno);
+//        if (query != null && query.length() > 0) {
+//            try {
+//                String tmpquery = query.replaceAll("&quot;", "\"");
+//                    AttachmentsEntity param = JSON.parseObject(tmpquery, AttachmentsEntity.class);
+//                                    map.put("id", param.getId());
+//                                    map.put("billno", param.getBillno());
+//                                    map.put("filename", param.getFilename());
+//                                    map.put("fileurl", param.getFileurl());
+//                                    map.put("makeuser", param.getMakeuser());
+//                                    map.put("makedate", param.getMakedate());
+//                                    map.put("uptdate", param.getUptdate());
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
 
         //查询列表数据
         List<AttachmentsEntity> attachmentsList = attachmentsService.queryList(map);

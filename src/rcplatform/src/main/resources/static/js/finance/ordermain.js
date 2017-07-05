@@ -140,7 +140,8 @@ var vm = new Vue({
                 accuser: -1,
                 accdate: "",
                 uptdate: "",
-                details: []
+                details: [],
+                files:[]
             };
             vm.additem();
         },
@@ -413,16 +414,26 @@ var vm = new Vue({
             //查询单据明细
             $("#jqGridDetail").jqGrid('setGridParam', {
                 page: 1,
-                postData: {'formid': id},
+                postData: {'billno': id},
                 datatype: "json"
             }).trigger("reloadGrid");
 
             //查询单据审批明细
             $("#jqGridComments").jqGrid('setGridParam', {
                 page: 1,
-                postData: {'formid': id},
+                postData: {'billno': id},
                 datatype: "json"
             }).trigger("reloadGrid");
+
+            //查询单据审批明细
+            $("#jqGridFiles").jqGrid('setGridParam', {
+                page: 1,
+                postData: {'billno': id},
+                datatype: "json"
+            }).trigger("reloadGrid");
+
+
+
 
         },
 
@@ -462,7 +473,13 @@ var vm = new Vue({
         },
 
         upload_on_success:function (response,file,fileList) {
-            vm.ordermain.files=response.page.list;
+            if(!vm.ordermain.files){
+                vm.ordermain.files=[];
+            }
+            if(response.page.list&&response.page.list.length>0){
+                vm.ordermain.files.push(response.page.list[0]);
+            }
+
         },
 
         upload_on_change: function (file, fileList) {
@@ -569,6 +586,10 @@ $(function () {
         }
     });
 
+
+    createBillAttachmentsGrid();
+    createBillCommentsGrid();
+
     //执行调用参照调用下拉框函数,初始化下拉数据
     vm.getRefsys_dept();
     vm.getRef1001();
@@ -582,4 +603,5 @@ $(function () {
 
     initGridHeightHalf("#jqGrid");
     initGridHeightHalf("#jqGridDetail");
+
 });

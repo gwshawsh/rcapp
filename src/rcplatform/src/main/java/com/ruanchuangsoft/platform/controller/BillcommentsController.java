@@ -8,6 +8,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
+import com.ruanchuangsoft.platform.entity.OrderdetailEntity;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +60,7 @@ public class BillcommentsController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/list")
-	@RequiresPermissions("billcomments:list")
+//	@RequiresPermissions("billcomments:list")
 	public R list(Integer page, Integer limit,String query){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
@@ -97,11 +98,34 @@ public class BillcommentsController extends AbstractController {
 
 
 	/**
+	 * 列表
+	 */
+	@ResponseBody
+	@RequestMapping("/listdetail")
+//	@RequiresPermissions("ordermain:list")
+	public R listdetail(Long formid, Integer page, Integer limit) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("offset", (page - 1) * limit);
+		map.put("limit", limit);
+		map.put("formid", formid);
+
+		//查询列表数据
+		List<BillcommentsEntity> billcommentsList = billcommentsService.queryList(map);
+		int total = billcommentsService.queryTotal(map);
+
+		PageUtils pageUtil = new PageUtils(billcommentsList, total, limit, page);
+
+		return R.ok().put("page", pageUtil);
+	}
+
+
+
+	/**
 	 * 信息
 	 */
 	@ResponseBody
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("billcomments:info")
+//	@RequiresPermissions("billcomments:info")
 	public R info(@PathVariable("id") Long id){
 		BillcommentsEntity billcomments = billcommentsService.queryObject(id);
 
@@ -113,7 +137,7 @@ public class BillcommentsController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/save")
-	@RequiresPermissions("billcomments:save")
+//	@RequiresPermissions("billcomments:save")
 	public R save(@RequestBody BillcommentsEntity billcomments){
 		billcommentsService.save(billcomments);
 
@@ -125,7 +149,7 @@ public class BillcommentsController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	@RequiresPermissions("billcomments:update")
+//	@RequiresPermissions("billcomments:update")
 	public R update(@RequestBody BillcommentsEntity billcomments){
 		billcommentsService.update(billcomments);
 

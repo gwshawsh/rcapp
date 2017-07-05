@@ -589,3 +589,8 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('expensemain_unaudit', 'expensemain', '反审核', NULL, 'expensemain:unaudit,expensemain:select', '2', NULL, '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('expensemain_detail', 'expensemain', '明细', NULL, 'expensemain:list,expensemain:info', '2', NULL, '0');
  
+
+
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('oa', '0', '人员管理', NULL, NULL, '0', 'fa fa-folder', '0');
+

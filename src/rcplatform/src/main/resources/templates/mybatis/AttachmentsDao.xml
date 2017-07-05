@@ -3,86 +3,63 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.AttachmentsDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.AttachmentsEntity">
+    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.AttachmentsEntity">
 		select
 				    			    			    			    			    						               		ifnull((select username from  sys_user b where a.makeuser=b.user_id),'') as makeuserusername,
 						    			    			    	        a.*
 		from attachments a where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.AttachmentsEntity">
-		select
-																																		               		ifnull((select username from  sys_user b where a.makeuser=b.user_id),'') as makeuserusername,
-																			        a.*
-		from attachments a
+    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.AttachmentsEntity">
+        select
+        ifnull((select username from sys_user b where a.makeuser=b.user_id),'') as makeuserusername,
+        a.*
+        from attachments a
         <where>
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
-                    </if>
-				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
-                    </if>
-				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
-                    </if>
-				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
-                    </if>
-				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
-                    </if>
-				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
-                    </if>
-				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
-                    </if>
-				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
-                    </if>
-				
-			        </where>
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
-	</select>
-	
- 	<select id="queryTotal" resultType="int">
+            <if test="id != null and id != '' ">
+                `id` = #{id}
+            </if>
+
+            <if test="billno != null and billno != '' ">
+                and `billno` = #{billno}
+            </if>
+
+            <if test="name != null and name != '' ">
+                and `name` = #{name}
+            </if>
+
+            <if test="filename != null and filename != '' ">
+                and `filename` = #{filename}
+            </if>
+
+            <if test="fileurl != null and fileurl != '' ">
+                and `fileurl` = #{fileurl}
+            </if>
+
+            <if test="makeuser != null and makeuser != '' ">
+                and `makeuser` = #{makeuser}
+            </if>
+
+            <if test="makedate != null and makedate != '' ">
+                and `makedate` = #{makedate}
+            </if>
+
+            <if test="uptdate != null and uptdate != '' ">
+                and `uptdate` = #{uptdate}
+            </if>
+
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
 		select count(*) from attachments 
 	</select>
-	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.AttachmentsEntity" useGeneratedKeys="true" keyProperty="id">
+
+    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.AttachmentsEntity" useGeneratedKeys="true"
+            keyProperty="id">
 		insert into attachments
 		(
 			`billno`, 
@@ -104,30 +81,30 @@
 			#{uptdate}
 		)
 	</insert>
-	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.AttachmentsEntity">
-		update attachments 
-		<set>
-			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="name != null">`name` = #{name}, </if>
-			<if test="filename != null">`filename` = #{filename}, </if>
-			<if test="fileurl != null">`fileurl` = #{fileurl}, </if>
-			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
-			<if test="makedate != null">`makedate` = #{makedate}, </if>
-			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
-		</set>
-		where id = #{id}
-	</update>
-	
-	<delete id="delete">
+
+    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.AttachmentsEntity">
+        update attachments
+        <set>
+            <if test="billno != null">`billno` = #{billno},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="filename != null">`filename` = #{filename},</if>
+            <if test="fileurl != null">`fileurl` = #{fileurl},</if>
+            <if test="makeuser != null">`makeuser` = #{makeuser},</if>
+            <if test="makedate != null">`makedate` = #{makedate},</if>
+            <if test="uptdate != null">`uptdate` = #{uptdate}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
 		delete from attachments where id = #{value}
 	</delete>
-	
-	<delete id="deleteBatch">
-		delete from attachments where id in 
-		<foreach item="id" collection="array" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</delete>
+
+    <delete id="deleteBatch">
+        delete from attachments where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

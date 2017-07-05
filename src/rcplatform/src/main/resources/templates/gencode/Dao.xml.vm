@@ -33,7 +33,7 @@
 		from ${tableName} a
         <where>
 			#foreach($column in $columns)
-				#if(!$column.attrname.equalsIgnoreCase("pocessinstanceid"))
+				#if($column.attrname.equalsIgnoreCase("pocessinstanceid"))
                     <if test="pocessinstanceid != null and pocessinstanceid != '' ">
 						#if($velocityCount != 1) and #end `pocessinstanceid` = #{pocessinstanceid}
                     </if>
