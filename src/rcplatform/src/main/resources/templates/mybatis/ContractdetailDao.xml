@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.ContractdetailDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.ContractdetailEntity">
+		select
+																               		ifnull((select name from  feeinfo b where a.feeid=b.id),'') as feeidname,
+																        a.*
+
+		from contractdetail a where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.ContractdetailEntity">
+        select
+																								                    ifnull((select name from  feeinfo b where a.feeid=b.id),'') as feeidname,
+																								        a.*
+        from contractdetail a
+        <where>
+							                    <if test="id != null and id != '' ">
+						 `id` = #{id}
+                    </if>
+				
+							                    <if test="billno != null and billno != '' ">
+						 and  `billno` = #{billno}
+                    </if>
+				
+							                    <if test="serialno != null and serialno != '' ">
+						 and  `serialno` = #{serialno}
+                    </if>
+				
+							                    <if test="feeid != null and feeid != '' ">
+						 and  `feeid` = #{feeid}
+                    </if>
+				
+							                    <if test="price != null and price != '' ">
+						 and  `price` = #{price}
+                    </if>
+				
+							                    <if test="cost != null and cost != '' ">
+						 and  `cost` = #{cost}
+                    </if>
+				
+							                    <if test="uptdate != null and uptdate != '' ">
+						 and  `uptdate` = #{uptdate}
+                    </if>
+				
+			        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from contractdetail 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.ContractdetailEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into contractdetail
+		(
+			`billno`, 
+			`serialno`, 
+			`feeid`, 
+			`price`, 
+			`cost`, 
+			`uptdate`
+		)
+		values
+		(
+			#{billno}, 
+			#{serialno}, 
+			#{feeid}, 
+			#{price}, 
+			#{cost}, 
+			#{uptdate}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.ContractdetailEntity">
+		update contractdetail 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="serialno != null">`serialno` = #{serialno}, </if>
+			<if test="feeid != null">`feeid` = #{feeid}, </if>
+			<if test="price != null">`price` = #{price}, </if>
+			<if test="cost != null">`cost` = #{cost}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from contractdetail where id = #{value}
+	</delete>
+
+    <delete id="deleteByBillNo">
+        delete from contractdetail where billno = #{value}
+    </delete>
+	
+	<delete id="deleteBatch">
+		delete from contractdetail where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

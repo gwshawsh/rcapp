@@ -1,0 +1,217 @@
+<div id="ref_sysuser" style="display: none;padding:10px;">
+    <table id="ref_grid_sysuser"></table>
+    <div id="ref_gridpager_sysuser"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_sysuser(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_sysuser"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_sysuser");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_sysuser").jqGrid({
+            url: '../sysuser/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '用户编码',
+                            name: 'username',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '姓名',
+                            name: 'fullname',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '密码',
+                            name: 'password',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '入职时间',
+                            name: 'entrytime',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '邮箱',
+                            name: 'email',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '英文名',
+                            name: 'englishname',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '出生日期',
+                            name: 'brithday',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '外语水平',
+                            name: 'englishlevel',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '毕业时间',
+                            name: 'graduationtime',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '现住址',
+                            name: 'residence',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '户籍在地',
+                            name: 'census',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '教育经历',
+                            name: 'educationexperience',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '工作经历',
+                            name: 'workexperience',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '家庭状况',
+                            name: 'family',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '电话',
+                            name: 'mobile',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '参加工作时间',
+                            name: 'startedworktime',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '姓名',
+                            name: 'name',
+                            width: 80
+                        }, 
+                                                                                { label: '性别', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '民族',
+                            name: 'nationality',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '计算机水平',
+                            name: 'computerlevel',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '所学专业',
+                            name: 'major',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '其他联系方式',
+                            name: 'thermobile',
+                            width: 80
+                        }, 
+                                                                                { label: '本年假天数', name: 'enumvaluename', width: 80 }, 
+                                                                                { label: '上年假天数', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '身份证',
+                            name: 'identification',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '学历',
+                            name: 'qulification',
+                            width: 80
+                        }, 
+                                                                                { label: '婚姻状况', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '专业职称',
+                            name: 'academictitle',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '毕业院校',
+                            name: 'school',
+                            width: 80
+                        }, 
+                                                                                { label: '状态', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '所属组织',
+                            name: 'orgid',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '所属部门',
+                            name: 'deptId',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '创建时间',
+                            name: 'createTime',
+                            width: 80
+                        }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_sysuser",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_sysuser").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

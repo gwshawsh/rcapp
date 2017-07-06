@@ -17,8 +17,13 @@ var setting = {
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+	    q:{
+                                                                            enshipname:"",                                                                 chshipname:"",                                                                 expvoyage:"",                                                                 impvoyage:"",                                                                 arrivalstate:"",                                                                 arrivaldate:"",                                                                 shipid:"",                                                                 imono:"",                                                                 dockcode:"",                                                                 dockname:"",                                                                 dockunit:"",                                                                 route:"",                                                                 arrivaltime:"",                                                                 leavetime:"",                                                                 shipment:"",                                                                 remark:""                            
+        },
 		showList: true,
+        showQuery:false,
 		title: null,
+        fileslist:[],
     //用于日期快捷控件
     pickerOptions1: {
         shortcuts: [{
@@ -50,6 +55,9 @@ var vm = new Vue({
         }
 	},
 	methods: {
+	    showQueryPanel:function(){
+	        vm.showQuery=!vm.showQuery;
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -58,8 +66,8 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.shipplan = {
-            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
-                                                                                                                                                                enshipname:"",                                                                                                                                                             chshipname:"",                                                                                                                                                             expvoyage:"",                                                                                                                                                             impvoyage:"",                                                                                                                                                             arrivalstate:"",                                                                                                                                                             arrivaldate:"",                                                                                                                                                             shipid:"",                                                                                                                                                             imono:"",                                                                                                                                                             dockcode:"",                                                                                                                                                             dockname:"",                                                                                                                                                             dockunit:"",                                                                                                                                                             route:"",                                                                                                                                                             arrivaltime:"",                                                                                                                                                             leavetime:"",                                                                                                                                                             shipment:"",                                                                                                                                                             remark:""                                                                        
+                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                                                                                                            enshipname:"",                                                                                                                                     chshipname:"",                                                                                                                                     expvoyage:"",                                                                                                                                     impvoyage:"",                                                                                                                                     arrivalstate:"",                                                                                                                                     arrivaldate:"",                                                                                                                                     shipid:"",                                                                                                                                     imono:"",                                                                                                                                     dockcode:"",                                                                                                                                     dockname:"",                                                                                                                                     dockunit:"",                                                                                                                                     route:"",                                                                                                                                     arrivaltime:"",                                                                                                                                     leavetime:"",                                                                                                                                     shipment:"",                                                                                                                                     remark:""                                                            
             };
 		},
 		update: function (event) {
@@ -118,8 +126,7 @@ var vm = new Vue({
         //生成参照调用下拉框函数,用来初始化远程数据
 		
         //生成弹出树形空间参照
-
-
+        
         getInfo: function(id){
             $.get("../shipplan/info/"+id, function(r){
                 vm.shipplan = r.shipplan;
@@ -129,8 +136,24 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
+                postData: {'query': JSON.stringify(vm.q)},
                 page:page
             }).trigger("reloadGrid");
+        },
+        upload_on_success:function (response,file,fileList) {
+
+            if(!vm.shipplan.files){
+                vm.shipplan.files=[];
+            }
+            if(response.page.list&&response.page.list.length>0){
+                vm.shipplan.files.push(response.page.list[0]);
+            }
+
+
+        },
+
+        upload_on_change: function (file, fileList) {
+            this.fileslist = fileList;
         }
 	}
 });
@@ -140,24 +163,24 @@ $(function () {
         url: '../shipplan/list',
         datatype: "json",
         colModel: [
-							                    { label: 'id', name: 'id', width: 50, key: true },
-                							                    { label: '英文船名', name: 'enshipname', width: 80 }, 
-											                    { label: '中文船名', name: 'chshipname', width: 80 }, 
-											                    { label: '出口航次', name: 'expvoyage', width: 80 }, 
-											                    { label: '进口航次', name: 'impvoyage', width: 80 }, 
-											                    { label: '到港状态', name: 'arrivalstate', width: 80 }, 
-											                    { label: '预计到港日期', name: 'arrivaldate', width: 80 }, 
-											                    { label: '船舶呼号', name: 'shipid', width: 80 }, 
-											                    { label: 'IMO编号', name: 'imono', width: 80 }, 
-											                    { label: '码头代码', name: 'dockcode', width: 80 }, 
-											                    { label: '码头名称', name: 'dockname', width: 80 }, 
-											                    { label: '靠泊单位', name: 'dockunit', width: 80 }, 
-											                    { label: '航线', name: 'route', width: 80 }, 
-											                    { label: '预计到港时间', name: 'arrivaltime', width: 80 }, 
-											                    { label: '预计离港时间', name: 'leavetime', width: 80 }, 
-											                    { label: '船期', name: 'shipment', width: 80 }, 
-											                    { label: '备注', name: 'remark', width: 80 }
-							        ],
+			                                                            { label: 'id', name: 'id', width: 50, key: true,hidden:true },
+                                    			                                                            { label: '英文船名', name: 'enshipname', width: 80 }, 
+                                    			                                                            { label: '中文船名', name: 'chshipname', width: 80 }, 
+                                    			                                                            { label: '出口航次', name: 'expvoyage', width: 80 }, 
+                                    			                                                            { label: '进口航次', name: 'impvoyage', width: 80 }, 
+                                    			                                                            { label: '到港状态', name: 'arrivalstate', width: 80 }, 
+                                    			                                                            { label: '预计到港日期', name: 'arrivaldate', width: 80 }, 
+                                    			                                                            { label: '船舶呼号', name: 'shipid', width: 80 }, 
+                                    			                                                            { label: 'IMO编码', name: 'imono', width: 80 }, 
+                                    			                                                            { label: '码头代码', name: 'dockcode', width: 80 }, 
+                                    			                                                            { label: '码头名称', name: 'dockname', width: 80 }, 
+                                    			                                                            { label: '靠泊单位', name: 'dockunit', width: 80 }, 
+                                    			                                                            { label: '航线', name: 'route', width: 80 }, 
+                                    			                                                            { label: '预计到港时间', name: 'arrivaltime', width: 80 }, 
+                                    			                                                            { label: '预计离港时间', name: 'leavetime', width: 80 }, 
+                                    			                                                            { label: '船期', name: 'shipment', width: 80 }, 
+                                    			                                                            { label: '备注', name: 'remark', width: 80 }
+                                    			        ],
         viewrecords: true,
         height: 385,
         rowNum: 10,

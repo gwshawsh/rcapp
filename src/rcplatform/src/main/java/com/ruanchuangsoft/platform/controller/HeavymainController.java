@@ -179,7 +179,7 @@ public class HeavymainController extends AbstractController {
                 }
                 heavymainEntity.setBillstatus(EmptyBillStatus.AUDIT);
                 heavymainEntity.setAccdate(new Date());
-                heavymainEntity.setAccuser(ShiroUtils.getUserName());
+                heavymainEntity.setAccuser(ShiroUtils.getUserId());
                 heavymainEntity.setUptdate(new Date());
                 heavymainService.update(heavymainEntity);
 
@@ -246,7 +246,7 @@ public class HeavymainController extends AbstractController {
                 }
                 heavymainEntity.setBillstatus(EmptyBillStatus.NEW);
                 heavymainEntity.setAccdate(new Date());
-                heavymainEntity.setAccuser("");
+                heavymainEntity.setAccuser(ShiroUtils.getUserId());
                 heavymainEntity.setUptdate(new Date());
                 heavymainService.update(heavymainEntity);
 

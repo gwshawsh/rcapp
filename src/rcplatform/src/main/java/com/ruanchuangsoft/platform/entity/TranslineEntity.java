@@ -1,7 +1,10 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
+
 
 import java.math.BigDecimal;
 
@@ -12,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 19:02:25
+ * @date 2017-07-06 15:52:20
  */
-public class TranslineEntity implements Serializable {
+public class TranslineEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -32,32 +35,11 @@ public class TranslineEntity implements Serializable {
 	//助记码
 	private String helpcode;
 
-
-	
-
-
-	
-
-
-	
-
-
-	        //起始地点
+				        //起始地点
         private String startlocationname;
-	
-
-
-	        //结束地点
+		        //结束地点
         private String endlocationname;
-	
-
-
-	
-
-
-	
-
-
+			
 	/**
 	 * 设置：
 	 */
@@ -168,4 +150,48 @@ public class TranslineEntity implements Serializable {
         public String getEndlocationname() {
             return endlocationname;
         }
-        							}
+        							
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">编码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">名称</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getName()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">起始地点</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getStartlocationname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">结束地点</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getEndlocationname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">距离</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getDistance()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">助记码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getHelpcode()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

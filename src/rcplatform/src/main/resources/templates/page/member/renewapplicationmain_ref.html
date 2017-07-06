@@ -1,0 +1,139 @@
+<div id="ref_renewapplicationmain" style="display: none;padding:10px;">
+    <table id="ref_grid_renewapplicationmain"></table>
+    <div id="ref_gridpager_renewapplicationmain"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_renewapplicationmain(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_renewapplicationmain"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_renewapplicationmain");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_renewapplicationmain").jqGrid({
+            url: '../renewapplicationmain/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '申请单号',
+                            name: 'billno',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '员工姓名',
+                            name: 'name',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '申请时间',
+                            name: 'applicationday',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '部门',
+                            name: 'deptid',
+                            width: 80
+                        }, 
+                                                                                { label: '当前岗位', name: 'role_name', width: 80 }, 
+                                                                                { label: '续签岗位', name: 'role_name', width: 80 }, 
+                                                                                {
+                            label: '入职时间',
+                            name: 'entryday',
+                            width: 80
+                        }, 
+                                                                                { label: '个人申请续签年限', name: 'enumvaluename', width: 80 }, 
+                                                                                { label: '公司批准续签年限', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '自述理由',
+                            name: 'reason',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '交接内容',
+                            name: 'handover',
+                            width: 80
+                        }, 
+                                                                                { label: '单据状态', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '备注',
+                            name: 'remark',
+                            width: 80
+                        }, 
+                                                                                { label: '制单人', name: 'fullname', width: 80 }, 
+                                                                                {
+                            label: '制单日期',
+                            name: 'makedate',
+                            width: 80
+                        }, 
+                                                                                { label: '审核人', name: 'fullname', width: 80 }, 
+                                                                                {
+                            label: '审核日期',
+                            name: 'accdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '更新时间',
+                            name: 'uptdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '流程ID',
+                            name: 'pocessinstanceid',
+                            width: 80
+                        }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_renewapplicationmain",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_renewapplicationmain").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

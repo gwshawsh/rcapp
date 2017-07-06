@@ -10,7 +10,11 @@
         <div class="panel-heading">
             <el-button-group>
             <@shiro.hasPermission name="cartype:list">
-            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="cartype:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
             </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="cartype:save">
@@ -21,11 +25,50 @@
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="cartype:delete">
-            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                        <@shiro.hasPermission name="cartype:delete">
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </el-button>
             </@shiro.hasPermission>
             </el-button-group>
+
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
+
+                                                                                                                    <el-form-item label="编码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.cartypecode" placeholder="编码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="姓名" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.cartypename" placeholder="姓名"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="更新时间" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.uptdate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="备注" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.remark" placeholder="备注"></el-input>
+
+
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+
+
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -45,40 +88,45 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right"  label-width="80px" style="padding:10px">
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
 
-                                                                            <el-form-item label="编码">
+                            
+                                                <el-form-item label="编码" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="cartype.cartypecode" placeholder="编码"></el-input>
+                                                             <el-input style="width: 350px"  v-model="cartype.cartypecode" placeholder="编码"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="姓名">
+                
+                                                <el-form-item label="姓名" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="cartype.cartypename" placeholder="姓名"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="更新时间">
-
-
-                            
-                                <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="cartype.uptdate" style="width: 100%;"></el-date-picker>
-                            
-                    </el-form-item>
-                                                                <el-form-item label="备注">
-
-
-                                                            <el-input style="width: 350px"  v-model="cartype.remark" placeholder="备注"></el-input>
+                                                             <el-input style="width: 350px"  v-model="cartype.cartypename" placeholder="姓名"></el-input>
 
 
                               
                     </el-form-item>
+                
                             
+                                                <el-form-item label="备注" class="padding-top: 5px;width:40%">
+
+                                                             <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="cartype.remark" style="width: 100%;"></el-input>
+
+                             
+                    </el-form-item>
+                
+            
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
+
         </el-form>
     </div>
 </div>
@@ -86,6 +134,7 @@
 
                                                                 
 
+<#include "base/billcomments_ref.html">
 <script src="${ctxPath}/static/js/base/cartype.js"></script>
 </body>
 </html>

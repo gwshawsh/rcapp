@@ -10,7 +10,11 @@
         <div class="panel-heading">
             <el-button-group>
             <@shiro.hasPermission name="bank:list">
-            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="bank:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
             </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="bank:save">
@@ -21,11 +25,99 @@
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="bank:delete">
-            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                        <@shiro.hasPermission name="bank:delete">
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </el-button>
             </@shiro.hasPermission>
             </el-button-group>
+
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
+
+                                                                                                                    <el-form-item label="编码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.code" placeholder="编码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="名称" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.name" placeholder="名称"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="币别" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.boctid" placeholder="币别"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="地址" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.address" placeholder="地址"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="电话" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.tel" placeholder="电话"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="传真" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.fax" placeholder="传真"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="联系人" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.man" placeholder="联系人"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="假删" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.del" placeholder="假删"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="创建人员" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.makeuser" placeholder="创建人员"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="创建日期" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.makedate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="备注" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.remark" placeholder="备注"></el-input>
+
+
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+
+
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -45,111 +137,102 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right"  label-width="80px" style="padding:10px">
-
-                                                                            <el-form-item label="编码">
-
-
-                                                            <el-input style="width: 350px"  v-model="bank.code" placeholder="编码"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="名称">
-
-
-                                                            <el-input style="width: 350px"  v-model="bank.name" placeholder="名称"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="帐号">
-
-
-                                                            <el-input style="width: 350px"  v-model="bank.accountno" placeholder="帐号"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="币别">
-
-
-                                                            <el-input style="width: 350px"  v-model="bank.boctid" placeholder="币别"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="地址">
-
-
-                                                            <el-input style="width: 350px"  v-model="bank.address" placeholder="地址"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="电话">
-
-
-                                                            <el-input style="width: 350px"  v-model="bank.tel" placeholder="电话"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="传真">
-
-
-                                                            <el-input style="width: 350px"  v-model="bank.fax" placeholder="传真"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="联系人">
-
-
-                                                            <el-input style="width: 350px"  v-model="bank.man" placeholder="联系人"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="假删">
-
-
-                                                            <el-input style="width: 350px"  v-model="bank.del" placeholder="假删"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="创建人员">
-
-
-                                                            <el-input style="width: 350px"  v-model="bank.makeuser" placeholder="创建人员"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="创建日期">
-
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
 
                             
-                                <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="bank.makedate" style="width: 100%;"></el-date-picker>
-                            
-                    </el-form-item>
-                                                                <el-form-item label="备注">
+                                                <el-form-item label="编码" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="bank.remark" placeholder="备注"></el-input>
+                                                             <el-input style="width: 350px"  v-model="bank.code" placeholder="编码"></el-input>
 
 
                               
                     </el-form-item>
+                
+                                                <el-form-item label="名称" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="bank.name" placeholder="名称"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="币别" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="bank.boctid" placeholder="币别"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="地址" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="bank.address" placeholder="地址"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="电话" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="bank.tel" placeholder="电话"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="传真" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="bank.fax" placeholder="传真"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="联系人" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="bank.man" placeholder="联系人"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="假删" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="bank.del" placeholder="假删"></el-input>
+
+
+                              
+                    </el-form-item>
+                
                             
+                            
+                                                <el-form-item label="备注" class="padding-top: 5px;width:40%">
+
+                                                             <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="bank.remark" style="width: 100%;"></el-input>
+
+                             
+                    </el-form-item>
+                
+            
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
+
         </el-form>
     </div>
 </div>
 
 
-                                                                                                                                                                
+                                                                                                                                                    
 
+<#include "base/billcomments_ref.html">
 <script src="${ctxPath}/static/js/base/bank.js"></script>
 </body>
 </html>

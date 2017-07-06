@@ -10,7 +10,11 @@
         <div class="panel-heading">
             <el-button-group>
             <@shiro.hasPermission name="transline:list">
-            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="transline:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
             </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="transline:save">
@@ -21,11 +25,75 @@
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="transline:delete">
-            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                        <@shiro.hasPermission name="transline:delete">
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </el-button>
             </@shiro.hasPermission>
             </el-button-group>
+
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
+
+                                                                                                                    <el-form-item label="编码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.code" placeholder="编码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="名称" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.name" placeholder="名称"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="起始地点" >
+
+                                                                    <el-select style="width: 350px" v-model="q.startlocation"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_place"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="结束地点" >
+
+                                                                    <el-select style="width: 350px" v-model="q.endlocation"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_place"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="距离" >
+
+                                
+                                    <el-input-number style="width: 350px" v-model="q.distance" :min="1" ></el-input-number>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="助记码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.helpcode" placeholder="助记码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+
+
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -45,28 +113,28 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right"  label-width="80px" style="padding:10px">
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
 
-                                                                            <el-form-item label="编码">
+                            
+                                                <el-form-item label="编码" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="transline.code" placeholder="编码"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="名称">
-
-
-                                                            <el-input style="width: 350px"  v-model="transline.name" placeholder="名称"></el-input>
+                                                             <el-input style="width: 350px"  v-model="transline.code" placeholder="编码"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="起始地点">
+                
+                                                <el-form-item label="名称" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="transline.name" placeholder="名称"></el-input>
 
 
-                                                            <el-select style="width: 350px" v-model="transline.startlocation"  filterable placeholder="请选择">
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="起始地点" class="padding-top: 5px;width:40%">
+
+                                                             <el-select style="width: 350px" v-model="transline.startlocation"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_place"
                                             :key="item.id"
@@ -76,10 +144,10 @@
                                 </el-select>
                             
                     </el-form-item>
-                                                                <el-form-item label="结束地点">
+                
+                                                <el-form-item label="结束地点" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-select style="width: 350px" v-model="transline.endlocation"  filterable placeholder="请选择">
+                                                             <el-select style="width: 350px" v-model="transline.endlocation"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_place"
                                             :key="item.id"
@@ -89,23 +157,35 @@
                                 </el-select>
                             
                     </el-form-item>
-                                                                <el-form-item label="距离">
+                
+                                                <el-form-item label="距离" class="padding-top: 5px;width:40%">
 
-
-                            
-                                <el-input-number style="width: 350px" v-model="transline.distance" :min="1" ></el-input-number>
+                             
+                                <el-input style="width: 350px" v-model="transline.distance" :min="0" ></el-input>
 
                             
                     </el-form-item>
-                                                                <el-form-item label="助记码">
+                
+                                                <el-form-item label="助记码" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="transline.helpcode" placeholder="助记码"></el-input>
+                                                             <el-input style="width: 350px"  v-model="transline.helpcode" placeholder="助记码"></el-input>
 
 
                               
                     </el-form-item>
-                            
+                
+            
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
+
         </el-form>
     </div>
 </div>
@@ -113,6 +193,7 @@
 
                                                                                         
 
+<#include "base/billcomments_ref.html">
 <script src="${ctxPath}/static/js/base/transline.js"></script>
 </body>
 </html>

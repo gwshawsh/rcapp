@@ -1,5 +1,7 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-22 09:03:59
+ * @date 2017-07-06 19:10:48
  */
-public class HeavymainEntity implements Serializable {
+public class HeavymainEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -48,16 +50,20 @@ public class HeavymainEntity implements Serializable {
 	private Date bgnplanarrtime;
 	//最晚到场时间
 	private Date endplanarrtime;
+	//封箱时间
+	private Date fengxiangtime;
+	//报关时间
+	private Date baoguantime;
 	//备注
 	private String remark;
 	//单据状态
 	private String billstatus;
 	//制单人
-	private String makeuser;
+	private Long makeuser;
 	//制单日期
 	private Date makedate;
 	//审核人
-	private String accuser;
+	private Long accuser;
 	//审核日期
 	private Date accdate;
 	//更新时间
@@ -73,9 +79,13 @@ public class HeavymainEntity implements Serializable {
         private String takeboxplaceidname;
 		        //目的地
         private String endplaceidname;
-							        //单据状态
+									        //单据状态
         private String billstatusenumvaluename;
-						
+		        //制单人
+        private String makeuserfullname;
+			        //审核人
+        private String accuserfullname;
+			
 	/**
 	 * 设置：
 	 */
@@ -257,6 +267,30 @@ public class HeavymainEntity implements Serializable {
 		return endplanarrtime;
 	}
 	/**
+	 * 设置：封箱时间
+	 */
+	public void setFengxiangtime(Date fengxiangtime) {
+		this.fengxiangtime = fengxiangtime;
+	}
+	/**
+	 * 获取：封箱时间
+	 */
+	public Date getFengxiangtime() {
+		return fengxiangtime;
+	}
+	/**
+	 * 设置：报关时间
+	 */
+	public void setBaoguantime(Date baoguantime) {
+		this.baoguantime = baoguantime;
+	}
+	/**
+	 * 获取：报关时间
+	 */
+	public Date getBaoguantime() {
+		return baoguantime;
+	}
+	/**
 	 * 设置：备注
 	 */
 	public void setRemark(String remark) {
@@ -283,13 +317,13 @@ public class HeavymainEntity implements Serializable {
 	/**
 	 * 设置：制单人
 	 */
-	public void setMakeuser(String makeuser) {
+	public void setMakeuser(Long makeuser) {
 		this.makeuser = makeuser;
 	}
 	/**
 	 * 获取：制单人
 	 */
-	public String getMakeuser() {
+	public Long getMakeuser() {
 		return makeuser;
 	}
 	/**
@@ -307,13 +341,13 @@ public class HeavymainEntity implements Serializable {
 	/**
 	 * 设置：审核人
 	 */
-	public void setAccuser(String accuser) {
+	public void setAccuser(Long accuser) {
 		this.accuser = accuser;
 	}
 	/**
 	 * 获取：审核人
 	 */
-	public String getAccuser() {
+	public Long getAccuser() {
 		return accuser;
 	}
 	/**
@@ -402,7 +436,7 @@ public class HeavymainEntity implements Serializable {
         public String getEndplaceidname() {
             return endplaceidname;
         }
-        																		        /**
+        																								        /**
          * 设置：单据状态enumvaluename
          */
         public void setBillstatusenumvaluename(String enumvaluename) {
@@ -414,4 +448,157 @@ public class HeavymainEntity implements Serializable {
         public String getBillstatusenumvaluename() {
             return billstatusenumvaluename;
         }
-        																}
+        			        /**
+         * 设置：制单人fullname
+         */
+        public void setMakeuserfullname(String fullname) {
+            this.makeuserfullname = fullname;
+        }
+        /**
+         * 获取：制单人fullname
+         */
+        public String getMakeuserfullname() {
+            return makeuserfullname;
+        }
+        						        /**
+         * 设置：审核人fullname
+         */
+        public void setAccuserfullname(String fullname) {
+            this.accuserfullname = fullname;
+        }
+        /**
+         * 获取：审核人fullname
+         */
+        public String getAccuserfullname() {
+            return accuserfullname;
+        }
+        							
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">单据号</label>"+
+                        "  <div class=\"el-form-item__content\"><a class='billno' onclick=\"openfunc('heavymain/index','重箱计划')\"><span>"+getBillno()+"</span></a>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">客户</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getOrgidname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">提单号</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getLadingcode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">船名</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getShipname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">航次</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getFlight()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">港口</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getPortidname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">箱量</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getBoxqty()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">箱型</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getBoxtypeboxsize()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">提箱场站</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getTakeboxplaceidname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">目的地</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getEndplaceidname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">集港时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getBgnshipdatetime()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">截港时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getEndshipdatetime()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">最早到场时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getBgnplanarrtime()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">最晚到场时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getEndplanarrtime()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">封箱时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getFengxiangtime()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">报关时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getBaoguantime()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">备注</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRemark()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">单据状态</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getBillstatusenumvaluename()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">制单人</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getMakeuserfullname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">制单日期</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getMakedate()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">审核人</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getAccuserfullname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">审核日期</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getAccdate()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">更新时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getUptdate()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

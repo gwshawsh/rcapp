@@ -1,0 +1,138 @@
+<div id="ref_transferapplicationmain" style="display: none;padding:10px;">
+    <table id="ref_grid_transferapplicationmain"></table>
+    <div id="ref_gridpager_transferapplicationmain"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_transferapplicationmain(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_transferapplicationmain"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_transferapplicationmain");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_transferapplicationmain").jqGrid({
+            url: '../transferapplicationmain/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '申请单号',
+                            name: 'billno',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '员工姓名',
+                            name: 'name',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '申请时间',
+                            name: 'applicationday',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '部门',
+                            name: 'deptid',
+                            width: 80
+                        }, 
+                                                                                { label: '岗位', name: 'role_name', width: 80 }, 
+                                                                                {
+                            label: '调出部门',
+                            name: 'outdeptid',
+                            width: 80
+                        }, 
+                                                                                { label: '调出岗位', name: 'role_name', width: 80 }, 
+                                                                                {
+                            label: '调入部门',
+                            name: 'indeptid',
+                            width: 80
+                        }, 
+                                                                                { label: '调入岗位', name: 'role_name', width: 80 }, 
+                                                                                {
+                            label: '自述理由',
+                            name: 'reason',
+                            width: 80
+                        }, 
+                                                                                { label: '单据状态', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '备注',
+                            name: 'remark',
+                            width: 80
+                        }, 
+                                                                                { label: '制单人', name: 'fullname', width: 80 }, 
+                                                                                {
+                            label: '制单日期',
+                            name: 'makedate',
+                            width: 80
+                        }, 
+                                                                                { label: '审核人', name: 'fullname', width: 80 }, 
+                                                                                {
+                            label: '审核日期',
+                            name: 'accdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '更新时间',
+                            name: 'uptdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '流程ID',
+                            name: 'pocessinstanceid',
+                            width: 80
+                        }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_transferapplicationmain",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_transferapplicationmain").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

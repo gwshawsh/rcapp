@@ -32,6 +32,7 @@ var vm = new Vue({
 		showList: true,
         showDetailList:true,
 		title: null,
+        fileslist:[],
     //用于日期快捷控件
     pickerOptions1: {
         shortcuts: [{

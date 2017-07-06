@@ -10,7 +10,11 @@
         <div class="panel-heading">
             <el-button-group>
             <@shiro.hasPermission name="shipplan:list">
-            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="shipplan:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
             </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="shipplan:save">
@@ -21,11 +25,134 @@
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="shipplan:delete">
-            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                        <@shiro.hasPermission name="shipplan:delete">
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </el-button>
             </@shiro.hasPermission>
             </el-button-group>
+
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
+
+                                                                                                                    <el-form-item label="英文船名" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.enshipname" placeholder="英文船名"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="中文船名" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.chshipname" placeholder="中文船名"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="出口航次" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.expvoyage" placeholder="出口航次"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="进口航次" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.impvoyage" placeholder="进口航次"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="到港状态" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.arrivalstate" placeholder="到港状态"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="预计到港日期" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.arrivaldate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="船舶呼号" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.shipid" placeholder="船舶呼号"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="IMO编码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.imono" placeholder="IMO编码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="码头代码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.dockcode" placeholder="码头代码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="码头名称" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.dockname" placeholder="码头名称"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="靠泊单位" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.dockunit" placeholder="靠泊单位"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="航线" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.route" placeholder="航线"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="预计到港时间" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.arrivaltime" style="width: 100%;"></el-date-picker>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="预计离港时间" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.leavetime" style="width: 100%;"></el-date-picker>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="船期" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.shipment" placeholder="船期"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="备注" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.remark" placeholder="备注"></el-input>
+
+
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+
+
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -45,136 +172,146 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right"  label-width="80px" style="padding:10px">
-
-                                                                            <el-form-item label="英文船名">
-
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.enshipname" placeholder="英文船名"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="中文船名">
-
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.chshipname" placeholder="中文船名"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="出口航次">
-
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.expvoyage" placeholder="出口航次"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="进口航次">
-
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.impvoyage" placeholder="进口航次"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="到港状态">
-
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.arrivalstate" placeholder="到港状态"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="预计到港日期">
-
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
 
                             
-                                <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="shipplan.arrivaldate" style="width: 100%;"></el-date-picker>
-                            
-                    </el-form-item>
-                                                                <el-form-item label="船舶呼号">
+                                                <el-form-item label="英文船名" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.shipid" placeholder="船舶呼号"></el-input>
+                                                             <el-input style="width: 350px"  v-model="shipplan.enshipname" placeholder="英文船名"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="IMO编号">
+                
+                                                <el-form-item label="中文船名" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.imono" placeholder="IMO编号"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="码头代码">
-
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.dockcode" placeholder="码头代码"></el-input>
+                                                             <el-input style="width: 350px"  v-model="shipplan.chshipname" placeholder="中文船名"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="码头名称">
+                
+                                                <el-form-item label="出口航次" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.dockname" placeholder="码头名称"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="靠泊单位">
-
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.dockunit" placeholder="靠泊单位"></el-input>
+                                                             <el-input style="width: 350px"  v-model="shipplan.expvoyage" placeholder="出口航次"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="航线">
+                
+                                                <el-form-item label="进口航次" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.route" placeholder="航线"></el-input>
+                                                             <el-input style="width: 350px"  v-model="shipplan.impvoyage" placeholder="进口航次"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="预计到港时间">
+                
+                                                <el-form-item label="到港状态" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="shipplan.arrivalstate" placeholder="到港状态"></el-input>
 
 
-                            
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="预计到港日期" class="padding-top: 5px;width:40%">
+
+                                                             <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="shipplan.arrivaldate" style="width: 100%;"></el-date-picker>
+                             
+                    </el-form-item>
+                
+                                                <el-form-item label="船舶呼号" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="shipplan.shipid" placeholder="船舶呼号"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="IMO编码" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="shipplan.imono" placeholder="IMO编码"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="码头代码" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="shipplan.dockcode" placeholder="码头代码"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="码头名称" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="shipplan.dockname" placeholder="码头名称"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="靠泊单位" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="shipplan.dockunit" placeholder="靠泊单位"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="航线" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="shipplan.route" placeholder="航线"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="预计到港时间" class="padding-top: 5px;width:40%">
+
+                             
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="shipplan.arrivaltime" style="width: 100%;"></el-date-picker>
 
                             
                     </el-form-item>
-                                                                <el-form-item label="预计离港时间">
+                
+                                                <el-form-item label="预计离港时间" class="padding-top: 5px;width:40%">
 
-
-                            
+                             
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="shipplan.leavetime" style="width: 100%;"></el-date-picker>
 
                             
                     </el-form-item>
-                                                                <el-form-item label="船期">
+                
+                                                <el-form-item label="船期" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.shipment" placeholder="船期"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="备注">
-
-
-                                                            <el-input style="width: 350px"  v-model="shipplan.remark" placeholder="备注"></el-input>
+                                                             <el-input style="width: 350px"  v-model="shipplan.shipment" placeholder="船期"></el-input>
 
 
                               
                     </el-form-item>
-                            
+                
+                                                <el-form-item label="备注" class="padding-top: 5px;width:40%">
+
+                                                             <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="shipplan.remark" style="width: 100%;"></el-input>
+
+                             
+                    </el-form-item>
+                
+            
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
+
         </el-form>
     </div>
 </div>
@@ -182,6 +319,7 @@
 
                                                                                                                                                                                                                 
 
+<#include "base/billcomments_ref.html">
 <script src="${ctxPath}/static/js/base/shipplan.js"></script>
 </body>
 </html>

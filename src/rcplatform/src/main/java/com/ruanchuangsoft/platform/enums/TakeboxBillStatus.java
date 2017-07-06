@@ -5,6 +5,9 @@ package com.ruanchuangsoft.platform.enums;
  */
 public interface TakeboxBillStatus {
     String NEW="0";
-    String AUDIT="1";
-    String TRANSCOMPLETE="2";//运输结束
+    String TAKEBOX="1";
+    String TAKEBOXERROR="2";
+    String TAKEBOXEND="3";
+    String AUDIT="4";
+    String TRANSCOMPLETE="5";//运输结束
 }

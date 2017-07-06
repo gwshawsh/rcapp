@@ -1,7 +1,10 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
+
 
 import java.math.BigDecimal;
 
@@ -12,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 18:02:55
+ * @date 2017-07-06 15:52:19
  */
-public class GoodsEntity implements Serializable {
+public class GoodsEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -25,6 +28,12 @@ public class GoodsEntity implements Serializable {
 	private String code;
 	//名称
 	private String name;
+	//规格
+	private String spec;
+	//单位
+	private String unit;
+	//备注
+	private String remark;
 	//单价
 	private Double price;
 	//含税单价
@@ -32,30 +41,9 @@ public class GoodsEntity implements Serializable {
 	//库存
 	private Integer gcount;
 
-
-	
-
-
-	        //类别
+		        //类别
         private String classidname;
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
+									
 	/**
 	 * 设置：
 	 */
@@ -103,6 +91,42 @@ public class GoodsEntity implements Serializable {
 	 */
 	public String getName() {
 		return name;
+	}
+	/**
+	 * 设置：规格
+	 */
+	public void setSpec(String spec) {
+		this.spec = spec;
+	}
+	/**
+	 * 获取：规格
+	 */
+	public String getSpec() {
+		return spec;
+	}
+	/**
+	 * 设置：单位
+	 */
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	/**
+	 * 获取：单位
+	 */
+	public String getUnit() {
+		return unit;
+	}
+	/**
+	 * 设置：备注
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	/**
+	 * 获取：备注
+	 */
+	public String getRemark() {
+		return remark;
 	}
 	/**
 	 * 设置：单价
@@ -154,4 +178,63 @@ public class GoodsEntity implements Serializable {
         public String getClassidname() {
             return classidname;
         }
-        																}
+        																									
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">类别</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getClassidname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">编码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">名称</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getName()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">规格</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getSpec()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">单位</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getUnit()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">备注</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRemark()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">单价</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getPrice()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">含税单价</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getPricetax()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">库存</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getGcount()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

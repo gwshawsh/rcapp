@@ -27,12 +27,12 @@ public class ShiroUtils {
 	}
 
 	public static Long getUserId() {
-		return getUserEntity().getUserId();
+		return getUserEntity().getId();
 	}
 
 
 	public static String getUserIdStr() {
-		return String.valueOf(getUserEntity().getUserId());
+		return String.valueOf(getUserEntity().getId());
 	}
 
 	public static  String getUserName(){

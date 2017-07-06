@@ -46,7 +46,7 @@ var vm = new Vue({
 			});
 		},
 		getUser: function(){
-			$.getJSON("sys/user/info?_"+$.now(), function(r){
+			$.getJSON("sys_user/info?_"+$.now(), function(r){
 				vm.user = r.user;
 			});
 		},

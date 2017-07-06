@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>入职申请</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="panel-heading">
+            <el-button-group>
+            <@shiro.hasPermission name="entryapplicationmain:list">
+            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="entryapplicationmain:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="entryapplicationmain:save">
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="entryapplicationmain:update">
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
+            </@shiro.hasPermission>
+                            <@shiro.hasPermission name="entryapplicationmain:update">
+                <el-button type="primary" v-on:click="submitworkflow"><i class="fa fa-pencil-square-o"></i>&nbsp;提交
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="entryapplicationmain:copybill">
+                <el-button type="primary" v-on:click="copybill"><i class="fa fa-trash-o"></i>&nbsp;复制
+                </el-button>
+                </@shiro.hasPermission>
+
+                <@shiro.hasPermission name="entryapplicationmain:claim">
+                <el-button type="primary" v-on:click="claim"><i class="fa fa-book"></i>&nbsp;签收
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="entryapplicationmain:audit">
+                <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="entryapplicationmain:cancel">
+                <el-button type="warning" v-on:click="cancel"><i class="fa fa-trash-o"></i>&nbsp;作废
+                </el-button>
+                </@shiro.hasPermission>
+                        <@shiro.hasPermission name="entryapplicationmain:delete">
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
+            </@shiro.hasPermission>
+            </el-button-group>
+
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
+
+                                                                                                                    <el-form-item label="申请单号" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.billno" placeholder="申请单号"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="员工姓名" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.name" placeholder="员工姓名"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="申请时间" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.applicationday" placeholder="申请时间"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="部门" >
+
+                                
+                                    <input style="width: 350px" v-model="q.deptidname"  v-on:click="openRefTreesys_deptdeptid"
+                                           placeholder="部门" class="el-input el-input__inner"></input>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="岗位" >
+
+                                                                    <el-select style="width: 350px" v-model="q.roleid"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_sys_role"
+                                                :key="item.role_id"
+                                                :label="item.role_name"
+                                                :value="item.role_id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="入职时间" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.entryday" placeholder="入职时间"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="试用/实习期间" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.probation" placeholder="试用/实习期间"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="自述理由" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.reason" placeholder="自述理由"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="交接内容" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.handover" placeholder="交接内容"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="单据状态" >
+
+                                                                    <el-select style="width: 350px" v-model="q.billstatus"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum1003"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="备注" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.remark" placeholder="备注"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="制单人" >
+
+                                                                    <el-select style="width: 350px" v-model="q.makeuser"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_sys_user"
+                                                :key="item.id"
+                                                :label="item.fullname"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="制单日期" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.makedate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="审核人" >
+
+                                                                    <el-select style="width: 350px" v-model="q.accuser"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_sys_user"
+                                                :key="item.id"
+                                                :label="item.fullname"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="审核日期" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.accdate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="更新时间" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.uptdate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="流程ID" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.pocessinstanceid" placeholder="流程ID"></el-input>
+
+
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+
+
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="showDetailList" class="panel panel-default">
+
+
+                <el-tabs type="border-card">
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-document"></i> 附件</span>
+                        <table id="jqGridFiles"></table>
+                        <div id="jqGridPagerFiles"></div>
+                    </el-tab-pane>
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                        <table id="jqGridComments"></table>
+                        <div id="jqGridPagerComments"></div>
+                    </el-tab-pane>
+                </el-tabs>
+
+
+
+
+    </div>
+
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                                            <div class="billno">单据号:{{entryapplicationmain.billno}}<span class="panel-right">制单人:{{entryapplicationmain.makeuser}} 制单日期:{{entryapplicationmain.makedate}}</span></div>
+                    
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
+
+                            
+                            
+                                                <el-form-item label="员工姓名" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="entryapplicationmain.name" placeholder="员工姓名"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="申请时间" class="padding-top: 5px;width:40%">
+
+                                                             <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="entryapplicationmain.applicationday" style="width: 100%;"></el-date-picker>
+                             
+                    </el-form-item>
+                
+                                                <el-form-item label="部门" class="padding-top: 5px;width:40%">
+
+                             
+                                <input style="width: 350px" v-model="entryapplicationmain.deptidname"  v-on:click="openRefTreesys_deptdeptid"
+                                          placeholder="部门" class="el-input el-input__inner"></input>
+
+                             
+                    </el-form-item>
+                
+                                                <el-form-item label="岗位" class="padding-top: 5px;width:40%">
+
+                                                             <el-select style="width: 350px" v-model="entryapplicationmain.roleid"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_sys_role"
+                                            :key="item.role_id"
+                                            :label="item.role_name"
+                                            :value="item.role_id">
+                                    </el-option>
+                                </el-select>
+                            
+                    </el-form-item>
+                
+                                                <el-form-item label="入职时间" class="padding-top: 5px;width:40%">
+
+                                                             <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="entryapplicationmain.entryday" style="width: 100%;"></el-date-picker>
+                             
+                    </el-form-item>
+                
+                                                <el-form-item label="试用/实习期间" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="entryapplicationmain.probation" placeholder="试用/实习期间"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="自述理由" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="entryapplicationmain.reason" placeholder="自述理由"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="交接内容" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="entryapplicationmain.handover" placeholder="交接内容"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                            
+                                                <el-form-item label="备注" class="padding-top: 5px;width:40%">
+
+                                                             <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="entryapplicationmain.remark" style="width: 100%;"></el-input>
+
+                             
+                    </el-form-item>
+                
+                            
+                            
+                            
+                            
+                            
+                            
+            
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
+
+        </el-form>
+    </div>
+</div>
+
+
+                                                                                                                                                                                                                            
+<div id="treelayersys_dept" style="display: none;padding:10px;">
+    <ul id="refTreesys_dept" class="ztree"></ul>
+</div>
+
+<#include "base/billcomments_ref.html">
+<script src="${ctxPath}/static/js/member/entryapplicationmain.js"></script>
+</body>
+</html>

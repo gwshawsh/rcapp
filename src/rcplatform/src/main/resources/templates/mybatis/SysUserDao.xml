@@ -4,26 +4,163 @@
 <mapper namespace="com.ruanchuangsoft.platform.dao.SysUserDao">
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.SysUserEntity">
 		select m.*, (select p.name from sys_dept p where p.id = m.dept_id) as deptName
-		from sys_user m where m.user_id = #{value}
+		from sys_user m where m.id = #{value}
 	</select>
 	
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.SysUserEntity">
-		select m.*, (select p.name from sys_dept p where p.id = m.dept_id) as deptName
-		from sys_user m
+		select
+		ifnull((select enumvaluename from enumtable b where a.gender=b.enumvalueid and b.enumtype='1015'),'') as
+		genderenumvaluename,
+		ifnull((select enumvaluename from enumtable b where a.vacationyear=b.enumvalueid and b.enumtype='1016'),'') as
+		vacationyearenumvaluename,
+		ifnull((select enumvaluename from enumtable b where a.vacationlastyear=b.enumvalueid and b.enumtype='1017'),'')
+		as vacationlastyearenumvaluename,
+		ifnull((select enumvaluename from enumtable b where a.marriage=b.enumvalueid and b.enumtype='1018'),'') as
+		marriageenumvaluename,
+		ifnull((select enumvaluename from enumtable b where a.status=b.enumvalueid and b.enumtype='1020'),'') as
+		statusenumvaluename,
+		ifnull((select name from organization b where a.orgid=b.id),'') as orgidname,
+		ifnull((select name from sys_dept b where a.dept_id=b.id),'') as deptIdname,
+		a.*
+		from sys_user a
 		<where>
-			<if test="username != null and username.trim() != ''">
-				and `username` like concat('%',#{username},'%') 
+			<if test="id != null and id != '' ">
+				`id` = #{id}
 			</if>
-		</where>
-		<choose>
-			<when test="sidx!=null and order!=null">
-				order by #{sidx}, #{order}
-			</when>
-			<otherwise>
-				order by user_id desc
-			</otherwise>
-		</choose>
 
+			<if test="username != null and username != '' ">
+				and `username` = #{username}
+			</if>
+
+			<if test="fullname != null and fullname != '' ">
+				and `fullname` = #{fullname}
+			</if>
+
+			<if test="password != null and password != '' ">
+				and `password` = #{password}
+			</if>
+
+			<if test="entrytime != null and entrytime != '' ">
+				and `entrytime` = #{entrytime}
+			</if>
+
+			<if test="email != null and email != '' ">
+				and `email` = #{email}
+			</if>
+
+			<if test="englishname != null and englishname != '' ">
+				and `englishname` = #{englishname}
+			</if>
+
+			<if test="brithday != null and brithday != '' ">
+				and `brithday` = #{brithday}
+			</if>
+
+			<if test="englishlevel != null and englishlevel != '' ">
+				and `englishlevel` = #{englishlevel}
+			</if>
+
+			<if test="graduationtime != null and graduationtime != '' ">
+				and `graduationtime` = #{graduationtime}
+			</if>
+
+			<if test="residence != null and residence != '' ">
+				and `residence` = #{residence}
+			</if>
+
+			<if test="census != null and census != '' ">
+				and `census` = #{census}
+			</if>
+
+			<if test="educationexperience != null and educationexperience != '' ">
+				and `educationexperience` = #{educationexperience}
+			</if>
+
+			<if test="workexperience != null and workexperience != '' ">
+				and `workexperience` = #{workexperience}
+			</if>
+
+			<if test="family != null and family != '' ">
+				and `family` = #{family}
+			</if>
+
+			<if test="mobile != null and mobile != '' ">
+				and `mobile` = #{mobile}
+			</if>
+
+			<if test="startedworktime != null and startedworktime != '' ">
+				and `startedworktime` = #{startedworktime}
+			</if>
+
+			<if test="name != null and name != '' ">
+				and `name` = #{name}
+			</if>
+
+			<if test="gender != null and gender != '' ">
+				and `gender` = #{gender}
+			</if>
+
+			<if test="nationality != null and nationality != '' ">
+				and `nationality` = #{nationality}
+			</if>
+
+			<if test="computerlevel != null and computerlevel != '' ">
+				and `computerlevel` = #{computerlevel}
+			</if>
+
+			<if test="major != null and major != '' ">
+				and `major` = #{major}
+			</if>
+
+			<if test="thermobile != null and thermobile != '' ">
+				and `thermobile` = #{thermobile}
+			</if>
+
+			<if test="vacationyear != null and vacationyear != '' ">
+				and `vacationyear` = #{vacationyear}
+			</if>
+
+			<if test="vacationlastyear != null and vacationlastyear != '' ">
+				and `vacationlastyear` = #{vacationlastyear}
+			</if>
+
+			<if test="identification != null and identification != '' ">
+				and `identification` = #{identification}
+			</if>
+
+			<if test="qulification != null and qulification != '' ">
+				and `qulification` = #{qulification}
+			</if>
+
+			<if test="marriage != null and marriage != '' ">
+				and `marriage` = #{marriage}
+			</if>
+
+			<if test="academictitle != null and academictitle != '' ">
+				and `academictitle` = #{academictitle}
+			</if>
+
+			<if test="school != null and school != '' ">
+				and `school` = #{school}
+			</if>
+
+			<if test="status != null and status != '' ">
+				and `status` = #{status}
+			</if>
+
+			<if test="orgid != null and orgid != '' ">
+				and `orgid` = #{orgid}
+			</if>
+
+			<if test="deptId != null and deptId != '' ">
+				and `dept_id` = #{deptId}
+			</if>
+
+			<if test="createTime != null and createTime != '' ">
+				and `create_time` = #{createTime}
+			</if>
+
+		</where>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -58,61 +195,135 @@
 		select * from sys_user where username = #{username}
 	</select>
 	
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.SysUserEntity" useGeneratedKeys="true" keyProperty="userId">
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.SysUserEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_user
 		(
-			`user_id`, 
 			`username`,
 			`fullname`,
-			`password`, 
-			`email`, 
-			`mobile`, 
+			`password`,
+			`entrytime`,
+			`email`,
+			`englishname`,
+			`brithday`,
+			`englishlevel`,
+			`graduationtime`,
+			`residence`,
+			`census`,
+			`educationexperience`,
+			`workexperience`,
+			`family`,
+			`mobile`,
+			`startedworktime`,
+			`name`,
+			`gender`,
+			`nationality`,
+			`computerlevel`,
+			`major`,
+			`thermobile`,
+			`vacationyear`,
+			`vacationlastyear`,
+			`identification`,
+			`qulification`,
+			`marriage`,
+			`academictitle`,
+			`school`,
 			`status`,
+			`orgid`,
 			`dept_id`,
 			`create_time`
 		)
 		values
 		(
-			#{userId}, 
 			#{username},
 			#{fullname},
-			#{password}, 
-			#{email}, 
-			#{mobile}, 
+			#{password},
+			#{entrytime},
+			#{email},
+			#{englishname},
+			#{brithday},
+			#{englishlevel},
+			#{graduationtime},
+			#{residence},
+			#{census},
+			#{educationexperience},
+			#{workexperience},
+			#{family},
+			#{mobile},
+			#{startedworktime},
+			#{name},
+			#{gender},
+			#{nationality},
+			#{computerlevel},
+			#{major},
+			#{thermobile},
+			#{vacationyear},
+			#{vacationlastyear},
+			#{identification},
+			#{qulification},
+			#{marriage},
+			#{academictitle},
+			#{school},
 			#{status},
+			#{orgid},
 			#{deptId},
 			#{createTime}
 		)
 	</insert>
 	 
 	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.SysUserEntity">
-		update sys_user 
-		<set> 
-			<if test="username != null">`username` = #{username}, </if>
-			<if test="fullname != null">`fullname` = #{fullname}, </if>
-			<if test="password != null">`password` = #{password}, </if>
-			<if test="email != null">`email` = #{email}, </if>
-			<if test="mobile != null">`mobile` = #{mobile}, </if>
-			<if test="status != null">`status` = #{status}, </if>
-			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+		update sys_user
+		<set>
+			<if test="username != null">`username` = #{username},</if>
+			<if test="fullname != null">`fullname` = #{fullname},</if>
+			<if test="password != null">`password` = #{password},</if>
+			<if test="entrytime != null">`entrytime` = #{entrytime},</if>
+			<if test="email != null">`email` = #{email},</if>
+			<if test="englishname != null">`englishname` = #{englishname},</if>
+			<if test="brithday != null">`brithday` = #{brithday},</if>
+			<if test="englishlevel != null">`englishlevel` = #{englishlevel},</if>
+			<if test="graduationtime != null">`graduationtime` = #{graduationtime},</if>
+			<if test="residence != null">`residence` = #{residence},</if>
+			<if test="census != null">`census` = #{census},</if>
+			<if test="educationexperience != null">`educationexperience` = #{educationexperience},</if>
+			<if test="workexperience != null">`workexperience` = #{workexperience},</if>
+			<if test="family != null">`family` = #{family},</if>
+			<if test="mobile != null">`mobile` = #{mobile},</if>
+			<if test="startedworktime != null">`startedworktime` = #{startedworktime},</if>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="gender != null">`gender` = #{gender},</if>
+			<if test="nationality != null">`nationality` = #{nationality},</if>
+			<if test="computerlevel != null">`computerlevel` = #{computerlevel},</if>
+			<if test="major != null">`major` = #{major},</if>
+			<if test="thermobile != null">`thermobile` = #{thermobile},</if>
+			<if test="vacationyear != null">`vacationyear` = #{vacationyear},</if>
+			<if test="vacationlastyear != null">`vacationlastyear` = #{vacationlastyear},</if>
+			<if test="identification != null">`identification` = #{identification},</if>
+			<if test="qulification != null">`qulification` = #{qulification},</if>
+			<if test="marriage != null">`marriage` = #{marriage},</if>
+			<if test="academictitle != null">`academictitle` = #{academictitle},</if>
+			<if test="school != null">`school` = #{school},</if>
+			<if test="status != null">`status` = #{status},</if>
+			<if test="orgid != null">`orgid` = #{orgid},</if>
+			<if test="deptId != null">`dept_id` = #{deptId},</if>
+			<if test="createTime != null">`create_time` = #{createTime}</if>
 		</set>
-		where user_id = #{userId}
+		where id = #{id}
 	</update>
 	
 	<update id="updatePassword" parameterType="map">
 		update sys_user set `password` = #{newPassword} 
-			where user_id = #{userId} and password = #{password}
+			where id = #{id} and password = #{password}
 	</update>
 	
 	<delete id="deleteBatch">
-		delete from sys_user where user_id in 
-		<foreach item="userId" collection="array" open="(" separator="," close=")">
-			#{userId}
+		delete from sys_user where  id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
 		</foreach>
 		;
 		delete from sys_user_role where user_id in 
-		<foreach item="userId" collection="array" open="(" separator="," close=")">
-			#{userId}
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
 		</foreach>
 	</delete>
 

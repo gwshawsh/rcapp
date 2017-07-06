@@ -163,7 +163,7 @@ public class EmptymainController extends AbstractController {
 				}
 				emptymain.setBillstatus(EmptyBillStatus.AUDIT);
 				emptymain.setAccdate(new Date());
-				emptymain.setAccuser(ShiroUtils.getUserName());
+				emptymain.setAccuser(ShiroUtils.getUserId());
 				emptymain.setUptdate(new Date());
 				emptymainService.update(emptymain);
 
@@ -183,8 +183,8 @@ public class EmptymainController extends AbstractController {
 					takeboxmainEntity.setBoxtype(emptymain.getBoxtype());
 					takeboxmainEntity.setTakeboxplaceid(emptymain.getTakeboxplaceid());
 					takeboxmainEntity.setEndplaceid(emptymain.getEndplaceid());
-					takeboxmainEntity.setBgnplanarrtime(emptymain.getBgnplanarrtime());
-					takeboxmainEntity.setEndplanarrtime(emptymain.getEndplanarrtime());
+					takeboxmainEntity.setBgnplanarrtime(emptymain.getPlanarrdatetime());
+					takeboxmainEntity.setEndplanarrtime(emptymain.getPlanarrdatetime());
 					takeboxmainEntity.setMakedate(new Date());
 					takeboxmainEntity.setMakeuser(ShiroUtils.getUserName());
 					takeboxmainEntity.setUptdate(new Date());
@@ -224,8 +224,8 @@ public class EmptymainController extends AbstractController {
 					transboxmainEntity.setBoxqty(emptymain.getBoxqty());
 					transboxmainEntity.setBoxtype(emptymain.getBoxtype());
 					transboxmainEntity.setTakeboxplaceid(emptymain.getTakeboxplaceid());
-					transboxmainEntity.setBgnplanarrtime(emptymain.getBgnplanarrtime());
-					transboxmainEntity.setEndplanarrtime(emptymain.getEndplanarrtime());
+					transboxmainEntity.setBgnplanarrtime(emptymain.getPlanarrdatetime());
+					transboxmainEntity.setEndplanarrtime(emptymain.getPlanarrdatetime());
 					transboxmainEntity.setMakedate(new Date());
 					transboxmainEntity.setMakeuser(ShiroUtils.getUserName());
 					transboxmainEntity.setUptdate(new Date());

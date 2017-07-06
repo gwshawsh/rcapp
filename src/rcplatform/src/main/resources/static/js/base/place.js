@@ -18,8 +18,13 @@ var setting = {
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+	    q:{
+                                                                            code:"",                                                                 name:"",                                                                 linkman:"",                                                                 phone:"",                                                                 address:"",                                                                 longitude:"",                                                                 latitude:"",                                                                 organization:"",                                                                 placetype:""                            
+        },
 		showList: true,
+        showQuery:false,
 		title: null,
+        fileslist:[],
     //用于日期快捷控件
     pickerOptions1: {
         shortcuts: [{
@@ -54,6 +59,9 @@ var vm = new Vue({
         }
 	},
 	methods: {
+	    showQueryPanel:function(){
+	        vm.showQuery=!vm.showQuery;
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -62,10 +70,10 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.place = {
-            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
-                                                organizationname:"",
-                                                                placetypeenumvaluename:"",
-                                                                                                                                                                                code:"",                                                                                                                                                             name:"",                                                                                                                                                             linkman:"",                                                                                                                                                             phone:"",                                                                                                                                                             address:"",                                                                                                                                                             longitude:"",                                                                                                                                                             latitude:"",                                                                                                                                                             organization:"",                                                                                                                                                             placetype:""                                                                        
+                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                            organizationname:"",
+                                                                                placetypeenumvaluename:"",
+                                                                                                                                                                code:"",                                                                                                                                     name:"",                                                                                                                                     linkman:"",                                                                                                                                     phone:"",                                                                                                                                     address:"",                                                                                                                                     longitude:"",                                                                                                                                     latitude:"",                                                                                                                                     organization:"",                                                                                                                                     placetype:""                                                            
             };
 		},
 		update: function (event) {
@@ -162,8 +170,7 @@ var vm = new Vue({
                 }
             });
         },
-
-
+        
         getInfo: function(id){
             $.get("../place/info/"+id, function(r){
                 vm.place = r.place;
@@ -173,8 +180,24 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
+                postData: {'query': JSON.stringify(vm.q)},
                 page:page
             }).trigger("reloadGrid");
+        },
+        upload_on_success:function (response,file,fileList) {
+
+            if(!vm.place.files){
+                vm.place.files=[];
+            }
+            if(response.page.list&&response.page.list.length>0){
+                vm.place.files.push(response.page.list[0]);
+            }
+
+
+        },
+
+        upload_on_change: function (file, fileList) {
+            this.fileslist = fileList;
         }
 	}
 });
@@ -184,15 +207,15 @@ $(function () {
         url: '../place/list',
         datatype: "json",
         colModel: [
-							                    { label: 'id', name: 'id', width: 50, key: true },
-                							                    { label: '编码', name: 'code', width: 80 }, 
-											                    { label: '名称', name: 'name', width: 80 }, 
-											                    { label: '联系人', name: 'linkman', width: 80 }, 
-											                    { label: '联系电话', name: 'phone', width: 80 }, 
-											                    { label: '地址', name: 'address', width: 80 }, 
-											                    { label: '经度', name: 'longitude', width: 80 }, 
-											                    { label: '纬度', name: 'latitude', width: 80 }, 
-											                    { label: '所属组织', name: 'organizationname', width: 80 },                 							                    { label: '地点类型', name: 'placetypeenumvaluename', width: 80 }                			        ],
+			                                                            { label: 'id', name: 'id', width: 50, key: true,hidden:true },
+                                    			                                                            { label: '编码', name: 'code', width: 80 }, 
+                                    			                                                            { label: '名称', name: 'name', width: 80 }, 
+                                    			                                                            { label: '联系人', name: 'linkman', width: 80 }, 
+                                    			                                                            { label: '联系电话', name: 'phone', width: 80 }, 
+                                    			                                                            { label: '地址', name: 'address', width: 80 }, 
+                                    			                                                            { label: '经度', name: 'longitude', width: 80 }, 
+                                    			                                                            { label: '纬度', name: 'latitude', width: 80 }, 
+                                    			                                                            { label: '所属组织', name: 'organizationname', width: 80 },                                     			                                                            { label: '地点类型', name: 'placetypeenumvaluename', width: 80 }                                    			        ],
         viewrecords: true,
         height: 385,
         rowNum: 10,

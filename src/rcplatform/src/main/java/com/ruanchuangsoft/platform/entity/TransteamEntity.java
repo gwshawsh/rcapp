@@ -1,7 +1,10 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
+
 
 import java.math.BigDecimal;
 
@@ -12,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 19:02:25
+ * @date 2017-07-06 15:52:20
  */
-public class TransteamEntity implements Serializable {
+public class TransteamEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -36,36 +39,9 @@ public class TransteamEntity implements Serializable {
 	//账户信息
 	private String accountInformation;
 
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	        //车辆类型
+							        //车辆类型
         private String vehicleTypeenumvaluename;
-	
-
-
-	
-
-
-	
-
-
+			
 	/**
 	 * 设置：
 	 */
@@ -188,4 +164,58 @@ public class TransteamEntity implements Serializable {
         public String getVehicleTypeenumvaluename() {
             return vehicleTypeenumvaluename;
         }
-        							}
+        							
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">编码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">名称</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getName()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">地址</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getAddress()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">联系人</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getContact()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">联系电话</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getContactNumber()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">车辆类型</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getVehicleTypeenumvaluename()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">开票信息</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getBillingInformation()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">账户信息</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getAccountInformation()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

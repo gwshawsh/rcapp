@@ -12,7 +12,9 @@
 						    						               		ifnull((select name from  place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
 						    						               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
 						    			    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
-						    			    			    			    			    			    	        a.*
+						    						               		ifnull((select fullname from  sys_user b where a.makeuser=b.id),'') as makeuserfullname,
+						    			    						               		ifnull((select fullname from  sys_user b where a.accuser=b.id),'') as accuserfullname,
+						    			    			    	        a.*
 		from leaveportmain a where id = #{value}
 	</select>
 
@@ -25,52 +27,96 @@
 																               		ifnull((select name from  place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
 																               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
 																															                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
-																																		        a.*
+																               		ifnull((select fullname from  sys_user b where a.makeuser=b.id),'') as makeuserfullname,
+																					               		ifnull((select fullname from  sys_user b where a.accuser=b.id),'') as accuserfullname,
+																			        a.*
 		from leaveportmain a
-		<where>
-			                <if test="id != null and id != '' ">
-                `id` = #{id} and 				</if>
-			                <if test="billno != null and billno != '' ">
-                `billno` = #{billno} and 				</if>
-			                <if test="orgid != null and orgid != '' ">
-                `orgid` = #{orgid} and 				</if>
-			                <if test="ladingcode != null and ladingcode != '' ">
-                `ladingcode` = #{ladingcode} and 				</if>
-			                <if test="shipname != null and shipname != '' ">
-                `shipname` = #{shipname} and 				</if>
-			                <if test="flight != null and flight != '' ">
-                `flight` = #{flight} and 				</if>
-			                <if test="portid != null and portid != '' ">
-                `portid` = #{portid} and 				</if>
-			                <if test="shipcompany != null and shipcompany != '' ">
-                `shipcompany` = #{shipcompany} and 				</if>
-			                <if test="boxqty != null and boxqty != '' ">
-                `boxqty` = #{boxqty} and 				</if>
-			                <if test="boxtype != null and boxtype != '' ">
-                `boxtype` = #{boxtype} and 				</if>
-			                <if test="takeboxplaceid != null and takeboxplaceid != '' ">
-                `takeboxplaceid` = #{takeboxplaceid} and 				</if>
-			                <if test="endplaceid != null and endplaceid != '' ">
-                `endplaceid` = #{endplaceid} and 				</if>
-			                <if test="planarrporttime != null and planarrporttime != '' ">
-                `planarrporttime` = #{planarrporttime} and 				</if>
-			                <if test="planarrtime != null and planarrtime != '' ">
-                `planarrtime` = #{planarrtime} and 				</if>
-			                <if test="remark != null and remark != '' ">
-                `remark` = #{remark} and 				</if>
-			                <if test="billstatus != null and billstatus != '' ">
-                `billstatus` = #{billstatus} and 				</if>
-			                <if test="makeuser != null and makeuser != '' ">
-                `makeuser` = #{makeuser} and 				</if>
-			                <if test="makedate != null and makedate != '' ">
-                `makedate` = #{makedate} and 				</if>
-			                <if test="accuser != null and accuser != '' ">
-                `accuser` = #{accuser} and 				</if>
-			                <if test="accdate != null and accdate != '' ">
-                `accdate` = #{accdate} and 				</if>
-			                <if test="uptdate != null and uptdate != '' ">
-                `uptdate` = #{uptdate}				</if>
-					</where>
+        <where>
+							                    <if test="id != null and id != '' ">
+						 `id` = #{id}
+                    </if>
+				
+							                    <if test="billno != null and billno != '' ">
+						 and  `billno` = #{billno}
+                    </if>
+				
+							                    <if test="orgid != null and orgid != '' ">
+						 and  `orgid` = #{orgid}
+                    </if>
+				
+							                    <if test="ladingcode != null and ladingcode != '' ">
+						 and  `ladingcode` = #{ladingcode}
+                    </if>
+				
+							                    <if test="shipname != null and shipname != '' ">
+						 and  `shipname` = #{shipname}
+                    </if>
+				
+							                    <if test="flight != null and flight != '' ">
+						 and  `flight` = #{flight}
+                    </if>
+				
+							                    <if test="portid != null and portid != '' ">
+						 and  `portid` = #{portid}
+                    </if>
+				
+							                    <if test="shipcompany != null and shipcompany != '' ">
+						 and  `shipcompany` = #{shipcompany}
+                    </if>
+				
+							                    <if test="boxqty != null and boxqty != '' ">
+						 and  `boxqty` = #{boxqty}
+                    </if>
+				
+							                    <if test="boxtype != null and boxtype != '' ">
+						 and  `boxtype` = #{boxtype}
+                    </if>
+				
+							                    <if test="takeboxplaceid != null and takeboxplaceid != '' ">
+						 and  `takeboxplaceid` = #{takeboxplaceid}
+                    </if>
+				
+							                    <if test="endplaceid != null and endplaceid != '' ">
+						 and  `endplaceid` = #{endplaceid}
+                    </if>
+				
+							                    <if test="planarrporttime != null and planarrporttime != '' ">
+						 and  `planarrporttime` = #{planarrporttime}
+                    </if>
+				
+							                    <if test="planarrtime != null and planarrtime != '' ">
+						 and  `planarrtime` = #{planarrtime}
+                    </if>
+				
+							                    <if test="remark != null and remark != '' ">
+						 and  `remark` = #{remark}
+                    </if>
+				
+							                    <if test="billstatus != null and billstatus != '' ">
+						 and  `billstatus` = #{billstatus}
+                    </if>
+				
+							                    <if test="makeuser != null and makeuser != '' ">
+						 and  `makeuser` = #{makeuser}
+                    </if>
+				
+							                    <if test="makedate != null and makedate != '' ">
+						 and  `makedate` = #{makedate}
+                    </if>
+				
+							                    <if test="accuser != null and accuser != '' ">
+						 and  `accuser` = #{accuser}
+                    </if>
+				
+							                    <if test="accdate != null and accdate != '' ">
+						 and  `accdate` = #{accdate}
+                    </if>
+				
+							                    <if test="uptdate != null and uptdate != '' ">
+						 and  `uptdate` = #{uptdate}
+                    </if>
+				
+			        </where>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

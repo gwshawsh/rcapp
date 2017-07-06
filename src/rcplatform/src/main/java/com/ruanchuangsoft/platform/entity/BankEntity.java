@@ -1,7 +1,10 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
+
 
 import java.math.BigDecimal;
 
@@ -12,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 19:02:25
+ * @date 2017-07-06 15:52:19
  */
-public class BankEntity implements Serializable {
+public class BankEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -23,8 +26,6 @@ public class BankEntity implements Serializable {
 	private String code;
 	//名称
 	private String name;
-	//帐号
-	private String accountno;
 	//币别
 	private Integer boctid;
 	//地址
@@ -44,46 +45,7 @@ public class BankEntity implements Serializable {
 	//备注
 	private String remark;
 
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
+												
 	/**
 	 * 设置：
 	 */
@@ -119,18 +81,6 @@ public class BankEntity implements Serializable {
 	 */
 	public String getName() {
 		return name;
-	}
-	/**
-	 * 设置：帐号
-	 */
-	public void setAccountno(String accountno) {
-		this.accountno = accountno;
-	}
-	/**
-	 * 获取：帐号
-	 */
-	public String getAccountno() {
-		return accountno;
 	}
 	/**
 	 * 设置：币别
@@ -242,4 +192,73 @@ public class BankEntity implements Serializable {
 	}
 
 
-																																								}
+																																					
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">编码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">名称</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getName()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">币别</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getBoctid()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">地址</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getAddress()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">电话</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getTel()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">传真</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getFax()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">联系人</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getMan()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">假删</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getDel()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">创建人员</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getMakeuser()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">创建日期</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getMakedate()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">备注</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRemark()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

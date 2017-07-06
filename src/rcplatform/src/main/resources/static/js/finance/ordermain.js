@@ -37,6 +37,7 @@ var vm = new Vue({
         showList: true,
         showDetailList: true,
         title: null,
+        fileslist:[],
         //用于日期快捷控件
         pickerOptions1: {
             shortcuts: [{
@@ -87,7 +88,7 @@ var vm = new Vue({
             ordertype: "",
             budgetmainid: "",
             billstatus: "",
-            makeuser: gUserName,
+            makeuser: gUserId,
             makedate: "",
             accuser: "-1",
             accdate: "",

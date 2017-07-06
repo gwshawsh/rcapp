@@ -73,18 +73,18 @@ public class SysUserServiceImpl implements SysUserService {
 		sysUserDao.save(user);
 		
 		//保存用户与角色关系
-		sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
+		sysUserRoleService.saveOrUpdate(user.getId(), user.getRoleIdList());
 
 
 		//更新到工作流中
-		User userWork=identityService.newUser(String.valueOf(user.getUserId()));
+		User userWork=identityService.newUser(String.valueOf(user.getId()));
 		userWork.setFirstName(user.getUsername());
 		identityService.saveUser(userWork);
 
 		//更新工作流角色
 		for (Long roleid :
 				user.getRoleIdList()) {
-			identityService.createMembership(String.valueOf(user.getUserId()),String.valueOf(roleid));
+			identityService.createMembership(String.valueOf(user.getId()),String.valueOf(roleid));
 		}
 
 	}
@@ -100,10 +100,10 @@ public class SysUserServiceImpl implements SysUserService {
 		sysUserDao.update(user);
 		
 		//保存用户与角色关系
-		sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
+		sysUserRoleService.saveOrUpdate(user.getId(), user.getRoleIdList());
 
 		//更新工作流用户
-		User userWork=identityService.createUserQuery().userId(String.valueOf(user.getUserId())).singleResult();
+		User userWork=identityService.createUserQuery().userId(String.valueOf(user.getId())).singleResult();
 		if(userWork!=null) {
 			userWork.setFirstName(user.getUsername());
 			identityService.saveUser(userWork);
@@ -113,8 +113,8 @@ public class SysUserServiceImpl implements SysUserService {
 		for (Long roleid :
 				user.getRoleIdList()) {
 			//检测是否存在
-			identityService.deleteMembership(String.valueOf(user.getUserId()),String.valueOf(roleid));
-			identityService.createMembership(String.valueOf(user.getUserId()),String.valueOf(roleid));
+			identityService.deleteMembership(String.valueOf(user.getId()),String.valueOf(roleid));
+			identityService.createMembership(String.valueOf(user.getId()),String.valueOf(roleid));
 		}
 
 	}

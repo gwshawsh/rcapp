@@ -38,6 +38,10 @@
             </el-button>
             $end
             #if($classname.endsWith("main"))
+                $update
+                <el-button type="primary" v-on:click="submitworkflow"><i class="fa fa-pencil-square-o"></i>&nbsp;提交
+                </el-button>
+                $end
                 $copybill
                 <el-button type="primary" v-on:click="copybill"><i class="fa fa-trash-o"></i>&nbsp;复制
                 </el-button>
@@ -135,6 +139,28 @@
         <div id="jqGridPager"></div>
     </div>
 
+    <div v-show="showDetailList" class="panel panel-default">
+
+
+                <el-tabs type="border-card">
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-document"></i> 附件</span>
+                        <table id="jqGridFiles"></table>
+                        <div id="jqGridPagerFiles"></div>
+                    </el-tab-pane>
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                        <table id="jqGridComments"></table>
+                        <div id="jqGridPagerComments"></div>
+                    </el-tab-pane>
+                </el-tabs>
+
+
+
+
+    </div>
+
+
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">
             <el-row>
@@ -167,7 +193,7 @@
              )
                     <el-form-item label="${column.comments}" class="padding-top: 5px;width:40%">
 
-                             #if($column.columnName.endsWith("date"))
+                             #if($column.columnName.endsWith("date")||$column.columnName.endsWith("day"))
                                 <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 100%;"></el-date-picker>
                              #elseif($column.columnName.equalsIgnoreCase("remark"))
                                 <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="${classname}.${column.attrname}" style="width: 100%;"></el-input>

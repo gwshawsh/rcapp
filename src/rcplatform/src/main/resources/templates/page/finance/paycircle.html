@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>结算周期</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="panel-heading">
+            <el-button-group>
+            <@shiro.hasPermission name="paycircle:list">
+            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="paycircle:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="paycircle:save">
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="paycircle:update">
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
+            </@shiro.hasPermission>
+                        <@shiro.hasPermission name="paycircle:delete">
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
+            </@shiro.hasPermission>
+            </el-button-group>
+
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
+
+                                                                                                                    <el-form-item label="编码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.code" placeholder="编码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="名称" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.name" placeholder="名称"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="账期类型" >
+
+                                                                    <el-select style="width: 350px" v-model="q.paytype"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum2005"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="支付日1" >
+
+                                                                    <el-select style="width: 350px" v-model="q.payday1"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_transline"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="支付日2" >
+
+                                                                    <el-select style="width: 350px" v-model="q.payday2"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_boxs"
+                                                :key="item.id"
+                                                :label="item.boxsize"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="更新时间" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.uptdate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+
+
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
+
+                            
+                                                <el-form-item label="编码" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="paycircle.code" placeholder="编码"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="名称" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="paycircle.name" placeholder="名称"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="账期类型" class="padding-top: 5px;width:40%">
+
+                                                             <el-select style="width: 350px" v-model="paycircle.paytype"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_enum2005"
+                                            :key="item.enumvalueid"
+                                            :label="item.enumvaluename"
+                                            :value="item.enumvalueid">
+                                    </el-option>
+                                </el-select>
+
+
+                             
+                    </el-form-item>
+                
+                                                <el-form-item label="支付日1" class="padding-top: 5px;width:40%">
+
+                                                             <el-select style="width: 350px" v-model="paycircle.payday1"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_transline"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            
+                    </el-form-item>
+                
+                                                <el-form-item label="支付日2" class="padding-top: 5px;width:40%">
+
+                                                             <el-select style="width: 350px" v-model="paycircle.payday2"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_boxs"
+                                            :key="item.id"
+                                            :label="item.boxsize"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            
+                    </el-form-item>
+                
+                            
+            
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
+
+        </el-form>
+    </div>
+</div>
+
+
+                                                                                        
+
+<#include "base/billcomments_ref.html">
+<script src="${ctxPath}/static/js/finance/paycircle.js"></script>
+</body>
+</html>

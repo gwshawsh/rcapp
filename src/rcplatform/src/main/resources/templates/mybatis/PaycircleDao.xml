@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.PaycircleDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.PaycircleEntity">
+		select
+				    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='2005'),'') as paytypeenumvaluename,
+						    						               		ifnull((select name from  transline b where a.payday1=b.id),'') as payday1name,
+						    						               		ifnull((select boxsize from  boxs b where a.payday2=b.id),'') as payday2boxsize,
+						    			    	        a.*
+		from paycircle a where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.PaycircleEntity">
+		select
+																								                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='2005'),'') as paytypeenumvaluename,
+																               		ifnull((select name from  transline b where a.payday1=b.id),'') as payday1name,
+																               		ifnull((select boxsize from  boxs b where a.payday2=b.id),'') as payday2boxsize,
+														        a.*
+		from paycircle a
+        <where>
+							                    <if test="id != null and id != '' ">
+						 `id` = #{id}
+                    </if>
+				
+							                    <if test="code != null and code != '' ">
+						 and  `code` = #{code}
+                    </if>
+				
+							                    <if test="name != null and name != '' ">
+						 and  `name` = #{name}
+                    </if>
+				
+							                    <if test="paytype != null and paytype != '' ">
+						 and  `paytype` = #{paytype}
+                    </if>
+				
+							                    <if test="payday1 != null and payday1 != '' ">
+						 and  `payday1` = #{payday1}
+                    </if>
+				
+							                    <if test="payday2 != null and payday2 != '' ">
+						 and  `payday2` = #{payday2}
+                    </if>
+				
+							                    <if test="uptdate != null and uptdate != '' ">
+						 and  `uptdate` = #{uptdate}
+                    </if>
+				
+			        </where>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from paycircle 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.PaycircleEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into paycircle
+		(
+			`code`, 
+			`name`, 
+			`paytype`, 
+			`payday1`, 
+			`payday2`, 
+			`uptdate`
+		)
+		values
+		(
+			#{code}, 
+			#{name}, 
+			#{paytype}, 
+			#{payday1}, 
+			#{payday2}, 
+			#{uptdate}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.PaycircleEntity">
+		update paycircle 
+		<set>
+			<if test="code != null">`code` = #{code}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="paytype != null">`paytype` = #{paytype}, </if>
+			<if test="payday1 != null">`payday1` = #{payday1}, </if>
+			<if test="payday2 != null">`payday2` = #{payday2}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from paycircle where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from paycircle where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,7 +1,10 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
+
 
 import java.math.BigDecimal;
 
@@ -12,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 19:02:25
+ * @date 2017-07-06 15:52:19
  */
-public class CartypeEntity implements Serializable {
+public class CartypeEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -28,22 +31,7 @@ public class CartypeEntity implements Serializable {
 	//备注
 	private String remark;
 
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
+					
 	/**
 	 * 设置：
 	 */
@@ -106,4 +94,38 @@ public class CartypeEntity implements Serializable {
 	}
 
 
-																}
+																
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">编码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCartypecode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">姓名</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCartypename()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">更新时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getUptdate()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">备注</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRemark()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

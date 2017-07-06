@@ -182,7 +182,7 @@ public class FactorymainController extends AbstractController {
 				}
 				factorymainEntity.setBillstatus(EmptyBillStatus.AUDIT);
 				factorymainEntity.setAccdate(new Date());
-				factorymainEntity.setAccuser(ShiroUtils.getUserName());
+				factorymainEntity.setAccuser(ShiroUtils.getUserId());
 				factorymainEntity.setUptdate(new Date());
 				factorymainService.update(factorymainEntity);
 
@@ -249,7 +249,7 @@ public class FactorymainController extends AbstractController {
 				}
 				factorymainEntity.setBillstatus(EmptyBillStatus.NEW);
 				factorymainEntity.setAccdate(new Date());
-				factorymainEntity.setAccuser("");
+				factorymainEntity.setAccuser(ShiroUtils.getUserId());
 				factorymainEntity.setUptdate(new Date());
 				factorymainService.update(factorymainEntity);
 

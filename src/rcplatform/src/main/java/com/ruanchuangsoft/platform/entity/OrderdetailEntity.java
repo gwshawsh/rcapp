@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-02 22:13:11
+ * @date 2017-07-06 18:31:15
  */
 public class OrderdetailEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -200,15 +200,11 @@ public class OrderdetailEntity extends AbstractEntity implements Serializable {
          */
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer("<form class=\"el-form demo-table-expand el-form--label-left el-form--inline\">");
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\"></label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getId()+"</span>\n" +
-                        "  </div> </div>");
-			
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
 					                sb.append(" <div class=\"el-form-item\">\n" +
                         "  <label class=\"el-form-item__label\">单据号</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getBillno()+"</span>\n" +
+                        "  <div class=\"el-form-item__content\"><a class='billno' onclick=\"openfunc('orderdetail/index','订购明细表')\"><span>"+getBillno()+"</span></a>\n" +
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +

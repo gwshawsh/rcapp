@@ -143,7 +143,7 @@ public abstract class AbstractController {
 	 * @return the user id
 	 */
 	protected Long getUserId() {
-		return getUser().getUserId();
+		return getUser().getId();
 	}
 
 

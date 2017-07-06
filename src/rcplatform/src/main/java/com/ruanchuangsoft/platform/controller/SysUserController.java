@@ -40,7 +40,7 @@ public class SysUserController extends AbstractController {
 	@RequestMapping("/index")
 	public ModelAndView index() {
 
-		setViewname("sys/user");
+		setViewname("sys/sysuser");
 
 		ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
@@ -77,7 +77,7 @@ public class SysUserController extends AbstractController {
 	 */
 	@RequestMapping("/info")
 	public R info(){
-		return R.ok().put("user", getUser());
+		return R.ok().put("sysUser", getUser());
 	}
 	
 	/**
@@ -119,7 +119,7 @@ public class SysUserController extends AbstractController {
 		List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
 		user.setRoleIdList(roleIdList);
 		
-		return R.ok().put("user", user);
+		return R.ok().put("sysUser", user);
 	}
 	
 	/**

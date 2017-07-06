@@ -17,8 +17,13 @@ var setting = {
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+	    q:{
+                                                                            carcode:"",                                                                 carname:"",                                                                 carinfo:"",                                                                 driverid:"",                                                                 drivername:"",                                                                 ownertype:"",                                                                 transteam:"",                                                                 cartype:""                            
+        },
 		showList: true,
+        showQuery:false,
 		title: null,
+        fileslist:[],
     //用于日期快捷控件
     pickerOptions1: {
         shortcuts: [{
@@ -46,18 +51,20 @@ var vm = new Vue({
 					                                    ref_enum2003:[],
                 								                					ref_transteam:[],
 
-                								                					ref_cartype:[],
-
+                								                                    ref_enum1007:[],
                 					
         //创建实体类
         car: {
                                                 ownertypeenumvaluename:"",
                                                                 transteamname:"",
-                                                                cartypename:"",
+                                                                cartypeenumvaluename:"",
                                                                                                         carcode:"",                                                                 carname:"",                                                                 carinfo:"",                                                                 driverid:"",                                                                 drivername:"",                                                                 ownertype:"",                                                                 transteam:"",                                                                 cartype:""                            
         }
 	},
 	methods: {
+	    showQueryPanel:function(){
+	        vm.showQuery=!vm.showQuery;
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -66,11 +73,11 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.car = {
-            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
-                                                ownertypeenumvaluename:"",
-                                                                transteamname:"",
-                                                                cartypename:"",
-                                                                                                                                                                                carcode:"",                                                                                                                                                             carname:"",                                                                                                                                                             carinfo:"",                                                                                                                                                             driverid:"",                                                                                                                                                             drivername:"",                                                                                                                                                             ownertype:"",                                                                                                                                                             transteam:"",                                                                                                                                                             cartype:""                                                                        
+                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                            ownertypeenumvaluename:"",
+                                                                                transteamname:"",
+                                                                                cartypeenumvaluename:"",
+                                                                                                                                                                carcode:"",                                                                                                                                     carname:"",                                                                                                                                     carinfo:"",                                                                                                                                     driverid:"",                                                                                                                                     drivername:"",                                                                                                                                     ownertype:"",                                                                                                                                     transteam:"",                                                                                                                                     cartype:""                                                            
             };
 		},
 		update: function (event) {
@@ -138,16 +145,14 @@ var vm = new Vue({
                     });
                 },
 
-            					                getRefcartype: function () {
-                    $.get("../cartype/list?page=1&limit=1000", function (r) {
-                        vm.ref_cartype = r.page.list;
+            					                getRef1007: function () {
+                    $.get("../enumtable/listone?enumid=1007&page=1&limit=1000", function (r) {
+                        vm.ref_enum1007 = r.page.list;
                     });
                 },
-
             		
         //生成弹出树形空间参照
-
-
+        
         getInfo: function(id){
             $.get("../car/info/"+id, function(r){
                 vm.car = r.car;
@@ -157,8 +162,24 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
+                postData: {'query': JSON.stringify(vm.q)},
                 page:page
             }).trigger("reloadGrid");
+        },
+        upload_on_success:function (response,file,fileList) {
+
+            if(!vm.car.files){
+                vm.car.files=[];
+            }
+            if(response.page.list&&response.page.list.length>0){
+                vm.car.files.push(response.page.list[0]);
+            }
+
+
+        },
+
+        upload_on_change: function (file, fileList) {
+            this.fileslist = fileList;
         }
 	}
 });
@@ -168,13 +189,13 @@ $(function () {
         url: '../car/list',
         datatype: "json",
         colModel: [
-							                    { label: 'id', name: 'id', width: 50, key: true },
-                							                    { label: '编码', name: 'carcode', width: 80 }, 
-											                    { label: '车牌号', name: 'carname', width: 80 }, 
-											                    { label: '车辆辨识信息', name: 'carinfo', width: 80 }, 
-											                    { label: '主司机编码', name: 'driverid', width: 80 }, 
-											                    { label: '主司机姓名', name: 'drivername', width: 80 }, 
-											                    { label: '车辆所属', name: 'ownertypeenumvaluename', width: 80 },                 							                    { label: '所属车队', name: 'transteamname', width: 80 },                 							                    { label: '车辆类型', name: 'cartypename', width: 80 }                			        ],
+			                                                            { label: 'id', name: 'id', width: 50, key: true,hidden:true },
+                                    			                                                            { label: '编码', name: 'carcode', width: 80 }, 
+                                    			                                                            { label: '车牌号', name: 'carname', width: 80 }, 
+                                    			                                                            { label: '车辆辨识信息', name: 'carinfo', width: 80 }, 
+                                    			                                                            { label: '主司机编码', name: 'driverid', width: 80 }, 
+                                    			                                                            { label: '主司机姓名', name: 'drivername', width: 80 }, 
+                                    			                                                            { label: '车辆所属', name: 'ownertypeenumvaluename', width: 80 },                                     			                                                            { label: '所属车队', name: 'transteamname', width: 80 },                                     			                                                            { label: '车辆类型', name: 'cartypeenumvaluename', width: 80 }                                    			        ],
         viewrecords: true,
         height: 385,
         rowNum: 10,
@@ -206,7 +227,7 @@ $(function () {
     //执行调用参照调用下拉框函数,初始化下拉数据
 			            vm.getRef2003();
         			            vm.getReftransteam();
-        			            vm.getRefcartype();
+        			            vm.getRef1007();
         	
 
 

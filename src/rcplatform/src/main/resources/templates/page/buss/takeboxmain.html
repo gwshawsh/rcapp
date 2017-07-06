@@ -29,12 +29,21 @@
             <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="takeboxmain:audit">
-            <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
+
+            <@shiro.hasPermission name="takeboxmain:update">
+            <el-button type="primary" v-on:click="takebox"><i class="fa fa-reply"></i>&nbsp;放单
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="takeboxmain:unaudit">
-            <el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
+            <@shiro.hasPermission name="takeboxmain:update">
+            <el-button type="primary" v-on:click="takeboxerror"><i class="fa fa-reply"></i>&nbsp;放单异常
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="takeboxmain:update">
+            <el-button type="primary" v-on:click="takeboxend"><i class="fa fa-reply"></i>&nbsp;放单结束
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="takeboxmain:audit">
+            <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
             </el-button>
             </@shiro.hasPermission>
             <el-button type="primary" v-on:click="showdetail"><i class="fa fa-reply"></i>&nbsp;明细

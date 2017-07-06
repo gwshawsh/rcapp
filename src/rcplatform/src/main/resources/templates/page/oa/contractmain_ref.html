@@ -1,0 +1,128 @@
+<div id="ref_contractmain" style="display: none;padding:10px;">
+    <table id="ref_grid_contractmain"></table>
+    <div id="ref_gridpager_contractmain"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_contractmain(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_contractmain"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_contractmain");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_contractmain").jqGrid({
+            url: '../contractmain/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '单据号',
+                            name: 'billno',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '甲方',
+                            name: 'partyaid',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '乙方',
+                            name: 'partybid',
+                            width: 80
+                        }, 
+                                                                                { label: '收付款类型', name: 'enumvaluename', width: 80 }, 
+                                                                                { label: '付款方式', name: 'enumvaluename', width: 80 }, 
+                                                                                { label: '结算周期', name: 'name', width: 80 }, 
+                                                                                {
+                            label: '生效日期',
+                            name: 'bgndate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '失效日期',
+                            name: 'enddate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '备注',
+                            name: 'remark',
+                            width: 80
+                        }, 
+                                                                                { label: '单据状态', name: 'enumvaluename', width: 80 }, 
+                                                                                { label: '制单人', name: 'fullname', width: 80 }, 
+                                                                                {
+                            label: '制单日期',
+                            name: 'makedate',
+                            width: 80
+                        }, 
+                                                                                { label: '审核人', name: 'fullname', width: 80 }, 
+                                                                                {
+                            label: '审核日期',
+                            name: 'accdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '更新时间',
+                            name: 'uptdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '流程ID',
+                            name: 'pocessinstanceid',
+                            width: 80
+                        }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_contractmain",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_contractmain").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

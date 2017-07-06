@@ -158,6 +158,77 @@ public class TakeboxmainController extends AbstractController {
         return R.ok();
     }
 
+
+
+    /**
+     * 放单
+     */
+    @ResponseBody
+    @RequestMapping("/takebox" )
+    @RequiresPermissions("takeboxmain:update" )
+    public R takebox(@RequestBody Long[] ids) {
+        for (long id : ids) {
+            TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(id);
+            if (takeboxmainEntity != null) {
+                if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
+                    return R.error(1, "单据已经审核,不能执行放单" );
+                }
+                takeboxmainEntity.setBillstatus(TakeboxBillStatus.TAKEBOX);
+                takeboxmainEntity.setAccdate(new Date());
+                takeboxmainEntity.setAccuser(ShiroUtils.getUserName());
+                takeboxmainService.update(takeboxmainEntity);
+            }
+        }
+        return R.ok();
+    }
+
+
+    /**
+     * 放单
+     */
+    @ResponseBody
+    @RequestMapping("/takeboxerror" )
+    @RequiresPermissions("takeboxmain:update" )
+    public R takeboxerror(@RequestBody Long[] ids) {
+        for (long id : ids) {
+            TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(id);
+            if (takeboxmainEntity != null) {
+                if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
+                    return R.error(1, "单据已经审核,不能执行放单" );
+                }
+                takeboxmainEntity.setBillstatus(TakeboxBillStatus.TAKEBOXERROR);
+                takeboxmainEntity.setAccdate(new Date());
+                takeboxmainEntity.setAccuser(ShiroUtils.getUserName());
+                takeboxmainService.update(takeboxmainEntity);
+            }
+        }
+        return R.ok();
+    }
+
+
+    /**
+     * 放单
+     */
+    @ResponseBody
+    @RequestMapping("/takeboxend" )
+    @RequiresPermissions("takeboxmain:update" )
+    public R takeboxend(@RequestBody Long[] ids) {
+        for (long id : ids) {
+            TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(id);
+            if (takeboxmainEntity != null) {
+                if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
+                    return R.error(1, "单据已经审核,不能执行放单" );
+                }
+                takeboxmainEntity.setBillstatus(TakeboxBillStatus.TAKEBOXEND);
+                takeboxmainEntity.setAccdate(new Date());
+                takeboxmainEntity.setAccuser(ShiroUtils.getUserName());
+                takeboxmainService.update(takeboxmainEntity);
+            }
+        }
+        return R.ok();
+    }
+
+
     /**
      * 审核,生成运输单据
      */

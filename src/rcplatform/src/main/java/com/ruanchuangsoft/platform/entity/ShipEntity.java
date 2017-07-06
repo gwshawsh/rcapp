@@ -1,7 +1,10 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
+
 
 import java.math.BigDecimal;
 
@@ -12,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 19:02:25
+ * @date 2017-07-06 15:52:20
  */
-public class ShipEntity implements Serializable {
+public class ShipEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -48,54 +51,9 @@ public class ShipEntity implements Serializable {
 	//航线
 	private String route;
 
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	        //所属区域
+					        //所属区域
         private String regionname;
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
+											
 	/**
 	 * 设置：
 	 */
@@ -290,4 +248,88 @@ public class ShipEntity implements Serializable {
         public String getRegionname() {
             return regionname;
         }
-        																															}
+        																															
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">编码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">中文名称</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getName()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">英文名称</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getEnname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">所属区域</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRegionname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">UN代码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getUncode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">类型</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getType()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">所属船公司</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCompany()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">COS代码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCoscode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">COS船英文名</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCosshipenname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">所属国家</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCountry()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">联系人</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getContact()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">地址</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getAddress()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">电话</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getPhone()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">航线</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRoute()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

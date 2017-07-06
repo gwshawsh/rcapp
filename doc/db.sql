@@ -45,11 +45,13 @@ CREATE TABLE `sys_user` (
 
 
 
---  系统用户
+--  系统用户 
+drop table if exists `sys_user` ;
 CREATE TABLE `sys_user` (
-  `user_id` bigint NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL COMMENT '用户编码',
-   `fullname` varchar(50)  COMMENT '姓名',
+  `fullname` varchar(50)  COMMENT '姓名',
+  `password` varchar(100) COMMENT '密码',
   `entrytime` datetime COMMENT '入职时间',
   `email` varchar(100) COMMENT '邮箱',
   `englishname` varchar(50)  COMMENT '英文名',
@@ -76,14 +78,18 @@ CREATE TABLE `sys_user` (
   `marriage` varchar(4) COMMENT '婚姻状况:enum:1018:enumvalueid:enumvaluename',--  0-未婚，1-已婚 
   `academictitle` varchar(50)  COMMENT '专业职称',
   `school` varchar(50)  COMMENT '毕业院校',
-  `status` tinyint COMMENT '状态  0：禁用   1：正常',
-  `orgid` bigint NULL COMMENT '所属组织',
-  `dept_id` bigint NULL COMMENT '所属部门',
+  `status` tinyint COMMENT '状态:enum:1020:enumvalueid:enumvaluename',
+  `orgid` bigint NULL COMMENT '所属组织:dialogtree:organization:id:name',
+  `dept_id` bigint NULL COMMENT '所属部门:dialogtree:sys_dept:id:name',
   `create_time` datetime COMMENT '创建时间',
-  PRIMARY KEY (`user_id`),
+  PRIMARY KEY (`id`),
   UNIQUE INDEX (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户'
 
+
+--  初始数据  
+-- 初始数据 
+INSERT INTO `sys_user` (`id`, `username`, `password`, `email`, `mobile`, `status`, `create_time`) VALUES ('1', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'root@renren.io', '13612345678', '1', '2016-11-11 11:11:11');
 
 
 
@@ -137,10 +143,6 @@ CREATE TABLE `sys_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=`InnoDB` DEFAULT CHARACTER SET utf8 COMMENT='系统日志';
 
-
---  初始数据  
--- 初始数据 
-INSERT INTO `sys_user` (`user_id`, `username`, `password`, `email`, `mobile`, `status`, `create_time`) VALUES ('1', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'root@renren.io', '13612345678', '1', '2016-11-11 11:11:11');
 
 
 -- 合同管理
@@ -284,15 +286,15 @@ CREATE TABLE `organization` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织管理';
 
 
--- 付款方式
-DROP TABLE IF EXISTS `paytype` ;
-CREATE TABLE `paytype` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `code` varchar(50) COMMENT '编码',
-  `name` varchar(50) COMMENT '名称', 
-  `remark` varchar(50) COMMENT '备注',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='付款方式';
+-- -- 付款方式
+-- DROP TABLE IF EXISTS `paytype` ;
+-- CREATE TABLE `paytype` (
+--   `id` bigint NOT NULL AUTO_INCREMENT,
+--   `code` varchar(50) COMMENT '编码',
+--   `name` varchar(50) COMMENT '名称', 
+--   `remark` varchar(50) COMMENT '备注',
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='付款方式';
 
 
 -- 地点管理 
@@ -324,47 +326,47 @@ CREATE TABLE `transline` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='线路管理';
 
--- 仓库管理
-DROP TABLE IF EXISTS `store` ;
-CREATE TABLE `store` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `code` varchar(50) COMMENT '编码',
-  `name` varchar(50) COMMENT '名称', 
-  `linkman` varchar(50) COMMENT '联系人', 
-  `phone` varchar(20) COMMENT '联系电话',
-  `address` varchar(200) COMMENT '地址',
-  `longitude` varchar(50) COMMENT '经度',
-  `latitude` varchar(50) COMMENT '纬度',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓库管理';
+-- -- 仓库管理
+-- DROP TABLE IF EXISTS `store` ;
+-- CREATE TABLE `store` (
+--   `id` bigint NOT NULL AUTO_INCREMENT,
+--   `code` varchar(50) COMMENT '编码',
+--   `name` varchar(50) COMMENT '名称', 
+--   `linkman` varchar(50) COMMENT '联系人', 
+--   `phone` varchar(20) COMMENT '联系电话',
+--   `address` varchar(200) COMMENT '地址',
+--   `longitude` varchar(50) COMMENT '经度',
+--   `latitude` varchar(50) COMMENT '纬度',
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓库管理';
 
--- 港口管理
-DROP TABLE IF EXISTS `port` ;
-CREATE TABLE `port` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `code` varchar(50) COMMENT '编码',
-  `name` varchar(50) COMMENT '名称', 
-  `linkman` varchar(50) COMMENT '联系人', 
-  `phone` varchar(20) COMMENT '联系电话',
-  `address` varchar(200) COMMENT '地址',
-  `longitude` varchar(50) COMMENT '经度',
-  `latitude` varchar(50) COMMENT '纬度',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='港口管理';
+-- -- 港口管理
+-- DROP TABLE IF EXISTS `port` ;
+-- CREATE TABLE `port` (
+--   `id` bigint NOT NULL AUTO_INCREMENT,
+--   `code` varchar(50) COMMENT '编码',
+--   `name` varchar(50) COMMENT '名称', 
+--   `linkman` varchar(50) COMMENT '联系人', 
+--   `phone` varchar(20) COMMENT '联系电话',
+--   `address` varchar(200) COMMENT '地址',
+--   `longitude` varchar(50) COMMENT '经度',
+--   `latitude` varchar(50) COMMENT '纬度',
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='港口管理';
 
--- 堆场管理
-DROP TABLE IF EXISTS `containeryard` ;
-CREATE TABLE `containeryard` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `code` varchar(50) COMMENT '编码',
-  `name` varchar(50) COMMENT '名称', 
-  `linkman` varchar(50) COMMENT '联系人', 
-  `phone` varchar(20) COMMENT '联系电话',
-  `address` varchar(200) COMMENT '地址',
-  `longitude` varchar(50) COMMENT '经度',
-  `latitude` varchar(50) COMMENT '纬度',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='堆场管理';
+-- -- 堆场管理
+-- DROP TABLE IF EXISTS `containeryard` ;
+-- CREATE TABLE `containeryard` (
+--   `id` bigint NOT NULL AUTO_INCREMENT,
+--   `code` varchar(50) COMMENT '编码',
+--   `name` varchar(50) COMMENT '名称', 
+--   `linkman` varchar(50) COMMENT '联系人', 
+--   `phone` varchar(20) COMMENT '联系电话',
+--   `address` varchar(200) COMMENT '地址',
+--   `longitude` varchar(50) COMMENT '经度',
+--   `latitude` varchar(50) COMMENT '纬度',
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='堆场管理';
 
 
 -- 银行管理
@@ -373,7 +375,6 @@ CREATE TABLE `bank` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COMMENT '编码',
   `name` varchar(50) COMMENT '名称', 
-  `accountno` varchar(50) COMMENT '帐号', 
   `boctid` int COMMENT '币别',
   `address` varchar(100) COMMENT '地址',
   `tel` varchar(50) COMMENT '电话',
@@ -543,6 +544,7 @@ CREATE TABLE `boxs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='箱型管理';
 
 -- 待办事项
+DROP TABLE IF EXISTS `todolist`;
 CREATE TABLE `todolist` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `title` varchar(50) COMMENT '待办名称',
@@ -579,9 +581,9 @@ CREATE TABLE `emptymain`(
   `istrans` int COMMENT '是否运输:enum:0001:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
   `billstatus` varchar(50) COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',-- :0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
@@ -609,9 +611,9 @@ CREATE TABLE `heavymain`(
   `baoguantime` datetime COMMENT '报关时间',
   `remark` varchar(1000) COMMENT '备注',
   `billstatus` varchar(50) COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename', -- 0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
@@ -641,9 +643,9 @@ CREATE TABLE `factorymain`(
   `baoguantime` datetime COMMENT '报关时间',
   `remark` varchar(1000) COMMENT '备注',
   `billstatus` varchar(50) COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename', -- 0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
@@ -670,9 +672,9 @@ CREATE TABLE `leaveportmain`(
   `planarrtime` datetime COMMENT '预计到场时间',
   `remark` varchar(1000) COMMENT '备注',
   `billstatus` varchar(50) COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename', -- 0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间',
   PRIMARY KEY (`id`)
@@ -700,9 +702,9 @@ CREATE TABLE `preemptymain`(
   `endtakedate` datetime COMMENT '计划截止日期',
   `remark` varchar(1000) COMMENT '备注',
   `billstatus` varchar(50) COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename', -- 0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
@@ -735,9 +737,9 @@ CREATE TABLE `takeboxmain`(
   `yingfu` decimal(19,4) COMMENT '应付费用',
   `remark` varchar(1000) COMMENT '备注',
   `billstatus` varchar(50) COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename', -- 0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成', 6放单异常  7放单结束
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
@@ -754,7 +756,7 @@ CREATE TABLE `takeboxdetail`(
   `startplaceid2` bigint COMMENT '现起运点:combo:place:id:name',
   `realplaceid2` bigint COMMENT '现起运点:combo:place:id:name',
   `endplaceid` bigint COMMENT '目的地:combo:place:id:name',
-  `changeplacetype` int COMMENT '改单发起类型:enum:',-- 0-未改单   1-客户发起改单   2-运输发起改单
+  `changeplacetype` int COMMENT '改单类型:enum:2009:enumvalueid:enumvaluename',-- 0-未改单   1-客户发起改单   2-运输发起改单
   `boxno` varchar(50) COMMENT '箱号',
   `fengno` varchar(50) COMMENT '铅封号',
   `plantaketime` datetime COMMENT '计划提箱时间',-- 对于重箱计划，就是从仓库的提箱时间
@@ -793,9 +795,9 @@ CREATE TABLE `transboxmain`(
   `endplanarrtime` datetime COMMENT '最晚到场时间',
   `remark` varchar(1000) COMMENT '备注',
   `billstatus` varchar(50) COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename', -- 0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
@@ -885,7 +887,7 @@ CREATE TABLE `transboxstatusrec`(
 
 -- 费用项目
 DROP TABLE IF EXISTS `feeinfo`;
-create table `feeindo`(
+create table `feeinfo`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `parent_id` bigint NOT NULL COMMENT '上级费用',
   `code` varchar(50) COMMENT '编码',
@@ -911,8 +913,8 @@ create table `paycircle`(
   `code` varchar(50) COMMENT '编码',
   `name` varchar(20) COMMENT '名称',
   `paytype` int COMMENT '账期类型:enum:2005:enumvalueid:enumvaluename',-- :0：收款 1：付款,
-  `payday1` bigint COMMENT '线路:combo:transline:id:name',
-  `payday2` bigint COMMENT '箱型:combo:boxs:id:boxsize',
+  `payday1` bigint COMMENT '支付日1:combo:transline:id:name',
+  `payday2` bigint COMMENT '支付日2:combo:boxs:id:boxsize',
   `uptdate` datetime COMMENT '更新时间',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='结算周期';
@@ -920,22 +922,22 @@ PRIMARY KEY (`id`)
 
 
 -- 合同管理
-DROP TABLE IF EXISTS `contactmain`;
-CREATE TABLE `contactmain`(
+DROP TABLE IF EXISTS `contractmain`;
+CREATE TABLE `contractmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `partyaid` bigint COMMENT '甲方:dialogtree:organization:id:name',
   `partybid` bigint COMMENT '乙方:dialogtree:organization:id:name',
   `billtype` int COMMENT '收付款类型:enum:1011:enumvalueid:enumvaluename',-- :0：收款 1：付款,
-  `paytype` bigint COMMENT '付款方式:combo:paytype:id:name',
+  `paytype` bigint COMMENT '付款方式:enum:2005:enumvalueid:enumvaluename',
   `paycircleid` int COMMENT '结算周期:combo:paycircle:id:name', 
   `bgndate` datetime COMMENT '生效日期',--  
   `enddate` datetime COMMENT '失效日期',
   `remark` varchar(1000) COMMENT '备注',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',-- :0：新增 1：审核 2：作废',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -958,7 +960,7 @@ CREATE TABLE `contractdetail`(
 
 
 
---入职申请
+-- 入职申请
 DROP TABLE IF EXISTS `entryapplicationmain`;
 CREATE TABLE `entryapplicationmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -973,16 +975,16 @@ CREATE TABLE `entryapplicationmain`(
   `handover` text COMMENT '交接内容',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` varchar(20) COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` varchar(20) COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='入职申请';
 
---转正申请
+-- 转正申请
 DROP TABLE IF EXISTS `formalapplicationmain`;
 CREATE TABLE `formalapplicationmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -997,9 +999,9 @@ CREATE TABLE `formalapplicationmain`(
   `handover` text COMMENT '交接内容',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` varchar(20) COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` varchar(20) COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1008,7 +1010,7 @@ CREATE TABLE `formalapplicationmain`(
 
 
 
---续签申请
+-- 续签申请
 DROP TABLE IF EXISTS `renewapplicationmain`;
 CREATE TABLE `renewapplicationmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -1016,18 +1018,18 @@ CREATE TABLE `renewapplicationmain`(
   `name` varchar(50) COMMENT '员工姓名',
   `applicationday` datetime COMMENT '申请时间', 
   `deptid` bigint COMMENT '部门:dialogtree:sys_dept:id:name',
-  `roleid` bigint COMMENT'岗位:combo:sys_role:role_id:role_name',--当前岗位
-  `renewroleid` bigint COMMENT'岗位:combo:sys_role:role_id:role_name',--续签岗位
+  `roleid` bigint COMMENT'当前岗位:combo:sys_role:role_id:role_name', 
+  `renewroleid` bigint COMMENT'续签岗位:combo:sys_role:role_id:role_name', 
   `entryday` datetime COMMENT '入职时间', 
-  `personalapplication` varchar(4) COMMENT '个人申请续签年限:enum：1019:enumvalueid:enumvaluename',
-  `applicationapproval` varchar(4) COMMENT '公司平准续签年限:enum：1019:enumvalueid:enumvaluename',  
+  `personalapplication` varchar(4) COMMENT '个人申请续签年限:enum:1019:enumvalueid:enumvaluename',
+  `applicationapproval` varchar(4) COMMENT '公司批准续签年限:enum:1019:enumvalueid:enumvaluename',  
   `reason` text COMMENT '自述理由',
   `handover` text COMMENT '交接内容',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` varchar(20) COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` varchar(20) COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1036,25 +1038,25 @@ CREATE TABLE `renewapplicationmain`(
 
 
 
---调岗申请
+-- 调岗申请
 DROP TABLE IF EXISTS `transferapplicationmain`;
 CREATE TABLE `transferapplicationmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '申请单号',
   `name` varchar(50) COMMENT '员工姓名',
   `applicationday` datetime COMMENT '申请时间', 
-  `deptid` bigint COMMENT '部门:dialogtree:sys_dept:id:name',--当前部门
-  `roleid` bigint COMMENT'岗位:combo:sys_role:role_id:role_name',--当前岗位
-  `outdeptid` bigint COMMENT '部门:dialogtree:sys_dept:id:name',--调出部门
-  `outroleid` bigint COMMENT'岗位:combo:sys_role:role_id:role_name',--调出岗位
-  `indeptid` bigint COMMENT '部门:dialogtree:sys_dept:id:name',--调入部门
-  `inroleid` bigint COMMENT'岗位:combo:sys_role:role_id:role_name',--调入岗位
+  `deptid` bigint COMMENT '部门:dialogtree:sys_dept:id:name', 
+  `roleid` bigint COMMENT'岗位:combo:sys_role:role_id:role_name', 
+  `outdeptid` bigint COMMENT '调出部门:dialogtree:sys_dept:id:name', 
+  `outroleid` bigint COMMENT'调出岗位:combo:sys_role:role_id:role_name', 
+  `indeptid` bigint COMMENT '调入部门:dialogtree:sys_dept:id:name', 
+  `inroleid` bigint COMMENT'调入岗位:combo:sys_role:role_id:role_name', 
   `reason` text COMMENT '自述理由',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` varchar(20) COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` varchar(20) COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1063,7 +1065,7 @@ CREATE TABLE `transferapplicationmain`(
 
 
 
---离职申请
+-- 离职申请
 DROP TABLE IF EXISTS `depatureapplicationmain`;
 CREATE TABLE `depatureapplicationmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -1073,13 +1075,13 @@ CREATE TABLE `depatureapplicationmain`(
   `deptid` bigint COMMENT '部门:dialogtree:sys_dept:id:name',
   `roleid` bigint COMMENT'岗位:combo:sys_role:role_id:role_name',
   `depatureday` datetime COMMENT '离职时间', 
-  `successer` bigint COMMENT '交接人:combo:sys_user:user_id:fullname',
+  `successer` bigint COMMENT '交接人:combo:sys_user:id:fullname',
   `reason` text COMMENT '自述理由',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` varchar(20) COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` varchar(20) COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1109,9 +1111,9 @@ CREATE TABLE `depatureapplicationmain`(
 --   `enddate` datetime COMMENT '失效日期',
 --   `remark` varchar(1000) COMMENT '备注',
 --   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',-- :0：新增 1：审核 2：作废',
---   `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+--   `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
 --   `makedate` datetime COMMENT '制单日期',
---   `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+--   `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
 --   `accdate` datetime COMMENT '审核日期',
 --   `uptdate` datetime COMMENT '更新时间', 
 --   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1135,9 +1137,9 @@ CREATE TABLE `depatureapplicationmain`(
 --   `enddate` datetime COMMENT '失效日期',
 --   `remark` varchar(1000) COMMENT '备注',
 --   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',-- :0：新增 1：审核 2：作废',
---   `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+--   `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
 --   `makedate` datetime COMMENT '制单日期',
---   `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+--   `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
 --   `accdate` datetime COMMENT '审核日期',
 --   `uptdate` datetime COMMENT '更新时间', 
 --   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1176,9 +1178,9 @@ CREATE TABLE `depatureapplicationmain`(
 --   `enddate` datetime COMMENT '失效日期',
 --   `remark` varchar(1000) COMMENT '备注',
 --   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',-- :0：新增 1：审核 2：作废',
---   `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+--   `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
 --   `makedate` datetime COMMENT '制单日期',
---   `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+--   `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
 --   `accdate` datetime COMMENT '审核日期',
 --   `uptdate` datetime COMMENT '更新时间', 
 --   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1215,9 +1217,9 @@ CREATE TABLE `depatureapplicationmain`(
 --   `enddate` datetime COMMENT '失效日期',
 --   `remark` varchar(1000) COMMENT '备注',
 --   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',-- :0：新增 1：审核 2：作废',
---   `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+--   `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
 --   `makedate` datetime COMMENT '制单日期',
---   `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+--   `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
 --   `accdate` datetime COMMENT '审核日期',
 --   `uptdate` datetime COMMENT '更新时间', 
 --   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1260,9 +1262,9 @@ CREATE TABLE `depatureapplicationmain`(
 --   `enddate` datetime COMMENT '失效日期',
 --   `remark` varchar(1000) COMMENT '备注',
 --   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',-- :0：新增 1：审核 2：作废',
---   `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+--   `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
 --   `makedate` datetime COMMENT '制单日期',
---   `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+--   `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
 --   `accdate` datetime COMMENT '审核日期',
 --   `uptdate` datetime COMMENT '更新时间', 
 --   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1296,7 +1298,7 @@ CREATE TABLE `leaveworkmain` (
   `reason` varchar(1000) COMMENT '请假原因',
   `createtime` datetime COMMENT '创建时间',
   `realendtime` datetime COMMENT '完结时间',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
   `uptdate` datetime COMMENT '更新时间', 
    `pocessinstanceid` varchar(64) COMMENT '流程ID',
@@ -1309,14 +1311,14 @@ DROP TABLE IF EXISTS `requisitionmain`;
 CREATE TABLE `requisitionmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `requser` varchar(50) COMMENT '请购人:combo:sys_user:user_id:fullname',
+  `requser` varchar(50) COMMENT '请购人:combo:sys_user:id:fullname',
   `deptid` bigint COMMENT '所属部门:combo:sys_dept:id:name',
   `reqtype` int COMMENT '请购类别:enum:1002:enumvalueid:enumvaluename', --  预算内  预算外  
   `budgetmainid` bigint null COMMENT '预算计划:dialog:budgetmain:id:billno',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   `remark` text COMMENT '备注', 
@@ -1348,7 +1350,7 @@ CREATE TABLE `ordermain`(
   `billno` varchar(50) COMMENT '单据号',
   `supplyid` bigint COMMENT '供应商',
   `reqbillno` varchar(50) COMMENT '请购单据号',
-  `requser` varchar(50) COMMENT '请购人:combo:sys_user:user_id:fullname',
+  `requser` varchar(50) COMMENT '请购人:combo:sys_user:id:fullname',
   `deptid` bigint COMMENT '请购部门:combo:sys_dept:id:name',
   `reqdate` datetime COMMENT '请购日期',
   `ordersource` int COMMENT '订购单来源:enum:1001:enumvalueid:enumvaluename', -- 订购单来源，1.请购单转入。2.手动
@@ -1356,9 +1358,9 @@ CREATE TABLE `ordermain`(
   `budgetmainid` bigint null COMMENT '预算计划:dialog:budgetmain:id:billno',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1389,7 +1391,7 @@ CREATE TABLE `paymentmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `reqbillno` varchar(50) COMMENT '请购单据号',
-  `requser` varchar(50) COMMENT '请购人:combo:sys_user:user_id:fullname',
+  `requser` varchar(50) COMMENT '请购人:combo:sys_user:id:fullname',
   `deptid` varchar(50) COMMENT '请购部门:combo:sys_dept:id:name',
   `reqdate` varchar(50) COMMENT '请购日期', --  关联请购表制表日期
   `orderbillno` varchar(50) COMMENT '订购单据号',
@@ -1397,15 +1399,15 @@ CREATE TABLE `paymentmain`(
   `paytotal` decimal(19,4) COMMENT '付款金额',
   `paysource` int COMMENT '付款来源:enum:1004:enumvalueid:enumvaluename', -- 付款单来源，1.订购单转入。2.新增。3.合同转入
   `payee` varchar(50) COMMENT '收款人',
-  `payeeaccount` bigint COMMENT '收款人账号:dialog:bankaccount:id:accountno',
+  `payeeaccount` bigint COMMENT '收款人账号',
   `paytype` bigint COMMENT '付款方式:combo:paytype:id:name',
   `payreason` varchar(500) COMMENT '说明',
   `ordertype` int COMMENT '物品类别:enum:1002:enumvalueid:enumvaluename', --  不同的订购类别对应到不同的协办部门
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` varchar(20) COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` varchar(20) COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1440,9 +1442,9 @@ CREATE TABLE `transcosting`(
   `boxtype` bigint COMMENT '箱型:combo:boxs:id:boxsize',
   `boxprice` decimal(19,4) COMMENT '最低成本',
   `remark` varchar(1000) COMMENT '备注',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
@@ -1458,7 +1460,7 @@ CREATE TABLE `billcomments`(
   `serialno` int COMMENT '序号',
   `auditstatus` int COMMENT '审批:enum:1013:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
-  `makeuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1491,11 +1493,11 @@ CREATE TABLE `budgetmain`(
   `billtype` varchar(50) COMMENT '预算类型',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
-  `rzuser` varchar(20) COMMENT '签批人:combo:sys_user:user_id:fullname',
+  `rzuser` varchar(20) COMMENT '签批人:combo:sys_user:id:fullname',
   `rzdate` datetime COMMENT '签批日期',
   `uptdate` datetime COMMENT '更新时间',
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1534,13 +1536,13 @@ CREATE TABLE `expensemain`(
   `expensemoney` double COMMENT '报销金额',
   `title` varchar(500) COMMENT '报销标题',
   `remark` varchar(1000) COMMENT '详情',
-  `receiver` bigint COMMENT '收款人:combo:sys_user:user_id:fullname',
+  `receiver` bigint COMMENT '收款人:combo:sys_user:id:fullname',
   `paytype` varchar(50) COMMENT '支付方式:enum:1014:enumvalueid:enumvaluename',
   `bankaccount` varchar(30) COMMENT '银行账户',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
-  `makeuser` bigint COMMENT '申请人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '申请人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期', 
   `uptdate` datetime COMMENT '更新时间',
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1559,13 +1561,13 @@ CREATE TABLE `expensecompanymain`(
   `expensemoney` double COMMENT '报销金额',
   `title` varchar(500) COMMENT '报销标题',
   `remark` varchar(1000) COMMENT '详情',
-  `receiver` bigint COMMENT '收款人:combo:sys_user:user_id:fullname',
+  `receiver` bigint COMMENT '收款人:combo:sys_user:id:fullname',
   `paytype` varchar(50) COMMENT '支付方式:enum:1014:enumvalueid:enumvaluename',
   `bankaccount` varchar(30) COMMENT '银行账户',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
-  `makeuser` bigint COMMENT '申请人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '申请人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期', 
   `uptdate` datetime COMMENT '更新时间',
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
@@ -1582,7 +1584,7 @@ CREATE TABLE `attachments`(
   `name` varchar(200) COMMENT '文件名',
   `filename` varchar(200) COMMENT '文件名',
   `fileurl` varchar(1000) COMMENT '地址',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)

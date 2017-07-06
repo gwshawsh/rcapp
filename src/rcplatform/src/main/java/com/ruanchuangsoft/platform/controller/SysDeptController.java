@@ -50,7 +50,6 @@ public class SysDeptController extends AbstractController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("sys:dept:list")
     public R list(Integer deptId, Integer page, Integer limit) {
 
 
@@ -75,7 +74,6 @@ public class SysDeptController extends AbstractController {
      */
     @ResponseBody
     @RequestMapping("/select")
-    @RequiresPermissions("sys:dept:select")
     public R select() {
         //查询列表数据
         Map<String, Object> map = new HashMap<>();
@@ -97,7 +95,6 @@ public class SysDeptController extends AbstractController {
      * 信息
      */
     @RequestMapping("/info/{deptId}")
-    @RequiresPermissions("sys:dept:info")
     public R info(@PathVariable("deptId") Long deptId) {
         SysDeptEntity sysDept = sysDeptService.queryObject(deptId);
 

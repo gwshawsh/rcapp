@@ -102,7 +102,7 @@ var vm = new Vue({
             yingfu: "",
             remark: "",
             billstatus: "",
-            makeuser: gUserName,
+            makeuser: gUserId,
             makedate: "",
             accuser: "",
             accdate: "",
@@ -160,7 +160,7 @@ var vm = new Vue({
                 yingfu: "",
                 remark: "",
                 billstatus: "",
-                makeuser: gUserName,
+                makeuser: gUserId,
                 makedate: mktime,
                 accuser: "",
                 accdate: "",
@@ -343,6 +343,78 @@ var vm = new Vue({
             }).trigger("reloadGrid");
         },
 
+        //放单
+        takebox:function () {
+            var ids = getSelectedRows();
+            if (ids == null) {
+                return;
+            }
+
+            confirm('确定要放单选中的记录？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "../takeboxmain/takebox",
+                    data: JSON.stringify(ids),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function (index) {
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+        //放单异常
+        takeboxerror:function () {
+            var ids = getSelectedRows();
+            if (ids == null) {
+                return;
+            }
+
+            confirm('确定执行放单异常？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "../takeboxmain/takeboxerror",
+                    data: JSON.stringify(ids),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function (index) {
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+        //放单结束
+        takeboxend:function () {
+            var ids = getSelectedRows();
+            if (ids == null) {
+                return;
+            }
+
+            confirm('确定执行放单结束？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "../takeboxmain/takeboxend",
+                    data: JSON.stringify(ids),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function (index) {
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
 
         //单据明细的相关操作
         queryDetail: function () {
@@ -425,7 +497,7 @@ $(function () {
             {label: '应收费用', name: 'yingshou', width: 80},
             {label: '应付费用', name: 'yingfu', width: 80},
             {label: '备注', name: 'remark', width: 80},
-            {label: '单据状态', name: 'billstatus', width: 80, formatter: formater_billstatus},
+            {label: '单据状态', name: 'billstatus', width: 80, formatter: formater_takeboxbillstatus},
             {label: '制单人', name: 'makeuser', width: 80},
             {label: '制单日期', name: 'makedate', width: 80},
             {label: '审核人', name: 'accuser', width: 80},

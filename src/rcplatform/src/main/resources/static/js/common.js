@@ -143,6 +143,34 @@ function formater_billstatus(value, options, row){
 }
 
 
+
+//通用的放单单据状态显示
+function formater_takeboxbillstatus(value, options, row){
+    if(value==0)
+        return	'<span class="label label-info">新增</span>';
+    else if (value==1){
+        return '<span class="label label-success">放单中</span>';
+    }
+    else if(value==2){
+        return '<span class="label label-danger">放单异常</span>';
+    }
+    else if(value==3){
+        return '<span class="label label-success">放单结束</span>';
+    }
+    else if(value==4){
+        return '<span class="label label-success">已审核</span>';
+    }
+    else if(value==5){
+        return '<span class="label label-success">运输中</span>';
+    }
+    else if(value==6){
+        return '<span class="label label-success">运输完成</span>';
+    }
+    else if(value==9){
+        return '<span class="label label-success">作废</span>';
+    }
+}
+
 //通用的参照单据类型显示
 function formater_billtype(value, options, row){
 	if(value==0)

@@ -182,7 +182,7 @@ public class LeaveportmainController extends AbstractController {
                 }
                 leaveportmainEntity.setBillstatus(EmptyBillStatus.AUDIT);
                 leaveportmainEntity.setAccdate(new Date());
-                leaveportmainEntity.setAccuser(ShiroUtils.getUserName());
+                leaveportmainEntity.setAccuser(ShiroUtils.getUserId());
                 leaveportmainEntity.setUptdate(new Date());
                 leaveportmainService.update(leaveportmainEntity);
 
@@ -249,7 +249,7 @@ public class LeaveportmainController extends AbstractController {
                 }
                 leaveportmainEntity.setBillstatus(EmptyBillStatus.NEW);
                 leaveportmainEntity.setAccdate(new Date());
-                leaveportmainEntity.setAccuser("");
+                leaveportmainEntity.setAccuser(ShiroUtils.getUserId());
                 leaveportmainEntity.setUptdate(new Date());
                 leaveportmainService.update(leaveportmainEntity);
 

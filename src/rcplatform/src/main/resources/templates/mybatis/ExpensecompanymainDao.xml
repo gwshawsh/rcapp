@@ -7,11 +7,11 @@
 		select
 				    			    						               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
 						    			    						                    ifnull((select enumvaluename from  enumtable b where a.costcategoryid=b.enumvalueid and b.enumtype='2008'),'') as costcategoryidenumvaluename,
-						    			    			    			    						               		ifnull((select fullname from  sys_user b where a.receiver=b.user_id),'') as receiverfullname,
+						    			    			    			    						               		ifnull((select fullname from  sys_user b where a.receiver=b.id),'') as receiverfullname,
 						    						                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='1014'),'') as paytypeenumvaluename,
 						    			    						                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
-						    						               		ifnull((select fullname from  sys_user b where a.makeuser=b.user_id),'') as makeuserfullname,
-						    			    						               		ifnull((select fullname from  sys_user b where a.accuser=b.user_id),'') as accuserfullname,
+						    						               		ifnull((select fullname from  sys_user b where a.makeuser=b.id),'') as makeuserfullname,
+						    			    						               		ifnull((select fullname from  sys_user b where a.accuser=b.id),'') as accuserfullname,
 						    			    			    			    	        a.*
 		from expensecompanymain a where id = #{value}
 	</select>
@@ -20,11 +20,11 @@
 		select
 																			               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
 																					                    ifnull((select enumvaluename from  enumtable b where a.costcategoryid=b.enumvalueid and b.enumtype='2008'),'') as costcategoryidenumvaluename,
-																															               		ifnull((select fullname from  sys_user b where a.receiver=b.user_id),'') as receiverfullname,
+																															               		ifnull((select fullname from  sys_user b where a.receiver=b.id),'') as receiverfullname,
 																                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='1014'),'') as paytypeenumvaluename,
 																					                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
-																               		ifnull((select fullname from  sys_user b where a.makeuser=b.user_id),'') as makeuserfullname,
-																					               		ifnull((select fullname from  sys_user b where a.accuser=b.user_id),'') as accuserfullname,
+																               		ifnull((select fullname from  sys_user b where a.makeuser=b.id),'') as makeuserfullname,
+																					               		ifnull((select fullname from  sys_user b where a.accuser=b.id),'') as accuserfullname,
 																								        a.*
 		from expensecompanymain a
         <where>

@@ -60,7 +60,12 @@
                             name: 'flight',
                             width: 80
                         }, 
-                                                                                { label: '港口', name: 'name', width: 80 }, 
+                                                                                {
+                            label: '船公司',
+                            name: 'shipid',
+                            width: 80
+                        }, 
+                                                                                { label: '进港点', name: 'name', width: 80 }, 
                                                                                 {
                             label: '箱量',
                             name: 'boxqty',
@@ -69,6 +74,11 @@
                                                                                 { label: '箱型', name: 'boxsize', width: 80 }, 
                                                                                 { label: '提箱场站', name: 'name', width: 80 }, 
                                                                                 { label: '目的地', name: 'name', width: 80 }, 
+                                                                                {
+                            label: '船期',
+                            name: 'shipdate',
+                            width: 80
+                        }, 
                                                                                 {
                             label: '集港时间',
                             name: 'bgnshipdatetime',
@@ -80,13 +90,8 @@
                             width: 80
                         }, 
                                                                                 {
-                            label: '最早到场时间',
-                            name: 'bgnplanarrtime',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '最晚到场时间',
-                            name: 'endplanarrtime',
+                            label: '预计用箱时间',
+                            name: 'planarrdatetime',
                             width: 80
                         }, 
                                                                                 { label: '是否放箱', name: 'enumvaluename', width: 80 }, 
@@ -97,21 +102,13 @@
                             width: 80
                         }, 
                                                                                 { label: '单据状态', name: 'enumvaluename', width: 80 }, 
-                                                                                {
-                            label: '制单人',
-                            name: 'makeuser',
-                            width: 80
-                        }, 
+                                                                                { label: '制单人', name: 'fullname', width: 80 }, 
                                                                                 {
                             label: '制单日期',
                             name: 'makedate',
                             width: 80
                         }, 
-                                                                                {
-                            label: '审核人',
-                            name: 'accuser',
-                            width: 80
-                        }, 
+                                                                                { label: '审核人', name: 'fullname', width: 80 }, 
                                                                                 {
                             label: '审核日期',
                             name: 'accdate',

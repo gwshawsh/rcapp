@@ -10,7 +10,11 @@
         <div class="panel-heading">
             <el-button-group>
             <@shiro.hasPermission name="car:list">
-            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="car:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
             </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="car:save">
@@ -21,11 +25,98 @@
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="car:delete">
-            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                        <@shiro.hasPermission name="car:delete">
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </el-button>
             </@shiro.hasPermission>
             </el-button-group>
+
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
+
+                                                                                                                    <el-form-item label="编码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.carcode" placeholder="编码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="车牌号" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.carname" placeholder="车牌号"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="车辆辨识信息" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.carinfo" placeholder="车辆辨识信息"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="主司机编码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.driverid" placeholder="主司机编码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="主司机姓名" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.drivername" placeholder="主司机姓名"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="车辆所属" >
+
+                                                                    <el-select style="width: 350px" v-model="q.ownertype"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum2003"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="所属车队" >
+
+                                                                    <el-select style="width: 350px" v-model="q.transteam"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_transteam"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="车辆类型" >
+
+                                                                    <el-select style="width: 350px" v-model="q.cartype"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum1007"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+
+
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -45,52 +136,52 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right"  label-width="80px" style="padding:10px">
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
 
-                                                                            <el-form-item label="编码">
+                            
+                                                <el-form-item label="编码" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="car.carcode" placeholder="编码"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="车牌号">
-
-
-                                                            <el-input style="width: 350px"  v-model="car.carname" placeholder="车牌号"></el-input>
+                                                             <el-input style="width: 350px"  v-model="car.carcode" placeholder="编码"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="车辆辨识信息">
+                
+                                                <el-form-item label="车牌号" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="car.carinfo" placeholder="车辆辨识信息"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="主司机编码">
-
-
-                                                            <el-input style="width: 350px"  v-model="car.driverid" placeholder="主司机编码"></el-input>
+                                                             <el-input style="width: 350px"  v-model="car.carname" placeholder="车牌号"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="主司机姓名">
+                
+                                                <el-form-item label="车辆辨识信息" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="car.drivername" placeholder="主司机姓名"></el-input>
+                                                             <el-input style="width: 350px"  v-model="car.carinfo" placeholder="车辆辨识信息"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="车辆所属">
+                
+                                                <el-form-item label="主司机编码" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="car.driverid" placeholder="主司机编码"></el-input>
 
 
-                                                            <el-select style="width: 350px" v-model="car.ownertype"  filterable placeholder="请选择">
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="主司机姓名" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="car.drivername" placeholder="主司机姓名"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="车辆所属" class="padding-top: 5px;width:40%">
+
+                                                             <el-select style="width: 350px" v-model="car.ownertype"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_enum2003"
                                             :key="item.enumvalueid"
@@ -102,10 +193,10 @@
 
                              
                     </el-form-item>
-                                                                <el-form-item label="所属车队">
+                
+                                                <el-form-item label="所属车队" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-select style="width: 350px" v-model="car.transteam"  filterable placeholder="请选择">
+                                                             <el-select style="width: 350px" v-model="car.transteam"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_transteam"
                                             :key="item.id"
@@ -115,20 +206,34 @@
                                 </el-select>
                             
                     </el-form-item>
-                                                                <el-form-item label="车辆类型">
+                
+                                                <el-form-item label="车辆类型" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-select style="width: 350px" v-model="car.cartype"  filterable placeholder="请选择">
+                                                             <el-select style="width: 350px" v-model="car.cartype"  filterable placeholder="请选择">
                                     <el-option
-                                            v-for="item in ref_cartype"
-                                            :key="item.id"
-                                            :label="item.name"
-                                            :value="item.id">
+                                            v-for="item in ref_enum1007"
+                                            :key="item.enumvalueid"
+                                            :label="item.enumvaluename"
+                                            :value="item.enumvalueid">
                                     </el-option>
                                 </el-select>
-                            
+
+
+                             
                     </el-form-item>
-                            
+                
+            
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
+
         </el-form>
     </div>
 </div>
@@ -136,6 +241,7 @@
 
                                                                                                                 
 
+<#include "base/billcomments_ref.html">
 <script src="${ctxPath}/static/js/base/car.js"></script>
 </body>
 </html>

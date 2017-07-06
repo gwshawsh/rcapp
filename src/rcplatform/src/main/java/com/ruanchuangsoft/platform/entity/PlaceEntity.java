@@ -1,7 +1,10 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
+
 
 import java.math.BigDecimal;
 
@@ -12,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 19:02:25
+ * @date 2017-07-06 15:52:19
  */
-public class PlaceEntity implements Serializable {
+public class PlaceEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -38,41 +41,11 @@ public class PlaceEntity implements Serializable {
 	//地点类型
 	private Integer placetype;
 
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	        //所属组织
+									        //所属组织
         private String organizationname;
-	
-
-
-	        //地点类型
+		        //地点类型
         private String placetypeenumvaluename;
 	
-
-
 	/**
 	 * 设置：
 	 */
@@ -219,4 +192,63 @@ public class PlaceEntity implements Serializable {
         public String getPlacetypeenumvaluename() {
             return placetypeenumvaluename;
         }
-        	}
+        	
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">编码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">名称</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getName()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">联系人</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getLinkman()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">联系电话</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getPhone()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">地址</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getAddress()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">经度</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getLongitude()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">纬度</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getLatitude()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">所属组织</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getOrganizationname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">地点类型</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getPlacetypeenumvaluename()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

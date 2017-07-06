@@ -1,7 +1,10 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
+
 
 import java.math.BigDecimal;
 
@@ -12,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 19:02:25
+ * @date 2017-07-06 15:52:19
  */
-public class CarEntity implements Serializable {
+public class CarEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -36,40 +39,13 @@ public class CarEntity implements Serializable {
 	//车辆类型
 	private Long cartype;
 
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	        //车辆所属
+							        //车辆所属
         private String ownertypeenumvaluename;
-	
-
-
-	        //所属车队
+		        //所属车队
         private String transteamname;
+		        //车辆类型
+        private String cartypeenumvaluename;
 	
-
-
-	        //车辆类型
-        private String cartypename;
-	
-
-
 	/**
 	 * 设置：
 	 */
@@ -205,15 +181,69 @@ public class CarEntity implements Serializable {
             return transteamname;
         }
         			        /**
-         * 设置：车辆类型name
+         * 设置：车辆类型enumvaluename
          */
-        public void setCartypename(String name) {
-            this.cartypename = name;
+        public void setCartypeenumvaluename(String enumvaluename) {
+            this.cartypeenumvaluename = enumvaluename;
         }
         /**
-         * 获取：车辆类型name
+         * 获取：车辆类型enumvaluename
          */
-        public String getCartypename() {
-            return cartypename;
+        public String getCartypeenumvaluename() {
+            return cartypeenumvaluename;
         }
-        	}
+        	
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">编码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCarcode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">车牌号</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCarname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">车辆辨识信息</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCarinfo()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">主司机编码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getDriverid()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">主司机姓名</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getDrivername()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">车辆所属</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getOwnertypeenumvaluename()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">所属车队</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getTransteamname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">车辆类型</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCartypeenumvaluename()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

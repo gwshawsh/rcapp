@@ -46,7 +46,6 @@ public class PreemptymainController extends AbstractController {
 
     @RequestMapping("/index")
     public ModelAndView index() {
-
         setViewname("buss/preemptymain");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);

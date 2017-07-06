@@ -1,7 +1,10 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
+
 
 import java.math.BigDecimal;
 
@@ -12,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 19:02:25
+ * @date 2017-07-06 15:52:19
  */
-public class DriversEntity implements Serializable {
+public class DriversEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -34,35 +37,11 @@ public class DriversEntity implements Serializable {
 	//类型
 	private String type;
 
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	        //所属车队
+					        //所属车队
         private String transteamname;
-	
-
-
-	
-
-
-	
-
-
-	        //类型
+				        //类型
         private String typeenumvaluename;
 	
-
-
 	/**
 	 * 设置：
 	 */
@@ -185,4 +164,53 @@ public class DriversEntity implements Serializable {
         public String getTypeenumvaluename() {
             return typeenumvaluename;
         }
-        	}
+        	
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">编码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getCode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">姓名</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getName()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">电话</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getPhone()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">所属车队</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getTransteamname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">证件号</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getDocumentno()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">驾龄</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getDriveage()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">类型</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getTypeenumvaluename()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

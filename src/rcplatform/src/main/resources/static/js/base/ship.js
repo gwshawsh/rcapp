@@ -17,8 +17,13 @@ var setting = {
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+	    q:{
+                                                                            code:"",                                                                 name:"",                                                                 enname:"",                                                                 region:"",                                                                 uncode:"",                                                                 type:"",                                                                 company:"",                                                                 coscode:"",                                                                 cosshipenname:"",                                                                 country:"",                                                                 contact:"",                                                                 address:"",                                                                 phone:"",                                                                 route:""                            
+        },
 		showList: true,
+        showQuery:false,
 		title: null,
+        fileslist:[],
     //用于日期快捷控件
     pickerOptions1: {
         shortcuts: [{
@@ -53,6 +58,9 @@ var vm = new Vue({
         }
 	},
 	methods: {
+	    showQueryPanel:function(){
+	        vm.showQuery=!vm.showQuery;
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -61,9 +69,9 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.ship = {
-            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
-                                                regionname:"",
-                                                                                                                                                                                code:"",                                                                                                                                                             name:"",                                                                                                                                                             enname:"",                                                                                                                                                             region:"",                                                                                                                                                             uncode:"",                                                                                                                                                             type:"",                                                                                                                                                             company:"",                                                                                                                                                             coscode:"",                                                                                                                                                             cosshipenname:"",                                                                                                                                                             country:"",                                                                                                                                                             contact:"",                                                                                                                                                             address:"",                                                                                                                                                             phone:"",                                                                                                                                                             route:""                                                                        
+                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                            regionname:"",
+                                                                                                                                                                code:"",                                                                                                                                     name:"",                                                                                                                                     enname:"",                                                                                                                                     region:"",                                                                                                                                     uncode:"",                                                                                                                                     type:"",                                                                                                                                     company:"",                                                                                                                                     coscode:"",                                                                                                                                     cosshipenname:"",                                                                                                                                     country:"",                                                                                                                                     contact:"",                                                                                                                                     address:"",                                                                                                                                     phone:"",                                                                                                                                     route:""                                                            
             };
 		},
 		update: function (event) {
@@ -128,8 +136,7 @@ var vm = new Vue({
 
             		
         //生成弹出树形空间参照
-
-
+        
         getInfo: function(id){
             $.get("../ship/info/"+id, function(r){
                 vm.ship = r.ship;
@@ -139,8 +146,24 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
+                postData: {'query': JSON.stringify(vm.q)},
                 page:page
             }).trigger("reloadGrid");
+        },
+        upload_on_success:function (response,file,fileList) {
+
+            if(!vm.ship.files){
+                vm.ship.files=[];
+            }
+            if(response.page.list&&response.page.list.length>0){
+                vm.ship.files.push(response.page.list[0]);
+            }
+
+
+        },
+
+        upload_on_change: function (file, fileList) {
+            this.fileslist = fileList;
         }
 	}
 });
@@ -150,21 +173,21 @@ $(function () {
         url: '../ship/list',
         datatype: "json",
         colModel: [
-							                    { label: 'id', name: 'id', width: 50, key: true },
-                							                    { label: '编码', name: 'code', width: 80 }, 
-											                    { label: '中文名称', name: 'name', width: 80 }, 
-											                    { label: '英文名称', name: 'enname', width: 80 }, 
-											                    { label: '所属区域', name: 'regionname', width: 80 },                 							                    { label: 'UN代码', name: 'uncode', width: 80 }, 
-											                    { label: '类型', name: 'type', width: 80 }, 
-											                    { label: '所属船公司', name: 'company', width: 80 }, 
-											                    { label: 'COS代码', name: 'coscode', width: 80 }, 
-											                    { label: 'COS船英文名', name: 'cosshipenname', width: 80 }, 
-											                    { label: '所属国家', name: 'country', width: 80 }, 
-											                    { label: '联系人', name: 'contact', width: 80 }, 
-											                    { label: '地址', name: 'address', width: 80 }, 
-											                    { label: '电话', name: 'phone', width: 80 }, 
-											                    { label: '航线', name: 'route', width: 80 }
-							        ],
+			                                                            { label: 'id', name: 'id', width: 50, key: true,hidden:true },
+                                    			                                                            { label: '编码', name: 'code', width: 80 }, 
+                                    			                                                            { label: '中文名称', name: 'name', width: 80 }, 
+                                    			                                                            { label: '英文名称', name: 'enname', width: 80 }, 
+                                    			                                                            { label: '所属区域', name: 'regionname', width: 80 },                                     			                                                            { label: 'UN代码', name: 'uncode', width: 80 }, 
+                                    			                                                            { label: '类型', name: 'type', width: 80 }, 
+                                    			                                                            { label: '所属船公司', name: 'company', width: 80 }, 
+                                    			                                                            { label: 'COS代码', name: 'coscode', width: 80 }, 
+                                    			                                                            { label: 'COS船英文名', name: 'cosshipenname', width: 80 }, 
+                                    			                                                            { label: '所属国家', name: 'country', width: 80 }, 
+                                    			                                                            { label: '联系人', name: 'contact', width: 80 }, 
+                                    			                                                            { label: '地址', name: 'address', width: 80 }, 
+                                    			                                                            { label: '电话', name: 'phone', width: 80 }, 
+                                    			                                                            { label: '航线', name: 'route', width: 80 }
+                                    			        ],
         viewrecords: true,
         height: 385,
         rowNum: 10,

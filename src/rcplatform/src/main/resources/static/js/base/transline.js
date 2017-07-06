@@ -17,8 +17,13 @@ var setting = {
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+	    q:{
+                                                                            code:"",                                                                 name:"",                                                                 startlocation:"",                                                                 endlocation:"",                                                                 distance:"",                                                                 helpcode:""                            
+        },
 		showList: true,
+        showQuery:false,
 		title: null,
+        fileslist:[],
     //用于日期快捷控件
     pickerOptions1: {
         shortcuts: [{
@@ -53,6 +58,9 @@ var vm = new Vue({
         }
 	},
 	methods: {
+	    showQueryPanel:function(){
+	        vm.showQuery=!vm.showQuery;
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -61,9 +69,9 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.transline = {
-            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
-                                                startlocationname:"",
-                                                                                                                                                                                code:"",                                                                                                                                                             name:"",                                                                                                                                                             startlocation:"",                                                                                                                                                             endlocation:"",                                                                                                                                                             distance:"",                                                                                                                                                             helpcode:""                                                                        
+                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                            startlocationname:"",
+                                                                                                                                                                code:"",                                                                                                                                     name:"",                                                                                                                                     startlocation:"",                                                                                                                                     endlocation:"",                                                                                                                                     distance:"",                                                                                                                                     helpcode:""                                                            
             };
 		},
 		update: function (event) {
@@ -128,8 +136,7 @@ var vm = new Vue({
 
             		
         //生成弹出树形空间参照
-
-
+        
         getInfo: function(id){
             $.get("../transline/info/"+id, function(r){
                 vm.transline = r.transline;
@@ -139,8 +146,24 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
+                postData: {'query': JSON.stringify(vm.q)},
                 page:page
             }).trigger("reloadGrid");
+        },
+        upload_on_success:function (response,file,fileList) {
+
+            if(!vm.transline.files){
+                vm.transline.files=[];
+            }
+            if(response.page.list&&response.page.list.length>0){
+                vm.transline.files.push(response.page.list[0]);
+            }
+
+
+        },
+
+        upload_on_change: function (file, fileList) {
+            this.fileslist = fileList;
         }
 	}
 });
@@ -150,12 +173,12 @@ $(function () {
         url: '../transline/list',
         datatype: "json",
         colModel: [
-							                    { label: 'id', name: 'id', width: 50, key: true },
-                							                    { label: '编码', name: 'code', width: 80 }, 
-											                    { label: '名称', name: 'name', width: 80 }, 
-											                    { label: '起始地点', name: 'startlocationname', width: 80 },                 							                    { label: '结束地点', name: 'endlocationname', width: 80 },                 							                    { label: '距离', name: 'distance', width: 80 }, 
-											                    { label: '助记码', name: 'helpcode', width: 80 }
-							        ],
+			                                                            { label: 'id', name: 'id', width: 50, key: true,hidden:true },
+                                    			                                                            { label: '编码', name: 'code', width: 80 }, 
+                                    			                                                            { label: '名称', name: 'name', width: 80 }, 
+                                    			                                                            { label: '起始地点', name: 'startlocationname', width: 80 },                                     			                                                            { label: '结束地点', name: 'endlocationname', width: 80 },                                     			                                                            { label: '距离', name: 'distance', width: 80 }, 
+                                    			                                                            { label: '助记码', name: 'helpcode', width: 80 }
+                                    			        ],
         viewrecords: true,
         height: 385,
         rowNum: 10,

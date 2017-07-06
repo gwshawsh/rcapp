@@ -10,6 +10,7 @@ import com.ruanchuangsoft.platform.controller.AbstractController;
 import org.activiti.engine.task.Task;
 import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
+import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
 import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -111,16 +112,12 @@ public class ${className}Controller extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("${pathName}:save")
     public R save(@RequestBody ${className}Entity ${classname}) {
-          #if($className.endWidths("main"))
+          #if($className.endsWith("main"))
               if(${classname}.getBillno().equals("*")){
                   String billno=getBillNo("**");
                 ${classname}.setBillno(billno);
                 ${classname}.setBillstatus(BillStatus.NEW);
-                  if(${classname}.getDetails()!=null&&${classname}.getDetails().size()>0){
-                      for(${detailClassName}Entity item:${classname}.getDetails()){
-                          item.setBillno(billno);
-                      }
-                  }
+
 
                   if(${classname}.getFiles()!=null&&${classname}.getFiles().size()>0){
                       for(AttachmentsEntity item:${classname}.getFiles()){
@@ -194,6 +191,8 @@ public class ${className}Controller extends AbstractController {
         return R.ok();
     }
 
+
+   #if($className.endsWith("main"))
     /**
    * 签收
    * 只有单据状态为提交状态的，才能够签收
@@ -261,6 +260,6 @@ public class ${className}Controller extends AbstractController {
 
         return R.ok();
     }
-
+   #end
 
 }

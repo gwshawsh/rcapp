@@ -57,7 +57,6 @@ public class EnumtableController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/list")
-	@RequiresPermissions("enumtable:list")
 	public R list(Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
@@ -77,7 +76,6 @@ public class EnumtableController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/listone")
-	@RequiresPermissions("enumtable:list")
 	public R listone(String enumid,Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
 		map.put("enumtype", enumid);
@@ -99,7 +97,6 @@ public class EnumtableController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("enumtable:info")
 	public R info(@PathVariable("id") Long id){
 		EnumtableEntity enumtable = enumtableService.queryObject(id);
 

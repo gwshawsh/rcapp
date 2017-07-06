@@ -1,7 +1,10 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
+
 
 import java.math.BigDecimal;
 
@@ -12,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-20 19:02:25
+ * @date 2017-07-06 15:52:20
  */
-public class ShipplanEntity implements Serializable {
+public class ShipplanEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -33,7 +36,7 @@ public class ShipplanEntity implements Serializable {
 	private Date arrivaldate;
 	//船舶呼号
 	private String shipid;
-	//IMO编号
+	//IMO编码
 	private String imono;
 	//码头代码
 	private String dockcode;
@@ -52,58 +55,7 @@ public class ShipplanEntity implements Serializable {
 	//备注
 	private String remark;
 
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
-	
-
-
+																	
 	/**
 	 * 设置：
 	 */
@@ -201,13 +153,13 @@ public class ShipplanEntity implements Serializable {
 		return shipid;
 	}
 	/**
-	 * 设置：IMO编号
+	 * 设置：IMO编码
 	 */
 	public void setImono(String imono) {
 		this.imono = imono;
 	}
 	/**
-	 * 获取：IMO编号
+	 * 获取：IMO编码
 	 */
 	public String getImono() {
 		return imono;
@@ -310,4 +262,98 @@ public class ShipplanEntity implements Serializable {
 	}
 
 
-																																																				}
+																																																				
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">英文船名</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getEnshipname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">中文船名</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getChshipname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">出口航次</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getExpvoyage()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">进口航次</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getImpvoyage()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">到港状态</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getArrivalstate()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">预计到港日期</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getArrivaldate()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">船舶呼号</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getShipid()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">IMO编码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getImono()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">码头代码</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getDockcode()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">码头名称</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getDockname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">靠泊单位</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getDockunit()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">航线</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRoute()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">预计到港时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getArrivaltime()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">预计离港时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getLeavetime()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">船期</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getShipment()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">备注</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRemark()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

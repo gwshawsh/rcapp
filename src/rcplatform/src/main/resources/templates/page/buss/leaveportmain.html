@@ -25,31 +25,44 @@
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             </@shiro.hasPermission>
-                        <@shiro.hasPermission name="leaveportmain:audit">
-            <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
-            </el-button>
-            </@shiro.hasPermission>
-            <@shiro.hasPermission name="leaveportmain:unaudit">
-            <el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
-            </el-button>
-            </@shiro.hasPermission>
+                            <@shiro.hasPermission name="leaveportmain:update">
+                <el-button type="primary" v-on:click="submitworkflow"><i class="fa fa-pencil-square-o"></i>&nbsp;提交
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="leaveportmain:copybill">
+                <el-button type="primary" v-on:click="copybill"><i class="fa fa-trash-o"></i>&nbsp;复制
+                </el-button>
+                </@shiro.hasPermission>
+
+                <@shiro.hasPermission name="leaveportmain:claim">
+                <el-button type="primary" v-on:click="claim"><i class="fa fa-book"></i>&nbsp;签收
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="leaveportmain:audit">
+                <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="leaveportmain:cancel">
+                <el-button type="warning" v-on:click="cancel"><i class="fa fa-trash-o"></i>&nbsp;作废
+                </el-button>
+                </@shiro.hasPermission>
                         <@shiro.hasPermission name="leaveportmain:delete">
-            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </el-button>
             </@shiro.hasPermission>
             </el-button-group>
 
             <div v-show="showQuery">
-                <el-form label-position="right" :inline="true" label-width="100px" style="padding:10px">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
 
-                                                                                                                    <el-form-item label="单据号">
+                                                                                                                    <el-form-item label="单据号" >
 
                                                                     <el-input style="width: 350px"  v-model="q.billno" placeholder="单据号"></el-input>
 
 
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="客户">
+                                                                                                <el-form-item label="客户" >
 
                                 
                                     <input style="width: 350px" v-model="q.orgidname"  v-on:click="openRefTreeorganizationorgid"
@@ -57,28 +70,28 @@
 
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="提单号">
+                                                                                                <el-form-item label="提单号" >
 
                                                                     <el-input style="width: 350px"  v-model="q.ladingcode" placeholder="提单号"></el-input>
 
 
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="船名">
+                                                                                                <el-form-item label="船名" >
 
                                                                     <el-input style="width: 350px"  v-model="q.shipname" placeholder="船名"></el-input>
 
 
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="航次">
+                                                                                                <el-form-item label="航次" >
 
                                                                     <el-input style="width: 350px"  v-model="q.flight" placeholder="航次"></el-input>
 
 
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="港口">
+                                                                                                <el-form-item label="港口" >
 
                                                                     <el-select style="width: 350px" v-model="q.portid"  filterable placeholder="请选择">
                                         <el-option
@@ -90,7 +103,7 @@
                                     </el-select>
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="船公司">
+                                                                                                <el-form-item label="船公司" >
 
                                                                     <el-select style="width: 350px" v-model="q.shipcompany"  filterable placeholder="请选择">
                                         <el-option
@@ -102,14 +115,14 @@
                                     </el-select>
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="箱量">
+                                                                                                <el-form-item label="箱量" >
 
                                                                     <el-input style="width: 350px"  v-model="q.boxqty" placeholder="箱量"></el-input>
 
 
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="箱型">
+                                                                                                <el-form-item label="箱型" >
 
                                                                     <el-select style="width: 350px" v-model="q.boxtype"  filterable placeholder="请选择">
                                         <el-option
@@ -121,7 +134,7 @@
                                     </el-select>
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="起运地">
+                                                                                                <el-form-item label="起运地" >
 
                                                                     <el-select style="width: 350px" v-model="q.takeboxplaceid"  filterable placeholder="请选择">
                                         <el-option
@@ -133,7 +146,7 @@
                                     </el-select>
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="目的地">
+                                                                                                <el-form-item label="目的地" >
 
                                                                     <el-select style="width: 350px" v-model="q.endplaceid"  filterable placeholder="请选择">
                                         <el-option
@@ -145,28 +158,28 @@
                                     </el-select>
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="预计到港时间">
+                                                                                                <el-form-item label="预计到港时间" >
 
                                 
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.planarrporttime" style="width: 100%;"></el-date-picker>
 
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="预计到场时间">
+                                                                                                <el-form-item label="预计到场时间" >
 
                                 
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.planarrtime" style="width: 100%;"></el-date-picker>
 
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="备注">
+                                                                                                <el-form-item label="备注" >
 
                                                                     <el-input style="width: 350px"  v-model="q.remark" placeholder="备注"></el-input>
 
 
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="单据状态">
+                                                                                                <el-form-item label="单据状态" >
 
                                                                     <el-select style="width: 350px" v-model="q.billstatus"  filterable placeholder="请选择">
                                         <el-option
@@ -180,33 +193,43 @@
 
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="制单人">
+                                                                                                <el-form-item label="制单人" >
 
-                                                                    <el-input style="width: 350px"  v-model="q.makeuser" placeholder="制单人"></el-input>
-
-
+                                                                    <el-select style="width: 350px" v-model="q.makeuser"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_sys_user"
+                                                :key="item.id"
+                                                :label="item.fullname"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="制单日期">
+                                                                                                <el-form-item label="制单日期" >
 
                                 
                                     <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.makedate" style="width: 100%;"></el-date-picker>
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="审核人">
+                                                                                                <el-form-item label="审核人" >
 
-                                                                    <el-input style="width: 350px"  v-model="q.accuser" placeholder="审核人"></el-input>
-
-
+                                                                    <el-select style="width: 350px" v-model="q.accuser"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_sys_user"
+                                                :key="item.id"
+                                                :label="item.fullname"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="审核日期">
+                                                                                                <el-form-item label="审核日期" >
 
                                 
                                     <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.accdate" style="width: 100%;"></el-date-picker>
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="更新时间">
+                                                                                                <el-form-item label="更新时间" >
 
                                 
                                     <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.uptdate" style="width: 100%;"></el-date-picker>
@@ -240,9 +263,11 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right"  label-width="100px" style="padding:10px">
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
 
-                                                                                                        <el-form-item label="客户">
+                            
+                            
+                                                <el-form-item label="客户" class="padding-top: 5px;width:40%">
 
                              
                                 <input style="width: 350px" v-model="leaveportmain.orgidname"  v-on:click="openRefTreeorganizationorgid"
@@ -250,28 +275,32 @@
 
                              
                     </el-form-item>
-                                                                <el-form-item label="提单号">
+                
+                                                <el-form-item label="提单号" class="padding-top: 5px;width:40%">
 
                                                              <el-input style="width: 350px"  v-model="leaveportmain.ladingcode" placeholder="提单号"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="船名">
+                
+                                                <el-form-item label="船名" class="padding-top: 5px;width:40%">
 
                                                              <el-input style="width: 350px"  v-model="leaveportmain.shipname" placeholder="船名"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="航次">
+                
+                                                <el-form-item label="航次" class="padding-top: 5px;width:40%">
 
                                                              <el-input style="width: 350px"  v-model="leaveportmain.flight" placeholder="航次"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="港口">
+                
+                                                <el-form-item label="港口" class="padding-top: 5px;width:40%">
 
                                                              <el-select style="width: 350px" v-model="leaveportmain.portid"  filterable placeholder="请选择">
                                     <el-option
@@ -283,7 +312,8 @@
                                 </el-select>
                             
                     </el-form-item>
-                                                                <el-form-item label="船公司">
+                
+                                                <el-form-item label="船公司" class="padding-top: 5px;width:40%">
 
                                                              <el-select style="width: 350px" v-model="leaveportmain.shipcompany"  filterable placeholder="请选择">
                                     <el-option
@@ -295,14 +325,16 @@
                                 </el-select>
                             
                     </el-form-item>
-                                                                <el-form-item label="箱量">
+                
+                                                <el-form-item label="箱量" class="padding-top: 5px;width:40%">
 
                                                              <el-input style="width: 350px"  v-model="leaveportmain.boxqty" placeholder="箱量"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="箱型">
+                
+                                                <el-form-item label="箱型" class="padding-top: 5px;width:40%">
 
                                                              <el-select style="width: 350px" v-model="leaveportmain.boxtype"  filterable placeholder="请选择">
                                     <el-option
@@ -314,7 +346,8 @@
                                 </el-select>
                             
                     </el-form-item>
-                                                                <el-form-item label="起运地">
+                
+                                                <el-form-item label="起运地" class="padding-top: 5px;width:40%">
 
                                                              <el-select style="width: 350px" v-model="leaveportmain.takeboxplaceid"  filterable placeholder="请选择">
                                     <el-option
@@ -326,7 +359,8 @@
                                 </el-select>
                             
                     </el-form-item>
-                                                                <el-form-item label="目的地">
+                
+                                                <el-form-item label="目的地" class="padding-top: 5px;width:40%">
 
                                                              <el-select style="width: 350px" v-model="leaveportmain.endplaceid"  filterable placeholder="请选择">
                                     <el-option
@@ -338,28 +372,48 @@
                                 </el-select>
                             
                     </el-form-item>
-                                                                <el-form-item label="预计到港时间">
+                
+                                                <el-form-item label="预计到港时间" class="padding-top: 5px;width:40%">
 
                              
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="leaveportmain.planarrporttime" style="width: 100%;"></el-date-picker>
 
                             
                     </el-form-item>
-                                                                <el-form-item label="预计到场时间">
+                
+                                                <el-form-item label="预计到场时间" class="padding-top: 5px;width:40%">
 
                              
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="leaveportmain.planarrtime" style="width: 100%;"></el-date-picker>
 
                             
                     </el-form-item>
-                                                                <el-form-item label="备注">
+                
+                                                <el-form-item label="备注" class="padding-top: 5px;width:40%">
 
-                                                             <el-input style="width: 350px"  v-model="leaveportmain.remark" placeholder="备注"></el-input>
+                                                             <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="leaveportmain.remark" style="width: 100%;"></el-input>
 
-
-                              
+                             
                     </el-form-item>
-                                                                                                                                                                                                    
+                
+                            
+                            
+                            
+                            
+                            
+                            
+            
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
+
         </el-form>
     </div>
 </div>
@@ -370,6 +424,7 @@
     <ul id="refTreeorganization" class="ztree"></ul>
 </div>
 
+<#include "base/billcomments_ref.html">
 <script src="${ctxPath}/static/js/buss/leaveportmain.js"></script>
 </body>
 </html>

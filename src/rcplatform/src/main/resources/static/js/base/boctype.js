@@ -17,8 +17,13 @@ var setting = {
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+	    q:{
+                                                                            boctypecode:"",                                                                 boctypename:"",                                                                 rate:"",                                                                 unit:"",                                                                 uptdate:"",                                                                 remark:""                            
+        },
 		showList: true,
+        showQuery:false,
 		title: null,
+        fileslist:[],
     //用于日期快捷控件
     pickerOptions1: {
         shortcuts: [{
@@ -50,6 +55,9 @@ var vm = new Vue({
         }
 	},
 	methods: {
+	    showQueryPanel:function(){
+	        vm.showQuery=!vm.showQuery;
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -58,8 +66,8 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.boctype = {
-            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
-                                                                                                                                                                boctypecode:"",                                                                                                                                                             boctypename:"",                                                                                                                                                             rate:"",                                                                                                                                                             unit:"",                                                                                                                                                             uptdate:"",                                                                                                                                                             remark:""                                                                        
+                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                                                                                                            boctypecode:"",                                                                                                                                     boctypename:"",                                                                                                                                     rate:"",                                                                                                                                     unit:"",                                                                                                                                     uptdate:"",                                                                                                                                     remark:""                                                            
             };
 		},
 		update: function (event) {
@@ -118,8 +126,7 @@ var vm = new Vue({
         //生成参照调用下拉框函数,用来初始化远程数据
 		
         //生成弹出树形空间参照
-
-
+        
         getInfo: function(id){
             $.get("../boctype/info/"+id, function(r){
                 vm.boctype = r.boctype;
@@ -129,8 +136,24 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
+                postData: {'query': JSON.stringify(vm.q)},
                 page:page
             }).trigger("reloadGrid");
+        },
+        upload_on_success:function (response,file,fileList) {
+
+            if(!vm.boctype.files){
+                vm.boctype.files=[];
+            }
+            if(response.page.list&&response.page.list.length>0){
+                vm.boctype.files.push(response.page.list[0]);
+            }
+
+
+        },
+
+        upload_on_change: function (file, fileList) {
+            this.fileslist = fileList;
         }
 	}
 });
@@ -140,14 +163,14 @@ $(function () {
         url: '../boctype/list',
         datatype: "json",
         colModel: [
-							                    { label: 'id', name: 'id', width: 50, key: true },
-                							                    { label: '编码', name: 'boctypecode', width: 80 }, 
-											                    { label: '币名', name: 'boctypename', width: 80 }, 
-											                    { label: '汇率', name: 'rate', width: 80 }, 
-											                    { label: '单位', name: 'unit', width: 80 }, 
-											                    { label: '更新时间', name: 'uptdate', width: 80 }, 
-											                    { label: '备注', name: 'remark', width: 80 }
-							        ],
+			                                                            { label: 'id', name: 'id', width: 50, key: true,hidden:true },
+                                    			                                                            { label: '编码', name: 'boctypecode', width: 80 }, 
+                                    			                                                            { label: '币名', name: 'boctypename', width: 80 }, 
+                                    			                                                            { label: '汇率', name: 'rate', width: 80 }, 
+                                    			                                                            { label: '单位', name: 'unit', width: 80 }, 
+                                    			                                                            { label: '更新时间', name: 'uptdate', width: 80 }, 
+                                    			                                                            { label: '备注', name: 'remark', width: 80 }
+                                    			        ],
         viewrecords: true,
         height: 385,
         rowNum: 10,

@@ -10,7 +10,11 @@
         <div class="panel-heading">
             <el-button-group>
             <@shiro.hasPermission name="ship:list">
-            <el-button type="primary" v-on:click="query"><i class="fa fa-search"></i>&nbsp;查询
+            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="ship:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
             </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="ship:save">
@@ -21,11 +25,126 @@
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             </@shiro.hasPermission>
-            <@shiro.hasPermission name="ship:delete">
-            <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+                        <@shiro.hasPermission name="ship:delete">
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
             </el-button>
             </@shiro.hasPermission>
             </el-button-group>
+
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
+
+                                                                                                                    <el-form-item label="编码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.code" placeholder="编码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="中文名称" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.name" placeholder="中文名称"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="英文名称" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.enname" placeholder="英文名称"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="所属区域" >
+
+                                                                    <el-select style="width: 350px" v-model="q.region"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_region"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="UN代码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.uncode" placeholder="UN代码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="类型" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.type" placeholder="类型"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="所属船公司" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.company" placeholder="所属船公司"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="COS代码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.coscode" placeholder="COS代码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="COS船英文名" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.cosshipenname" placeholder="COS船英文名"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="所属国家" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.country" placeholder="所属国家"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="联系人" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.contact" placeholder="联系人"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="地址" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.address" placeholder="地址"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="电话" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.phone" placeholder="电话"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="航线" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.route" placeholder="航线"></el-input>
+
+
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+
+
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -45,36 +164,36 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right"  label-width="80px" style="padding:10px">
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
 
-                                                                            <el-form-item label="编码">
+                            
+                                                <el-form-item label="编码" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="ship.code" placeholder="编码"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="中文名称">
-
-
-                                                            <el-input style="width: 350px"  v-model="ship.name" placeholder="中文名称"></el-input>
+                                                             <el-input style="width: 350px"  v-model="ship.code" placeholder="编码"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="英文名称">
+                
+                                                <el-form-item label="中文名称" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="ship.enname" placeholder="英文名称"></el-input>
+                                                             <el-input style="width: 350px"  v-model="ship.name" placeholder="中文名称"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="所属区域">
+                
+                                                <el-form-item label="英文名称" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="ship.enname" placeholder="英文名称"></el-input>
 
 
-                                                            <el-select style="width: 350px" v-model="ship.region"  filterable placeholder="请选择">
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="所属区域" class="padding-top: 5px;width:40%">
+
+                                                             <el-select style="width: 350px" v-model="ship.region"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_region"
                                             :key="item.id"
@@ -84,87 +203,99 @@
                                 </el-select>
                             
                     </el-form-item>
-                                                                <el-form-item label="UN代码">
+                
+                                                <el-form-item label="UN代码" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="ship.uncode" placeholder="UN代码"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="类型">
-
-
-                                                            <el-input style="width: 350px"  v-model="ship.type" placeholder="类型"></el-input>
+                                                             <el-input style="width: 350px"  v-model="ship.uncode" placeholder="UN代码"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="所属船公司">
+                
+                                                <el-form-item label="类型" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="ship.company" placeholder="所属船公司"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="COS代码">
-
-
-                                                            <el-input style="width: 350px"  v-model="ship.coscode" placeholder="COS代码"></el-input>
+                                                             <el-input style="width: 350px"  v-model="ship.type" placeholder="类型"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="COS船英文名">
+                
+                                                <el-form-item label="所属船公司" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="ship.cosshipenname" placeholder="COS船英文名"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="所属国家">
-
-
-                                                            <el-input style="width: 350px"  v-model="ship.country" placeholder="所属国家"></el-input>
+                                                             <el-input style="width: 350px"  v-model="ship.company" placeholder="所属船公司"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="联系人">
+                
+                                                <el-form-item label="COS代码" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="ship.contact" placeholder="联系人"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="地址">
-
-
-                                                            <el-input style="width: 350px"  v-model="ship.address" placeholder="地址"></el-input>
+                                                             <el-input style="width: 350px"  v-model="ship.coscode" placeholder="COS代码"></el-input>
 
 
                               
                     </el-form-item>
-                                                                <el-form-item label="电话">
+                
+                                                <el-form-item label="COS船英文名" class="padding-top: 5px;width:40%">
 
-
-                                                            <el-input style="width: 350px"  v-model="ship.phone" placeholder="电话"></el-input>
-
-
-                              
-                    </el-form-item>
-                                                                <el-form-item label="航线">
-
-
-                                                            <el-input style="width: 350px"  v-model="ship.route" placeholder="航线"></el-input>
+                                                             <el-input style="width: 350px"  v-model="ship.cosshipenname" placeholder="COS船英文名"></el-input>
 
 
                               
                     </el-form-item>
-                            
+                
+                                                <el-form-item label="所属国家" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="ship.country" placeholder="所属国家"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="联系人" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="ship.contact" placeholder="联系人"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="地址" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="ship.address" placeholder="地址"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="电话" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="ship.phone" placeholder="电话"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="航线" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="ship.route" placeholder="航线"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+            
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
+
         </el-form>
     </div>
 </div>
@@ -172,6 +303,7 @@
 
                                                                                                                                                                                         
 
+<#include "base/billcomments_ref.html">
 <script src="${ctxPath}/static/js/base/ship.js"></script>
 </body>
 </html>

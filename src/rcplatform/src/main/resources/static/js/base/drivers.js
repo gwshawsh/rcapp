@@ -17,8 +17,13 @@ var setting = {
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+	    q:{
+                                                                            code:"",                                                                 name:"",                                                                 phone:"",                                                                 transteam:"",                                                                 documentno:"",                                                                 driveage:"",                                                                 type:""                            
+        },
 		showList: true,
+        showQuery:false,
 		title: null,
+        fileslist:[],
     //用于日期快捷控件
     pickerOptions1: {
         shortcuts: [{
@@ -55,6 +60,9 @@ var vm = new Vue({
         }
 	},
 	methods: {
+	    showQueryPanel:function(){
+	        vm.showQuery=!vm.showQuery;
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -63,10 +71,10 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.drivers = {
-            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
-                                                transteamname:"",
-                                                                typeenumvaluename:"",
-                                                                                                                                                                                code:"",                                                                                                                                                             name:"",                                                                                                                                                             phone:"",                                                                                                                                                             transteam:"",                                                                                                                                                             documentno:"",                                                                                                                                                             driveage:"",                                                                                                                                                             type:""                                                                        
+                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                            transteamname:"",
+                                                                                typeenumvaluename:"",
+                                                                                                                                                                code:"",                                                                                                                                     name:"",                                                                                                                                     phone:"",                                                                                                                                     transteam:"",                                                                                                                                     documentno:"",                                                                                                                                     driveage:"",                                                                                                                                     type:""                                                            
             };
 		},
 		update: function (event) {
@@ -136,8 +144,7 @@ var vm = new Vue({
                 },
             		
         //生成弹出树形空间参照
-
-
+        
         getInfo: function(id){
             $.get("../drivers/info/"+id, function(r){
                 vm.drivers = r.drivers;
@@ -147,8 +154,24 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
+                postData: {'query': JSON.stringify(vm.q)},
                 page:page
             }).trigger("reloadGrid");
+        },
+        upload_on_success:function (response,file,fileList) {
+
+            if(!vm.drivers.files){
+                vm.drivers.files=[];
+            }
+            if(response.page.list&&response.page.list.length>0){
+                vm.drivers.files.push(response.page.list[0]);
+            }
+
+
+        },
+
+        upload_on_change: function (file, fileList) {
+            this.fileslist = fileList;
         }
 	}
 });
@@ -158,13 +181,13 @@ $(function () {
         url: '../drivers/list',
         datatype: "json",
         colModel: [
-							                    { label: 'id', name: 'id', width: 50, key: true },
-                							                    { label: '编码', name: 'code', width: 80 }, 
-											                    { label: '姓名', name: 'name', width: 80 }, 
-											                    { label: '电话', name: 'phone', width: 80 }, 
-											                    { label: '所属车队', name: 'transteamname', width: 80 },                 							                    { label: '证件号', name: 'documentno', width: 80 }, 
-											                    { label: '驾龄', name: 'driveage', width: 80 }, 
-											                    { label: '类型', name: 'typeenumvaluename', width: 80 }                			        ],
+			                                                            { label: 'id', name: 'id', width: 50, key: true,hidden:true },
+                                    			                                                            { label: '编码', name: 'code', width: 80 }, 
+                                    			                                                            { label: '姓名', name: 'name', width: 80 }, 
+                                    			                                                            { label: '电话', name: 'phone', width: 80 }, 
+                                    			                                                            { label: '所属车队', name: 'transteamname', width: 80 },                                     			                                                            { label: '证件号', name: 'documentno', width: 80 }, 
+                                    			                                                            { label: '驾龄', name: 'driveage', width: 80 }, 
+                                    			                                                            { label: '类型', name: 'typeenumvaluename', width: 80 }                                    			        ],
         viewrecords: true,
         height: 385,
         rowNum: 10,

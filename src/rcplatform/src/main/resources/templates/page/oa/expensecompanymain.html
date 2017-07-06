@@ -112,9 +112,9 @@
                                                                     <el-select style="width: 350px" v-model="q.receiver"  filterable placeholder="请选择">
                                         <el-option
                                                 v-for="item in ref_sys_user"
-                                                :key="item.user_id"
+                                                :key="item.id"
                                                 :label="item.fullname"
-                                                :value="item.user_id">
+                                                :value="item.id">
                                         </el-option>
                                     </el-select>
                                 
@@ -159,9 +159,9 @@
                                                                     <el-select style="width: 350px" v-model="q.makeuser"  filterable placeholder="请选择">
                                         <el-option
                                                 v-for="item in ref_sys_user"
-                                                :key="item.user_id"
+                                                :key="item.id"
                                                 :label="item.fullname"
-                                                :value="item.user_id">
+                                                :value="item.id">
                                         </el-option>
                                     </el-select>
                                 
@@ -177,9 +177,9 @@
                                                                     <el-select style="width: 350px" v-model="q.accuser"  filterable placeholder="请选择">
                                         <el-option
                                                 v-for="item in ref_sys_user"
-                                                :key="item.user_id"
+                                                :key="item.id"
                                                 :label="item.fullname"
-                                                :value="item.user_id">
+                                                :value="item.id">
                                         </el-option>
                                     </el-select>
                                 
@@ -293,9 +293,9 @@
                                                              <el-select style="width: 350px" v-model="expensecompanymain.receiver"  filterable placeholder="请选择">
                                     <el-option
                                             v-for="item in ref_sys_user"
-                                            :key="item.userId"
+                                            :key="item.id"
                                             :label="item.fullname"
-                                            :value="item.userId">
+                                            :value="item.id">
                                     </el-option>
                                 </el-select>
                             

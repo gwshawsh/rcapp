@@ -17,8 +17,13 @@ var setting = {
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+	    q:{
+                                                                            code:"",                                                                 name:"",                                                                 address:"",                                                                 contact:"",                                                                 contactNumber:"",                                                                 vehicleType:"",                                                                 billingInformation:"",                                                                 accountInformation:""                            
+        },
 		showList: true,
+        showQuery:false,
 		title: null,
+        fileslist:[],
     //用于日期快捷控件
     pickerOptions1: {
         shortcuts: [{
@@ -52,6 +57,9 @@ var vm = new Vue({
         }
 	},
 	methods: {
+	    showQueryPanel:function(){
+	        vm.showQuery=!vm.showQuery;
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -60,9 +68,9 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.transteam = {
-            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
-                                                vehicleTypeenumvaluename:"",
-                                                                                                                                                                                code:"",                                                                                                                                                             name:"",                                                                                                                                                             address:"",                                                                                                                                                             contact:"",                                                                                                                                                             contactNumber:"",                                                                                                                                                             vehicleType:"",                                                                                                                                                             billingInformation:"",                                                                                                                                                             accountInformation:""                                                                        
+                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                            vehicleTypeenumvaluename:"",
+                                                                                                                                                                code:"",                                                                                                                                     name:"",                                                                                                                                     address:"",                                                                                                                                     contact:"",                                                                                                                                     contactNumber:"",                                                                                                                                     vehicleType:"",                                                                                                                                     billingInformation:"",                                                                                                                                     accountInformation:""                                                            
             };
 		},
 		update: function (event) {
@@ -126,8 +134,7 @@ var vm = new Vue({
                 },
             		
         //生成弹出树形空间参照
-
-
+        
         getInfo: function(id){
             $.get("../transteam/info/"+id, function(r){
                 vm.transteam = r.transteam;
@@ -137,8 +144,24 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
+                postData: {'query': JSON.stringify(vm.q)},
                 page:page
             }).trigger("reloadGrid");
+        },
+        upload_on_success:function (response,file,fileList) {
+
+            if(!vm.transteam.files){
+                vm.transteam.files=[];
+            }
+            if(response.page.list&&response.page.list.length>0){
+                vm.transteam.files.push(response.page.list[0]);
+            }
+
+
+        },
+
+        upload_on_change: function (file, fileList) {
+            this.fileslist = fileList;
         }
 	}
 });
@@ -148,15 +171,15 @@ $(function () {
         url: '../transteam/list',
         datatype: "json",
         colModel: [
-							                    { label: 'id', name: 'id', width: 50, key: true },
-                							                    { label: '编码', name: 'code', width: 80 }, 
-											                    { label: '名称', name: 'name', width: 80 }, 
-											                    { label: '地址', name: 'address', width: 80 }, 
-											                    { label: '联系人', name: 'contact', width: 80 }, 
-											                    { label: '联系电话', name: 'contactNumber', width: 80 }, 
-											                    { label: '车辆类型', name: 'vehicleTypeenumvaluename', width: 80 },                 							                    { label: '开票信息', name: 'billingInformation', width: 80 }, 
-											                    { label: '账户信息', name: 'accountInformation', width: 80 }
-							        ],
+			                                                            { label: 'id', name: 'id', width: 50, key: true,hidden:true },
+                                    			                                                            { label: '编码', name: 'code', width: 80 }, 
+                                    			                                                            { label: '名称', name: 'name', width: 80 }, 
+                                    			                                                            { label: '地址', name: 'address', width: 80 }, 
+                                    			                                                            { label: '联系人', name: 'contact', width: 80 }, 
+                                    			                                                            { label: '联系电话', name: 'contactNumber', width: 80 }, 
+                                    			                                                            { label: '车辆类型', name: 'vehicleTypeenumvaluename', width: 80 },                                     			                                                            { label: '开票信息', name: 'billingInformation', width: 80 }, 
+                                    			                                                            { label: '账户信息', name: 'accountInformation', width: 80 }
+                                    			        ],
         viewrecords: true,
         height: 385,
         rowNum: 10,
