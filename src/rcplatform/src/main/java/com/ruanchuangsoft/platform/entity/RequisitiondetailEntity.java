@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-30 13:35:04
+ * @date 2017-07-06 00:21:21
  */
 public class RequisitiondetailEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -164,4 +164,58 @@ public class RequisitiondetailEntity extends AbstractEntity implements Serializa
         public String getGoodsidname() {
             return goodsidname;
         }
-        																}
+        																
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">单据号</label>"+
+                        "  <div class=\"el-form-item__content\"><a class='billno' onclick=\"openfunc('requisitiondetail/index','请购明细表')\"><span>"+getBillno()+"</span></a>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">序号</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getSerialno()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">商品</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getGoodsidname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">数量</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getGoodscount()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">规格</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getGoodsspec()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">用途</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getGoodsuse()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">需用日期</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getEnddate()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">更新时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getUptdate()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

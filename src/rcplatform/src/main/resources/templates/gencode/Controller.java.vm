@@ -8,6 +8,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
 import org.activiti.engine.task.Task;
+import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
 import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
@@ -110,6 +111,27 @@ public class ${className}Controller extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("${pathName}:save")
     public R save(@RequestBody ${className}Entity ${classname}) {
+          #if($className.endWidths("main"))
+              if(${classname}.getBillno().equals("*")){
+                  String billno=getBillNo("**");
+                ${classname}.setBillno(billno);
+                ${classname}.setBillstatus(BillStatus.NEW);
+                  if(${classname}.getDetails()!=null&&${classname}.getDetails().size()>0){
+                      for(${detailClassName}Entity item:${classname}.getDetails()){
+                          item.setBillno(billno);
+                      }
+                  }
+
+                  if(${classname}.getFiles()!=null&&${classname}.getFiles().size()>0){
+                      for(AttachmentsEntity item:${classname}.getFiles()){
+                          item.setBillno(billno);
+                          attachmentsService.update(item);
+                      }
+                  }
+              }
+
+
+          #end
             ${classname}Service.save(${classname});
 
         return R.ok();
@@ -188,20 +210,8 @@ public class ${className}Controller extends AbstractController {
                     ${classname}Entity.setBillstatus(BillStatus.CLAIM);
                     ${classname}Service.update(${classname}Entity);
 
-                BillcommentsEntity billcommentsEntity = new BillcommentsEntity();
-                billcommentsEntity.setBillno(${classname}Entity.getBillno());
-                billcommentsEntity.setMakedate(new Date());
-                billcommentsEntity.setMakeuser(ShiroUtils.getUserName());
-                billcommentsEntity.setAuditstatus(BillStatus.CLAIM);
-                List<BillcommentsEntity> billcommentsEntityList = getBillcomments(${classname}Entity.getBillno());
-                if (billcommentsEntityList != null && billcommentsEntityList.size() > 0) {
-                    billcommentsEntity.setSerialno(billcommentsEntityList.size());
-                    billcommentsService.save(billcommentsEntity);
-                } else {
-                    billcommentsEntity.setSerialno(0);
-                    billcommentsService.save(billcommentsEntity);
-                }
-
+                //新增一条处理记录：签收
+                newBillcomments(${classname}Entity.getBillno(),"签收", AuditType.CLAIM);
 
                 //执行工作流的签收任务处理
                 Task task = getTaskByBussinessKey(${classname}Entity.getBillno());
@@ -229,16 +239,11 @@ public class ${className}Controller extends AbstractController {
             ${classname}Service.update(${classname}Entity);
 
 
-        billcommentsEntity.setMakedate(new Date());
-        billcommentsEntity.setMakeuser(ShiroUtils.getUserName());
-        List<BillcommentsEntity> billcommentsEntityList = getBillcomments(${classname}Entity.getBillno());
-        if (billcommentsEntityList != null && billcommentsEntityList.size() > 0) {
-            billcommentsEntity.setSerialno(billcommentsEntityList.size());
-            billcommentsService.save(billcommentsEntity);
-        } else {
-            billcommentsEntity.setSerialno(0);
-            billcommentsService.save(billcommentsEntity);
-        }
+        //生成审核日志
+        //新增一条处理记录：审核
+        newBillcomments(${classname}Entity.getBillno(),
+                billcommentsEntity.getRemark(),
+                billcommentsEntity.getAuditstatus());
 
         //工作流处理
         Task task = getTaskByBussinessKey(${classname}Entity.getBillno());

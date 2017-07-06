@@ -1,15 +1,17 @@
 package com.ruanchuangsoft.platform.controller;
 
-import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
+import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
+import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.enums.BillStatus;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
+import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
+import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.activiti.engine.task.Task;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -31,58 +33,59 @@ import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 请购主表
+ * 请购单
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-30 13:35:04
+ * @date 2017-07-06 00:21:21
  */
 @Controller
 @RequestMapping("requisitionmain")
-@Transactional(rollbackFor = {RuntimeException.class, Exception.class})
+@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class RequisitionmainController extends AbstractController {
-    @Autowired
-    private RequisitionmainService requisitionmainService;
+	@Autowired
+	private RequisitionmainService requisitionmainService;
 
     @Autowired
     private RequisitiondetailService requisitiondetailService;
 
     @RequestMapping("/requisitionmain")
-    public String list() {
-        return "requisitionmain/requisitionmain";
-    }
+	public String list(){
+		return "requisitionmain/requisitionmain";
+	}
+
 
 
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("finance/requisitionmain");
+        setViewname("oa/requisitionmain");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
 
     }
 
-    /**
-     * 列表
-     */
-    @ResponseBody
-    @RequestMapping("/list")
-    @RequiresPermissions("requisitionmain:list")
-    public R list(Integer page, Integer limit) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("offset", (page - 1) * limit);
-        map.put("limit", limit);
+	/**
+	 * 列表
+	 */
+	@ResponseBody
+	@RequestMapping("/list")
+	@RequiresPermissions("requisitionmain:list")
+	public R list(Integer page, Integer limit){
+		Map<String, Object> map = new HashMap<>();
+		map.put("offset", (page - 1) * limit);
+		map.put("limit", limit);
         map.put("userid", ShiroUtils.getUserId());//用来与工作流关联
 
-        //查询列表数据
-        List<RequisitionmainEntity> requisitionmainList = requisitionmainService.queryList(map);
-        int total = requisitionmainService.queryTotal(map);
+		//查询列表数据
+		List<RequisitionmainEntity> requisitionmainList = requisitionmainService.queryList(map);
+		int total = requisitionmainService.queryTotal(map);
 
-        PageUtils pageUtil = new PageUtils(requisitionmainList, total, limit, page);
+		PageUtils pageUtil = new PageUtils(requisitionmainList, total, limit, page);
 
-        return R.ok().put("page", pageUtil);
-    }
+		return R.ok().put("page", pageUtil);
+	}
 
     /**
      * 列表
@@ -90,11 +93,11 @@ public class RequisitionmainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/listdetail")
     @RequiresPermissions("requisitionmain:list")
-    public R listdetail(Long formid, Integer page, Integer limit) {
+    public R listdetail(String billno,Integer page, Integer limit){
         Map<String, Object> map = new HashMap<>();
         map.put("offset", (page - 1) * limit);
         map.put("limit", limit);
-        map.put("formid", formid);
+        map.put("billno",billno);
 
 
         //查询列表数据
@@ -106,47 +109,54 @@ public class RequisitionmainController extends AbstractController {
         return R.ok().put("page", pageUtil);
     }
 
-    /**
-     * 信息
-     */
-    @ResponseBody
-    @RequestMapping("/info/{id}")
-    @RequiresPermissions("requisitionmain:info")
-    public R info(@PathVariable("id") Long id) {
-        RequisitionmainEntity requisitionmain = requisitionmainService.queryObject(id);
+	/**
+	 * 信息
+	 */
+	@ResponseBody
+	@RequestMapping("/info/{id}")
+	@RequiresPermissions("requisitionmain:info")
+	public R info(@PathVariable("id") Long id){
+		RequisitionmainEntity requisitionmain = requisitionmainService.queryObject(id);
 
         //查询明细数据
         Map<String, Object> map = new HashMap<>();
-        map.put("formid", id);
+        map.put("id",id);
 
         List<RequisitiondetailEntity> requisitiondetailList = requisitiondetailService.queryList(map);
-        requisitionmain.setDetails(requisitiondetailList);
+		requisitionmain.setDetails(requisitiondetailList );
 
-        return R.ok().put("requisitionmain", requisitionmain);
-    }
+		return R.ok().put("requisitionmain", requisitionmain);
+	}
 
-    /**
-     * 保存
-     */
-    @ResponseBody
-    @RequestMapping("/save")
-    @RequiresPermissions("requisitionmain:save")
-    public R save(@RequestBody RequisitionmainEntity requisitionmain) {
-        if (requisitionmain.getBillno().equals("*")) {
-            String billno = getBillNo("**");
-            requisitionmain.setBillno(billno);
+	/**
+	 * 保存
+	 */
+	@ResponseBody
+	@RequestMapping("/save")
+	@RequiresPermissions("requisitionmain:save")
+	public R save(@RequestBody RequisitionmainEntity requisitionmain){
+        if(requisitionmain.getBillno().equals("*")){
+            String billno=getBillNo("**");
+			requisitionmain.setBillno(billno);
             requisitionmain.setBillstatus(BillStatus.NEW);
-            if (requisitionmain.getDetails() != null && requisitionmain.getDetails().size() > 0) {
-                for (RequisitiondetailEntity item : requisitionmain.getDetails()) {
+            if(requisitionmain.getDetails()!=null&&requisitionmain.getDetails().size()>0){
+                for(RequisitiondetailEntity item:requisitionmain.getDetails()){
                     item.setBillno(billno);
+                }
+            }
+
+            if(requisitionmain.getFiles()!=null&&requisitionmain.getFiles().size()>0){
+                for(AttachmentsEntity item:requisitionmain.getFiles()){
+                    item.setBillno(billno);
+                    attachmentsService.update(item);
                 }
             }
         }
 
-        requisitionmainService.save(requisitionmain);
+		requisitionmainService.save(requisitionmain);
 
-        return R.ok();
-    }
+		return R.ok();
+	}
 
     /**
      * 提交
@@ -154,15 +164,15 @@ public class RequisitionmainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/submitworkflow")
     @RequiresPermissions("requisitionmain:update")
-    public R submitworkflow(@RequestBody Long id) {
-        RequisitionmainEntity requisitionmainEntity = requisitionmainService.queryObject(id);
-        if (requisitionmainEntity == null) {
+    public R submitworkflow(@RequestBody Long id){
+        RequisitionmainEntity requisitionmainEntity=requisitionmainService.queryObject(id);
+        if(requisitionmainEntity==null){
             return R.error("单据不存在，不能提交");
         }
         //启动工作流
-        Map<String, Object> params = new HashMap<>();
+        Map<String,Object> params=new HashMap<>();
         params.put("userid", ShiroUtils.getUserId());
-        String processid = startWorkflow("requisitionmain", requisitionmainEntity.getBillno(), params);
+        String processid=startWorkflow("requisitionmain",requisitionmainEntity.getBillno(),params);
 
         requisitionmainEntity.setBillstatus(BillStatus.SUBMIT);
         requisitionmainEntity.setPocessinstanceid(processid);
@@ -173,67 +183,56 @@ public class RequisitionmainController extends AbstractController {
     }
 
 
-    /**
-     * 修改
-     */
-    @ResponseBody
-    @RequestMapping("/update")
-    @RequiresPermissions("requisitionmain:update")
-    public R update(@RequestBody RequisitionmainEntity requisitionmain) {
-        requisitionmainService.update(requisitionmain);
-
-        return R.ok();
-    }
 
     /**
-     * 删除
-     */
-    @ResponseBody
-    @RequestMapping("/delete")
-    @RequiresPermissions("requisitionmain:delete")
-    public R delete(@RequestBody Long[] ids) {
-        requisitionmainService.deleteBatch(ids);
+	 * 修改
+	 */
+	@ResponseBody
+	@RequestMapping("/update")
+	@RequiresPermissions("requisitionmain:update")
+	public R update(@RequestBody RequisitionmainEntity requisitionmain){
+		requisitionmainService.update(requisitionmain);
 
-        return R.ok();
-    }
+		return R.ok();
+	}
+
+	/**
+	 * 删除
+	 */
+	@ResponseBody
+	@RequestMapping("/delete")
+	@RequiresPermissions("requisitionmain:delete")
+	public R delete(@RequestBody Long[] ids){
+		requisitionmainService.deleteBatch(ids);
+
+		return R.ok();
+	}
 
     /**
-     * 签收
-     * 只有单据状态为提交状态的，才能够签收
-     */
+    * 签收
+    * 只有单据状态为提交状态的，才能够签收
+    */
     @ResponseBody
     @RequestMapping("/claim")
     @RequiresPermissions("requisitionmain:claim")
-    public R claim(@RequestBody Long[] ids) {
+    public R claim(@RequestBody Long[] ids){
 
-        for (Long attkey : ids) {
-            RequisitionmainEntity requisitionmainEntity = requisitionmainService.queryObject(attkey);
-            if (requisitionmainEntity != null && requisitionmainEntity.getBillstatus() == BillStatus.SUBMIT) {
-                requisitionmainEntity.setBillstatus(BillStatus.CLAIM);
-                requisitionmainService.update(requisitionmainEntity);
+            for(Long attkey:ids){
+                    RequisitionmainEntity requisitionmainEntity = requisitionmainService.queryObject(attkey);
+                if (requisitionmainEntity != null && requisitionmainEntity.getBillstatus() == BillStatus.SUBMIT) {
+                    requisitionmainEntity.setBillstatus(BillStatus.CLAIM);
+                    requisitionmainService.update(requisitionmainEntity);
 
-                BillcommentsEntity billcommentsEntity = new BillcommentsEntity();
-                billcommentsEntity.setBillno(requisitionmainEntity.getBillno());
-                billcommentsEntity.setMakedate(new Date());
-                billcommentsEntity.setMakeuser(ShiroUtils.getUserId());
-                billcommentsEntity.setAuditstatus(BillStatus.CLAIM);
-                List<BillcommentsEntity> billcommentsEntityList = getBillcomments(requisitionmainEntity.getBillno());
-                if (billcommentsEntityList != null && billcommentsEntityList.size() > 0) {
-                    billcommentsEntity.setSerialno(billcommentsEntityList.size());
-                    billcommentsService.save(billcommentsEntity);
-                } else {
-                    billcommentsEntity.setSerialno(0);
-                    billcommentsService.save(billcommentsEntity);
-                }
+                    //新增一条处理记录：签收
+                    newBillcomments(requisitionmainEntity.getBillno(),"签收", AuditType.CLAIM);
 
-
-                //执行工作流的签收任务处理
-                Task task = getTaskByBussinessKey(requisitionmainEntity.getBillno());
-                if (task != null) {
-                    claimTasks(task);
+                    //执行工作流的签收任务处理
+                    Task task = getTaskByBussinessKey(requisitionmainEntity.getBillno());
+                    if(task!=null) {
+                        claimTasks(task);
+                    }
                 }
             }
-        }
 
 
         return R.ok();
@@ -245,36 +244,33 @@ public class RequisitionmainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/audit")
     @RequiresPermissions("requisitionmain:audit")
-    public R audit(@RequestBody RequisitionmainEntity requisitionmainEntity) {
+    public R audit(@RequestBody RequisitionmainEntity requisitionmainEntity){
 
-        BillcommentsEntity billcommentsEntity = requisitionmainEntity.getBillcommentsEntity();
+        BillcommentsEntity billcommentsEntity=requisitionmainEntity.getBillcommentsEntity();
         requisitionmainEntity.setBillstatus(BillStatus.AUDIT);
 
         requisitionmainService.update(requisitionmainEntity);
 
 
-        billcommentsEntity.setMakedate(new Date());
-        billcommentsEntity.setMakeuser(ShiroUtils.getUserId());
-        List<BillcommentsEntity> billcommentsEntityList = getBillcomments(requisitionmainEntity.getBillno());
-        if (billcommentsEntityList != null && billcommentsEntityList.size() > 0) {
-            billcommentsEntity.setSerialno(billcommentsEntityList.size());
-            billcommentsService.save(billcommentsEntity);
-        } else {
-            billcommentsEntity.setSerialno(0);
-            billcommentsService.save(billcommentsEntity);
-        }
+        //生成审核日志
+        //新增一条处理记录：审核
+        newBillcomments(requisitionmainEntity.getBillno(),
+                billcommentsEntity.getRemark(),
+                billcommentsEntity.getAuditstatus());
+
+
 
         //工作流处理
-        Task task = getTaskByBussinessKey(requisitionmainEntity.getBillno());
-        if (task != null) {
-            Map<String, Object> params = new HashMap<>();
-            params.put("auditstatus", billcommentsEntity.getAuditstatus());
-            completeTask(task, billcommentsEntity.getRemark(), params);
+        Task task=getTaskByBussinessKey(requisitionmainEntity.getBillno());
+        if(task!=null){
+            Map<String,Object> params=new HashMap<>();
+            params.put("auditstatus",billcommentsEntity.getAuditstatus());
+            completeTask(task,billcommentsEntity.getRemark(),params);
             //检查工作流是否结束，如果结束，则设置单据状态为已完成
-            boolean endflag = isProcessEnd(task.getProcessInstanceId());
-            if (endflag) {
-                requisitionmainEntity.setBillstatus(BillStatus.COMPLETE);
-                requisitionmainService.update(requisitionmainEntity);
+            boolean endflag=isProcessEnd(task.getProcessInstanceId());
+            if(endflag){
+                    requisitionmainEntity.setBillstatus(BillStatus.COMPLETE);
+                    requisitionmainService.update(requisitionmainEntity);
             }
         }
 
@@ -288,8 +284,8 @@ public class RequisitionmainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/unaudit")
     @RequiresPermissions("requisitionmain:unaudit")
-    public R unaudit(@RequestBody Long[] ids) {
-        requisitionmainService.unauditBatch(ids);
+    public R unaudit(@RequestBody Long[] ids){
+			requisitionmainService.unauditBatch(ids);
 
         return R.ok();
     }

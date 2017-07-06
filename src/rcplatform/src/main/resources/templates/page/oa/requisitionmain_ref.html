@@ -1,0 +1,113 @@
+<div id="ref_requisitionmain" style="display: none;padding:10px;">
+    <table id="ref_grid_requisitionmain"></table>
+    <div id="ref_gridpager_requisitionmain"></div>
+</div>
+<script>
+    var mutilflag = false;
+    function showrefgrid_requisitionmain(title, callback, pflag) {
+        mutiflag = pflag || false;
+        layer.open({
+            type: 1,
+            offset: '50px',
+            skin: 'layui-layer-molv',
+            title: title,
+            area: ['450px', '450px'],
+            shade: 0,
+            shadeClose: false,
+            content: jQuery("#ref_requisitionmain"),
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                var row = getSelectedRowData("ref_grid_requisitionmain");
+                if (callback) {
+                    callback(row);
+                }
+
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+        $("#ref_grid_requisitionmain").jqGrid({
+            url: '../requisitionmain/list',
+            datatype: "json",
+            colModel: [
+                                                            {label: 'id', name: 'id', width: 50, key: true},
+
+                                                                                {
+                            label: '单据号',
+                            name: 'billno',
+                            width: 80
+                        }, 
+                                                                                { label: '请购人', name: 'fullname', width: 80 }, 
+                                                                                { label: '所属部门', name: 'name', width: 80 }, 
+                                                                                { label: '请购类别', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '预算计划',
+                            name: 'budgetmainid',
+                            width: 80
+                        }, 
+                                                                                { label: '单据状态', name: 'enumvaluename', width: 80 }, 
+                                                                                { label: '制单人', name: 'fullname', width: 80 }, 
+                                                                                {
+                            label: '制单日期',
+                            name: 'makedate',
+                            width: 80
+                        }, 
+                                                                                { label: '审核人', name: 'fullname', width: 80 }, 
+                                                                                {
+                            label: '审核日期',
+                            name: 'accdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '更新时间',
+                            name: 'uptdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '备注',
+                            name: 'remark',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '流程ID',
+                            name: 'pocessinstanceid',
+                            width: 80
+                        }
+                                    ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList: [10, 30, 50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth: true,
+            multiselect: true,
+            pager: "#ref_gridpager_requisitionmain",
+            jsonReader: {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames: {
+                page: "page",
+                rows: "limit",
+                order: "order"
+            },
+            beforeSelectRow: function () {
+                if (!mutiflag) {
+                    $("#ref_grid_requisitionmain").jqGrid('resetSelection');
+                }
+                return (true);
+            },
+            gridComplete: function () {
+                //隐藏grid底部滚动条
+                //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+
+    });
+</script>

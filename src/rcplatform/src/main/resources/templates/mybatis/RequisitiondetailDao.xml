@@ -17,67 +17,40 @@
 																																		        a.*
         from requisitiondetail a
         <where>
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
+							                    <if test="id != null and id != '' ">
+						 `id` = #{id}
                     </if>
 				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
+							                    <if test="billno != null and billno != '' ">
+						 and  `billno` = #{billno}
                     </if>
 				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
+							                    <if test="serialno != null and serialno != '' ">
+						 and  `serialno` = #{serialno}
                     </if>
 				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
+							                    <if test="goodsid != null and goodsid != '' ">
+						 and  `goodsid` = #{goodsid}
                     </if>
 				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
+							                    <if test="goodscount != null and goodscount != '' ">
+						 and  `goodscount` = #{goodscount}
                     </if>
 				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
+							                    <if test="goodsspec != null and goodsspec != '' ">
+						 and  `goodsspec` = #{goodsspec}
                     </if>
 				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
+							                    <if test="goodsuse != null and goodsuse != '' ">
+						 and  `goodsuse` = #{goodsuse}
                     </if>
 				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
+							                    <if test="enddate != null and enddate != '' ">
+						 and  `enddate` = #{enddate}
                     </if>
 				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
+							                    <if test="uptdate != null and uptdate != '' ">
+						 and  `uptdate` = #{uptdate}
                     </if>
 				
 			        </where>

@@ -3,11 +3,11 @@ package com.ruanchuangsoft.platform.dao;
 import com.ruanchuangsoft.platform.entity.RequisitionmainEntity;
 import org.apache.ibatis.annotations.Mapper;
 /**
- * 请购主表
+ * 请购单
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-30 13:35:04
+ * @date 2017-07-06 00:21:21
  */
 @Mapper
 public interface RequisitionmainDao extends BaseDao<RequisitionmainEntity> {

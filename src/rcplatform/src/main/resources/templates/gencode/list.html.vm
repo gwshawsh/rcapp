@@ -63,13 +63,13 @@
             </el-button-group>
 
             <div v-show="showQuery">
-                <el-form label-position="right" :inline="true" label-width="100px" style="padding:10px">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
 
                     #foreach($column in $columns)
                         #if($column.columnName != $pk.columnName
 
                         )
-                            <el-form-item label="${column.comments}">
+                            <el-form-item label="${column.comments}" >
 
                                 #if($column.columnName.endsWith("date"))
 
@@ -152,7 +152,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right"  label-width="100px" style="padding:30px">
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
 
             #foreach($column in $columns)
                 #if($column.columnName != $pk.columnName
@@ -165,7 +165,7 @@
                 &&$column.columnName != "uptdate"
                 &&$column.columnName != "pocessinstanceid"
              )
-                    <el-form-item label="${column.comments}">
+                    <el-form-item label="${column.comments}" class="padding-top: 5px;width:40%">
 
                              #if($column.columnName.endsWith("date"))
                                 <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 100%;"></el-date-picker>
@@ -178,7 +178,7 @@
 
                             #elseif($column.attrType=="Double"||$column.attrType=="double")
 
-                                <el-input-number style="width: 350px" v-model="${classname}.${column.attrname}" :min="1" ></el-input-number>
+                                <el-input style="width: 350px" v-model="${classname}.${column.attrname}" :min="0" ></el-input>
 
                             #elseif($column.refType.equalsIgnoreCase("dialog"))
 
@@ -219,7 +219,19 @@
 
                     </el-form-item>
                 #end
+
             #end
+
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
 
         </el-form>
     </div>

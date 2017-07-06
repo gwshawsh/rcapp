@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
-
+import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
+import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
 import com.ruanchuangsoft.platform.enums.BillStatus;
+import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.activiti.engine.task.Task;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -251,7 +253,6 @@ public class ${className}Controller extends AbstractController {
 
         //生成审核日志
         //新增一条处理记录：审核
-        BillcommentsEntity billcommentsEntity=${classname}Entity.getBillcommentsEntity();
         newBillcomments(${classname}Entity.getBillno(),
                 billcommentsEntity.getRemark(),
                 billcommentsEntity.getAuditstatus());

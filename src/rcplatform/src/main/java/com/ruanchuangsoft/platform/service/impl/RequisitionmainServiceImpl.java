@@ -76,6 +76,7 @@ public class RequisitionmainServiceImpl implements RequisitionmainService {
 			requisitionmainDao.deleteBatch(ids);
     }
 
+
     @Override
     public void auditBatch(Long[] ids){
 			requisitionmainDao.auditBatch(ids);

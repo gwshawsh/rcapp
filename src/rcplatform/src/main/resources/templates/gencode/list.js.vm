@@ -106,7 +106,7 @@ var vm = new Vue({
                         #if($column.columnName.equalsIgnoreCase('billno'))
                             ${column.attrname}:"*"#if($velocityCount != $columns.size()), #end
                         #elseif ($column.columnName.equalsIgnoreCase('makeuser'))
-                            ${column.attrname}:gUserFullName#if($velocityCount != $columns.size()), #end
+                            ${column.attrname}:gUserId#if($velocityCount != $columns.size()), #end
                         #elseif ($column.columnName.equalsIgnoreCase('makedate'))
                             ${column.attrname}:mktime#if($velocityCount != $columns.size()), #end
                         #else
@@ -399,6 +399,21 @@ var vm = new Vue({
                 postData: {'query': JSON.stringify(vm.q)},
                 page:page
             }).trigger("reloadGrid");
+        },
+        upload_on_success:function (response,file,fileList) {
+
+            if(!vm.${classname}.files){
+                vm.${classname}.files=[];
+            }
+            if(response.page.list&&response.page.list.length>0){
+                vm.${classname}.files.push(response.page.list[0]);
+            }
+
+
+        },
+
+        upload_on_change: function (file, fileList) {
+            this.fileslist = fileList;
         }
 	}
 });

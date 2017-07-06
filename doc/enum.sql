@@ -164,6 +164,21 @@ INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) V
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2006', '0', '放单类', '费用项目类别');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2006', '1', '运费类', '费用项目类别');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2006', '2', '采购类', '费用项目类别');
-INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2005', '3', '其他类', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2006', '3', '其他类', '费用项目类别');
 
 
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2007', '0', '移动话费', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2007', '1', '固定话费', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2007', '2', '路桥杂费', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2007', '3', '市内交通费', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2007', '4', '差旅费', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2007', '5', '业务招待费', '费用项目类别');
+
+
+
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2008', '0', '公司行政费用', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2008', '1', '工资费用', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2008', '2', '改单代垫费用', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2008', '3', '驾驶员代垫费用', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2008', '4', '税费支出', '费用项目类别');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2008', '5', '其他办公费', '费用项目类别');

@@ -14,15 +14,6 @@ CREATE TABLE `sys_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单管理';
 
 
---  部门
-CREATE TABLE `dept` (
-  `dept_id` bigint NOT NULL AUTO_INCREMENT,
-  `parent_id` bigint COMMENT '上级部门ID，一级部门为0',
-  `name` varchar(50) COMMENT '部门名称',
-  `type` int COMMENT '类型   0：目录   1：菜单   ', 
-  `order_num` int COMMENT '排序',
-  PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门管理';
 
 --  部门
 CREATE TABLE `sys_dept` (
@@ -37,7 +28,7 @@ CREATE TABLE `sys_dept` (
 
 --  系统用户
 CREATE TABLE `sys_user` (
-  `user_id` bigint NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL COMMENT '用户编码',
   `fullname` varchar(50)  COMMENT '姓名',
   `password` varchar(100) COMMENT '密码',
@@ -1097,35 +1088,35 @@ CREATE TABLE `depatureapplicationmain`(
 
 
 
--- 租赁合同
-DROP TABLE IF EXISTS `rentcontractmain`;
-CREATE TABLE `rentcontractmain`(
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `billno` varchar(50) COMMENT '单据号',
-  `orgid` bigint COMMENT '客户:dialogtree:organization:id:name',
-  `billtype` int COMMENT '收付款类型:enum:1011:enumvalueid:enumvaluename',-- :0：收款 1：付款,
-  `linkman` varchar(50) null COMMENT '客户联系人',
-  `mobile` varchar(20) null COMMENT '客户联系电话',
-  `paytype` bigint COMMENT '付款方式:combo:paytype:id:name',
-  `paycircle` int COMMENT '结算周期:enum:1010:enumvalueid:enumvaluename',
-  `boctid` bigint COMMENT '币别:combo:boctype:id:boctypename',
-  `rate` decimal(19,4) COMMENT '汇率',
-  `taxrate` decimal(19,4) COMMENT '税率',
-  `rentprice` decimal(19,4) COMMENT '月租金',
-  `rentmonth` int COMMENT '租期(月)',
-  `renttotal` decimal(19,4) COMMENT '总金额',
-  `bgndate` datetime COMMENT '生效日期',--  
-  `enddate` datetime COMMENT '失效日期',
-  `remark` varchar(1000) COMMENT '备注',
-  `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',-- :0：新增 1：审核 2：作废',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
-  `makedate` datetime COMMENT '制单日期',
-  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
-  `accdate` datetime COMMENT '审核日期',
-  `uptdate` datetime COMMENT '更新时间', 
-  `pocessinstanceid` varchar(100) COMMENT '流程ID',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='租赁合同';
+-- -- 租赁合同
+-- DROP TABLE IF EXISTS `rentcontractmain`;
+-- CREATE TABLE `rentcontractmain`(
+--   `id` bigint NOT NULL AUTO_INCREMENT,
+--   `billno` varchar(50) COMMENT '单据号',
+--   `orgid` bigint COMMENT '客户:dialogtree:organization:id:name',
+--   `billtype` int COMMENT '收付款类型:enum:1011:enumvalueid:enumvaluename',-- :0：收款 1：付款,
+--   `linkman` varchar(50) null COMMENT '客户联系人',
+--   `mobile` varchar(20) null COMMENT '客户联系电话',
+--   `paytype` bigint COMMENT '付款方式:combo:paytype:id:name',
+--   `paycircle` int COMMENT '结算周期:enum:1010:enumvalueid:enumvaluename',
+--   `boctid` bigint COMMENT '币别:combo:boctype:id:boctypename',
+--   `rate` decimal(19,4) COMMENT '汇率',
+--   `taxrate` decimal(19,4) COMMENT '税率',
+--   `rentprice` decimal(19,4) COMMENT '月租金',
+--   `rentmonth` int COMMENT '租期(月)',
+--   `renttotal` decimal(19,4) COMMENT '总金额',
+--   `bgndate` datetime COMMENT '生效日期',--  
+--   `enddate` datetime COMMENT '失效日期',
+--   `remark` varchar(1000) COMMENT '备注',
+--   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',-- :0：新增 1：审核 2：作废',
+--   `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+--   `makedate` datetime COMMENT '制单日期',
+--   `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+--   `accdate` datetime COMMENT '审核日期',
+--   `uptdate` datetime COMMENT '更新时间', 
+--   `pocessinstanceid` varchar(100) COMMENT '流程ID',
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='租赁合同';
 
 
 -- -- 机械维修合同
@@ -1537,17 +1528,17 @@ DROP TABLE IF EXISTS `expensemain`;
 CREATE TABLE `expensemain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '报销单号',
-  `applyuser` varchar(50) COMMENT '申请人:combo:sys_user:user_id:fullname',
   `deptid` bigint COMMENT '部门:dialogtree:sys_dept:id:name',
   `applydate` datetime COMMENT '申请日期',
-  `costcategoryid` bigint COMMENT '费用项目:dialogtree:accountcategory:id:name',
+  `costcategoryid` bigint COMMENT '费用项目:enum:2007:enumvalueid:enumvaluename',
   `expensemoney` double COMMENT '报销金额',
   `title` varchar(500) COMMENT '报销标题',
   `remark` varchar(1000) COMMENT '详情',
-  `receiver` varchar(50) COMMENT '收款人:combo:sys_user:user_id:fullname',
-  `paytype` varchar(50) COMMENT '支付方式',
+  `receiver` bigint COMMENT '收款人:combo:sys_user:user_id:fullname',
+  `paytype` varchar(50) COMMENT '支付方式:enum:1014:enumvalueid:enumvaluename',
   `bankaccount` varchar(30) COMMENT '银行账户',
-  `makeuser` bigint COMMENT '制单人:combo:sys_user:user_id:fullname',
+  `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
+  `makeuser` bigint COMMENT '申请人:combo:sys_user:user_id:fullname',
   `makedate` datetime COMMENT '制单日期',
   `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
   `accdate` datetime COMMENT '审核日期', 
@@ -1557,6 +1548,31 @@ CREATE TABLE `expensemain`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报销单';
 
  
+ -- 公司费用
+DROP TABLE IF EXISTS `expensecompanymain`;
+CREATE TABLE `expensecompanymain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billno` varchar(50) COMMENT '报销单号',
+  `deptid` bigint COMMENT '部门:dialogtree:sys_dept:id:name',
+  `applydate` datetime COMMENT '申请日期',
+  `costcategoryid` bigint COMMENT '费用项目:enum:2008:enumvalueid:enumvaluename',
+  `expensemoney` double COMMENT '报销金额',
+  `title` varchar(500) COMMENT '报销标题',
+  `remark` varchar(1000) COMMENT '详情',
+  `receiver` bigint COMMENT '收款人:combo:sys_user:user_id:fullname',
+  `paytype` varchar(50) COMMENT '支付方式:enum:1014:enumvalueid:enumvaluename',
+  `bankaccount` varchar(30) COMMENT '银行账户',
+  `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
+  `makeuser` bigint COMMENT '申请人:combo:sys_user:user_id:fullname',
+  `makedate` datetime COMMENT '制单日期',
+  `accuser` bigint COMMENT '审核人:combo:sys_user:user_id:fullname',
+  `accdate` datetime COMMENT '审核日期', 
+  `uptdate` datetime COMMENT '更新时间',
+  `pocessinstanceid` varchar(100) COMMENT '流程ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司费用';
+
+
 
 -- 附件表
 DROP TABLE IF EXISTS `attachments`;

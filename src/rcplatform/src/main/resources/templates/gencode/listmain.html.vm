@@ -182,7 +182,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
+        <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
 
             #foreach($column in $columns)
                 #if($column.columnName != $pk.columnName
@@ -194,7 +194,7 @@
                     &&$column.columnName != "accdate"
                     &&$column.columnName != "uptdate"
                     &&$column.columnName != "pocessinstanceid")
-                    <el-form-item label="${column.comments}"  style="padding-top: 22px">
+                    <el-form-item label="${column.comments}"  style="padding-top: 5px;width:40%">
                         #if($column.columnName.endsWith("date"))
 
                             <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 168px;"></el-date-picker>
@@ -207,7 +207,7 @@
 
                         #elseif($column.attrType=="Double"||$column.attrType=="double")
 
-                            <el-input-number v-model="${classname}.${column.attrname}" :min="1" style="width: 168px;"></el-input-number>
+                            <el-input v-model="${classname}.${column.attrname}" :min="0" style="width: 168px;"></el-input>
                         #elseif($column.refType.equalsIgnoreCase("dialog"))
                             <input v-model="${classname}.${column.attrname}${column.refColumnName}" v-on:click="select${column.attrname}${column.refTable}"
                                       placeholder="${column.comments}" style="width: 168px;" class="el-input el-input__inner"></input>

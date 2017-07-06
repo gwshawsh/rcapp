@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.ExpensemainDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.ExpensemainEntity">
+		select
+				    			    						               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+						    			    						                    ifnull((select enumvaluename from  enumtable b where a.costcategoryid=b.enumvalueid and b.enumtype='2007'),'') as costcategoryidenumvaluename,
+						    			    			    			    						               		ifnull((select fullname from  sys_user b where a.receiver=b.user_id),'') as receiverfullname,
+						    						                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='1014'),'') as paytypeenumvaluename,
+						    			    						                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+						    						               		ifnull((select fullname from  sys_user b where a.makeuser=b.user_id),'') as makeuserfullname,
+						    			    						               		ifnull((select fullname from  sys_user b where a.accuser=b.user_id),'') as accuserfullname,
+						    			    			    			    	        a.*
+		from expensemain a where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.ExpensemainEntity">
+		select
+																			               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+																					                    ifnull((select enumvaluename from  enumtable b where a.costcategoryid=b.enumvalueid and b.enumtype='2007'),'') as costcategoryidenumvaluename,
+																															               		ifnull((select fullname from  sys_user b where a.receiver=b.user_id),'') as receiverfullname,
+																                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='1014'),'') as paytypeenumvaluename,
+																					                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																               		ifnull((select fullname from  sys_user b where a.makeuser=b.user_id),'') as makeuserfullname,
+																					               		ifnull((select fullname from  sys_user b where a.accuser=b.user_id),'') as accuserfullname,
+																								        a.*
+		from expensemain a
+        <where>
+							                    <if test="id != null and id != '' ">
+						 `id` = #{id}
+                    </if>
+				
+							                    <if test="billno != null and billno != '' ">
+						 and  `billno` = #{billno}
+                    </if>
+				
+							                    <if test="deptid != null and deptid != '' ">
+						 and  `deptid` = #{deptid}
+                    </if>
+				
+							                    <if test="applydate != null and applydate != '' ">
+						 and  `applydate` = #{applydate}
+                    </if>
+				
+							                    <if test="costcategoryid != null and costcategoryid != '' ">
+						 and  `costcategoryid` = #{costcategoryid}
+                    </if>
+				
+							                    <if test="expensemoney != null and expensemoney != '' ">
+						 and  `expensemoney` = #{expensemoney}
+                    </if>
+				
+							                    <if test="title != null and title != '' ">
+						 and  `title` = #{title}
+                    </if>
+				
+							                    <if test="remark != null and remark != '' ">
+						 and  `remark` = #{remark}
+                    </if>
+				
+							                    <if test="receiver != null and receiver != '' ">
+						 and  `receiver` = #{receiver}
+                    </if>
+				
+							                    <if test="paytype != null and paytype != '' ">
+						 and  `paytype` = #{paytype}
+                    </if>
+				
+							                    <if test="bankaccount != null and bankaccount != '' ">
+						 and  `bankaccount` = #{bankaccount}
+                    </if>
+				
+							                    <if test="billstatus != null and billstatus != '' ">
+						 and  `billstatus` = #{billstatus}
+                    </if>
+				
+							                    <if test="makeuser != null and makeuser != '' ">
+						 and  `makeuser` = #{makeuser}
+                    </if>
+				
+							                    <if test="makedate != null and makedate != '' ">
+						 and  `makedate` = #{makedate}
+                    </if>
+				
+							                    <if test="accuser != null and accuser != '' ">
+						 and  `accuser` = #{accuser}
+                    </if>
+				
+							                    <if test="accdate != null and accdate != '' ">
+						 and  `accdate` = #{accdate}
+                    </if>
+				
+							                    <if test="uptdate != null and uptdate != '' ">
+						 and  `uptdate` = #{uptdate}
+                    </if>
+				
+							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
+						 and  `pocessinstanceid` = #{pocessinstanceid}
+                    </if>
+                    <if test="userid != null ">
+						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
+                    </if>
+				
+			        </where>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from expensemain 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.ExpensemainEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into expensemain
+		(
+			`billno`, 
+			`deptid`, 
+			`applydate`, 
+			`costcategoryid`, 
+			`expensemoney`, 
+			`title`, 
+			`remark`, 
+			`receiver`, 
+			`paytype`, 
+			`bankaccount`, 
+			`billstatus`, 
+			`makeuser`, 
+			`makedate`, 
+			`accuser`, 
+			`accdate`, 
+			`uptdate`, 
+			`pocessinstanceid`
+		)
+		values
+		(
+			#{billno}, 
+			#{deptid}, 
+			#{applydate}, 
+			#{costcategoryid}, 
+			#{expensemoney}, 
+			#{title}, 
+			#{remark}, 
+			#{receiver}, 
+			#{paytype}, 
+			#{bankaccount}, 
+			#{billstatus}, 
+			#{makeuser}, 
+			#{makedate}, 
+			#{accuser}, 
+			#{accdate}, 
+			#{uptdate}, 
+			#{pocessinstanceid}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.ExpensemainEntity">
+		update expensemain 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="deptid != null">`deptid` = #{deptid}, </if>
+			<if test="applydate != null">`applydate` = #{applydate}, </if>
+			<if test="costcategoryid != null">`costcategoryid` = #{costcategoryid}, </if>
+			<if test="expensemoney != null">`expensemoney` = #{expensemoney}, </if>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="receiver != null">`receiver` = #{receiver}, </if>
+			<if test="paytype != null">`paytype` = #{paytype}, </if>
+			<if test="bankaccount != null">`bankaccount` = #{bankaccount}, </if>
+			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
+			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
+			<if test="makedate != null">`makedate` = #{makedate}, </if>
+			<if test="accuser != null">`accuser` = #{accuser}, </if>
+			<if test="accdate != null">`accdate` = #{accdate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}, </if>
+			<if test="pocessinstanceid != null">`pocessinstanceid` = #{pocessinstanceid}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from expensemain where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from expensemain where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
