@@ -138,7 +138,7 @@ var vm = new Vue({
 		},
 		getUser: function(){
 			$.getJSON("sys_user/info?_"+$.now(), function(r){
-				vm.user = r.user;
+				vm.user = r.sysUser;
 			});
 		},
 		updatePassword: function(){

@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import com.ruanchuangsoft.platform.entity.*;
+import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.enums.EmptyBillStatus;
 import com.ruanchuangsoft.platform.enums.TranBillType;
 import com.ruanchuangsoft.platform.service.TakeboxdetailService;
@@ -154,9 +155,9 @@ public class EmptymainController extends AbstractController {
 	@ResponseBody
 	@RequestMapping("/audit")
 	@RequiresPermissions("emptymain:audit")
-	public R audit(@RequestBody  Long[] ids){
-		for(long id:ids){
-			EmptymainEntity emptymain=emptymainService.queryObject(id);
+	public R audit(@RequestBody  EmptymainEntity pemptymain){
+
+			EmptymainEntity emptymain=emptymainService.queryObject(pemptymain.getId());
 			if(emptymain!=null){
 				if(emptymain.getBillstatus().equals(EmptyBillStatus.AUDIT)){
 					return R.error(1,"单据已经审核,不能重复审核");
@@ -185,8 +186,9 @@ public class EmptymainController extends AbstractController {
 					takeboxmainEntity.setEndplaceid(emptymain.getEndplaceid());
 					takeboxmainEntity.setBgnplanarrtime(emptymain.getPlanarrdatetime());
 					takeboxmainEntity.setEndplanarrtime(emptymain.getPlanarrdatetime());
+					takeboxmainEntity.setBillstatus(String.valueOf(BillStatus.NEW));
 					takeboxmainEntity.setMakedate(new Date());
-					takeboxmainEntity.setMakeuser(ShiroUtils.getUserName());
+					takeboxmainEntity.setMakeuser(String.valueOf(ShiroUtils.getUserId()));
 					takeboxmainEntity.setUptdate(new Date());
 
 					List<TakeboxdetailEntity> details = new ArrayList<>();
@@ -226,8 +228,9 @@ public class EmptymainController extends AbstractController {
 					transboxmainEntity.setTakeboxplaceid(emptymain.getTakeboxplaceid());
 					transboxmainEntity.setBgnplanarrtime(emptymain.getPlanarrdatetime());
 					transboxmainEntity.setEndplanarrtime(emptymain.getPlanarrdatetime());
+					transboxmainEntity.setBillstatus(String.valueOf(BillStatus.NEW));
 					transboxmainEntity.setMakedate(new Date());
-					transboxmainEntity.setMakeuser(ShiroUtils.getUserName());
+					transboxmainEntity.setMakeuser(String.valueOf(ShiroUtils.getUserId()));
 					transboxmainEntity.setUptdate(new Date());
 					List<TransboxdetailEntity> lstTransDetail=new ArrayList<>();
 					for(int i=0;i<emptymain.getBoxqty();i++){
@@ -251,7 +254,7 @@ public class EmptymainController extends AbstractController {
 
 				}
 			}
-		}
+
 
 
 

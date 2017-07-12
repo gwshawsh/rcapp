@@ -4,6 +4,7 @@
 </div>
 <script>
     var mutilflag = false;
+
     function showrefgrid_budgetmain(title, callback, pflag) {
         mutiflag = pflag || false;
         layer.open({
@@ -33,66 +34,66 @@
             url: '../budgetmain/list',
             datatype: "json",
             colModel: [
-                                                            {label: 'id', name: 'id', width: 50, key: true},
+                {label: 'id', name: 'id', width: 50, key: true},
 
-                                                                                {
-                            label: '单据号',
-                            name: 'billno',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '计划开始日期',
-                            name: 'begindate',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '计划结束日期',
-                            name: 'enddate',
-                            width: 80
-                        }, 
-                                                                                { label: '部门', name: 'name', width: 80 }, 
-                                                                                {
-                            label: '预算类型',
-                            name: 'billtype',
-                            width: 80
-                        }, 
-                                                                                { label: '单据状态', name: 'enumvaluename', width: 80 }, 
-                                                                                {
-                            label: '制单人',
-                            name: 'makeuser',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '制单日期',
-                            name: 'makedate',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '审核人',
-                            name: 'accuser',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '审核日期',
-                            name: 'accdate',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '签批人',
-                            name: 'rzuser',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '签批日期',
-                            name: 'rzdate',
-                            width: 80
-                        }, 
-                                                                                {
-                            label: '更新时间',
-                            name: 'uptdate',
-                            width: 80
-                        }
-                                    ],
+                {
+                    label: '单据号',
+                    name: 'billno',
+                    width: 80
+                },
+                {
+                    label: '计划开始日期',
+                    name: 'begindate',
+                    width: 80
+                },
+                {
+                    label: '计划结束日期',
+                    name: 'enddate',
+                    width: 80
+                },
+                {label: '部门', name: 'name', width: 80},
+                {
+                    label: '预算类型',
+                    name: 'billtype',
+                    width: 80
+                },
+                {label: '单据状态', name: 'enumvaluename', width: 80},
+                {
+                    label: '制单人',
+                    name: 'makeuser',
+                    width: 80
+                },
+                {
+                    label: '制单日期',
+                    name: 'makedate',
+                    width: 80
+                },
+                {
+                    label: '审核人',
+                    name: 'accuser',
+                    width: 80
+                },
+                {
+                    label: '审核日期',
+                    name: 'accdate',
+                    width: 80
+                },
+                {
+                    label: '签批人',
+                    name: 'rzuser',
+                    width: 80
+                },
+                {
+                    label: '签批日期',
+                    name: 'rzdate',
+                    width: 80
+                },
+                {
+                    label: '更新时间',
+                    name: 'uptdate',
+                    width: 80
+                }
+            ],
             viewrecords: true,
             height: 385,
             rowNum: 10,

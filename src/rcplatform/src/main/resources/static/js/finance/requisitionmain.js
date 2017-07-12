@@ -559,7 +559,8 @@ $(function () {
 
     //执行调用参照调用下拉框函数,初始化下拉数据
     vm.getRefgoods();
-
+    createBillAttachmentsGrid();
+    createBillCommentsGrid();
 
     initGridHeightHalf("#jqGrid");
     initGridHeightHalf("#jqGridDetail");

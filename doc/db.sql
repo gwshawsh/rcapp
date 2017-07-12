@@ -845,7 +845,7 @@ CREATE TABLE `transboxstatusrec`(
   `refbilltype` int COMMENT '参照单据类型:enum:1006:enumvalueid:enumvaluename', 
   `transcompanyid` bigint COMMENT '运输公司:dialog:organization:id:name',
   `tkbillno` varchar(50) COMMENT '放箱单号',
-  `billstatus` varchar(50) COMMENT '状态:enum:2001:enumvalueid:enumvaluename',
+  `billstatus` varchar(50) COMMENT '状态:enum:2002:enumvalueid:enumvaluename',
 
   `ladingcode` varchar(50) COMMENT '提单号',
   `shipname` varchar(20) COMMENT '船名',
@@ -868,6 +868,9 @@ CREATE TABLE `transboxstatusrec`(
   `realarrvetime` datetime COMMENT '实际到场时间',
   `planporttime` datetime COMMENT '计划进港时间',  
   `realporttime` datetime COMMENT '实际进港时间',
+
+  `takeboxerror` varchar(500) COMMENT '放单异常备注',
+
   
 
   `carno` varchar(50) COMMENT '车牌号',

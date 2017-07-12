@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>费用项目</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="panel-heading">
+            <el-button-group>
+            <@shiro.hasPermission name="feeinfo:list">
+            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="feeinfo:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="feeinfo:save">
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="feeinfo:update">
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
+            </@shiro.hasPermission>
+                        <@shiro.hasPermission name="feeinfo:delete">
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
+            </@shiro.hasPermission>
+            </el-button-group>
+
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
+
+                                                                                                                    <el-form-item label="上级费用" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.parentId" placeholder="上级费用"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="编码" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.code" placeholder="编码"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="名称" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.name" placeholder="名称"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="类型" >
+
+                                                                    <el-select style="width: 350px" v-model="q.feetype"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum2006"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="收付款" >
+
+                                                                    <el-select style="width: 350px" v-model="q.paytype"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum1011"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="线路" >
+
+                                                                    <el-select style="width: 350px" v-model="q.lineid"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_transline"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="箱型" >
+
+                                                                    <el-select style="width: 350px" v-model="q.boxtype"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_boxs"
+                                                :key="item.id"
+                                                :label="item.boxsize"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="标准单价" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.price" placeholder="标准单价"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="标准成本" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.cost" placeholder="标准成本"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="备注" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.remark" placeholder="备注"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="状态" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.status" placeholder="状态"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="节点类型" >
+
+                                                                    <el-select style="width: 350px" v-model="q.nodetype"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum2004"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="更新时间" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.uptdate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+
+
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="showDetailList" class="panel panel-default">
+
+
+                <el-tabs type="border-card">
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-document"></i> 附件</span>
+                        <table id="jqGridFiles"></table>
+                        <div id="jqGridPagerFiles"></div>
+                    </el-tab-pane>
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                        <table id="jqGridComments"></table>
+                        <div id="jqGridPagerComments"></div>
+                    </el-tab-pane>
+                </el-tabs>
+
+
+
+
+    </div>
+
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
+
+                            
+                                                <el-form-item label="上级费用" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="feeinfo.parentId" placeholder="上级费用"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="编码" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="feeinfo.code" placeholder="编码"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="名称" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="feeinfo.name" placeholder="名称"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="类型" class="padding-top: 5px;width:40%">
+
+                                                             <el-select style="width: 350px" v-model="feeinfo.feetype"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_enum2006"
+                                            :key="item.enumvalueid"
+                                            :label="item.enumvaluename"
+                                            :value="item.enumvalueid">
+                                    </el-option>
+                                </el-select>
+
+
+                             
+                    </el-form-item>
+                
+                                                <el-form-item label="收付款" class="padding-top: 5px;width:40%">
+
+                                                             <el-select style="width: 350px" v-model="feeinfo.paytype"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_enum1011"
+                                            :key="item.enumvalueid"
+                                            :label="item.enumvaluename"
+                                            :value="item.enumvalueid">
+                                    </el-option>
+                                </el-select>
+
+
+                             
+                    </el-form-item>
+                
+                                                <el-form-item label="线路" class="padding-top: 5px;width:40%">
+
+                                                             <el-select style="width: 350px" v-model="feeinfo.lineid"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_transline"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            
+                    </el-form-item>
+                
+                                                <el-form-item label="箱型" class="padding-top: 5px;width:40%">
+
+                                                             <el-select style="width: 350px" v-model="feeinfo.boxtype"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_boxs"
+                                            :key="item.id"
+                                            :label="item.boxsize"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            
+                    </el-form-item>
+                
+                                                <el-form-item label="标准单价" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="feeinfo.price" placeholder="标准单价"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="标准成本" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="feeinfo.cost" placeholder="标准成本"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="备注" class="padding-top: 5px;width:40%">
+
+                                                             <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="feeinfo.remark" style="width: 100%;"></el-input>
+
+                             
+                    </el-form-item>
+                
+                                                <el-form-item label="状态" class="padding-top: 5px;width:40%">
+
+                                                             <el-input style="width: 350px"  v-model="feeinfo.status" placeholder="状态"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="节点类型" class="padding-top: 5px;width:40%">
+
+                                                             <el-select style="width: 350px" v-model="feeinfo.nodetype"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_enum2004"
+                                            :key="item.enumvalueid"
+                                            :label="item.enumvaluename"
+                                            :value="item.enumvalueid">
+                                    </el-option>
+                                </el-select>
+
+
+                             
+                    </el-form-item>
+                
+                            
+            
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
+
+        </el-form>
+    </div>
+</div>
+
+
+                                                                                                                                                                            
+
+<#include "base/billcomments_ref.html">
+<script src="${ctxPath}/static/js/finance/feeinfo.js"></script>
+</body>
+</html>

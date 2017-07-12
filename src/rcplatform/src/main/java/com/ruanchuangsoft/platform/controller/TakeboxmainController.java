@@ -7,6 +7,7 @@ import com.ruanchuangsoft.platform.controller.AbstractController;
 import com.ruanchuangsoft.platform.entity.TakeboxdetailEntity;
 import com.ruanchuangsoft.platform.entity.TransboxdetailEntity;
 import com.ruanchuangsoft.platform.entity.TransboxmainEntity;
+import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.enums.TakeboxBillStatus;
 import com.ruanchuangsoft.platform.enums.TranBillType;
 import com.ruanchuangsoft.platform.service.TakeboxdetailService;
@@ -244,8 +245,8 @@ public class TakeboxmainController extends AbstractController {
                 }
                 takeboxmainEntity.setBillstatus(TakeboxBillStatus.AUDIT);
                 takeboxmainEntity.setAccdate(new Date());
-                takeboxmainEntity.setAccuser(ShiroUtils.getUserName());
-                takeboxmainService.update(takeboxmainEntity);
+                takeboxmainEntity.setAccuser(String.valueOf(ShiroUtils.getUserId()));
+               // takeboxmainService.update(takeboxmainEntity);
 
                 //查询放箱明细,一个放箱计划可能会安排不同的运输车队
                 Map<String, Object> map = new HashMap<>();
@@ -285,7 +286,8 @@ public class TakeboxmainController extends AbstractController {
                 transboxmainEntity.setBgnplanarrtime(takeboxmainEntity.getBgnplanarrtime());
                 transboxmainEntity.setEndplanarrtime(takeboxmainEntity.getEndplanarrtime());
                 transboxmainEntity.setMakedate(new Date());
-                transboxmainEntity.setMakeuser(ShiroUtils.getUserName());
+                transboxmainEntity.setMakeuser(String.valueOf(ShiroUtils.getUserId()));
+                transboxmainEntity.setBillstatus(String.valueOf(BillStatus.NEW));
 
                 List<TransboxdetailEntity> lstTransDetail = new ArrayList<>();
                 for (int i = 0; i < takeboxdetailList.size(); i++) {
