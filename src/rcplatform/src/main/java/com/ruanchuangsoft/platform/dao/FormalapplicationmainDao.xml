@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.FormalapplicationmainDao">
+
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.FormalapplicationmainEntity">
+		select
+				    			    			    			    						               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+						    						               		ifnull((select role_name from  sys_role b where a.roleid=b.role_id),'') as roleidrole_name,
+						    			    			    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+						    			    						               		ifnull((select fullname from  sys_user b where a.makeuser=b.id),'') as makeuserfullname,
+						    			    						               		ifnull((select fullname from  sys_user b where a.accuser=b.id),'') as accuserfullname,
+						    			    			    			    	        a.*
+		from formalapplicationmain a where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.FormalapplicationmainEntity">
+		select
+																													               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+																               		ifnull((select role_name from  sys_role b where a.roleid=b.role_id),'') as roleidrole_name,
+																																				                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+																					               		ifnull((select fullname from  sys_user b where a.makeuser=b.id),'') as makeuserfullname,
+																					               		ifnull((select fullname from  sys_user b where a.accuser=b.id),'') as accuserfullname,
+																								        a.*
+		from formalapplicationmain a
+        <where>
+							                    <if test="id != null and id != '' ">
+						 `id` = #{id}
+                    </if>
+				
+							                    <if test="billno != null and billno != '' ">
+						 and  `billno` = #{billno}
+                    </if>
+				
+							                    <if test="name != null and name != '' ">
+						 and  `name` = #{name}
+                    </if>
+				
+							                    <if test="applicationday != null and applicationday != '' ">
+						 and  `applicationday` = #{applicationday}
+                    </if>
+				
+							                    <if test="deptid != null and deptid != '' ">
+						 and  `deptid` = #{deptid}
+                    </if>
+				
+							                    <if test="roleid != null and roleid != '' ">
+						 and  `roleid` = #{roleid}
+                    </if>
+				
+							                    <if test="entryday != null and entryday != '' ">
+						 and  `entryday` = #{entryday}
+                    </if>
+				
+							                    <if test="probation != null and probation != '' ">
+						 and  `probation` = #{probation}
+                    </if>
+				
+							                    <if test="reason != null and reason != '' ">
+						 and  `reason` = #{reason}
+                    </if>
+				
+							                    <if test="handover != null and handover != '' ">
+						 and  `handover` = #{handover}
+                    </if>
+				
+							                    <if test="billstatus != null and billstatus != '' ">
+						 and  `billstatus` = #{billstatus}
+                    </if>
+				
+							                    <if test="remark != null and remark != '' ">
+						 and  `remark` = #{remark}
+                    </if>
+				
+							                    <if test="makeuser != null and makeuser != '' ">
+						 and  `makeuser` = #{makeuser}
+                    </if>
+				
+							                    <if test="makedate != null and makedate != '' ">
+						 and  `makedate` = #{makedate}
+                    </if>
+				
+							                    <if test="accuser != null and accuser != '' ">
+						 and  `accuser` = #{accuser}
+                    </if>
+				
+							                    <if test="accdate != null and accdate != '' ">
+						 and  `accdate` = #{accdate}
+                    </if>
+				
+							                    <if test="uptdate != null and uptdate != '' ">
+						 and  `uptdate` = #{uptdate}
+                    </if>
+				
+							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
+						 and  `pocessinstanceid` = #{pocessinstanceid}
+                    </if>
+                    <if test="userid != null ">
+						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
+                    </if>
+				
+			        </where>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from formalapplicationmain 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.FormalapplicationmainEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into formalapplicationmain
+		(
+			`billno`, 
+			`name`, 
+			`applicationday`, 
+			`deptid`, 
+			`roleid`, 
+			`entryday`, 
+			`probation`, 
+			`reason`, 
+			`handover`, 
+			`billstatus`, 
+			`remark`, 
+			`makeuser`, 
+			`makedate`, 
+			`accuser`, 
+			`accdate`, 
+			`uptdate`, 
+			`pocessinstanceid`
+		)
+		values
+		(
+			#{billno}, 
+			#{name}, 
+			#{applicationday}, 
+			#{deptid}, 
+			#{roleid}, 
+			#{entryday}, 
+			#{probation}, 
+			#{reason}, 
+			#{handover}, 
+			#{billstatus}, 
+			#{remark}, 
+			#{makeuser}, 
+			#{makedate}, 
+			#{accuser}, 
+			#{accdate}, 
+			#{uptdate}, 
+			#{pocessinstanceid}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.FormalapplicationmainEntity">
+		update formalapplicationmain 
+		<set>
+			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="applicationday != null">`applicationday` = #{applicationday}, </if>
+			<if test="deptid != null">`deptid` = #{deptid}, </if>
+			<if test="roleid != null">`roleid` = #{roleid}, </if>
+			<if test="entryday != null">`entryday` = #{entryday}, </if>
+			<if test="probation != null">`probation` = #{probation}, </if>
+			<if test="reason != null">`reason` = #{reason}, </if>
+			<if test="handover != null">`handover` = #{handover}, </if>
+			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
+			<if test="makedate != null">`makedate` = #{makedate}, </if>
+			<if test="accuser != null">`accuser` = #{accuser}, </if>
+			<if test="accdate != null">`accdate` = #{accdate}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}, </if>
+			<if test="pocessinstanceid != null">`pocessinstanceid` = #{pocessinstanceid}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from formalapplicationmain where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from formalapplicationmain where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

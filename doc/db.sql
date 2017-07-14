@@ -1,5 +1,6 @@
 
 --  菜单
+drop table if exists `sys_menu` ;
 CREATE TABLE `sys_menu` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `menu_id` varchar(50) COMMENT '父菜单ID，一级菜单为0',
@@ -16,6 +17,7 @@ CREATE TABLE `sys_menu` (
 
 
 --  部门
+drop table if exists `sys_dept` ;
 CREATE TABLE `sys_dept` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `parent_id` bigint COMMENT '上级部门ID，一级部门为0',
@@ -25,7 +27,7 @@ CREATE TABLE `sys_dept` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门管理';
 
-
+/*
 --  系统用户
 CREATE TABLE `sys_user` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -42,8 +44,7 @@ CREATE TABLE `sys_user` (
   UNIQUE INDEX (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户';
 
-
-
+*/
 
 --  系统用户 
 drop table if exists `sys_user` ;
@@ -84,7 +85,7 @@ CREATE TABLE `sys_user` (
   `create_time` datetime COMMENT '创建时间',
   PRIMARY KEY (`id`),
   UNIQUE INDEX (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户';
 
 
 --  初始数据  
@@ -984,6 +985,34 @@ CREATE TABLE `entryapplicationmain`(
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
+/*新增*/ 
+  `englishname` varchar(50)  COMMENT '英文名',
+  `userid` varchar(50) NOT NULL COMMENT '用户编码',
+  `password` varchar(100) COMMENT '密码',
+  `email` varchar(100) COMMENT '邮箱',
+  `brithday` datetime COMMENT '出生日期', 
+  `englishlevel` varchar(50)  COMMENT '外语水平',
+  `graduationtime` datetime COMMENT '毕业时间',
+  `residence` text COMMENT '现住址',
+  `census` text COMMENT '户籍在地',
+  `educationexperience` text COMMENT '教育经历',
+  `workexperience` text COMMENT '工作经历',
+  `family` text COMMENT '家庭状况',
+  `mobile` varchar(100) COMMENT '电话',
+  `startedworktime` datetime COMMENT '参加工作时间',  
+  `gender` varchar(4) COMMENT '性别:enum:1015:enumvalueid:enumvaluename',--  0-男，1-女
+  `nationality` varchar(50)  COMMENT '民族',
+  `computerlevel` varchar(50)  COMMENT '计算机水平',
+  `major` varchar(50)  COMMENT '所学专业',
+  `thermobile` varchar(100) COMMENT '其他联系方式',
+  `vacationyear` varchar(4) COMMENT '本年假天数:enum:1016:enumvalueid:enumvaluename',
+  `vacationlastyear` varchar(4) COMMENT '上年假天数:enum:1017:enumvalueid:enumvaluename',
+  `identification` varchar(50)  COMMENT '身份证',   
+  `qulification` varchar(50)  COMMENT '学历',   
+  `marriage` varchar(4) COMMENT '婚姻状况:enum:1018:enumvalueid:enumvaluename',--  0-未婚，1-已婚 
+  `academictitle` varchar(50)  COMMENT '专业职称',
+  `school` varchar(50)  COMMENT '毕业院校',
+  `status` tinyint COMMENT '状态:enum:1020:enumvalueid:enumvaluename',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='入职申请';
 
@@ -1008,6 +1037,34 @@ CREATE TABLE `formalapplicationmain`(
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
   `pocessinstanceid` varchar(100) COMMENT '流程ID',
+  /*新增*/ 
+  `englishname` varchar(50)  COMMENT '英文名',
+  `userid` varchar(50) NOT NULL COMMENT '用户编码',
+  `password` varchar(100) COMMENT '密码',
+  `email` varchar(100) COMMENT '邮箱',
+  `brithday` datetime COMMENT '出生日期', 
+  `englishlevel` varchar(50)  COMMENT '外语水平',
+  `graduationtime` datetime COMMENT '毕业时间',
+  `residence` text COMMENT '现住址',
+  `census` text COMMENT '户籍在地',
+  `educationexperience` text COMMENT '教育经历',
+  `workexperience` text COMMENT '工作经历',
+  `family` text COMMENT '家庭状况',
+  `mobile` varchar(100) COMMENT '电话',
+  `startedworktime` datetime COMMENT '参加工作时间',  
+  `gender` varchar(4) COMMENT '性别:enum:1015:enumvalueid:enumvaluename',--  0-男，1-女
+  `nationality` varchar(50)  COMMENT '民族',
+  `computerlevel` varchar(50)  COMMENT '计算机水平',
+  `major` varchar(50)  COMMENT '所学专业',
+  `thermobile` varchar(100) COMMENT '其他联系方式',
+  `vacationyear` varchar(4) COMMENT '本年假天数:enum:1016:enumvalueid:enumvaluename',
+  `vacationlastyear` varchar(4) COMMENT '上年假天数:enum:1017:enumvalueid:enumvaluename',
+  `identification` varchar(50)  COMMENT '身份证',   
+  `qulification` varchar(50)  COMMENT '学历',   
+  `marriage` varchar(4) COMMENT '婚姻状况:enum:1018:enumvalueid:enumvaluename',--  0-未婚，1-已婚 
+  `academictitle` varchar(50)  COMMENT '专业职称',
+  `school` varchar(50)  COMMENT '毕业院校',
+  `status` tinyint COMMENT '状态:enum:1020:enumvalueid:enumvaluename',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='转正申请';
 

@@ -7,10 +7,10 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
-import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
 import org.activiti.engine.task.Task;
 import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
+import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
 import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -33,7 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-06 17:23:20
+ * @date 2017-07-14 13:36:29
  */
 @Controller
 @RequestMapping("formalapplicationmain")
@@ -44,7 +44,7 @@ public class FormalapplicationmainController extends AbstractController {
 
     @RequestMapping("/formalapplicationmain")
     public String list() {
-        return "formalapplicationmain/formalapplicationmain" ;
+        return "formalapplicationmain/formalapplicationmain";
     }
 
 
@@ -72,26 +72,53 @@ public class FormalapplicationmainController extends AbstractController {
         if (query != null && query.length() > 0) {
             try {
                 String tmpquery = query.replaceAll("&quot;", "\"");
-                FormalapplicationmainEntity param = JSON.parseObject(tmpquery, FormalapplicationmainEntity.class);
-                map.put("id", param.getId());
-                map.put("billno", param.getBillno());
-                map.put("name", param.getName());
-                map.put("applicationday", param.getApplicationday());
-                map.put("deptid", param.getDeptid());
-                map.put("roleid", param.getRoleid());
-                map.put("entryday", param.getEntryday());
-                map.put("probation", param.getProbation());
-                map.put("reason", param.getReason());
-                map.put("handover", param.getHandover());
-                map.put("billstatus", param.getBillstatus());
-                map.put("remark", param.getRemark());
-                map.put("makeuser", param.getMakeuser());
-                map.put("makedate", param.getMakedate());
-                map.put("accuser", param.getAccuser());
-                map.put("accdate", param.getAccdate());
-                map.put("uptdate", param.getUptdate());
-                map.put("pocessinstanceid", param.getPocessinstanceid());
-
+                    FormalapplicationmainEntity param = JSON.parseObject(tmpquery, FormalapplicationmainEntity.class);
+                                    map.put("id", param.getId());
+                                    map.put("billno", param.getBillno());
+                                    map.put("name", param.getName());
+                                    map.put("applicationday", param.getApplicationday());
+                                    map.put("deptid", param.getDeptid());
+                                    map.put("roleid", param.getRoleid());
+                                    map.put("entryday", param.getEntryday());
+                                    map.put("probation", param.getProbation());
+                                    map.put("reason", param.getReason());
+                                    map.put("handover", param.getHandover());
+                                    map.put("billstatus", param.getBillstatus());
+                                    map.put("remark", param.getRemark());
+                                    map.put("makeuser", param.getMakeuser());
+                                    map.put("makedate", param.getMakedate());
+                                    map.put("accuser", param.getAccuser());
+                                    map.put("accdate", param.getAccdate());
+                                    map.put("uptdate", param.getUptdate());
+                                    map.put("pocessinstanceid", param.getPocessinstanceid());
+                                    map.put("englishname", param.getEnglishname());
+                                    map.put("userid", param.getUserid());
+                                    map.put("password", param.getPassword());
+                                    map.put("email", param.getEmail());
+                                    map.put("brithday", param.getBrithday());
+                                    map.put("englishlevel", param.getEnglishlevel());
+                                    map.put("graduationtime", param.getGraduationtime());
+                                    map.put("residence", param.getResidence());
+                                    map.put("census", param.getCensus());
+                                    map.put("educationexperience", param.getEducationexperience());
+                                    map.put("workexperience", param.getWorkexperience());
+                                    map.put("family", param.getFamily());
+                                    map.put("mobile", param.getMobile());
+                                    map.put("startedworktime", param.getStartedworktime());
+                                    map.put("gender", param.getGender());
+                                    map.put("nationality", param.getNationality());
+                                    map.put("computerlevel", param.getComputerlevel());
+                                    map.put("major", param.getMajor());
+                                    map.put("thermobile", param.getThermobile());
+                                    map.put("vacationyear", param.getVacationyear());
+                                    map.put("vacationlastyear", param.getVacationlastyear());
+                                    map.put("identification", param.getIdentification());
+                                    map.put("qulification", param.getQulification());
+                                    map.put("marriage", param.getMarriage());
+                                    map.put("academictitle", param.getAcademictitle());
+                                    map.put("school", param.getSchool());
+                                    map.put("status", param.getStatus());
+                
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -115,7 +142,7 @@ public class FormalapplicationmainController extends AbstractController {
     @RequestMapping("/info/{id}")
     @RequiresPermissions("formalapplicationmain:info")
     public R info(@PathVariable("id") Long id) {
-        FormalapplicationmainEntity formalapplicationmain = formalapplicationmainService.queryObject(id);
+            FormalapplicationmainEntity formalapplicationmain = formalapplicationmainService.queryObject(id);
 
         return R.ok().put("formalapplicationmain", formalapplicationmain);
     }
@@ -127,20 +154,22 @@ public class FormalapplicationmainController extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("formalapplicationmain:save")
     public R save(@RequestBody FormalapplicationmainEntity formalapplicationmain) {
-        if (formalapplicationmain.getBillno().equals("*")) {
-            String billno = getBillNo("**");
-            formalapplicationmain.setBillno(billno);
-            formalapplicationmain.setBillstatus(BillStatus.NEW);
-            if (formalapplicationmain.getFiles() != null && formalapplicationmain.getFiles().size() > 0) {
-                for (AttachmentsEntity item : formalapplicationmain.getFiles()) {
-                    item.setBillno(billno);
-                    attachmentsService.update(item);
-                }
-            }
-        }
+                        if(formalapplicationmain.getBillno().equals("*")){
+                  String billno=getBillNo("**");
+                formalapplicationmain.setBillno(billno);
+                formalapplicationmain.setBillstatus(BillStatus.NEW);
 
 
-        formalapplicationmainService.save(formalapplicationmain);
+                  if(formalapplicationmain.getFiles()!=null&&formalapplicationmain.getFiles().size()>0){
+                      for(AttachmentsEntity item:formalapplicationmain.getFiles()){
+                          item.setBillno(billno);
+                          attachmentsService.update(item);
+                      }
+                  }
+              }
+
+
+                      formalapplicationmainService.save(formalapplicationmain);
 
         return R.ok();
     }
@@ -152,20 +181,22 @@ public class FormalapplicationmainController extends AbstractController {
     @RequestMapping("/submitworkflow")
     @RequiresPermissions("formalapplicationmain:update")
     public R submitworkflow(@RequestBody Long id) {
-        FormalapplicationmainEntity formalapplicationmainEntity = formalapplicationmainService.queryObject(id);
+            FormalapplicationmainEntity formalapplicationmainEntity = formalapplicationmainService.queryObject(id);
         if (formalapplicationmainEntity == null) {
             return R.error("单据不存在，不能提交");
         }
 
         //判断是否存在工作流处理列，有则创建处理过程
+                                                                                                                                                                                                                                                                                                                                                                        
+                Map<String, Object> params = new HashMap<>();
+                params.put("userid", ShiroUtils.getUserId());
+                String processid = startWorkflow("formalapplicationmain", formalapplicationmainEntity.getBillno(), params);
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("userid", ShiroUtils.getUserId());
-        String processid = startWorkflow("formalapplicationmain", formalapplicationmainEntity.getBillno(), params);
+                    formalapplicationmainEntity.setBillstatus(BillStatus.SUBMIT);
+                    formalapplicationmainEntity.setPocessinstanceid(processid);
+                    formalapplicationmainService.update(formalapplicationmainEntity);
 
-        formalapplicationmainEntity.setBillstatus(BillStatus.SUBMIT);
-        formalapplicationmainEntity.setPocessinstanceid(processid);
-        formalapplicationmainService.update(formalapplicationmainEntity);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 
 
         return R.ok();
@@ -173,13 +204,13 @@ public class FormalapplicationmainController extends AbstractController {
 
 
     /**
-     * 修改
-     */
+	 * 修改
+	 */
     @ResponseBody
     @RequestMapping("/update")
     @RequiresPermissions("formalapplicationmain:update")
     public R update(@RequestBody FormalapplicationmainEntity formalapplicationmain) {
-        formalapplicationmainService.update(formalapplicationmain);
+            formalapplicationmainService.update(formalapplicationmain);
 
         return R.ok();
     }
@@ -190,31 +221,31 @@ public class FormalapplicationmainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/delete")
     @RequiresPermissions("formalapplicationmain:delete")
-    public R delete(@RequestBody Long[] ids) {
-        formalapplicationmainService.deleteBatch(ids);
+    public R delete(@RequestBody Long[]ids) {
+            formalapplicationmainService.deleteBatch(ids);
 
         return R.ok();
     }
 
 
-    /**
-     * 签收
-     * 只有单据状态为提交状态的，才能够签收
-     */
+       /**
+   * 签收
+   * 只有单据状态为提交状态的，才能够签收
+   */
     @ResponseBody
     @RequestMapping("/claim")
     @RequiresPermissions("formalapplicationmain:claim")
-    public R claim(@RequestBody Long[] ids) {
+    public R claim(@RequestBody Long[]ids) {
 
-        for (Long attkey :
-                ids) {
-            FormalapplicationmainEntity formalapplicationmainEntity = formalapplicationmainService.queryObject(attkey);
+        for (Long attkey:
+                                ids) {
+                FormalapplicationmainEntity formalapplicationmainEntity = formalapplicationmainService.queryObject(attkey);
             if (formalapplicationmainEntity != null && formalapplicationmainEntity.getBillstatus() == BillStatus.SUBMIT) {
-                formalapplicationmainEntity.setBillstatus(BillStatus.CLAIM);
-                formalapplicationmainService.update(formalapplicationmainEntity);
+                    formalapplicationmainEntity.setBillstatus(BillStatus.CLAIM);
+                    formalapplicationmainService.update(formalapplicationmainEntity);
 
                 //新增一条处理记录：签收
-                newBillcomments(formalapplicationmainEntity.getBillno(), "签收", AuditType.CLAIM);
+                newBillcomments(formalapplicationmainEntity.getBillno(),"签收", AuditType.CLAIM);
 
                 //执行工作流的签收任务处理
                 Task task = getTaskByBussinessKey(formalapplicationmainEntity.getBillno());
@@ -237,9 +268,9 @@ public class FormalapplicationmainController extends AbstractController {
     public R audit(@RequestBody FormalapplicationmainEntity formalapplicationmainEntity) {
 
         BillcommentsEntity billcommentsEntity = formalapplicationmainEntity.getBillcommentsEntity();
-        formalapplicationmainEntity.setBillstatus(BillStatus.AUDIT);
+            formalapplicationmainEntity.setBillstatus(BillStatus.AUDIT);
 
-        formalapplicationmainService.update(formalapplicationmainEntity);
+            formalapplicationmainService.update(formalapplicationmainEntity);
 
 
         //生成审核日志
@@ -257,12 +288,12 @@ public class FormalapplicationmainController extends AbstractController {
             //检查工作流是否结束，如果结束，则设置单据状态为已完成
             boolean endflag = isProcessEnd(task.getProcessInstanceId());
             if (endflag) {
-                formalapplicationmainEntity.setBillstatus(BillStatus.COMPLETE);
-                formalapplicationmainService.update(formalapplicationmainEntity);
+                    formalapplicationmainEntity.setBillstatus(BillStatus.COMPLETE);
+                    formalapplicationmainService.update(formalapplicationmainEntity);
             }
         }
 
         return R.ok();
     }
-
+   
 }

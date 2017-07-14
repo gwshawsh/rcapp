@@ -10,7 +10,12 @@
 						    			    			    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
 						    			    						               		ifnull((select fullname from  sys_user b where a.makeuser=b.id),'') as makeuserfullname,
 						    			    						               		ifnull((select fullname from  sys_user b where a.accuser=b.id),'') as accuserfullname,
-						    			    			    			    	        a.*
+						    			    			    			    			    			    			    			    			    			    			    			    			    			    			    			    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.gender=b.enumvalueid and b.enumtype='1015'),'') as genderenumvaluename,
+						    			    			    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.vacationyear=b.enumvalueid and b.enumtype='1016'),'') as vacationyearenumvaluename,
+						    						                    ifnull((select enumvaluename from  enumtable b where a.vacationlastyear=b.enumvalueid and b.enumtype='1017'),'') as vacationlastyearenumvaluename,
+						    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.marriage=b.enumvalueid and b.enumtype='1018'),'') as marriageenumvaluename,
+						    			    			    						                    ifnull((select enumvaluename from  enumtable b where a.status=b.enumvalueid and b.enumtype='1020'),'') as statusenumvaluename,
+						    	        a.*
 		from entryapplicationmain a where id = #{value}
 	</select>
 
@@ -21,7 +26,12 @@
 																																				                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
 																					               		ifnull((select fullname from  sys_user b where a.makeuser=b.id),'') as makeuserfullname,
 																					               		ifnull((select fullname from  sys_user b where a.accuser=b.id),'') as accuserfullname,
-																								        a.*
+																																																																																																					                    ifnull((select enumvaluename from  enumtable b where a.gender=b.enumvalueid and b.enumtype='1015'),'') as genderenumvaluename,
+																																				                    ifnull((select enumvaluename from  enumtable b where a.vacationyear=b.enumvalueid and b.enumtype='1016'),'') as vacationyearenumvaluename,
+																                    ifnull((select enumvaluename from  enumtable b where a.vacationlastyear=b.enumvalueid and b.enumtype='1017'),'') as vacationlastyearenumvaluename,
+																										                    ifnull((select enumvaluename from  enumtable b where a.marriage=b.enumvalueid and b.enumtype='1018'),'') as marriageenumvaluename,
+																										                    ifnull((select enumvaluename from  enumtable b where a.status=b.enumvalueid and b.enumtype='1020'),'') as statusenumvaluename,
+									        a.*
 		from entryapplicationmain a
         <where>
 							                    <if test="id != null and id != '' ">
@@ -99,6 +109,114 @@
 						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
                     </if>
 				
+							                    <if test="englishname != null and englishname != '' ">
+						 and  `englishname` = #{englishname}
+                    </if>
+				
+							                    <if test="userid != null and userid != '' ">
+						 and  `userid` = #{userid}
+                    </if>
+				
+							                    <if test="password != null and password != '' ">
+						 and  `password` = #{password}
+                    </if>
+				
+							                    <if test="email != null and email != '' ">
+						 and  `email` = #{email}
+                    </if>
+				
+							                    <if test="brithday != null and brithday != '' ">
+						 and  `brithday` = #{brithday}
+                    </if>
+				
+							                    <if test="englishlevel != null and englishlevel != '' ">
+						 and  `englishlevel` = #{englishlevel}
+                    </if>
+				
+							                    <if test="graduationtime != null and graduationtime != '' ">
+						 and  `graduationtime` = #{graduationtime}
+                    </if>
+				
+							                    <if test="residence != null and residence != '' ">
+						 and  `residence` = #{residence}
+                    </if>
+				
+							                    <if test="census != null and census != '' ">
+						 and  `census` = #{census}
+                    </if>
+				
+							                    <if test="educationexperience != null and educationexperience != '' ">
+						 and  `educationexperience` = #{educationexperience}
+                    </if>
+				
+							                    <if test="workexperience != null and workexperience != '' ">
+						 and  `workexperience` = #{workexperience}
+                    </if>
+				
+							                    <if test="family != null and family != '' ">
+						 and  `family` = #{family}
+                    </if>
+				
+							                    <if test="mobile != null and mobile != '' ">
+						 and  `mobile` = #{mobile}
+                    </if>
+				
+							                    <if test="startedworktime != null and startedworktime != '' ">
+						 and  `startedworktime` = #{startedworktime}
+                    </if>
+				
+							                    <if test="gender != null and gender != '' ">
+						 and  `gender` = #{gender}
+                    </if>
+				
+							                    <if test="nationality != null and nationality != '' ">
+						 and  `nationality` = #{nationality}
+                    </if>
+				
+							                    <if test="computerlevel != null and computerlevel != '' ">
+						 and  `computerlevel` = #{computerlevel}
+                    </if>
+				
+							                    <if test="major != null and major != '' ">
+						 and  `major` = #{major}
+                    </if>
+				
+							                    <if test="thermobile != null and thermobile != '' ">
+						 and  `thermobile` = #{thermobile}
+                    </if>
+				
+							                    <if test="vacationyear != null and vacationyear != '' ">
+						 and  `vacationyear` = #{vacationyear}
+                    </if>
+				
+							                    <if test="vacationlastyear != null and vacationlastyear != '' ">
+						 and  `vacationlastyear` = #{vacationlastyear}
+                    </if>
+				
+							                    <if test="identification != null and identification != '' ">
+						 and  `identification` = #{identification}
+                    </if>
+				
+							                    <if test="qulification != null and qulification != '' ">
+						 and  `qulification` = #{qulification}
+                    </if>
+				
+							                    <if test="marriage != null and marriage != '' ">
+						 and  `marriage` = #{marriage}
+                    </if>
+				
+							                    <if test="academictitle != null and academictitle != '' ">
+						 and  `academictitle` = #{academictitle}
+                    </if>
+				
+							                    <if test="school != null and school != '' ">
+						 and  `school` = #{school}
+                    </if>
+				
+							                    <if test="status != null and status != '' ">
+						 and  `status` = #{status}
+                    </if>
+				
 			        </where>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
@@ -128,7 +246,34 @@
 			`accuser`, 
 			`accdate`, 
 			`uptdate`, 
-			`pocessinstanceid`
+			`pocessinstanceid`, 
+			`englishname`, 
+			`userid`, 
+			`password`, 
+			`email`, 
+			`brithday`, 
+			`englishlevel`, 
+			`graduationtime`, 
+			`residence`, 
+			`census`, 
+			`educationexperience`, 
+			`workexperience`, 
+			`family`, 
+			`mobile`, 
+			`startedworktime`, 
+			`gender`, 
+			`nationality`, 
+			`computerlevel`, 
+			`major`, 
+			`thermobile`, 
+			`vacationyear`, 
+			`vacationlastyear`, 
+			`identification`, 
+			`qulification`, 
+			`marriage`, 
+			`academictitle`, 
+			`school`, 
+			`status`
 		)
 		values
 		(
@@ -148,7 +293,34 @@
 			#{accuser}, 
 			#{accdate}, 
 			#{uptdate}, 
-			#{pocessinstanceid}
+			#{pocessinstanceid}, 
+			#{englishname}, 
+			#{userid}, 
+			#{password}, 
+			#{email}, 
+			#{brithday}, 
+			#{englishlevel}, 
+			#{graduationtime}, 
+			#{residence}, 
+			#{census}, 
+			#{educationexperience}, 
+			#{workexperience}, 
+			#{family}, 
+			#{mobile}, 
+			#{startedworktime}, 
+			#{gender}, 
+			#{nationality}, 
+			#{computerlevel}, 
+			#{major}, 
+			#{thermobile}, 
+			#{vacationyear}, 
+			#{vacationlastyear}, 
+			#{identification}, 
+			#{qulification}, 
+			#{marriage}, 
+			#{academictitle}, 
+			#{school}, 
+			#{status}
 		)
 	</insert>
 	 
@@ -171,7 +343,34 @@
 			<if test="accuser != null">`accuser` = #{accuser}, </if>
 			<if test="accdate != null">`accdate` = #{accdate}, </if>
 			<if test="uptdate != null">`uptdate` = #{uptdate}, </if>
-			<if test="pocessinstanceid != null">`pocessinstanceid` = #{pocessinstanceid}</if>
+			<if test="pocessinstanceid != null">`pocessinstanceid` = #{pocessinstanceid}, </if>
+			<if test="englishname != null">`englishname` = #{englishname}, </if>
+			<if test="userid != null">`userid` = #{userid}, </if>
+			<if test="password != null">`password` = #{password}, </if>
+			<if test="email != null">`email` = #{email}, </if>
+			<if test="brithday != null">`brithday` = #{brithday}, </if>
+			<if test="englishlevel != null">`englishlevel` = #{englishlevel}, </if>
+			<if test="graduationtime != null">`graduationtime` = #{graduationtime}, </if>
+			<if test="residence != null">`residence` = #{residence}, </if>
+			<if test="census != null">`census` = #{census}, </if>
+			<if test="educationexperience != null">`educationexperience` = #{educationexperience}, </if>
+			<if test="workexperience != null">`workexperience` = #{workexperience}, </if>
+			<if test="family != null">`family` = #{family}, </if>
+			<if test="mobile != null">`mobile` = #{mobile}, </if>
+			<if test="startedworktime != null">`startedworktime` = #{startedworktime}, </if>
+			<if test="gender != null">`gender` = #{gender}, </if>
+			<if test="nationality != null">`nationality` = #{nationality}, </if>
+			<if test="computerlevel != null">`computerlevel` = #{computerlevel}, </if>
+			<if test="major != null">`major` = #{major}, </if>
+			<if test="thermobile != null">`thermobile` = #{thermobile}, </if>
+			<if test="vacationyear != null">`vacationyear` = #{vacationyear}, </if>
+			<if test="vacationlastyear != null">`vacationlastyear` = #{vacationlastyear}, </if>
+			<if test="identification != null">`identification` = #{identification}, </if>
+			<if test="qulification != null">`qulification` = #{qulification}, </if>
+			<if test="marriage != null">`marriage` = #{marriage}, </if>
+			<if test="academictitle != null">`academictitle` = #{academictitle}, </if>
+			<if test="school != null">`school` = #{school}, </if>
+			<if test="status != null">`status` = #{status}</if>
 		</set>
 		where id = #{id}
 	</update>

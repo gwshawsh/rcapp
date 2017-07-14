@@ -1,6 +1,6 @@
 //生成弹出树形空间参照
                            var ztreedeptid;
-                                                        
+                                                                                                                                                                    
 var setting = {
     data: {
         simpleData: {
@@ -19,7 +19,7 @@ var vm = new Vue({
 	el:'#rrapp',
 	data:{
 	    q:{
-                                                                            billno:"",                                                                 name:"",                                                                 applicationday:"",                                                                 deptid:"",                                                                 roleid:"",                                                                 entryday:"",                                                                 probation:"",                                                                 reason:"",                                                                 handover:"",                                                                 billstatus:"",                                                                 remark:"",                                                                 makeuser:"",                                                                 makedate:"",                                                                 accuser:"",                                                                 accdate:"",                                                                 uptdate:"",                                                                 pocessinstanceid:""                            
+                                                                            billno:"",                                                                 name:"",                                                                 applicationday:"",                                                                 deptid:"",                                                                 roleid:"",                                                                 entryday:"",                                                                 probation:"",                                                                 reason:"",                                                                 handover:"",                                                                 billstatus:"",                                                                 remark:"",                                                                 makeuser:"",                                                                 makedate:"",                                                                 accuser:"",                                                                 accdate:"",                                                                 uptdate:"",                                                                 pocessinstanceid:"",                                                                 englishname:"",                                                                 userid:"",                                                                 password:"",                                                                 email:"",                                                                 brithday:"",                                                                 englishlevel:"",                                                                 graduationtime:"",                                                                 residence:"",                                                                 census:"",                                                                 educationexperience:"",                                                                 workexperience:"",                                                                 family:"",                                                                 mobile:"",                                                                 startedworktime:"",                                                                 gender:"",                                                                 nationality:"",                                                                 computerlevel:"",                                                                 major:"",                                                                 thermobile:"",                                                                 vacationyear:"",                                                                 vacationlastyear:"",                                                                 identification:"",                                                                 qulification:"",                                                                 marriage:"",                                                                 academictitle:"",                                                                 school:"",                                                                 status:""                            
         },
 		showList: true,
         showQuery:false,
@@ -55,6 +55,11 @@ var vm = new Vue({
                 								                                    ref_enum1003:[],
                 								                					ref_sys_user:[],
 
+                								                                    ref_enum1015:[],
+                								                                    ref_enum1016:[],
+                								                                    ref_enum1017:[],
+                								                                    ref_enum1018:[],
+                								                                    ref_enum1020:[],
                 					
         //创建实体类
         entryapplicationmain: {
@@ -62,7 +67,12 @@ var vm = new Vue({
                                                                 roleidrole_name:"",
                                                                 billstatusenumvaluename:"",
                                                                 makeuserfullname:"",
-                                                                                                        billno:"",                                                                 name:"",                                                                 applicationday:"",                                                                 deptid:"",                                                                 roleid:"",                                                                 entryday:"",                                                                 probation:"",                                                                 reason:"",                                                                 handover:"",                                                                 billstatus:"",                                                                 remark:"",                                                                 makeuser:"",                                                                 makedate:"",                                                                 accuser:"",                                                                 accdate:"",                                                                 uptdate:"",                                                                 pocessinstanceid:""                            
+                                                                genderenumvaluename:"",
+                                                                vacationyearenumvaluename:"",
+                                                                vacationlastyearenumvaluename:"",
+                                                                marriageenumvaluename:"",
+                                                                statusenumvaluename:"",
+                                                                                                        billno:"",                                                                 name:"",                                                                 applicationday:"",                                                                 deptid:"",                                                                 roleid:"",                                                                 entryday:"",                                                                 probation:"",                                                                 reason:"",                                                                 handover:"",                                                                 billstatus:"",                                                                 remark:"",                                                                 makeuser:"",                                                                 makedate:"",                                                                 accuser:"",                                                                 accdate:"",                                                                 uptdate:"",                                                                 pocessinstanceid:"",                                                                 englishname:"",                                                                 userid:"",                                                                 password:"",                                                                 email:"",                                                                 brithday:"",                                                                 englishlevel:"",                                                                 graduationtime:"",                                                                 residence:"",                                                                 census:"",                                                                 educationexperience:"",                                                                 workexperience:"",                                                                 family:"",                                                                 mobile:"",                                                                 startedworktime:"",                                                                 gender:"",                                                                 nationality:"",                                                                 computerlevel:"",                                                                 major:"",                                                                 thermobile:"",                                                                 vacationyear:"",                                                                 vacationlastyear:"",                                                                 identification:"",                                                                 qulification:"",                                                                 marriage:"",                                                                 academictitle:"",                                                                 school:"",                                                                 status:""                            
         }
 	},
 	methods: {
@@ -75,6 +85,7 @@ var vm = new Vue({
 		add: function(){
             var mktime = moment().format("YYYY-MM-DD");
 			vm.showList = false;
+			vm.showDetailList=false;
 			vm.title = "新增";
 			vm.entryapplicationmain = {
                 //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
@@ -82,7 +93,12 @@ var vm = new Vue({
                                                                                 roleidrole_name:"",
                                                                                 billstatusenumvaluename:"",
                                                                                 makeuserfullname:"",
-                                                                                                                                                                billno:"*",                                                                                                                                     name:"",                                                                                                                                     applicationday:"",                                                                                                                                     deptid:"",                                                                                                                                     roleid:"",                                                                                                                                     entryday:"",                                                                                                                                     probation:"",                                                                                                                                     reason:"",                                                                                                                                     handover:"",                                                                                                                                     billstatus:"",                                                                                                                                     remark:"",                                                                                                                                     makeuser:gUserId,                                                                                                                                     makedate:mktime,                                                                                                                                     accuser:"",                                                                                                                                     accdate:"",                                                                                                                                     uptdate:"",                                                                                                                                     pocessinstanceid:""                                                            
+                                                                                genderenumvaluename:"",
+                                                                                vacationyearenumvaluename:"",
+                                                                                vacationlastyearenumvaluename:"",
+                                                                                marriageenumvaluename:"",
+                                                                                statusenumvaluename:"",
+                                                                                                                                                                billno:"*",                                                                                                                                     name:"",                                                                                                                                     applicationday:"",                                                                                                                                     deptid:"",                                                                                                                                     roleid:"",                                                                                                                                     entryday:"",                                                                                                                                     probation:"",                                                                                                                                     reason:"",                                                                                                                                     handover:"",                                                                                                                                     billstatus:"",                                                                                                                                     remark:"",                                                                                                                                     makeuser:gUserId,                                                                                                                                     makedate:mktime,                                                                                                                                     accuser:"",                                                                                                                                     accdate:"",                                                                                                                                     uptdate:"",                                                                                                                                     pocessinstanceid:"",                                                                                                                                     englishname:"",                                                                                                                                     userid:"",                                                                                                                                     password:"",                                                                                                                                     email:"",                                                                                                                                     brithday:"",                                                                                                                                     englishlevel:"",                                                                                                                                     graduationtime:"",                                                                                                                                     residence:"",                                                                                                                                     census:"",                                                                                                                                     educationexperience:"",                                                                                                                                     workexperience:"",                                                                                                                                     family:"",                                                                                                                                     mobile:"",                                                                                                                                     startedworktime:"",                                                                                                                                     gender:"",                                                                                                                                     nationality:"",                                                                                                                                     computerlevel:"",                                                                                                                                     major:"",                                                                                                                                     thermobile:"",                                                                                                                                     vacationyear:"",                                                                                                                                     vacationlastyear:"",                                                                                                                                     identification:"",                                                                                                                                     qulification:"",                                                                                                                                     marriage:"",                                                                                                                                     academictitle:"",                                                                                                                                     school:"",                                                                                                                                     status:""                                                            
             };
 		},
 		update: function (event) {
@@ -137,7 +153,7 @@ var vm = new Vue({
 		},
 
         //生成参照调用弹出框函数
-																																																																																												
+																																																																																																																																																																																																																																			
         //生成参照调用下拉框函数,用来初始化远程数据
 										                getRefsys_role: function () {
                     $.get("../sys_role/list?page=1&limit=1000", function (r) {
@@ -156,6 +172,31 @@ var vm = new Vue({
                     });
                 },
 
+            					                getRef1015: function () {
+                    $.get("../enumtable/listone?enumid=1015&page=1&limit=1000", function (r) {
+                        vm.ref_enum1015 = r.page.list;
+                    });
+                },
+            					                getRef1016: function () {
+                    $.get("../enumtable/listone?enumid=1016&page=1&limit=1000", function (r) {
+                        vm.ref_enum1016 = r.page.list;
+                    });
+                },
+            					                getRef1017: function () {
+                    $.get("../enumtable/listone?enumid=1017&page=1&limit=1000", function (r) {
+                        vm.ref_enum1017 = r.page.list;
+                    });
+                },
+            					                getRef1018: function () {
+                    $.get("../enumtable/listone?enumid=1018&page=1&limit=1000", function (r) {
+                        vm.ref_enum1018 = r.page.list;
+                    });
+                },
+            					                getRef1020: function () {
+                    $.get("../enumtable/listone?enumid=1020&page=1&limit=1000", function (r) {
+                        vm.ref_enum1020 = r.page.list;
+                    });
+                },
             		
         //生成弹出树形空间参照
 
@@ -414,7 +455,29 @@ $(function () {
                                     			                                                            { label: '制单人', name: 'makeuserfullname', width: 80 },                                     			                                                            { label: '制单日期', name: 'makedate', width: 80 }, 
                                     			                                                            { label: '审核人', name: 'accuserfullname', width: 80 },                                     			                                                            { label: '审核日期', name: 'accdate', width: 80 }, 
                                     			                                                            { label: '更新时间', name: 'uptdate', width: 80 }, 
-                                    			                			        ],
+                                    			                			                                                            { label: '英文名', name: 'englishname', width: 80 }, 
+                                    			                                                            { label: '用户编码', name: 'userid', width: 80 }, 
+                                    			                                                            { label: '密码', name: 'password', width: 80 }, 
+                                    			                                                            { label: '邮箱', name: 'email', width: 80 }, 
+                                    			                                                            { label: '出生日期', name: 'brithday', width: 80 }, 
+                                    			                                                            { label: '外语水平', name: 'englishlevel', width: 80 }, 
+                                    			                                                            { label: '毕业时间', name: 'graduationtime', width: 80 }, 
+                                    			                                                            { label: '现住址', name: 'residence', width: 80 }, 
+                                    			                                                            { label: '户籍在地', name: 'census', width: 80 }, 
+                                    			                                                            { label: '教育经历', name: 'educationexperience', width: 80 }, 
+                                    			                                                            { label: '工作经历', name: 'workexperience', width: 80 }, 
+                                    			                                                            { label: '家庭状况', name: 'family', width: 80 }, 
+                                    			                                                            { label: '电话', name: 'mobile', width: 80 }, 
+                                    			                                                            { label: '参加工作时间', name: 'startedworktime', width: 80 }, 
+                                    			                                                            { label: '性别', name: 'genderenumvaluename', width: 80 },                                     			                                                            { label: '民族', name: 'nationality', width: 80 }, 
+                                    			                                                            { label: '计算机水平', name: 'computerlevel', width: 80 }, 
+                                    			                                                            { label: '所学专业', name: 'major', width: 80 }, 
+                                    			                                                            { label: '其他联系方式', name: 'thermobile', width: 80 }, 
+                                    			                                                            { label: '本年假天数', name: 'vacationyearenumvaluename', width: 80 },                                     			                                                            { label: '上年假天数', name: 'vacationlastyearenumvaluename', width: 80 },                                     			                                                            { label: '身份证', name: 'identification', width: 80 }, 
+                                    			                                                            { label: '学历', name: 'qulification', width: 80 }, 
+                                    			                                                            { label: '婚姻状况', name: 'marriageenumvaluename', width: 80 },                                     			                                                            { label: '专业职称', name: 'academictitle', width: 80 }, 
+                                    			                                                            { label: '毕业院校', name: 'school', width: 80 }, 
+                                    			                                                            { label: '状态', name: 'statusenumvaluename', width: 80 }                                    			        ],
         viewrecords: true,
         height: 385,
         rowNum: 10,
@@ -451,6 +514,11 @@ $(function () {
 					            vm.getRefsys_role();
         			            vm.getRef1003();
         			            vm.getRefsys_user();
+        			            vm.getRef1015();
+        			            vm.getRef1016();
+        			            vm.getRef1017();
+        			            vm.getRef1018();
+        			            vm.getRef1020();
         	
         createBillAttachmentsGrid();
     createBillCommentsGrid();
