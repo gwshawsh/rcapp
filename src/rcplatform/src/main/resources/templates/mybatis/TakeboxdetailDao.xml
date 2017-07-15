@@ -3,41 +3,123 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.TakeboxdetailDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
+    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
 		select
 																               		ifnull((select name from  organization b where a.transcompanyid=b.id),'') as transcompanyidname,
 												               		ifnull((select name from  place b where a.startplaceid1=b.id),'') as startplaceid1name,
 												               		ifnull((select name from  place b where a.startplaceid2=b.id),'') as startplaceid2name,
+												               		ifnull((select name from  place b where a.realplaceid2=b.id),'') as realplaceid2name,
 												               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
-																																		        a.*
+												                    ifnull((select enumvaluename from  enumtable b where a.changeplacetype=b.enumvalueid and b.enumtype='2009'),'') as changeplacetypeenumvaluename,
+																																								        a.*
 
 		from takeboxdetail a where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
+    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
         select
-																								                    ifnull((select name from  organization b where a.transcompanyid=b.id),'') as transcompanyidname,
-																                    ifnull((select name from  place b where a.startplaceid1=b.id),'') as startplaceid1name,
-																                    ifnull((select name from  place b where a.startplaceid2=b.id),'') as startplaceid2name,
-																                    ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
-																																																						        a.*
+        ifnull((select name from organization b where a.transcompanyid=b.id),'') as transcompanyidname,
+        ifnull((select name from place b where a.startplaceid1=b.id),'') as startplaceid1name,
+        ifnull((select name from place b where a.startplaceid2=b.id),'') as startplaceid2name,
+        ifnull((select name from place b where a.realplaceid2=b.id),'') as realplaceid2name,
+        ifnull((select name from place b where a.endplaceid=b.id),'') as endplaceidname,
+        ifnull((select enumvaluename from enumtable b where a.changeplacetype=b.enumvalueid and b.enumtype='2009'),'')
+        as changeplacetypeenumvaluename,
+        a.*
         from takeboxdetail a
-		<where>
-			<if test="formid != null">
-				billno in (select billno from takeboxmain where id= #{formid})
-			</if>
-		</where>
+        <where>
+            <if test="id != null and id != '' ">
+                `id` = #{id}
+            </if>
 
-		<if test="offset != null and limit != null">
+            <if test="billno != null and billno != '' ">
+                and `billno` = #{billno}
+            </if>
+
+            <if test="serialno != null and serialno != '' ">
+                and `serialno` = #{serialno}
+            </if>
+
+            <if test="transcompanyid != null and transcompanyid != '' ">
+                and `transcompanyid` = #{transcompanyid}
+            </if>
+
+            <if test="startplaceid1 != null and startplaceid1 != '' ">
+                and `startplaceid1` = #{startplaceid1}
+            </if>
+
+            <if test="startplaceid2 != null and startplaceid2 != '' ">
+                and `startplaceid2` = #{startplaceid2}
+            </if>
+
+            <if test="realplaceid2 != null and realplaceid2 != '' ">
+                and `realplaceid2` = #{realplaceid2}
+            </if>
+
+            <if test="endplaceid != null and endplaceid != '' ">
+                and `endplaceid` = #{endplaceid}
+            </if>
+
+            <if test="changeplacetype != null and changeplacetype != '' ">
+                and `changeplacetype` = #{changeplacetype}
+            </if>
+
+            <if test="boxno != null and boxno != '' ">
+                and `boxno` = #{boxno}
+            </if>
+
+            <if test="fengno != null and fengno != '' ">
+                and `fengno` = #{fengno}
+            </if>
+
+            <if test="plantaketime != null and plantaketime != '' ">
+                and `plantaketime` = #{plantaketime}
+            </if>
+
+            <if test="realtaketime != null and realtaketime != '' ">
+                and `realtaketime` = #{realtaketime}
+            </if>
+
+            <if test="planarrvetime != null and planarrvetime != '' ">
+                and `planarrvetime` = #{planarrvetime}
+            </if>
+
+            <if test="realarrvetime != null and realarrvetime != '' ">
+                and `realarrvetime` = #{realarrvetime}
+            </if>
+
+            <if test="changefee != null and changefee != '' ">
+                and `changefee` = #{changefee}
+            </if>
+
+            <if test="yingshou != null and yingshou != '' ">
+                and `yingshou` = #{yingshou}
+            </if>
+
+            <if test="yingfu != null and yingfu != '' ">
+                and `yingfu` = #{yingfu}
+            </if>
+
+            <if test="remark != null and remark != '' ">
+                and `remark` = #{remark}
+            </if>
+
+            <if test="uptdate != null and uptdate != '' ">
+                and `uptdate` = #{uptdate}
+            </if>
+
+        </where>
+        <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
-	</select>
-	
- 	<select id="queryTotal" resultType="int">
+    </select>
+
+    <select id="queryTotal" resultType="int">
 		select count(*) from takeboxdetail 
 	</select>
-	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity" useGeneratedKeys="true" keyProperty="id">
+
+    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity" useGeneratedKeys="true"
+            keyProperty="id">
 		insert into takeboxdetail
 		(
 			`billno`, 
@@ -45,15 +127,19 @@
 			`transcompanyid`, 
 			`startplaceid1`, 
 			`startplaceid2`, 
+			`realplaceid2`, 
 			`endplaceid`, 
+			`changeplacetype`, 
 			`boxno`, 
 			`fengno`, 
 			`plantaketime`, 
 			`realtaketime`, 
 			`planarrvetime`, 
 			`realarrvetime`, 
+			`changefee`, 
 			`yingshou`, 
 			`yingfu`, 
+			`remark`, 
 			`uptdate`
 		)
 		values
@@ -63,54 +149,62 @@
 			#{transcompanyid}, 
 			#{startplaceid1}, 
 			#{startplaceid2}, 
+			#{realplaceid2}, 
 			#{endplaceid}, 
+			#{changeplacetype}, 
 			#{boxno}, 
 			#{fengno}, 
 			#{plantaketime}, 
 			#{realtaketime}, 
 			#{planarrvetime}, 
 			#{realarrvetime}, 
+			#{changefee}, 
 			#{yingshou}, 
 			#{yingfu}, 
+			#{remark}, 
 			#{uptdate}
 		)
 	</insert>
-	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
-		update takeboxdetail 
-		<set>
-			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="serialno != null">`serialno` = #{serialno}, </if>
-			<if test="transcompanyid != null">`transcompanyid` = #{transcompanyid}, </if>
-			<if test="startplaceid1 != null">`startplaceid1` = #{startplaceid1}, </if>
-			<if test="startplaceid2 != null">`startplaceid2` = #{startplaceid2}, </if>
-			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
-			<if test="boxno != null">`boxno` = #{boxno}, </if>
-			<if test="fengno != null">`fengno` = #{fengno}, </if>
-			<if test="plantaketime != null">`plantaketime` = #{plantaketime}, </if>
-			<if test="realtaketime != null">`realtaketime` = #{realtaketime}, </if>
-			<if test="planarrvetime != null">`planarrvetime` = #{planarrvetime}, </if>
-			<if test="realarrvetime != null">`realarrvetime` = #{realarrvetime}, </if>
-			<if test="yingshou != null">`yingshou` = #{yingshou}, </if>
-			<if test="yingfu != null">`yingfu` = #{yingfu}, </if>
-			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
-		</set>
-		where id = #{id}
-	</update>
-	
-	<delete id="delete">
+
+    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
+        update takeboxdetail
+        <set>
+            <if test="billno != null">`billno` = #{billno},</if>
+            <if test="serialno != null">`serialno` = #{serialno},</if>
+            <if test="transcompanyid != null">`transcompanyid` = #{transcompanyid},</if>
+            <if test="startplaceid1 != null">`startplaceid1` = #{startplaceid1},</if>
+            <if test="startplaceid2 != null">`startplaceid2` = #{startplaceid2},</if>
+            <if test="realplaceid2 != null">`realplaceid2` = #{realplaceid2},</if>
+            <if test="endplaceid != null">`endplaceid` = #{endplaceid},</if>
+            <if test="changeplacetype != null">`changeplacetype` = #{changeplacetype},</if>
+            <if test="boxno != null">`boxno` = #{boxno},</if>
+            <if test="fengno != null">`fengno` = #{fengno},</if>
+            <if test="plantaketime != null">`plantaketime` = #{plantaketime},</if>
+            <if test="realtaketime != null">`realtaketime` = #{realtaketime},</if>
+            <if test="planarrvetime != null">`planarrvetime` = #{planarrvetime},</if>
+            <if test="realarrvetime != null">`realarrvetime` = #{realarrvetime},</if>
+            <if test="changefee != null">`changefee` = #{changefee},</if>
+            <if test="yingshou != null">`yingshou` = #{yingshou},</if>
+            <if test="yingfu != null">`yingfu` = #{yingfu},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            <if test="uptdate != null">`uptdate` = #{uptdate}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
 		delete from takeboxdetail where id = #{value}
 	</delete>
 
     <delete id="deleteByBillNo">
         delete from takeboxdetail where billno = #{value}
     </delete>
-	
-	<delete id="deleteBatch">
-		delete from takeboxdetail where id in 
-		<foreach item="id" collection="array" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</delete>
+
+    <delete id="deleteBatch">
+        delete from takeboxdetail where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

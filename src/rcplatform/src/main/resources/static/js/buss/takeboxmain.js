@@ -79,6 +79,9 @@ var vm = new Vue({
         ref_boxs: [],
         ref_enum1003: [],
 
+        changeplacetype: 0,//改单类型 0-不改单  1-平台改单  2-客户改单  3-司机改单
+        newstartplaceid: "",//改单后新的提箱地点
+        remark: "",//备注
 
         //单据主表实体类
         takeboxmain: {
@@ -159,7 +162,7 @@ var vm = new Vue({
                 yingshou: "",
                 yingfu: "",
                 remark: "",
-                billstatus: "",
+                billstatus: "0",
                 makeuser: gUserId,
                 makedate: mktime,
                 accuser: "",
@@ -344,55 +347,68 @@ var vm = new Vue({
         },
 
         //放单
-        takebox:function () {
-            var ids = getSelectedRows();
-            if (ids == null) {
+        takebox: function () {
+            var id = getSelectedRow();
+            if (id == null) {
                 return;
             }
 
             confirm('确定要放单选中的记录？', function () {
-                $.ajax({
-                    type: "POST",
-                    url: "../takeboxmain/takebox",
-                    data: JSON.stringify(ids),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
+                $.get("../takeboxmain/info/" + id, function (r) {
+                    vm.takeboxmain = r.takeboxmain;
+                    $.ajax({
+                        type: "POST",
+                        url: "../takeboxmain/takebox",
+                        data: JSON.stringify(vm.takeboxmain),
+                        success: function (r) {
+                            if (r.code == 0) {
+                                alert('操作成功', function (index) {
+                                    $("#jqGrid").trigger("reloadGrid");
+                                });
+                            } else {
+                                alert(r.msg);
+                            }
                         }
-                    }
+                    });
                 });
+
+
             });
         },
         //放单异常
-        takeboxerror:function () {
-            var ids = getSelectedRows();
-            if (ids == null) {
+        takeboxerror: function () {
+            var id = getSelectedRow();
+            if (id == null) {
                 return;
             }
 
-            confirm('确定执行放单异常？', function () {
-                $.ajax({
-                    type: "POST",
-                    url: "../takeboxmain/takeboxerror",
-                    data: JSON.stringify(ids),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
+            layer.prompt({title: '输入放单异常原因，并确认', formType: 2}, function (text, index) {
+                layer.close(index);
+                $.get("../takeboxmain/info/" + id, function (r) {
+                    vm.takeboxmain = r.takeboxmain;
+                    vm.takeboxmain.remark = text;
+                    $.ajax({
+                        type: "POST",
+                        url: "../takeboxmain/takeboxerror",
+                        data: JSON.stringify(vm.takeboxmain),
+                        success: function (r) {
+                            if (r.code == 0) {
+                                alert('操作成功', function (index) {
+                                    $("#jqGrid").trigger("reloadGrid");
+                                });
+                            } else {
+                                alert(r.msg);
+                            }
                         }
-                    }
+                    });
+
                 });
             });
+
+
         },
         //放单结束
-        takeboxend:function () {
+        takeboxend: function () {
             var ids = getSelectedRows();
             if (ids == null) {
                 return;
@@ -414,6 +430,52 @@ var vm = new Vue({
                     }
                 });
             });
+        },
+
+        //改单
+        takeboxchange: function () {
+            var ids = getSelectedRow();
+            if (ids == null) {
+                return;
+            }
+
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "请录入改单信息",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#takeboxerrorremark"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    for (var i = 0; i < vm.takeboxmain.details.length; i++) {
+                        vm.takeboxmain.details[i].changeplacetype = vm.changeplacetype;
+                        vm.takeboxmain.details[i].startplaceid2 = vm.newstartplaceid;
+                        vm.takeboxmain.details[i].remark = vm.remark;
+                    }
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "../takeboxmain/takeboxend",
+                        data: JSON.stringify(ids),
+                        success: function (r) {
+                            if (r.code == 0) {
+                                alert('操作成功', function (index) {
+                                    $("#jqGrid").trigger("reloadGrid");
+                                });
+                            } else {
+                                alert(r.msg);
+                            }
+                        }
+                    });
+                    layer.close(index);
+                }
+            });
+
+
         },
 
         //单据明细的相关操作
@@ -526,7 +588,7 @@ $(function () {
             order: "order"
         },
         shrinkToFit: false,
-        onSelectRow:function(){
+        onSelectRow: function () {
             vm.queryDetail();
         },
         gridComplete: function () {
@@ -547,10 +609,24 @@ $(function () {
                 label: '现起运点',
                 name: 'startplaceid2name',
                 width: 80
-            }, {label: '目的地', name: 'endplaceidname', width: 80}, {label: '箱号', name: 'boxno', width: 80},
+            }, {label: '现起运点', name: 'realplaceid2name', width: 80}, {
+                label: '目的地',
+                name: 'endplaceidname',
+                width: 80
+            }, {label: '改单类型', name: 'changeplacetypeenumvaluename', width: 80}, {
+                label: '箱号',
+                name: 'boxno',
+                width: 80
+            },
             {label: '铅封号', name: 'fengno', width: 80},
-            {label: '应收费用', name: 'yingshou', width: 80},
-            {label: '应付费用', name: 'yingfu', width: 80},
+            {label: '计划提箱时间', name: 'plantaketime', width: 80},
+            {label: '实际提箱时间', name: 'realtaketime', width: 80},
+            {label: '计划到场时间', name: 'planarrvetime', width: 80},
+            {label: '实际到场时间', name: 'realarrvetime', width: 80},
+            {label: '应收改单费', name: 'changefee', width: 80},
+            {label: '应收运费用', name: 'yingshou', width: 80},
+            {label: '应付运费用', name: 'yingfu', width: 80},
+            {label: '备注', name: 'remark', width: 80},
             {label: '更新时间', name: 'uptdate', width: 80},
         ],
         viewrecords: true,
@@ -587,6 +663,13 @@ $(function () {
     vm.getRefplace();
     vm.getRefboxs();
     vm.getRef1003();
+    vm.getRefsys_user();
+
+
+    //执行调用参照调用下拉框函数,初始化下拉数据
+    vm.getRefTreeorganizationtranscompanyid();
+    vm.getRefplace();
+    vm.getRef2009();
 
 
     initGridHeightHalf("#jqGrid");

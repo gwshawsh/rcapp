@@ -9,5 +9,7 @@ public interface TakeboxBillStatus {
     String TAKEBOXERROR="2";
     String TAKEBOXEND="3";
     String AUDIT="4";
-    String TRANSCOMPLETE="5";//运输结束
+    String STARTTRANS="5";//开始运输
+    String ENDTRANS="6";//
+
 }

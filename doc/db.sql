@@ -737,7 +737,7 @@ CREATE TABLE `takeboxmain`(
   `yingshou` decimal(19,4) COMMENT '应收费用',
   `yingfu` decimal(19,4) COMMENT '应付费用',
   `remark` varchar(1000) COMMENT '备注',
-  `billstatus` varchar(50) COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename', -- 0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成', 6放单异常  7放单结束
+  `billstatus` varchar(50) COMMENT '单据状态:enum:2002:enumvalueid:enumvaluename', -- 0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成', 6放单异常  7放单结束
   `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
   `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
@@ -767,6 +767,7 @@ CREATE TABLE `takeboxdetail`(
   `changefee` decimal(19,4) COMMENT '应收改单费',-- 
   `yingshou` decimal(19,4) COMMENT '应收运费用',
   `yingfu` decimal(19,4) COMMENT '应付运费用',
+  `remark` varchar(500) COMMENT '备注',
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='放箱计划明细表';

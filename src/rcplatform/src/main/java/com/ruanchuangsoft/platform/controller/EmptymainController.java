@@ -168,6 +168,8 @@ public class EmptymainController extends AbstractController {
 				emptymain.setUptdate(new Date());
 				emptymainService.update(emptymain);
 
+
+
 				//判断是否需要放箱,如果是则生成放箱单,如果不是,则判断是否需要生成运输单
 				if(emptymain.getIstakebox()==1) {
 					TakeboxmainEntity takeboxmainEntity = new TakeboxmainEntity();

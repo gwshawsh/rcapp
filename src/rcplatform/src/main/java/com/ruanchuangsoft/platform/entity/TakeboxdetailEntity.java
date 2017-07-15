@@ -1,5 +1,7 @@
 package com.ruanchuangsoft.platform.entity;
 
+import com.ruanchuangsoft.platform.entity.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,9 +15,9 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-21 19:55:19
+ * @date 2017-07-15 23:11:49
  */
-public class TakeboxdetailEntity implements Serializable {
+public class TakeboxdetailEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -30,8 +32,12 @@ public class TakeboxdetailEntity implements Serializable {
 	private Long startplaceid1;
 	//现起运点
 	private Long startplaceid2;
+	//现起运点
+	private Long realplaceid2;
 	//目的地
 	private Long endplaceid;
+	//改单类型
+	private Integer changeplacetype;
 	//箱号
 	private String boxno;
 	//铅封号
@@ -44,10 +50,14 @@ public class TakeboxdetailEntity implements Serializable {
 	private Date planarrvetime;
 	//实际到场时间
 	private Date realarrvetime;
-	//应收费用
+	//应收改单费
+	private BigDecimal changefee;
+	//应收运费用
 	private BigDecimal yingshou;
-	//应付费用
+	//应付运费用
 	private BigDecimal yingfu;
+	//备注
+	private String remark;
 	//更新时间
 	private Date uptdate;
 
@@ -57,9 +67,13 @@ public class TakeboxdetailEntity implements Serializable {
         private String startplaceid1name;
 		        //现起运点
         private String startplaceid2name;
+		        //现起运点
+        private String realplaceid2name;
 		        //目的地
         private String endplaceidname;
-										
+		        //改单类型
+        private String changeplacetypeenumvaluename;
+												
 	/**
 	 * 设置：
 	 */
@@ -133,6 +147,18 @@ public class TakeboxdetailEntity implements Serializable {
 		return startplaceid2;
 	}
 	/**
+	 * 设置：现起运点
+	 */
+	public void setRealplaceid2(Long realplaceid2) {
+		this.realplaceid2 = realplaceid2;
+	}
+	/**
+	 * 获取：现起运点
+	 */
+	public Long getRealplaceid2() {
+		return realplaceid2;
+	}
+	/**
 	 * 设置：目的地
 	 */
 	public void setEndplaceid(Long endplaceid) {
@@ -143,6 +169,18 @@ public class TakeboxdetailEntity implements Serializable {
 	 */
 	public Long getEndplaceid() {
 		return endplaceid;
+	}
+	/**
+	 * 设置：改单类型
+	 */
+	public void setChangeplacetype(Integer changeplacetype) {
+		this.changeplacetype = changeplacetype;
+	}
+	/**
+	 * 获取：改单类型
+	 */
+	public Integer getChangeplacetype() {
+		return changeplacetype;
 	}
 	/**
 	 * 设置：箱号
@@ -217,28 +255,52 @@ public class TakeboxdetailEntity implements Serializable {
 		return realarrvetime;
 	}
 	/**
-	 * 设置：应收费用
+	 * 设置：应收改单费
+	 */
+	public void setChangefee(BigDecimal changefee) {
+		this.changefee = changefee;
+	}
+	/**
+	 * 获取：应收改单费
+	 */
+	public BigDecimal getChangefee() {
+		return changefee;
+	}
+	/**
+	 * 设置：应收运费用
 	 */
 	public void setYingshou(BigDecimal yingshou) {
 		this.yingshou = yingshou;
 	}
 	/**
-	 * 获取：应收费用
+	 * 获取：应收运费用
 	 */
 	public BigDecimal getYingshou() {
 		return yingshou;
 	}
 	/**
-	 * 设置：应付费用
+	 * 设置：应付运费用
 	 */
 	public void setYingfu(BigDecimal yingfu) {
 		this.yingfu = yingfu;
 	}
 	/**
-	 * 获取：应付费用
+	 * 获取：应付运费用
 	 */
 	public BigDecimal getYingfu() {
 		return yingfu;
+	}
+	/**
+	 * 设置：备注
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	/**
+	 * 获取：备注
+	 */
+	public String getRemark() {
+		return remark;
 	}
 	/**
 	 * 设置：更新时间
@@ -291,6 +353,18 @@ public class TakeboxdetailEntity implements Serializable {
             return startplaceid2name;
         }
         			        /**
+         * 设置：现起运点name
+         */
+        public void setRealplaceid2name(String name) {
+            this.realplaceid2name = name;
+        }
+        /**
+         * 获取：现起运点name
+         */
+        public String getRealplaceid2name() {
+            return realplaceid2name;
+        }
+        			        /**
          * 设置：目的地name
          */
         public void setEndplaceidname(String name) {
@@ -302,4 +376,125 @@ public class TakeboxdetailEntity implements Serializable {
         public String getEndplaceidname() {
             return endplaceidname;
         }
-        																												}
+        			        /**
+         * 设置：改单类型enumvaluename
+         */
+        public void setChangeplacetypeenumvaluename(String enumvaluename) {
+            this.changeplacetypeenumvaluename = enumvaluename;
+        }
+        /**
+         * 获取：改单类型enumvaluename
+         */
+        public String getChangeplacetypeenumvaluename() {
+            return changeplacetypeenumvaluename;
+        }
+        																																		
+    /**
+         * To string string.
+         *构造单据的描述内容
+         * @return the string
+         */
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
+					
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">单据号</label>"+
+                        "  <div class=\"el-form-item__content\"><a class='billno' onclick=\"openfunc('takeboxdetail/index','放箱计划明细表')\"><span>"+getBillno()+"</span></a>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">序号</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getSerialno()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">运输公司</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getTranscompanyidname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">原起运地点</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getStartplaceid1name()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">现起运点</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getStartplaceid2name()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">现起运点</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRealplaceid2name()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">目的地</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getEndplaceidname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">改单类型</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getChangeplacetypeenumvaluename()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">箱号</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getBoxno()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">铅封号</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getFengno()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">计划提箱时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getPlantaketime()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">实际提箱时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRealtaketime()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">计划到场时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getPlanarrvetime()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">实际到场时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRealarrvetime()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">应收改单费</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getChangefee()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">应收运费用</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getYingshou()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">应付运费用</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getYingfu()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">备注</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getRemark()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">更新时间</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getUptdate()+"</span>\n" +
+                        "  </div> </div>");
+			
+		        sb.append("</form>");
+        return sb.toString();
+
+    }
+}

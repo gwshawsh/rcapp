@@ -36,7 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @date 2017-05-27 21:36:50
  */
 @Controller
-@RequestMapping("takeboxmain" )
+@RequestMapping("takeboxmain")
 @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
 public class TakeboxmainController extends AbstractController {
     @Autowired
@@ -49,16 +49,16 @@ public class TakeboxmainController extends AbstractController {
     private TransboxmainService transboxmainService;
 
 
-    @RequestMapping("/takeboxmain" )
+    @RequestMapping("/takeboxmain")
     public String list() {
         return "takeboxmain/takeboxmain";
     }
 
 
-    @RequestMapping("/index" )
+    @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("buss/takeboxmain" );
+        setViewname("buss/takeboxmain");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
@@ -69,8 +69,8 @@ public class TakeboxmainController extends AbstractController {
      * 列表
      */
     @ResponseBody
-    @RequestMapping("/list" )
-    @RequiresPermissions("takeboxmain:list" )
+    @RequestMapping("/list")
+    @RequiresPermissions("takeboxmain:list")
     public R list(Integer page, Integer limit) {
         Map<String, Object> map = new HashMap<>();
         map.put("offset", (page - 1) * limit);
@@ -89,8 +89,8 @@ public class TakeboxmainController extends AbstractController {
      * 查询明细列表
      */
     @ResponseBody
-    @RequestMapping("/listdetail" )
-    @RequiresPermissions("takeboxmain:list" )
+    @RequestMapping("/listdetail")
+    @RequiresPermissions("takeboxmain:list")
     public R listdetail(Long formid, Integer page, Integer limit) {
         Map<String, Object> map = new HashMap<>();
         map.put("offset", (page - 1) * limit);
@@ -110,9 +110,9 @@ public class TakeboxmainController extends AbstractController {
      * 信息
      */
     @ResponseBody
-    @RequestMapping("/info/{id}" )
-    @RequiresPermissions("takeboxmain:info" )
-    public R info(@PathVariable("id" ) Long id) {
+    @RequestMapping("/info/{id}")
+    @RequiresPermissions("takeboxmain:info")
+    public R info(@PathVariable("id") Long id) {
         TakeboxmainEntity takeboxmain = takeboxmainService.queryObject(id);
 
         //查询明细数据
@@ -128,11 +128,11 @@ public class TakeboxmainController extends AbstractController {
      * 保存
      */
     @ResponseBody
-    @RequestMapping("/save" )
-    @RequiresPermissions("takeboxmain:save" )
+    @RequestMapping("/save")
+    @RequiresPermissions("takeboxmain:save")
     public R save(@RequestBody TakeboxmainEntity takeboxmain) {
-        if (takeboxmain.getBillno().equals("*" )) {
-            String billno = getBillNo("TB" );
+        if (takeboxmain.getBillno().equals("*")) {
+            String billno = getBillNo("TB");
             takeboxmain.setBillno(billno);
             if (takeboxmain.getDetails() != null && takeboxmain.getDetails().size() > 0) {
                 for (TakeboxdetailEntity item : takeboxmain.getDetails()) {
@@ -151,8 +151,8 @@ public class TakeboxmainController extends AbstractController {
      * 修改
      */
     @ResponseBody
-    @RequestMapping("/update" )
-    @RequiresPermissions("takeboxmain:update" )
+    @RequestMapping("/update")
+    @RequiresPermissions("takeboxmain:update")
     public R update(@RequestBody TakeboxmainEntity takeboxmain) {
         takeboxmainService.update(takeboxmain);
 
@@ -160,19 +160,18 @@ public class TakeboxmainController extends AbstractController {
     }
 
 
-
     /**
-     * 放单
+     * 开始放单
      */
     @ResponseBody
-    @RequestMapping("/takebox" )
-    @RequiresPermissions("takeboxmain:update" )
-    public R takebox(@RequestBody Long[] ids) {
+    @RequestMapping("/takebox")
+    @RequiresPermissions("takeboxmain:update")
+    public R takebox(@RequestBody  Long[] ids) {
         for (long id : ids) {
             TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(id);
             if (takeboxmainEntity != null) {
                 if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
-                    return R.error(1, "单据已经审核,不能执行放单" );
+                    return R.error(1, "单据已经审核,不能执行放单");
                 }
                 takeboxmainEntity.setBillstatus(TakeboxBillStatus.TAKEBOX);
                 takeboxmainEntity.setAccdate(new Date());
@@ -185,40 +184,44 @@ public class TakeboxmainController extends AbstractController {
 
 
     /**
-     * 放单
+     * 放单异常
      */
     @ResponseBody
-    @RequestMapping("/takeboxerror" )
-    @RequiresPermissions("takeboxmain:update" )
-    public R takeboxerror(@RequestBody Long[] ids) {
-        for (long id : ids) {
-            TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(id);
-            if (takeboxmainEntity != null) {
-                if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
-                    return R.error(1, "单据已经审核,不能执行放单" );
-                }
-                takeboxmainEntity.setBillstatus(TakeboxBillStatus.TAKEBOXERROR);
-                takeboxmainEntity.setAccdate(new Date());
-                takeboxmainEntity.setAccuser(ShiroUtils.getUserName());
-                takeboxmainService.update(takeboxmainEntity);
+    @RequestMapping("/takeboxerror")
+    @RequiresPermissions("takeboxmain:update")
+    public R takeboxerror(@RequestBody TakeboxmainEntity takeboxmain) {
+
+        TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(takeboxmain.getId());
+        if (takeboxmainEntity != null) {
+            if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
+                return R.error(1, "单据已经审核,不能执行放单异常");
             }
+            takeboxmainEntity.setBillstatus(TakeboxBillStatus.TAKEBOXERROR);
+            takeboxmainEntity.setAccdate(new Date());
+            takeboxmainEntity.setAccuser(ShiroUtils.getUserName());
+            takeboxmainService.update(takeboxmainEntity);
+            return R.ok();
         }
-        return R.ok();
+        else{
+            return R.error("单据不存在");
+        }
+
+
     }
 
 
     /**
-     * 放单
+     * 放单结束
      */
     @ResponseBody
-    @RequestMapping("/takeboxend" )
-    @RequiresPermissions("takeboxmain:update" )
+    @RequestMapping("/takeboxend")
+    @RequiresPermissions("takeboxmain:update")
     public R takeboxend(@RequestBody Long[] ids) {
         for (long id : ids) {
             TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(id);
             if (takeboxmainEntity != null) {
                 if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
-                    return R.error(1, "单据已经审核,不能执行放单" );
+                    return R.error(1, "单据已经审核,不能执行放单结束");
                 }
                 takeboxmainEntity.setBillstatus(TakeboxBillStatus.TAKEBOXEND);
                 takeboxmainEntity.setAccdate(new Date());
@@ -229,24 +232,50 @@ public class TakeboxmainController extends AbstractController {
         return R.ok();
     }
 
+    /**
+     * 改单
+     */
+    @ResponseBody
+    @RequestMapping("/takeboxchange")
+    @RequiresPermissions("takeboxmain:update")
+    public R takeboxchange(@RequestBody TakeboxmainEntity takeboxmain) {
+
+        TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(takeboxmain.getId());
+        if (takeboxmainEntity != null) {
+            if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.ENDTRANS)) {
+                return R.error(1, "单据已经结束,不能执行改单");
+            }
+            takeboxmainEntity.setRemark(takeboxmain.getRemark());
+            takeboxmainEntity.setAccdate(new Date());
+            takeboxmainEntity.setAccuser(ShiroUtils.getUserName());
+            takeboxmainService.update(takeboxmainEntity);
+            return R.ok();
+        }
+        else{
+            return R.error("单据不存在");
+        }
+
+
+    }
+
 
     /**
      * 审核,生成运输单据
      */
     @ResponseBody
-    @RequestMapping("/audit" )
-    @RequiresPermissions("takeboxmain:audit" )
+    @RequestMapping("/audit")
+    @RequiresPermissions("takeboxmain:audit")
     public R accbill(@RequestBody Long[] ids) {
         for (long id : ids) {
             TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(id);
             if (takeboxmainEntity != null) {
                 if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
-                    return R.error(1, "单据已经审核,不能重复审核" );
+                    return R.error(1, "单据已经审核,不能重复审核");
                 }
                 takeboxmainEntity.setBillstatus(TakeboxBillStatus.AUDIT);
                 takeboxmainEntity.setAccdate(new Date());
                 takeboxmainEntity.setAccuser(String.valueOf(ShiroUtils.getUserId()));
-               // takeboxmainService.update(takeboxmainEntity);
+                // takeboxmainService.update(takeboxmainEntity);
 
                 //查询放箱明细,一个放箱计划可能会安排不同的运输车队
                 Map<String, Object> map = new HashMap<>();
@@ -271,7 +300,7 @@ public class TakeboxmainController extends AbstractController {
 
                 //生成运输计划主表
                 TransboxmainEntity transboxmainEntity = new TransboxmainEntity();
-                String billno = getBillNo("TS" );
+                String billno = getBillNo("TS");
                 transboxmainEntity.setBillno(billno);
                 transboxmainEntity.setRefbillno(takeboxmainEntity.getBillno());
                 transboxmainEntity.setRefbilltype(takeboxmainEntity.getRefbilltype());
@@ -318,8 +347,8 @@ public class TakeboxmainController extends AbstractController {
      * 删除
      */
     @ResponseBody
-    @RequestMapping("/delete" )
-    @RequiresPermissions("takeboxmain:delete" )
+    @RequestMapping("/delete")
+    @RequiresPermissions("takeboxmain:delete")
     public R delete(@RequestBody Long[] ids) {
         takeboxmainService.deleteBatch(ids);
 

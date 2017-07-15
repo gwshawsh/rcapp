@@ -42,6 +42,10 @@
             <el-button type="primary" v-on:click="takeboxend"><i class="fa fa-reply"></i>&nbsp;放单结束
             </el-button>
             </@shiro.hasPermission>
+            <@shiro.hasPermission name="takeboxmain:update">
+            <el-button type="primary" v-on:click="takeboxchange"><i class="fa fa-reply"></i>&nbsp;改单
+            </el-button>
+            </@shiro.hasPermission>
             <@shiro.hasPermission name="takeboxmain:audit">
             <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
             </el-button>
@@ -294,7 +298,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right" :inline="true" label-width="100px" style="padding:10px">
+        <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px">
 
             <el-form-item label="参照单据号" style="padding-top: 22px">
                 <el-input v-model="takeboxmain.refbillno" placeholder="参照单据号" style="width: 168px;"></el-input>
@@ -540,6 +544,43 @@
 <div id="treelayerorganization" style="display: none;padding:10px;">
     <ul id="refTreeorganization" class="ztree"></ul>
 </div>
+
+
+
+<div id="takeboxerrorremark" style="display: none;padding:10px;">
+    <el-form ref="form" :model="form" label-width="80px">
+
+        <el-form-item label="改单类型">
+            <el-radio-group v-model="changeplacetype">
+                <el-radio :label="1">平台改单</el-radio>
+                <el-radio :label="2">客户改单</el-radio>
+                <el-radio :label="3">司机改单</el-radio>
+
+            </el-radio-group>
+        </el-form-item>
+        <el-form-item label="新提箱地点">
+        <el-select v-model="newstartplaceid" filterable placeholder="请选择">
+            <el-option
+                    v-for="itemref in ref_place"
+                    :key="itemref.id"
+                    :label="itemref.name"
+                    :value="itemref.id">
+            </el-option>
+        </el-select>
+        </el-form-item>
+
+        <el-form-item label="备注">
+            <el-input
+                    type="textarea"
+                    autosize
+                    placeholder="请输入内容"
+                    v-model="remark">
+            </el-input>
+        </el-form-item>
+
+    </el-form>
+</div>
+
 
 
 <script src="${ctxPath}/static/js/buss/takeboxmain.js"></script>

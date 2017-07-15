@@ -140,9 +140,9 @@ INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) V
 
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2002', '0', '新增', '箱子状态');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2002', '1', '开始放单', '箱子状态');
-INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2002', '2', '放单结束', '箱子状态');
-INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2002', '3', '放单异常', '箱子状态');
-INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2002', '4', '发送运输', '箱子状态');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2002', '2', '放单异常', '箱子状态');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2002', '3', '放单结束', '箱子状态');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2002', '4', '已审核', '箱子状态');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2002', '5', '已派车', '箱子状态');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2002', '6', '已提箱', '箱子状态');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('2002', '7', '已到仓库', '箱子状态');
