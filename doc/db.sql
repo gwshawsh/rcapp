@@ -752,7 +752,7 @@ CREATE TABLE `takeboxdetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `transcompanyid` bigint COMMENT '运输公司:dialogtree:organization:id:name',
+  `transcompanyid` bigint COMMENT '运输公司:combo:organization:id:name',
   `startplaceid1` bigint COMMENT '原起运地点:combo:place:id:name',
   `startplaceid2` bigint COMMENT '现起运点:combo:place:id:name',
   `realplaceid2` bigint COMMENT '现起运点:combo:place:id:name',
@@ -955,7 +955,7 @@ CREATE TABLE `contractdetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `feeid` bigint COMMENT '费用项目:dialog:feeinfo:id:name',
+  `feeid` bigint COMMENT '费用项目:dialogtree:feeinfo:id:name',
   `price` decimal(19,4) COMMENT '单价',-- 
   `cost` decimal(19,4) COMMENT '金额',-- 
   `uptdate` datetime COMMENT '更新时间',

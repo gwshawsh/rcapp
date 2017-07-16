@@ -3,164 +3,118 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.FeeinfoDao">
 
-    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.FeeinfoEntity">
+	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.FeeinfoEntity">
+		select
+																							                    ifnull((select enumvaluename from  enumtable b where a.feetype=b.enumvalueid and b.enumtype='2006'),'') as feetypeenumvaluename,
+													                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='1011'),'') as paytypeenumvaluename,
+													               		ifnull((select name from  transline b where a.lineid=b.id),'') as lineidname,
+													               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+																													                    ifnull((select enumvaluename from  enumtable b where a.nodetype=b.enumvalueid and b.enumtype='2004'),'') as nodetypeenumvaluename,
+												        a.*
+		from feeinfo a where id = #{value}
+	</select>
+
+    <select id="queryListParentId" resultType="com.ruanchuangsoft.platform.entity.FeeinfoEntity">
         select
-        ifnull((select enumvaluename from enumtable b where a.feetype=b.enumvalueid and b.enumtype='2006'),'') as
-        feetypeenumvaluename,
-        ifnull((select enumvaluename from enumtable b where a.paytype=b.enumvalueid and b.enumtype='1011'),'') as
-        paytypeenumvaluename,
-        ifnull((select name from transline b where a.lineid=b.id),'') as lineidname,
-        ifnull((select boxsize from boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
-        ifnull((select enumvaluename from enumtable b where a.nodetype=b.enumvalueid and b.enumtype='2004'),'') as
-        nodetypeenumvaluename,
-        a.*
-        from feeinfo a where id = #{value}
+																																			ifnull((select enumvaluename from  enumtable b where a.feetype=b.enumvalueid and b.enumtype='2006'),'') as feetypeenumvaluename,
+																						ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='1011'),'') as paytypeenumvaluename,
+																						ifnull((select name from  transline b where a.lineid=b.id),'') as lineidname,
+																							ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+																																											ifnull((select enumvaluename from  enumtable b where a.nodetype=b.enumvalueid and b.enumtype='2004'),'') as nodetypeenumvaluename,
+														        a.*
+		from feeinfo a where parent_id = #{parentId} order by order_num asc
     </select>
 
-    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.FeeinfoEntity">
+	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.FeeinfoEntity">
+
         select
-        ifnull((select enumvaluename from enumtable b where a.feetype=b.enumvalueid and b.enumtype='2006'),'') as
-        feetypeenumvaluename,
-        ifnull((select enumvaluename from enumtable b where a.paytype=b.enumvalueid and b.enumtype='1011'),'') as
-        paytypeenumvaluename,
-        ifnull((select name from transline b where a.lineid=b.id),'') as lineidname,
-        ifnull((select boxsize from boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
-        ifnull((select enumvaluename from enumtable b where a.nodetype=b.enumvalueid and b.enumtype='2004'),'') as
-        nodetypeenumvaluename,
-        a.*
+																													                    ifnull((select enumvaluename from  enumtable b where a.feetype=b.enumvalueid and b.enumtype='2006'),'') as feetypeenumvaluename,
+																                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='1011'),'') as paytypeenumvaluename,
+																                    ifnull((select name from  transline b where a.lineid=b.id),'') as lineidname,
+																                    ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+																																				                    ifnull((select enumvaluename from  enumtable b where a.nodetype=b.enumvalueid and b.enumtype='2004'),'') as nodetypeenumvaluename,
+														        a.*
         from feeinfo a
         <where>
-            <if test="id != null and id != '' ">
-                `id` = #{id}
+            <if test="id!=null" >
+                a.parent_id=#{id}
             </if>
-
-            <if test="parentId != null and parentId != '' ">
-                and `parent_id` = #{parentId}
-            </if>
-
-            <if test="code != null and code != '' ">
-                and `code` = #{code}
-            </if>
-
-            <if test="name != null and name != '' ">
-                and `name` = #{name}
-            </if>
-
-            <if test="feetype != null and feetype != '' ">
-                and `feetype` = #{feetype}
-            </if>
-
-            <if test="paytype != null and paytype != '' ">
-                and `paytype` = #{paytype}
-            </if>
-
-            <if test="lineid != null and lineid != '' ">
-                and `lineid` = #{lineid}
-            </if>
-
-            <if test="boxtype != null and boxtype != '' ">
-                and `boxtype` = #{boxtype}
-            </if>
-
-            <if test="price != null and price != '' ">
-                and `price` = #{price}
-            </if>
-
-            <if test="cost != null and cost != '' ">
-                and `cost` = #{cost}
-            </if>
-
-            <if test="remark != null and remark != '' ">
-                and `remark` = #{remark}
-            </if>
-
-            <if test="status != null and status != '' ">
-                and `status` = #{status}
-            </if>
-
-            <if test="nodetype != null and nodetype != '' ">
-                and `nodetype` = #{nodetype}
-            </if>
-
-            <if test="uptdate != null and uptdate != '' ">
-                and `uptdate` = #{uptdate}
-            </if>
-
         </where>
+        order by a.id asc
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
-    </select>
 
-    <select id="queryTotal" resultType="int">
-        select count(*) from feeinfo
-    </select>
-
-    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.FeeinfoEntity" useGeneratedKeys="true"
-            keyProperty="id">
-        insert into feeinfo
-        (
-        `parent_id`,
-        `code`,
-        `name`,
-        `feetype`,
-        `paytype`,
-        `lineid`,
-        `boxtype`,
-        `price`,
-        `cost`,
-        `remark`,
-        `status`,
-        `nodetype`,
-        `uptdate`
-        )
-        values
-        (
-        #{parentId},
-        #{code},
-        #{name},
-        #{feetype},
-        #{paytype},
-        #{lineid},
-        #{boxtype},
-        #{price},
-        #{cost},
-        #{remark},
-        #{status},
-        #{nodetype},
-        #{uptdate}
-        )
-    </insert>
-
-    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.FeeinfoEntity">
-        update feeinfo
-        <set>
-            <if test="parentId != null">`parent_id` = #{parentId},</if>
-            <if test="code != null">`code` = #{code},</if>
-            <if test="name != null">`name` = #{name},</if>
-            <if test="feetype != null">`feetype` = #{feetype},</if>
-            <if test="paytype != null">`paytype` = #{paytype},</if>
-            <if test="lineid != null">`lineid` = #{lineid},</if>
-            <if test="boxtype != null">`boxtype` = #{boxtype},</if>
-            <if test="price != null">`price` = #{price},</if>
-            <if test="cost != null">`cost` = #{cost},</if>
-            <if test="remark != null">`remark` = #{remark},</if>
-            <if test="status != null">`status` = #{status},</if>
-            <if test="nodetype != null">`nodetype` = #{nodetype},</if>
-            <if test="uptdate != null">`uptdate` = #{uptdate}</if>
-        </set>
-        where id = #{id}
-    </update>
-
-    <delete id="delete">
-        delete from feeinfo where id = #{value}
-    </delete>
-
-    <delete id="deleteBatch">
-        delete from feeinfo where id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from feeinfo 
+	</select>
+	 
+	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.FeeinfoEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into feeinfo
+		(
+			`parent_id`, 
+			`code`, 
+			`name`, 
+			`feetype`, 
+			`paytype`, 
+			`lineid`, 
+			`boxtype`, 
+			`price`, 
+			`cost`, 
+			`remark`, 
+			`status`, 
+			`nodetype`, 
+			`uptdate`
+		)
+		values
+		(
+			#{parentId}, 
+			#{code}, 
+			#{name}, 
+			#{feetype}, 
+			#{paytype}, 
+			#{lineid}, 
+			#{boxtype}, 
+			#{price}, 
+			#{cost}, 
+			#{remark}, 
+			#{status}, 
+			#{nodetype}, 
+			#{uptdate}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.FeeinfoEntity">
+		update feeinfo 
+		<set>
+			<if test="parentId != null">`parent_id` = #{parentId}, </if>
+			<if test="code != null">`code` = #{code}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="feetype != null">`feetype` = #{feetype}, </if>
+			<if test="paytype != null">`paytype` = #{paytype}, </if>
+			<if test="lineid != null">`lineid` = #{lineid}, </if>
+			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
+			<if test="price != null">`price` = #{price}, </if>
+			<if test="cost != null">`cost` = #{cost}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="nodetype != null">`nodetype` = #{nodetype}, </if>
+			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from feeinfo where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from feeinfo where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
 
 </mapper>

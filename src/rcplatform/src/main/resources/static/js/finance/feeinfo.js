@@ -1,62 +1,48 @@
+var ztree;
 //生成弹出树形空间参照
                                                         
-var setting = {
-    data: {
-        simpleData: {
-            enable: true,
-            idKey: "id",
-            pIdKey: "parentId",
-            rootPId: -1
-        },
-        key: {
-            url:"nourl"
-        }
-    }
-};
+
 
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
-	    q:{
-                                                                            parentId:"",                                                                 code:"",                                                                 name:"",                                                                 feetype:"",                                                                 paytype:"",                                                                 lineid:"",                                                                 boxtype:"",                                                                 price:"",                                                                 cost:"",                                                                 remark:"",                                                                 status:"",                                                                 nodetype:"",                                                                 uptdate:""                            
+        q:{
+            id: 0
         },
 		showList: true,
-        showQuery:false,
-        showDetailList:true,
 		title: null,
-        fileslist:[],
-    //用于日期快捷控件
-    pickerOptions1: {
-        shortcuts: [{
-            text: '今天',
-            onClick(picker) {
-                picker.$emit('pick', new Date());
-            }
-        }, {
-            text: '昨天',
-            onClick(picker) {
-                const date = new Date();
-                date.setTime(date.getTime() - 3600 * 1000 * 24);
-                picker.$emit('pick', date);
-            }
-        }, {
-            text: '一周前',
-            onClick(picker) {
-                const date = new Date();
-                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-                picker.$emit('pick', date);
-            }
-        }]
-    },
-        //创建参照
-					                                    ref_enum2006:[],
-                								                                    ref_enum1011:[],
-                								                					ref_transline:[],
+        //用于日期快捷控件
+        pickerOptions1: {
+            shortcuts: [{
+                text: '今天',
+                onClick(picker) {
+                    picker.$emit('pick', new Date());
+                }
+            }, {
+                text: '昨天',
+                onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24);
+                    picker.$emit('pick', date);
+                }
+            }, {
+                text: '一周前',
+                onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                    picker.$emit('pick', date);
+                }
+            }]
+        },
+            //创建参照
+                                                        ref_enum2006:[],
+                                                                                    ref_enum1011:[],
+                                                                                    ref_transline:[],
 
-                								                					ref_boxs:[],
+                                                                                    ref_boxs:[],
 
-                								                                    ref_enum2004:[],
-                					
+                                                                                    ref_enum2004:[],
+                                    
         //创建实体类
         feeinfo: {
                                                 feetypeenumvaluename:"",
@@ -68,26 +54,32 @@ var vm = new Vue({
         }
 	},
 	methods: {
-	    showQueryPanel:function(){
-	        vm.showQuery=!vm.showQuery;
-        },
 		query: function () {
-			vm.reload();
+            vm.reload();
+            vm.getLeftTree();
 		},
+        getLeftTree: function(menuId){
+            //加载菜单树
+            $.get("../feeinfo/select", function(r){
+                ztreeLeft = $.fn.zTree.init($("#leftTree"), setting, r.treeList);
+                var node2 = ztreeLeft.getNodeByParam("id", vm.feeinfo.parentId);
+                ztreeLeft.selectNode(node2);
+
+            })
+        },
 		add: function(){
             var mktime = moment().format("YYYY-MM-DD");
-			vm.showList = false;
-			vm.showDetailList=false;
-			vm.title = "新增";
-			vm.feeinfo = {
-                //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
-                                                            feetypeenumvaluename:"",
-                                                                                paytypeenumvaluename:"",
-                                                                                lineidname:"",
-                                                                                boxtypeboxsize:"",
-                                                                                nodetypeenumvaluename:"",
-                                                                                                                                                                parentId:"",                                                                                                                                     code:"",                                                                                                                                     name:"",                                                                                                                                     feetype:"",                                                                                                                                     paytype:"",                                                                                                                                     lineid:"",                                                                                                                                     boxtype:"",                                                                                                                                     price:"",                                                                                                                                     cost:"",                                                                                                                                     remark:"",                                                                                                                                     status:"",                                                                                                                                     nodetype:"",                                                                                                                                     uptdate:""                                                            
-            };
+            vm.showList = false;
+            vm.title = "新增";
+            vm.feeinfo = {
+            //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
+                                                feetypeenumvaluename:"",
+                                                                paytypeenumvaluename:"",
+                                                                lineidname:"",
+                                                                boxtypeboxsize:"",
+                                                                nodetypeenumvaluename:"",
+                                                                                                                                parentId:"",                                                                                                             code:"",                                                                                                             name:"",                                                                                                             feetype:"",                                                                                                             paytype:"",                                                                                                             lineid:"",                                                                                                             boxtype:"",                                                                                                             price:"",                                                                                                             cost:"",                                                                                                             remark:"",                                                                                                             status:"",                                                                                                             nodetype:"",                                                                                                             uptdate:""                                                
+        };
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -139,90 +131,120 @@ var vm = new Vue({
 				});
 			});
 		},
-
+		getInfo: function(id){
+			$.get("../feeinfo/info/"+id, function(r){
+                vm.feeinfo = r.feeinfo;
+            });
+		},
         //生成参照调用弹出框函数
-																																																																								
+                                                                                                                                                                                                                                                                                                
         //生成参照调用下拉框函数,用来初始化远程数据
-					                getRef2006: function () {
+                                    getRef2006: function () {
                     $.get("../enumtable/listone?enumid=2006&page=1&limit=1000", function (r) {
                         vm.ref_enum2006 = r.page.list;
                     });
                 },
-            					                getRef1011: function () {
+                                                getRef1011: function () {
                     $.get("../enumtable/listone?enumid=1011&page=1&limit=1000", function (r) {
                         vm.ref_enum1011 = r.page.list;
                     });
                 },
-            					                getReftransline: function () {
+                                                getReftransline: function () {
                     $.get("../transline/list?page=1&limit=1000", function (r) {
                         vm.ref_transline = r.page.list;
                     });
                 },
 
-            					                getRefboxs: function () {
+                                                getRefboxs: function () {
                     $.get("../boxs/list?page=1&limit=1000", function (r) {
                         vm.ref_boxs = r.page.list;
                     });
                 },
 
-            					                getRef2004: function () {
+                                                getRef2004: function () {
                     $.get("../enumtable/listone?enumid=2004&page=1&limit=1000", function (r) {
                         vm.ref_enum2004 = r.page.list;
                     });
                 },
-            		
-        //生成弹出树形空间参照
-        
-        //查询单据明细
-        queryDetail:function(){
-                    },
+                            //生成弹出树形空间参照
+                                                                                                                                                                                                                                                                                                        menuTree: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#menuLayer"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztree.getSelectedNodes();
+                    //选择上级菜单
+                    vm.feeinfo.parentId = node[0].id;
+                    vm.feeinfo.parentName = node[0].name;
 
-        getInfo: function(id){
-            $.get("../feeinfo/info/"+id, function(r){
-                vm.feeinfo = r.feeinfo;
+                    layer.close(index);
+                }
             });
         },
-        reload: function (event) {
-            vm.showList = true;
-            var page = $("#jqGrid").jqGrid('getGridParam','page');
-            $("#jqGrid").jqGrid('setGridParam',{
-                postData: {'query': JSON.stringify(vm.q)},
-                page:page
+		reload: function (event) {
+			vm.showList = true;
+			var page = $("#jqGrid").jqGrid('getGridParam','page');
+			$("#jqGrid").jqGrid('setGridParam',{
+                page:page,
+                postData:{'id':vm.q.id}
             }).trigger("reloadGrid");
-        },
-        upload_on_success:function (response,file,fileList) {
-
-            if(!vm.feeinfo.files){
-                vm.feeinfo.files=[];
-            }
-            if(response.page.list&&response.page.list.length>0){
-                vm.feeinfo.files.push(response.page.list[0]);
+		},
+        onClickNode:function(event, treeId, treeNode) {
+            if(vm.showList) {
+                vm.q.id = treeNode.id;
+                vm.reload();
             }
 
-
-        },
-
-        upload_on_change: function (file, fileList) {
-            this.fileslist = fileList;
         }
 	}
 });
+
+
+
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    },
+    callback:{
+        onClick:vm.onClickNode
+    }
+};
 
 $(function () {
     $("#jqGrid").jqGrid({
         url: '../feeinfo/list',
         datatype: "json",
         colModel: [
-			                                                            { label: 'id', name: 'id', width: 50, key: true,hidden:true },
-                                    			                                                            { label: '上级费用', name: 'parentId', width: 80 }, 
-                                    			                                                            { label: '编码', name: 'code', width: 80 }, 
-                                    			                                                            { label: '名称', name: 'name', width: 80 }, 
-                                    			                                                            { label: '类型', name: 'feetypeenumvaluename', width: 80 },                                     			                                                            { label: '收付款', name: 'paytypeenumvaluename', width: 80 },                                     			                                                            { label: '线路', name: 'lineidname', width: 80 },                                     			                                                            { label: '箱型', name: 'boxtypeboxsize', width: 80 },                                     			                                                            { label: '标准单价', name: 'price', width: 80 }, 
-                                    			                                                            { label: '标准成本', name: 'cost', width: 80 }, 
-                                    			                                                            { label: '备注', name: 'remark', width: 80 }, 
-                                    			                                                            { label: '状态', name: 'status', width: 80 }, 
-                                    			                                                            { label: '节点类型', name: 'nodetypeenumvaluename', width: 80 },                                     			                                                            { label: '更新时间', name: 'uptdate', width: 80 }
-                                    			        ],
+							                    { label: 'id', name: 'id', width: 50, key: true ,hidden:true},
+											                    { label: '上级费用', name: 'parentId', width: 80 }, 
+											                    { label: '编码', name: 'code', width: 80 }, 
+											                    { label: '名称', name: 'name', width: 80 }, 
+											                    { label: '类型', name: 'feetype', width: 80 }, 
+											                    { label: '收付款', name: 'paytype', width: 80 }, 
+											                    { label: '线路', name: 'lineid', width: 80 }, 
+											                    { label: '箱型', name: 'boxtype', width: 80 }, 
+											                    { label: '标准单价', name: 'price', width: 80 }, 
+											                    { label: '标准成本', name: 'cost', width: 80 }, 
+											                    { label: '备注', name: 'remark', width: 80 }, 
+											                    { label: '状态', name: 'status', width: 80 }, 
+											                    { label: '节点类型', name: 'nodetype', width: 80 }, 
+											                    { label: '更新时间', name: 'uptdate', width: 80 }
+							        ],
         viewrecords: true,
         height: 385,
         rowNum: 10,
@@ -231,6 +253,7 @@ $(function () {
         rownumWidth: 25,
         autowidth: true,
         autoScroll: true,
+        shrinkToFit:false,
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader : {
@@ -244,23 +267,19 @@ $(function () {
             rows:"limit",
             order: "order"
         },
-        shrinkToFit:false,
-        onSelectRow:function(){
-            vm.queryDetail();
-        },
         gridComplete:function(){
             //隐藏grid底部滚动条
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
-
     //执行调用参照调用下拉框函数,初始化下拉数据
-			            vm.getRef2006();
-        			            vm.getRef1011();
-        			            vm.getReftransline();
-        			            vm.getRefboxs();
-        			            vm.getRef2004();
-        	
-    
-    initGridHeight();
+                        vm.getRef2006();
+                                vm.getRef1011();
+                                vm.getReftransline();
+                                vm.getRefboxs();
+                                vm.getRef2004();
+            
+    vm.getLeftTree();
+
+	initGridHeight();
 });

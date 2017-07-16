@@ -16,69 +16,72 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("takeboxmainService")
 public class TakeboxmainServiceImpl implements TakeboxmainService {
-	@Autowired
-	private TakeboxmainDao takeboxmainDao;
+    @Autowired
+    private TakeboxmainDao takeboxmainDao;
 
     @Autowired
     private TakeboxdetailDao takeboxdetailDao;
 
 
     @Override
-	public TakeboxmainEntity queryObject(Long id){
-		return takeboxmainDao.queryObject(id);
-	}
-	
-	@Override
-	public List<TakeboxmainEntity> queryList(Map<String, Object> map){
-		return takeboxmainDao.queryList(map);
-	}
-	
-	@Override
-	public int queryTotal(Map<String, Object> map){
-		return takeboxmainDao.queryTotal(map);
-	}
-	
-	@Override
-	public void save(TakeboxmainEntity takeboxmain){
-        for(TakeboxdetailEntity item:takeboxmain.getDetails()){
-				takeboxdetailDao.save(item);
-        }
-		takeboxmainDao.save(takeboxmain);
-	}
-	
-	@Override
-	public void update(TakeboxmainEntity takeboxmain){
+    public TakeboxmainEntity queryObject(Long id) {
+        return takeboxmainDao.queryObject(id);
+    }
 
-        for(TakeboxdetailEntity item:takeboxmain.getDetails()){
-				takeboxdetailDao.update(item);
+    @Override
+    public List<TakeboxmainEntity> queryList(Map<String, Object> map) {
+        return takeboxmainDao.queryList(map);
+    }
+
+    @Override
+    public int queryTotal(Map<String, Object> map) {
+        return takeboxmainDao.queryTotal(map);
+    }
+
+    @Override
+    public void save(TakeboxmainEntity takeboxmain) {
+        if (takeboxmain.getDetails() != null) {
+            for (TakeboxdetailEntity item : takeboxmain.getDetails()) {
+                takeboxdetailDao.save(item);
+            }
         }
-			takeboxmainDao.update(takeboxmain);
-	}
-	
-	@Override
-	public void delete(Long id){
-		 TakeboxmainEntity main = queryObject(id);
+        takeboxmainDao.save(takeboxmain);
+    }
+
+    @Override
+    public void update(TakeboxmainEntity takeboxmain) {
+        if (takeboxmain.getDetails() != null) {
+            for (TakeboxdetailEntity item : takeboxmain.getDetails()) {
+                takeboxdetailDao.update(item);
+            }
+        }
+        takeboxmainDao.update(takeboxmain);
+    }
+
+    @Override
+    public void delete(Long id) {
+        TakeboxmainEntity main = queryObject(id);
         if (main != null) {
-				takeboxmainDao.delete(id);
+            takeboxmainDao.delete(id);
 
-				takeboxdetailDao.deleteByBillNo(main.getBillno());
+            takeboxdetailDao.deleteByBillNo(main.getBillno());
 
         }
 
-	}
-	
-	@Override
-    public void deleteBatch(Long[] ids){
-			takeboxmainDao.deleteBatch(ids);
     }
 
     @Override
-    public void auditBatch(Long[] ids){
-			takeboxmainDao.auditBatch(ids);
+    public void deleteBatch(Long[] ids) {
+        takeboxmainDao.deleteBatch(ids);
     }
 
     @Override
-    public void unauditBatch(Long[] ids){
-			takeboxmainDao.unauditBatch(ids);
+    public void auditBatch(Long[] ids) {
+        takeboxmainDao.auditBatch(ids);
+    }
+
+    @Override
+    public void unauditBatch(Long[] ids) {
+        takeboxmainDao.unauditBatch(ids);
     }
 }

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-07 13:38:29
+ * @date 2017-07-16 22:16:34
  */
 @Mapper
 public interface FeeinfoDao extends BaseDao<FeeinfoEntity> {

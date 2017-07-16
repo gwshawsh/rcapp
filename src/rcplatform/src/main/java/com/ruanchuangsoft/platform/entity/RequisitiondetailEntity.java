@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-06 00:21:21
+ * @date 2017-07-16 22:30:09
  */
 public class RequisitiondetailEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -32,6 +32,8 @@ public class RequisitiondetailEntity extends AbstractEntity implements Serializa
 	private Integer goodscount;
 	//规格
 	private String goodsspec;
+	//单位
+	private String goodsunit;
 	//用途
 	private String goodsuse;
 	//需用日期
@@ -41,7 +43,7 @@ public class RequisitiondetailEntity extends AbstractEntity implements Serializa
 
 				        //商品
         private String goodsidname;
-						
+							
 	/**
 	 * 设置：
 	 */
@@ -115,6 +117,18 @@ public class RequisitiondetailEntity extends AbstractEntity implements Serializa
 		return goodsspec;
 	}
 	/**
+	 * 设置：单位
+	 */
+	public void setGoodsunit(String goodsunit) {
+		this.goodsunit = goodsunit;
+	}
+	/**
+	 * 获取：单位
+	 */
+	public String getGoodsunit() {
+		return goodsunit;
+	}
+	/**
 	 * 设置：用途
 	 */
 	public void setGoodsuse(String goodsuse) {
@@ -164,7 +178,7 @@ public class RequisitiondetailEntity extends AbstractEntity implements Serializa
         public String getGoodsidname() {
             return goodsidname;
         }
-        																
+        																			
     /**
          * To string string.
          *构造单据的描述内容
@@ -197,6 +211,11 @@ public class RequisitiondetailEntity extends AbstractEntity implements Serializa
 					                sb.append(" <div class=\"el-form-item\">\n" +
                         "  <label class=\"el-form-item__label\">规格</label>"+
                         "  <div class=\"el-form-item__content\"><span>"+getGoodsspec()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">单位</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getGoodsunit()+"</span>\n" +
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +

@@ -25,11 +25,13 @@ var vm = new Vue({
             ladingcode: "",
             shipname: "",
             flight: "",
+            shipid: "",
             portid: "",
             boxqty: "",
             boxtype: "",
             takeboxplaceid: "",
             endplaceid: "",
+            shipdate: "",
             bgnshipdatetime: "",
             endshipdatetime: "",
             bgnplanarrtime: "",
@@ -48,6 +50,7 @@ var vm = new Vue({
         showList: true,
         showDetailList: true,
         title: null,
+        fileslist: [],
         //用于日期快捷控件
         pickerOptions1: {
             shortcuts: [{
@@ -75,13 +78,21 @@ var vm = new Vue({
         //用户下拉参照的属性
         ref_enum1006: [],
 
-        ref_place: [],
         ref_boxs: [],
-        ref_enum1003: [],
+        ref_enum2002: [],
 
-        changeplacetype: 0,//改单类型 0-不改单  1-平台改单  2-客户改单  3-司机改单
-        newstartplaceid: "",//改单后新的提箱地点
-        remark: "",//备注
+        ref_sys_user: [],
+
+        ref_organization:[],
+        //明细表用户下拉参照的属性
+        ref_place: [],
+        ref_enum2009: [],
+
+        changeplacetype: "",
+        newstartplaceid: "",
+        changeremark: "",
+
+        showtakeboxchangedlg:false,
 
         //单据主表实体类
         takeboxmain: {
@@ -92,11 +103,13 @@ var vm = new Vue({
             ladingcode: "",
             shipname: "",
             flight: "",
+            shipid: "",
             portid: "",
             boxqty: "",
             boxtype: "",
             takeboxplaceid: "",
             endplaceid: "",
+            shipdate: "",
             bgnshipdatetime: "",
             endshipdatetime: "",
             bgnplanarrtime: "",
@@ -142,6 +155,7 @@ var vm = new Vue({
                 portidname: "",
                 boxtypeboxsize: "",
                 billstatusenumvaluename: "",
+                makeuserfullname: "",
 
                 billno: "*",
                 refbillno: "",
@@ -150,11 +164,13 @@ var vm = new Vue({
                 ladingcode: "",
                 shipname: "",
                 flight: "",
+                shipid: "",
                 portid: "",
                 boxqty: "",
                 boxtype: "",
                 takeboxplaceid: "",
                 endplaceid: "",
+                shipdate: "",
                 bgnshipdatetime: "",
                 endshipdatetime: "",
                 bgnplanarrtime: "",
@@ -162,8 +178,8 @@ var vm = new Vue({
                 yingshou: "",
                 yingfu: "",
                 remark: "",
-                billstatus: "0",
-                makeuser: gUserId,
+                billstatus: "",
+                makeuser: gUserFullName,
                 makedate: mktime,
                 accuser: "",
                 accdate: "",
@@ -200,13 +216,104 @@ var vm = new Vue({
                 }
             });
         },
-        audit: function (event) {
+        //提交到工作流
+        submitworkflow: function () {
+            var row = getSelectedRow();
+            if (row == null) {
+                return;
+            }
+            confirm('确定要提交选中的任务？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "../takeboxmain/submitworkflow",
+                    data: JSON.stringify(row),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function (index) {
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+        //复制单据
+        copybill: function (event) {
+            var id = getSelectedRow();
+            if (id == null) {
+                return;
+            }
+            vm.showList = false;
+            vm.showDetailList = false;
+            vm.title = "新增";
+            vm.getInfo(id);
+
+            $.get("../takeboxmain/info/" + id, function (r) {
+                vm.takeboxmain = r.takeboxmain;
+                vm.takeboxmain.id = null;
+                vm.takeboxmain.billno = "*";
+            });
+
+
+        },
+        //作废单据
+        cancel: function (event) {
+            var ids = getSelectedRows();
+            if (ids == null) {
+                return;
+            }
+            confirm('确定要作废选中的单据？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "../takeboxmain/cancel",
+                    data: JSON.stringify(ids),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function (index) {
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+
+        },
+        //签收任务
+        claim: function (event) {
             var ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
 
-            confirm('确定要审核选中的记录？', function () {
+            confirm('确定要签收选中的任务？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "../takeboxmain/claim",
+                    data: JSON.stringify(ids),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function (index) {
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+        //审核单据，生成运输单
+        audit: function (event) {
+            var ids = getSelectedRows();
+            if (ids == null) {
+                return;
+            }
+            $.get("../takeboxmain/info/" + id, function (r) {
+                vm.takeboxmain = r.takeboxmain;
                 $.ajax({
                     type: "POST",
                     url: "../takeboxmain/audit",
@@ -222,6 +329,7 @@ var vm = new Vue({
                     }
                 });
             });
+
         },
 
         unaudit: function () {
@@ -274,7 +382,7 @@ var vm = new Vue({
 
         //生成参照调用函数
 
-        //生成参照调用下拉框函数,用来初始化远程数据
+        //生成主表参照调用下拉框函数,用来初始化远程数据
         getRef1006: function () {
             $.get("../enumtable/listone?enumid=1006&page=1&limit=1000", function (r) {
                 vm.ref_enum1006 = r.page.list;
@@ -290,9 +398,26 @@ var vm = new Vue({
                 vm.ref_boxs = r.page.list;
             });
         },
-        getRef1003: function () {
-            $.get("../enumtable/listone?enumid=1003&page=1&limit=1000", function (r) {
-                vm.ref_enum1003 = r.page.list;
+        getRef2002: function () {
+            $.get("../enumtable/listone?enumid=2002&page=1&limit=1000", function (r) {
+                vm.ref_enum2002 = r.page.list;
+            });
+        },
+        getRefsys_user: function () {
+            $.get("../sys_user/list?page=1&limit=1000", function (r) {
+                vm.ref_sys_user = r.page.list;
+            });
+        },
+
+        getReforganization: function () {
+            $.get("../organization/list?page=1&limit=1000", function (r) {
+                vm.ref_organization = r.page.list;
+            });
+        },
+
+        getRef2009: function () {
+            $.get("../enumtable/listone?enumid=2009&page=1&limit=1000", function (r) {
+                vm.ref_enum2009 = r.page.list;
             });
         },
 
@@ -346,33 +471,123 @@ var vm = new Vue({
             }).trigger("reloadGrid");
         },
 
-        //放单
-        takebox: function () {
-            var id = getSelectedRow();
+
+        //单据明细的相关操作
+
+        //查询单据明细
+        queryDetail: function () {
+            var row = getSelectedRowData();
+
+            var id = row.billno;
             if (id == null) {
                 return;
             }
+            vm.showDetailList = true;
 
-            confirm('确定要放单选中的记录？', function () {
-                $.get("../takeboxmain/info/" + id, function (r) {
-                    vm.takeboxmain = r.takeboxmain;
-                    $.ajax({
-                        type: "POST",
-                        url: "../takeboxmain/takebox",
-                        data: JSON.stringify(vm.takeboxmain),
-                        success: function (r) {
-                            if (r.code == 0) {
-                                alert('操作成功', function (index) {
-                                    $("#jqGrid").trigger("reloadGrid");
-                                });
-                            } else {
-                                alert(r.msg);
-                            }
+            //查询单据明细
+            $("#jqGridDetail").jqGrid('setGridParam', {
+                page: 1,
+                postData: {'formid': id},
+                datatype: "json"
+            }).trigger("reloadGrid");
+
+            //查询单据审批明细
+            $("#jqGridComments").jqGrid('setGridParam', {
+                page: 1,
+                postData: {'billno': id},
+                datatype: "json"
+            }).trigger("reloadGrid");
+
+            //查询单据审批明细
+            $("#jqGridFiles").jqGrid('setGridParam', {
+                page: 1,
+                postData: {'billno': id},
+                datatype: "json"
+            }).trigger("reloadGrid");
+
+        },
+
+        //增加明细表一条记录
+        additem: function () {
+            var mktime = moment().format("YYYY-MM-DD");
+            var idx = vm.takeboxmain.details.length;
+            var item = {
+                id: "",
+                billno: "*",
+                serialno: idx,
+                transcompanyid: "",
+                startplaceid1: "",
+                startplaceid2: "",
+                realplaceid2: "",
+                endplaceid: "",
+                changeplacetype: "",
+                boxno: "",
+                fengno: "",
+                plantaketime: "",
+                realtaketime: "",
+                planarrvetime: "",
+                realarrvetime: "",
+                changefee: "",
+                yingshou: "",
+                yingfu: "",
+                remark: "",
+                uptdate: mktime,
+            };
+
+
+            vm.takeboxmain.details.push(item);
+        },
+
+        selectitem: function (index) {
+            var sel = index;
+            var item = vm.takeboxmain.details[sel];
+        },
+        delitem: function (event) {
+            var obj = event.currentTarget;
+            var index = obj.attributes['idx'].value
+            vm.takeboxmain.details.splice(index, 1);
+            for (var i = 0; i < vm.takeboxmain.details.length; i++) {
+                vm.takeboxmain.details[i].serialno = i;
+            }
+        },
+        upload_on_success: function (response, file, fileList) {
+
+            if (!vm.takeboxmain.files) {
+                vm.takeboxmain.files = [];
+            }
+            if (response.page.list && response.page.list.length > 0) {
+                vm.takeboxmain.files.push(response.page.list[0]);
+            }
+
+
+        },
+
+        upload_on_change: function (file, fileList) {
+            this.fileslist = fileList;
+        },
+
+        //放单
+        takebox: function () {
+            var ids = getSelectedRows();
+            if (ids == null) {
+                return;
+            }
+
+            confirm('确定执行放单？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "../takeboxmain/takebox",
+                    data: JSON.stringify(ids),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function (index) {
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        } else {
+                            alert(r.msg);
                         }
-                    });
+                    }
                 });
-
-
             });
         },
         //放单异常
@@ -432,106 +647,47 @@ var vm = new Vue({
             });
         },
 
-        //改单
+        //改单,整体改单
         takeboxchange: function () {
-            var ids = getSelectedRow();
-            if (ids == null) {
-                return;
-            }
-
-            layer.open({
-                type: 1,
-                offset: '50px',
-                skin: 'layui-layer-molv',
-                title: "请录入改单信息",
-                area: ['300px', '450px'],
-                shade: 0,
-                shadeClose: false,
-                content: jQuery("#takeboxerrorremark"),
-                btn: ['确定', '取消'],
-                btn1: function (index) {
-                    for (var i = 0; i < vm.takeboxmain.details.length; i++) {
-                        vm.takeboxmain.details[i].changeplacetype = vm.changeplacetype;
-                        vm.takeboxmain.details[i].startplaceid2 = vm.newstartplaceid;
-                        vm.takeboxmain.details[i].remark = vm.remark;
-                    }
-
-
-                    $.ajax({
-                        type: "POST",
-                        url: "../takeboxmain/takeboxend",
-                        data: JSON.stringify(ids),
-                        success: function (r) {
-                            if (r.code == 0) {
-                                alert('操作成功', function (index) {
-                                    $("#jqGrid").trigger("reloadGrid");
-                                });
-                            } else {
-                                alert(r.msg);
-                            }
-                        }
-                    });
-                    layer.close(index);
-                }
-            });
-
-
-        },
-
-        //单据明细的相关操作
-        queryDetail: function () {
             var id = getSelectedRow();
             if (id == null) {
                 return;
             }
-            vm.showDetailList = true;
 
-            $("#jqGridDetail").jqGrid('setGridParam', {
-                page: 1,
-                postData: {'formid': id},
-                datatype: "json"
-            }).trigger("reloadGrid");
+            $.get("../takeboxmain/info/" + id, function (r) {
+                vm.takeboxmain = r.takeboxmain;
+                vm.showtakeboxchangedlg=true;
+
+            });
         },
-
-        //增加明细表一条记录
-        additem: function () {
-            var mktime = moment().format("YYYY-MM-DD");
-            var idx = vm.takeboxmain.details.length;
-            var item = {
-                id: "",
-                billno: "*",
-                serialno: idx,
-                transcompanyid: "",
-                startplaceid1: "",
-                startplaceid2: "",
-                endplaceid: "",
-                boxno: "",
-                fengno: "",
-                plantaketime: "",
-                realtaketime: "",
-                planarrvetime: "",
-                realarrvetime: "",
-                yingshou: "",
-                yingfu: "",
-                uptdate: mktime,
-            };
-
-
-            vm.takeboxmain.details.push(item);
-        },
-
-        selectitem: function (index) {
-            var sel = index;
-            var item = vm.takeboxmain.details[sel];
-        },
-        delitem: function (event) {
-            var obj = event.currentTarget;
-            var index = obj.attributes['idx'].value
-            vm.takeboxmain.details.splice(index, 1);
+        
+        dotakeboxchange:function () {
             for (var i = 0; i < vm.takeboxmain.details.length; i++) {
-                vm.takeboxmain.details[i].serialno = i;
+                vm.takeboxmain.details[i].changeplacetype = vm.changeplacetype;
+                vm.takeboxmain.details[i].startplaceid2 = vm.newstartplaceid;
+                vm.takeboxmain.details[i].remark = vm.changeremark;
             }
+
+
+            $.ajax({
+                type: "POST",
+                url: "../takeboxmain/takeboxchange",
+                data: JSON.stringify(vm.takeboxmain),
+                success: function (r) {
+                    if (r.code == 0) {
+                        alert('操作成功', function (index) {
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
+                    } else {
+                        alert(r.msg);
+                    }
+                    vm.changeplacetype = "";
+                    vm.newstartplaceid = "";
+                    vm.changeremark = "";
+                }
+            });
         }
+
     }
 });
 
@@ -541,31 +697,58 @@ $(function () {
         datatype: "json",
         colModel: [
             {label: 'id', name: 'id', width: 50, key: true, hidden: true},
-            {label: '单据号', name: 'billno', width: 80},
-            {label: '参照单据号', name: 'refbillno', width: 80},
-            {label: '参照单据类型', name: 'refbilltypeenumvaluename', width: 80}, {label: '客户', name: 'orgid', width: 80},
-            {label: '提单号', name: 'ladingcode', width: 80},
-            {label: '船名', name: 'shipname', width: 80},
-            {label: '航次', name: 'flight', width: 80},
-            {label: '港口', name: 'portidname', width: 80}, {label: '箱量', name: 'boxqty', width: 80},
-            {label: '箱型', name: 'boxtypeboxsize', width: 80}, {
-                label: '提箱场站',
-                name: 'takeboxplaceidname',
+            {label: '单据号', name: 'billno', width: 80}, {
+                label: '参照类型',
+                name: 'refbilltypeenumvaluename',
                 width: 80
-            }, {label: '目的地', name: 'endplaceidname', width: 80}, {label: '集港时间', name: 'bgnshipdatetime', width: 80},
-            {label: '截港时间', name: 'endshipdatetime', width: 80},
-            {label: '最早到场时间', name: 'bgnplanarrtime', width: 80},
-            {label: '最晚到场时间', name: 'endplanarrtime', width: 80},
-            {label: '应收费用', name: 'yingshou', width: 80},
-            {label: '应付费用', name: 'yingfu', width: 80},
-            {label: '备注', name: 'remark', width: 80},
-            {label: '单据状态', name: 'billstatus', width: 80, formatter: formater_takeboxbillstatus},
-            {label: '制单人', name: 'makeuser', width: 80},
-            {label: '制单日期', name: 'makedate', width: 80},
-            {label: '审核人', name: 'accuser', width: 80},
-            {label: '审核日期', name: 'accdate', width: 80},
-            {label: '更新时间', name: 'uptdate', width: 80}
-        ],
+            }, {label: '客户', name: 'orgid', width: 80},
+            {
+                label: '单据状态',
+                name: 'billstatus',
+                width: 80,
+                formatter: formater_takeboxbillstatus
+            },
+            {label: '提单号', name: 'ladingcode', width: 80}, {
+                label: '船名',
+                name: 'shipname',
+                width: 80
+            }, {label: '航次', name: 'flight', width: 80}, {label: '船公司', name: 'shipid', width: 80}, {
+                label: '进港点',
+                name: 'portidname',
+                width: 80
+            }, {label: '箱量', name: 'boxqty', width: 80}, {
+                label: '箱型',
+                name: 'boxtypeboxsize',
+                width: 80
+            }, {label: '提箱场站', name: 'takeboxplaceidname', width: 80}, {
+                label: '目的地',
+                name: 'endplaceidname',
+                width: 80
+            }, {label: '船期', name: 'shipdate', width: 80}, {
+                label: '集港时间',
+                name: 'bgnshipdatetime',
+                width: 80
+            }, {label: '截港时间', name: 'endshipdatetime', width: 80}, {
+                label: '最早到场时间',
+                name: 'bgnplanarrtime',
+                width: 80
+            }, {label: '最晚到场时间', name: 'endplanarrtime', width: 80},
+
+            {
+                label: '应收费用',
+                name: 'yingshou',
+                width: 80
+            },
+            {label: '应付费用', name: 'yingfu', width: 80}, {label: '备注', name: 'remark', width: 80},
+            {label: '制单人', name: 'makeuserfullname', width: 80}, {
+                label: '制单日期',
+                name: 'makedate',
+                width: 80
+            }, {label: '审核人', name: 'accuserfullname', width: 80}, {
+                label: '审核日期',
+                name: 'accdate',
+                width: 80
+            }, {label: '更新时间', name: 'uptdate', width: 80}],
         viewrecords: true,
         height: 385,
         rowNum: 10,
@@ -662,16 +845,18 @@ $(function () {
     vm.getRefTreeorganizationorgid();
     vm.getRefplace();
     vm.getRefboxs();
-    vm.getRef1003();
+    vm.getRef2002();
     vm.getRefsys_user();
+    vm.getReforganization();
 
 
     //执行调用参照调用下拉框函数,初始化下拉数据
-    vm.getRefTreeorganizationtranscompanyid();
-    vm.getRefplace();
     vm.getRef2009();
 
+    createBillAttachmentsGrid();
+    createBillCommentsGrid();
 
     initGridHeightHalf("#jqGrid");
     initGridHeightHalf("#jqGridDetail");
 });
+

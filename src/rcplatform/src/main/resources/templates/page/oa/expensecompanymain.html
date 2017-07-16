@@ -25,7 +25,11 @@
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             </@shiro.hasPermission>
-                            <@shiro.hasPermission name="expensecompanymain:copybill">
+                            <@shiro.hasPermission name="expensecompanymain:update">
+                <el-button type="primary" v-on:click="submitworkflow"><i class="fa fa-pencil-square-o"></i>&nbsp;提交
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="expensecompanymain:copybill">
                 <el-button type="primary" v-on:click="copybill"><i class="fa fa-trash-o"></i>&nbsp;复制
                 </el-button>
                 </@shiro.hasPermission>
@@ -216,6 +220,28 @@
         <div id="jqGridPager"></div>
     </div>
 
+    <div v-show="showDetailList" class="panel panel-default">
+
+
+                <el-tabs type="border-card">
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-document"></i> 附件</span>
+                        <table id="jqGridFiles"></table>
+                        <div id="jqGridPagerFiles"></div>
+                    </el-tab-pane>
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                        <table id="jqGridComments"></table>
+                        <div id="jqGridPagerComments"></div>
+                    </el-tab-pane>
+                </el-tabs>
+
+
+
+
+    </div>
+
+
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">
             <el-row>
@@ -235,7 +261,7 @@
 
                             
                             
-                                                <el-form-item label="部门" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="部门" :inline="true" class="padding-top: 5px;width:26%">
 
                              
                                 <input style="width: 350px" v-model="expensecompanymain.deptidname"  v-on:click="openRefTreesys_deptdeptid"
@@ -244,13 +270,13 @@
                              
                     </el-form-item>
                 
-                                                <el-form-item label="申请日期" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="申请日期" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="expensecompanymain.applydate" style="width: 100%;"></el-date-picker>
                              
                     </el-form-item>
                 
-                                                <el-form-item label="费用项目" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="费用项目" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-select style="width: 350px" v-model="expensecompanymain.costcategoryid"  filterable placeholder="请选择">
                                     <el-option
@@ -265,7 +291,7 @@
                              
                     </el-form-item>
                 
-                                                <el-form-item label="报销金额" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="报销金额" :inline="true" class="padding-top: 5px;width:26%">
 
                              
                                 <el-input style="width: 350px" v-model="expensecompanymain.expensemoney" :min="0" ></el-input>
@@ -273,7 +299,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="报销标题" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="报销标题" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="expensecompanymain.title" placeholder="报销标题"></el-input>
 
@@ -281,14 +307,14 @@
                               
                     </el-form-item>
                 
-                                                <el-form-item label="详情" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="详情" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="expensecompanymain.remark" style="width: 100%;"></el-input>
 
                              
                     </el-form-item>
                 
-                                                <el-form-item label="收款人" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="收款人" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-select style="width: 350px" v-model="expensecompanymain.receiver"  filterable placeholder="请选择">
                                     <el-option
@@ -301,7 +327,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="支付方式" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="支付方式" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-select style="width: 350px" v-model="expensecompanymain.paytype"  filterable placeholder="请选择">
                                     <el-option
@@ -316,7 +342,7 @@
                              
                     </el-form-item>
                 
-                                                <el-form-item label="银行账户" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="银行账户" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="expensecompanymain.bankaccount" placeholder="银行账户"></el-input>
 

@@ -500,7 +500,8 @@ $(function () {
             {label: '供应商', name: 'supplyid', width: 80},
             {label: '请购单据号', name: 'reqbillno', width: 80},
             {label: '请购人', name: 'requser', width: 80},
-            {label: '请购部门', name: 'deptidname', width: 80}, {label: '请购日期', name: 'reqdate', width: 80},
+            {label: '请购部门', name: 'deptidname', width: 80},
+            {label: '请购日期', name: 'reqdate', width: 80},
             {label: '订购单来源', name: 'ordersourceenumvaluename', width: 80}, {
                 label: '订购类别',
                 name: 'ordertypeenumvaluename',

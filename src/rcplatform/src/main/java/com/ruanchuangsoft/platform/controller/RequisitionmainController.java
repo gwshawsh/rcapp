@@ -1,7 +1,5 @@
 package com.ruanchuangsoft.platform.controller;
 
-import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
-import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.enums.BillStatus;
 
 import java.util.HashMap;
@@ -9,7 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
-
+import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
+import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
 import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
@@ -37,7 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-06 00:21:21
+ * @date 2017-07-16 22:30:09
  */
 @Controller
 @RequestMapping("requisitionmain")
@@ -76,7 +75,7 @@ public class RequisitionmainController extends AbstractController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
-        map.put("userid", ShiroUtils.getUserId());//用来与工作流关联
+        map.put("userid",ShiroUtils.getUserId());//用来与工作流关联
 
 		//查询列表数据
 		List<RequisitionmainEntity> requisitionmainList = requisitionmainService.queryList(map);

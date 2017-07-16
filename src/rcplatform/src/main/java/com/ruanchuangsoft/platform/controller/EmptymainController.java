@@ -190,7 +190,7 @@ public class EmptymainController extends AbstractController {
 					takeboxmainEntity.setEndplanarrtime(emptymain.getPlanarrdatetime());
 					takeboxmainEntity.setBillstatus(String.valueOf(BillStatus.NEW));
 					takeboxmainEntity.setMakedate(new Date());
-					takeboxmainEntity.setMakeuser(String.valueOf(ShiroUtils.getUserId()));
+					takeboxmainEntity.setMakeuser(ShiroUtils.getUserId());
 					takeboxmainEntity.setUptdate(new Date());
 
 					List<TakeboxdetailEntity> details = new ArrayList<>();

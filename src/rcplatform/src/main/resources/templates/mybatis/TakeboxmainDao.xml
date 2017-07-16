@@ -3,41 +3,162 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.TakeboxmainDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity">
+    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity">
 		select
 																                    ifnull((select enumvaluename from  enumtable b where a.refbilltype=b.enumvalueid and b.enumtype='1006'),'') as refbilltypeenumvaluename,
 												               		ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
-																					               		ifnull((select name from  place b where a.portid=b.id),'') as portidname,
+																								               		ifnull((select name from  place b where a.portid=b.id),'') as portidname,
 															               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
 												               		ifnull((select name from  place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
 												               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
-																																	                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
-																						        a.*
+																																				                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
+												               		ifnull((select fullname from  sys_user b where a.makeuser=b.id),'') as makeuserfullname,
+															               		ifnull((select fullname from  sys_user b where a.accuser=b.id),'') as accuserfullname,
+													        a.*
 
 		from takeboxmain a where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity">
+    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity">
         select
-																								                    ifnull((select enumvaluename from  enumtable b where a.refbilltype=b.enumvalueid and b.enumtype='1006'),'') as refbilltypeenumvaluename,
-																                    ifnull((select name from  organization b where a.orgid=b.id),'') as orgidname,
-																															                    ifnull((select name from  place b where a.portid=b.id),'') as portidname,
-																					                    ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
-																                    ifnull((select name from  place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
-																                    ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
-																																																			                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
-																																		        a.*
+        ifnull((select enumvaluename from enumtable b where a.refbilltype=b.enumvalueid and b.enumtype='1006'),'') as
+        refbilltypeenumvaluename,
+        ifnull((select name from organization b where a.orgid=b.id),'') as orgidname,
+        ifnull((select name from place b where a.portid=b.id),'') as portidname,
+        ifnull((select boxsize from boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
+        ifnull((select name from place b where a.takeboxplaceid=b.id),'') as takeboxplaceidname,
+        ifnull((select name from place b where a.endplaceid=b.id),'') as endplaceidname,
+        ifnull((select enumvaluename from enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as
+        billstatusenumvaluename,
+        ifnull((select fullname from sys_user b where a.makeuser=b.id),'') as makeuserfullname,
+        ifnull((select fullname from sys_user b where a.accuser=b.id),'') as accuserfullname,
+        a.*
         from takeboxmain a
+        <where>
+            <if test="id != null and id != '' ">
+                `id` = #{id}
+            </if>
+
+            <if test="billno != null and billno != '' ">
+                and `billno` = #{billno}
+            </if>
+
+            <if test="refbillno != null and refbillno != '' ">
+                and `refbillno` = #{refbillno}
+            </if>
+
+            <if test="refbilltype != null and refbilltype != '' ">
+                and `refbilltype` = #{refbilltype}
+            </if>
+
+            <if test="orgid != null and orgid != '' ">
+                and `orgid` = #{orgid}
+            </if>
+
+            <if test="ladingcode != null and ladingcode != '' ">
+                and `ladingcode` = #{ladingcode}
+            </if>
+
+            <if test="shipname != null and shipname != '' ">
+                and `shipname` = #{shipname}
+            </if>
+
+            <if test="flight != null and flight != '' ">
+                and `flight` = #{flight}
+            </if>
+
+            <if test="shipid != null and shipid != '' ">
+                and `shipid` = #{shipid}
+            </if>
+
+            <if test="portid != null and portid != '' ">
+                and `portid` = #{portid}
+            </if>
+
+            <if test="boxqty != null and boxqty != '' ">
+                and `boxqty` = #{boxqty}
+            </if>
+
+            <if test="boxtype != null and boxtype != '' ">
+                and `boxtype` = #{boxtype}
+            </if>
+
+            <if test="takeboxplaceid != null and takeboxplaceid != '' ">
+                and `takeboxplaceid` = #{takeboxplaceid}
+            </if>
+
+            <if test="endplaceid != null and endplaceid != '' ">
+                and `endplaceid` = #{endplaceid}
+            </if>
+
+            <if test="shipdate != null and shipdate != '' ">
+                and `shipdate` = #{shipdate}
+            </if>
+
+            <if test="bgnshipdatetime != null and bgnshipdatetime != '' ">
+                and `bgnshipdatetime` = #{bgnshipdatetime}
+            </if>
+
+            <if test="endshipdatetime != null and endshipdatetime != '' ">
+                and `endshipdatetime` = #{endshipdatetime}
+            </if>
+
+            <if test="bgnplanarrtime != null and bgnplanarrtime != '' ">
+                and `bgnplanarrtime` = #{bgnplanarrtime}
+            </if>
+
+            <if test="endplanarrtime != null and endplanarrtime != '' ">
+                and `endplanarrtime` = #{endplanarrtime}
+            </if>
+
+            <if test="yingshou != null and yingshou != '' ">
+                and `yingshou` = #{yingshou}
+            </if>
+
+            <if test="yingfu != null and yingfu != '' ">
+                and `yingfu` = #{yingfu}
+            </if>
+
+            <if test="remark != null and remark != '' ">
+                and `remark` = #{remark}
+            </if>
+
+            <if test="billstatus != null and billstatus != '' ">
+                and `billstatus` = #{billstatus}
+            </if>
+
+            <if test="makeuser != null and makeuser != '' ">
+                and `makeuser` = #{makeuser}
+            </if>
+
+            <if test="makedate != null and makedate != '' ">
+                and `makedate` = #{makedate}
+            </if>
+
+            <if test="accuser != null and accuser != '' ">
+                and `accuser` = #{accuser}
+            </if>
+
+            <if test="accdate != null and accdate != '' ">
+                and `accdate` = #{accdate}
+            </if>
+
+            <if test="uptdate != null and uptdate != '' ">
+                and `uptdate` = #{uptdate}
+            </if>
+
+        </where>
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
-	</select>
-	
- 	<select id="queryTotal" resultType="int">
+    </select>
+
+    <select id="queryTotal" resultType="int">
 		select count(*) from takeboxmain 
 	</select>
-	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity" useGeneratedKeys="true" keyProperty="id">
+
+    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity" useGeneratedKeys="true"
+            keyProperty="id">
 		insert into takeboxmain
 		(
 			`billno`, 
@@ -47,11 +168,13 @@
 			`ladingcode`, 
 			`shipname`, 
 			`flight`, 
+			`shipid`, 
 			`portid`, 
 			`boxqty`, 
 			`boxtype`, 
 			`takeboxplaceid`, 
 			`endplaceid`, 
+			`shipdate`, 
 			`bgnshipdatetime`, 
 			`endshipdatetime`, 
 			`bgnplanarrtime`, 
@@ -75,11 +198,13 @@
 			#{ladingcode}, 
 			#{shipname}, 
 			#{flight}, 
+			#{shipid}, 
 			#{portid}, 
 			#{boxqty}, 
 			#{boxtype}, 
 			#{takeboxplaceid}, 
 			#{endplaceid}, 
+			#{shipdate}, 
 			#{bgnshipdatetime}, 
 			#{endshipdatetime}, 
 			#{bgnplanarrtime}, 
@@ -95,63 +220,65 @@
 			#{uptdate}
 		)
 	</insert>
-	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity">
-		update takeboxmain 
-		<set>
-			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="refbillno != null">`refbillno` = #{refbillno}, </if>
-			<if test="refbilltype != null">`refbilltype` = #{refbilltype}, </if>
-			<if test="orgid != null">`orgid` = #{orgid}, </if>
-			<if test="ladingcode != null">`ladingcode` = #{ladingcode}, </if>
-			<if test="shipname != null">`shipname` = #{shipname}, </if>
-			<if test="flight != null">`flight` = #{flight}, </if>
-			<if test="portid != null">`portid` = #{portid}, </if>
-			<if test="boxqty != null">`boxqty` = #{boxqty}, </if>
-			<if test="boxtype != null">`boxtype` = #{boxtype}, </if>
-			<if test="takeboxplaceid != null">`takeboxplaceid` = #{takeboxplaceid}, </if>
-			<if test="endplaceid != null">`endplaceid` = #{endplaceid}, </if>
-			<if test="bgnshipdatetime != null">`bgnshipdatetime` = #{bgnshipdatetime}, </if>
-			<if test="endshipdatetime != null">`endshipdatetime` = #{endshipdatetime}, </if>
-			<if test="bgnplanarrtime != null">`bgnplanarrtime` = #{bgnplanarrtime}, </if>
-			<if test="endplanarrtime != null">`endplanarrtime` = #{endplanarrtime}, </if>
-			<if test="yingshou != null">`yingshou` = #{yingshou}, </if>
-			<if test="yingfu != null">`yingfu` = #{yingfu}, </if>
-			<if test="remark != null">`remark` = #{remark}, </if>
-			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
-			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
-			<if test="makedate != null">`makedate` = #{makedate}, </if>
-			<if test="accuser != null">`accuser` = #{accuser}, </if>
-			<if test="accdate != null">`accdate` = #{accdate}, </if>
-			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
-		</set>
-		where id = #{id}
-	</update>
+
+    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.TakeboxmainEntity">
+        update takeboxmain
+        <set>
+            <if test="billno != null">`billno` = #{billno},</if>
+            <if test="refbillno != null">`refbillno` = #{refbillno},</if>
+            <if test="refbilltype != null">`refbilltype` = #{refbilltype},</if>
+            <if test="orgid != null">`orgid` = #{orgid},</if>
+            <if test="ladingcode != null">`ladingcode` = #{ladingcode},</if>
+            <if test="shipname != null">`shipname` = #{shipname},</if>
+            <if test="flight != null">`flight` = #{flight},</if>
+            <if test="shipid != null">`shipid` = #{shipid},</if>
+            <if test="portid != null">`portid` = #{portid},</if>
+            <if test="boxqty != null">`boxqty` = #{boxqty},</if>
+            <if test="boxtype != null">`boxtype` = #{boxtype},</if>
+            <if test="takeboxplaceid != null">`takeboxplaceid` = #{takeboxplaceid},</if>
+            <if test="endplaceid != null">`endplaceid` = #{endplaceid},</if>
+            <if test="shipdate != null">`shipdate` = #{shipdate},</if>
+            <if test="bgnshipdatetime != null">`bgnshipdatetime` = #{bgnshipdatetime},</if>
+            <if test="endshipdatetime != null">`endshipdatetime` = #{endshipdatetime},</if>
+            <if test="bgnplanarrtime != null">`bgnplanarrtime` = #{bgnplanarrtime},</if>
+            <if test="endplanarrtime != null">`endplanarrtime` = #{endplanarrtime},</if>
+            <if test="yingshou != null">`yingshou` = #{yingshou},</if>
+            <if test="yingfu != null">`yingfu` = #{yingfu},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            <if test="billstatus != null">`billstatus` = #{billstatus},</if>
+            <if test="makeuser != null">`makeuser` = #{makeuser},</if>
+            <if test="makedate != null">`makedate` = #{makedate},</if>
+            <if test="accuser != null">`accuser` = #{accuser},</if>
+            <if test="accdate != null">`accdate` = #{accdate},</if>
+            <if test="uptdate != null">`uptdate` = #{uptdate}</if>
+        </set>
+        where id = #{id}
+    </update>
 
 
     <update id="auditBatch">
-        update  takeboxmain set billstatus=billstatus+1 where id in
+        update takeboxmain set billstatus=billstatus+1 where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
 
     <update id="unauditBatch">
-        update  takeboxmain set billstatus=billstatus-1 where id in
+        update takeboxmain set billstatus=billstatus-1 where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
-	
-	<delete id="delete">
+
+    <delete id="delete">
 		delete from takeboxmain where id = #{value}
 	</delete>
-	
-	<delete id="deleteBatch">
-		delete from takeboxmain where id in 
-		<foreach item="id" collection="array" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</delete>
+
+    <delete id="deleteBatch">
+        delete from takeboxmain where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

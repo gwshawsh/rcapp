@@ -464,6 +464,7 @@ $(function () {
             {label: 'id', name: 'id', width: 50, key: true, hidden: true},
             {label: '单据号', name: 'billno', width: 80},
             {label: '客户', name: 'orgidname', width: 80}, {label: '提单号', name: 'ladingcode', width: 80},
+            {label: '单据状态', name: 'billstatus', width: 80, formatter: formater_billstatus},
             {label: '船名', name: 'shipname', width: 80},
             {label: '航次', name: 'flight', width: 80},
             {label: '船公司', name: 'shipid', width: 80},
@@ -481,7 +482,7 @@ $(function () {
                 name: 'istransenumvaluename',
                 width: 80
             }, {label: '备注', name: 'remark', width: 80},
-            {label: '单据状态', name: 'billstatus', width: 80, formatter: formater_billstatus},
+
             {label: '制单人', name: 'makeuserfullname', width: 80}, {label: '制单日期', name: 'makedate', width: 80},
             {label: '审核人', name: 'accuserfullname', width: 80}, {label: '审核日期', name: 'accdate', width: 80},
             {label: '更新时间', name: 'uptdate', width: 80}

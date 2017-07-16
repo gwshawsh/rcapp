@@ -4,7 +4,6 @@
 </div>
 <script>
     var mutilflag = false;
-
     function showrefgrid_expensecompanymain(title, callback, pflag) {
         mutiflag = pflag || false;
         layer.open({
@@ -34,70 +33,70 @@
             url: '../expensecompanymain/list',
             datatype: "json",
             colModel: [
-                {label: 'id', name: 'id', width: 50, key: true},
+                                                            {label: 'id', name: 'id', width: 50, key: true},
 
-                {
-                    label: '报销单号',
-                    name: 'billno',
-                    width: 80
-                },
-                {
-                    label: '部门',
-                    name: 'deptid',
-                    width: 80
-                },
-                {
-                    label: '申请日期',
-                    name: 'applydate',
-                    width: 80
-                },
-                {label: '费用项目', name: 'enumvaluename', width: 80},
-                {
-                    label: '报销金额',
-                    name: 'expensemoney',
-                    width: 80
-                },
-                {
-                    label: '报销标题',
-                    name: 'title',
-                    width: 80
-                },
-                {
-                    label: '详情',
-                    name: 'remark',
-                    width: 80
-                },
-                {label: '收款人', name: 'fullname', width: 80},
-                {label: '支付方式', name: 'enumvaluename', width: 80},
-                {
-                    label: '银行账户',
-                    name: 'bankaccount',
-                    width: 80
-                },
-                {label: '单据状态', name: 'enumvaluename', width: 80},
-                {label: '申请人', name: 'fullname', width: 80},
-                {
-                    label: '制单日期',
-                    name: 'makedate',
-                    width: 80
-                },
-                {label: '审核人', name: 'fullname', width: 80},
-                {
-                    label: '审核日期',
-                    name: 'accdate',
-                    width: 80
-                },
-                {
-                    label: '更新时间',
-                    name: 'uptdate',
-                    width: 80
-                },
-                {
-                    label: '流程ID',
-                    name: 'pocessinstanceid',
-                    width: 80
-                }
-            ],
+                                                                                {
+                            label: '报销单号',
+                            name: 'billno',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '部门',
+                            name: 'deptid',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '申请日期',
+                            name: 'applydate',
+                            width: 80
+                        }, 
+                                                                                { label: '费用项目', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '报销金额',
+                            name: 'expensemoney',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '报销标题',
+                            name: 'title',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '详情',
+                            name: 'remark',
+                            width: 80
+                        }, 
+                                                                                { label: '收款人', name: 'fullname', width: 80 }, 
+                                                                                { label: '支付方式', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '银行账户',
+                            name: 'bankaccount',
+                            width: 80
+                        }, 
+                                                                                { label: '单据状态', name: 'enumvaluename', width: 80 }, 
+                                                                                { label: '申请人', name: 'fullname', width: 80 }, 
+                                                                                {
+                            label: '制单日期',
+                            name: 'makedate',
+                            width: 80
+                        }, 
+                                                                                { label: '审核人', name: 'fullname', width: 80 }, 
+                                                                                {
+                            label: '审核日期',
+                            name: 'accdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '更新时间',
+                            name: 'uptdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '流程ID',
+                            name: 'pocessinstanceid',
+                            width: 80
+                        }
+                                    ],
             viewrecords: true,
             height: 385,
             rowNum: 10,

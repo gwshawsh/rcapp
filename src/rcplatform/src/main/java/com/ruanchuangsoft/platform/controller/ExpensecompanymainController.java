@@ -10,6 +10,7 @@ import com.ruanchuangsoft.platform.controller.AbstractController;
 import org.activiti.engine.task.Task;
 import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
+import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
 import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -32,7 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-06 13:56:56
+ * @date 2017-07-16 22:22:02
  */
 @Controller
 @RequestMapping("expensecompanymain")
@@ -126,6 +127,21 @@ public class ExpensecompanymainController extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("expensecompanymain:save")
     public R save(@RequestBody ExpensecompanymainEntity expensecompanymain) {
+                        if(expensecompanymain.getBillno().equals("*")){
+                  String billno=getBillNo("**");
+                expensecompanymain.setBillno(billno);
+                expensecompanymain.setBillstatus(BillStatus.NEW);
+
+
+                  if(expensecompanymain.getFiles()!=null&&expensecompanymain.getFiles().size()>0){
+                      for(AttachmentsEntity item:expensecompanymain.getFiles()){
+                          item.setBillno(billno);
+                          attachmentsService.update(item);
+                      }
+                  }
+              }
+
+
                       expensecompanymainService.save(expensecompanymain);
 
         return R.ok();
@@ -184,7 +200,8 @@ public class ExpensecompanymainController extends AbstractController {
         return R.ok();
     }
 
-    /**
+
+       /**
    * 签收
    * 只有单据状态为提交状态的，才能够签收
    */
@@ -251,6 +268,5 @@ public class ExpensecompanymainController extends AbstractController {
 
         return R.ok();
     }
-
-
+   
 }

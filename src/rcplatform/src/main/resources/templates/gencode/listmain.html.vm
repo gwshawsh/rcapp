@@ -197,7 +197,7 @@
                     &&$column.columnName != "accdate"
                     &&$column.columnName != "uptdate"
                     &&$column.columnName != "pocessinstanceid")
-                    <el-form-item label="${column.comments}"  style="padding-top: 5px;width:40%">
+                    <el-form-item label="${column.comments}"  style="padding-top: 5px;width:26%">
                         #if($column.columnName.endsWith("date")||$column.columnName.endsWith("day"))
 
                             <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="${classname}.${column.attrname}" style="width: 168px;"></el-date-picker>

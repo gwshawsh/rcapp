@@ -91,11 +91,11 @@ public class TakeboxmainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/listdetail")
     @RequiresPermissions("takeboxmain:list")
-    public R listdetail(Long formid, Integer page, Integer limit) {
+    public R listdetail(String billno, Integer page, Integer limit) {
         Map<String, Object> map = new HashMap<>();
         map.put("offset", (page - 1) * limit);
         map.put("limit", limit);
-        map.put("formid", formid);
+        map.put("billno", billno);
         //查询列表数据
         List<TakeboxdetailEntity> takeboxdetailList = takeboxdetailService.queryList(map);
         int total = takeboxdetailService.queryTotal(map);
@@ -161,7 +161,7 @@ public class TakeboxmainController extends AbstractController {
 
 
     /**
-     * 开始放单
+     * 开始放单，可以批量选择放单
      */
     @ResponseBody
     @RequestMapping("/takebox")
@@ -175,7 +175,7 @@ public class TakeboxmainController extends AbstractController {
                 }
                 takeboxmainEntity.setBillstatus(TakeboxBillStatus.TAKEBOX);
                 takeboxmainEntity.setAccdate(new Date());
-                takeboxmainEntity.setAccuser(ShiroUtils.getUserName());
+                takeboxmainEntity.setAccuser(ShiroUtils.getUserId());
                 takeboxmainService.update(takeboxmainEntity);
             }
         }
@@ -197,8 +197,9 @@ public class TakeboxmainController extends AbstractController {
                 return R.error(1, "单据已经审核,不能执行放单异常");
             }
             takeboxmainEntity.setBillstatus(TakeboxBillStatus.TAKEBOXERROR);
+            takeboxmainEntity.setRemark(takeboxmain.getRemark());
             takeboxmainEntity.setAccdate(new Date());
-            takeboxmainEntity.setAccuser(ShiroUtils.getUserName());
+            takeboxmainEntity.setAccuser(ShiroUtils.getUserId());
             takeboxmainService.update(takeboxmainEntity);
             return R.ok();
         }
@@ -225,7 +226,7 @@ public class TakeboxmainController extends AbstractController {
                 }
                 takeboxmainEntity.setBillstatus(TakeboxBillStatus.TAKEBOXEND);
                 takeboxmainEntity.setAccdate(new Date());
-                takeboxmainEntity.setAccuser(ShiroUtils.getUserName());
+                takeboxmainEntity.setAccuser(ShiroUtils.getUserId());
                 takeboxmainService.update(takeboxmainEntity);
             }
         }
@@ -245,9 +246,12 @@ public class TakeboxmainController extends AbstractController {
             if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.ENDTRANS)) {
                 return R.error(1, "单据已经结束,不能执行改单");
             }
+
             takeboxmainEntity.setRemark(takeboxmain.getRemark());
             takeboxmainEntity.setAccdate(new Date());
-            takeboxmainEntity.setAccuser(ShiroUtils.getUserName());
+            takeboxmainEntity.setAccuser(ShiroUtils.getUserId());
+
+            takeboxmainEntity.setDetails(takeboxmain.getDetails());
             takeboxmainService.update(takeboxmainEntity);
             return R.ok();
         }
@@ -265,7 +269,7 @@ public class TakeboxmainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/audit")
     @RequiresPermissions("takeboxmain:audit")
-    public R accbill(@RequestBody Long[] ids) {
+    public R audit(@RequestBody Long[] ids) {
         for (long id : ids) {
             TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(id);
             if (takeboxmainEntity != null) {
@@ -274,12 +278,12 @@ public class TakeboxmainController extends AbstractController {
                 }
                 takeboxmainEntity.setBillstatus(TakeboxBillStatus.AUDIT);
                 takeboxmainEntity.setAccdate(new Date());
-                takeboxmainEntity.setAccuser(String.valueOf(ShiroUtils.getUserId()));
+                takeboxmainEntity.setAccuser(ShiroUtils.getUserId());
                 // takeboxmainService.update(takeboxmainEntity);
 
                 //查询放箱明细,一个放箱计划可能会安排不同的运输车队
                 Map<String, Object> map = new HashMap<>();
-                map.put("formid", takeboxmainEntity.getId());
+                map.put("billno", takeboxmainEntity.getBillno());
                 //查询列表数据
                 List<TakeboxdetailEntity> takeboxdetailList = takeboxdetailService.queryList(map);
 

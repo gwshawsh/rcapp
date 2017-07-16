@@ -234,16 +234,16 @@
                 </el-tabs>
             </el-col>
 
-                <el-col :span="6">
-                    <el-tabs type="border-card">
-                        <el-tab-pane>
-                            <span slot="label"><i class="el-icon-document"></i> 附件</span>
-                            <table id="jqGridFiles"></table>
-                            <div id="jqGridPagerFiles"></div>
-                        </el-tab-pane>
+            <el-col :span="6">
+                <el-tabs type="border-card">
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-document"></i> 附件</span>
+                        <table id="jqGridFiles"></table>
+                        <div id="jqGridPagerFiles"></div>
+                    </el-tab-pane>
 
-                    </el-tabs>
-                </el-col>
+                </el-tabs>
+            </el-col>
         </el-row>
     </div>
 
@@ -264,21 +264,21 @@
         </div>
         <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
 
-                                                                                                        <el-form-item label="甲方"  style="padding-top: 5px;width:40%">
+                                                                                                        <el-form-item label="甲方"  style="padding-top: 5px;width:26%">
                         
                             <input v-model="contractmain.partyaidname"  v-on:click="openRefTreeorganizationpartyaid"
                                    placeholder="甲方" style="width: 168px;" class="el-input el-input__inner"></input>
 
                         
                     </el-form-item>
-                                                                <el-form-item label="乙方"  style="padding-top: 5px;width:40%">
+                                                                <el-form-item label="乙方"  style="padding-top: 5px;width:26%">
                         
                             <input v-model="contractmain.partybidname"  v-on:click="openRefTreeorganizationpartybid"
                                    placeholder="乙方" style="width: 168px;" class="el-input el-input__inner"></input>
 
                         
                     </el-form-item>
-                                                                <el-form-item label="收付款类型"  style="padding-top: 5px;width:40%">
+                                                                <el-form-item label="收付款类型"  style="padding-top: 5px;width:26%">
                                                     <el-select v-model="contractmain.billtype"  filterable placeholder="请选择">
                                 <el-option
                                         v-for="item in ref_enum1011"
@@ -290,7 +290,7 @@
 
                         
                     </el-form-item>
-                                                                <el-form-item label="付款方式"  style="padding-top: 5px;width:40%">
+                                                                <el-form-item label="付款方式"  style="padding-top: 5px;width:26%">
                                                     <el-select v-model="contractmain.paytype"  filterable placeholder="请选择">
                                 <el-option
                                         v-for="item in ref_enum2005"
@@ -302,7 +302,7 @@
 
                         
                     </el-form-item>
-                                                                <el-form-item label="结算周期"  style="padding-top: 5px;width:40%">
+                                                                <el-form-item label="结算周期"  style="padding-top: 5px;width:26%">
                                                     <el-select v-model="contractmain.paycircleid"  filterable placeholder="请选择" style="width: 168px;">
                                 <el-option
                                         v-for="item in ref_paycircle"
@@ -313,17 +313,17 @@
                             </el-select>
                         
                     </el-form-item>
-                                                                <el-form-item label="生效日期"  style="padding-top: 5px;width:40%">
+                                                                <el-form-item label="生效日期"  style="padding-top: 5px;width:26%">
                         
                             <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="contractmain.bgndate" style="width: 168px;"></el-date-picker>
                         
                     </el-form-item>
-                                                                <el-form-item label="失效日期"  style="padding-top: 5px;width:40%">
+                                                                <el-form-item label="失效日期"  style="padding-top: 5px;width:26%">
                         
                             <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="contractmain.enddate" style="width: 168px;"></el-date-picker>
                         
                     </el-form-item>
-                                                                <el-form-item label="备注"  style="padding-top: 5px;width:40%">
+                                                                <el-form-item label="备注"  style="padding-top: 5px;width:26%">
                                                     <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="contractmain.remark" style="width: 100%;"></el-input>
 
                         
@@ -372,10 +372,10 @@
                 </td>
 
                                                                                                                                 <td><el-input v-model="item.serialno" placeholder="序号"></el-input></td>
-                                                                            <td><el-input v-model="item.feeidname" v-on:click="selectfeeidfeeinfo"
-                                  placeholder="费用项目"></el-input></td>
 
 
+                <td><input v-model="item.feeid"  v-on:click="openRefTreefeeinfofeeid"
+                           placeholder="费用项目" style="width: 168px;" class="el-input el-input__inner" v-bind:idx="index"></input></td>
                                                                             <td><el-input v-model="item.price" placeholder="单价"></el-input></td>
                                                                             <td><el-input v-model="item.cost" placeholder="金额"></el-input></td>
                                                         
@@ -390,12 +390,15 @@
 
 
                                                                                                                                                                                                                 
-                                            <div id="treelayerorganization" style="display: none;padding:10px;">
-            <ul id="refTreeorganization" class="ztree"></ul>
-        </div>
+
                             <div id="treelayerorganization" style="display: none;padding:10px;">
             <ul id="refTreeorganization" class="ztree"></ul>
         </div>
+
+
+<div id="treelayerfeeinfo" style="display: none;padding:10px;">
+    <ul id="refTreefeeinfo" class="ztree"></ul>
+</div>
                                                                                                                                                                         
 <#include "base/billcomments_ref.html">
 

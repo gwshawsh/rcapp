@@ -1,13 +1,9 @@
 package com.ruanchuangsoft.platform.entity;
 
-import com.ruanchuangsoft.platform.entity.AbstractEntity;
-
 import java.io.Serializable;
-import java.util.Date;
-
-
 import java.math.BigDecimal;
-
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -15,51 +11,74 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-07 13:38:29
+ * @date 2017-07-16 22:16:34
  */
-public class FeeinfoEntity extends AbstractEntity implements Serializable {
+public class FeeinfoEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	//
-	private Long id;
-	//上级费用
-	private Long parentId;
-	//编码
-	private String code;
-	//名称
-	private String name;
-	//类型
-	private Integer feetype;
-	//收付款
-	private Integer paytype;
-	//线路
-	private Long lineid;
-	//箱型
-	private Long boxtype;
-	//标准单价
-	private BigDecimal price;
-	//标准成本
-	private BigDecimal cost;
-	//备注
-	private String remark;
-	//状态
-	private Long status;
-	//节点类型
-	private Integer nodetype;
-	//更新时间
-	private Date uptdate;
+    /**
+     * ztree属性
+     */
+    private Boolean open;
+    private List<?> list;
 
-					        //类型
-        private String feetypeenumvaluename;
-		        //收付款
-        private String paytypeenumvaluename;
-		        //线路
-        private String lineidname;
-		        //箱型
-        private String boxtypeboxsize;
-						        //节点类型
-        private String nodetypeenumvaluename;
-		
+    public Boolean getOpen() {
+        return open;
+    }
+
+    public void setOpen(Boolean open) {
+        this.open = open;
+    }
+
+    public List<?> getList() {
+        return list;
+    }
+
+    public void setList(List<?> list) {
+        this.list = list;
+    }
+
+
+		//
+	private Long id;
+    	//上级费用
+	private Long parentId;
+    	//编码
+	private String code;
+    	//名称
+	private String name;
+    	//类型
+	private Integer feetype;
+    	//收付款
+	private Integer paytype;
+    	//线路
+	private Long lineid;
+    	//箱型
+	private Long boxtype;
+    	//标准单价
+	private BigDecimal price;
+    	//标准成本
+	private BigDecimal cost;
+    	//备注
+	private String remark;
+    	//状态
+	private Long status;
+    	//节点类型
+	private Integer nodetype;
+    	//更新时间
+	private Date uptdate;
+    
+                                                                        //类型
+            private String feetypeenumvaluename;
+                                //收付款
+            private String paytypeenumvaluename;
+                                //线路
+            private String lineidname;
+                                //箱型
+            private String boxtypeboxsize;
+                                                                                //节点类型
+            private String nodetypeenumvaluename;
+                        
+
 	/**
 	 * 设置：
 	 */
@@ -72,6 +91,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public Long getId() {
 		return id;
 	}
+
 	/**
 	 * 设置：上级费用
 	 */
@@ -84,6 +104,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public Long getParentId() {
 		return parentId;
 	}
+
 	/**
 	 * 设置：编码
 	 */
@@ -96,6 +117,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public String getCode() {
 		return code;
 	}
+
 	/**
 	 * 设置：名称
 	 */
@@ -108,6 +130,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public String getName() {
 		return name;
 	}
+
 	/**
 	 * 设置：类型
 	 */
@@ -120,6 +143,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public Integer getFeetype() {
 		return feetype;
 	}
+
 	/**
 	 * 设置：收付款
 	 */
@@ -132,6 +156,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public Integer getPaytype() {
 		return paytype;
 	}
+
 	/**
 	 * 设置：线路
 	 */
@@ -144,6 +169,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public Long getLineid() {
 		return lineid;
 	}
+
 	/**
 	 * 设置：箱型
 	 */
@@ -156,6 +182,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public Long getBoxtype() {
 		return boxtype;
 	}
+
 	/**
 	 * 设置：标准单价
 	 */
@@ -168,6 +195,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public BigDecimal getPrice() {
 		return price;
 	}
+
 	/**
 	 * 设置：标准成本
 	 */
@@ -180,6 +208,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public BigDecimal getCost() {
 		return cost;
 	}
+
 	/**
 	 * 设置：备注
 	 */
@@ -192,6 +221,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public String getRemark() {
 		return remark;
 	}
+
 	/**
 	 * 设置：状态
 	 */
@@ -204,6 +234,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public Long getStatus() {
 		return status;
 	}
+
 	/**
 	 * 设置：节点类型
 	 */
@@ -216,6 +247,7 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	public Integer getNodetype() {
 		return nodetype;
 	}
+
 	/**
 	 * 设置：更新时间
 	 */
@@ -230,143 +262,64 @@ public class FeeinfoEntity extends AbstractEntity implements Serializable {
 	}
 
 
-															        /**
-         * 设置：类型enumvaluename
-         */
-        public void setFeetypeenumvaluename(String enumvaluename) {
-            this.feetypeenumvaluename = enumvaluename;
-        }
-        /**
-         * 获取：类型enumvaluename
-         */
-        public String getFeetypeenumvaluename() {
-            return feetypeenumvaluename;
-        }
-        			        /**
-         * 设置：收付款enumvaluename
-         */
-        public void setPaytypeenumvaluename(String enumvaluename) {
-            this.paytypeenumvaluename = enumvaluename;
-        }
-        /**
-         * 获取：收付款enumvaluename
-         */
-        public String getPaytypeenumvaluename() {
-            return paytypeenumvaluename;
-        }
-        			        /**
-         * 设置：线路name
-         */
-        public void setLineidname(String name) {
-            this.lineidname = name;
-        }
-        /**
-         * 获取：线路name
-         */
-        public String getLineidname() {
-            return lineidname;
-        }
-        			        /**
-         * 设置：箱型boxsize
-         */
-        public void setBoxtypeboxsize(String boxsize) {
-            this.boxtypeboxsize = boxsize;
-        }
-        /**
-         * 获取：箱型boxsize
-         */
-        public String getBoxtypeboxsize() {
-            return boxtypeboxsize;
-        }
-        															        /**
-         * 设置：节点类型enumvaluename
-         */
-        public void setNodetypeenumvaluename(String enumvaluename) {
-            this.nodetypeenumvaluename = enumvaluename;
-        }
-        /**
-         * 获取：节点类型enumvaluename
-         */
-        public String getNodetypeenumvaluename() {
-            return nodetypeenumvaluename;
-        }
-        				
-    /**
-         * To string string.
-         *构造单据的描述内容
-         * @return the string
-         */
-    @Override
-    public String toString() {
-        StringBuffer sb = new StringBuffer("<form class=\"el-form rcp-table-expand el-form--label-left el-form--inline\">");
-					
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">上级费用</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getParentId()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">编码</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getCode()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">名称</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getName()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">类型</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getFeetypeenumvaluename()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">收付款</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getPaytypeenumvaluename()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">线路</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getLineidname()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">箱型</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getBoxtypeboxsize()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">标准单价</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getPrice()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">标准成本</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getCost()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">备注</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getRemark()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">状态</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getStatus()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">节点类型</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getNodetypeenumvaluename()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">更新时间</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getUptdate()+"</span>\n" +
-                        "  </div> </div>");
-			
-		        sb.append("</form>");
-        return sb.toString();
-
-    }
-}
+                                                                        /**
+             * 设置：类型enumvaluename
+             */
+            public void setFeetypeenumvaluename(String enumvaluename) {
+                this.feetypeenumvaluename = enumvaluename;
+            }
+            /**
+             * 获取：类型enumvaluename
+             */
+            public String getFeetypeenumvaluename() {
+                return feetypeenumvaluename;
+            }
+                                /**
+             * 设置：收付款enumvaluename
+             */
+            public void setPaytypeenumvaluename(String enumvaluename) {
+                this.paytypeenumvaluename = enumvaluename;
+            }
+            /**
+             * 获取：收付款enumvaluename
+             */
+            public String getPaytypeenumvaluename() {
+                return paytypeenumvaluename;
+            }
+                                /**
+             * 设置：线路name
+             */
+            public void setLineidname(String name) {
+                this.lineidname = name;
+            }
+            /**
+             * 获取：线路name
+             */
+            public String getLineidname() {
+                return lineidname;
+            }
+                                /**
+             * 设置：箱型boxsize
+             */
+            public void setBoxtypeboxsize(String boxsize) {
+                this.boxtypeboxsize = boxsize;
+            }
+            /**
+             * 获取：箱型boxsize
+             */
+            public String getBoxtypeboxsize() {
+                return boxtypeboxsize;
+            }
+                                                                                /**
+             * 设置：节点类型enumvaluename
+             */
+            public void setNodetypeenumvaluename(String enumvaluename) {
+                this.nodetypeenumvaluename = enumvaluename;
+            }
+            /**
+             * 获取：节点类型enumvaluename
+             */
+            public String getNodetypeenumvaluename() {
+                return nodetypeenumvaluename;
+            }
+                        }

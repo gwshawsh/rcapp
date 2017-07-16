@@ -450,6 +450,39 @@ var vm = new Vue({
             });
         },
 
+        getRefTreefeeinfofeeid: function(menuId){
+            //加载菜单树
+            $.get("../feeinfo/select", function(r){
+                ztreefeeid = $.fn.zTree.init($("#refTreefeeinfo"), setting, r.treeList);
+                var node = ztreefeeid.getNodeByParam("id", 0);
+                ztreefeeid.selectNode(node);
+               // vm.contractmain.details[0].feeidname = node.name;
+
+            })
+        },
+
+        openRefTreefeeinfofeeid: function(event){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#treelayerfeeinfo"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztreefeeid.getSelectedNodes();
+                    //选择上级菜单
+                    vm.contractdetail.feeid = node[0].id;
+                    vm.contractdetail.feeidname = node[0].name;
+
+                    layer.close(index);
+                }
+            });
+        },
+
         getInfo: function (id) {
             $.get("../contractmain/info/" + id, function (r) {
                 vm.contractmain = r.contractmain;
@@ -615,7 +648,8 @@ $(function () {
         colModel: [
             {label: 'id', name: 'id', width: 50, key: true, hidden: true},
             {label: '序号', name: 'serialno', width: 80},
-            {label: '费用项目', name: 'feeidname', width: 80}, {label: '单价', name: 'price', width: 80},
+            {label: '费用项目', name: 'feeid', width: 80},
+            {label: '单价', name: 'price', width: 80},
             {label: '金额', name: 'cost', width: 80},
             {label: '更新时间', name: 'uptdate', width: 80},
         ],
@@ -657,6 +691,7 @@ $(function () {
 
 
     //执行调用参照调用下拉框函数,初始化下拉数据
+    vm.getRefTreefeeinfofeeid();
 
     createBillAttachmentsGrid();
     createBillCommentsGrid();

@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-06 13:56:56
+ * @date 2017-07-16 22:22:02
  */
 public class ExpensecompanymainEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -115,56 +115,56 @@
     </select>
 
     <select id="queryTotal" resultType="int">
-		select count(*) from takeboxdetail 
-	</select>
+        select count(*) from takeboxdetail
+    </select>
 
     <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity" useGeneratedKeys="true"
             keyProperty="id">
-		insert into takeboxdetail
-		(
-			`billno`, 
-			`serialno`, 
-			`transcompanyid`, 
-			`startplaceid1`, 
-			`startplaceid2`, 
-			`realplaceid2`, 
-			`endplaceid`, 
-			`changeplacetype`, 
-			`boxno`, 
-			`fengno`, 
-			`plantaketime`, 
-			`realtaketime`, 
-			`planarrvetime`, 
-			`realarrvetime`, 
-			`changefee`, 
-			`yingshou`, 
-			`yingfu`, 
-			`remark`, 
-			`uptdate`
-		)
-		values
-		(
-			#{billno}, 
-			#{serialno}, 
-			#{transcompanyid}, 
-			#{startplaceid1}, 
-			#{startplaceid2}, 
-			#{realplaceid2}, 
-			#{endplaceid}, 
-			#{changeplacetype}, 
-			#{boxno}, 
-			#{fengno}, 
-			#{plantaketime}, 
-			#{realtaketime}, 
-			#{planarrvetime}, 
-			#{realarrvetime}, 
-			#{changefee}, 
-			#{yingshou}, 
-			#{yingfu}, 
-			#{remark}, 
-			#{uptdate}
-		)
-	</insert>
+        insert into takeboxdetail
+        (
+        `billno`,
+        `serialno`,
+        `transcompanyid`,
+        `startplaceid1`,
+        `startplaceid2`,
+        `realplaceid2`,
+        `endplaceid`,
+        `changeplacetype`,
+        `boxno`,
+        `fengno`,
+        `plantaketime`,
+        `realtaketime`,
+        `planarrvetime`,
+        `realarrvetime`,
+        `changefee`,
+        `yingshou`,
+        `yingfu`,
+        `remark`,
+        `uptdate`
+        )
+        values
+        (
+        #{billno},
+        #{serialno},
+        #{transcompanyid},
+        #{startplaceid1},
+        #{startplaceid2},
+        #{realplaceid2},
+        #{endplaceid},
+        #{changeplacetype},
+        #{boxno},
+        #{fengno},
+        #{plantaketime},
+        #{realtaketime},
+        #{planarrvetime},
+        #{realarrvetime},
+        #{changefee},
+        #{yingshou},
+        #{yingfu},
+        #{remark},
+        #{uptdate}
+        )
+    </insert>
 
     <update id="update" parameterType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
         update takeboxdetail
@@ -193,8 +193,8 @@
     </update>
 
     <delete id="delete">
-		delete from takeboxdetail where id = #{value}
-	</delete>
+        delete from takeboxdetail where id = #{value}
+    </delete>
 
     <delete id="deleteByBillNo">
         delete from takeboxdetail where billno = #{value}

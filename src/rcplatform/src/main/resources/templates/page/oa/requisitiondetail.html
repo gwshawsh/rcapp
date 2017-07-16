@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>请购明细表</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="panel-heading">
+            <el-button-group>
+            <@shiro.hasPermission name="requisitiondetail:list">
+            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="requisitiondetail:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="requisitiondetail:save">
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="requisitiondetail:update">
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
+            </@shiro.hasPermission>
+                        <@shiro.hasPermission name="requisitiondetail:delete">
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
+            </@shiro.hasPermission>
+            </el-button-group>
+
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
+
+                                                                                                                    <el-form-item label="单据号" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.billno" placeholder="单据号"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="序号" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.serialno" placeholder="序号"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="商品" >
+
+                                                                    <el-select style="width: 350px" v-model="q.goodsid"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_goods"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="数量" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.goodscount" placeholder="数量"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="规格" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.goodsspec" placeholder="规格"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="单位" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.goodsunit" placeholder="单位"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="用途" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.goodsuse" placeholder="用途"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="需用日期" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.enddate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="更新时间" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.uptdate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+
+
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="showDetailList" class="panel panel-default">
+
+
+                <el-tabs type="border-card">
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-document"></i> 附件</span>
+                        <table id="jqGridFiles"></table>
+                        <div id="jqGridPagerFiles"></div>
+                    </el-tab-pane>
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                        <table id="jqGridComments"></table>
+                        <div id="jqGridPagerComments"></div>
+                    </el-tab-pane>
+                </el-tabs>
+
+
+
+
+    </div>
+
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                    
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
+
+                            
+                            
+                                                <el-form-item label="序号" :inline="true" class="padding-top: 5px;width:26%">
+
+                                                             <el-input style="width: 350px"  v-model="requisitiondetail.serialno" placeholder="序号"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="商品" :inline="true" class="padding-top: 5px;width:26%">
+
+                                                             <el-select style="width: 350px" v-model="requisitiondetail.goodsid"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_goods"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            
+                    </el-form-item>
+                
+                                                <el-form-item label="数量" :inline="true" class="padding-top: 5px;width:26%">
+
+                                                             <el-input style="width: 350px"  v-model="requisitiondetail.goodscount" placeholder="数量"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="规格" :inline="true" class="padding-top: 5px;width:26%">
+
+                                                             <el-input style="width: 350px"  v-model="requisitiondetail.goodsspec" placeholder="规格"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="单位" :inline="true" class="padding-top: 5px;width:26%">
+
+                                                             <el-input style="width: 350px"  v-model="requisitiondetail.goodsunit" placeholder="单位"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="用途" :inline="true" class="padding-top: 5px;width:26%">
+
+                                                             <el-input style="width: 350px"  v-model="requisitiondetail.goodsuse" placeholder="用途"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="需用日期" :inline="true" class="padding-top: 5px;width:26%">
+
+                                                             <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="requisitiondetail.enddate" style="width: 100%;"></el-date-picker>
+                             
+                    </el-form-item>
+                
+                            
+            
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
+
+        </el-form>
+    </div>
+</div>
+
+
+                                                                                                                            
+
+<#include "base/billcomments_ref.html">
+<script src="${ctxPath}/static/js/oa/requisitiondetail.js"></script>
+</body>
+</html>

@@ -51,7 +51,7 @@
                                                                                                 <el-form-item label="费用项目" >
 
                                 
-                                    <input style="width: 350px" v-model="q.feeidname" v-on:click="selectfeeidfeeinfo"
+                                    <input style="width: 350px" v-model="q.feeidname"  v-on:click="openRefTreefeeinfofeeid"
                                            placeholder="费用项目" class="el-input el-input__inner"></input>
 
                                 
@@ -89,6 +89,28 @@
         <div id="jqGridPager"></div>
     </div>
 
+    <div v-show="showDetailList" class="panel panel-default">
+
+
+                <el-tabs type="border-card">
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-document"></i> 附件</span>
+                        <table id="jqGridFiles"></table>
+                        <div id="jqGridPagerFiles"></div>
+                    </el-tab-pane>
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                        <table id="jqGridComments"></table>
+                        <div id="jqGridPagerComments"></div>
+                    </el-tab-pane>
+                </el-tabs>
+
+
+
+
+    </div>
+
+
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">
             <el-row>
@@ -107,7 +129,7 @@
 
                             
                             
-                                                <el-form-item label="序号" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="序号" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="contractdetail.serialno" placeholder="序号"></el-input>
 
@@ -115,16 +137,16 @@
                               
                     </el-form-item>
                 
-                                                <el-form-item label="费用项目" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="费用项目" :inline="true" class="padding-top: 5px;width:26%">
 
                              
-                                <input style="width: 350px" v-model="contractdetail.feeidname" v-on:click="selectfeeidfeeinfo"
+                                <input style="width: 350px" v-model="contractdetail.feeidname"  v-on:click="openRefTreefeeinfofeeid"
                                           placeholder="费用项目" class="el-input el-input__inner"></input>
 
-                            
+                             
                     </el-form-item>
                 
-                                                <el-form-item label="单价" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="单价" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="contractdetail.price" placeholder="单价"></el-input>
 
@@ -132,7 +154,7 @@
                               
                     </el-form-item>
                 
-                                                <el-form-item label="金额" class="padding-top: 5px;width:40%">
+                                                <el-form-item label="金额" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="contractdetail.cost" placeholder="金额"></el-input>
 
@@ -158,8 +180,10 @@
 </div>
 
 
-                                                            <#include "oa/feeinfo_ref.html">
-                                                
+                                                                                        
+<div id="treelayerfeeinfo" style="display: none;padding:10px;">
+    <ul id="refTreefeeinfo" class="ztree"></ul>
+</div>
 
 <#include "base/billcomments_ref.html">
 <script src="${ctxPath}/static/js/oa/contractdetail.js"></script>
