@@ -14,7 +14,7 @@ package com.ruanchuangsoft.platform.entity;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-16 22:30:09
+ * @date 2017-07-17 15:16:21
  */
 public class RequisitionmainEntity extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;

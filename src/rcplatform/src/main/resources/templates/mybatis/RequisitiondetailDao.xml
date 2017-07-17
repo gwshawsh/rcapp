@@ -6,7 +6,7 @@
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RequisitiondetailEntity">
 		select
 																               		ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
-																						        a.*
+																									        a.*
 
 		from requisitiondetail a where id = #{value}
 	</select>
@@ -14,7 +14,7 @@
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RequisitiondetailEntity">
         select
 																								                    ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
-																																		        a.*
+																																							        a.*
         from requisitiondetail a
         <where>
 							                    <if test="id != null and id != '' ">
@@ -39,6 +39,10 @@
 				
 							                    <if test="goodsspec != null and goodsspec != '' ">
 						 and  `goodsspec` = #{goodsspec}
+                    </if>
+				
+							                    <if test="goodsunit != null and goodsunit != '' ">
+						 and  `goodsunit` = #{goodsunit}
                     </if>
 				
 							                    <if test="goodsuse != null and goodsuse != '' ">
@@ -71,6 +75,7 @@
 			`goodsid`, 
 			`goodscount`, 
 			`goodsspec`, 
+			`goodsunit`, 
 			`goodsuse`, 
 			`enddate`, 
 			`uptdate`
@@ -82,6 +87,7 @@
 			#{goodsid}, 
 			#{goodscount}, 
 			#{goodsspec}, 
+			#{goodsunit}, 
 			#{goodsuse}, 
 			#{enddate}, 
 			#{uptdate}
@@ -96,6 +102,7 @@
 			<if test="goodsid != null">`goodsid` = #{goodsid}, </if>
 			<if test="goodscount != null">`goodscount` = #{goodscount}, </if>
 			<if test="goodsspec != null">`goodsspec` = #{goodsspec}, </if>
+			<if test="goodsunit != null">`goodsunit` = #{goodsunit}, </if>
 			<if test="goodsuse != null">`goodsuse` = #{goodsuse}, </if>
 			<if test="enddate != null">`enddate` = #{enddate}, </if>
 			<if test="uptdate != null">`uptdate` = #{uptdate}</if>

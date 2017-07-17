@@ -87,6 +87,7 @@ var vm = new Vue({
         ref_enum1018: [],
         ref_enum1020: [],
         roleList:{},
+        fileslist:[],
         //创建实体类
         sysUser: {
             genderenumvaluename: "",
