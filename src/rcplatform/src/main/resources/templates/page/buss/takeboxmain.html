@@ -3,7 +3,8 @@
 <head>
     <title>放箱计划</title>
     <#include "sys/header.html">
-        </head>
+</head>
+
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
@@ -20,362 +21,410 @@
         <@shiro.hasPermission name="takeboxmain:save">
         <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
         </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="takeboxmain:update">
-        <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
-        </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="takeboxmain:delete">
-        <el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-        </el-button>
-        </@shiro.hasPermission>
+    </@shiro.hasPermission>
+    <@shiro.hasPermission name="takeboxmain:update">
+    <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+    </el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="takeboxmain:delete">
+<el-button type="primary" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+</el-button>
+</@shiro.hasPermission>
 
-        <@shiro.hasPermission name="takeboxmain:takebox">
-        <el-button type="primary" v-on:click="takebox"><i class="fa fa-reply"></i>&nbsp;放单
-        </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="takeboxmain:takebox">
-        <el-button type="primary" v-on:click="takeboxerror"><i class="fa fa-reply"></i>&nbsp;放单异常
-        </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="takeboxmain:takebox">
-        <el-button type="primary" v-on:click="takeboxend"><i class="fa fa-reply"></i>&nbsp;放单结束
-        </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="takeboxmain:takeboxchange">
-        <el-button type="primary" v-on:click="takeboxchange"><i class="fa fa-reply"></i>&nbsp;改单
-        </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="takeboxmain:audit">
-        <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;运输
-        </el-button>
-        </@shiro.hasPermission>
-        <el-button type="primary" v-on:click="showdetail"><i class="fa fa-reply"></i>&nbsp;明细
-        </el-button>
-        </el-button-group>
-            <div v-show="showQuery">
-                <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
+<@shiro.hasPermission name="takeboxmain:takebox">
+<el-button type="primary" v-on:click="takebox"><i class="fa fa-reply"></i>&nbsp;放单
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="takeboxmain:takebox">
+<el-button type="primary" v-on:click="takeboxerror"><i class="fa fa-reply"></i>&nbsp;放单异常
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="takeboxmain:takebox">
+<el-button type="primary" v-on:click="takeboxend"><i class="fa fa-reply"></i>&nbsp;放单结束
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="takeboxmain:takeboxchange">
+<el-button type="primary" v-on:click="takeboxchange"><i class="fa fa-reply"></i>&nbsp;改单
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="takeboxmain:takeboxchangeend">
+<el-button type="primary" v-on:click="takeboxchange"><i class="fa fa-reply"></i>&nbsp;改单完成
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="takeboxmain:audit">
+<el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;运输
+</el-button>
+</@shiro.hasPermission>
+<el-button type="primary" v-on:click="showdetail"><i class="fa fa-reply"></i>&nbsp;明细
+</el-button>
+</el-button-group>
+<div v-show="showQuery">
+    <el-form label-position="right" :inline="true" label-width="100px" style="padding:30px">
 
-                    <el-form-item label="单据号">
+        <el-form-item label="单据号">
 
-                        <el-input style="width: 350px" v-model="q.billno" placeholder="单据号"></el-input>
+            <el-input style="width: 350px" v-model="q.billno" placeholder="单据号"></el-input>
 
 
-                    </el-form-item>
-                    <el-form-item label="参照单据号">
+        </el-form-item>
+        <el-form-item label="参照单据号">
 
-                        <el-input style="width: 350px" v-model="q.refbillno" placeholder="参照单据号"></el-input>
+            <el-input style="width: 350px" v-model="q.refbillno" placeholder="参照单据号"></el-input>
 
 
-                    </el-form-item>
-                    <el-form-item label="参照单据类型">
+        </el-form-item>
+        <el-form-item label="参照单据类型">
 
-                        <el-select style="width: 350px" v-model="q.refbilltype" filterable placeholder="请选择">
-                            <el-option
-                                    v-for="item in ref_enum1006"
-                                    :key="item.enumvalueid"
-                                    :label="item.enumvaluename"
-                                    :value="item.enumvalueid">
-                            </el-option>
-                        </el-select>
+            <el-select style="width: 350px" v-model="q.refbilltype" filterable placeholder="请选择">
+                <el-option
+                        v-for="item in ref_enum1006"
+                        :key="item.enumvalueid"
+                        :label="item.enumvaluename"
+                        :value="item.enumvalueid">
+                </el-option>
+            </el-select>
 
 
-                    </el-form-item>
-                    <el-form-item label="客户">
+        </el-form-item>
+        <el-form-item label="客户">
 
 
-                        <input style="width: 350px" v-model="q.orgidname" v-on:click="openRefTreeorganizationorgid"
-                               placeholder="客户" class="el-input el-input__inner"></input>
+            <input style="width: 350px" v-model="q.orgidname" v-on:click="openRefTreeorganizationorgid"
+                   placeholder="客户" class="el-input el-input__inner"></input>
 
 
-                    </el-form-item>
-                    <el-form-item label="提单号">
+        </el-form-item>
+        <el-form-item label="提单号">
 
-                        <el-input style="width: 350px" v-model="q.ladingcode" placeholder="提单号"></el-input>
+            <el-input style="width: 350px" v-model="q.ladingcode" placeholder="提单号"></el-input>
 
 
-                    </el-form-item>
-                    <el-form-item label="船名">
+        </el-form-item>
+        <el-form-item label="船名">
 
-                        <el-input style="width: 350px" v-model="q.shipname" placeholder="船名"></el-input>
+            <el-input style="width: 350px" v-model="q.shipname" placeholder="船名"></el-input>
 
 
-                    </el-form-item>
-                    <el-form-item label="航次">
+        </el-form-item>
+        <el-form-item label="航次">
 
-                        <el-input style="width: 350px" v-model="q.flight" placeholder="航次"></el-input>
+            <el-input style="width: 350px" v-model="q.flight" placeholder="航次"></el-input>
 
 
-                    </el-form-item>
-                    <el-form-item label="船公司">
+        </el-form-item>
+        <el-form-item label="船公司">
 
-                        <el-input style="width: 350px" v-model="q.shipid" placeholder="船公司"></el-input>
+            <el-input style="width: 350px" v-model="q.shipid" placeholder="船公司"></el-input>
 
 
-                    </el-form-item>
-                    <el-form-item label="进港点">
+        </el-form-item>
 
-                        <el-select style="width: 350px" v-model="q.portid" filterable placeholder="请选择">
-                            <el-option
-                                    v-for="item in ref_place"
-                                    :key="item.id"
-                                    :label="item.name"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
+        <el-form-item label="箱量">
 
-                    </el-form-item>
-                    <el-form-item label="箱量">
+            <el-input style="width: 350px" v-model="q.boxqty" placeholder="箱量"></el-input>
 
-                        <el-input style="width: 350px" v-model="q.boxqty" placeholder="箱量"></el-input>
 
+        </el-form-item>
+        <el-form-item label="箱型">
 
-                    </el-form-item>
-                    <el-form-item label="箱型">
+            <el-select style="width: 350px" v-model="q.boxtype" filterable placeholder="请选择">
+                <el-option
+                        v-for="item in ref_boxs"
+                        :key="item.id"
+                        :label="item.boxsize"
+                        :value="item.id">
+                </el-option>
+            </el-select>
 
-                        <el-select style="width: 350px" v-model="q.boxtype" filterable placeholder="请选择">
-                            <el-option
-                                    v-for="item in ref_boxs"
-                                    :key="item.id"
-                                    :label="item.boxsize"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
+        </el-form-item>
 
-                    </el-form-item>
-                    <el-form-item label="提箱场站">
+        <el-form-item label="预计用箱时间">
 
-                        <el-select style="width: 350px" v-model="q.takeboxplaceid" filterable placeholder="请选择">
-                            <el-option
-                                    v-for="item in ref_place"
-                                    :key="item.id"
-                                    :label="item.name"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
 
-                    </el-form-item>
-                    <el-form-item label="目的地">
+            <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
+                            :picker-options="pickerOptions1" v-model="q.bgnplanarrtime"
+                            style="width: 100%;"></el-date-picker>
 
-                        <el-select style="width: 350px" v-model="q.endplaceid" filterable placeholder="请选择">
-                            <el-option
-                                    v-for="item in ref_place"
-                                    :key="item.id"
-                                    :label="item.name"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
 
-                    </el-form-item>
-                    <el-form-item label="船期">
+        </el-form-item>
 
 
-                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
-                                        :picker-options="pickerOptions1" v-model="q.shipdate"
-                                        style="width: 100%;"></el-date-picker>
+        <el-form-item label="备注">
 
-                    </el-form-item>
-                    <el-form-item label="集港时间">
+            <el-input style="width: 350px" v-model="q.remark" placeholder="备注"></el-input>
 
 
-                        <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
-                                        :picker-options="pickerOptions1" v-model="q.bgnshipdatetime"
-                                        style="width: 100%;"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="单据状态">
 
+            <el-select style="width: 350px" v-model="q.billstatus" filterable placeholder="请选择">
+                <el-option
+                        v-for="item in ref_enum2002"
+                        :key="item.enumvalueid"
+                        :label="item.enumvaluename"
+                        :value="item.enumvalueid">
+                </el-option>
+            </el-select>
 
-                    </el-form-item>
-                    <el-form-item label="截港时间">
 
+        </el-form-item>
+        <el-form-item label="制单人">
 
-                        <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
-                                        :picker-options="pickerOptions1" v-model="q.endshipdatetime"
-                                        style="width: 100%;"></el-date-picker>
+            <el-select style="width: 350px" v-model="q.makeuser" filterable placeholder="请选择">
+                <el-option
+                        v-for="item in ref_sys_user"
+                        :key="item.id"
+                        :label="item.fullname"
+                        :value="item.id">
+                </el-option>
+            </el-select>
 
+        </el-form-item>
+        <el-form-item label="制单日期">
 
-                    </el-form-item>
-                    <el-form-item label="最早到场时间">
 
+            <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                            :picker-options="pickerOptions1" v-model="q.makedate"
+                            style="width: 100%;"></el-date-picker>
 
-                        <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
-                                        :picker-options="pickerOptions1" v-model="q.bgnplanarrtime"
-                                        style="width: 100%;"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="审核人">
 
+            <el-select style="width: 350px" v-model="q.accuser" filterable placeholder="请选择">
+                <el-option
+                        v-for="item in ref_sys_user"
+                        :key="item.id"
+                        :label="item.fullname"
+                        :value="item.id">
+                </el-option>
+            </el-select>
 
-                    </el-form-item>
-                    <el-form-item label="最晚到场时间">
+        </el-form-item>
+        <el-form-item label="审核日期">
 
 
-                        <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
-                                        :picker-options="pickerOptions1" v-model="q.endplanarrtime"
-                                        style="width: 100%;"></el-date-picker>
+            <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                            :picker-options="pickerOptions1" v-model="q.accdate"
+                            style="width: 100%;"></el-date-picker>
 
+        </el-form-item>
+        <el-form-item label="更新时间">
 
-                    </el-form-item>
-                    <el-form-item label="应收费用">
 
-                        <el-input style="width: 350px" v-model="q.yingshou" placeholder="应收费用"></el-input>
+            <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
+                            :picker-options="pickerOptions1" v-model="q.uptdate"
+                            style="width: 100%;"></el-date-picker>
 
+        </el-form-item>
 
-                    </el-form-item>
-                    <el-form-item label="应付费用">
+        <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
 
-                        <el-input style="width: 350px" v-model="q.yingfu" placeholder="应付费用"></el-input>
+    </el-form>
 
+</div>
+</div>
+<table id="jqGrid"></table>
+<div id="jqGridPager"></div>
+</div>
 
-                    </el-form-item>
-                    <el-form-item label="备注">
+<div v-show="showDetailList" class="panel panel-default">
+    <el-row>
+        <el-col :span="18">
+            <el-tabs type="border-card">
+                <el-tab-pane>
+                    <span slot="label"><i class="el-icon-document"></i> 明细</span>
+                    <table id="jqGridDetail"></table>
+                    <div id="jqGridPagerDetail"></div>
+                </el-tab-pane>
+                <el-tab-pane>
+                    <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                    <table id="jqGridComments"></table>
+                    <div id="jqGridPagerComments"></div>
+                </el-tab-pane>
+            </el-tabs>
+        </el-col>
 
-                        <el-input style="width: 350px" v-model="q.remark" placeholder="备注"></el-input>
+        <el-col :span="6">
+            <el-tabs type="border-card">
+                <el-tab-pane>
+                    <span slot="label"><i class="el-icon-document"></i> 附件</span>
+                    <table id="jqGridFiles"></table>
+                    <div id="jqGridPagerFiles"></div>
+                </el-tab-pane>
 
+            </el-tabs>
+        </el-col>
+    </el-row>
+</div>
 
-                    </el-form-item>
-                    <el-form-item label="单据状态">
-
-                        <el-select style="width: 350px" v-model="q.billstatus" filterable placeholder="请选择">
-                            <el-option
-                                    v-for="item in ref_enum2002"
-                                    :key="item.enumvalueid"
-                                    :label="item.enumvaluename"
-                                    :value="item.enumvalueid">
-                            </el-option>
-                        </el-select>
-
-
-                    </el-form-item>
-                    <el-form-item label="制单人">
-
-                        <el-select style="width: 350px" v-model="q.makeuser" filterable placeholder="请选择">
-                            <el-option
-                                    v-for="item in ref_sys_user"
-                                    :key="item.id"
-                                    :label="item.fullname"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
-
-                    </el-form-item>
-                    <el-form-item label="制单日期">
-
-
-                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
-                                        :picker-options="pickerOptions1" v-model="q.makedate"
-                                        style="width: 100%;"></el-date-picker>
-
-                    </el-form-item>
-                    <el-form-item label="审核人">
-
-                        <el-select style="width: 350px" v-model="q.accuser" filterable placeholder="请选择">
-                            <el-option
-                                    v-for="item in ref_sys_user"
-                                    :key="item.id"
-                                    :label="item.fullname"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
-
-                    </el-form-item>
-                    <el-form-item label="审核日期">
-
-
-                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
-                                        :picker-options="pickerOptions1" v-model="q.accdate"
-                                        style="width: 100%;"></el-date-picker>
-
-                    </el-form-item>
-                    <el-form-item label="更新时间">
-
-
-                        <el-date-picker style="width: 350px" type="date" placeholder="选择日期"
-                                        :picker-options="pickerOptions1" v-model="q.uptdate"
-                                        style="width: 100%;"></el-date-picker>
-
-                    </el-form-item>
-
-                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
-
-                </el-form>
-
-            </div>
-        </div>
-        <table id="jqGrid"></table>
-        <div id="jqGridPager"></div>
-    </div>
-
-    <div v-show="showDetailList" class="panel panel-default">
+<div v-show="!showList" class="panel panel-default">
+    <div class="panel-heading">
         <el-row>
-            <el-col :span="18">
-                <el-tabs type="border-card">
-                    <el-tab-pane>
-                        <span slot="label"><i class="el-icon-document"></i> 明细</span>
-                        <table id="jqGridDetail"></table>
-                        <div id="jqGridPagerDetail"></div>
-                    </el-tab-pane>
-                    <el-tab-pane>
-                        <span slot="label"><i class="el-icon-time"></i> 审批</span>
-                        <table id="jqGridComments"></table>
-                        <div id="jqGridPagerComments"></div>
-                    </el-tab-pane>
-                </el-tabs>
+            <el-col :span="14">
+                <el-button-group>
+                    <el-button type="primary" v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存
+                    </el-button>
+                    <el-button type="primary" v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+                </el-button-group>
             </el-col>
+            <el-col :span="10">
+                <div class="billno">单据号:{{takeboxmain.billno}}<span class="panel-right">制单人:{{takeboxmain.makeuser}} 制单日期:{{takeboxmain.makedate}}</span>
+                </div>
 
-            <el-col :span="6">
-                <el-tabs type="border-card">
-                    <el-tab-pane>
-                        <span slot="label"><i class="el-icon-document"></i> 附件</span>
-                        <table id="jqGridFiles"></table>
-                        <div id="jqGridPagerFiles"></div>
-                    </el-tab-pane>
-
-                </el-tabs>
             </el-col>
         </el-row>
     </div>
-
-    <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">
-            <el-row>
-                <el-col :span="14">
-                    <el-button-group>
-                        <el-button type="primary" v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存
-                        </el-button>
-                        <el-button type="primary" v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
-                    </el-button-group>
-                </el-col>
-                <el-col :span="10">
-                    <div class="billno">单据号:{{takeboxmain.billno}}<span class="panel-right">制单人:{{takeboxmain.makeuser}} 制单日期:{{takeboxmain.makedate}}</span>
-                    </div>
-
-                </el-col>
-            </el-row>
-        </div>
-        <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
+    <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
 
 
-            <el-form-item label="客户" style="padding-top: 5px;width:26%">
+        <el-form-item label="客户" style="padding-top: 5px;width:26%">
 
-                <input v-model="takeboxmain.orgidname" v-on:click="openRefTreeorganizationorgid"
-                       placeholder="客户" style="width: 168px;" class="el-input el-input__inner"></input>
+            <input v-model="takeboxmain.orgidname" v-on:click="openRefTreeorganizationorgid"
+                   placeholder="客户" style="width: 168px;" class="el-input el-input__inner"></input>
 
 
-            </el-form-item>
-            <el-form-item label="提单号" style="padding-top: 5px;width:26%">
-                <el-input v-model="takeboxmain.ladingcode" placeholder="提单号" style="width: 168px;"></el-input>
+        </el-form-item>
+        <el-form-item label="提单号" style="padding-top: 5px;width:26%">
+            <el-input v-model="takeboxmain.ladingcode" placeholder="提单号" style="width: 168px;"></el-input>
 
-            </el-form-item>
-            <el-form-item label="船名" style="padding-top: 5px;width:26%">
-                <el-input v-model="takeboxmain.shipname" placeholder="船名" style="width: 168px;"></el-input>
+        </el-form-item>
+        <el-form-item label="船名" style="padding-top: 5px;width:26%">
+            <el-input v-model="takeboxmain.shipname" placeholder="船名" style="width: 168px;"></el-input>
 
-            </el-form-item>
-            <el-form-item label="航次" style="padding-top: 5px;width:26%">
-                <el-input v-model="takeboxmain.flight" placeholder="航次" style="width: 168px;"></el-input>
+        </el-form-item>
+        <el-form-item label="航次" style="padding-top: 5px;width:26%">
+            <el-input v-model="takeboxmain.flight" placeholder="航次" style="width: 168px;"></el-input>
 
-            </el-form-item>
-            <el-form-item label="船公司" style="padding-top: 5px;width:26%">
-                <el-input v-model="takeboxmain.shipid" placeholder="船公司" style="width: 168px;"></el-input>
+        </el-form-item>
 
-            </el-form-item>
-            <el-form-item label="进港点" style="padding-top: 5px;width:26%">
-                <el-select v-model="takeboxmain.portid" filterable placeholder="请选择" style="width: 168px;">
+        <el-form-item label="箱量" style="padding-top: 5px;width:26%">
+            <el-input v-model="takeboxmain.boxqty" placeholder="箱量" style="width: 168px;"></el-input>
+
+        </el-form-item>
+        <el-form-item label="箱型" style="padding-top: 5px;width:26%">
+            <el-select v-model="takeboxmain.boxtype" filterable placeholder="请选择" style="width: 168px;">
+                <el-option
+                        v-for="item in ref_boxs"
+                        :key="item.id"
+                        :label="item.boxsize"
+                        :value="item.id">
+                </el-option>
+            </el-select>
+
+        </el-form-item>
+
+        <el-form-item label="预计用箱时间" style="padding-top: 5px;width:26%">
+
+            <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
+                            v-model="takeboxmain.bgnplanarrtime" style="width: 168px;"></el-date-picker>
+
+
+        </el-form-item>
+        <el-form-item label="联系人" style="padding-top: 5px;width:26%">
+
+            <el-input style="width: 168px" v-model="takeboxmain.linkman" placeholder="联系人"></el-input>
+
+
+        </el-form-item>
+        <el-form-item label="联系电话" style="padding-top: 5px;width:26%">
+
+            <el-input style="width: 168px" v-model="takeboxmain.linkmobile" placeholder="联系电话"></el-input>
+
+
+        </el-form-item>
+
+        <el-form-item label="备注" style="padding-top: 5px;width:50%">
+            <el-input type="textarea" :rows="2" style="width: 500px" placeholder="请输入内容"
+                      v-model="takeboxmain.remark" style="width: 100%;"></el-input>
+
+
+        </el-form-item>
+
+        <el-upload
+                class="upload"
+                action="../files/batchupload"
+                :multiple="true"
+                :on-success="upload_on_success"
+                :on-change="upload_on_change"
+                :file-list="fileslist">
+            <el-button size="small" type="primary">附件上传</el-button>
+
+        </el-upload>
+
+    </el-form>
+
+
+    <table id="details" class="layui-table">
+        <colgroup>
+            <col width="80">
+            <col width="50">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="100">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>操作</th>
+            <th>序号</th>
+            <th>运输公司</th>
+            <th>原起运地</th>
+            <th>现起运地</th>
+            <th>起运地</th>
+            <th>目的地</th>
+            <th>改单类型</th>
+            <th>箱号</th>
+            <th>铅封号</th>
+            <th>计划提箱时间</th>
+            <th>实际提箱时间</th>
+            <th>计划到场时间</th>
+            <th>实际到场时间</th>
+            <th>应收改单费</th>
+            <th>应收运费用</th>
+            <th>应付运费用</th>
+            <th>备注</th>
+            <th>更新时间</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(item,index) in takeboxmain.details">
+            <td>
+                <el-button-group>
+                    <el-button type="primary" icon="plus" size="mini" v-on:click="additem"></el-button>
+                    <el-button type="primary" icon="delete" size="mini" v-on:click="delitem"
+                               v-bind:id="'btn-del-'+index" v-bind:idx="index"></el-button>
+                </el-button-group>
+            </td>
+
+            <td>
+                <el-input v-model="item.serialno" placeholder="序号"></el-input>
+            </td>
+            <td>
+                <el-select v-model="item.transcompanyid" filterable placeholder="请选择" style="width: 168px;">
+                    <el-option
+                            v-for="item in ref_organization"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+            </td>
+            <td>
+                <el-select v-model="item.startplaceid1" filterable placeholder="请选择" style="width: 168px;">
                     <el-option
                             v-for="item in ref_place"
                             :key="item.id"
@@ -383,25 +432,9 @@
                             :value="item.id">
                     </el-option>
                 </el-select>
-
-            </el-form-item>
-            <el-form-item label="箱量" style="padding-top: 5px;width:26%">
-                <el-input v-model="takeboxmain.boxqty" placeholder="箱量" style="width: 168px;"></el-input>
-
-            </el-form-item>
-            <el-form-item label="箱型" style="padding-top: 5px;width:26%">
-                <el-select v-model="takeboxmain.boxtype" filterable placeholder="请选择" style="width: 168px;">
-                    <el-option
-                            v-for="item in ref_boxs"
-                            :key="item.id"
-                            :label="item.boxsize"
-                            :value="item.id">
-                    </el-option>
-                </el-select>
-
-            </el-form-item>
-            <el-form-item label="提箱场站" style="padding-top: 5px;width:26%">
-                <el-select v-model="takeboxmain.takeboxplaceid" filterable placeholder="请选择" style="width: 168px;">
+            </td>
+            <td>
+                <el-select v-model="item.startplaceid2" filterable placeholder="请选择" style="width: 168px;">
                     <el-option
                             v-for="item in ref_place"
                             :key="item.id"
@@ -409,10 +442,9 @@
                             :value="item.id">
                     </el-option>
                 </el-select>
-
-            </el-form-item>
-            <el-form-item label="目的地" style="padding-top: 5px;width:26%">
-                <el-select v-model="takeboxmain.endplaceid" filterable placeholder="请选择" style="width: 168px;">
+            </td>
+            <td>
+                <el-select v-model="item.realplaceid2" filterable placeholder="请选择" style="width: 168px;">
                     <el-option
                             v-for="item in ref_place"
                             :key="item.id"
@@ -420,283 +452,214 @@
                             :value="item.id">
                     </el-option>
                 </el-select>
+            </td>
+            <td>
+                <el-select v-model="item.endplaceid" filterable placeholder="请选择" style="width: 168px;">
+                    <el-option
+                            v-for="item in ref_place"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+            </td>
+            <td>
+                <el-select v-model="item.changeplacetype" filterable placeholder="请选择">
+                    <el-option
+                            v-for="item in ref_enum2009"
+                            :key="item.enumvalueid"
+                            :label="item.enumvaluename"
+                            :value="item.enumvalueid">
+                    </el-option>
+                </el-select>
+            </td>
 
-            </el-form-item>
-            <el-form-item label="船期" style="padding-top: 5px;width:26%">
+            <td>
+                <el-input v-model="item.boxno" placeholder="箱号"></el-input>
+            </td>
+            <td>
+                <el-input v-model="item.fengno" placeholder="铅封号"></el-input>
+            </td>
 
+            <td>
+                <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
+                                v-model="item.plantaketime" style="width: 100%;"></el-date-picker>
+            </td>
+
+
+            <td>
+                <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
+                                v-model="item.realtaketime" style="width: 100%;"></el-date-picker>
+            </td>
+
+
+            <td>
+                <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
+                                v-model="item.planarrvetime" style="width: 100%;"></el-date-picker>
+            </td>
+
+
+            <td>
+                <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
+                                v-model="item.realarrvetime" style="width: 100%;"></el-date-picker>
+            </td>
+
+            <td>
+                <el-input v-model="item.changefee" placeholder="应收改单费"></el-input>
+            </td>
+            <td>
+                <el-input v-model="item.yingshou" placeholder="应收运费用"></el-input>
+            </td>
+            <td>
+                <el-input v-model="item.yingfu" placeholder="应付运费用"></el-input>
+            </td>
+            <td>
+                <el-input v-model="item.remark" placeholder="备注"></el-input>
+            </td>
+
+            <td>
                 <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
-                                v-model="takeboxmain.shipdate" style="width: 168px;"></el-date-picker>
+                                v-model="item.uptdate" style="width: 100%;"></el-date-picker>
+            </td>
 
-            </el-form-item>
-            <el-form-item label="集港时间" style="padding-top: 5px;width:26%">
+        </tr>
+        </tbody>
+    </table>
 
-                <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
-                                v-model="takeboxmain.bgnshipdatetime" style="width: 168px;"></el-date-picker>
+</div>
 
+<!--放单结束-->
+<el-dialog title="放单结束" :visible.sync="showtakeboxenddlg">
+    <el-form :model="takeboxmain"
+             :rules="rules"
+             ref="takeboxend"
+             :inline="true"
+             label-position="right"  label-width="100px" style="padding:5px;">
+        <el-form-item label="放箱公司">
+            <input style="width: 350px" v-model="takeboxmain.takeboxorgidname" v-on:click="openRefTreeorganizationtakeboxorgid"
+                   placeholder="放箱公司" class="el-input el-input__inner"></input>
+        </el-form-item>
 
-            </el-form-item>
-            <el-form-item label="截港时间" style="padding-top: 5px;width:26%">
+        <el-form-item label="提箱场站" style="padding-top: 5px;width:26%">
+            <el-select v-model="takeboxmain.takeboxplaceid" filterable placeholder="请选择" style="width: 168px;">
+                <el-option
+                        v-for="item in ref_place"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                </el-option>
+            </el-select>
 
-                <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
-                                v-model="takeboxmain.endshipdatetime" style="width: 168px;"></el-date-picker>
+        </el-form-item>
 
+        <el-form-item label="实放箱量" style="padding-top: 5px;width:26%">
+            <el-input v-model="takeboxmain.realboxqty" placeholder="实放箱量" style="width: 168px;"></el-input>
 
-            </el-form-item>
-            <el-form-item label="最早到场时间" style="padding-top: 5px;width:26%">
+        </el-form-item>
 
-                <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
-                                v-model="takeboxmain.bgnplanarrtime" style="width: 168px;"></el-date-picker>
+        <el-form-item label="放单备注" style="padding-top: 5px;width:26%">
+            <el-input v-model="takeboxmain.takeboxremark" placeholder="放单备注" style="width: 168px;"></el-input>
 
+        </el-form-item>
+        <el-form-item label="放单收入" style="padding-top: 5px;width:26%">
+            <el-input v-model="takeboxmain.yingshou" placeholder="放单收入" style="width: 168px;"></el-input>
 
-            </el-form-item>
-            <el-form-item label="最晚到场时间" style="padding-top: 5px;width:26%">
+        </el-form-item>
+        <el-form-item label="放单成本" style="padding-top: 5px;width:26%">
+            <el-input v-model="takeboxmain.yingfu" placeholder="放单成本" style="width: 168px;"></el-input>
 
-                <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
-                                v-model="takeboxmain.endplanarrtime" style="width: 168px;"></el-date-picker>
+        </el-form-item>
 
+        <el-form-item label="船期" style="padding-top: 5px;width:26%">
 
-            </el-form-item>
-            <el-form-item label="应收费用" style="padding-top: 5px;width:26%">
-                <el-input v-model="takeboxmain.yingshou" placeholder="应收费用" style="width: 168px;"></el-input>
+            <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
+                            v-model="takeboxmain.shipdate" style="width: 168px;"></el-date-picker>
 
-            </el-form-item>
-            <el-form-item label="应付费用" style="padding-top: 5px;width:26%">
-                <el-input v-model="takeboxmain.yingfu" placeholder="应付费用" style="width: 168px;"></el-input>
+        </el-form-item>
 
-            </el-form-item>
-            <el-form-item label="备注" style="padding-top: 5px;width:50%">
-                <el-input type="textarea" :rows="2" style="width: 500px" placeholder="请输入内容"
-                          v-model="takeboxmain.remark" style="width: 100%;"></el-input>
+        <el-form-item label="进港点" style="padding-top: 5px;width:26%">
+            <el-select v-model="takeboxmain.portid" filterable placeholder="请选择" style="width: 168px;">
+                <el-option
+                        v-for="item in ref_place"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                </el-option>
+            </el-select>
 
-
-            </el-form-item>
-
-            <el-upload
-                    class="upload"
-                    action="../files/batchupload"
-                    :multiple="true"
-                    :on-success="upload_on_success"
-                    :on-change="upload_on_change"
-                    :file-list="fileslist">
-                <el-button size="small" type="primary">附件上传</el-button>
-
-            </el-upload>
-
-        </el-form>
-
-        <table id="details" class="layui-table">
-            <colgroup>
-                <col width="80">
-                <col width="50">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-            </colgroup>
-            <thead>
-            <tr>
-                <th>操作</th>
-                <th>序号</th>
-                <th>运输公司</th>
-                <th>原起运地</th>
-                <th>现起运地</th>
-                <th>起运地</th>
-                <th>目的地</th>
-                <th>改单类型</th>
-                <th>箱号</th>
-                <th>铅封号</th>
-                <th>计划提箱时间</th>
-                <th>实际提箱时间</th>
-                <th>计划到场时间</th>
-                <th>实际到场时间</th>
-                <th>应收改单费</th>
-                <th>应收运费用</th>
-                <th>应付运费用</th>
-                <th>备注</th>
-                <th>更新时间</th>
-
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(item,index) in takeboxmain.details">
-                <td>
-                    <el-button-group>
-                        <el-button type="primary" icon="plus" size="mini" v-on:click="additem"></el-button>
-                        <el-button type="primary" icon="delete" size="mini" v-on:click="delitem"
-                                   v-bind:id="'btn-del-'+index" v-bind:idx="index"></el-button>
-                    </el-button-group>
-                </td>
-
-                <td>
-                    <el-input v-model="item.serialno" placeholder="序号"></el-input>
-                </td>
-                <td>
-                    <el-select v-model="item.transcompanyid" filterable placeholder="请选择" style="width: 168px;">
-                        <el-option
-                                v-for="item in ref_organization"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </td>
-                <td>
-                    <el-select v-model="item.startplaceid1" filterable placeholder="请选择" style="width: 168px;">
-                        <el-option
-                                v-for="item in ref_place"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </td>
-                <td>
-                    <el-select v-model="item.startplaceid2" filterable placeholder="请选择" style="width: 168px;">
-                        <el-option
-                                v-for="item in ref_place"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </td>
-                <td>
-                    <el-select v-model="item.realplaceid2" filterable placeholder="请选择" style="width: 168px;">
-                        <el-option
-                                v-for="item in ref_place"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </td>
-                <td>
-                    <el-select v-model="item.endplaceid" filterable placeholder="请选择" style="width: 168px;">
-                        <el-option
-                                v-for="item in ref_place"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </td>
-                <td>
-                    <el-select v-model="item.changeplacetype" filterable placeholder="请选择">
-                        <el-option
-                                v-for="item in ref_enum2009"
-                                :key="item.enumvalueid"
-                                :label="item.enumvaluename"
-                                :value="item.enumvalueid">
-                        </el-option>
-                    </el-select>
-                </td>
-
-                <td>
-                    <el-input v-model="item.boxno" placeholder="箱号"></el-input>
-                </td>
-                <td>
-                    <el-input v-model="item.fengno" placeholder="铅封号"></el-input>
-                </td>
-
-                <td>
-                    <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
-                                    v-model="item.plantaketime" style="width: 100%;"></el-date-picker>
-                </td>
+        </el-form-item>
 
 
-                <td>
-                    <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
-                                    v-model="item.realtaketime" style="width: 100%;"></el-date-picker>
-                </td>
-
-
-                <td>
-                    <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
-                                    v-model="item.planarrvetime" style="width: 100%;"></el-date-picker>
-                </td>
-
-
-                <td>
-                    <el-date-picker type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1"
-                                    v-model="item.realarrvetime" style="width: 100%;"></el-date-picker>
-                </td>
-
-                <td>
-                    <el-input v-model="item.changefee" placeholder="应收改单费"></el-input>
-                </td>
-                <td>
-                    <el-input v-model="item.yingshou" placeholder="应收运费用"></el-input>
-                </td>
-                <td>
-                    <el-input v-model="item.yingfu" placeholder="应付运费用"></el-input>
-                </td>
-                <td>
-                    <el-input v-model="item.remark" placeholder="备注"></el-input>
-                </td>
-
-                <td>
-                    <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
-                                    v-model="item.uptdate" style="width: 100%;"></el-date-picker>
-                </td>
-
-            </tr>
-            </tbody>
-        </table>
-
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+        <el-button @click="showtakeboxchangedlg = false">取 消</el-button>
+        <el-button type="primary" @click="dotakeboxend">确 定</el-button>
     </div>
-
-    <el-dialog title="改单" :visible.sync="showtakeboxchangedlg">
-        <el-form label-width="100px">
-
-            <el-form-item label="改单类型">
-                <el-radio-group v-model="changeplacetype">
-                    <el-radio :label="1">平台改单</el-radio>
-                    <el-radio :label="2">客户改单</el-radio>
-                    <el-radio :label="3">司机改单</el-radio>
-
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item label="新提箱地点">
-                <el-select v-model="newstartplaceid" filterable placeholder="请选择">
-                    <el-option
-                            v-for="item in ref_place"
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id">
-                    </el-option>
-                </el-select>
-            </el-form-item>
-
-            <el-form-item label="备注">
-                <el-input
-                        type="textarea"
-                        autosize
-                        placeholder="请输入内容"
-                        v-model="changeremark">
-                </el-input>
-            </el-form-item>
-
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="showtakeboxchangedlg = false">取 消</el-button>
-            <el-button type="primary" @click="dotakeboxchange">确 定</el-button>
-        </div>
-    </el-dialog>
+</el-dialog>
 
 
+<!--录入改单申请相关信息-->
+<el-dialog title="改单申请" :visible.sync="showtakeboxchangedlg">
+    <el-form label-width="100px">
+
+        <el-form-item label="改单类型">
+            <el-radio-group v-model="changeplacetype">
+                <el-radio :label="1">客户自行改单</el-radio>
+                <el-radio :label="2">客户要求必须改单</el-radio>
+                <el-radio :label="3">运输要求改单</el-radio>
+
+            </el-radio-group>
+        </el-form-item>
+        <el-form-item label="新提箱地点">
+            <el-select v-model="newstartplaceid" filterable placeholder="请选择">
+                <el-option
+                        v-for="item in ref_place"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                </el-option>
+            </el-select>
+        </el-form-item>
+
+        <el-form-item label="改单要求">
+            <el-input
+                    type="textarea"
+                    autosize
+                    placeholder="请输入内容"
+                    v-model="changeremark">
+            </el-input>
+        </el-form-item>
+
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+        <el-button @click="showtakeboxchangedlg = false">取 消</el-button>
+        <el-button type="primary" @click="dotakeboxchange">确 定</el-button>
+    </div>
+</el-dialog>
+
+<!--录入改单申请相关信息-->
+<el-dialog title="改单完成" :visible.sync="showtakeboxchangeenddlg">
+    <el-form label-width="100px">
+
+
+        <el-form-item label="新提箱地点">
+            <el-select v-model="newstartplaceid" filterable placeholder="请选择">
+                <el-option
+                        v-for="item in ref_place"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                </el-option>
+            </el-select>
+        </el-form-item>
+
+
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+        <el-button @click="showtakeboxchangedlg = false">取 消</el-button>
+        <el-button type="primary" @click="dotakeboxchangeend">确 定</el-button>
+    </div>
+</el-dialog>
 
 </div>
 
@@ -709,5 +672,5 @@
 <#include "base/billcomments_ref.html">
 
     <script src="${ctxPath}/static/js/buss/takeboxmain.js"></script>
-</body>
-</html>
+    </body>
+    </html>

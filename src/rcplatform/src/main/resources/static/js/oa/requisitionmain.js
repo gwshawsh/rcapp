@@ -1,5 +1,5 @@
 //生成弹出树形空间参照
-
+var ztreeparentId;
 var setting = {
     data: {
         simpleData: {
@@ -69,7 +69,6 @@ var vm = new Vue({
 
 
         //明细表用户下拉参照的属性
-        ref_goods: [],
 
         //单据主表实体类
         requisitionmain: {
@@ -369,13 +368,40 @@ var vm = new Vue({
         },
 
         //生成明细表参照调用下拉框函数,用来初始化远程数据
-        getRefgoods: function () {
-            $.get("../goods/list?page=1&limit=1000", function (r) {
-                vm.ref_goods = r.page.list;
-            });
-        },
 
         //生成弹出树形空间参照
+        getRefTreefeeinfogoodsid: function (menuId) {
+            //加载菜单树
+            $.get("../feeinfo/select", function (r) {
+                ztreeparentId = $.fn.zTree.init($("#refTreefeeinfo"), setting, r.treeList);
+                // var node = ztreeparentId.getNodeByParam("id", vm.feeinfo.parentId);
+                // ztreeparentId.selectNode(node);
+
+
+            })
+        },
+
+        openRefTreefeeinfoparentId: function (event) {
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#treelayerfeeinfo"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztreeparentId.getSelectedNodes();
+                    //选择上级菜单
+                    var i=event.target.getAttribute("idx");
+                    vm.requisitionmain.details[i].goodsid=node[0].id;
+
+                    layer.close(index);
+                }
+            });
+        },
 
         getInfo: function (id) {
             $.get("../requisitionmain/info/" + id, function (r) {
@@ -547,7 +573,8 @@ $(function () {
         colModel: [
             {label: 'id', name: 'id', width: 50, key: true, hidden: true},
             {label: '序号', name: 'serialno', width: 80},
-            {label: '商品', name: 'goodsidname', width: 80}, {label: '数量', name: 'goodscount', width: 80},
+            {label: '项目', name: 'goodsid', width: 80},
+            {label: '数量', name: 'goodscount', width: 80},
             {label: '规格', name: 'goodsspec', width: 80},
             {label: '单位', name: 'goodsunit', width: 80},
             {label: '用途', name: 'goodsuse', width: 80},
@@ -590,7 +617,8 @@ $(function () {
 
 
     //执行调用参照调用下拉框函数,初始化下拉数据
-    vm.getRefgoods();
+    vm.getRefTreefeeinfogoodsid();
+
 
     createBillAttachmentsGrid();
     createBillCommentsGrid();

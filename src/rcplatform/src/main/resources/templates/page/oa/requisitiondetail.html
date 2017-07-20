@@ -48,16 +48,12 @@
 
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="商品" >
+                                                                                                <el-form-item label="项目" >
 
-                                                                    <el-select style="width: 350px" v-model="q.goodsid"  filterable placeholder="请选择">
-                                        <el-option
-                                                v-for="item in ref_goods"
-                                                :key="item.id"
-                                                :label="item.name"
-                                                :value="item.id">
-                                        </el-option>
-                                    </el-select>
+                                
+                                    <input style="width: 350px" v-model="q.goodsidname"  v-on:click="openRefTreefeeinfogoodsid"
+                                           placeholder="项目" class="el-input el-input__inner"></input>
+
                                 
                             </el-form-item>
                                                                                                 <el-form-item label="数量" >
@@ -161,17 +157,13 @@
                               
                     </el-form-item>
                 
-                                                <el-form-item label="商品" :inline="true" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="项目" :inline="true" class="padding-top: 5px;width:26%">
 
-                                                             <el-select style="width: 350px" v-model="requisitiondetail.goodsid"  filterable placeholder="请选择">
-                                    <el-option
-                                            v-for="item in ref_goods"
-                                            :key="item.id"
-                                            :label="item.name"
-                                            :value="item.id">
-                                    </el-option>
-                                </el-select>
-                            
+                             
+                                <input style="width: 350px" v-model="requisitiondetail.goodsidname"  v-on:click="openRefTreefeeinfogoodsid"
+                                          placeholder="项目" class="el-input el-input__inner"></input>
+
+                             
                     </el-form-item>
                 
                                                 <el-form-item label="数量" :inline="true" class="padding-top: 5px;width:26%">
@@ -231,6 +223,9 @@
 
 
                                                                                                                             
+<div id="treelayerfeeinfo" style="display: none;padding:10px;">
+    <ul id="refTreefeeinfo" class="ztree"></ul>
+</div>
 
 <#include "base/billcomments_ref.html">
 <script src="${ctxPath}/static/js/oa/requisitiondetail.js"></script>

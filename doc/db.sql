@@ -725,18 +725,25 @@ CREATE TABLE `takeboxmain`(
   `flight` varchar(50) COMMENT '航次', 
   `shipid` bigint COMMENT '船公司', 
   `portid` bigint COMMENT '进港点:combo:place:id:name',-- 港口
-  `boxqty` int COMMENT '箱量',
+  `boxqty` int COMMENT '要箱箱量',
+  `realboxqty` int COMMENT '实放箱量',
   `boxtype` bigint COMMENT '箱型:combo:boxs:id:boxsize',
   `takeboxplaceid` bigint COMMENT '提箱场站:combo:place:id:name', 
   `endplaceid` bigint COMMENT '目的地:combo:place:id:name', -- 空箱计划就是仓库  重箱计划就是港口  门店计划就是工厂
   `shipdate` datetime COMMENT '船期',
   `bgnshipdatetime` datetime COMMENT '集港时间',
   `endshipdatetime` datetime COMMENT '截港时间',
-  `bgnplanarrtime` datetime COMMENT '最早到场时间',-- 预计用箱时间
+  `bgnplanarrtime` datetime COMMENT '预计用箱时间',-- 预计用箱时间
   `endplanarrtime` datetime COMMENT '最晚到场时间',
-  `yingshou` decimal(19,4) COMMENT '应收费用',
-  `yingfu` decimal(19,4) COMMENT '应付费用',
-  `remark` varchar(1000) COMMENT '备注',
+  `changefee` decimal(19,4) COMMENT '改单费',-- 
+  `yingshou` decimal(19,4) COMMENT '放单收入',
+  `yingfu` decimal(19,4) COMMENT '放单成本',
+  `custremark` varchar(1000) COMMENT '用箱要求',
+  `takeboxremark` varchar(1000) COMMENT '放单备注',
+  `errorremark` varchar(1000) COMMENT '异常原因',
+  `takeboxorgid` bigint COMMENT '放箱公司:dialogtree:organization:id:name',
+  `linkman` varchar(200) COMMENT '联系人',
+  `linkmobile` varchar(50) COMMENT '联系电话',
   `billstatus` varchar(50) COMMENT '单据状态:enum:2002:enumvalueid:enumvaluename', -- 0：新增 1：审核 2：已放箱 3：已提箱 4:已到场 5：已完成', 6放单异常  7放单结束
   `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
   `makedate` datetime COMMENT '制单日期',
@@ -764,9 +771,20 @@ CREATE TABLE `takeboxdetail`(
   `realtaketime` datetime COMMENT '实际提箱时间',
   `planarrvetime` datetime COMMENT '计划到场时间',  
   `realarrvetime` datetime COMMENT '实际到场时间', 
-  `changefee` decimal(19,4) COMMENT '应收改单费',-- 
-  `yingshou` decimal(19,4) COMMENT '应收运费用',
-  `yingfu` decimal(19,4) COMMENT '应付运费用',
+  `changefee` decimal(19,4) COMMENT '改单费',-- 
+  
+  `yingshou` decimal(19,4) COMMENT '放单收入',
+  `fangdanfeein` decimal(19,4) COMMENT '放单费(收入)',
+  `laowufeein` decimal(19,4) COMMENT '劳务费(收入)',
+  `tixiangfeein` decimal(19,4) COMMENT '提箱费(收入)',
+  `otherfeein` decimal(19,4) COMMENT '其他费用(收入)',
+
+  `yingfu` decimal(19,4) COMMENT '放单成本',
+  `dadanfeeout` decimal(19,4) COMMENT '打单费(成本)',
+  `fangdanfeeout` decimal(19,4) COMMENT '放单费(成本)',
+  `tixiangfeeout` decimal(19,4) COMMENT '提箱费(成本)',
+  `laowufeeout` decimal(19,4) COMMENT '劳务费(成本)',
+  `otherfeeout` decimal(19,4) COMMENT '其他费用(成本)',
   `remark` varchar(500) COMMENT '备注',
   `uptdate` datetime COMMENT '更新时间', 
   PRIMARY KEY (`id`)
@@ -894,9 +912,10 @@ CREATE TABLE `transboxstatusrec`(
 DROP TABLE IF EXISTS `feeinfo`;
 create table `feeinfo`(
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `parent_id` bigint NOT NULL COMMENT '上级费用',
+  `parent_id` bigint NOT NULL COMMENT '上级费用:dialogtree:feeinfo:id:name', 
   `code` varchar(50) COMMENT '编码',
   `name` varchar(20) COMMENT '名称',
+  `deptid` bigint COMMENT '责任部门:dialogtree:sys_dept:id:name',
   `feetype` int COMMENT '类型:enum:2006:enumvalueid:enumvaluename',-- 
   `paytype` int COMMENT '收付款:enum:1011:enumvalueid:enumvaluename',-- :0：收款 1：付款,
   `lineid` bigint COMMENT '线路:combo:transline:id:name',
@@ -1393,7 +1412,7 @@ CREATE TABLE `requisitiondetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `goodsid` bigint COMMENT '商品:combo:goods:id:name',
+  `goodsid` bigint COMMENT '项目:dialogtree:feeinfo:id:name',
   `goodscount` int COMMENT '数量',
   `goodsspec` varchar(500) COMMENT '规格',
   `goodsunit` varchar(500) COMMENT '单位',
@@ -1409,7 +1428,7 @@ DROP TABLE IF EXISTS `ordermain`;
 CREATE TABLE `ordermain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `supplyid` bigint COMMENT '供应商',
+  `supplyid` bigint COMMENT '供应商:dialogtree:organization:id:name',
   `reqbillno` varchar(50) COMMENT '请购单据号',
   `requser` varchar(50) COMMENT '请购人:combo:sys_user:id:fullname',
   `deptid` bigint COMMENT '请购部门:combo:sys_dept:id:name',
@@ -1417,6 +1436,8 @@ CREATE TABLE `ordermain`(
   `ordersource` int COMMENT '订购单来源:enum:1001:enumvalueid:enumvaluename', -- 订购单来源，1.请购单转入。2.手动
   `ordertype` int COMMENT '订购类别:enum:1002:enumvalueid:enumvaluename', --  不同的订购类别对应到不同的协办部门
   `budgetmainid` bigint null COMMENT '预算计划:dialog:budgetmain:id:billno',
+  `total` decimal(19,4) COMMENT '总金额',
+  `paytotal` decimal(19,4) COMMENT '已支付金额',
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
   `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
@@ -1434,7 +1455,7 @@ CREATE TABLE `orderdetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `goodsid` bigint COMMENT '商品:combo:goods:id:name',
+  `goodsid` bigint COMMENT '项目:dialogtree:feeinfo:id:name',
   `goodscount` int COMMENT '数量',
   `goodsspec` varchar(500) COMMENT '规格',
   `goodsuse` varchar(500) COMMENT '用途',  --  订购用途原因

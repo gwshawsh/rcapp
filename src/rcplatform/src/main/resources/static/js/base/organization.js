@@ -256,6 +256,7 @@ var vm = new Vue({
                 page: page,
                 postData: {'id': vm.q.id}
             }).trigger("reloadGrid");
+            vm.getLeftTree();
         },
         onClickNode: function (event, treeId, treeNode) {
             if (vm.showList) {

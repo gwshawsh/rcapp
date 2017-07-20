@@ -20,42 +20,42 @@
         <@shiro.hasPermission name="requisitionmain:save">
         <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
         </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="requisitionmain:update">
-        <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
-        </el-button>
-        </@shiro.hasPermission>
+    </@shiro.hasPermission>
+    <@shiro.hasPermission name="requisitionmain:update">
+    <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+    </el-button>
+</@shiro.hasPermission>
 
-        <@shiro.hasPermission name="requisitionmain:copybill">
-        <el-button type="primary" v-on:click="copybill"><i class="fa fa-trash-o"></i>&nbsp;复制
-        </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="requisitionmain:update">
-        <el-button type="primary" v-on:click="submitworkflow"><i class="fa fa-pencil-square-o"></i>&nbsp;提交
-        </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="requisitionmain:claim">
-        <el-button type="primary" v-on:click="claim"><i class="fa fa-book"></i>&nbsp;签收
-        </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="requisitionmain:audit">
-        <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
-        </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="requisitionmain:unaudit">
-        <el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
-        </el-button>
-        </@shiro.hasPermission>
-        <el-button type="primary" v-on:click="showdetail"><i class="fa fa-reply"></i>&nbsp;明细
-        </el-button>
-        <@shiro.hasPermission name="requisitionmain:cancel">
-        <el-button type="warning" v-on:click="cancel"><i class="fa fa-trash-o"></i>&nbsp;作废
-        </el-button>
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="requisitionmain:delete">
-        <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-        </el-button>
-        </@shiro.hasPermission>
+<@shiro.hasPermission name="requisitionmain:copybill">
+<el-button type="primary" v-on:click="copybill"><i class="fa fa-trash-o"></i>&nbsp;复制
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="requisitionmain:update">
+<el-button type="primary" v-on:click="submitworkflow"><i class="fa fa-pencil-square-o"></i>&nbsp;提交
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="requisitionmain:claim">
+<el-button type="primary" v-on:click="claim"><i class="fa fa-book"></i>&nbsp;签收
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="requisitionmain:audit">
+<el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="requisitionmain:unaudit">
+<el-button type="primary" v-on:click="unaudit"><i class="fa fa-reply"></i>&nbsp;反审核
+</el-button>
+</@shiro.hasPermission>
+<el-button type="primary" v-on:click="showdetail"><i class="fa fa-reply"></i>&nbsp;明细
+</el-button>
+<@shiro.hasPermission name="requisitionmain:cancel">
+<el-button type="warning" v-on:click="cancel"><i class="fa fa-trash-o"></i>&nbsp;作废
+</el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="requisitionmain:delete">
+<el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+</el-button>
+</@shiro.hasPermission>
 
             </el-button-group>
             <div v-show="showQuery">
@@ -104,7 +104,15 @@
 
 
                     </el-form-item>
+                    <el-form-item label="预算计划">
 
+
+                        <input style="width: 350px" v-model="q.budgetmainidbillno"
+                               v-on:click="selectbudgetmainidbudgetmain"
+                               placeholder="预算计划" class="el-input el-input__inner"></input>
+
+
+                    </el-form-item>
                     <el-form-item label="单据状态">
 
                         <el-select style="width: 350px" v-model="q.billstatus" filterable placeholder="请选择">
@@ -172,7 +180,12 @@
 
 
                     </el-form-item>
+                    <el-form-item label="流程ID">
 
+                        <el-input style="width: 350px" v-model="q.pocessinstanceid" placeholder="流程ID"></el-input>
+
+
+                    </el-form-item>
 
                     <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
 
@@ -256,6 +269,7 @@
 
             </el-form-item>
 
+
             <el-form-item label="备注" style="padding-top: 5px;width:26%">
                 <el-input type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"
                           v-model="requisitionmain.remark" style="width: 100%;"></el-input>
@@ -316,14 +330,8 @@
                     <el-input v-model="item.serialno" placeholder="序号"></el-input>
                 </td>
                 <td>
-                    <el-select v-model="requisitionmain.goodsid" filterable placeholder="请选择" style="width: 168px;">
-                        <el-option
-                                v-for="item in ref_goods"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
+                    <input style="width: 350px" v-model="item.goodsid" v-on:click="openRefTreefeeinfoparentId"
+                           placeholder="项目" class="el-input el-input__inner" v-bind:idx="index"></input>
                 </td>
                 <td>
                     <el-input v-model="item.goodscount" placeholder="数量"></el-input>
@@ -343,7 +351,10 @@
                                     v-model="item.enddate" style="width: 100%;"></el-date-picker>
                 </td>
 
-
+                <td>
+                    <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
+                                    v-model="item.uptdate" style="width: 100%;"></el-date-picker>
+                </td>
 
             </tr>
             </tbody>
@@ -352,7 +363,9 @@
     </div>
 </div>
 
-
+<div id="treelayerfeeinfo" style="display: none;padding:10px;">
+    <ul id="refTreefeeinfo" class="ztree"></ul>
+</div>
 <#include "base/billcomments_ref.html">
 
 

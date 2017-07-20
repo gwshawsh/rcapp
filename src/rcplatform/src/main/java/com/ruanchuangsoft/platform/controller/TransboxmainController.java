@@ -88,7 +88,7 @@ public class TransboxmainController extends AbstractController {
         Map<String, Object> map = new HashMap<>();
         map.put("offset", (page - 1) * limit);
         map.put("limit", limit);
-        map.put("formid",formid);
+        map.put("billno",formid);
 
         //查询列表数据
         List<TransboxdetailEntity> transboxdetailList = transboxdetailService.queryList(map);

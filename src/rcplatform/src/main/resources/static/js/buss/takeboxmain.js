@@ -39,6 +39,8 @@ var vm = new Vue({
             yingshou: "",
             yingfu: "",
             remark: "",
+            linkman: "",
+            linkmobile: "",
             billstatus: "",
             makeuser: "",
             makedate: "",
@@ -83,7 +85,7 @@ var vm = new Vue({
 
         ref_sys_user: [],
 
-        ref_organization:[],
+        ref_organization: [],
         //明细表用户下拉参照的属性
         ref_place: [],
         ref_enum2009: [],
@@ -92,7 +94,9 @@ var vm = new Vue({
         newstartplaceid: "",
         changeremark: "",
 
-        showtakeboxchangedlg:false,
+        showtakeboxenddlg: false,//放箱完成对话框
+        showtakeboxchangedlg: false,//改单申请对话框
+        showtakeboxchangeenddlg:false,//改单完成对话框
 
         //单据主表实体类
         takeboxmain: {
@@ -106,6 +110,7 @@ var vm = new Vue({
             shipid: "",
             portid: "",
             boxqty: "",
+            realboxqty: "",
             boxtype: "",
             takeboxplaceid: "",
             endplaceid: "",
@@ -116,7 +121,11 @@ var vm = new Vue({
             endplanarrtime: "",
             yingshou: "",
             yingfu: "",
-            remark: "",
+            custremark: "",
+            takeboxremark: "",
+            takeboxorgid: "",
+            linkman: "",
+            linkmobile: "",
             billstatus: "",
             makeuser: gUserId,
             makedate: "",
@@ -128,6 +137,10 @@ var vm = new Vue({
         }
     },
     methods: {
+        rules: {
+            takeboxplaceid: {required: true, message: '请输入提箱场站', trigger: 'blur'},
+            takeboxorgidname: {required: true, message: '请输入放箱公司', trigger: 'blur'}
+        },
         showQueryPanel: function () {
             vm.showQuery = !vm.showQuery;
         },
@@ -156,7 +169,6 @@ var vm = new Vue({
                 boxtypeboxsize: "",
                 billstatusenumvaluename: "",
                 makeuserfullname: "",
-
                 billno: "*",
                 refbillno: "",
                 refbilltype: "",
@@ -171,6 +183,9 @@ var vm = new Vue({
                 takeboxplaceid: "",
                 endplaceid: "",
                 shipdate: "",
+                custremark: "",
+                takeboxremark: "",
+                takeboxorgid: "",
                 bgnshipdatetime: "",
                 endshipdatetime: "",
                 bgnplanarrtime: "",
@@ -178,7 +193,9 @@ var vm = new Vue({
                 yingshou: "",
                 yingfu: "",
                 remark: "",
-                billstatus: "",
+                linkman: "",
+                linkmobile: "",
+                billstatus: "0",
                 makeuser: gUserFullName,
                 makedate: mktime,
                 accuser: "",
@@ -455,6 +472,38 @@ var vm = new Vue({
                 }
             });
         },
+        getRefTreeorganizationtakeboxorgid: function(menuId){
+            //加载菜单树
+            $.get("../organization/select", function(r){
+                ztreetakeboxorgid = $.fn.zTree.init($("#refTreeorganization"), setting, r.treeList);
+                var node = ztreetakeboxorgid.getNodeByParam("id", vm.takeboxmain.takeboxorgid);
+                ztreetakeboxorgid.selectNode(node);
+                vm.takeboxmain.takeboxorgidname = node.name;
+
+            })
+        },
+
+        openRefTreeorganizationtakeboxorgid: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#treelayerorganization"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztreetakeboxorgid.getSelectedNodes();
+                    //选择上级菜单
+                    vm.takeboxmain.takeboxorgid = node[0].id;
+                    vm.takeboxmain.takeboxorgidname = node[0].name;
+
+                    layer.close(index);
+                }
+            });
+        },
 
         getInfo: function (id) {
             $.get("../takeboxmain/info/" + id, function (r) {
@@ -622,32 +671,49 @@ var vm = new Vue({
 
 
         },
-        //放单结束
+        //打开放单结束对话框
         takeboxend: function () {
-            var ids = getSelectedRows();
-            if (ids == null) {
+            var id = getSelectedRow();
+            if (id == null) {
                 return;
             }
 
-            confirm('确定执行放单结束？', function () {
-                $.ajax({
-                    type: "POST",
-                    url: "../takeboxmain/takeboxend",
-                    data: JSON.stringify(ids),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
-                    }
-                });
+            $.get("../takeboxmain/info/" + id, function (r) {
+                vm.takeboxmain = r.takeboxmain;
+                vm.showtakeboxenddlg = true;
+
             });
+
+        },
+        dotakeboxend: function () {
+            this.$refs['takeboxend'].validate(function (valid) {
+                if (valid) {
+                    confirm('确定执行放单结束？', function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "../takeboxmain/takeboxend",
+                            data: JSON.stringify(vm.takeboxmain),
+                            success: function (r) {
+                                if (r.code == 0) {
+                                    alert('操作成功', function (index) {
+                                        $("#jqGrid").trigger("reloadGrid");
+                                    });
+                                } else {
+                                    alert(r.msg);
+                                }
+                            }
+                        });
+                    });
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+
+
         },
 
-        //改单,整体改单
+        //改单申请
         takeboxchange: function () {
             var id = getSelectedRow();
             if (id == null) {
@@ -656,12 +722,12 @@ var vm = new Vue({
 
             $.get("../takeboxmain/info/" + id, function (r) {
                 vm.takeboxmain = r.takeboxmain;
-                vm.showtakeboxchangedlg=true;
+                vm.showtakeboxchangedlg = true;
 
             });
         },
-        
-        dotakeboxchange:function () {
+
+        dotakeboxchange: function () {
             for (var i = 0; i < vm.takeboxmain.details.length; i++) {
                 vm.takeboxmain.details[i].changeplacetype = vm.changeplacetype;
                 vm.takeboxmain.details[i].startplaceid2 = vm.newstartplaceid;
@@ -720,7 +786,18 @@ $(function () {
                 label: '箱型',
                 name: 'boxtypeboxsize',
                 width: 80
-            }, {label: '提箱场站', name: 'takeboxplaceidname', width: 80}, {
+            },
+            {
+                label: '联系人',
+                name: 'linkman',
+                width: 80
+            },
+            {
+                label: '联系电话',
+                name: 'linkmobile',
+                width: 80
+            },
+            {label: '提箱场站', name: 'takeboxplaceidname', width: 80}, {
                 label: '目的地',
                 name: 'endplaceidname',
                 width: 80

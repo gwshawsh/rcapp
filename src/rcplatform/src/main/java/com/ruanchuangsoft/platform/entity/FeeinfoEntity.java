@@ -11,7 +11,7 @@ import java.util.List;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-16 22:16:34
+ * @date 2017-07-18 00:46:31
  */
 public class FeeinfoEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -46,6 +46,8 @@ public class FeeinfoEntity implements Serializable {
 	private String code;
     	//名称
 	private String name;
+    	//责任部门
+	private Long deptid;
     	//类型
 	private Integer feetype;
     	//收付款
@@ -67,7 +69,11 @@ public class FeeinfoEntity implements Serializable {
     	//更新时间
 	private Date uptdate;
     
-                                                                        //类型
+                                    //上级费用
+            private String parentIdname;
+                                                        //责任部门
+            private String deptidname;
+                                //类型
             private String feetypeenumvaluename;
                                 //收付款
             private String paytypeenumvaluename;
@@ -129,6 +135,19 @@ public class FeeinfoEntity implements Serializable {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	/**
+	 * 设置：责任部门
+	 */
+	public void setDeptid(Long deptid) {
+		this.deptid = deptid;
+	}
+	/**
+	 * 获取：责任部门
+	 */
+	public Long getDeptid() {
+		return deptid;
 	}
 
 	/**
@@ -262,7 +281,31 @@ public class FeeinfoEntity implements Serializable {
 	}
 
 
-                                                                        /**
+                                    /**
+             * 设置：上级费用name
+             */
+            public void setParentIdname(String name) {
+                this.parentIdname = name;
+            }
+            /**
+             * 获取：上级费用name
+             */
+            public String getParentIdname() {
+                return parentIdname;
+            }
+                                                        /**
+             * 设置：责任部门name
+             */
+            public void setDeptidname(String name) {
+                this.deptidname = name;
+            }
+            /**
+             * 获取：责任部门name
+             */
+            public String getDeptidname() {
+                return deptidname;
+            }
+                                /**
              * 设置：类型enumvaluename
              */
             public void setFeetypeenumvaluename(String enumvaluename) {

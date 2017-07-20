@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-15 23:11:49
+ * @date 2017-07-19 15:23:10
  */
 public class TakeboxdetailEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
