@@ -158,12 +158,18 @@ function formater_takeboxbillstatus(value, options, row){
         return '<span class="label label-success">放单结束</span>';
     }
     else if(value==4){
-        return '<span class="label label-success">已审核</span>';
+        return '<span class="label label-success">改单中</span>';
     }
     else if(value==5){
-        return '<span class="label label-success">运输中</span>';
+        return '<span class="label label-success">改单结束</span>';
     }
     else if(value==6){
+        return '<span class="label label-success">已审核</span>';
+    }
+    else if(value==7){
+        return '<span class="label label-success">运输中</span>';
+    }
+    else if(value==8){
         return '<span class="label label-success">运输完成</span>';
     }
     else if(value==9){

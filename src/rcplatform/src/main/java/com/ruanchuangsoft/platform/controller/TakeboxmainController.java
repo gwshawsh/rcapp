@@ -233,7 +233,7 @@ public class TakeboxmainController extends AbstractController {
     }
 
     /**
-     * 改单
+     * 改单申请
      */
     @ResponseBody
     @RequestMapping("/takeboxchange")
@@ -247,11 +247,39 @@ public class TakeboxmainController extends AbstractController {
             }
 
 //            takeboxmainEntity.setRemark(takeboxmain.getRemark());
-            takeboxmainEntity.setAccdate(new Date());
-            takeboxmainEntity.setAccuser(ShiroUtils.getUserId());
+            takeboxmain.setBillstatus(TakeboxBillStatus.CHANGING);
+            takeboxmain.setAccdate(new Date());
+            takeboxmain.setAccuser(ShiroUtils.getUserId());
 
-            takeboxmainEntity.setDetails(takeboxmain.getDetails());
-            takeboxmainService.update(takeboxmainEntity);
+            takeboxmainService.update(takeboxmain);
+            return R.ok();
+        } else {
+            return R.error("单据不存在");
+        }
+
+
+    }
+
+    /**
+     * 改单完成
+     */
+    @ResponseBody
+    @RequestMapping("/takeboxchangeend")
+    @RequiresPermissions("takeboxmain:update")
+    public R takeboxchangeend(@RequestBody TakeboxmainEntity takeboxmain) {
+
+        TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(takeboxmain.getId());
+        if (takeboxmainEntity != null) {
+            if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.ENDTRANS)) {
+                return R.error(1, "单据已经结束,不能执行改单");
+            }
+
+//            takeboxmainEntity.setRemark(takeboxmain.getRemark());
+            takeboxmain.setBillstatus(TakeboxBillStatus.CHANGEEND);
+            takeboxmain.setAccdate(new Date());
+            takeboxmain.setAccuser(ShiroUtils.getUserId());
+
+            takeboxmainService.update(takeboxmain);
             return R.ok();
         } else {
             return R.error("单据不存在");

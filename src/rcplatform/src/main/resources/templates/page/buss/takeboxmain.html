@@ -47,8 +47,8 @@
 <el-button type="primary" v-on:click="takeboxchange"><i class="fa fa-reply"></i>&nbsp;改单
 </el-button>
 </@shiro.hasPermission>
-<@shiro.hasPermission name="takeboxmain:takeboxchangeend">
-<el-button type="primary" v-on:click="takeboxchange"><i class="fa fa-reply"></i>&nbsp;改单完成
+<@shiro.hasPermission name="takeboxmain:takeboxchange">
+<el-button type="primary" v-on:click="takeboxchangeend"><i class="fa fa-reply"></i>&nbsp;改单完成
 </el-button>
 </@shiro.hasPermission>
 <@shiro.hasPermission name="takeboxmain:audit">
@@ -529,18 +529,18 @@
 </div>
 
 <!--放单结束-->
-<el-dialog title="放单结束" :visible.sync="showtakeboxenddlg">
+<el-dialog title="放单结束" :visible.sync="showtakeboxenddlg" size="large">
     <el-form :model="takeboxmain"
              :rules="rules"
              ref="takeboxend"
              :inline="true"
              label-position="right"  label-width="100px" style="padding:5px;">
-        <el-form-item label="放箱公司">
-            <input style="width: 350px" v-model="takeboxmain.takeboxorgidname" v-on:click="openRefTreeorganizationtakeboxorgid"
+        <el-form-item label="放箱公司" style="padding-top: 5px;width:30%">
+            <input style="width: 200px" v-model="takeboxmain.takeboxorgidname" v-on:click="openRefTreeorganizationtakeboxorgid"
                    placeholder="放箱公司" class="el-input el-input__inner"></input>
         </el-form-item>
 
-        <el-form-item label="提箱场站" style="padding-top: 5px;width:26%">
+        <el-form-item label="提箱场站" style="padding-top: 5px;width:30%">
             <el-select v-model="takeboxmain.takeboxplaceid" filterable placeholder="请选择" style="width: 168px;">
                 <el-option
                         v-for="item in ref_place"
@@ -552,32 +552,24 @@
 
         </el-form-item>
 
-        <el-form-item label="实放箱量" style="padding-top: 5px;width:26%">
+        <el-form-item label="实放箱量" style="padding-top: 5px;width:30%">
             <el-input v-model="takeboxmain.realboxqty" placeholder="实放箱量" style="width: 168px;"></el-input>
 
         </el-form-item>
-
-        <el-form-item label="放单备注" style="padding-top: 5px;width:26%">
+        <el-form-item label="放单备注" style="padding-top: 5px;width:30%">
             <el-input v-model="takeboxmain.takeboxremark" placeholder="放单备注" style="width: 168px;"></el-input>
 
         </el-form-item>
-        <el-form-item label="放单收入" style="padding-top: 5px;width:26%">
-            <el-input v-model="takeboxmain.yingshou" placeholder="放单收入" style="width: 168px;"></el-input>
 
-        </el-form-item>
-        <el-form-item label="放单成本" style="padding-top: 5px;width:26%">
-            <el-input v-model="takeboxmain.yingfu" placeholder="放单成本" style="width: 168px;"></el-input>
 
-        </el-form-item>
-
-        <el-form-item label="船期" style="padding-top: 5px;width:26%">
+        <el-form-item label="船期" style="padding-top: 5px;width:30%">
 
             <el-date-picker type="date" placeholder="选择日期" :picker-options="pickerOptions1"
                             v-model="takeboxmain.shipdate" style="width: 168px;"></el-date-picker>
 
         </el-form-item>
 
-        <el-form-item label="进港点" style="padding-top: 5px;width:26%">
+        <el-form-item label="进港点" style="padding-top: 5px;width:30%">
             <el-select v-model="takeboxmain.portid" filterable placeholder="请选择" style="width: 168px;">
                 <el-option
                         v-for="item in ref_place"
@@ -589,10 +581,49 @@
 
         </el-form-item>
 
+        <el-tabs type="border-card">
+            <el-tab-pane>
+                <span slot="label"><i class="el-icon-time"></i> 放单成本</span>
+                <el-form-item label="放单费" style="padding-top: 5px;width:30%">
+                    <el-input v-model="fangdanfeeout" placeholder="放单费" style="width: 168px;"></el-input>
+
+                </el-form-item>
+                <el-form-item label="提箱费" style="padding-top: 5px;width:30%">
+                    <el-input v-model="tixiangfeeout" placeholder="提箱费" style="width: 168px;"></el-input>
+
+                </el-form-item>
+                <el-form-item label="劳务费" style="padding-top: 5px;width:30%">
+                    <el-input v-model="laowufeeout" placeholder="劳务费" style="width: 168px;"></el-input>
+
+                </el-form-item>
+
+                <el-form-item label="其他费用" style="padding-top: 5px;width:30%">
+                    <el-input v-model="otherfeeout" placeholder="其他费用" style="width: 168px;"></el-input>
+
+                </el-form-item>
+
+            </el-tab-pane>
+            <el-tab-pane>
+                <span slot="label"><i class="el-icon-document"></i> 放单收入</span>
+                <el-form-item label="放单费" style="padding-top: 5px;width:30%">
+                    <el-input v-model="fangdanfeein" placeholder="放单费" style="width: 168px;"></el-input>
+
+                </el-form-item>
+                <el-form-item label="劳务费" style="padding-top: 5px;width:30%">
+                    <el-input v-model="laowufeein" placeholder="劳务费" style="width: 168px;"></el-input>
+
+                </el-form-item>
+                <el-form-item label="提箱费" style="padding-top: 5px;width:30%">
+                    <el-input v-model="tixiangfeein" placeholder="提箱费" style="width: 168px;"></el-input>
+
+                </el-form-item>
+            </el-tab-pane>
+
+        </el-tabs>
 
     </el-form>
     <div slot="footer" class="dialog-footer">
-        <el-button @click="showtakeboxchangedlg = false">取 消</el-button>
+        <el-button @click="showtakeboxenddlg = false">取 消</el-button>
         <el-button type="primary" @click="dotakeboxend">确 定</el-button>
     </div>
 </el-dialog>
@@ -610,23 +641,13 @@
 
             </el-radio-group>
         </el-form-item>
-        <el-form-item label="新提箱地点">
-            <el-select v-model="newstartplaceid" filterable placeholder="请选择">
-                <el-option
-                        v-for="item in ref_place"
-                        :key="item.id"
-                        :label="item.name"
-                        :value="item.id">
-                </el-option>
-            </el-select>
-        </el-form-item>
 
         <el-form-item label="改单要求">
             <el-input
                     type="textarea"
                     autosize
                     placeholder="请输入内容"
-                    v-model="changeremark">
+                    v-model="takeboxmain.changeremark">
             </el-input>
         </el-form-item>
 
@@ -656,7 +677,7 @@
 
     </el-form>
     <div slot="footer" class="dialog-footer">
-        <el-button @click="showtakeboxchangedlg = false">取 消</el-button>
+        <el-button @click="showtakeboxchangeenddlg = false">取 消</el-button>
         <el-button type="primary" @click="dotakeboxchangeend">确 定</el-button>
     </div>
 </el-dialog>

@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-19 15:23:10
+ * @date 2017-07-21 17:50:42
  */
 public class TakeboxdetailEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -50,12 +50,30 @@ public class TakeboxdetailEntity extends AbstractEntity implements Serializable 
 	private Date planarrvetime;
 	//实际到场时间
 	private Date realarrvetime;
-	//应收改单费
+	//改单费
 	private BigDecimal changefee;
-	//应收运费用
+	//放单收入
 	private BigDecimal yingshou;
-	//应付运费用
+	//放单费(收入)
+	private BigDecimal fangdanfeein;
+	//劳务费(收入)
+	private BigDecimal laowufeein;
+	//提箱费(收入)
+	private BigDecimal tixiangfeein;
+	//其他费用(收入)
+	private BigDecimal otherfeein;
+	//放单成本
 	private BigDecimal yingfu;
+	//打单费(成本)
+	private BigDecimal dadanfeeout;
+	//放单费(成本)
+	private BigDecimal fangdanfeeout;
+	//提箱费(成本)
+	private BigDecimal tixiangfeeout;
+	//劳务费(成本)
+	private BigDecimal laowufeeout;
+	//其他费用(成本)
+	private BigDecimal otherfeeout;
 	//备注
 	private String remark;
 	//更新时间
@@ -73,7 +91,7 @@ public class TakeboxdetailEntity extends AbstractEntity implements Serializable 
         private String endplaceidname;
 		        //改单类型
         private String changeplacetypeenumvaluename;
-												
+																					
 	/**
 	 * 设置：
 	 */
@@ -255,40 +273,148 @@ public class TakeboxdetailEntity extends AbstractEntity implements Serializable 
 		return realarrvetime;
 	}
 	/**
-	 * 设置：应收改单费
+	 * 设置：改单费
 	 */
 	public void setChangefee(BigDecimal changefee) {
 		this.changefee = changefee;
 	}
 	/**
-	 * 获取：应收改单费
+	 * 获取：改单费
 	 */
 	public BigDecimal getChangefee() {
 		return changefee;
 	}
 	/**
-	 * 设置：应收运费用
+	 * 设置：放单收入
 	 */
 	public void setYingshou(BigDecimal yingshou) {
 		this.yingshou = yingshou;
 	}
 	/**
-	 * 获取：应收运费用
+	 * 获取：放单收入
 	 */
 	public BigDecimal getYingshou() {
 		return yingshou;
 	}
 	/**
-	 * 设置：应付运费用
+	 * 设置：放单费(收入)
+	 */
+	public void setFangdanfeein(BigDecimal fangdanfeein) {
+		this.fangdanfeein = fangdanfeein;
+	}
+	/**
+	 * 获取：放单费(收入)
+	 */
+	public BigDecimal getFangdanfeein() {
+		return fangdanfeein;
+	}
+	/**
+	 * 设置：劳务费(收入)
+	 */
+	public void setLaowufeein(BigDecimal laowufeein) {
+		this.laowufeein = laowufeein;
+	}
+	/**
+	 * 获取：劳务费(收入)
+	 */
+	public BigDecimal getLaowufeein() {
+		return laowufeein;
+	}
+	/**
+	 * 设置：提箱费(收入)
+	 */
+	public void setTixiangfeein(BigDecimal tixiangfeein) {
+		this.tixiangfeein = tixiangfeein;
+	}
+	/**
+	 * 获取：提箱费(收入)
+	 */
+	public BigDecimal getTixiangfeein() {
+		return tixiangfeein;
+	}
+	/**
+	 * 设置：其他费用(收入)
+	 */
+	public void setOtherfeein(BigDecimal otherfeein) {
+		this.otherfeein = otherfeein;
+	}
+	/**
+	 * 获取：其他费用(收入)
+	 */
+	public BigDecimal getOtherfeein() {
+		return otherfeein;
+	}
+	/**
+	 * 设置：放单成本
 	 */
 	public void setYingfu(BigDecimal yingfu) {
 		this.yingfu = yingfu;
 	}
 	/**
-	 * 获取：应付运费用
+	 * 获取：放单成本
 	 */
 	public BigDecimal getYingfu() {
 		return yingfu;
+	}
+	/**
+	 * 设置：打单费(成本)
+	 */
+	public void setDadanfeeout(BigDecimal dadanfeeout) {
+		this.dadanfeeout = dadanfeeout;
+	}
+	/**
+	 * 获取：打单费(成本)
+	 */
+	public BigDecimal getDadanfeeout() {
+		return dadanfeeout;
+	}
+	/**
+	 * 设置：放单费(成本)
+	 */
+	public void setFangdanfeeout(BigDecimal fangdanfeeout) {
+		this.fangdanfeeout = fangdanfeeout;
+	}
+	/**
+	 * 获取：放单费(成本)
+	 */
+	public BigDecimal getFangdanfeeout() {
+		return fangdanfeeout;
+	}
+	/**
+	 * 设置：提箱费(成本)
+	 */
+	public void setTixiangfeeout(BigDecimal tixiangfeeout) {
+		this.tixiangfeeout = tixiangfeeout;
+	}
+	/**
+	 * 获取：提箱费(成本)
+	 */
+	public BigDecimal getTixiangfeeout() {
+		return tixiangfeeout;
+	}
+	/**
+	 * 设置：劳务费(成本)
+	 */
+	public void setLaowufeeout(BigDecimal laowufeeout) {
+		this.laowufeeout = laowufeeout;
+	}
+	/**
+	 * 获取：劳务费(成本)
+	 */
+	public BigDecimal getLaowufeeout() {
+		return laowufeeout;
+	}
+	/**
+	 * 设置：其他费用(成本)
+	 */
+	public void setOtherfeeout(BigDecimal otherfeeout) {
+		this.otherfeeout = otherfeeout;
+	}
+	/**
+	 * 获取：其他费用(成本)
+	 */
+	public BigDecimal getOtherfeeout() {
+		return otherfeeout;
 	}
 	/**
 	 * 设置：备注
@@ -388,7 +514,7 @@ public class TakeboxdetailEntity extends AbstractEntity implements Serializable 
         public String getChangeplacetypeenumvaluename() {
             return changeplacetypeenumvaluename;
         }
-        																																		
+        																																																													
     /**
          * To string string.
          *构造单据的描述内容
@@ -469,18 +595,63 @@ public class TakeboxdetailEntity extends AbstractEntity implements Serializable 
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">应收改单费</label>"+
+                        "  <label class=\"el-form-item__label\">改单费</label>"+
                         "  <div class=\"el-form-item__content\"><span>"+getChangefee()+"</span>\n" +
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">应收运费用</label>"+
+                        "  <label class=\"el-form-item__label\">放单收入</label>"+
                         "  <div class=\"el-form-item__content\"><span>"+getYingshou()+"</span>\n" +
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">应付运费用</label>"+
+                        "  <label class=\"el-form-item__label\">放单费(收入)</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getFangdanfeein()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">劳务费(收入)</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getLaowufeein()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">提箱费(收入)</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getTixiangfeein()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">其他费用(收入)</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getOtherfeein()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">放单成本</label>"+
                         "  <div class=\"el-form-item__content\"><span>"+getYingfu()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">打单费(成本)</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getDadanfeeout()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">放单费(成本)</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getFangdanfeeout()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">提箱费(成本)</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getTixiangfeeout()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">劳务费(成本)</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getLaowufeeout()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">其他费用(成本)</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getOtherfeeout()+"</span>\n" +
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +

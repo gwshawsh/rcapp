@@ -741,6 +741,7 @@ CREATE TABLE `takeboxmain`(
   `custremark` varchar(1000) COMMENT '用箱要求',
   `takeboxremark` varchar(1000) COMMENT '放单备注',
   `errorremark` varchar(1000) COMMENT '异常原因',
+  `changeremark` varchar(1000) COMMENT '改单要求',
   `takeboxorgid` bigint COMMENT '放箱公司:dialogtree:organization:id:name',
   `linkman` varchar(200) COMMENT '联系人',
   `linkmobile` varchar(50) COMMENT '联系电话',

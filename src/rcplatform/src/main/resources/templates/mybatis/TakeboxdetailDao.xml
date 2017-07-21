@@ -11,7 +11,7 @@
 												               		ifnull((select name from  place b where a.realplaceid2=b.id),'') as realplaceid2name,
 												               		ifnull((select name from  place b where a.endplaceid=b.id),'') as endplaceidname,
 												                    ifnull((select enumvaluename from  enumtable b where a.changeplacetype=b.enumvalueid and b.enumtype='2009'),'') as changeplacetypeenumvaluename,
-																																								        a.*
+																																																																			        a.*
 
 		from takeboxdetail a where id = #{value}
 	</select>
@@ -96,8 +96,44 @@
                 and `yingshou` = #{yingshou}
             </if>
 
+            <if test="fangdanfeein != null and fangdanfeein != '' ">
+                and `fangdanfeein` = #{fangdanfeein}
+            </if>
+
+            <if test="laowufeein != null and laowufeein != '' ">
+                and `laowufeein` = #{laowufeein}
+            </if>
+
+            <if test="tixiangfeein != null and tixiangfeein != '' ">
+                and `tixiangfeein` = #{tixiangfeein}
+            </if>
+
+            <if test="otherfeein != null and otherfeein != '' ">
+                and `otherfeein` = #{otherfeein}
+            </if>
+
             <if test="yingfu != null and yingfu != '' ">
                 and `yingfu` = #{yingfu}
+            </if>
+
+            <if test="dadanfeeout != null and dadanfeeout != '' ">
+                and `dadanfeeout` = #{dadanfeeout}
+            </if>
+
+            <if test="fangdanfeeout != null and fangdanfeeout != '' ">
+                and `fangdanfeeout` = #{fangdanfeeout}
+            </if>
+
+            <if test="tixiangfeeout != null and tixiangfeeout != '' ">
+                and `tixiangfeeout` = #{tixiangfeeout}
+            </if>
+
+            <if test="laowufeeout != null and laowufeeout != '' ">
+                and `laowufeeout` = #{laowufeeout}
+            </if>
+
+            <if test="otherfeeout != null and otherfeeout != '' ">
+                and `otherfeeout` = #{otherfeeout}
             </if>
 
             <if test="remark != null and remark != '' ">
@@ -115,56 +151,74 @@
     </select>
 
     <select id="queryTotal" resultType="int">
-        select count(*) from takeboxdetail
-    </select>
+		select count(*) from takeboxdetail 
+	</select>
 
     <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity" useGeneratedKeys="true"
             keyProperty="id">
-        insert into takeboxdetail
-        (
-        `billno`,
-        `serialno`,
-        `transcompanyid`,
-        `startplaceid1`,
-        `startplaceid2`,
-        `realplaceid2`,
-        `endplaceid`,
-        `changeplacetype`,
-        `boxno`,
-        `fengno`,
-        `plantaketime`,
-        `realtaketime`,
-        `planarrvetime`,
-        `realarrvetime`,
-        `changefee`,
-        `yingshou`,
-        `yingfu`,
-        `remark`,
-        `uptdate`
-        )
-        values
-        (
-        #{billno},
-        #{serialno},
-        #{transcompanyid},
-        #{startplaceid1},
-        #{startplaceid2},
-        #{realplaceid2},
-        #{endplaceid},
-        #{changeplacetype},
-        #{boxno},
-        #{fengno},
-        #{plantaketime},
-        #{realtaketime},
-        #{planarrvetime},
-        #{realarrvetime},
-        #{changefee},
-        #{yingshou},
-        #{yingfu},
-        #{remark},
-        #{uptdate}
-        )
-    </insert>
+		insert into takeboxdetail
+		(
+			`billno`, 
+			`serialno`, 
+			`transcompanyid`, 
+			`startplaceid1`, 
+			`startplaceid2`, 
+			`realplaceid2`, 
+			`endplaceid`, 
+			`changeplacetype`, 
+			`boxno`, 
+			`fengno`, 
+			`plantaketime`, 
+			`realtaketime`, 
+			`planarrvetime`, 
+			`realarrvetime`, 
+			`changefee`, 
+			`yingshou`, 
+			`fangdanfeein`, 
+			`laowufeein`, 
+			`tixiangfeein`, 
+			`otherfeein`, 
+			`yingfu`, 
+			`dadanfeeout`, 
+			`fangdanfeeout`, 
+			`tixiangfeeout`, 
+			`laowufeeout`, 
+			`otherfeeout`, 
+			`remark`, 
+			`uptdate`
+		)
+		values
+		(
+			#{billno}, 
+			#{serialno}, 
+			#{transcompanyid}, 
+			#{startplaceid1}, 
+			#{startplaceid2}, 
+			#{realplaceid2}, 
+			#{endplaceid}, 
+			#{changeplacetype}, 
+			#{boxno}, 
+			#{fengno}, 
+			#{plantaketime}, 
+			#{realtaketime}, 
+			#{planarrvetime}, 
+			#{realarrvetime}, 
+			#{changefee}, 
+			#{yingshou}, 
+			#{fangdanfeein}, 
+			#{laowufeein}, 
+			#{tixiangfeein}, 
+			#{otherfeein}, 
+			#{yingfu}, 
+			#{dadanfeeout}, 
+			#{fangdanfeeout}, 
+			#{tixiangfeeout}, 
+			#{laowufeeout}, 
+			#{otherfeeout}, 
+			#{remark}, 
+			#{uptdate}
+		)
+	</insert>
 
     <update id="update" parameterType="com.ruanchuangsoft.platform.entity.TakeboxdetailEntity">
         update takeboxdetail
@@ -185,7 +239,16 @@
             <if test="realarrvetime != null">`realarrvetime` = #{realarrvetime},</if>
             <if test="changefee != null">`changefee` = #{changefee},</if>
             <if test="yingshou != null">`yingshou` = #{yingshou},</if>
+            <if test="fangdanfeein != null">`fangdanfeein` = #{fangdanfeein},</if>
+            <if test="laowufeein != null">`laowufeein` = #{laowufeein},</if>
+            <if test="tixiangfeein != null">`tixiangfeein` = #{tixiangfeein},</if>
+            <if test="otherfeein != null">`otherfeein` = #{otherfeein},</if>
             <if test="yingfu != null">`yingfu` = #{yingfu},</if>
+            <if test="dadanfeeout != null">`dadanfeeout` = #{dadanfeeout},</if>
+            <if test="fangdanfeeout != null">`fangdanfeeout` = #{fangdanfeeout},</if>
+            <if test="tixiangfeeout != null">`tixiangfeeout` = #{tixiangfeeout},</if>
+            <if test="laowufeeout != null">`laowufeeout` = #{laowufeeout},</if>
+            <if test="otherfeeout != null">`otherfeeout` = #{otherfeeout},</if>
             <if test="remark != null">`remark` = #{remark},</if>
             <if test="uptdate != null">`uptdate` = #{uptdate}</if>
         </set>
@@ -193,8 +256,8 @@
     </update>
 
     <delete id="delete">
-        delete from takeboxdetail where id = #{value}
-    </delete>
+		delete from takeboxdetail where id = #{value}
+	</delete>
 
     <delete id="deleteByBillNo">
         delete from takeboxdetail where billno = #{value}

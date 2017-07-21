@@ -8,8 +8,12 @@ public interface TakeboxBillStatus {
     String TAKEBOX="1";
     String TAKEBOXERROR="2";
     String TAKEBOXEND="3";
-    String AUDIT="4";
-    String STARTTRANS="5";//
-    String ENDTRANS="11";//
+    String CHANGING="4";
+    String CHANGEEND="5";
+    String AUDIT="6";
+    String STARTTRANS="7";//
+
+    String ENDTRANS="8";//
+    String DELETE="9";
 
 }
