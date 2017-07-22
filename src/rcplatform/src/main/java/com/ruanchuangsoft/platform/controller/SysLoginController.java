@@ -3,10 +3,12 @@ package com.ruanchuangsoft.platform.controller;
 import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import com.ruanchuangsoft.platform.utils.HttpContextUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.subject.Subject;
@@ -93,6 +95,8 @@ public class SysLoginController {
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 			token.setRememberMe(true);
 			subject.login(token);
+			HttpContextUtils.addCookie("username",username);
+
 		}catch (UnknownAccountException e) {
 			return R.error(e.getMessage());
 		}catch (IncorrectCredentialsException e) {

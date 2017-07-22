@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-17 23:29:29
+ * @date 2017-07-22 16:48:03
  */
 public class RequisitiondetailEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -26,7 +26,7 @@ public class RequisitiondetailEntity extends AbstractEntity implements Serializa
 	private String billno;
 	//序号
 	private Long serialno;
-	//项目
+	//商品
 	private Long goodsid;
 	//数量
 	private Integer goodscount;
@@ -41,7 +41,7 @@ public class RequisitiondetailEntity extends AbstractEntity implements Serializa
 	//更新时间
 	private Date uptdate;
 
-				        //项目
+				        //商品
         private String goodsidname;
 							
 	/**
@@ -81,13 +81,13 @@ public class RequisitiondetailEntity extends AbstractEntity implements Serializa
 		return serialno;
 	}
 	/**
-	 * 设置：项目
+	 * 设置：商品
 	 */
 	public void setGoodsid(Long goodsid) {
 		this.goodsid = goodsid;
 	}
 	/**
-	 * 获取：项目
+	 * 获取：商品
 	 */
 	public Long getGoodsid() {
 		return goodsid;
@@ -167,13 +167,13 @@ public class RequisitiondetailEntity extends AbstractEntity implements Serializa
 
 
 												        /**
-         * 设置：项目name
+         * 设置：商品name
          */
         public void setGoodsidname(String name) {
             this.goodsidname = name;
         }
         /**
-         * 获取：项目name
+         * 获取：商品name
          */
         public String getGoodsidname() {
             return goodsidname;
@@ -199,7 +199,7 @@ public class RequisitiondetailEntity extends AbstractEntity implements Serializa
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">项目</label>"+
+                        "  <label class=\"el-form-item__label\">商品</label>"+
                         "  <div class=\"el-form-item__content\"><span>"+getGoodsidname()+"</span>\n" +
                         "  </div> </div>");
 			

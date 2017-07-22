@@ -219,30 +219,6 @@ CREATE TABLE `enumtable`(
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='银行账户表';
  
 
-DROP TABLE IF EXISTS `goods` ;
-CREATE TABLE `goods` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `classid` bigint COMMENT '类别:combo:gclass:id:name',
-  `code` varchar(50) COMMENT '编码',
-  `name` varchar(200) COMMENT '名称',
-  `spec` varchar(500) COMMENT '规格',
-  `unit` varchar(500) COMMENT '单位',
-  `remark` varchar(500) COMMENT '备注',
-  `price` double COMMENT '单价',
-  `pricetax` double COMMENT '含税单价',
-  `gcount` int COMMENT '库存', --    0：目录   1：菜单   2：按钮
-
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品表';
-
-DROP TABLE IF EXISTS `gclass` ;
-CREATE TABLE `gclass` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `parent_id` bigint COMMENT '上级类别ID',
-  `name` varchar(50) COMMENT '名称',
-  `code` int COMMENT '编码',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='品类表';
 
 
 
@@ -909,6 +885,34 @@ CREATE TABLE `transboxstatusrec`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运输过程记录';
 
 
+-- 商品表
+DROP TABLE IF EXISTS `goods` ;
+CREATE TABLE `goods` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `classid` bigint COMMENT '类别:combo:gclass:id:name',
+  `feetypeid` bigint COMMENT '费用类别:dialogtree:feeinfo:id:name',
+  `deptid` bigint COMMENT '责任部门:dialogtree:sys_dept:id:name',
+  `code` varchar(50) COMMENT '编码',
+  `name` varchar(200) COMMENT '名称',
+  `spec` varchar(500) COMMENT '规格',
+  `unit` varchar(500) COMMENT '单位',
+  `remark` varchar(500) COMMENT '备注',
+  `price` double COMMENT '单价',
+  `gcount` int COMMENT '库存', --    0：目录   1：菜单   2：按钮
+
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品表';
+
+DROP TABLE IF EXISTS `gclass` ;
+CREATE TABLE `gclass` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `parent_id` bigint COMMENT '上级类别ID',
+  `name` varchar(50) COMMENT '名称',
+  `code` int COMMENT '编码',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='品类表';
+
+
 -- 费用项目
 DROP TABLE IF EXISTS `feeinfo`;
 create table `feeinfo`(
@@ -1413,7 +1417,7 @@ CREATE TABLE `requisitiondetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `goodsid` bigint COMMENT '项目:dialogtree:feeinfo:id:name',
+  `goodsid` bigint COMMENT '商品:combo:goods:id:name',
   `goodscount` int COMMENT '数量',
   `goodsspec` varchar(500) COMMENT '规格',
   `goodsunit` varchar(500) COMMENT '单位',
@@ -1456,7 +1460,7 @@ CREATE TABLE `orderdetail`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
   `serialno` bigint COMMENT '序号',
-  `goodsid` bigint COMMENT '项目:dialogtree:feeinfo:id:name',
+  `goodsid` bigint COMMENT '项目:combo:goods:id:name',
   `goodscount` int COMMENT '数量',
   `goodsspec` varchar(500) COMMENT '规格',
   `goodsuse` varchar(500) COMMENT '用途',  --  订购用途原因

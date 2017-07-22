@@ -4,6 +4,9 @@ import com.ruanchuangsoft.platform.entity.SysUserEntity;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 
 /**
  * Shiro工具类
@@ -51,6 +54,12 @@ public class ShiroUtils {
 		return getSession().getAttribute(key);
 	}
 
+//	public static void setUserToCookie(){
+//		DefaultWebSecurityManager mng=(DefaultWebSecurityManager)SecurityUtils.getSecurityManager();
+//		CookieRememberMeManager cookieRememberMeManager=(CookieRememberMeManager)mng.getRememberMeManager();
+//		SimpleCookie simpleCookie=(SimpleCookie)cookieRememberMeManager.getCookie();
+//
+//	}
 	public static boolean isLogin() {
 		return SecurityUtils.getSubject().getPrincipal() != null;
 	}
