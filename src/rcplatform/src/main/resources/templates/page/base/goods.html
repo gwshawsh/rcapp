@@ -46,6 +46,22 @@
                                     </el-select>
                                 
                             </el-form-item>
+                                                                                                <el-form-item label="费用类别" >
+
+                                
+                                    <input style="width: 350px" v-model="q.feetypeidname"  v-on:click="openRefTreefeeinfofeetypeid"
+                                           placeholder="费用类别" class="el-input el-input__inner"></input>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="责任部门" >
+
+                                
+                                    <input style="width: 350px" v-model="q.deptidname"  v-on:click="openRefTreesys_deptdeptid"
+                                           placeholder="责任部门" class="el-input el-input__inner"></input>
+
+                                
+                            </el-form-item>
                                                                                                 <el-form-item label="编码" >
 
                                                                     <el-input style="width: 350px"  v-model="q.code" placeholder="编码"></el-input>
@@ -88,13 +104,6 @@
 
                                 
                             </el-form-item>
-                                                                                                <el-form-item label="含税单价" >
-
-                                
-                                    <el-input-number style="width: 350px" v-model="q.pricetax" :min="1" ></el-input-number>
-
-                                
-                            </el-form-item>
                                                                                                 <el-form-item label="库存" >
 
                                                                     <el-input style="width: 350px"  v-model="q.gcount" placeholder="库存"></el-input>
@@ -115,6 +124,28 @@
         <div id="jqGridPager"></div>
     </div>
 
+    <div v-show="showDetailList" class="panel panel-default">
+
+
+                <el-tabs type="border-card">
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-document"></i> 附件</span>
+                        <table id="jqGridFiles"></table>
+                        <div id="jqGridPagerFiles"></div>
+                    </el-tab-pane>
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                        <table id="jqGridComments"></table>
+                        <div id="jqGridPagerComments"></div>
+                    </el-tab-pane>
+                </el-tabs>
+
+
+
+
+    </div>
+
+
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">
             <el-row>
@@ -132,7 +163,7 @@
         <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
 
                             
-                                                <el-form-item label="类别" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="类别" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-select style="width: 350px" v-model="goods.classid"  filterable placeholder="请选择">
                                     <el-option
@@ -145,7 +176,25 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="编码" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="费用类别" :inline="true" class="padding-top: 5px;width:26%">
+
+                             
+                                <input style="width: 350px" v-model="goods.feetypeidname"  v-on:click="openRefTreefeeinfofeetypeid"
+                                          placeholder="费用类别" class="el-input el-input__inner"></input>
+
+                             
+                    </el-form-item>
+                
+                                                <el-form-item label="责任部门" :inline="true" class="padding-top: 5px;width:26%">
+
+                             
+                                <input style="width: 350px" v-model="goods.deptidname"  v-on:click="openRefTreesys_deptdeptid"
+                                          placeholder="责任部门" class="el-input el-input__inner"></input>
+
+                             
+                    </el-form-item>
+                
+                                                <el-form-item label="编码" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="goods.code" placeholder="编码"></el-input>
 
@@ -153,7 +202,7 @@
                               
                     </el-form-item>
                 
-                                                <el-form-item label="名称" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="名称" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="goods.name" placeholder="名称"></el-input>
 
@@ -161,7 +210,7 @@
                               
                     </el-form-item>
                 
-                                                <el-form-item label="规格" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="规格" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="goods.spec" placeholder="规格"></el-input>
 
@@ -169,7 +218,7 @@
                               
                     </el-form-item>
                 
-                                                <el-form-item label="单位" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="单位" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="goods.unit" placeholder="单位"></el-input>
 
@@ -177,14 +226,14 @@
                               
                     </el-form-item>
                 
-                                                <el-form-item label="备注" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="备注" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="goods.remark" style="width: 100%;"></el-input>
 
                              
                     </el-form-item>
                 
-                                                <el-form-item label="单价" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="单价" :inline="true" class="padding-top: 5px;width:26%">
 
                              
                                 <el-input style="width: 350px" v-model="goods.price" :min="0" ></el-input>
@@ -192,15 +241,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="含税单价" class="padding-top: 5px;width:26%">
-
-                             
-                                <el-input style="width: 350px" v-model="goods.pricetax" :min="0" ></el-input>
-
-                            
-                    </el-form-item>
-                
-                                                <el-form-item label="库存" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="库存" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="goods.gcount" placeholder="库存"></el-input>
 
@@ -225,7 +266,13 @@
 </div>
 
 
-                                                                                                                            
+                                                                                                                                        
+<div id="treelayerfeeinfo" style="display: none;padding:10px;">
+    <ul id="refTreefeeinfo" class="ztree"></ul>
+</div>
+<div id="treelayersys_dept" style="display: none;padding:10px;">
+    <ul id="refTreesys_dept" class="ztree"></ul>
+</div>
 
 <#include "base/billcomments_ref.html">
 <script src="${ctxPath}/static/js/base/goods.js"></script>

@@ -74,7 +74,8 @@ public class ${className}Controller extends AbstractController {
                 String tmpquery = query.replaceAll("&quot;", "\"");
                     ${className}Entity param = JSON.parseObject(tmpquery, ${className}Entity.class);
                 #foreach($column in $columns)
-                    map.put("${column.attrname}", param.get${column.attrName}());
+                    if(param.get${column.attrName}()!=null)
+                        map.put("${column.attrname}", param.get${column.attrName}());
                 #end
 
             } catch (Exception e) {

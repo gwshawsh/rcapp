@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 订购主表
+ * 订购单
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-22 15:51:59
+ * @date 2017-07-23 17:35:42
  */
 public interface OrdermainService {
 	
@@ -27,6 +27,7 @@ public interface OrdermainService {
 	void delete(Long id);
 	
 	void deleteBatch(Long[] ids);
+
 
     void auditBatch(Long[] ids);
 

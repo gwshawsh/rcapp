@@ -5,7 +5,9 @@
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.FeeinfoEntity">
 		select
-																							                    ifnull((select enumvaluename from  enumtable b where a.feetype=b.enumvalueid and b.enumtype='2006'),'') as feetypeenumvaluename,
+											               		ifnull((select name from  feeinfo b where a.parent_id=b.id),'') as parentIdname,
+																					               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+													                    ifnull((select enumvaluename from  enumtable b where a.feetype=b.enumvalueid and b.enumtype='2006'),'') as feetypeenumvaluename,
 													                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='1011'),'') as paytypeenumvaluename,
 													               		ifnull((select name from  transline b where a.lineid=b.id),'') as lineidname,
 													               		ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
@@ -16,7 +18,9 @@
 
     <select id="queryListParentId" resultType="com.ruanchuangsoft.platform.entity.FeeinfoEntity">
         select
-																																			ifnull((select enumvaluename from  enumtable b where a.feetype=b.enumvalueid and b.enumtype='2006'),'') as feetypeenumvaluename,
+																				ifnull((select name from  feeinfo b where a.parent_id=b.id),'') as parentIdname,
+																																	ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+																							ifnull((select enumvaluename from  enumtable b where a.feetype=b.enumvalueid and b.enumtype='2006'),'') as feetypeenumvaluename,
 																						ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='1011'),'') as paytypeenumvaluename,
 																						ifnull((select name from  transline b where a.lineid=b.id),'') as lineidname,
 																							ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
@@ -28,7 +32,9 @@
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.FeeinfoEntity">
 
         select
-																													                    ifnull((select enumvaluename from  enumtable b where a.feetype=b.enumvalueid and b.enumtype='2006'),'') as feetypeenumvaluename,
+														                    ifnull((select name from  feeinfo b where a.parent_id=b.id),'') as parentIdname,
+																										                    ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+																                    ifnull((select enumvaluename from  enumtable b where a.feetype=b.enumvalueid and b.enumtype='2006'),'') as feetypeenumvaluename,
 																                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='1011'),'') as paytypeenumvaluename,
 																                    ifnull((select name from  transline b where a.lineid=b.id),'') as lineidname,
 																                    ifnull((select boxsize from  boxs b where a.boxtype=b.id),'') as boxtypeboxsize,
@@ -57,6 +63,7 @@
 			`parent_id`, 
 			`code`, 
 			`name`, 
+			`deptid`, 
 			`feetype`, 
 			`paytype`, 
 			`lineid`, 
@@ -73,6 +80,7 @@
 			#{parentId}, 
 			#{code}, 
 			#{name}, 
+			#{deptid}, 
 			#{feetype}, 
 			#{paytype}, 
 			#{lineid}, 
@@ -92,6 +100,7 @@
 			<if test="parentId != null">`parent_id` = #{parentId}, </if>
 			<if test="code != null">`code` = #{code}, </if>
 			<if test="name != null">`name` = #{name}, </if>
+			<if test="deptid != null">`deptid` = #{deptid}, </if>
 			<if test="feetype != null">`feetype` = #{feetype}, </if>
 			<if test="paytype != null">`paytype` = #{paytype}, </if>
 			<if test="lineid != null">`lineid` = #{lineid}, </if>

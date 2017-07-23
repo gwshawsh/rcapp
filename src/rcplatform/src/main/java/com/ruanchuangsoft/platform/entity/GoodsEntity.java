@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-06 15:52:19
+ * @date 2017-07-22 23:26:27
  */
 public class GoodsEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -24,6 +24,10 @@ public class GoodsEntity extends AbstractEntity implements Serializable {
 	private Long id;
 	//类别
 	private Long classid;
+	//费用类别
+	private Long feetypeid;
+	//责任部门
+	private Long deptid;
 	//编码
 	private String code;
 	//名称
@@ -36,14 +40,16 @@ public class GoodsEntity extends AbstractEntity implements Serializable {
 	private String remark;
 	//单价
 	private Double price;
-	//含税单价
-	private Double pricetax;
 	//库存
 	private Integer gcount;
 
 		        //类别
         private String classidname;
-									
+		        //费用类别
+        private String feetypeidname;
+		        //责任部门
+        private String deptidname;
+								
 	/**
 	 * 设置：
 	 */
@@ -67,6 +73,30 @@ public class GoodsEntity extends AbstractEntity implements Serializable {
 	 */
 	public Long getClassid() {
 		return classid;
+	}
+	/**
+	 * 设置：费用类别
+	 */
+	public void setFeetypeid(Long feetypeid) {
+		this.feetypeid = feetypeid;
+	}
+	/**
+	 * 获取：费用类别
+	 */
+	public Long getFeetypeid() {
+		return feetypeid;
+	}
+	/**
+	 * 设置：责任部门
+	 */
+	public void setDeptid(Long deptid) {
+		this.deptid = deptid;
+	}
+	/**
+	 * 获取：责任部门
+	 */
+	public Long getDeptid() {
+		return deptid;
 	}
 	/**
 	 * 设置：编码
@@ -141,18 +171,6 @@ public class GoodsEntity extends AbstractEntity implements Serializable {
 		return price;
 	}
 	/**
-	 * 设置：含税单价
-	 */
-	public void setPricetax(Double pricetax) {
-		this.pricetax = pricetax;
-	}
-	/**
-	 * 获取：含税单价
-	 */
-	public Double getPricetax() {
-		return pricetax;
-	}
-	/**
 	 * 设置：库存
 	 */
 	public void setGcount(Integer gcount) {
@@ -178,7 +196,31 @@ public class GoodsEntity extends AbstractEntity implements Serializable {
         public String getClassidname() {
             return classidname;
         }
-        																									
+        			        /**
+         * 设置：费用类别name
+         */
+        public void setFeetypeidname(String name) {
+            this.feetypeidname = name;
+        }
+        /**
+         * 获取：费用类别name
+         */
+        public String getFeetypeidname() {
+            return feetypeidname;
+        }
+        			        /**
+         * 设置：责任部门name
+         */
+        public void setDeptidname(String name) {
+            this.deptidname = name;
+        }
+        /**
+         * 获取：责任部门name
+         */
+        public String getDeptidname() {
+            return deptidname;
+        }
+        																						
     /**
          * To string string.
          *构造单据的描述内容
@@ -191,6 +233,16 @@ public class GoodsEntity extends AbstractEntity implements Serializable {
 					                sb.append(" <div class=\"el-form-item\">\n" +
                         "  <label class=\"el-form-item__label\">类别</label>"+
                         "  <div class=\"el-form-item__content\"><span>"+getClassidname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">费用类别</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getFeetypeidname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">责任部门</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getDeptidname()+"</span>\n" +
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +
@@ -221,11 +273,6 @@ public class GoodsEntity extends AbstractEntity implements Serializable {
 					                sb.append(" <div class=\"el-form-item\">\n" +
                         "  <label class=\"el-form-item__label\">单价</label>"+
                         "  <div class=\"el-form-item__content\"><span>"+getPrice()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">含税单价</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getPricetax()+"</span>\n" +
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +

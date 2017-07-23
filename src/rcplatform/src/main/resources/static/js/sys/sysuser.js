@@ -388,7 +388,6 @@ $(function () {
             {label: 'id', name: 'id', width: 50, key: true, hidden: true},
             {label: '用户编码', name: 'username', width: 80},
             {label: '姓名', name: 'fullname', width: 80},
-            {label: '密码', name: 'password', width: 80},
             {label: '入职时间', name: 'entrytime', width: 80},
             {label: '邮箱', name: 'email', width: 80},
             {label: '英文名', name: 'englishname', width: 80},

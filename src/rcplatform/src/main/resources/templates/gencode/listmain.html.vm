@@ -312,7 +312,7 @@
 
 
                     #elseif($column.refType.equalsIgnoreCase("combo"))
-                    <td><el-select v-model="${classname}.${column.attrname}"  filterable placeholder="请选择" style="width: 168px;">
+                    <td><el-select v-model="item.${column.attrname}"  filterable placeholder="请选择" style="width: 168px;">
                             <el-option
                                     v-for="item in ref_${column.refTable}"
                                     :key="item.${column.refColumnId}"
@@ -321,7 +321,7 @@
                             </el-option>
                     </el-select></td>
                     #elseif( $column.refType.equalsIgnoreCase("enum"))
-                    <td>  <el-select v-model="${classname}.${column.attrname}"  filterable placeholder="请选择">
+                    <td>  <el-select v-model="item.${column.attrname}"  filterable placeholder="请选择">
                             <el-option
                                     v-for="item in ref_enum${column.refTable}"
                                     :key="item.${column.refColumnId}"

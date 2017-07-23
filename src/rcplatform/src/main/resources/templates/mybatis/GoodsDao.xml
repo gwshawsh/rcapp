@@ -6,16 +6,66 @@
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.GoodsEntity">
 		select
 				    						               		ifnull((select name from  gclass b where a.classid=b.id),'') as classidname,
-						    			    			    			    			    			    	        a.*
-
+						    						               		ifnull((select name from  feeinfo b where a.feetypeid=b.id),'') as feetypeidname,
+						    						               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+						    			    			    			    			    			    			    			    	        a.*
 		from goods a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.GoodsEntity">
 		select
 														               		ifnull((select name from  gclass b where a.classid=b.id),'') as classidname,
-																																		        a.*
+																               		ifnull((select name from  feeinfo b where a.feetypeid=b.id),'') as feetypeidname,
+																               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
+																																												        a.*
 		from goods a
+        <where>
+							                    <if test="id != null and id != '' ">
+						 `id` = #{id}
+                    </if>
+				
+							                    <if test="classid != null and classid != '' ">
+						 and  `classid` = #{classid}
+                    </if>
+				
+							                    <if test="feetypeid != null and feetypeid != '' ">
+						 and  `feetypeid` = #{feetypeid}
+                    </if>
+				
+							                    <if test="deptid != null and deptid != '' ">
+						 and  `deptid` = #{deptid}
+                    </if>
+				
+							                    <if test="code != null and code != '' ">
+						 and  `code` = #{code}
+                    </if>
+				
+							                    <if test="name != null and name != '' ">
+						 and  `name` = #{name}
+                    </if>
+				
+							                    <if test="spec != null and spec != '' ">
+						 and  `spec` = #{spec}
+                    </if>
+				
+							                    <if test="unit != null and unit != '' ">
+						 and  `unit` = #{unit}
+                    </if>
+				
+							                    <if test="remark != null and remark != '' ">
+						 and  `remark` = #{remark}
+                    </if>
+				
+							                    <if test="price != null and price != '' ">
+						 and  `price` = #{price}
+                    </if>
+				
+							                    <if test="gcount != null and gcount != '' ">
+						 and  `gcount` = #{gcount}
+                    </if>
+				
+			        </where>
+
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -29,19 +79,27 @@
 		insert into goods
 		(
 			`classid`, 
+			`feetypeid`, 
+			`deptid`, 
 			`code`, 
 			`name`, 
+			`spec`, 
+			`unit`, 
+			`remark`, 
 			`price`, 
-			`pricetax`, 
 			`gcount`
 		)
 		values
 		(
 			#{classid}, 
+			#{feetypeid}, 
+			#{deptid}, 
 			#{code}, 
 			#{name}, 
+			#{spec}, 
+			#{unit}, 
+			#{remark}, 
 			#{price}, 
-			#{pricetax}, 
 			#{gcount}
 		)
 	</insert>
@@ -50,10 +108,14 @@
 		update goods 
 		<set>
 			<if test="classid != null">`classid` = #{classid}, </if>
+			<if test="feetypeid != null">`feetypeid` = #{feetypeid}, </if>
+			<if test="deptid != null">`deptid` = #{deptid}, </if>
 			<if test="code != null">`code` = #{code}, </if>
 			<if test="name != null">`name` = #{name}, </if>
+			<if test="spec != null">`spec` = #{spec}, </if>
+			<if test="unit != null">`unit` = #{unit}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
 			<if test="price != null">`price` = #{price}, </if>
-			<if test="pricetax != null">`pricetax` = #{pricetax}, </if>
 			<if test="gcount != null">`gcount` = #{gcount}</if>
 		</set>
 		where id = #{id}

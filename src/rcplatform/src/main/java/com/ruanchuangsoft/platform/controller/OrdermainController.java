@@ -1,20 +1,17 @@
 package com.ruanchuangsoft.platform.controller;
 
-import java.util.Date;
+import com.ruanchuangsoft.platform.enums.BillStatus;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
 import com.ruanchuangsoft.platform.controller.AbstractController;
-
 import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
+import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
 import com.ruanchuangsoft.platform.enums.BillStatus;
-import com.ruanchuangsoft.platform.enums.EmptyBillStatus;
-import com.ruanchuangsoft.platform.service.BillcommentsService;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
-import org.activiti.engine.impl.persistence.entity.AttachmentEntity;
 import org.activiti.engine.task.Task;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,60 +32,59 @@ import com.ruanchuangsoft.platform.utils.R;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 订购主表
+ * 订购单
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-06-22 15:51:59
+ * @date 2017-07-23 17:35:42
  */
 @Controller
 @RequestMapping("ordermain")
-@Transactional(rollbackFor = {RuntimeException.class, Exception.class})
+@Transactional(rollbackFor = {RuntimeException.class,Exception.class})
 public class OrdermainController extends AbstractController {
-    @Autowired
-    private OrdermainService ordermainService;
+	@Autowired
+	private OrdermainService ordermainService;
 
     @Autowired
     private OrderdetailService orderdetailService;
 
-
-
     @RequestMapping("/ordermain")
-    public String list() {
-        return "ordermain/ordermain";
-    }
+	public String list(){
+		return "ordermain/ordermain";
+	}
+
 
 
     @RequestMapping("/index")
     public ModelAndView index() {
 
-        setViewname("finance/ordermain");
+        setViewname("oa/ordermain");
         ModelAndView view = getModelAndView();
 //		initModelAndViewI18N(view,keys);
         return view;
 
     }
 
-    /**
-     * 列表
-     */
-    @ResponseBody
-    @RequestMapping("/list")
-    @RequiresPermissions("ordermain:list")
-    public R list(Integer page, Integer limit) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("offset", (page - 1) * limit);
-        map.put("limit", limit);
+	/**
+	 * 列表
+	 */
+	@ResponseBody
+	@RequestMapping("/list")
+	@RequiresPermissions("ordermain:list")
+	public R list(Integer page, Integer limit){
+		Map<String, Object> map = new HashMap<>();
+		map.put("offset", (page - 1) * limit);
+		map.put("limit", limit);
         map.put("userid",ShiroUtils.getUserId());//用来与工作流关联
 
-        //查询列表数据
-        List<OrdermainEntity> ordermainList = ordermainService.queryList(map);
-        int total = ordermainService.queryTotal(map);
+		//查询列表数据
+		List<OrdermainEntity> ordermainList = ordermainService.queryList(map);
+		int total = ordermainService.queryTotal(map);
 
-        PageUtils pageUtil = new PageUtils(ordermainList, total, limit, page);
+		PageUtils pageUtil = new PageUtils(ordermainList, total, limit, page);
 
-        return R.ok().put("page", pageUtil);
-    }
+		return R.ok().put("page", pageUtil);
+	}
 
     /**
      * 列表
@@ -96,11 +92,12 @@ public class OrdermainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/listdetail")
     @RequiresPermissions("ordermain:list")
-    public R listdetail(String billno, Integer page, Integer limit) {
+    public R listdetail(String billno,Integer page, Integer limit){
         Map<String, Object> map = new HashMap<>();
         map.put("offset", (page - 1) * limit);
         map.put("limit", limit);
-        map.put("billno", billno);
+        map.put("billno",billno);
+
 
         //查询列表数据
         List<OrderdetailEntity> orderdetailList = orderdetailService.queryList(map);
@@ -111,41 +108,42 @@ public class OrdermainController extends AbstractController {
         return R.ok().put("page", pageUtil);
     }
 
-    /**
-     * 信息
-     */
-    @ResponseBody
-    @RequestMapping("/info/{id}")
-    @RequiresPermissions("ordermain:info")
-    public R info(@PathVariable("id") Long id) {
-        OrdermainEntity ordermain = ordermainService.queryObject(id);
+	/**
+	 * 信息
+	 */
+	@ResponseBody
+	@RequestMapping("/info/{id}")
+	@RequiresPermissions("ordermain:info")
+	public R info(@PathVariable("id") Long id){
+		OrdermainEntity ordermain = ordermainService.queryObject(id);
 
         //查询明细数据
         Map<String, Object> map = new HashMap<>();
-        map.put("id", id);
+        map.put("billno",ordermain.getBillno());
 
         List<OrderdetailEntity> orderdetailList = orderdetailService.queryList(map);
-        ordermain.setDetails(orderdetailList);
+		ordermain.setDetails(orderdetailList );
 
-        return R.ok().put("ordermain", ordermain);
-    }
+		return R.ok().put("ordermain", ordermain);
+	}
 
-    /**
-     * 保存
-     */
-    @ResponseBody
-    @RequestMapping("/save")
-    @RequiresPermissions("ordermain:save")
-    public R save(@RequestBody OrdermainEntity ordermain) {
-        if (ordermain.getBillno().equals("*")) {
-            String billno = getBillNo("OR");
-            ordermain.setBillno(billno);
+	/**
+	 * 保存
+	 */
+	@ResponseBody
+	@RequestMapping("/save")
+	@RequiresPermissions("ordermain:save")
+	public R save(@RequestBody OrdermainEntity ordermain){
+        if(ordermain.getBillno().equals("*")){
+            String billno=getBillNo("**");
+			ordermain.setBillno(billno);
             ordermain.setBillstatus(BillStatus.NEW);
-            if (ordermain.getDetails() != null && ordermain.getDetails().size() > 0) {
-                for (OrderdetailEntity item : ordermain.getDetails()) {
+            if(ordermain.getDetails()!=null&&ordermain.getDetails().size()>0){
+                for(OrderdetailEntity item:ordermain.getDetails()){
                     item.setBillno(billno);
                 }
             }
+
             if(ordermain.getFiles()!=null&&ordermain.getFiles().size()>0){
                 for(AttachmentsEntity item:ordermain.getFiles()){
                     item.setBillno(billno);
@@ -154,18 +152,18 @@ public class OrdermainController extends AbstractController {
             }
         }
 
-        ordermainService.save(ordermain);
+		ordermainService.save(ordermain);
 
-        return R.ok();
-    }
+		return R.ok();
+	}
 
     /**
-     * 提交到工作流
+     * 提交
      */
     @ResponseBody
     @RequestMapping("/submitworkflow")
     @RequiresPermissions("ordermain:update")
-    public R submitworkflow(@RequestBody Long id) {
+    public R submitworkflow(@RequestBody Long id){
         OrdermainEntity ordermainEntity=ordermainService.queryObject(id);
         if(ordermainEntity==null){
             return R.error("单据不存在，不能提交");
@@ -173,90 +171,68 @@ public class OrdermainController extends AbstractController {
         //启动工作流
         Map<String,Object> params=new HashMap<>();
         params.put("userid", ShiroUtils.getUserId());
-        String descript=JSON.toJSONString(ordermainEntity);
-        params.put("billdata",descript);
-        params.put("htmldata",ordermainEntity.toString());
+        String processid=startWorkflow("ordermain",ordermainEntity.getBillno(),params);
 
-        String processid=startWorkflow("order",ordermainEntity.getBillno(),params);
         ordermainEntity.setBillstatus(BillStatus.SUBMIT);
         ordermainEntity.setPocessinstanceid(processid);
         ordermainService.update(ordermainEntity);
+
+
         return R.ok();
     }
 
 
-    /**
-     * 修改
-     */
-    @ResponseBody
-    @RequestMapping("/update")
-    @RequiresPermissions("ordermain:update")
-    public R update(@RequestBody OrdermainEntity ordermain) {
-        if(ordermain.getBillstatus()==BillStatus.NEW) {
-            ordermainService.update(ordermain);
-            return R.ok();
-        }
-        else{
-            return R.error("当前单据不允许修改");
-        }
-
-
-    }
 
     /**
-     * 删除
-     */
-    @ResponseBody
-    @RequestMapping("/delete")
-    @RequiresPermissions("ordermain:delete")
-    public R delete(@RequestBody Long[] ids) {
-        for(Long id:ids) {
-            OrdermainEntity ordermainEntity=ordermainService.queryObject(id);
-            if(ordermainEntity.getBillstatus()==BillStatus.NEW) {
-                ordermainService.delete(id);
-            }
-        }
-        return R.ok();
-    }
+	 * 修改
+	 */
+	@ResponseBody
+	@RequestMapping("/update")
+	@RequiresPermissions("ordermain:update")
+	public R update(@RequestBody OrdermainEntity ordermain){
+		ordermainService.update(ordermain);
+
+		return R.ok();
+	}
+
+	/**
+	 * 删除
+	 */
+	@ResponseBody
+	@RequestMapping("/delete")
+	@RequiresPermissions("ordermain:delete")
+	public R delete(@RequestBody Long[] ids){
+		ordermainService.deleteBatch(ids);
+
+		return R.ok();
+	}
 
     /**
-     * 签收
-     */
+    * 签收
+    * 只有单据状态为提交状态的，才能够签收
+    */
     @ResponseBody
     @RequestMapping("/claim")
     @RequiresPermissions("ordermain:claim")
-    public R claim(@RequestBody Long[] ids) {
-        for (Long id : ids) {
-            OrdermainEntity ordermainEntity = ordermainService.queryObject(id);
-            if (ordermainEntity != null && ordermainEntity.getBillstatus() == BillStatus.SUBMIT) {
-                ordermainEntity.setBillstatus(BillStatus.CLAIM);
-                ordermainService.update(ordermainEntity);
+    public R claim(@RequestBody Long[] ids){
 
-                BillcommentsEntity billcommentsEntity=new BillcommentsEntity();
-                billcommentsEntity.setBillno(ordermainEntity.getBillno());
-                billcommentsEntity.setMakedate(new Date());
-                billcommentsEntity.setMakeuser(ShiroUtils.getUserId());
-                billcommentsEntity.setAuditstatus(BillStatus.CLAIM);
-                List<BillcommentsEntity> billcommentsEntityList=getBillcomments(ordermainEntity.getBillno());
-                if(billcommentsEntityList!=null&&billcommentsEntityList.size()>0) {
-                    billcommentsEntity.setSerialno(billcommentsEntityList.size());
-                    billcommentsService.save(billcommentsEntity);
-                }
-                else{
-                    billcommentsEntity.setSerialno(0);
-                    billcommentsService.save(billcommentsEntity);
-                }
+            for(Long attkey:ids){
+                    OrdermainEntity ordermainEntity = ordermainService.queryObject(attkey);
+                if (ordermainEntity != null && ordermainEntity.getBillstatus() == BillStatus.SUBMIT) {
+                    ordermainEntity.setBillstatus(BillStatus.CLAIM);
+                    ordermainService.update(ordermainEntity);
 
+                    //新增一条处理记录：签收
+                    newBillcomments(ordermainEntity.getBillno(),"签收", AuditType.CLAIM);
 
-                //执行工作流的签收任务处理
-                Task task = getTaskByBussinessKey(ordermainEntity.getBillno());
-                if(task!=null) {
-
-                    claimTasks(task);
+                    //执行工作流的签收任务处理
+                    Task task = getTaskByBussinessKey(ordermainEntity.getBillno());
+                    if(task!=null) {
+                        claimTasks(task);
+                    }
                 }
             }
 
-        }
 
         return R.ok();
     }
@@ -267,26 +243,24 @@ public class OrdermainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/audit")
     @RequiresPermissions("ordermain:audit")
-    public R audit(@RequestBody OrdermainEntity ordermain) {
-        BillcommentsEntity billcommentsEntity=ordermain.getBillcommentsEntity();
-        ordermain.setBillstatus(BillStatus.AUDIT);
-        ordermainService.update(ordermain);
+    public R audit(@RequestBody OrdermainEntity ordermainEntity){
+
+        BillcommentsEntity billcommentsEntity=ordermainEntity.getBillcommentsEntity();
+        ordermainEntity.setBillstatus(BillStatus.AUDIT);
+
+        ordermainService.update(ordermainEntity);
 
 
-        billcommentsEntity.setMakedate(new Date());
-        billcommentsEntity.setMakeuser(ShiroUtils.getUserId());
-        List<BillcommentsEntity> billcommentsEntityList=getBillcomments(ordermain.getBillno());
-        if(billcommentsEntityList!=null&&billcommentsEntityList.size()>0) {
-            billcommentsEntity.setSerialno(billcommentsEntityList.size());
-            billcommentsService.save(billcommentsEntity);
-        }
-        else{
-            billcommentsEntity.setSerialno(0);
-            billcommentsService.save(billcommentsEntity);
-        }
+        //生成审核日志
+        //新增一条处理记录：审核
+        newBillcomments(ordermainEntity.getBillno(),
+                billcommentsEntity.getRemark(),
+                billcommentsEntity.getAuditstatus());
+
+
 
         //工作流处理
-        Task task=getTaskByBussinessKey(ordermain.getBillno());
+        Task task=getTaskByBussinessKey(ordermainEntity.getBillno());
         if(task!=null){
             Map<String,Object> params=new HashMap<>();
             params.put("auditstatus",billcommentsEntity.getAuditstatus());
@@ -294,8 +268,8 @@ public class OrdermainController extends AbstractController {
             //检查工作流是否结束，如果结束，则设置单据状态为已完成
             boolean endflag=isProcessEnd(task.getProcessInstanceId());
             if(endflag){
-                ordermain.setBillstatus(BillStatus.COMPLETE);
-                ordermainService.update(ordermain);
+                    ordermainEntity.setBillstatus(BillStatus.COMPLETE);
+                    ordermainService.update(ordermainEntity);
             }
         }
 
@@ -309,8 +283,8 @@ public class OrdermainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/unaudit")
     @RequiresPermissions("ordermain:unaudit")
-    public R unaudit(@RequestBody Long[] ids) {
-        ordermainService.unauditBatch(ids);
+    public R unaudit(@RequestBody Long[] ids){
+			ordermainService.unauditBatch(ids);
 
         return R.ok();
     }

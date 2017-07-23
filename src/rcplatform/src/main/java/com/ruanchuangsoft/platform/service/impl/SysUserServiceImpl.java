@@ -117,6 +117,7 @@ public class SysUserServiceImpl implements SysUserService {
 			identityService.createMembership(String.valueOf(user.getId()),String.valueOf(roleid));
 		}
 
+
 	}
 
 	@Override

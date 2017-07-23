@@ -86,7 +86,9 @@ var vm = new Vue({
             uptdate: "",
             remark: "",
             pocessinstanceid: "",
-            details: []
+            details: [
+
+            ]
 
         }
     },
@@ -113,18 +115,18 @@ var vm = new Vue({
             vm.showDetailList = false;
             vm.title = "新增";
             vm.requisitionmain = {
-                requserfullname: "",
-                deptidname: "",
+                requserfullname: getCookie('userfullname'),
+                deptidname: getCookie('deptname'),
                 reqtypeenumvaluename: "",
                 budgetmainidbillno: "",
                 billstatusenumvaluename: "",
 
                 billno: "*",
-                requser: "",
-                deptid: "",
-                reqtype: "",
-                budgetmainid: "",
-                billstatus: "",
+                requser: getCookie('userid'),
+                deptid: getCookie('deptid'),
+                reqtype: "0",
+                budgetmainid: "0",
+                billstatus: "0",
                 makeuser: gUserId,
                 makedate: mktime,
                 accuser: "",
@@ -132,7 +134,8 @@ var vm = new Vue({
                 uptdate: "",
                 remark: "",
                 pocessinstanceid: "",
-                details: []
+                details: [
+                ]
             };
             vm.additem();
         },
@@ -408,7 +411,7 @@ var vm = new Vue({
             //查询单据明细
             $("#jqGridDetail").jqGrid('setGridParam', {
                 page: 1,
-                postData: {'formid': id},
+                postData: {'billno': id},
                 datatype: "json"
             }).trigger("reloadGrid");
 
@@ -490,11 +493,8 @@ $(function () {
                 label: '请购人',
                 name: 'requserfullname',
                 width: 80
-            }, {label: '所属部门', name: 'deptidname', width: 80}, {
-                label: '请购类别',
-                name: 'reqtypeenumvaluename',
-                width: 80
-            }, {
+            }, {label: '所属部门', name: 'deptidname', width: 80},
+            {
                 label: '单据状态',
                 name: 'billstatus',
                 width: 80,

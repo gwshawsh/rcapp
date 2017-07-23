@@ -24,7 +24,7 @@ public class RequisitionmainEntity extends AbstractEntity implements Serializabl
             //单据号
         private String billno;
             //请购人
-        private String requser;
+        private Long requser;
             //所属部门
         private Long deptid;
             //请购类别
@@ -148,14 +148,14 @@ public class RequisitionmainEntity extends AbstractEntity implements Serializabl
             /**
          * 设置：请购人
          */
-        public void setRequser(String requser) {
+        public void setRequser(Long requser) {
             this.requser = requser;
         }
 
         /**
          * 获取：请购人
          */
-        public String getRequser() {
+        public Long getRequser() {
             return requser;
         }
             /**

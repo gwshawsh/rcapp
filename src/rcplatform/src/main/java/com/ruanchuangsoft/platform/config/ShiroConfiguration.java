@@ -79,7 +79,7 @@ public class ShiroConfiguration {
 //      <!-- 用户授权/认证信息Cache, 采用EhCache 缓存 -->
         dwsm.setCacheManager(getEhCacheManager());
         //注入记住我管理器
-        dwsm.setRememberMeManager(rememberMeManager());
+//        dwsm.setRememberMeManager(rememberMeManager());
         return dwsm;
     }
 

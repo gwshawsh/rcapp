@@ -1,16 +1,14 @@
 package com.ruanchuangsoft.platform.controller;
 
+import com.ruanchuangsoft.platform.entity.*;
 import com.ruanchuangsoft.platform.enums.BillStatus;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
-import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
 import com.ruanchuangsoft.platform.enums.AuditType;
-import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
 import com.ruanchuangsoft.platform.enums.BillStatus;
+import com.ruanchuangsoft.platform.service.OrdermainService;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.activiti.engine.task.Task;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -22,9 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 
-import com.ruanchuangsoft.platform.entity.RequisitionmainEntity;
 import com.ruanchuangsoft.platform.service.RequisitionmainService;
-import com.ruanchuangsoft.platform.entity.RequisitiondetailEntity;
 import com.ruanchuangsoft.platform.service.RequisitiondetailService;
 
 import com.ruanchuangsoft.platform.utils.PageUtils;
@@ -47,6 +43,9 @@ public class RequisitionmainController extends AbstractController {
 
     @Autowired
     private RequisitiondetailService requisitiondetailService;
+
+    @Autowired
+    private OrdermainService ordermainService;
 
     @RequestMapping("/requisitionmain")
 	public String list(){
@@ -119,7 +118,7 @@ public class RequisitionmainController extends AbstractController {
 
         //查询明细数据
         Map<String, Object> map = new HashMap<>();
-        map.put("id",id);
+        map.put("billno",requisitionmain.getBillno());
 
         List<RequisitiondetailEntity> requisitiondetailList = requisitiondetailService.queryList(map);
 		requisitionmain.setDetails(requisitiondetailList );
@@ -135,7 +134,7 @@ public class RequisitionmainController extends AbstractController {
 	@RequiresPermissions("requisitionmain:save")
 	public R save(@RequestBody RequisitionmainEntity requisitionmain){
         if(requisitionmain.getBillno().equals("*")){
-            String billno=getBillNo("**");
+            String billno=getBillNo("RE");
 			requisitionmain.setBillno(billno);
             requisitionmain.setBillstatus(BillStatus.NEW);
             if(requisitionmain.getDetails()!=null&&requisitionmain.getDetails().size()>0){
@@ -257,6 +256,35 @@ public class RequisitionmainController extends AbstractController {
                 billcommentsEntity.getRemark(),
                 billcommentsEntity.getAuditstatus());
 
+
+
+        //生成订购单
+        OrdermainEntity ordermainEntity=new OrdermainEntity();
+        String billno=getBillNo("OR");
+        ordermainEntity.setBillno(billno);
+        ordermainEntity.setReqbillno(requisitionmainEntity.getBillno());
+        ordermainEntity.setBillstatus(BillStatus.NEW);
+        ordermainEntity.setRequser(requisitionmainEntity.getRequser());
+        ordermainEntity.setDeptid(requisitionmainEntity.getDeptid());
+        ordermainEntity.setMakeuser(ShiroUtils.getUserId());
+        ordermainEntity.setMakedate(new Date());
+
+        List<OrderdetailEntity> lst=new ArrayList<>();
+
+        for(RequisitiondetailEntity requisitiondetailEntity:requisitionmainEntity.getDetails()){
+            OrderdetailEntity orderdetailEntity=new OrderdetailEntity();
+            orderdetailEntity.setBillno(billno);
+            orderdetailEntity.setGoodsid(requisitiondetailEntity.getGoodsid());
+            orderdetailEntity.setGoodscount(requisitiondetailEntity.getGoodscount());
+            orderdetailEntity.setGoodsspec(requisitiondetailEntity.getGoodsspec());
+            orderdetailEntity.setSerialno(requisitiondetailEntity.getSerialno());
+
+            lst.add(orderdetailEntity);
+
+        }
+
+        ordermainEntity.setDetails(lst);
+        ordermainService.save(ordermainEntity);
 
 
         //工作流处理

@@ -1396,7 +1396,7 @@ DROP TABLE IF EXISTS `requisitionmain`;
 CREATE TABLE `requisitionmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `requser` varchar(50) COMMENT '请购人:combo:sys_user:id:fullname',
+  `requser` bigint COMMENT '请购人:combo:sys_user:id:fullname',
   `deptid` bigint COMMENT '所属部门:combo:sys_dept:id:name',
   `reqtype` int COMMENT '请购类别:enum:1002:enumvalueid:enumvaluename', --  预算内  预算外  
   `budgetmainid` bigint null COMMENT '预算计划:dialog:budgetmain:id:billno',
@@ -1435,7 +1435,7 @@ CREATE TABLE `ordermain`(
   `billno` varchar(50) COMMENT '单据号',
   `supplyid` bigint COMMENT '供应商:dialogtree:organization:id:name',
   `reqbillno` varchar(50) COMMENT '请购单据号',
-  `requser` varchar(50) COMMENT '请购人:combo:sys_user:id:fullname',
+  `requser` bigint COMMENT '请购人:combo:sys_user:id:fullname',
   `deptid` bigint COMMENT '请购部门:combo:sys_dept:id:name',
   `reqdate` datetime COMMENT '请购日期',
   `ordersource` int COMMENT '订购单来源:enum:1001:enumvalueid:enumvaluename', -- 订购单来源，1.请购单转入。2.手动

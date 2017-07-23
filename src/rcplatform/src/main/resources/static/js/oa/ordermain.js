@@ -1,4 +1,5 @@
 //生成弹出树形空间参照
+var ztreesupplyid;
 
 var setting = {
     data: {
@@ -26,18 +27,22 @@ var vm = new Vue({
             ordersource: "",
             ordertype: "",
             budgetmainid: "",
+            total: "",
+            paytotal: "",
             billstatus: "",
+            remark: "",
             makeuser: "",
             makedate: "",
             accuser: "",
             accdate: "",
-            uptdate: ""
+            uptdate: "",
+            pocessinstanceid: ""
         },
         showQuery: false,
         showList: true,
         showDetailList: true,
         title: null,
-        fileslist:[],
+        fileslist: [],
         //用于日期快捷控件
         pickerOptions1: {
             shortcuts: [{
@@ -63,6 +68,7 @@ var vm = new Vue({
         },
 
         //用户下拉参照的属性
+        ref_sys_user: [],
         ref_sys_dept: [],
         ref_enum1001: [],
 
@@ -73,8 +79,6 @@ var vm = new Vue({
 
         //明细表用户下拉参照的属性
         ref_goods: [],
-
-
 
         //单据主表实体类
         ordermain: {
@@ -87,14 +91,17 @@ var vm = new Vue({
             ordersource: "",
             ordertype: "",
             budgetmainid: "",
+            total: "",
+            paytotal: "",
             billstatus: "",
+            remark: "",
             makeuser: gUserId,
             makedate: "",
-            accuser: "-1",
+            accuser: "",
             accdate: "",
             uptdate: "",
-            details: [],
-            files:[]
+            pocessinstanceid: "",
+            details: []
 
         }
     },
@@ -121,11 +128,14 @@ var vm = new Vue({
             vm.showDetailList = false;
             vm.title = "新增";
             vm.ordermain = {
+                supplyidname: "",
+                requserfullname: "",
                 deptidname: "",
                 ordersourceenumvaluename: "",
                 ordertypeenumvaluename: "",
                 budgetmainidbillno: "",
                 billstatusenumvaluename: "",
+
                 billno: "*",
                 supplyid: "",
                 reqbillno: "",
@@ -135,14 +145,17 @@ var vm = new Vue({
                 ordersource: "",
                 ordertype: "",
                 budgetmainid: "",
-                billstatus: "0",
+                total: "",
+                paytotal: "",
+                billstatus: "",
+                remark: "",
                 makeuser: gUserId,
                 makedate: mktime,
-                accuser: -1,
+                accuser: "",
                 accdate: "",
                 uptdate: "",
-                details: [],
-                files:[]
+                pocessinstanceid: "",
+                details: []
             };
             vm.additem();
         },
@@ -155,7 +168,7 @@ var vm = new Vue({
             vm.showDetailList = false;
             vm.title = "修改";
 
-            vm.getInfo(id);
+            vm.getInfo(id)
         },
         saveOrUpdate: function (event) {
             var url = vm.ordermain.id == null ? "../ordermain/save" : "../ordermain/update";
@@ -206,11 +219,14 @@ var vm = new Vue({
             vm.showList = false;
             vm.showDetailList = false;
             vm.title = "新增";
+            vm.getInfo(id);
+
             $.get("../ordermain/info/" + id, function (r) {
                 vm.ordermain = r.ordermain;
                 vm.ordermain.id = null;
                 vm.ordermain.billno = "*";
             });
+
 
         },
         //作废单据
@@ -261,6 +277,7 @@ var vm = new Vue({
                 });
             });
         },
+
         audit: function (event) {
             var id = getSelectedRow();
             if (id == null) {
@@ -268,7 +285,6 @@ var vm = new Vue({
             }
             $.get("../ordermain/info/" + id, function (r) {
                 vm.ordermain = r.ordermain;
-
                 showrefgrid_billcomments(function (data) {
                     if (!vm.ordermain.billcommentsEntity) {
                         vm.ordermain.billcommentsEntity = {};
@@ -292,8 +308,8 @@ var vm = new Vue({
                         }
                     });
                 });
-
             });
+
         },
 
         unaudit: function () {
@@ -354,6 +370,11 @@ var vm = new Vue({
         },
 
         //生成主表参照调用下拉框函数,用来初始化远程数据
+        getRefsys_user: function () {
+            $.get("../sys_user/list?page=1&limit=1000", function (r) {
+                vm.ref_sys_user = r.page.list;
+            });
+        },
         getRefsys_dept: function () {
             $.get("../sys_dept/list?page=1&limit=1000", function (r) {
                 vm.ref_sys_dept = r.page.list;
@@ -383,6 +404,39 @@ var vm = new Vue({
         },
 
         //生成弹出树形空间参照
+
+        getRefTreeorganizationsupplyid: function (menuId) {
+            //加载菜单树
+            $.get("../organization/select", function (r) {
+                ztreesupplyid = $.fn.zTree.init($("#refTreeorganization"), setting, r.treeList);
+                var node = ztreesupplyid.getNodeByParam("id", vm.ordermain.supplyid);
+                ztreesupplyid.selectNode(node);
+                vm.ordermain.supplyidname = node.name;
+
+            })
+        },
+
+        openRefTreeorganizationsupplyid: function () {
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#treelayerorganization"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztreesupplyid.getSelectedNodes();
+                    //选择上级菜单
+                    vm.ordermain.supplyid = node[0].id;
+                    vm.ordermain.supplyidname = node[0].name;
+
+                    layer.close(index);
+                }
+            });
+        },
 
         getInfo: function (id) {
             $.get("../ordermain/info/" + id, function (r) {
@@ -433,9 +487,6 @@ var vm = new Vue({
                 datatype: "json"
             }).trigger("reloadGrid");
 
-
-
-
         },
 
         //增加明细表一条记录
@@ -472,14 +523,15 @@ var vm = new Vue({
                 vm.ordermain.details[i].serialno = i;
             }
         },
+        upload_on_success: function (response, file, fileList) {
 
-        upload_on_success:function (response,file,fileList) {
-            if(!vm.ordermain.files){
-                vm.ordermain.files=[];
+            if (!vm.ordermain.files) {
+                vm.ordermain.files = [];
             }
-            if(response.page.list&&response.page.list.length>0){
+            if (response.page.list && response.page.list.length > 0) {
                 vm.ordermain.files.push(response.page.list[0]);
             }
+
 
         },
 
@@ -496,24 +548,37 @@ $(function () {
         datatype: "json",
         colModel: [
             {label: 'id', name: 'id', width: 50, key: true, hidden: true},
-            {label: '单据号', name: 'billno', width: 80},
-            {label: '供应商', name: 'supplyid', width: 80},
-            {label: '请购单据号', name: 'reqbillno', width: 80},
-            {label: '请购人', name: 'requser', width: 80},
-            {label: '请购部门', name: 'deptidname', width: 80},
-            {label: '请购日期', name: 'reqdate', width: 80},
-            {label: '订购单来源', name: 'ordersourceenumvaluename', width: 80}, {
-                label: '订购类别',
-                name: 'ordertypeenumvaluename',
+            {label: '单据号', name: 'billno', width: 80}, {label: '供应商', name: 'supplyid', width: 80}, {
+                label: '请购单据号',
+                name: 'reqbillno',
                 width: 80
-            }, {label: '预算计划', name: 'budgetmainid', width: 80},
-            {label: '单据状态', name: 'billstatus', width: 80, formatter: formater_billstatus},
-            {label: '制单人', name: 'makeuser', width: 80},
-            {label: '制单日期', name: 'makedate', width: 80},
-            {label: '审核人', name: 'accuser', width: 80},
-            {label: '审核日期', name: 'accdate', width: 80},
-            {label: '更新时间', name: 'uptdate', width: 80}
-        ],
+            }, {label: '请购人', name: 'requserfullname', width: 80}, {
+                label: '请购部门',
+                name: 'deptidname',
+                width: 80
+            }, {label: '请购日期', name: 'reqdate', width: 80}, {
+                label: '订购单来源',
+                name: 'ordersourceenumvaluename',
+                width: 80
+            }, {label: '订购类别', name: 'ordertypeenumvaluename', width: 80}, {
+                label: '预算计划',
+                name: 'budgetmainid',
+                width: 80
+            }, {label: '总金额', name: 'total', width: 80}, {label: '已支付金额', name: 'paytotal', width: 80}, {
+                label: '单据状态',
+                name: 'billstatus',
+                width: 80,
+                formatter: formater_billstatus
+            },
+            {label: '备注', name: 'remark', width: 80}, {
+                label: '制单人',
+                name: 'makeuserfullname',
+                width: 80
+            }, {label: '制单日期', name: 'makedate', width: 80}, {
+                label: '审核人',
+                name: 'accuserfullname',
+                width: 80
+            }, {label: '审核日期', name: 'accdate', width: 80}, {label: '更新时间', name: 'uptdate', width: 80},],
         viewrecords: true,
         height: 385,
         rowNum: 10,
@@ -552,7 +617,7 @@ $(function () {
         colModel: [
             {label: 'id', name: 'id', width: 50, key: true, hidden: true},
             {label: '序号', name: 'serialno', width: 80},
-            {label: '商品', name: 'goodsidname', width: 80}, {label: '数量', name: 'goodscount', width: 80},
+            {label: '项目', name: 'goodsidname', width: 80}, {label: '数量', name: 'goodscount', width: 80},
             {label: '规格', name: 'goodsspec', width: 80},
             {label: '用途', name: 'goodsuse', width: 80},
             {label: '单价', name: 'goodsprice', width: 80},
@@ -588,11 +653,9 @@ $(function () {
         }
     });
 
-
-    createBillAttachmentsGrid();
-    createBillCommentsGrid();
-
     //执行调用参照调用下拉框函数,初始化下拉数据
+    vm.getRefTreeorganizationsupplyid();
+    vm.getRefsys_user();
     vm.getRefsys_dept();
     vm.getRef1001();
     vm.getRef1002();
@@ -602,8 +665,9 @@ $(function () {
     //执行调用参照调用下拉框函数,初始化下拉数据
     vm.getRefgoods();
 
+    createBillAttachmentsGrid();
+    createBillCommentsGrid();
 
     initGridHeightHalf("#jqGrid");
     initGridHeightHalf("#jqGridDetail");
-
 });

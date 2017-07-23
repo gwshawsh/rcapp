@@ -2,308 +2,284 @@
 <html>
 <head>
     <title>系统用户</title>
-        <#include "sys/header.html">
-</head>
-    <script src="../js/sysuser.js"></script>
+    <#include "sys/header.html">
+        </head>
+        <script src="../js/sysuser.js"></script>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="panel-heading">
             <el-button-group>
-            <@shiro.hasPermission name="sysuser:list">
-            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
-            </el-button>
+                <@shiro.hasPermission name="sysuser:list">
+                <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+                </el-button>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="sysuser:list">
             <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
             </el-button>
-            </@shiro.hasPermission>
-            <@shiro.hasPermission name="sysuser:save">
-            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
-            </el-button>
-            </@shiro.hasPermission>
-            <@shiro.hasPermission name="sysuser:update">
-            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
-            </el-button>
-            </@shiro.hasPermission>
-                        <@shiro.hasPermission name="sysuser:delete">
-            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
-            </el-button>
-            </@shiro.hasPermission>
-            </el-button-group>
+        </@shiro.hasPermission>
+        <@shiro.hasPermission name="sysuser:save">
+        <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+        </el-button>
+    </@shiro.hasPermission>
+    <@shiro.hasPermission name="sysuser:update">
+    <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+    </el-button>
+</@shiro.hasPermission>
+<@shiro.hasPermission name="sysuser:delete">
+<el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+</el-button>
+</@shiro.hasPermission>
+</el-button-group>
 
             <div v-show="showQuery">
                 <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
 
-                                                                                                                    <el-form-item label="用户编码" >
+                    <el-form-item label="用户编码">
 
-                                                                    <el-input style="width: 350px"  v-model="q.username" placeholder="用户编码"></el-input>
+                        <el-input style="width: 350px" v-model="q.username" placeholder="用户编码"></el-input>
 
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="姓名" >
+                    </el-form-item>
+                    <el-form-item label="姓名">
 
-                                                                    <el-input style="width: 350px"  v-model="q.fullname" placeholder="姓名"></el-input>
+                        <el-input style="width: 350px" v-model="q.fullname" placeholder="姓名"></el-input>
 
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="密码" >
+                    </el-form-item>
 
-                                                                    <el-input style="width: 350px"  v-model="q.password" placeholder="密码"></el-input>
+                    <el-form-item label="入职时间">
 
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="入职时间" >
+                        <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
+                                        :picker-options="pickerOptions1" v-model="q.entrytime"
+                                        style="width: 100%;"></el-date-picker>
 
-                                
-                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.entrytime" style="width: 100%;"></el-date-picker>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="邮箱" >
+                    </el-form-item>
+                    <el-form-item label="邮箱">
 
-                                                                    <el-input style="width: 350px"  v-model="q.email" placeholder="邮箱"></el-input>
+                        <el-input style="width: 350px" v-model="q.email" placeholder="邮箱"></el-input>
 
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="英文名" >
+                    </el-form-item>
+                    <el-form-item label="英文名">
 
-                                                                    <el-input style="width: 350px"  v-model="q.englishname" placeholder="英文名"></el-input>
+                        <el-input style="width: 350px" v-model="q.englishname" placeholder="英文名"></el-input>
 
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="出生日期" >
+                    </el-form-item>
+                    <el-form-item label="出生日期">
 
-                                                                    <el-input style="width: 350px"  v-model="q.brithday" placeholder="出生日期"></el-input>
+                        <el-input style="width: 350px" v-model="q.brithday" placeholder="出生日期"></el-input>
 
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="外语水平" >
+                    </el-form-item>
+                    <el-form-item label="外语水平">
 
-                                                                    <el-input style="width: 350px"  v-model="q.englishlevel" placeholder="外语水平"></el-input>
+                        <el-input style="width: 350px" v-model="q.englishlevel" placeholder="外语水平"></el-input>
 
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="毕业时间" >
+                    </el-form-item>
+                    <el-form-item label="毕业时间">
 
-                                
-                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.graduationtime" style="width: 100%;"></el-date-picker>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="现住址" >
+                        <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
+                                        :picker-options="pickerOptions1" v-model="q.graduationtime"
+                                        style="width: 100%;"></el-date-picker>
 
-                                                                    <el-input style="width: 350px"  v-model="q.residence" placeholder="现住址"></el-input>
 
+                    </el-form-item>
+                    <el-form-item label="现住址">
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="户籍在地" >
+                        <el-input style="width: 350px" v-model="q.residence" placeholder="现住址"></el-input>
 
-                                                                    <el-input style="width: 350px"  v-model="q.census" placeholder="户籍在地"></el-input>
 
+                    </el-form-item>
+                    <el-form-item label="户籍在地">
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="教育经历" >
+                        <el-input style="width: 350px" v-model="q.census" placeholder="户籍在地"></el-input>
 
-                                                                    <el-input style="width: 350px"  v-model="q.educationexperience" placeholder="教育经历"></el-input>
 
+                    </el-form-item>
+                    <el-form-item label="教育经历">
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="工作经历" >
+                        <el-input style="width: 350px" v-model="q.educationexperience" placeholder="教育经历"></el-input>
 
-                                                                    <el-input style="width: 350px"  v-model="q.workexperience" placeholder="工作经历"></el-input>
 
+                    </el-form-item>
+                    <el-form-item label="工作经历">
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="家庭状况" >
+                        <el-input style="width: 350px" v-model="q.workexperience" placeholder="工作经历"></el-input>
 
-                                                                    <el-input style="width: 350px"  v-model="q.family" placeholder="家庭状况"></el-input>
 
+                    </el-form-item>
+                    <el-form-item label="家庭状况">
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="电话" >
+                        <el-input style="width: 350px" v-model="q.family" placeholder="家庭状况"></el-input>
 
-                                                                    <el-input style="width: 350px"  v-model="q.mobile" placeholder="电话"></el-input>
 
+                    </el-form-item>
+                    <el-form-item label="电话">
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="参加工作时间" >
+                        <el-input style="width: 350px" v-model="q.mobile" placeholder="电话"></el-input>
 
-                                
-                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.startedworktime" style="width: 100%;"></el-date-picker>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="姓名" >
+                    </el-form-item>
+                    <el-form-item label="参加工作时间">
 
-                                                                    <el-input style="width: 350px"  v-model="q.name" placeholder="姓名"></el-input>
 
+                        <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
+                                        :picker-options="pickerOptions1" v-model="q.startedworktime"
+                                        style="width: 100%;"></el-date-picker>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="性别" >
 
-                                                                    <el-select style="width: 350px" v-model="q.gender"  filterable placeholder="请选择">
-                                        <el-option
-                                                v-for="item in ref_enum1015"
-                                                :key="item.enumvalueid"
-                                                :label="item.enumvaluename"
-                                                :value="item.enumvalueid">
-                                        </el-option>
-                                    </el-select>
+                    </el-form-item>
+                    <el-form-item label="姓名">
 
+                        <el-input style="width: 350px" v-model="q.name" placeholder="姓名"></el-input>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="民族" >
 
-                                                                    <el-input style="width: 350px"  v-model="q.nationality" placeholder="民族"></el-input>
+                    </el-form-item>
+                    <el-form-item label="性别">
 
+                        <el-select style="width: 350px" v-model="q.gender" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in ref_enum1015"
+                                    :key="item.enumvalueid"
+                                    :label="item.enumvaluename"
+                                    :value="item.enumvalueid">
+                            </el-option>
+                        </el-select>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="计算机水平" >
 
-                                                                    <el-input style="width: 350px"  v-model="q.computerlevel" placeholder="计算机水平"></el-input>
+                    </el-form-item>
+                    <el-form-item label="民族">
 
+                        <el-input style="width: 350px" v-model="q.nationality" placeholder="民族"></el-input>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="所学专业" >
 
-                                                                    <el-input style="width: 350px"  v-model="q.major" placeholder="所学专业"></el-input>
+                    </el-form-item>
+                    <el-form-item label="计算机水平">
 
+                        <el-input style="width: 350px" v-model="q.computerlevel" placeholder="计算机水平"></el-input>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="其他联系方式" >
 
-                                                                    <el-input style="width: 350px"  v-model="q.thermobile" placeholder="其他联系方式"></el-input>
+                    </el-form-item>
+                    <el-form-item label="所学专业">
 
+                        <el-input style="width: 350px" v-model="q.major" placeholder="所学专业"></el-input>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="本年假天数" >
 
-                                                                    <el-select style="width: 350px" v-model="q.vacationyear"  filterable placeholder="请选择">
-                                        <el-option
-                                                v-for="item in ref_enum1016"
-                                                :key="item.enumvalueid"
-                                                :label="item.enumvaluename"
-                                                :value="item.enumvalueid">
-                                        </el-option>
-                                    </el-select>
+                    </el-form-item>
+                    <el-form-item label="其他联系方式">
 
+                        <el-input style="width: 350px" v-model="q.thermobile" placeholder="其他联系方式"></el-input>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="上年假天数" >
 
-                                                                    <el-select style="width: 350px" v-model="q.vacationlastyear"  filterable placeholder="请选择">
-                                        <el-option
-                                                v-for="item in ref_enum1017"
-                                                :key="item.enumvalueid"
-                                                :label="item.enumvaluename"
-                                                :value="item.enumvalueid">
-                                        </el-option>
-                                    </el-select>
+                    </el-form-item>
+                    <el-form-item label="本年假天数">
 
+                        <el-select style="width: 350px" v-model="q.vacationyear" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in ref_enum1016"
+                                    :key="item.enumvalueid"
+                                    :label="item.enumvaluename"
+                                    :value="item.enumvalueid">
+                            </el-option>
+                        </el-select>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="身份证" >
 
-                                                                    <el-input style="width: 350px"  v-model="q.identification" placeholder="身份证"></el-input>
+                    </el-form-item>
+                    <el-form-item label="上年假天数">
 
+                        <el-select style="width: 350px" v-model="q.vacationlastyear" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in ref_enum1017"
+                                    :key="item.enumvalueid"
+                                    :label="item.enumvaluename"
+                                    :value="item.enumvalueid">
+                            </el-option>
+                        </el-select>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="学历" >
 
-                                                                    <el-input style="width: 350px"  v-model="q.qulification" placeholder="学历"></el-input>
+                    </el-form-item>
+                    <el-form-item label="身份证">
 
+                        <el-input style="width: 350px" v-model="q.identification" placeholder="身份证"></el-input>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="婚姻状况" >
 
-                                                                    <el-select style="width: 350px" v-model="q.marriage"  filterable placeholder="请选择">
-                                        <el-option
-                                                v-for="item in ref_enum1018"
-                                                :key="item.enumvalueid"
-                                                :label="item.enumvaluename"
-                                                :value="item.enumvalueid">
-                                        </el-option>
-                                    </el-select>
+                    </el-form-item>
+                    <el-form-item label="学历">
 
+                        <el-input style="width: 350px" v-model="q.qulification" placeholder="学历"></el-input>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="专业职称" >
 
-                                                                    <el-input style="width: 350px"  v-model="q.academictitle" placeholder="专业职称"></el-input>
+                    </el-form-item>
+                    <el-form-item label="婚姻状况">
 
+                        <el-select style="width: 350px" v-model="q.marriage" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in ref_enum1018"
+                                    :key="item.enumvalueid"
+                                    :label="item.enumvaluename"
+                                    :value="item.enumvalueid">
+                            </el-option>
+                        </el-select>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="毕业院校" >
 
-                                                                    <el-input style="width: 350px"  v-model="q.school" placeholder="毕业院校"></el-input>
+                    </el-form-item>
+                    <el-form-item label="专业职称">
 
+                        <el-input style="width: 350px" v-model="q.academictitle" placeholder="专业职称"></el-input>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="状态" >
 
-                                                                    <el-select style="width: 350px" v-model="q.status"  filterable placeholder="请选择">
-                                        <el-option
-                                                v-for="item in ref_enum1020"
-                                                :key="item.enumvalueid"
-                                                :label="item.enumvaluename"
-                                                :value="item.enumvalueid">
-                                        </el-option>
-                                    </el-select>
+                    </el-form-item>
+                    <el-form-item label="毕业院校">
 
+                        <el-input style="width: 350px" v-model="q.school" placeholder="毕业院校"></el-input>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="所属组织" >
 
-                                
-                                    <input style="width: 350px" v-model="q.orgidname"  v-on:click="openRefTreeorganizationorgid"
-                                           placeholder="所属组织" class="el-input el-input__inner"></input>
+                    </el-form-item>
+                    <el-form-item label="状态">
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="所属部门" >
+                        <el-select style="width: 350px" v-model="q.status" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in ref_enum1020"
+                                    :key="item.enumvalueid"
+                                    :label="item.enumvaluename"
+                                    :value="item.enumvalueid">
+                            </el-option>
+                        </el-select>
 
-                                
-                                    <input style="width: 350px" v-model="q.deptIdname"  v-on:click="openRefTreesys_deptdeptId"
-                                           placeholder="所属部门" class="el-input el-input__inner"></input>
 
-                                
-                            </el-form-item>
-                                                                                                <el-form-item label="创建时间" >
+                    </el-form-item>
+                    <el-form-item label="所属组织">
 
-                                
-                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.createTime" style="width: 100%;"></el-date-picker>
 
-                                
-                            </el-form-item>
-                                            
+                        <input style="width: 350px" v-model="q.orgidname" v-on:click="openRefTreeorganizationorgid"
+                               placeholder="所属组织" class="el-input el-input__inner"></input>
+
+
+                    </el-form-item>
+                    <el-form-item label="所属部门">
+
+
+                        <input style="width: 350px" v-model="q.deptIdname" v-on:click="openRefTreesys_deptdeptId"
+                               placeholder="所属部门" class="el-input el-input__inner"></input>
+
+
+                    </el-form-item>
+                    <el-form-item label="创建时间">
+
+
+                        <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
+                                        :picker-options="pickerOptions1" v-model="q.createTime"
+                                        style="width: 100%;"></el-date-picker>
+
+
+                    </el-form-item>
+
                     <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
 
                 </el-form>
@@ -320,311 +296,286 @@
         <div class="panel-heading">
             <el-row>
                 <el-col :span="14">
-            <el-button-group>
-                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
-                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
-            </el-button-group>
+                    <el-button-group>
+                        <el-button type="primary" v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存
+                        </el-button>
+                        <el-button type="primary" v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+                    </el-button-group>
                 </el-col>
                 <el-col :span="10">
-                    
+
                 </el-col>
             </el-row>
         </div>
-        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
+        <el-form label-position="right" label-width="100px" :inline="true" style="padding:5px">
 
-                            
-                                                <el-form-item label="用户编码" class="padding-top: 5px;width:26%">
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.username" placeholder="用户编码"></el-input>
+            <el-form-item label="用户编码" class="padding-top: 5px;width:26%">
 
+                <el-input style="width: 350px" v-model="sysUser.username" placeholder="用户编码"></el-input>
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="姓名" class="padding-top: 5px;width:26%">
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.fullname" placeholder="姓名"></el-input>
+            </el-form-item>
 
+            <el-form-item label="姓名" class="padding-top: 5px;width:26%">
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="密码" class="padding-top: 5px;width:26%">
+                <el-input style="width: 350px" v-model="sysUser.fullname" placeholder="姓名"></el-input>
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.password" placeholder="密码"></el-input>
 
+            </el-form-item>
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="入职时间" class="padding-top: 5px;width:26%">
 
-                             
-                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="sysUser.entrytime" style="width: 100%;"></el-date-picker>
 
-                            
-                    </el-form-item>
-                
-                                                <el-form-item label="邮箱" class="padding-top: 5px;width:26%">
+            <el-form-item label="入职时间" class="padding-top: 5px;width:26%">
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.email" placeholder="邮箱"></el-input>
 
+                <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
+                                :picker-options="pickerOptions1" v-model="sysUser.entrytime"
+                                style="width: 100%;"></el-date-picker>
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="英文名" class="padding-top: 5px;width:26%">
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.englishname" placeholder="英文名"></el-input>
+            </el-form-item>
 
+            <el-form-item label="邮箱" class="padding-top: 5px;width:26%">
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="出生日期" class="padding-top: 5px;width:26%">
+                <el-input style="width: 350px" v-model="sysUser.email" placeholder="邮箱"></el-input>
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.brithday" placeholder="出生日期"></el-input>
 
+            </el-form-item>
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="外语水平" class="padding-top: 5px;width:26%">
+            <el-form-item label="英文名" class="padding-top: 5px;width:26%">
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.englishlevel" placeholder="外语水平"></el-input>
+                <el-input style="width: 350px" v-model="sysUser.englishname" placeholder="英文名"></el-input>
 
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="毕业时间" class="padding-top: 5px;width:26%">
+            </el-form-item>
 
-                             
-                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="sysUser.graduationtime" style="width: 100%;"></el-date-picker>
+            <el-form-item label="出生日期" class="padding-top: 5px;width:26%">
 
-                            
-                    </el-form-item>
-                
-                                                <el-form-item label="现住址" class="padding-top: 5px;width:26%">
+                <el-input style="width: 350px" v-model="sysUser.brithday" placeholder="出生日期"></el-input>
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.residence" placeholder="现住址"></el-input>
 
+            </el-form-item>
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="户籍在地" class="padding-top: 5px;width:26%">
+            <el-form-item label="外语水平" class="padding-top: 5px;width:26%">
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.census" placeholder="户籍在地"></el-input>
+                <el-input style="width: 350px" v-model="sysUser.englishlevel" placeholder="外语水平"></el-input>
 
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="教育经历" class="padding-top: 5px;width:26%">
+            </el-form-item>
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.educationexperience" placeholder="教育经历"></el-input>
+            <el-form-item label="毕业时间" class="padding-top: 5px;width:26%">
 
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="工作经历" class="padding-top: 5px;width:26%">
+                <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
+                                :picker-options="pickerOptions1" v-model="sysUser.graduationtime"
+                                style="width: 100%;"></el-date-picker>
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.workexperience" placeholder="工作经历"></el-input>
 
+            </el-form-item>
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="家庭状况" class="padding-top: 5px;width:26%">
+            <el-form-item label="现住址" class="padding-top: 5px;width:26%">
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.family" placeholder="家庭状况"></el-input>
+                <el-input style="width: 350px" v-model="sysUser.residence" placeholder="现住址"></el-input>
 
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="电话" class="padding-top: 5px;width:26%">
+            </el-form-item>
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.mobile" placeholder="电话"></el-input>
+            <el-form-item label="户籍在地" class="padding-top: 5px;width:26%">
 
+                <el-input style="width: 350px" v-model="sysUser.census" placeholder="户籍在地"></el-input>
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="参加工作时间" class="padding-top: 5px;width:26%">
 
-                             
-                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="sysUser.startedworktime" style="width: 100%;"></el-date-picker>
+            </el-form-item>
 
-                            
-                    </el-form-item>
-                
-                                                <el-form-item label="姓名" class="padding-top: 5px;width:26%">
+            <el-form-item label="教育经历" class="padding-top: 5px;width:26%">
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.name" placeholder="姓名"></el-input>
+                <el-input style="width: 350px" v-model="sysUser.educationexperience" placeholder="教育经历"></el-input>
 
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="性别" class="padding-top: 5px;width:26%">
+            </el-form-item>
 
-                                                             <el-select style="width: 350px" v-model="sysUser.gender"  filterable placeholder="请选择">
-                                    <el-option
-                                            v-for="item in ref_enum1015"
-                                            :key="item.enumvalueid"
-                                            :label="item.enumvaluename"
-                                            :value="item.enumvalueid">
-                                    </el-option>
-                                </el-select>
+            <el-form-item label="工作经历" class="padding-top: 5px;width:26%">
 
+                <el-input style="width: 350px" v-model="sysUser.workexperience" placeholder="工作经历"></el-input>
 
-                             
-                    </el-form-item>
-                
-                                                <el-form-item label="民族" class="padding-top: 5px;width:26%">
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.nationality" placeholder="民族"></el-input>
+            </el-form-item>
 
+            <el-form-item label="家庭状况" class="padding-top: 5px;width:26%">
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="计算机水平" class="padding-top: 5px;width:26%">
+                <el-input style="width: 350px" v-model="sysUser.family" placeholder="家庭状况"></el-input>
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.computerlevel" placeholder="计算机水平"></el-input>
 
+            </el-form-item>
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="所学专业" class="padding-top: 5px;width:26%">
+            <el-form-item label="电话" class="padding-top: 5px;width:26%">
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.major" placeholder="所学专业"></el-input>
+                <el-input style="width: 350px" v-model="sysUser.mobile" placeholder="电话"></el-input>
 
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="其他联系方式" class="padding-top: 5px;width:26%">
+            </el-form-item>
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.thermobile" placeholder="其他联系方式"></el-input>
+            <el-form-item label="参加工作时间" class="padding-top: 5px;width:26%">
 
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="本年假天数" class="padding-top: 5px;width:26%">
+                <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
+                                :picker-options="pickerOptions1" v-model="sysUser.startedworktime"
+                                style="width: 100%;"></el-date-picker>
 
-                                                             <el-select style="width: 350px" v-model="sysUser.vacationyear"  filterable placeholder="请选择">
-                                    <el-option
-                                            v-for="item in ref_enum1016"
-                                            :key="item.enumvalueid"
-                                            :label="item.enumvaluename"
-                                            :value="item.enumvalueid">
-                                    </el-option>
-                                </el-select>
 
+            </el-form-item>
 
-                             
-                    </el-form-item>
-                
-                                                <el-form-item label="上年假天数" class="padding-top: 5px;width:26%">
+            <el-form-item label="姓名" class="padding-top: 5px;width:26%">
 
-                                                             <el-select style="width: 350px" v-model="sysUser.vacationlastyear"  filterable placeholder="请选择">
-                                    <el-option
-                                            v-for="item in ref_enum1017"
-                                            :key="item.enumvalueid"
-                                            :label="item.enumvaluename"
-                                            :value="item.enumvalueid">
-                                    </el-option>
-                                </el-select>
+                <el-input style="width: 350px" v-model="sysUser.name" placeholder="姓名"></el-input>
 
 
-                             
-                    </el-form-item>
-                
-                                                <el-form-item label="身份证" class="padding-top: 5px;width:26%">
+            </el-form-item>
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.identification" placeholder="身份证"></el-input>
+            <el-form-item label="性别" class="padding-top: 5px;width:26%">
 
+                <el-select style="width: 350px" v-model="sysUser.gender" filterable placeholder="请选择">
+                    <el-option
+                            v-for="item in ref_enum1015"
+                            :key="item.enumvalueid"
+                            :label="item.enumvaluename"
+                            :value="item.enumvalueid">
+                    </el-option>
+                </el-select>
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="学历" class="padding-top: 5px;width:26%">
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.qulification" placeholder="学历"></el-input>
+            </el-form-item>
 
+            <el-form-item label="民族" class="padding-top: 5px;width:26%">
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="婚姻状况" class="padding-top: 5px;width:26%">
+                <el-input style="width: 350px" v-model="sysUser.nationality" placeholder="民族"></el-input>
 
-                                                             <el-select style="width: 350px" v-model="sysUser.marriage"  filterable placeholder="请选择">
-                                    <el-option
-                                            v-for="item in ref_enum1018"
-                                            :key="item.enumvalueid"
-                                            :label="item.enumvaluename"
-                                            :value="item.enumvalueid">
-                                    </el-option>
-                                </el-select>
 
+            </el-form-item>
 
-                             
-                    </el-form-item>
-                
-                                                <el-form-item label="专业职称" class="padding-top: 5px;width:26%">
+            <el-form-item label="计算机水平" class="padding-top: 5px;width:26%">
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.academictitle" placeholder="专业职称"></el-input>
+                <el-input style="width: 350px" v-model="sysUser.computerlevel" placeholder="计算机水平"></el-input>
 
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="毕业院校" class="padding-top: 5px;width:26%">
+            </el-form-item>
 
-                                                             <el-input style="width: 350px"  v-model="sysUser.school" placeholder="毕业院校"></el-input>
+            <el-form-item label="所学专业" class="padding-top: 5px;width:26%">
 
+                <el-input style="width: 350px" v-model="sysUser.major" placeholder="所学专业"></el-input>
 
-                              
-                    </el-form-item>
-                
-                                                <el-form-item label="状态" class="padding-top: 5px;width:26%">
 
-                                                             <el-select style="width: 350px" v-model="sysUser.status"  filterable placeholder="请选择">
-                                    <el-option
-                                            v-for="item in ref_enum1020"
-                                            :key="item.enumvalueid"
-                                            :label="item.enumvaluename"
-                                            :value="item.enumvalueid">
-                                    </el-option>
-                                </el-select>
+            </el-form-item>
 
+            <el-form-item label="其他联系方式" class="padding-top: 5px;width:26%">
 
-                             
-                    </el-form-item>
-                
-                                                <el-form-item label="所属组织" class="padding-top: 5px;width:26%">
+                <el-input style="width: 350px" v-model="sysUser.thermobile" placeholder="其他联系方式"></el-input>
 
-                             
-                                <input style="width: 350px" v-model="sysUser.orgidname"  v-on:click="openRefTreeorganizationorgid"
-                                          placeholder="所属组织" class="el-input el-input__inner"></input>
 
-                             
-                    </el-form-item>
-                
-                                                <el-form-item label="所属部门" class="padding-top: 5px;width:26%">
+            </el-form-item>
 
-                             
-                                <input style="width: 350px" v-model="sysUser.deptIdname"  v-on:click="openRefTreesys_deptdeptId"
-                                          placeholder="所属部门" class="el-input el-input__inner"></input>
+            <el-form-item label="本年假天数" class="padding-top: 5px;width:26%">
 
-                             
-                    </el-form-item>
+                <el-select style="width: 350px" v-model="sysUser.vacationyear" filterable placeholder="请选择">
+                    <el-option
+                            v-for="item in ref_enum1016"
+                            :key="item.enumvalueid"
+                            :label="item.enumvaluename"
+                            :value="item.enumvalueid">
+                    </el-option>
+                </el-select>
+
+
+            </el-form-item>
+
+            <el-form-item label="上年假天数" class="padding-top: 5px;width:26%">
+
+                <el-select style="width: 350px" v-model="sysUser.vacationlastyear" filterable placeholder="请选择">
+                    <el-option
+                            v-for="item in ref_enum1017"
+                            :key="item.enumvalueid"
+                            :label="item.enumvaluename"
+                            :value="item.enumvalueid">
+                    </el-option>
+                </el-select>
+
+
+            </el-form-item>
+
+            <el-form-item label="身份证" class="padding-top: 5px;width:26%">
+
+                <el-input style="width: 350px" v-model="sysUser.identification" placeholder="身份证"></el-input>
+
+
+            </el-form-item>
+
+            <el-form-item label="学历" class="padding-top: 5px;width:26%">
+
+                <el-input style="width: 350px" v-model="sysUser.qulification" placeholder="学历"></el-input>
+
+
+            </el-form-item>
+
+            <el-form-item label="婚姻状况" class="padding-top: 5px;width:26%">
+
+                <el-select style="width: 350px" v-model="sysUser.marriage" filterable placeholder="请选择">
+                    <el-option
+                            v-for="item in ref_enum1018"
+                            :key="item.enumvalueid"
+                            :label="item.enumvaluename"
+                            :value="item.enumvalueid">
+                    </el-option>
+                </el-select>
+
+
+            </el-form-item>
+
+            <el-form-item label="专业职称" class="padding-top: 5px;width:26%">
+
+                <el-input style="width: 350px" v-model="sysUser.academictitle" placeholder="专业职称"></el-input>
+
+
+            </el-form-item>
+
+            <el-form-item label="毕业院校" class="padding-top: 5px;width:26%">
+
+                <el-input style="width: 350px" v-model="sysUser.school" placeholder="毕业院校"></el-input>
+
+
+            </el-form-item>
+
+            <el-form-item label="状态" class="padding-top: 5px;width:26%">
+
+                <el-select style="width: 350px" v-model="sysUser.status" filterable placeholder="请选择">
+                    <el-option
+                            v-for="item in ref_enum1020"
+                            :key="item.enumvalueid"
+                            :label="item.enumvaluename"
+                            :value="item.enumvalueid">
+                    </el-option>
+                </el-select>
+
+
+            </el-form-item>
+
+            <el-form-item label="所属组织" class="padding-top: 5px;width:26%">
+
+
+                <input style="width: 350px" v-model="sysUser.orgidname" v-on:click="openRefTreeorganizationorgid"
+                       placeholder="所属组织" class="el-input el-input__inner"></input>
+
+
+            </el-form-item>
+
+            <el-form-item label="所属部门" class="padding-top: 5px;width:26%">
+
+
+                <input style="width: 350px" v-model="sysUser.deptIdname" v-on:click="openRefTreesys_deptdeptId"
+                       placeholder="所属部门" class="el-input el-input__inner"></input>
+
+
+            </el-form-item>
 
             <el-form-item label="所属角色" class="padding-top: 5px;width:26%">
 
@@ -635,16 +586,18 @@
 
 
             </el-form-item>
-                
-                                                <el-form-item label="创建时间" class="padding-top: 5px;width:26%">
 
-                             
-                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="sysUser.createTime" style="width: 100%;"></el-date-picker>
+            <el-form-item label="创建时间" class="padding-top: 5px;width:26%">
 
-                            
-                    </el-form-item>
-                
-            
+
+                <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间"
+                                :picker-options="pickerOptions1" v-model="sysUser.createTime"
+                                style="width: 100%;"></el-date-picker>
+
+
+            </el-form-item>
+
+
             <el-upload
                     class="upload"
                     action="../files/batchupload"
@@ -661,7 +614,6 @@
 </div>
 
 
-                                                                                                                                                                                                                                                                                                                                                                                                                            
 <div id="treelayerorganization" style="display: none;padding:10px;">
     <ul id="refTreeorganization" class="ztree"></ul>
 </div>
@@ -670,6 +622,6 @@
 </div>
 
 <#include "base/billcomments_ref.html">
-<script src="${ctxPath}/static/js/sys/sysuser.js"></script>
+    <script src="${ctxPath}/static/js/sys/sysuser.js"></script>
 </body>
 </html>

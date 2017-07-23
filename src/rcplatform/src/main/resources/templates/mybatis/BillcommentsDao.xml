@@ -7,7 +7,7 @@
 		select
 				    			    						                    ifnull((select enumvaluename from  enumtable b where a.refbilltype=b.enumvalueid and b.enumtype='1006'),'') as refbilltypeenumvaluename,
 						    			    						                    ifnull((select enumvaluename from  enumtable b where a.auditstatus=b.enumvalueid and b.enumtype='1013'),'') as auditstatusenumvaluename,
-						    			    						               		ifnull((select username from  sys_user b where a.makeuser=b.user_id),'') as makeuserusername,
+						    			    						               		ifnull((select username from  sys_user b where a.makeuser=b.id),'') as makeuserusername,
 						    			    			    			    	        a.*
 		from billcomments a where id = #{value}
 	</select>
@@ -18,7 +18,7 @@
         refbilltypeenumvaluename,
         ifnull((select enumvaluename from enumtable b where a.auditstatus=b.enumvalueid and b.enumtype='1013'),'') as
         auditstatusenumvaluename,
-        ifnull((select username from sys_user b where a.makeuser=b.user_id),'') as makeuserusername,
+        ifnull((select username from sys_user b where a.makeuser=b.id),'') as makeuserusername,
         a.*
         from billcomments a
         <where>

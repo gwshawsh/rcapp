@@ -50,11 +50,11 @@ public class OrdermainServiceImpl implements OrdermainService {
 	public void update(OrdermainEntity ordermain){
 		orderdetailDao.deleteByBillNo(ordermain.getBillno());
 
-		if(ordermain.getDetails()!=null&&ordermain.getDetails().size()>0) {
-			for (OrderdetailEntity item : ordermain.getDetails()) {
-				orderdetailDao.save(item);
-			}
-		}
+		if(ordermain.getDetails()!=null&&ordermain.getDetails().size()>0){
+            for (OrderdetailEntity item :ordermain.getDetails()){
+					orderdetailDao.save(item);
+            }
+        }
 
 		ordermainDao.update(ordermain);
 	}
@@ -75,6 +75,7 @@ public class OrdermainServiceImpl implements OrdermainService {
     public void deleteBatch(Long[] ids){
 			ordermainDao.deleteBatch(ids);
     }
+
 
     @Override
     public void auditBatch(Long[] ids){

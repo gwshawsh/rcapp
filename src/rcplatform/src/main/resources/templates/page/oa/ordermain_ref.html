@@ -50,11 +50,7 @@
                             name: 'reqbillno',
                             width: 80
                         }, 
-                                                                                {
-                            label: '请购人',
-                            name: 'requser',
-                            width: 80
-                        }, 
+                                                                                { label: '请购人', name: 'fullname', width: 80 }, 
                                                                                 { label: '请购部门', name: 'name', width: 80 }, 
                                                                                 {
                             label: '请购日期',
@@ -68,22 +64,29 @@
                             name: 'budgetmainid',
                             width: 80
                         }, 
-                                                                                { label: '单据状态', name: 'enumvaluename', width: 80 }, 
                                                                                 {
-                            label: '制单人',
-                            name: 'makeuser',
+                            label: '总金额',
+                            name: 'total',
                             width: 80
                         }, 
+                                                                                {
+                            label: '已支付金额',
+                            name: 'paytotal',
+                            width: 80
+                        }, 
+                                                                                { label: '单据状态', name: 'enumvaluename', width: 80 }, 
+                                                                                {
+                            label: '备注',
+                            name: 'remark',
+                            width: 80
+                        }, 
+                                                                                { label: '制单人', name: 'fullname', width: 80 }, 
                                                                                 {
                             label: '制单日期',
                             name: 'makedate',
                             width: 80
                         }, 
-                                                                                {
-                            label: '审核人',
-                            name: 'accuser',
-                            width: 80
-                        }, 
+                                                                                { label: '审核人', name: 'fullname', width: 80 }, 
                                                                                 {
                             label: '审核日期',
                             name: 'accdate',
@@ -92,6 +95,11 @@
                                                                                 {
                             label: '更新时间',
                             name: 'uptdate',
+                            width: 80
+                        }, 
+                                                                                {
+                            label: '流程ID',
+                            name: 'pocessinstanceid',
                             width: 80
                         }
                                     ],

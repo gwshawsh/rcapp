@@ -83,7 +83,6 @@ var vm = new Vue({
 
             })
         },
-
         add: function () {
             var mktime = moment().format("YYYY-MM-DD");
             vm.showList = false;
@@ -233,8 +232,6 @@ var vm = new Vue({
             });
         },
 
-
-
         getRefTreesys_deptdeptid: function (menuId) {
             //加载菜单树
             $.get("../sys_dept/select", function (r) {
@@ -295,8 +292,6 @@ var vm = new Vue({
                 page: page,
                 postData: {'id': vm.q.id}
             }).trigger("reloadGrid");
-
-            vm.getLeftTree();
         },
         onClickNode: function (event, treeId, treeNode) {
             if (vm.showList) {

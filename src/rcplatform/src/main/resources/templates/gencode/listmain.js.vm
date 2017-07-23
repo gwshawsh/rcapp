@@ -464,7 +464,7 @@ var vm = new Vue({
             //查询单据明细
             $("#jqGridDetail").jqGrid('setGridParam', {
                 page: 1,
-                postData:{'formid':id},
+                postData:{'billno':id},
                 datatype: "json"
             }).trigger("reloadGrid");
 

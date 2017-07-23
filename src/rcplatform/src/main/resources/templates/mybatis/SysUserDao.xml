@@ -3,8 +3,21 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.SysUserDao">
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.SysUserEntity">
-		select m.*, (select p.name from sys_dept p where p.id = m.dept_id) as deptName
-		from sys_user m where m.id = #{value}
+		select
+		ifnull((select enumvaluename from enumtable b where a.gender=b.enumvalueid and b.enumtype='1015'),'') as
+		genderenumvaluename,
+		ifnull((select enumvaluename from enumtable b where a.vacationyear=b.enumvalueid and b.enumtype='1016'),'') as
+		vacationyearenumvaluename,
+		ifnull((select enumvaluename from enumtable b where a.vacationlastyear=b.enumvalueid and b.enumtype='1017'),'')
+		as vacationlastyearenumvaluename,
+		ifnull((select enumvaluename from enumtable b where a.marriage=b.enumvalueid and b.enumtype='1018'),'') as
+		marriageenumvaluename,
+		ifnull((select enumvaluename from enumtable b where a.status=b.enumvalueid and b.enumtype='1020'),'') as
+		statusenumvaluename,
+		ifnull((select name from organization b where a.orgid=b.id),'') as orgidname,
+		ifnull((select name from sys_dept b where a.dept_id=b.id),'') as deptIdname,
+		a.*
+		from sys_user a where a.id = #{value}
 	</select>
 	
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.SysUserEntity">
@@ -192,7 +205,20 @@
 	</select>
 	
 	<select id="queryByUserName" resultType="com.ruanchuangsoft.platform.entity.SysUserEntity">
-		select * from sys_user where username = #{username}
+		select
+		ifnull((select enumvaluename from enumtable b where a.gender=b.enumvalueid and b.enumtype='1015'),'') as
+		genderenumvaluename,
+		ifnull((select enumvaluename from enumtable b where a.vacationyear=b.enumvalueid and b.enumtype='1016'),'') as
+		vacationyearenumvaluename,
+		ifnull((select enumvaluename from enumtable b where a.vacationlastyear=b.enumvalueid and b.enumtype='1017'),'')
+		as vacationlastyearenumvaluename,
+		ifnull((select enumvaluename from enumtable b where a.marriage=b.enumvalueid and b.enumtype='1018'),'') as
+		marriageenumvaluename,
+		ifnull((select enumvaluename from enumtable b where a.status=b.enumvalueid and b.enumtype='1020'),'') as
+		statusenumvaluename,
+		ifnull((select name from organization b where a.orgid=b.id),'') as orgidname,
+		ifnull((select name from sys_dept b where a.dept_id=b.id),'') as deptIdname,
+		a.* from sys_user a where username = #{username}
 	</select>
 	
 	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.SysUserEntity" useGeneratedKeys="true" keyProperty="id">
@@ -275,7 +301,6 @@
 		<set>
 			<if test="username != null">`username` = #{username},</if>
 			<if test="fullname != null">`fullname` = #{fullname},</if>
-			<if test="password != null">`password` = #{password},</if>
 			<if test="entrytime != null">`entrytime` = #{entrytime},</if>
 			<if test="email != null">`email` = #{email},</if>
 			<if test="englishname != null">`englishname` = #{englishname},</if>

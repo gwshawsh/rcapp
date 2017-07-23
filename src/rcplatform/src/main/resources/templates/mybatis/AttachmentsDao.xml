@@ -5,14 +5,14 @@
 
     <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.AttachmentsEntity">
 		select
-				    			    			    			    			    						               		ifnull((select username from  sys_user b where a.makeuser=b.user_id),'') as makeuserusername,
+				    			    			    			    			    						               		ifnull((select username from  sys_user b where a.makeuser=b.id),'') as makeuserusername,
 						    			    			    	        a.*
 		from attachments a where id = #{value}
 	</select>
 
     <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.AttachmentsEntity">
         select
-        ifnull((select username from sys_user b where a.makeuser=b.user_id),'') as makeuserusername,
+        ifnull((select username from sys_user b where a.makeuser=b.id),'') as makeuserusername,
         a.*
         from attachments a
         <where>

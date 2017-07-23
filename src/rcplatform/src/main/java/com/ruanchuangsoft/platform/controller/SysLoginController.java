@@ -3,6 +3,7 @@ package com.ruanchuangsoft.platform.controller;
 import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import com.ruanchuangsoft.platform.entity.SysUserEntity;
 import com.ruanchuangsoft.platform.utils.HttpContextUtils;
 import com.ruanchuangsoft.platform.utils.R;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
@@ -95,7 +96,13 @@ public class SysLoginController {
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 			token.setRememberMe(true);
 			subject.login(token);
-			HttpContextUtils.addCookie("username",username);
+			SysUserEntity userEntity=ShiroUtils.getUserEntity();
+			HttpContextUtils.addCookie("userid",String.valueOf(userEntity.getId()));
+			HttpContextUtils.addCookie("username",userEntity.getUsername());
+			HttpContextUtils.addCookie("userfullname",userEntity.getFullname());
+			HttpContextUtils.addCookie("deptid",String.valueOf(userEntity.getDeptId()));
+			HttpContextUtils.addCookie("deptname",userEntity.getDeptIdname());
+
 
 		}catch (UnknownAccountException e) {
 			return R.error(e.getMessage());
