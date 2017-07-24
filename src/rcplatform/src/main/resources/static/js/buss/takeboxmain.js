@@ -168,13 +168,13 @@ var vm = new Vue({
                 trigger: 'blur'
             }
         },
-        showQueryPanel: function() {
+        showQueryPanel: function () {
             vm.showQuery = !vm.showQuery;
         },
-        query: function() {
+        query: function () {
             vm.reload();
         },
-        showdetail: function() {
+        showdetail: function () {
             vm.showDetailList = !vm.showDetailList;
             if (vm.showDetailList) {
                 initGridHeightHalf("#jqGrid");
@@ -183,7 +183,7 @@ var vm = new Vue({
                 initGridHeight("#jqGrid");
             }
         },
-        add: function() {
+        add: function () {
             var mktime = moment().format("YYYY-MM-DD");
             vm.showList = false;
             vm.showDetailList = false;
@@ -228,27 +228,48 @@ var vm = new Vue({
             };
             vm.additem();
         },
-        update: function(event) {
+        update: function (event) {
             var id = getSelectedRow();
             if (id == null) {
                 return;
             }
-            vm.showList = false;
-            vm.showDetailList = false;
-            vm.title = "修改";
 
-            vm.getInfo(id)
+            $.get("../takeboxmain/info/" + id,
+                function (r) {
+                    vm.takeboxmain = r.takeboxmain;
+                    //判断是否已经放单结束，如果是或者已经运输，都不允许修改，只能改单
+                    if (vm.takeboxmain != null) {
+                        if (vm.takeboxmain.billstatus == 3 ||
+                            vm.takeboxmain.billstatus == 5 ||
+                            vm.takeboxmain.billstatus == 6 ||
+                            vm.takeboxmain.billstatus == 7 ||
+                            vm.takeboxmain.billstatus == 8 ||
+                            vm.takeboxmain.billstatus == 9
+                        ) {
+                            alert('当前单据不允许修改',
+                                function (index) {
+
+                                });
+                        }
+                        else {
+                            vm.showList = false;
+                            vm.showDetailList = false;
+                            vm.title = "修改";
+                        }
+                    }
+                });
+
         },
-        saveOrUpdate: function(event) {
-            var url = vm.takeboxmain.id == null ? "../takeboxmain/save": "../takeboxmain/update";
+        saveOrUpdate: function (event) {
+            var url = vm.takeboxmain.id == null ? "../takeboxmain/save" : "../takeboxmain/update";
             $.ajax({
                 type: "POST",
                 url: url,
                 data: JSON.stringify(vm.takeboxmain),
-                success: function(r) {
+                success: function (r) {
                     if (r.code === 0) {
                         alert('操作成功',
-                            function(index) {
+                            function (index) {
                                 vm.reload();
                             });
                     } else {
@@ -258,21 +279,21 @@ var vm = new Vue({
             });
         },
         //提交到工作流
-        submitworkflow: function() {
+        submitworkflow: function () {
             var row = getSelectedRow();
             if (row == null) {
                 return;
             }
             confirm('确定要提交选中的任务？',
-                function() {
+                function () {
                     $.ajax({
                         type: "POST",
                         url: "../takeboxmain/submitworkflow",
                         data: JSON.stringify(row),
-                        success: function(r) {
+                        success: function (r) {
                             if (r.code == 0) {
                                 alert('操作成功',
-                                    function(index) {
+                                    function (index) {
                                         $("#jqGrid").trigger("reloadGrid");
                                     });
                             } else {
@@ -283,7 +304,7 @@ var vm = new Vue({
                 });
         },
         //复制单据
-        copybill: function(event) {
+        copybill: function (event) {
             var id = getSelectedRow();
             if (id == null) {
                 return;
@@ -294,7 +315,7 @@ var vm = new Vue({
             vm.getInfo(id);
 
             $.get("../takeboxmain/info/" + id,
-                function(r) {
+                function (r) {
                     vm.takeboxmain = r.takeboxmain;
                     vm.takeboxmain.id = null;
                     vm.takeboxmain.billno = "*";
@@ -302,21 +323,21 @@ var vm = new Vue({
 
         },
         //作废单据
-        cancel: function(event) {
+        cancel: function (event) {
             var ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
             confirm('确定要作废选中的单据？',
-                function() {
+                function () {
                     $.ajax({
                         type: "POST",
                         url: "../takeboxmain/cancel",
                         data: JSON.stringify(ids),
-                        success: function(r) {
+                        success: function (r) {
                             if (r.code == 0) {
                                 alert('操作成功',
-                                    function(index) {
+                                    function (index) {
                                         $("#jqGrid").trigger("reloadGrid");
                                     });
                             } else {
@@ -328,22 +349,22 @@ var vm = new Vue({
 
         },
         //签收任务
-        claim: function(event) {
+        claim: function (event) {
             var ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
 
             confirm('确定要签收选中的任务？',
-                function() {
+                function () {
                     $.ajax({
                         type: "POST",
                         url: "../takeboxmain/claim",
                         data: JSON.stringify(ids),
-                        success: function(r) {
+                        success: function (r) {
                             if (r.code == 0) {
                                 alert('操作成功',
-                                    function(index) {
+                                    function (index) {
                                         $("#jqGrid").trigger("reloadGrid");
                                     });
                             } else {
@@ -354,22 +375,22 @@ var vm = new Vue({
                 });
         },
         //审核单据，生成运输单
-        audit: function(event) {
+        audit: function (event) {
             var ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
             $.get("../takeboxmain/info/" + id,
-                function(r) {
+                function (r) {
                     vm.takeboxmain = r.takeboxmain;
                     $.ajax({
                         type: "POST",
                         url: "../takeboxmain/audit",
                         data: JSON.stringify(ids),
-                        success: function(r) {
+                        success: function (r) {
                             if (r.code == 0) {
                                 alert('操作成功',
-                                    function(index) {
+                                    function (index) {
                                         $("#jqGrid").trigger("reloadGrid");
                                     });
                             } else {
@@ -381,22 +402,22 @@ var vm = new Vue({
 
         },
 
-        unaudit: function() {
+        unaudit: function () {
             var ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
 
             confirm('确定要反审核选中的记录？',
-                function() {
+                function () {
                     $.ajax({
                         type: "POST",
                         url: "../takeboxmain/unaudit",
                         data: JSON.stringify(ids),
-                        success: function(r) {
+                        success: function (r) {
                             if (r.code == 0) {
                                 alert('操作成功',
-                                    function(index) {
+                                    function (index) {
                                         $("#jqGrid").trigger("reloadGrid");
                                     });
                             } else {
@@ -407,22 +428,22 @@ var vm = new Vue({
                 });
         },
 
-        del: function(event) {
+        del: function (event) {
             var ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
 
             confirm('确定要删除选中的记录？',
-                function() {
+                function () {
                     $.ajax({
                         type: "POST",
                         url: "../takeboxmain/delete",
                         data: JSON.stringify(ids),
-                        success: function(r) {
+                        success: function (r) {
                             if (r.code == 0) {
                                 alert('操作成功',
-                                    function(index) {
+                                    function (index) {
                                         $("#jqGrid").trigger("reloadGrid");
                                     });
                             } else {
@@ -435,56 +456,56 @@ var vm = new Vue({
 
         //生成参照调用函数
         //生成主表参照调用下拉框函数,用来初始化远程数据
-        getRef1006: function() {
+        getRef1006: function () {
             $.get("../enumtable/listone?enumid=1006&page=1&limit=1000",
-                function(r) {
+                function (r) {
                     vm.ref_enum1006 = r.page.list;
                 });
         },
-        getRefplace: function() {
+        getRefplace: function () {
             $.get("../place/list?page=1&limit=1000",
-                function(r) {
+                function (r) {
                     vm.ref_place = r.page.list;
                 });
         },
-        getRefboxs: function() {
+        getRefboxs: function () {
             $.get("../boxs/list?page=1&limit=1000",
-                function(r) {
+                function (r) {
                     vm.ref_boxs = r.page.list;
                 });
         },
-        getRef2002: function() {
+        getRef2002: function () {
             $.get("../enumtable/listone?enumid=2002&page=1&limit=1000",
-                function(r) {
+                function (r) {
                     vm.ref_enum2002 = r.page.list;
                 });
         },
-        getRefsys_user: function() {
+        getRefsys_user: function () {
             $.get("../sys_user/list?page=1&limit=1000",
-                function(r) {
+                function (r) {
                     vm.ref_sys_user = r.page.list;
                 });
         },
 
-        getReforganization: function() {
+        getReforganization: function () {
             $.get("../organization/list?page=1&limit=1000",
-                function(r) {
+                function (r) {
                     vm.ref_organization = r.page.list;
                 });
         },
 
-        getRef2009: function() {
+        getRef2009: function () {
             $.get("../enumtable/listone?enumid=2009&page=1&limit=1000",
-                function(r) {
+                function (r) {
                     vm.ref_enum2009 = r.page.list;
                 });
         },
 
         //生成弹出树形空间参照
-        getRefTreeorganizationorgid: function(menuId) {
+        getRefTreeorganizationorgid: function (menuId) {
             //加载菜单树
             $.get("../organization/select",
-                function(r) {
+                function (r) {
                     ztreeorgid = $.fn.zTree.init($("#refTreeorganization"), setting, r.treeList);
                     var node = ztreeorgid.getNodeByParam("id", vm.takeboxmain.orgid);
                     ztreeorgid.selectNode(node);
@@ -493,7 +514,7 @@ var vm = new Vue({
                 })
         },
 
-        openRefTreeorganizationorgid: function() {
+        openRefTreeorganizationorgid: function () {
             layer.open({
                 type: 1,
                 offset: '50px',
@@ -504,7 +525,7 @@ var vm = new Vue({
                 shadeClose: false,
                 content: jQuery("#treelayerorganization"),
                 btn: ['确定', '取消'],
-                btn1: function(index) {
+                btn1: function (index) {
                     var node = ztreeorgid.getSelectedNodes();
                     //选择上级菜单
                     vm.takeboxmain.orgid = node[0].id;
@@ -514,10 +535,10 @@ var vm = new Vue({
                 }
             });
         },
-        getRefTreeorganizationtakeboxorgid: function(menuId) {
+        getRefTreeorganizationtakeboxorgid: function (menuId) {
             //加载菜单树
             $.get("../organization/select",
-                function(r) {
+                function (r) {
                     ztreetakeboxorgid = $.fn.zTree.init($("#refTreeorganization"), setting, r.treeList);
                     var node = ztreetakeboxorgid.getNodeByParam("id", vm.takeboxmain.takeboxorgid);
                     ztreetakeboxorgid.selectNode(node);
@@ -526,7 +547,7 @@ var vm = new Vue({
                 })
         },
 
-        openRefTreeorganizationtakeboxorgid: function() {
+        openRefTreeorganizationtakeboxorgid: function () {
             layer.open({
                 type: 1,
                 offset: '50px',
@@ -537,7 +558,7 @@ var vm = new Vue({
                 shadeClose: false,
                 content: jQuery("#treelayerorganization"),
                 btn: ['确定', '取消'],
-                btn1: function(index) {
+                btn1: function (index) {
                     var node = ztreetakeboxorgid.getSelectedNodes();
                     //选择上级菜单
                     vm.takeboxmain.takeboxorgid = node[0].id;
@@ -548,13 +569,13 @@ var vm = new Vue({
             });
         },
 
-        getInfo: function(id) {
+        getInfo: function (id) {
             $.get("../takeboxmain/info/" + id,
-                function(r) {
+                function (r) {
                     vm.takeboxmain = r.takeboxmain;
                 });
         },
-        reload: function(event) {
+        reload: function (event) {
             vm.showList = true;
             vm.showDetailList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
@@ -568,7 +589,7 @@ var vm = new Vue({
 
         //单据明细的相关操作
         //查询单据明细
-        queryDetail: function() {
+        queryDetail: function () {
             var row = getSelectedRowData();
 
             var id = row.billno;
@@ -581,7 +602,7 @@ var vm = new Vue({
             $("#jqGridDetail").jqGrid('setGridParam', {
                 page: 1,
                 postData: {
-                    'formid': id
+                    'billno': id
                 },
                 datatype: "json"
             }).trigger("reloadGrid");
@@ -607,7 +628,7 @@ var vm = new Vue({
         },
 
         //增加明细表一条记录
-        additem: function() {
+        additem: function () {
             var mktime = moment().format("YYYY-MM-DD");
             var idx = vm.takeboxmain.details.length;
             var item = {
@@ -645,11 +666,11 @@ var vm = new Vue({
             vm.takeboxmain.details.push(item);
         },
 
-        selectitem: function(index) {
+        selectitem: function (index) {
             var sel = index;
             var item = vm.takeboxmain.details[sel];
         },
-        delitem: function(event) {
+        delitem: function (event) {
             var obj = event.currentTarget;
             var index = obj.attributes['idx'].value;
             vm.takeboxmain.details.splice(index, 1);
@@ -657,7 +678,7 @@ var vm = new Vue({
                 vm.takeboxmain.details[i].serialno = i;
             }
         },
-        upload_on_success: function(response, file, fileList) {
+        upload_on_success: function (response, file, fileList) {
 
             if (!vm.takeboxmain.files) {
                 vm.takeboxmain.files = [];
@@ -668,27 +689,27 @@ var vm = new Vue({
 
         },
 
-        upload_on_change: function(file, fileList) {
+        upload_on_change: function (file, fileList) {
             this.fileslist = fileList;
         },
 
         //放单
-        takebox: function() {
+        takebox: function () {
             var ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
 
             confirm('确定执行放单？',
-                function() {
+                function () {
                     $.ajax({
                         type: "POST",
                         url: "../takeboxmain/takebox",
                         data: JSON.stringify(ids),
-                        success: function(r) {
+                        success: function (r) {
                             if (r.code == 0) {
                                 alert('操作成功',
-                                    function(index) {
+                                    function (index) {
                                         $("#jqGrid").trigger("reloadGrid");
                                     });
                             } else {
@@ -699,7 +720,7 @@ var vm = new Vue({
                 });
         },
         //放单异常
-        takeboxerror: function() {
+        takeboxerror: function () {
             var id = getSelectedRow();
             if (id == null) {
                 return;
@@ -709,20 +730,20 @@ var vm = new Vue({
                     title: '输入放单异常原因，并确认',
                     formType: 2
                 },
-                function(text, index) {
+                function (text, index) {
                     layer.close(index);
                     $.get("../takeboxmain/info/" + id,
-                        function(r) {
+                        function (r) {
                             vm.takeboxmain = r.takeboxmain;
                             vm.takeboxmain.remark = text;
                             $.ajax({
                                 type: "POST",
                                 url: "../takeboxmain/takeboxerror",
                                 data: JSON.stringify(vm.takeboxmain),
-                                success: function(r) {
+                                success: function (r) {
                                     if (r.code == 0) {
                                         alert('操作成功',
-                                            function(index) {
+                                            function (index) {
                                                 $("#jqGrid").trigger("reloadGrid");
                                             });
                                     } else {
@@ -736,7 +757,7 @@ var vm = new Vue({
 
         },
         //打开放单结束对话框
-        takeboxend: function() {
+        takeboxend: function () {
             var id = getSelectedRow();
             if (id == null) {
                 return;
@@ -745,20 +766,31 @@ var vm = new Vue({
             vm.showtakeboxenddlg = true;
 
             $.get("../takeboxmain/info/" + id,
-                function(r) {
+                function (r) {
                     vm.takeboxmain = r.takeboxmain;
 
                 });
 
         },
-        dotakeboxend: function() {
-            this.$refs['takeboxend'].validate(function(valid) {
+        dotakeboxend: function () {
+            if (vm.takeboxmain.realboxqty <= 0) {
+                alert("请录入实际放单数量");
+                return;
+            }
+            this.$refs['takeboxend'].validate(function (valid) {
                 if (valid) {
                     confirm('确定执行放单结束？',
-                        function() {
+                        function () {
                             var sumyingfu = 0.00;
                             var sumyingshou = 0.00;
+                            var realboxqty = 0;
                             for (var i = 0; i < vm.takeboxmain.details.length; i++) {
+                                if (realboxqty < vm.takeboxmain.realboxqty &&
+                                    (vm.takeboxmain.details[i].startplaceid1 == '' ||
+                                    vm.takeboxmain.details[i].startplaceid1 == null)) {
+                                    vm.takeboxmain.details[i].startplaceid1 = vm.takeboxmain.takeboxplaceid;
+                                    realboxqty = realboxqty + 1;
+                                }
                                 vm.takeboxmain.details[i].yingshou = parseFloat(vm.fangdanfeein) + parseFloat(vm.laowufeein) + parseFloat(vm.tixiangfeein) + parseFloat(vm.otherfeein);
                                 vm.takeboxmain.details[i].fangdanfeein = vm.fangdanfeein;
                                 vm.takeboxmain.details[i].laowufeein = vm.laowufeein;
@@ -773,6 +805,7 @@ var vm = new Vue({
                                 sumyingfu = sumyingfu + parseFloat(vm.takeboxmain.details[i].yingfu);
                                 sumyingshou = sumyingshou + parseFloat(vm.takeboxmain.details[i].yingshou);
 
+
                             }
 
                             vm.takeboxmain.yingfu = sumyingfu;
@@ -782,16 +815,16 @@ var vm = new Vue({
                                 type: "POST",
                                 url: "../takeboxmain/takeboxend",
                                 data: JSON.stringify(vm.takeboxmain),
-                                success: function(r) {
+                                success: function (r) {
                                     if (r.code == 0) {
                                         alert('操作成功',
-                                            function(index) {
+                                            function (index) {
                                                 $("#jqGrid").trigger("reloadGrid");
                                             });
                                     } else {
                                         alert(r.msg);
                                     }
-                                    vm.showtakeboxenddlg=false;
+                                    vm.showtakeboxenddlg = false;
                                 }
                             });
                         });
@@ -804,20 +837,20 @@ var vm = new Vue({
         },
 
         //改单申请
-        takeboxchange: function() {
+        takeboxchange: function () {
             var id = getSelectedRow();
             if (id == null) {
                 return;
             }
             vm.showtakeboxchangedlg = true;
             $.get("../takeboxmain/info/" + id,
-                function(r) {
+                function (r) {
                     vm.takeboxmain = r.takeboxmain;
 
                 });
         },
 
-        dotakeboxchange: function() {
+        dotakeboxchange: function () {
             for (var i = 0; i < vm.takeboxmain.details.length; i++) {
                 vm.takeboxmain.details[i].changeplacetype = vm.changeplacetype;
 
@@ -827,16 +860,16 @@ var vm = new Vue({
                 type: "POST",
                 url: "../takeboxmain/takeboxchange",
                 data: JSON.stringify(vm.takeboxmain),
-                success: function(r) {
+                success: function (r) {
                     if (r.code == 0) {
                         alert('操作成功',
-                            function(index) {
+                            function (index) {
                                 $("#jqGrid").trigger("reloadGrid");
                             });
                     } else {
                         alert(r.msg);
                     }
-                    vm.showtakeboxchangedlg=false;
+                    vm.showtakeboxchangedlg = false;
                     vm.changeplacetype = "";
                     vm.newstartplaceid = "";
                     vm.changeremark = "";
@@ -845,7 +878,7 @@ var vm = new Vue({
         },
 
         //改单完成
-        takeboxchangeend: function() {
+        takeboxchangeend: function () {
             var id = getSelectedRow();
             if (id == null) {
                 return;
@@ -854,13 +887,13 @@ var vm = new Vue({
 
 
         },
-        dotakeboxchangeend: function() {
+        dotakeboxchangeend: function () {
             var id = getSelectedRow();
             if (id == null) {
                 return;
             }
             $.get("../takeboxmain/info/" + id,
-                function(r) {
+                function (r) {
                     vm.takeboxmain = r.takeboxmain;
                     for (var i = 0; i < vm.takeboxmain.details.length; i++) {
                         vm.takeboxmain.details[i].changeplacetype = vm.changeplacetype;
@@ -872,16 +905,16 @@ var vm = new Vue({
                         type: "POST",
                         url: "../takeboxmain/takeboxchangeend",
                         data: JSON.stringify(vm.takeboxmain),
-                        success: function(r) {
+                        success: function (r) {
                             if (r.code == 0) {
                                 alert('操作成功',
-                                    function(index) {
+                                    function (index) {
                                         $("#jqGrid").trigger("reloadGrid");
                                     });
                             } else {
                                 alert(r.msg);
                             }
-                            vm.showtakeboxchangeenddlg=false;
+                            vm.showtakeboxchangeenddlg = false;
                             vm.changeplacetype = "";
                             vm.newstartplaceid = "";
                             vm.changeremark = "";
@@ -895,7 +928,7 @@ var vm = new Vue({
     }
 });
 
-$(function() {
+$(function () {
     $("#jqGrid").jqGrid({
         url: '../takeboxmain/list',
         datatype: "json",
@@ -1089,10 +1122,10 @@ $(function() {
             order: "order"
         },
         shrinkToFit: false,
-        onSelectRow: function() {
+        onSelectRow: function () {
             vm.queryDetail();
         },
-        gridComplete: function() {
+        gridComplete: function () {
             //隐藏grid底部滚动条
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
@@ -1266,7 +1299,7 @@ $(function() {
             order: "order"
         },
         shrinkToFit: false,
-        gridComplete: function() {
+        gridComplete: function () {
             //隐藏grid底部滚动条
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
@@ -1274,7 +1307,7 @@ $(function() {
 
     jQuery("#jqGridDetail").jqGrid('setGroupHeaders', {
         useColSpanStyle: true,
-        groupHeaders:[
+        groupHeaders: [
             {startColumnName: 'yingshou', numberOfColumns: 5, titleText: '放单收入'},
             {startColumnName: 'yingfu', numberOfColumns: 6, titleText: '放单成本'}
         ]

@@ -201,8 +201,8 @@ public class EmptymainController extends AbstractController {
 						takeboxdetailEntity.setBillno(billno);
 						takeboxdetailEntity.setSerialno((long) i);
 						takeboxdetailEntity.setBoxno("");
-						takeboxdetailEntity.setStartplaceid1(emptymain.getTakeboxplaceid());
-						takeboxdetailEntity.setStartplaceid2(emptymain.getTakeboxplaceid());
+//						takeboxdetailEntity.setStartplaceid1(emptymain.getTakeboxplaceid());
+//						takeboxdetailEntity.setStartplaceid2(emptymain.getTakeboxplaceid());
 						takeboxdetailEntity.setEndplaceid(emptymain.getEndplaceid());
 						takeboxdetailEntity.setUptdate(new Date());
 						details.add(takeboxdetailEntity);

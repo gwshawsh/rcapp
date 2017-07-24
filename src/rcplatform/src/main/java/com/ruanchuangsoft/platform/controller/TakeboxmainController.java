@@ -223,7 +223,17 @@ public class TakeboxmainController extends AbstractController {
             if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
                 return R.error(1, "单据已经审核,不能执行放单结束");
             }
-            takeboxmain.setBillstatus(TakeboxBillStatus.TAKEBOXEND);
+            //检测明细是不是都放单了，只有都放单了才能设置单据状态为放单结束，否则就是放单中
+            boolean flag=false;
+            for(TakeboxdetailEntity item:takeboxmain.getDetails()){
+                if(item.getStartplaceid1()==null||item.getStartplaceid1()<0){
+                    flag=true;
+                    break;
+                }
+            }
+            if(!flag) {
+                takeboxmain.setBillstatus(TakeboxBillStatus.TAKEBOXEND);
+            }
             takeboxmain.setAccdate(new Date());
             takeboxmain.setAccuser(ShiroUtils.getUserId());
             takeboxmainService.update(takeboxmain);
