@@ -60,7 +60,7 @@
 				</form>
 				<button class="mui-btn mui-btn-block mui-btn-green btn-bottom" v-on:click="" style="">提交申请</button>
 			</div>
-			
+
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/vue.min.js"></script>
@@ -69,11 +69,11 @@
 		<script src="../js/mui.poppicker.js"></script>
 		<script type="text/javascript">
 			mui.init()
-			var userPicker = new mui.PopPicker();
+
 			var vm = new Vue({
 				el: '#rrapp',
 				data: {
-					applier: '12',
+					applier: '',
 					dept: '',
 					applytime: '',
 					no: '',
@@ -83,42 +83,31 @@
 					approver: '',
 				},
 				methods: {
-					pickuser: function() {
+					pickuser: function() {						
+						get(baseurl + "sys_user/list", {
+								page: 1,
+								limit: 1000
+							},
+							function(data) {
+								var list = new Array();
+								if(data.code == 0) {
+									for(var i in data.page.list) {
+										list.push({
+											text: data.page.list[i].username,
+											value: ""
+										});
+										var userPicker = new mui.PopPicker();
+										userPicker.setData(list);
+										userPicker.show(function(items) {
+											vm.applier = items[0].text;
+										});
+									}
+								} else {
+									plus.nativeUI.toast(data.msg);
+								}
 
-						userPicker.setData([{
-							value: 'ywj',
-							text: '董事长 叶文洁'
-						}, {
-							value: 'aaa',
-							text: '总经理 艾AA'
-						}, {
-							value: 'lj',
-							text: '罗辑'
-						}, {
-							value: 'ymt',
-							text: '云天明'
-						}, {
-							value: 'shq',
-							text: '史强'
-						}, {
-							value: 'zhbh',
-							text: '章北海'
-						}, {
-							value: 'zhy',
-							text: '庄颜'
-						}, {
-							value: 'gyf',
-							text: '关一帆'
-						}, {
-							value: 'zhz',
-							text: '智子'
-						}, {
-							value: 'gezh',
-							text: '歌者'
-						}]);
-						userPicker.show(function(items) {
-							vm.applier = items[0].text;
-						});
+							});
+
 					}
 				},
 			});

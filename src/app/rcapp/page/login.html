@@ -113,7 +113,20 @@
 				height: 0;
 			}
 			
+			.mui-input-group .mui-input-row:after {
+				height: 0px;
+			}
 			
+			.line {
+				right: 0;
+				bottom: 0;
+				left: 0px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc;
+			}
 		</style>
 
 	</head>
@@ -125,19 +138,18 @@
 		<div class="mui-content" id="rrapp">
 			<img src="../images/user-photo.png" class="aligncenter" style="width: 80px;margin-top: 20px;" />
 			<form class="mui-input-group">
-				<div class="mui-input-row" style="height: 56px;">
-
-					<input style="height:inherit;" id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号" v-model="username">
+				<div class="mui-input-row">
+					<input id='account' type="text" class="mui-input-clear mui-input " placeholder="请输入账号" v-model="username">
 				</div>
-				<div class="mui-input-row" style="height: 56px;">
-
-					<input id="password" style="height:inherit;" id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码" v-model="password">
+				<div class="line"></div>
+				<div class="mui-input-row">
+					<input id="password" type="password" class="mui-input-clear mui-input " placeholder="请输入密码" v-model="password">
 				</div>
 
 			</form>
-
-			<a v-on:click="forgetpwd" style="color:#35BD66;font-size: 15px;padding-left: 32px;">忘记密码?</a>
-
+			<div style="margin-top: 12px;">
+				<a v-on:click="forgetpwd" style="color:#35BD66;font-size: 15px;padding-left: 32px;">忘记密码?</a>
+			</div>
 			<form class="mui-input-group" style="display:none">
 				<ul class="mui-table-view mui-table-view-chevron">
 					<li class="mui-table-view-cell">
@@ -157,7 +169,7 @@
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
-		<script src="../js/mui.enterfocus.js"></script>		
+		<script src="../js/mui.enterfocus.js"></script>
 		<script src="../js/vue.min.js"></script>
 		<script src="../js/app.js"></script>
 		<script>
@@ -170,7 +182,7 @@
 					captcha: '',
 					error: false,
 					errorMsg: '',
-					src: 'captcha.jpg'
+
 				},
 				beforeCreate: function() {
 					if(self != top) {
@@ -180,10 +192,6 @@
 				},
 
 				methods: {
-					refreshCode: function() {
-						this.src = baseurl + "captcha.jpg?t=" + new Date().getTime();
-
-					},
 					tomain: function() {
 						mui.openWindow({
 							url: 'main.html',
@@ -201,66 +209,22 @@
 						});
 					},
 					login: function(event) {
-						/*var loginInfo = {
-							account: this.username,
-							password: this.passworwd
-						};
-						app.login(loginInfo, function(err) {
-							if(err) {
-								plus.nativeUI.toast(err);
-								return;
-							}
-							toMain();
-						});*/
-						
-						mui.post(baseurl+"sys/login",
-						{username:vm.username,password:vm.password},
-						function(data){
-							if(data.code ==0){
-								vm.tomain();
-							}else{
-								vm.refreshCode();
-								plus.nativeUI.toast(data.msg);
-							}
-							
-						},
-						'json');
-						/*var data = "username=" + vm.username + "&password=" + vm.password + "&captcha=" + vm.captcha;
-						$.ajax({
-							type: "POST",
-							url: baseurl + "sys/login",
-							data: data,
-							dataType: "json",
-							success: function(result) {
-								if(result.code == 0) { //登录成功
-									//parent.location.href = 'index.html?lang=en_US';
+						get(baseurl + "sys/login", {
+								username: vm.username,
+								password: vm.password
+							},
+							function(data) {
+								if(data.code == 0) {
 									vm.tomain();
 								} else {
-									vm.error = true;
-									vm.errorMsg = result.msg;
-									plus.nativeUI.toast(vm.errorMsg);
 									vm.refreshCode();
+									plus.nativeUI.toast(data.msg);
 								}
-							}
-						});*/
-					},
-					register: function() {
 
-						mui.openWindow({
-							url: 'reg.html',
-							id: 'reg',
-							preload: true,
-							show: {
-								aniShow: 'pop-in'
-							},
-							styles: {
-								popGesture: 'hide'
-							},
-							waiting: {
-								autoShow: false
-							}
-						});
+							});
+
 					},
+
 					forgetpwd: function() {
 						mui.openWindow({
 							url: 'forget_password.html',
@@ -282,10 +246,6 @@
 			});
 
 			(function($, doc) {
-				$.init({
-					statusBarBackground: '#ff0000'
-				});
-
 				var backButtonPress = 0;
 				$.back = function(event) {
 					backButtonPress++;
@@ -330,96 +290,20 @@
 						toMain();
 					} else {
 						return;
-						app.setState(null);
-						//第三方登录 
-						var authBtns = ['qihoo', 'weixin', 'sinaweibo', 'qq']; //配置业务支持的第三方登录
-						var auths = {};
-						var oauthArea = doc.querySelector('.oauth-area');
-						plus.oauth.getServices(function(services) {
-							for(var i in services) {
-								var service = services[i];
-								auths[service.id] = service;
-								if(~authBtns.indexOf(service.id)) {
-									var isInstalled = app.isInstalled(service.id);
-									var btn = document.createElement('div');
-									//如果微信未安装，则为不启用状态
-									btn.setAttribute('class', 'oauth-btn' + (!isInstalled && service.id === 'weixin' ? (' disabled') : ''));
-									btn.authId = service.id;
-									btn.style.backgroundImage = 'url("images/' + service.id + '.png")'
-									oauthArea.appendChild(btn);
-								}
-							}
-							$(oauthArea).on('tap', '.oauth-btn', function() {
-								if(this.classList.contains('disabled')) {
-									plus.nativeUI.toast('您尚未安装微信客户端');
-									return;
-								}
-								var auth = auths[this.authId];
-								var waiting = plus.nativeUI.showWaiting();
-								auth.login(function() {
-									waiting.close();
-									plus.nativeUI.toast("登录认证成功");
-									auth.getUserInfo(function() {
-										plus.nativeUI.toast("获取用户信息成功");
-										var name = auth.userInfo.nickname || auth.userInfo.name;
-										app.createState(name, function() {
-											toMain();
-										});
-									}, function(e) {
-										plus.nativeUI.toast("获取用户信息失败：" + e.message);
-									});
-								}, function(e) {
-									waiting.close();
-									plus.nativeUI.toast("登录认证失败：" + e.message);
-								});
-							});
-						}, function(e) {
-							oauthArea.style.display = 'none';
-							plus.nativeUI.toast("获取登录认证失败：" + e.message);
+
+						$.enterfocus('#login-form input', function() {
+							$.trigger(loginButton, 'tap');
 						});
+
+						//
+						window.addEventListener('resize', function() {
+							oauthArea.style.display = document.body.clientHeight > 400 ? 'block' : 'none';
+						}, false);
+						//
+
 					}
-					// close splash
-					setTimeout(function() {
-						//关闭 splash
-						plus.navigator.closeSplashscreen();
-					}, 600);
-					//检查 "登录状态/锁屏状态" 结束
-
-					$.enterfocus('#login-form input', function() {
-						$.trigger(loginButton, 'tap');
-					});
-					/*autoLoginButton.classList[settings.autoLogin ? 'add' : 'remove']('mui-active')
-					autoLoginButton.addEventListener('toggle', function(event) {
-						setTimeout(function() {
-							var isActive = event.detail.isActive;
-							settings.autoLogin = isActive;
-							app.setSettings(settings);
-						}, 50);
-					}, false);*/
-
-					//
-					window.addEventListener('resize', function() {
-						oauthArea.style.display = document.body.clientHeight > 400 ? 'block' : 'none';
-					}, false);
-					//
-
 				});
 			}(mui, document));
-			var main_loaded_flag = false;
-
-			function toMain() {
-				//使用定时器的原因：
-
-				//可能执行太快，main页面loaded事件尚未触发就执行自定义事件，此时必然会失败
-				var id = setInterval(function() {
-					if(main_loaded_flag) {
-						clearInterval(id);
-						$.fire(mainPage, 'show', null);
-						mainPage.show("pop-in");
-					}
-				}, 20);
-			};
-			vm.refreshCode();
 		</script>
 	</body>
 

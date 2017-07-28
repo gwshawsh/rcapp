@@ -1,59 +1,11 @@
-/**
- * 演示程序当前的 “注册/登录” 等操作，是基于 “本地存储” 完成的
- * 当您要参考这个演示程序进行相关 app 的开发时，
- * 请注意将相关方法调整成 “基于服务端Service” 的实现。
- **/
-
 var baseurl = "http://192.168.253.1:8888/";
-var header = {
-	props: {
-		title: '',
-		btn: '',
-		to: ''
-	},
-	template: [
 
-		'<header class="mui-bar mui-bar-nav">',
-		'<span class="mui-icon mui-icon-back mui-action-back"></span>',
-		'<h1  class="mui-title">{{title}}</h1>',
-		'<button class=" mui-pull-right mui-btn-link" @click="navigate(to)" >{{btn}}</button>',
-		'</header>'
-
-	].join('')
-};
-Vue.component('rc-header', header);
-
-var listItem = {
-
-	props: {
-		list: []
-	},
-	template: [
-
-
-	'<div  class="mui-scroll-wrapper"><div class="mui-scroll">',		
-'<ul class="mui-table-view">', 
-		'<li v-for="item in list" class="mui-table-view-cell mui-media" >', 
-		'<p class="mui-input-row" style="padding-left: 52px;">申请单号:&nbsp;&nbsp;&nbsp;{{item.no}} <span class="font-green position-right"> {{item.status}}</span></p>',
-		'<div class=\'mui-navigate-right\' >',
-		'<img class="mui-media-object mui-pull-left" :src="item.src" onerror="src=\'../images/default_head.png\'">',
-		'<div class="mui-media-body">',
-
-		'{{item.name}}',
-		'<span class="font-secondary"> {{item.dept}}</span>',
-		'<span class="font-warning position-right"> {{item.money}}元</span>',
-		'<p class="font-green">{{item.reason}}</p>',
-		'<p>申请人:&nbsp;&nbsp;&nbsp;{{item.applier}}</p>',
-		'<p class=\'mui-ellipsis\'>申请时间:{{item.applytime}}</p>',
-		'</div></div>',		
-		'<button class="mui-btn-green " v-on:click="" style="float: right;">审批</button>',
-		'</li></ul></div></div>'	,
-
-	].join('')
-};
-Vue.component('rc-list', listItem);
 function navigate(murl) {
-	mui.openWindow({
+	if(!murl){
+		mui.back();
+		return;
+	}
+		mui.openWindow({
 		url: murl,
 		id: murl,
 		preload: false,
@@ -67,6 +19,49 @@ function navigate(murl) {
 			autoShow: true
 		}
 	});
+	
+}
+var header = {  
+	props: {
+		title: '',
+		btn: '',
+		to: '',
+
+	},
+	template: [
+
+		'<header class="mui-bar mui-bar-nav">',
+		'<span class="mui-icon mui-icon-back mui-action-back"></span>',
+		'<h1  class="mui-title">{{title}}</h1>',
+		'<button class=" mui-pull-right mui-btn-link" @click="navigate(to)" >{{btn}}</button>',
+		'</header>'
+
+	].join('')
+};
+
+Vue.component('rc-header', header);
+
+function get(url, data, success) {
+	var mask = mui.createMask();
+	mui.ajax(url, {
+		data: data,
+		dataType: 'json', //服务器返回json格式数据
+		type: 'post', //HTTP请求类型
+		timeout: 5000, //超时时间设置为10秒；
+		beforeSend: function() {
+			plus.nativeUI.showWaiting();
+			mask.show(); //显示遮罩层
+		},
+		complete: function() {
+			plus.nativeUI.closeWaiting();
+			mask.close(); //关闭遮罩层
+		},
+		success: success,
+		error: function(xhr, type, errorThrown) {
+			mui.alert('服务器连接超时，请稍后再试');
+			mask.close();
+		}
+	})
 }
 (function($, owner) {
 	/**

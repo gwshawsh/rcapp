@@ -85,7 +85,7 @@
 		"NativeObj": {},
 		
 		"OAuth": {},
-		"Device": {},"Maps":{},"Geolocation":{}
+		"Device": {},"Maps":{},"Geolocation":{},"Share":{}
 	},
 	"plus": {
 		"splashscreen": {
@@ -332,14 +332,24 @@
 					"images/gongyingshang.png",
 					"images/shenpi.png",
 					"images/qingjia.png",
-					"images/hourglass.png"
+					"images/hourglass.png",
+					"images/main/main_top.png",
+					"images/timer.png",
+					"css/style.css",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/vue.min.js"
 				],
 				"refer": [
 					"page/leave.html",
 					"page/setting.html",
 					"page/approval.html",
 					"page/checkin.html",
-					"page/message.html"
+					"page/message.html",
+					"page/approval_manage.html",
+					"page/history_manage.html",
+					"page/personpage.html"
 				],
 				"priority": 0
 			},
@@ -367,7 +377,8 @@
 					"css/style.css",
 					"js/vue.min.js",
 					"js/mui.enterfocus.js",
-					"images/user-photo.png"
+					"images/user-photo.png",
+					"fonts/mui.ttf"
 				],
 				"refer": [
 					"page/main.html"
@@ -413,7 +424,9 @@
 					"css/mui.min.css",
 					"css/style.css",
 					"js/vue.min.js",
-					"images/default_head.png"
+					"images/default_head.png",
+					"js/rclist.js",
+					"css/rclist.css"
 				],
 				"refer": [
 					"page/approval_new.html"
@@ -438,9 +451,12 @@
 			},
 			"page/personpage.html": {
 				"resources": [
-					"fonts/mui.ttf"
+					"fonts/mui.ttf",
+					"images/head.jpg"
 				],
-				"refer": [],
+				"refer": [
+					"page/setting.html"
+				],
 				"priority": 0
 			},
 			"page/checkin.html": {
@@ -451,7 +467,11 @@
 					"css/mui.min.css",
 					"css/style.css",
 					"js/vue.min.js",
-					"images/calendar.png"
+					"images/calendar.png",
+					"js/mui.picker.min.js",
+					"js/mui.poppicker.js",
+					"css/mui.poppicker.css",
+					"css/mui.picker.min.css"
 				],
 				"refer": [
 					"page/checkin_statis.html"
@@ -472,7 +492,101 @@
 			},
 			"page/message.html": {
 				"resources": [
-					"page/sublist.html"
+					"page/sublist.html",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/setting.html": {
+				"resources": [
+					"libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+					"fonts/mui.ttf",
+					"libs/easymob-webim-sdk/json2.js",
+					"libs/easymob-webim-sdk/jquery-1.11.1.js",
+					"js/mui.locker.js",
+					"js/feedback.js",
+					"css/feedback-page.css",
+					"js/feedback-page.js",
+					"libs/easymob-webim-sdk/strophe-custom-2.0.0.js",
+					"js/mui.view.js",
+					"js/app.js",
+					"js/vue.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/approval_manage.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js"
+				],
+				"refer": [
+					"page/approval_new.html",
+					"page/approval.html",
+					"page/leave.html"
+				],
+				"priority": 0
+			},
+			"page/leave_apply.html": {
+				"resources": [
+					"js/mui.picker.min.js",
+					"css/mui.picker.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/history_manage.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js"
+				],
+				"refer": [
+					"page/search_order.html"
+				],
+				"priority": 0
+			},
+			"page/search_order.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js",
+					"images/default_head.png",
+					"js/rclist.js",
+					"css/rclist.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/sublist.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js",
+					"js/rclist.js",
+					"fonts/mui.ttf",
+					"images/default_head.png",
+					"css/rclist.css"
 				],
 				"refer": [],
 				"priority": 0

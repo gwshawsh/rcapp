@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<style>
+			.mui-badge {
+				position: absolute;
+				color: #fff;
+				background: red;
+				top: 0.3rem;
+				right: 0.7rem;
+				float: right;
+			}
+			
+			.mui-control-item {
+				position: relative;
+			}
+			
+			.mui-control-content {
+				background-color: white;
+				min-height: 400px;
+			}
+			
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+			
+			.position-right {
+				right: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="rrapp">
+			<rc-header title="审批管理" btn="新增" to="approval_new.html"></rc-header>
+			<div class="mui-content">
+				<ul class="mui-table-view">
+
+					<li v-for="item in menulist" class="mui-table-view-cell">
+						<a class="mui-navigate-right" @click="navigate(item.to)">
+							<span v-if="item.badge" class="mui-badge mui-badge-danger">{{item.badge}}</span> {{item.name}}
+						</a>
+					</li>
+
+				</ul>
+
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: '#rrapp',
+				data: {
+					menulist: [{ 
+							name: '请假审批',
+							to: 'leave.html',
+							badge: '1',
+						},
+						{
+							name: '请购单审批',
+							to: 'approval.html',
+							badge: '',
+						},
+						{
+							name: '订购单审批',
+							to: 'approval.html',
+							badge: '',
+						},
+						{
+							name: '合同审批',
+							to: '',
+							badge: '1',
+						},
+
+					],
+
+				},
+			});
+			mui.init({
+				swipeBack: false
+			});
+		</script>
+	</body>
+
+</html>
