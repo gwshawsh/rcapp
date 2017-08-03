@@ -47,7 +47,7 @@ public class PreemptymainEntity implements Serializable {
 	//备注
 	private String remark;
 	//单据状态
-	private String billstatus;
+	private Integer billstatus;
 	//制单人
 	private String makeuser;
 	//制单日期
@@ -243,13 +243,13 @@ public class PreemptymainEntity implements Serializable {
 	/**
 	 * 设置：单据状态
 	 */
-	public void setBillstatus(String billstatus) {
+	public void setBillstatus(Integer billstatus) {
 		this.billstatus = billstatus;
 	}
 	/**
 	 * 获取：单据状态
 	 */
-	public String getBillstatus() {
+	public Integer getBillstatus() {
 		return billstatus;
 	}
 	/**

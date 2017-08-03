@@ -5,8 +5,9 @@
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.ContractmainEntity">
 		select
-													               		ifnull((select name from  organization b where a.partyaid=b.id),'') as partyaidname,
+																               		ifnull((select name from  organization b where a.partyaid=b.id),'') as partyaidname,
 												               		ifnull((select name from  organization b where a.partybid=b.id),'') as partybidname,
+												                    ifnull((select enumvaluename from  enumtable b where a.billsource=b.enumvalueid and b.enumtype='1001'),'') as billsourceenumvaluename,
 												                    ifnull((select enumvaluename from  enumtable b where a.billtype=b.enumvalueid and b.enumtype='1011'),'') as billtypeenumvaluename,
 												                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='2005'),'') as paytypeenumvaluename,
 												               		ifnull((select name from  paycircle b where a.paycircleid=b.id),'') as paycircleidname,
@@ -20,8 +21,9 @@
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.ContractmainEntity">
         select
-																			                    ifnull((select name from  organization b where a.partyaid=b.id),'') as partyaidname,
+																								                    ifnull((select name from  organization b where a.partyaid=b.id),'') as partyaidname,
 																                    ifnull((select name from  organization b where a.partybid=b.id),'') as partybidname,
+																                    ifnull((select enumvaluename from  enumtable b where a.billsource=b.enumvalueid and b.enumtype='1001'),'') as billsourceenumvaluename,
 																                    ifnull((select enumvaluename from  enumtable b where a.billtype=b.enumvalueid and b.enumtype='1011'),'') as billtypeenumvaluename,
 																                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='2005'),'') as paytypeenumvaluename,
 																                    ifnull((select name from  paycircle b where a.paycircleid=b.id),'') as paycircleidname,
@@ -39,12 +41,20 @@
 						 and  `billno` = #{billno}
                     </if>
 				
+							                    <if test="orderbillno != null and orderbillno != '' ">
+						 and  `orderbillno` = #{orderbillno}
+                    </if>
+				
 							                    <if test="partyaid != null and partyaid != '' ">
 						 and  `partyaid` = #{partyaid}
                     </if>
 				
 							                    <if test="partybid != null and partybid != '' ">
 						 and  `partybid` = #{partybid}
+                    </if>
+				
+							                    <if test="billsource != null and billsource != '' ">
+						 and  `billsource` = #{billsource}
                     </if>
 				
 							                    <if test="billtype != null and billtype != '' ">
@@ -103,6 +113,7 @@
                     </if>
 				
 			        </where>
+		order by id desc
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
@@ -116,8 +127,10 @@
 		insert into contractmain
 		(
 			`billno`, 
+			`orderbillno`, 
 			`partyaid`, 
 			`partybid`, 
+			`billsource`, 
 			`billtype`, 
 			`paytype`, 
 			`paycircleid`, 
@@ -135,8 +148,10 @@
 		values
 		(
 			#{billno}, 
+			#{orderbillno}, 
 			#{partyaid}, 
 			#{partybid}, 
+			#{billsource}, 
 			#{billtype}, 
 			#{paytype}, 
 			#{paycircleid}, 
@@ -157,8 +172,10 @@
 		update contractmain 
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
+			<if test="orderbillno != null">`orderbillno` = #{orderbillno}, </if>
 			<if test="partyaid != null">`partyaid` = #{partyaid}, </if>
 			<if test="partybid != null">`partybid` = #{partybid}, </if>
+			<if test="billsource != null">`billsource` = #{billsource}, </if>
 			<if test="billtype != null">`billtype` = #{billtype}, </if>
 			<if test="paytype != null">`paytype` = #{paytype}, </if>
 			<if test="paycircleid != null">`paycircleid` = #{paycircleid}, </if>

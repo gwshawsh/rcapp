@@ -10,6 +10,7 @@ import com.ruanchuangsoft.platform.controller.AbstractController;
 import org.activiti.engine.task.Task;
 import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
+import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
 import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -32,7 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-06 16:29:12
+ * @date 2017-07-25 20:40:35
  */
 @Controller
 @RequestMapping("contractdetail")
@@ -72,13 +73,26 @@ public class ContractdetailController extends AbstractController {
             try {
                 String tmpquery = query.replaceAll("&quot;", "\"");
                     ContractdetailEntity param = JSON.parseObject(tmpquery, ContractdetailEntity.class);
-                                    map.put("id", param.getId());
-                                    map.put("billno", param.getBillno());
-                                    map.put("serialno", param.getSerialno());
-                                    map.put("feeid", param.getFeeid());
-                                    map.put("price", param.getPrice());
-                                    map.put("cost", param.getCost());
-                                    map.put("uptdate", param.getUptdate());
+                                    if(param.getId()!=null)
+                        map.put("id", param.getId());
+                                    if(param.getBillno()!=null)
+                        map.put("billno", param.getBillno());
+                                    if(param.getSerialno()!=null)
+                        map.put("serialno", param.getSerialno());
+                                    if(param.getGoodsid()!=null)
+                        map.put("goodsid", param.getGoodsid());
+                                    if(param.getGoodscount()!=null)
+                        map.put("goodscount", param.getGoodscount());
+                                    if(param.getGoodsspec()!=null)
+                        map.put("goodsspec", param.getGoodsspec());
+                                    if(param.getGoodsuse()!=null)
+                        map.put("goodsuse", param.getGoodsuse());
+                                    if(param.getGoodsprice()!=null)
+                        map.put("goodsprice", param.getGoodsprice());
+                                    if(param.getCost()!=null)
+                        map.put("cost", param.getCost());
+                                    if(param.getUptdate()!=null)
+                        map.put("uptdate", param.getUptdate());
                 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -133,7 +147,7 @@ public class ContractdetailController extends AbstractController {
         }
 
         //判断是否存在工作流处理列，有则创建处理过程
-                                                                                                                                                    
+                                                                                                                                                                                                                
 
 
         return R.ok();

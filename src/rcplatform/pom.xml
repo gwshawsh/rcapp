@@ -404,6 +404,15 @@
                     <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
                     <fork>true</fork><!-- 如果没有该项配置，可能devtools不会起作用 -->
                 </configuration>
+                <dependencies>
+                    <!-- https://mvnrepository.com/artifact/org.springframework/springloaded -->
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>springloaded</artifactId>
+                        <version>1.2.6.RELEASE</version>
+                    </dependency>
+
+                </dependencies>
             </plugin>
 
         </plugins>

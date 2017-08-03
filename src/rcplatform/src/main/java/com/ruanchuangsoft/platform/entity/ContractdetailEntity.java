@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-06 16:29:12
+ * @date 2017-07-25 20:40:35
  */
 public class ContractdetailEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -26,18 +26,24 @@ public class ContractdetailEntity extends AbstractEntity implements Serializable
 	private String billno;
 	//序号
 	private Long serialno;
-	//费用项目
-	private Long feeid;
+	//品名
+	private Long goodsid;
+	//数量
+	private Integer goodscount;
+	//规格
+	private String goodsspec;
+	//用途
+	private String goodsuse;
 	//单价
-	private BigDecimal price;
+	private BigDecimal goodsprice;
 	//金额
 	private BigDecimal cost;
 	//更新时间
 	private Date uptdate;
 
-				        //费用项目
-        private String feeidname;
-				
+				        //品名
+        private String goodsidname;
+							
 	/**
 	 * 设置：
 	 */
@@ -75,28 +81,64 @@ public class ContractdetailEntity extends AbstractEntity implements Serializable
 		return serialno;
 	}
 	/**
-	 * 设置：费用项目
+	 * 设置：品名
 	 */
-	public void setFeeid(Long feeid) {
-		this.feeid = feeid;
+	public void setGoodsid(Long goodsid) {
+		this.goodsid = goodsid;
 	}
 	/**
-	 * 获取：费用项目
+	 * 获取：品名
 	 */
-	public Long getFeeid() {
-		return feeid;
+	public Long getGoodsid() {
+		return goodsid;
+	}
+	/**
+	 * 设置：数量
+	 */
+	public void setGoodscount(Integer goodscount) {
+		this.goodscount = goodscount;
+	}
+	/**
+	 * 获取：数量
+	 */
+	public Integer getGoodscount() {
+		return goodscount;
+	}
+	/**
+	 * 设置：规格
+	 */
+	public void setGoodsspec(String goodsspec) {
+		this.goodsspec = goodsspec;
+	}
+	/**
+	 * 获取：规格
+	 */
+	public String getGoodsspec() {
+		return goodsspec;
+	}
+	/**
+	 * 设置：用途
+	 */
+	public void setGoodsuse(String goodsuse) {
+		this.goodsuse = goodsuse;
+	}
+	/**
+	 * 获取：用途
+	 */
+	public String getGoodsuse() {
+		return goodsuse;
 	}
 	/**
 	 * 设置：单价
 	 */
-	public void setPrice(BigDecimal price) {
-		this.price = price;
+	public void setGoodsprice(BigDecimal goodsprice) {
+		this.goodsprice = goodsprice;
 	}
 	/**
 	 * 获取：单价
 	 */
-	public BigDecimal getPrice() {
-		return price;
+	public BigDecimal getGoodsprice() {
+		return goodsprice;
 	}
 	/**
 	 * 设置：金额
@@ -125,18 +167,18 @@ public class ContractdetailEntity extends AbstractEntity implements Serializable
 
 
 												        /**
-         * 设置：费用项目name
+         * 设置：品名name
          */
-        public void setFeeidname(String name) {
-            this.feeidname = name;
+        public void setGoodsidname(String name) {
+            this.goodsidname = name;
         }
         /**
-         * 获取：费用项目name
+         * 获取：品名name
          */
-        public String getFeeidname() {
-            return feeidname;
+        public String getGoodsidname() {
+            return goodsidname;
         }
-        										
+        																			
     /**
          * To string string.
          *构造单据的描述内容
@@ -157,13 +199,28 @@ public class ContractdetailEntity extends AbstractEntity implements Serializable
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">费用项目</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getFeeidname()+"</span>\n" +
+                        "  <label class=\"el-form-item__label\">品名</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getGoodsidname()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">数量</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getGoodscount()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">规格</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getGoodsspec()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">用途</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getGoodsuse()+"</span>\n" +
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +
                         "  <label class=\"el-form-item__label\">单价</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getPrice()+"</span>\n" +
+                        "  <div class=\"el-form-item__content\"><span>"+getGoodsprice()+"</span>\n" +
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +

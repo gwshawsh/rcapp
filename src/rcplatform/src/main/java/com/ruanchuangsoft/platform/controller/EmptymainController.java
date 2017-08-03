@@ -188,7 +188,7 @@ public class EmptymainController extends AbstractController {
 					takeboxmainEntity.setEndplaceid(emptymain.getEndplaceid());
 					takeboxmainEntity.setBgnplanarrtime(emptymain.getPlanarrdatetime());
 					takeboxmainEntity.setEndplanarrtime(emptymain.getPlanarrdatetime());
-					takeboxmainEntity.setBillstatus(String.valueOf(BillStatus.NEW));
+					takeboxmainEntity.setBillstatus(BillStatus.NEW);
 					takeboxmainEntity.setMakedate(new Date());
 					takeboxmainEntity.setMakeuser(ShiroUtils.getUserId());
 					takeboxmainEntity.setUptdate(new Date());
@@ -230,7 +230,7 @@ public class EmptymainController extends AbstractController {
 					transboxmainEntity.setTakeboxplaceid(emptymain.getTakeboxplaceid());
 					transboxmainEntity.setBgnplanarrtime(emptymain.getPlanarrdatetime());
 					transboxmainEntity.setEndplanarrtime(emptymain.getPlanarrdatetime());
-					transboxmainEntity.setBillstatus(String.valueOf(BillStatus.NEW));
+					transboxmainEntity.setBillstatus(BillStatus.NEW);
 					transboxmainEntity.setMakedate(new Date());
 					transboxmainEntity.setMakeuser(String.valueOf(ShiroUtils.getUserId()));
 					transboxmainEntity.setUptdate(new Date());

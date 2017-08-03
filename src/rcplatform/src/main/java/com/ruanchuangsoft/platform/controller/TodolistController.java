@@ -118,34 +118,34 @@ public class TodolistController extends AbstractController {
 
         //查询请购单审批任务
         Map<String,Object> map=new HashMap<>();
-        map.put("offset", (param.getPage() - 1) * param.getLimit());
+        map.put("offset", param.getPage());
         map.put("limit", param.getLimit());
         map.put("userid",sysUserEntity.getId());//用来与工作流关联
         if (billtype.equalsIgnoreCase("ask")) {
             List<RequisitionmainEntity> list=requisitionmainService.queryList(map);
             int total = list.size();
-            PageUtils pageUtil = new PageUtils(list, total, 20, 0);
+            PageUtils pageUtil = new PageUtils(list, total, param.getLimit(), param.getPage());
             return R.ok().put("page", pageUtil);
         }
         //查询订购单审批任务
         else if (billtype.equalsIgnoreCase("order")) {
             List<OrdermainEntity> list=ordermainService.queryList(map);
             int total = list.size();
-            PageUtils pageUtil = new PageUtils(list, total, 20, 0);
+            PageUtils pageUtil = new PageUtils(list, total,  param.getLimit(), param.getPage());
             return R.ok().put("page", pageUtil);
         }
         //查询付款单审批任务
         else if (billtype.equalsIgnoreCase("pay")) {
             List<PaymentmainEntity> list=paymentmainService.queryList(map);
             int total = list.size();
-            PageUtils pageUtil = new PageUtils(list, total, 20, 0);
+            PageUtils pageUtil = new PageUtils(list, total,  param.getLimit(), param.getPage());
             return R.ok().put("page", pageUtil);
         }
         //查询合同审批任务
         else if (billtype.equalsIgnoreCase("contract")) {
             List<ContractmainEntity> list=contractmainService.queryList(map);
             int total = list.size();
-            PageUtils pageUtil = new PageUtils(list, total, 20, 0);
+            PageUtils pageUtil = new PageUtils(list, total,  param.getLimit(), param.getPage());
             return R.ok().put("page", pageUtil);
         }
 

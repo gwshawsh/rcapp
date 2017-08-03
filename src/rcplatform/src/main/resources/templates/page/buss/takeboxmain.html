@@ -229,7 +229,7 @@
 
 <div v-show="showDetailList" class="panel panel-default">
     <el-row>
-        <el-col :span="18">
+        <el-col :span="24">
             <el-tabs type="border-card">
                 <el-tab-pane>
                     <span slot="label"><i class="el-icon-document"></i> 明细</span>
@@ -244,16 +244,6 @@
             </el-tabs>
         </el-col>
 
-        <el-col :span="6">
-            <el-tabs type="border-card">
-                <el-tab-pane>
-                    <span slot="label"><i class="el-icon-document"></i> 附件</span>
-                    <table id="jqGridFiles"></table>
-                    <div id="jqGridPagerFiles"></div>
-                </el-tab-pane>
-
-            </el-tabs>
-        </el-col>
     </el-row>
 </div>
 
@@ -340,16 +330,6 @@
 
         </el-form-item>
 
-        <el-upload
-                class="upload"
-                action="../files/batchupload"
-                :multiple="true"
-                :on-success="upload_on_success"
-                :on-change="upload_on_change"
-                :file-list="fileslist">
-            <el-button size="small" type="primary">附件上传</el-button>
-
-        </el-upload>
 
     </el-form>
 

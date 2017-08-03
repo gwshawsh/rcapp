@@ -356,7 +356,7 @@ public class TakeboxmainController extends AbstractController {
                 transboxmainEntity.setEndplanarrtime(takeboxmainEntity.getEndplanarrtime());
                 transboxmainEntity.setMakedate(new Date());
                 transboxmainEntity.setMakeuser(String.valueOf(ShiroUtils.getUserId()));
-                transboxmainEntity.setBillstatus(String.valueOf(BillStatus.NEW));
+                transboxmainEntity.setBillstatus(BillStatus.NEW);
 
                 List<TransboxdetailEntity> lstTransDetail = new ArrayList<>();
                 for (int i = 0; i < takeboxdetailList.size(); i++) {

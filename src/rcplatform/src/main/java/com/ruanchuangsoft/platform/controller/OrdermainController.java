@@ -1,16 +1,18 @@
 package com.ruanchuangsoft.platform.controller;
 
+import com.ruanchuangsoft.platform.entity.*;
 import com.ruanchuangsoft.platform.enums.BillStatus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
-import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
 import com.ruanchuangsoft.platform.enums.AuditType;
-import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
 import com.ruanchuangsoft.platform.enums.BillStatus;
+import com.ruanchuangsoft.platform.enums.RefBillType;
+import com.ruanchuangsoft.platform.service.ContractmainService;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.activiti.engine.task.Task;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -22,9 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 
-import com.ruanchuangsoft.platform.entity.OrdermainEntity;
 import com.ruanchuangsoft.platform.service.OrdermainService;
-import com.ruanchuangsoft.platform.entity.OrderdetailEntity;
 import com.ruanchuangsoft.platform.service.OrderdetailService;
 
 import com.ruanchuangsoft.platform.utils.PageUtils;
@@ -47,6 +47,9 @@ public class OrdermainController extends AbstractController {
 
     @Autowired
     private OrderdetailService orderdetailService;
+
+    @Autowired
+    private ContractmainService contractmainService;
 
     @RequestMapping("/ordermain")
 	public String list(){
@@ -238,7 +241,7 @@ public class OrdermainController extends AbstractController {
     }
 
     /**
-     * 审核
+     * 审核,生成合同单据
      */
     @ResponseBody
     @RequestMapping("/audit")
@@ -256,6 +259,29 @@ public class OrdermainController extends AbstractController {
         newBillcomments(ordermainEntity.getBillno(),
                 billcommentsEntity.getRemark(),
                 billcommentsEntity.getAuditstatus());
+
+
+        ContractmainEntity contractmainEntity=new ContractmainEntity();
+        String conbillno=getBillNo("CT");
+        contractmainEntity.setBillno(conbillno);
+        contractmainEntity.setOrderbillno(ordermainEntity.getBillno());
+        contractmainEntity.setBillsource(RefBillType.ORDERBILL);
+        contractmainEntity.setMakeuser(ShiroUtils.getUserId());
+        List<ContractdetailEntity> list=new ArrayList<>();
+        for(OrderdetailEntity item:ordermainEntity.getDetails()){
+            ContractdetailEntity citem=new ContractdetailEntity();
+            citem.setBillno(conbillno);
+            citem.setGoodsid(item.getGoodsid());
+            citem.setGoodscount(item.getGoodscount());
+            citem.setGoodsprice(item.getGoodsprice());
+            citem.setGoodscount(item.getGoodscount());
+            citem.setGoodsuse(item.getGoodsuse());
+
+            list.add(citem);
+
+        }
+        contractmainEntity.setDetails(list);
+        contractmainService.save(contractmainEntity);
 
 
 

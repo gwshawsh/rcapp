@@ -23,6 +23,7 @@ var vm = new Vue({
         },
 		showList: true,
         showQuery:false,
+        showDetailList:true,
 		title: null,
         fileslist:[],
     //用于日期快捷控件
@@ -77,6 +78,7 @@ var vm = new Vue({
 		add: function(){
             var mktime = moment().format("YYYY-MM-DD");
 			vm.showList = false;
+			vm.showDetailList=false;
 			vm.title = "新增";
 			vm.factorymain = {
                 //参照的虚拟字段也必须先声明好,不然饿了么ui组件不能双向绑定
@@ -348,6 +350,32 @@ var vm = new Vue({
             });
         },
         
+        //查询单据明细
+        queryDetail:function(){
+                            var row=getSelectedRowData();
+
+                var id = row.billno;
+                if (id == null) {
+                    return;
+                }
+                vm.showDetailList = true;
+
+
+                //查询单据审批明细
+                $("#jqGridComments").jqGrid('setGridParam', {
+                    page: 1,
+                    postData: {'billno': id},
+                    datatype: "json"
+                }).trigger("reloadGrid");
+
+                //查询单据审批明细
+                $("#jqGridFiles").jqGrid('setGridParam', {
+                    page: 1,
+                    postData: {'billno': id},
+                    datatype: "json"
+                }).trigger("reloadGrid");
+                    },
+
         getInfo: function(id){
             $.get("../factorymain/info/"+id, function(r){
                 vm.factorymain = r.factorymain;
@@ -424,6 +452,9 @@ $(function () {
             order: "order"
         },
         shrinkToFit:false,
+        onSelectRow:function(){
+            vm.queryDetail();
+        },
         gridComplete:function(){
             //隐藏grid底部滚动条
             //$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
@@ -437,8 +468,8 @@ $(function () {
         			            vm.getRef1003();
         			            vm.getRefsys_user();
         	
-
-
-
+        createBillAttachmentsGrid();
+    createBillCommentsGrid();
+    
     initGridHeight();
 });

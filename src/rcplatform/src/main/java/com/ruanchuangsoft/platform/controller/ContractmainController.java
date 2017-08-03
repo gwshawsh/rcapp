@@ -36,7 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-06 16:29:12
+ * @date 2017-07-25 20:40:35
  */
 @Controller
 @RequestMapping("contractmain")
@@ -135,7 +135,7 @@ public class ContractmainController extends AbstractController {
 	@RequiresPermissions("contractmain:save")
 	public R save(@RequestBody ContractmainEntity contractmain){
         if(contractmain.getBillno().equals("*")){
-            String billno=getBillNo("**");
+            String billno=getBillNo("CT");
 			contractmain.setBillno(billno);
             contractmain.setBillstatus(BillStatus.NEW);
             if(contractmain.getDetails()!=null&&contractmain.getDetails().size()>0){

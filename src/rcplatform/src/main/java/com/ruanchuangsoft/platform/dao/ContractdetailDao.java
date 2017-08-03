@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-06 16:29:12
+ * @date 2017-07-25 20:40:35
  */
 @Mapper
 public interface ContractdetailDao extends BaseDao<ContractdetailEntity> {

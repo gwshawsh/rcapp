@@ -117,6 +117,7 @@
                     </if>
 				
 			        </where>
+
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

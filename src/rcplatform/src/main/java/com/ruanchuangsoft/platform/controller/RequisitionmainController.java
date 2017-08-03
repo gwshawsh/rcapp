@@ -8,6 +8,7 @@ import java.util.*;
 import com.ruanchuangsoft.platform.controller.AbstractController;
 import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.enums.BillStatus;
+import com.ruanchuangsoft.platform.enums.RefBillType;
 import com.ruanchuangsoft.platform.service.OrdermainService;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.activiti.engine.task.Task;
@@ -242,66 +243,97 @@ public class RequisitionmainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/audit")
     @RequiresPermissions("requisitionmain:audit")
-    public R audit(@RequestBody RequisitionmainEntity requisitionmainEntity){
+    public R audit(@RequestBody RequisitionmainEntity prequisitionmainEntity){
+        RequisitionmainEntity requisitionmainEntity =requisitionmainService.queryObject(prequisitionmainEntity.getId());
+        if(requisitionmainEntity!=null) {
+            if(requisitionmainEntity.getBillstatus()>=BillStatus.AUDIT){
+                return R.error("单据已经审核或关闭，不允许审核");
+            }
 
-        BillcommentsEntity billcommentsEntity=requisitionmainEntity.getBillcommentsEntity();
-        requisitionmainEntity.setBillstatus(BillStatus.AUDIT);
+            BillcommentsEntity billcommentsEntity = requisitionmainEntity.getBillcommentsEntity();
+            requisitionmainEntity.setBillstatus(BillStatus.AUDIT);
 
-        requisitionmainService.update(requisitionmainEntity);
-
-
-        //生成审核日志
-        //新增一条处理记录：审核
-        newBillcomments(requisitionmainEntity.getBillno(),
-                billcommentsEntity.getRemark(),
-                billcommentsEntity.getAuditstatus());
+            requisitionmainService.update(requisitionmainEntity);
 
 
-
-        //生成订购单
-        OrdermainEntity ordermainEntity=new OrdermainEntity();
-        String billno=getBillNo("OR");
-        ordermainEntity.setBillno(billno);
-        ordermainEntity.setReqbillno(requisitionmainEntity.getBillno());
-        ordermainEntity.setBillstatus(BillStatus.NEW);
-        ordermainEntity.setRequser(requisitionmainEntity.getRequser());
-        ordermainEntity.setDeptid(requisitionmainEntity.getDeptid());
-        ordermainEntity.setMakeuser(ShiroUtils.getUserId());
-        ordermainEntity.setMakedate(new Date());
-
-        List<OrderdetailEntity> lst=new ArrayList<>();
-
-        for(RequisitiondetailEntity requisitiondetailEntity:requisitionmainEntity.getDetails()){
-            OrderdetailEntity orderdetailEntity=new OrderdetailEntity();
-            orderdetailEntity.setBillno(billno);
-            orderdetailEntity.setGoodsid(requisitiondetailEntity.getGoodsid());
-            orderdetailEntity.setGoodscount(requisitiondetailEntity.getGoodscount());
-            orderdetailEntity.setGoodsspec(requisitiondetailEntity.getGoodsspec());
-            orderdetailEntity.setSerialno(requisitiondetailEntity.getSerialno());
-
-            lst.add(orderdetailEntity);
-
-        }
-
-        ordermainEntity.setDetails(lst);
-        ordermainService.save(ordermainEntity);
+            //生成审核日志
+            //新增一条处理记录：审核
+            newBillcomments(requisitionmainEntity.getBillno(),
+                    billcommentsEntity.getRemark(),
+                    billcommentsEntity.getAuditstatus());
 
 
-        //工作流处理
-        Task task=getTaskByBussinessKey(requisitionmainEntity.getBillno());
-        if(task!=null){
-            Map<String,Object> params=new HashMap<>();
-            params.put("auditstatus",billcommentsEntity.getAuditstatus());
-            completeTask(task,billcommentsEntity.getRemark(),params);
-            //检查工作流是否结束，如果结束，则设置单据状态为已完成
-            boolean endflag=isProcessEnd(task.getProcessInstanceId());
-            if(endflag){
+            //生成订购单
+            //根据商品所属采购部门属性，对拆分生成不同的订购单
+            Map<Long,OrdermainEntity> mOrdermain=new HashMap<>();
+            for(RequisitiondetailEntity item:requisitionmainEntity.getDetails()){
+                if(mOrdermain.containsKey(item.getDeptid())){
+                    OrdermainEntity ordermainEntity=mOrdermain.get(item.getDeptid());
+
+                    OrderdetailEntity orderdetailEntity = new OrderdetailEntity();
+                    orderdetailEntity.setBillno(ordermainEntity.getBillno());
+                    orderdetailEntity.setGoodsid(item.getGoodsid());
+                    orderdetailEntity.setGoodscount(item.getGoodscount());
+                    orderdetailEntity.setGoodsspec(item.getGoodsspec());
+                    orderdetailEntity.setSerialno(item.getSerialno());
+                    orderdetailEntity.setGoodsuse(item.getGoodsuse());
+                    ordermainEntity.getDetails().add(orderdetailEntity);
+
+                }
+                else{
+
+                    OrdermainEntity ordermainEntity = new OrdermainEntity();
+                    String billno = getBillNo("OR");
+                    ordermainEntity.setBillno(billno);
+                    ordermainEntity.setReqbillno(requisitionmainEntity.getBillno());
+                    ordermainEntity.setDeptid(item.getDeptid());
+                    ordermainEntity.setOrdersource(RefBillType.REQBILL);
+                    ordermainEntity.setBillstatus(BillStatus.NEW);
+                    ordermainEntity.setRequser(requisitionmainEntity.getRequser());
+                    ordermainEntity.setMakeuser(ShiroUtils.getUserId());
+                    ordermainEntity.setMakedate(new Date());
+
+                    List<OrderdetailEntity> lst = new ArrayList<>();
+                    OrderdetailEntity orderdetailEntity = new OrderdetailEntity();
+                    orderdetailEntity.setBillno(billno);
+                    orderdetailEntity.setGoodsid(item.getGoodsid());
+                    orderdetailEntity.setGoodscount(item.getGoodscount());
+                    orderdetailEntity.setGoodsspec(item.getGoodsspec());
+                    orderdetailEntity.setSerialno(item.getSerialno());
+                    orderdetailEntity.setGoodsuse(item.getGoodsuse());
+                    lst.add(orderdetailEntity);
+
+
+                    ordermainEntity.setDetails(lst);
+                    mOrdermain.put(item.getDeptid(),ordermainEntity);
+                }
+
+            }
+
+            for(OrdermainEntity item:mOrdermain.values()){
+                ordermainService.save(item);
+            }
+
+
+            //工作流处理
+            Task task = getTaskByBussinessKey(requisitionmainEntity.getBillno());
+            if (task != null) {
+                Map<String, Object> params = new HashMap<>();
+                params.put("auditstatus", billcommentsEntity.getAuditstatus());
+                completeTask(task, billcommentsEntity.getRemark(), params);
+                //检查工作流是否结束，如果结束，则设置单据状态为已完成
+                boolean endflag = isProcessEnd(task.getProcessInstanceId());
+                if (endflag) {
                     requisitionmainEntity.setBillstatus(BillStatus.COMPLETE);
                     requisitionmainService.update(requisitionmainEntity);
+                }
             }
-        }
 
-        return R.ok();
+            return R.ok();
+        }
+        else{
+            return R.error("单据不存在，不能审核");
+        }
     }
 
 

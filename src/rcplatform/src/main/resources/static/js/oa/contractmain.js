@@ -20,8 +20,10 @@ var vm = new Vue({
     data: {
         q: {
             billno: "",
+            orderbillno: "",
             partyaid: "",
             partybid: "",
+            billsource: "",
             billtype: "",
             paytype: "",
             paycircleid: "",
@@ -66,6 +68,8 @@ var vm = new Vue({
         },
 
         //用户下拉参照的属性
+        ref_enum1001: [],
+
         ref_enum1011: [],
 
         ref_enum2005: [],
@@ -77,12 +81,15 @@ var vm = new Vue({
 
 
         //明细表用户下拉参照的属性
+        ref_goods: [],
 
         //单据主表实体类
         contractmain: {
             billno: "*",
+            orderbillno: "",
             partyaid: "",
             partybid: "",
+            billsource: "",
             billtype: "",
             paytype: "",
             paycircleid: "",
@@ -124,6 +131,7 @@ var vm = new Vue({
             vm.title = "新增";
             vm.contractmain = {
                 partyaidname: "",
+                billsourceenumvaluename: "",
                 billtypeenumvaluename: "",
                 paytypeenumvaluename: "",
                 paycircleidname: "",
@@ -131,8 +139,10 @@ var vm = new Vue({
                 makeuserfullname: "",
 
                 billno: "*",
+                orderbillno: "",
                 partyaid: "",
                 partybid: "",
+                billsource: "",
                 billtype: "",
                 paytype: "",
                 paycircleid: "",
@@ -140,7 +150,7 @@ var vm = new Vue({
                 enddate: "",
                 remark: "",
                 billstatus: "",
-                makeuser: gUserFullName,
+                makeuser: gUserId,
                 makedate: mktime,
                 accuser: "",
                 accdate: "",
@@ -354,6 +364,11 @@ var vm = new Vue({
         //生成参照调用函数
 
         //生成主表参照调用下拉框函数,用来初始化远程数据
+        getRef1001: function () {
+            $.get("../enumtable/listone?enumid=1001&page=1&limit=1000", function (r) {
+                vm.ref_enum1001 = r.page.list;
+            });
+        },
         getRef1011: function () {
             $.get("../enumtable/listone?enumid=1011&page=1&limit=1000", function (r) {
                 vm.ref_enum1011 = r.page.list;
@@ -381,6 +396,11 @@ var vm = new Vue({
         },
 
         //生成明细表参照调用下拉框函数,用来初始化远程数据
+        getRefgoods: function () {
+            $.get("../goods/list?page=1&limit=1000", function (r) {
+                vm.ref_goods = r.page.list;
+            });
+        },
 
         //生成弹出树形空间参照
 
@@ -450,39 +470,6 @@ var vm = new Vue({
             });
         },
 
-        getRefTreefeeinfofeeid: function(menuId){
-            //加载菜单树
-            $.get("../feeinfo/select", function(r){
-                ztreefeeid = $.fn.zTree.init($("#refTreefeeinfo"), setting, r.treeList);
-                var node = ztreefeeid.getNodeByParam("id", 0);
-                ztreefeeid.selectNode(node);
-               // vm.contractmain.details[0].feeidname = node.name;
-
-            })
-        },
-
-        openRefTreefeeinfofeeid: function(event){
-            layer.open({
-                type: 1,
-                offset: '50px',
-                skin: 'layui-layer-molv',
-                title: "选择",
-                area: ['300px', '450px'],
-                shade: 0,
-                shadeClose: false,
-                content: jQuery("#treelayerfeeinfo"),
-                btn: ['确定', '取消'],
-                btn1: function (index) {
-                    var node = ztreefeeid.getSelectedNodes();
-                    //选择上级菜单
-                    vm.contractdetail.feeid = node[0].id;
-                    vm.contractdetail.feeidname = node[0].name;
-
-                    layer.close(index);
-                }
-            });
-        },
-
         getInfo: function (id) {
             $.get("../contractmain/info/" + id, function (r) {
                 vm.contractmain = r.contractmain;
@@ -514,7 +501,7 @@ var vm = new Vue({
             //查询单据明细
             $("#jqGridDetail").jqGrid('setGridParam', {
                 page: 1,
-                postData: {'formid': id},
+                postData: {'billno': id},
                 datatype: "json"
             }).trigger("reloadGrid");
 
@@ -539,7 +526,16 @@ var vm = new Vue({
             var mktime = moment().format("YYYY-MM-DD");
             var idx = vm.contractmain.details.length;
             var item = {
-                id: "", billno: "*", serialno: idx, feeid: "", price: "", cost: "", uptdate: mktime,
+                id: "",
+                billno: "*",
+                serialno: idx,
+                goodsid: "",
+                goodscount: "",
+                goodsspec: "",
+                goodsuse: "",
+                goodsprice: "",
+                cost: "",
+                uptdate: mktime,
             };
 
 
@@ -583,9 +579,13 @@ $(function () {
         datatype: "json",
         colModel: [
             {label: 'id', name: 'id', width: 50, key: true, hidden: true},
-            {label: '单据号', name: 'billno', width: 80}, {label: '甲方', name: 'partyaid', width: 80}, {
-                label: '乙方',
-                name: 'partybid',
+            {label: '单据号', name: 'billno', width: 80}, {label: '订购单据号', name: 'orderbillno', width: 80}, {
+                label: '甲方',
+                name: 'partyaid',
+                width: 80
+            }, {label: '乙方', name: 'partybid', width: 80}, {
+                label: '合同来源',
+                name: 'billsourceenumvaluename',
                 width: 80
             }, {label: '收付款类型', name: 'billtypeenumvaluename', width: 80}, {
                 label: '付款方式',
@@ -648,8 +648,10 @@ $(function () {
         colModel: [
             {label: 'id', name: 'id', width: 50, key: true, hidden: true},
             {label: '序号', name: 'serialno', width: 80},
-            {label: '费用项目', name: 'feeid', width: 80},
-            {label: '单价', name: 'price', width: 80},
+            {label: '品名', name: 'goodsidname', width: 80}, {label: '数量', name: 'goodscount', width: 80},
+            {label: '规格', name: 'goodsspec', width: 80},
+            {label: '用途', name: 'goodsuse', width: 80},
+            {label: '单价', name: 'goodsprice', width: 80},
             {label: '金额', name: 'cost', width: 80},
             {label: '更新时间', name: 'uptdate', width: 80},
         ],
@@ -683,6 +685,7 @@ $(function () {
 
     //执行调用参照调用下拉框函数,初始化下拉数据
     vm.getRefTreeorganizationpartyaid();
+    vm.getRef1001();
     vm.getRef1011();
     vm.getRef2005();
     vm.getRefpaycircle();
@@ -691,7 +694,7 @@ $(function () {
 
 
     //执行调用参照调用下拉框函数,初始化下拉数据
-    vm.getRefTreefeeinfofeeid();
+    vm.getRefgoods();
 
     createBillAttachmentsGrid();
     createBillCommentsGrid();

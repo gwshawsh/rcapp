@@ -6,6 +6,7 @@
     <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RequisitiondetailEntity">
 		select
 																               		ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
+												               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
 																									        a.*
 
 		from requisitiondetail a where id = #{value}
@@ -14,6 +15,7 @@
     <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RequisitiondetailEntity">
         select
         ifnull((select name from goods b where a.goodsid=b.id),'') as goodsidname,
+        ifnull((select name from sys_dept b where a.deptid=b.id),'') as deptidname,
         a.*
         from requisitiondetail a
         <where>
@@ -31,6 +33,10 @@
 
             <if test="goodsid != null and goodsid != '' ">
                 and `goodsid` = #{goodsid}
+            </if>
+
+            <if test="deptid != null and deptid != '' ">
+                and `deptid` = #{deptid}
             </if>
 
             <if test="goodscount != null and goodscount != '' ">
@@ -58,7 +64,7 @@
             </if>
 
         </where>
-        order by id desc
+        order by serialno
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
@@ -75,6 +81,7 @@
 			`billno`, 
 			`serialno`, 
 			`goodsid`, 
+			`deptid`, 
 			`goodscount`, 
 			`goodsspec`, 
 			`goodsunit`, 
@@ -87,6 +94,7 @@
 			#{billno}, 
 			#{serialno}, 
 			#{goodsid}, 
+			#{deptid}, 
 			#{goodscount}, 
 			#{goodsspec}, 
 			#{goodsunit}, 
@@ -102,6 +110,7 @@
             <if test="billno != null">`billno` = #{billno},</if>
             <if test="serialno != null">`serialno` = #{serialno},</if>
             <if test="goodsid != null">`goodsid` = #{goodsid},</if>
+            <if test="deptid != null">`deptid` = #{deptid},</if>
             <if test="goodscount != null">`goodscount` = #{goodscount},</if>
             <if test="goodsspec != null">`goodsspec` = #{goodsspec},</if>
             <if test="goodsunit != null">`goodsunit` = #{goodsunit},</if>

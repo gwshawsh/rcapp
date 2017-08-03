@@ -5,16 +5,16 @@
 
 	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.ContractdetailEntity">
 		select
-																               		ifnull((select name from  feeinfo b where a.feeid=b.id),'') as feeidname,
-																        a.*
+																               		ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
+																									        a.*
 
 		from contractdetail a where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.ContractdetailEntity">
         select
-																								                    ifnull((select name from  feeinfo b where a.feeid=b.id),'') as feeidname,
-																								        a.*
+																								                    ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
+																																							        a.*
         from contractdetail a
         <where>
 							                    <if test="id != null and id != '' ">
@@ -29,12 +29,24 @@
 						 and  `serialno` = #{serialno}
                     </if>
 				
-							                    <if test="feeid != null and feeid != '' ">
-						 and  `feeid` = #{feeid}
+							                    <if test="goodsid != null and goodsid != '' ">
+						 and  `goodsid` = #{goodsid}
                     </if>
 				
-							                    <if test="price != null and price != '' ">
-						 and  `price` = #{price}
+							                    <if test="goodscount != null and goodscount != '' ">
+						 and  `goodscount` = #{goodscount}
+                    </if>
+				
+							                    <if test="goodsspec != null and goodsspec != '' ">
+						 and  `goodsspec` = #{goodsspec}
+                    </if>
+				
+							                    <if test="goodsuse != null and goodsuse != '' ">
+						 and  `goodsuse` = #{goodsuse}
+                    </if>
+				
+							                    <if test="goodsprice != null and goodsprice != '' ">
+						 and  `goodsprice` = #{goodsprice}
                     </if>
 				
 							                    <if test="cost != null and cost != '' ">
@@ -60,8 +72,11 @@
 		(
 			`billno`, 
 			`serialno`, 
-			`feeid`, 
-			`price`, 
+			`goodsid`, 
+			`goodscount`, 
+			`goodsspec`, 
+			`goodsuse`, 
+			`goodsprice`, 
 			`cost`, 
 			`uptdate`
 		)
@@ -69,8 +84,11 @@
 		(
 			#{billno}, 
 			#{serialno}, 
-			#{feeid}, 
-			#{price}, 
+			#{goodsid}, 
+			#{goodscount}, 
+			#{goodsspec}, 
+			#{goodsuse}, 
+			#{goodsprice}, 
 			#{cost}, 
 			#{uptdate}
 		)
@@ -81,8 +99,11 @@
 		<set>
 			<if test="billno != null">`billno` = #{billno}, </if>
 			<if test="serialno != null">`serialno` = #{serialno}, </if>
-			<if test="feeid != null">`feeid` = #{feeid}, </if>
-			<if test="price != null">`price` = #{price}, </if>
+			<if test="goodsid != null">`goodsid` = #{goodsid}, </if>
+			<if test="goodscount != null">`goodscount` = #{goodscount}, </if>
+			<if test="goodsspec != null">`goodsspec` = #{goodsspec}, </if>
+			<if test="goodsuse != null">`goodsuse` = #{goodsuse}, </if>
+			<if test="goodsprice != null">`goodsprice` = #{goodsprice}, </if>
 			<if test="cost != null">`cost` = #{cost}, </if>
 			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
 		</set>

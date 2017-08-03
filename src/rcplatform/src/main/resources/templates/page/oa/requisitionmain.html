@@ -283,7 +283,7 @@
                     <el-input v-model="item.serialno" placeholder="序号"></el-input>
                 </td>
                 <td>
-                    <el-select v-model="item.goodsid" filterable placeholder="请选择" style="width: 168px;">
+                    <el-select v-model="item.goodsid" filterable placeholder="请选择" v-on:change="onGoodsChange" style="width: 168px;">
                         <el-option
                                 v-for="item in ref_goods"
                                 :key="item.id"

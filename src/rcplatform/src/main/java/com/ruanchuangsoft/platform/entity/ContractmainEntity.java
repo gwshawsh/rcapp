@@ -14,7 +14,7 @@ package com.ruanchuangsoft.platform.entity;
  *
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-07-06 16:29:12
+ * @date 2017-07-25 20:40:35
  */
 public class ContractmainEntity extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -23,10 +23,14 @@ public class ContractmainEntity extends AbstractEntity implements Serializable {
         private Long id;
             //单据号
         private String billno;
+            //订购单据号
+        private String orderbillno;
             //甲方
         private Long partyaid;
             //乙方
         private Long partybid;
+            //合同来源
+        private Integer billsource;
             //收付款类型
         private Integer billtype;
             //付款方式
@@ -62,6 +66,9 @@ public class ContractmainEntity extends AbstractEntity implements Serializable {
         
 
     
+        
+
+    
                     //甲方
             private String partyaidname;
         
@@ -69,6 +76,11 @@ public class ContractmainEntity extends AbstractEntity implements Serializable {
     
                     //乙方
             private String partybidname;
+        
+
+    
+                    //合同来源
+            private String billsourceenumvaluename;
         
 
     
@@ -163,6 +175,19 @@ public class ContractmainEntity extends AbstractEntity implements Serializable {
             return billno;
         }
             /**
+         * 设置：订购单据号
+         */
+        public void setOrderbillno(String orderbillno) {
+            this.orderbillno = orderbillno;
+        }
+
+        /**
+         * 获取：订购单据号
+         */
+        public String getOrderbillno() {
+            return orderbillno;
+        }
+            /**
          * 设置：甲方
          */
         public void setPartyaid(Long partyaid) {
@@ -187,6 +212,19 @@ public class ContractmainEntity extends AbstractEntity implements Serializable {
          */
         public Long getPartybid() {
             return partybid;
+        }
+            /**
+         * 设置：合同来源
+         */
+        public void setBillsource(Integer billsource) {
+            this.billsource = billsource;
+        }
+
+        /**
+         * 获取：合同来源
+         */
+        public Integer getBillsource() {
+            return billsource;
         }
             /**
          * 设置：收付款类型
@@ -358,7 +396,7 @@ public class ContractmainEntity extends AbstractEntity implements Serializable {
             return pocessinstanceid;
         }
     
-                                                /**
+                                                            /**
              * 设置：甲方name
              */
             public void setPartyaidname(String name) {
@@ -383,6 +421,19 @@ public class ContractmainEntity extends AbstractEntity implements Serializable {
              */
             public String getPartybidname() {
                 return partybidname;
+            }
+                                /**
+             * 设置：合同来源enumvaluename
+             */
+            public void setBillsourceenumvaluename(String enumvaluename) {
+                this.billsourceenumvaluename = enumvaluename;
+            }
+
+            /**
+             * 获取：合同来源enumvaluename
+             */
+            public String getBillsourceenumvaluename() {
+                return billsourceenumvaluename;
             }
                                 /**
              * 设置：收付款类型enumvaluename
@@ -478,6 +529,11 @@ public class ContractmainEntity extends AbstractEntity implements Serializable {
                         "  </div> </div>");
             
                                     sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">订购单据号</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getOrderbillno()+"</span>\n" +
+                        "  </div> </div>");
+            
+                                    sb.append(" <div class=\"el-form-item\">\n" +
                         "  <label class=\"el-form-item__label\">甲方</label>"+
                         "  <div class=\"el-form-item__content\"><span>"+getPartyaidname()+"</span>\n" +
                         "  </div> </div>");
@@ -485,6 +541,11 @@ public class ContractmainEntity extends AbstractEntity implements Serializable {
                                     sb.append(" <div class=\"el-form-item\">\n" +
                         "  <label class=\"el-form-item__label\">乙方</label>"+
                         "  <div class=\"el-form-item__content\"><span>"+getPartybidname()+"</span>\n" +
+                        "  </div> </div>");
+            
+                                    sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">合同来源</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getBillsourceenumvaluename()+"</span>\n" +
                         "  </div> </div>");
             
                                     sb.append(" <div class=\"el-form-item\">\n" +

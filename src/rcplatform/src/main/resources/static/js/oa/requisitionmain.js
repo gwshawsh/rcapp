@@ -397,6 +397,10 @@ var vm = new Vue({
 
 
         //单据明细的相关操作
+        onGoodsChange:function(data){
+            var selitem=data;
+            var selitem2=data;
+        },
 
         //查询单据明细
         queryDetail: function () {

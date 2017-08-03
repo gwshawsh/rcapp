@@ -25,13 +25,19 @@
             <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
             </el-button>
             </@shiro.hasPermission>
-
+                            <@shiro.hasPermission name="heavymain:update">
+                <el-button type="primary" v-on:click="submitworkflow"><i class="fa fa-pencil-square-o"></i>&nbsp;提交
+                </el-button>
+                </@shiro.hasPermission>
                 <@shiro.hasPermission name="heavymain:copybill">
                 <el-button type="primary" v-on:click="copybill"><i class="fa fa-trash-o"></i>&nbsp;复制
                 </el-button>
                 </@shiro.hasPermission>
 
-
+                <@shiro.hasPermission name="heavymain:claim">
+                <el-button type="primary" v-on:click="claim"><i class="fa fa-book"></i>&nbsp;签收
+                </el-button>
+                </@shiro.hasPermission>
                 <@shiro.hasPermission name="heavymain:audit">
                 <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
                 </el-button>
@@ -258,6 +264,28 @@
         <div id="jqGridPager"></div>
     </div>
 
+    <div v-show="showDetailList" class="panel panel-default">
+
+
+                <el-tabs type="border-card">
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-document"></i> 附件</span>
+                        <table id="jqGridFiles"></table>
+                        <div id="jqGridPagerFiles"></div>
+                    </el-tab-pane>
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                        <table id="jqGridComments"></table>
+                        <div id="jqGridPagerComments"></div>
+                    </el-tab-pane>
+                </el-tabs>
+
+
+
+
+    </div>
+
+
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">
             <el-row>
@@ -277,7 +305,7 @@
 
                             
                             
-                                                <el-form-item label="客户" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="客户" :inline="true" class="padding-top: 5px;width:26%">
 
                              
                                 <input style="width: 350px" v-model="heavymain.orgidname"  v-on:click="openRefTreeorganizationorgid"
@@ -286,7 +314,7 @@
                              
                     </el-form-item>
                 
-                                                <el-form-item label="提单号" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="提单号" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="heavymain.ladingcode" placeholder="提单号"></el-input>
 
@@ -294,7 +322,7 @@
                               
                     </el-form-item>
                 
-                                                <el-form-item label="船名" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="船名" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="heavymain.shipname" placeholder="船名"></el-input>
 
@@ -302,7 +330,7 @@
                               
                     </el-form-item>
                 
-                                                <el-form-item label="航次" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="航次" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="heavymain.flight" placeholder="航次"></el-input>
 
@@ -310,7 +338,7 @@
                               
                     </el-form-item>
                 
-                                                <el-form-item label="港口" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="港口" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-select style="width: 350px" v-model="heavymain.portid"  filterable placeholder="请选择">
                                     <el-option
@@ -323,7 +351,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="箱量" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="箱量" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input style="width: 350px"  v-model="heavymain.boxqty" placeholder="箱量"></el-input>
 
@@ -331,7 +359,7 @@
                               
                     </el-form-item>
                 
-                                                <el-form-item label="箱型" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="箱型" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-select style="width: 350px" v-model="heavymain.boxtype"  filterable placeholder="请选择">
                                     <el-option
@@ -344,7 +372,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="提箱场站" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="提箱场站" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-select style="width: 350px" v-model="heavymain.takeboxplaceid"  filterable placeholder="请选择">
                                     <el-option
@@ -357,7 +385,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="目的地" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="目的地" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-select style="width: 350px" v-model="heavymain.endplaceid"  filterable placeholder="请选择">
                                     <el-option
@@ -370,7 +398,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="集港时间" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="集港时间" :inline="true" class="padding-top: 5px;width:26%">
 
                              
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="heavymain.bgnshipdatetime" style="width: 100%;"></el-date-picker>
@@ -378,7 +406,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="截港时间" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="截港时间" :inline="true" class="padding-top: 5px;width:26%">
 
                              
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="heavymain.endshipdatetime" style="width: 100%;"></el-date-picker>
@@ -386,7 +414,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="最早到场时间" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="最早到场时间" :inline="true" class="padding-top: 5px;width:26%">
 
                              
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="heavymain.bgnplanarrtime" style="width: 100%;"></el-date-picker>
@@ -394,7 +422,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="最晚到场时间" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="最晚到场时间" :inline="true" class="padding-top: 5px;width:26%">
 
                              
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="heavymain.endplanarrtime" style="width: 100%;"></el-date-picker>
@@ -402,7 +430,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="封箱时间" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="封箱时间" :inline="true" class="padding-top: 5px;width:26%">
 
                              
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="heavymain.fengxiangtime" style="width: 100%;"></el-date-picker>
@@ -410,7 +438,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="报关时间" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="报关时间" :inline="true" class="padding-top: 5px;width:26%">
 
                              
                                     <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="heavymain.baoguantime" style="width: 100%;"></el-date-picker>
@@ -418,7 +446,7 @@
                             
                     </el-form-item>
                 
-                                                <el-form-item label="备注" class="padding-top: 5px;width:26%">
+                                                <el-form-item label="备注" :inline="true" class="padding-top: 5px;width:26%">
 
                                                              <el-input  type="textarea" :rows="2" style="width: 350px" type="date" placeholder="请输入内容"  v-model="heavymain.remark" style="width: 100%;"></el-input>
 

@@ -4,9 +4,9 @@ package com.ruanchuangsoft.platform.enums;
  * Created by lidongfeng on 2017/5/30.
  */
 public interface EmptyBillStatus {
-     String NEW="0";
-     String AUDIT="1";
-     String TRANSCOMPLETE="2";//运输结束
+     int NEW=0;
+     int AUDIT=1;
+     int TRANSCOMPLETE=2;//运输结束
 
 
 }
