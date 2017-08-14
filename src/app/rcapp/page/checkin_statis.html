@@ -14,7 +14,7 @@
 		<div id="rrapp">
 			<rc-header title="考勤统计" btn=""></rc-header>
 			<div class="mui-content">
-					<button class=" mui-btn-block " v-on:click="selecttime" style="width: 90%;margin: auto;margin-bottom: 8px;margin-top: 8px;">{{date}}</button>
+					<button class=" mui-btn-block " v-on:click="selecttime" style="width: 90%;margin: auto;margin-bottom: 8px;margin-top: 8px;">{{month}}</button>
 					<ul class="mui-table-view" style="margin-top: 20px;">
 					<li v-for="item in list" class="mui-table-view-cell" style="padding-bottom: 5px;padding-top: 5px;">
 						<div>
@@ -35,35 +35,33 @@
 			var vm = new Vue({
 				el: '#rrapp',
 				data: {
-					date:'',
-					list:[{
-						time:'06-07',
-						in:'08:36',
-						out:'18:00',
-						status:'迟到',
-					},{
-						time:'06-07',
-						in:'08:36',
-						out:'18:00', 
-						status:'迟到',
-					},
-					{
-						time:'06-07',
-						in:'08:36',
-						out:'18:00',
-						status:'迟到',
-					},
-					
-					],
+					month:'',
+					list:[],			},
+				created:function(){
+					var d = new Date(); 
+					this.month = d.getFullYear()+"-"+(d.getMonth()+1);
 				},
-				methods:{
+				
+				methods:{  
 					selecttime: function() {
 						var picker = new mui.DtPicker(JSON.parse('{"type":"month"}'));
 						picker.show(function(rs) {
-							vm.date = rs.text;
+							vm.month = rs.text;
 							picker.dispose();
+							vm.getmonth();
 						});
 					},
+					getmonth:function(){
+						var p={
+							usercode:getUsercode(),
+							month:this.month
+						};
+						
+						query(baseurl+"/checkinmain/listmonth",p,
+						function(data){
+							this.list = data.list
+						})
+					}
 				}
 			});
 			mui.init()

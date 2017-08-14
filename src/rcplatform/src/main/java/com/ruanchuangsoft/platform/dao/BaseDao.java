@@ -1,6 +1,7 @@
 package com.ruanchuangsoft.platform.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,8 @@ public interface BaseDao<T> {
 	List<T> queryList(Map<String, Object> map);
 	
 	List<T> queryList(Object id);
+
+
 	
 	int queryTotal(Map<String, Object> map);
 

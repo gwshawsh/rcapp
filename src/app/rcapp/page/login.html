@@ -150,16 +150,7 @@
 			<div style="margin-top: 12px;">
 				<a v-on:click="forgetpwd" style="color:#35BD66;font-size: 15px;padding-left: 32px;">忘记密码?</a>
 			</div>
-			<form class="mui-input-group" style="display:none">
-				<ul class="mui-table-view mui-table-view-chevron">
-					<li class="mui-table-view-cell">
-						自动登录
-						<div v-model="autoload" class="mui-switch">
-							<div class="mui-switch-handle"></div>
-						</div>
-					</li>
-				</ul>
-			</form>
+			
 			<div class="mui-content-padded">
 				<button class="mui-btn mui-btn-block mui-btn-green" v-on:click="login" style="width: 70%;margin: auto;">登录</button>
 
@@ -209,12 +200,13 @@
 						});
 					},
 					login: function(event) {
-						get(baseurl + "sys/login", {
+						queryPost(baseurl + "sys/login", {
 								username: vm.username,
 								password: vm.password
 							},
 							function(data) {
-								if(data.code == 0) {
+								if(data.code == 0) {									
+									localStorage.setItem('usercode', vm.username);
 									vm.tomain();
 								} else {
 									vm.refreshCode();

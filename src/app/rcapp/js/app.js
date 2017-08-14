@@ -1,5 +1,5 @@
 var baseurl = "http://192.168.253.1:8888/";
-
+var usercode="";
 function navigate(murl) {
 	if(!murl){
 		mui.back();
@@ -41,7 +41,10 @@ var header = {
 
 Vue.component('rc-header', header);
 
-function get(url, data, success) {
+function getUsercode(){
+	return localStorage.getItem('usercode') || "";
+}
+function queryPost(url, data, success) {
 	var mask = mui.createMask();
 	mui.ajax(url, {
 		data: data,
@@ -57,12 +60,30 @@ function get(url, data, success) {
 			mask.close(); //关闭遮罩层
 		},
 		success: success,
-		error: function(xhr, type, errorThrown) {
+		error: function(xhr, type, errorThrown) { 
 			mui.alert('服务器连接超时，请稍后再试');
 			mask.close();
 		}
 	})
 }
+function query(url, datain, success){
+	queryPost(url,datain,
+		function(dataout, textStatus, xhr) {
+								if(dataout.code == 0) {
+									success(dataout)
+								} else {
+									mui.alert(dataout.msg)
+								}
+
+								console.log(url)
+									console.log(JSON.stringify(datain));
+									console.log(JSON.stringify(dataout));
+							}
+						)
+	
+}
+
+
 (function($, owner) {
 	/**
 	 * 用户登录

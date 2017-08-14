@@ -52,13 +52,11 @@ var approvalDialog = {
 };
 Vue.component('approval-dialog', approvalDialog);
 
-
 var listItem = {
-	
+
 	props: {
 		list: [],
 		approval: Function,
-
 
 	},
 	data: function() {
@@ -69,36 +67,38 @@ var listItem = {
 	methods: {
 		approve: function(item) {
 			this.showPro = true;
-			console.log(this.showPro);			
+			console.log(this.showPro);
 		},
-		closeDialog:function(){
+		closeDialog: function() {
 			this.showPro = false;
+		},
+		setErrorImg: function(e) {
+			errorImg(e, '../images/default_head.png');
 		},
 	},
 	template: [
-'<div class="">',
+		'<div class="">',
 		'<div class="mui-scroll">',
 		'<ul class="mui-table-view">',
 		'<li v-for="item in list" class="mui-table-view-cell mui-media" >',
-		'<p class="mui-input-row" style="padding-left: 52px;">申请单号:&nbsp;&nbsp;&nbsp;{{item.no}} <span class="font-green position-right" style="right:0px"> {{item.status}}</span></p>',
+		'<p class="mui-input-row" style="padding-left: 52px;">申请单号:&nbsp;&nbsp;&nbsp;{{item.billno}} <span class="font-green position-right" style="right:0px"> {{item.billstatus}}</span></p>',
 		'<div class=\'mui-navigate-right\' >',
-		'<img class="mui-media-object mui-pull-left" :src="item.src" onerror="src=\'../images/default_head.png\'">',
+		'<img class="mui-media-object mui-pull-left" :src="item.src ? item.src:\'\'"  onerror="src=\'../images/default_head.png\'">',
 		'<div class="mui-media-body">',
 
 		'<div> {{item.name}}',
 		'<span class="font-secondary"> {{item.dept}}</span>',
-		'<span class="font-warning position-right"> {{item.money}}元</span></div>',
+		'<span class="font-warning position-right"> {{item.total}}元</span></div>',
 		'<p class="font-green">{{item.reason}}</p>',
-		'<p>申请人:&nbsp;&nbsp;&nbsp;{{item.applier}}</p>',
-		'<p class=\'mui-ellipsis\'>申请时间:{{item.applytime}}</p>',
+		'<p>申请人:&nbsp;&nbsp;&nbsp;{{item.requser}}</p>',
+		'<p class=\'mui-ellipsis\'>申请时间:{{item.reqdate}}</p>',
 		'</div></div>',
 		'<button class="mui-btn-green " v-on:click="approve" style="float: right;">审批</button>',
 		'</li></ul>',
-		
-		'</div>',	
+
+		'</div>',
 		'<approval-dialog :show.sync="showPro" :confirm="closeDialog"></approval-dialog>',
-		'</div>',	
-		
+		'</div>',
 
 	].join('')
 };

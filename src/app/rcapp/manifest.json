@@ -173,9 +173,9 @@
 				"android": {
 					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
 					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
-					"hdpi": "/Users/lidongfeng/Desktop/lanucher1.png", /*高分屏启动图片，分辨率：480x762*/
-					"xhdpi": "/Users/lidongfeng/Desktop/lanucher.png", /*720P高分屏启动图片，分辨率：720x1242*/
-					"xxhdpi": ""
+					"hdpi": "C:/Users/Administrator/Desktop/web/归档/Start page.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "C:/Users/Administrator/Desktop/web/归档/Start page.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "C:/Users/Administrator/Desktop/web/归档/Start page.png"
 				}
 			},
 			"debug": true
@@ -485,7 +485,9 @@
 					"fonts/mui.ttf",
 					"css/mui.min.css",
 					"css/style.css",
-					"js/vue.min.js"
+					"js/vue.min.js",
+					"js/mui.picker.min.js",
+					"css/mui.picker.min.css"
 				],
 				"refer": [],
 				"priority": 0
