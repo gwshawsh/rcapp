@@ -68,7 +68,9 @@ header>span {
 .font-green {
 	color: #35BD66;
 }
-
+.font-red {
+	color: #FD8219;
+}
 .background-green {
 	background: #35BD66;
 }

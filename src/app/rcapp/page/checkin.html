@@ -19,7 +19,7 @@
 				margin: 0;
 			}
 			
-			#allmap {
+			#allmap { 
 				width: 100%;
 				height: 30%;
 				overflow: hidden;
@@ -52,8 +52,10 @@
 		<p class="mui-content-padded"> 当前位置</p>
 		<div id="allmap" class="mui-content-padded">
 		</div>
+		
+					<div class="mui-scroll">
 		<div id="rrapp2" class="mui-content-padded">
-			{{address}}
+			{{address}} 
 			<p v-on:click="choosepoint" style="color:#35BD66;font-size: 15px;">调整地点</p>
 			<div :class="isIn()? 'background-orange':'background-green'" class="dot circle  aligncenter" style="text-align: center;">
 				<div class="aligncenter vertical-center" style="" @click="checkin">
@@ -66,8 +68,8 @@
 				<span class="font-secondary aligncenter">上班签到：{{vm.checkintime}}</span>
 			</div>
 			
-		</div>
-
+		</div></div>
+ 
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/vue.min.js"></script>
 
@@ -90,7 +92,7 @@
 						return new Date().toLocaleDateString();
 					},
 					status: function() {
-						return this.checkintime ? '今日已签到' : '今日未签到'
+						return this.checkintime ? '今日已签到' : '今日未签到' 
 					},
 				},
 				methods:{
@@ -101,7 +103,6 @@
 						var url = baseurl + "/checkinmain/listtoday";
 						var func = function(data) {
 							if(data.list.length > 0) {
-								
 								vm.checkintime = data.list[0].date 
 
 							}
@@ -130,7 +131,8 @@
 				methods: {
 					
 					isIn: function() {
-						return vm.checkintime;
+						return true
+						//return vm.checkintime;
 					},
 
 					checkin: function() {
@@ -193,9 +195,9 @@
 				var currentLon = position.coords.longitude;
 				var currentLat = position.coords.latitude;
 				var gpsPoint = new BMap.Point(currentLon, currentLat);
-				BMap.Convertor.translate(gpsPoint, 2, initMap); //坐标转换 
+				BMap.Convertor.translate(gpsPoint, 2, initMap); //坐标转换  
 				//initMap(gpsPoint)
-			}
+			} 
 
 			function initMap(point) {
 
