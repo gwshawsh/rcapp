@@ -34,15 +34,15 @@
 				</ul>
 				</div>
 				<div style="background: #efeff4;">
-					<p style="color: black; text-align: center; font-size: 20px;">王润泽(0725)</p> 
-					<p  style="color: #888888;font-size: 16px; text-align: center;">采购部</p>
+					<p style="color: black; text-align: center; font-size: 20px;">{{user.fullname+'('+user.username+')'}}</p> 
+					<p  style="color: #888888;font-size: 16px; text-align: center;">{{user.deptIdname}}</p>
 					<ul class="mui-table-view" style="margin-top: 20px; background: #efeff4;">
 					<li class="mui-table-view-cell"  @click="">
 						<a class="mui-navigate-right">
 							我的请假 
 						</a>
 					</li>
-					<li class="mui-table-view-cell" @click="">
+					<li class="mui-table-view-cell" @click=""> 
 						<a class="mui-navigate-right">
 							我的审批
 						</a>
@@ -59,13 +59,18 @@
 		<script src="../js/vue.min.js"></script>
 		<script src="../js/app.js"></script>
 		<script type="text/javascript">
-			new Vue({
+			var vm = new Vue({
 				el: '#rrapp',
 				data: {
-					
+					user:'',
 				},
 			});
-			mui.init()
+			mui.plusReady(function(){
+				query("sys_user/info",{},function(data){
+					vm.user = data.sysUser
+				})
+			});
+			mui.init();
 		</script>
 	</body>
 

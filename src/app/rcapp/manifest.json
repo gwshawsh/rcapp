@@ -378,7 +378,8 @@
 					"js/vue.min.js",
 					"js/mui.enterfocus.js",
 					"images/user-photo.png",
-					"fonts/mui.ttf"
+					"fonts/mui.ttf",
+					"images/login_logo.png"
 				],
 				"refer": [
 					"page/main.html"
@@ -426,10 +427,12 @@
 					"js/vue.min.js",
 					"images/default_head.png",
 					"js/rclist.js",
-					"css/rclist.css"
+					"css/rclist.css",
+					"images/ding.png"
 				],
 				"refer": [
-					"page/approval_new.html"
+					"page/approval_new.html",
+					"page/approval_deal.html"
 				],
 				"priority": 0
 			},
@@ -452,7 +455,12 @@
 			"page/personpage.html": {
 				"resources": [
 					"fonts/mui.ttf",
-					"images/head.jpg"
+					"images/head.jpg",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js"
 				],
 				"refer": [
 					"page/setting.html"
@@ -544,7 +552,13 @@
 			"page/leave_apply.html": {
 				"resources": [
 					"js/mui.picker.min.js",
-					"css/mui.picker.min.css"
+					"css/mui.picker.min.css",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js"
 				],
 				"refer": [],
 				"priority": 0
@@ -589,6 +603,18 @@
 					"fonts/mui.ttf",
 					"images/default_head.png",
 					"css/rclist.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/approval_deal.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js",
+					"fonts/mui.ttf"
 				],
 				"refer": [],
 				"priority": 0

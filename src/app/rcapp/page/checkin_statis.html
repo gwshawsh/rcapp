@@ -39,20 +39,19 @@
 					end:"18:00",
 					month:'',
 					list:[],			},
-				created:function(){
-					var d = new Date(); 
-					this.month = d.getFullYear()+"-"+(d.getMonth()+1);
+				created:function(){					
+					this.month = new Date().format('yyyy-MM'); 
 				},
 				
 				methods:{
 					fontclass:function(item){
-						if(!item.intime){
+						if(!item.intime){ 
 							return "font-warning";
 						}
-						if(item.intime > begin){
+						if(item.intime > this.begin){ 
 							return "font-warning"
 						}
-						if(item.outtime<end){
+						if(item.outtime<this.end){
 							return "font-warning";
 						}
 						return "font-green";
@@ -61,10 +60,10 @@
 						if(!item.intime){
 							return "缺勤";
 						}
-						if(item.intime > begin){
+						if(item.intime > this.begin){
 							return "迟到"
 						}
-						if(item.outtime<end){
+						if(item.outtime<this.end){
 							return "早退";
 						}
 					}
@@ -80,14 +79,14 @@
 					
 					getmonth:function(){
 						var p={
-							usercode:getUsercode(),
-							month:this.month
+							usercode:getUsercode(), 
+							month:this.month 
 						};
 						
-						query(baseurl+"/checkinmain/listmonth",p,
+						query("/checkinmain/listmonth",p,
 						function(data){
 							vm.handlelist(data.list)
-						})
+						},true)
 					},
 					handlelist:function(list){
 						var days = 0;

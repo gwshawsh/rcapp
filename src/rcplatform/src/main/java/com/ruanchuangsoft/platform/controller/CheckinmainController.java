@@ -7,7 +7,9 @@ import java.util.Map;
 
 
 import com.alibaba.fastjson.JSON;
+import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import com.xiaoleilu.hutool.date.DateUtil;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -102,9 +104,9 @@ public class CheckinmainController extends AbstractController {
      */
     @ResponseBody
     @RequestMapping("/listmonth")
-    public R list(String usercode,String month) {
-        Date date = DateUtil.parse(month,"yy-MM");
-
+    public R listMonth(String month) {
+        Date date = DateUtil.parse(month,"yyyy-MM");
+        String usercode = ShiroUtils.getUserName();
         //查询列表数据
 
         List<CheckinmainEntity> checkinmainList = checkinmainService.queryListInterval(usercode,DateUtil.beginOfMonth(date),DateUtil.endOfMonth(date));
@@ -140,8 +142,11 @@ public class CheckinmainController extends AbstractController {
      */
     @ResponseBody
     @RequestMapping("/save")
+    @RequiresAuthentication
+    public R save(@RequestBody CheckinmainEntity checkinmain) {
 
-    public R save( CheckinmainEntity checkinmain) {
+        checkinmain.setUserId(ShiroUtils.getUserId());
+        checkinmain.setUsername(ShiroUtils.getUserName());
         checkinmain.setDate(DateUtil.date());
         checkinmainService.save(checkinmain);
 

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.OrdermainDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.OrdermainEntity">
+    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.OrdermainEntity">
 		select
 													               		ifnull((select name from  organization b where a.supplyid=b.id),'') as supplyidname,
 															               		ifnull((select fullname from  sys_user b where a.requser=b.id),'') as requserfullname,
@@ -19,115 +19,206 @@
 		from ordermain a where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.OrdermainEntity">
+    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.OrdermainEntity">
         select
-																			                    ifnull((select name from  organization b where a.supplyid=b.id),'') as supplyidname,
-																					                    ifnull((select fullname from  sys_user b where a.requser=b.id),'') as requserfullname,
-																                    ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
-																					                    ifnull((select enumvaluename from  enumtable b where a.ordersource=b.enumvalueid and b.enumtype='1001'),'') as ordersourceenumvaluename,
-																                    ifnull((select enumvaluename from  enumtable b where a.ordertype=b.enumvalueid and b.enumtype='1002'),'') as ordertypeenumvaluename,
-																                    ifnull((select billno from  budgetmain b where a.budgetmainid=b.id),'') as budgetmainidbillno,
-																										                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
-																					                    ifnull((select fullname from  sys_user b where a.makeuser=b.id),'') as makeuserfullname,
-																					                    ifnull((select fullname from  sys_user b where a.accuser=b.id),'') as accuserfullname,
-																								        a.*
+        ifnull((select name from organization b where a.supplyid=b.id),'') as supplyidname,
+        ifnull((select fullname from sys_user b where a.requser=b.id),'') as requserfullname,
+        ifnull((select name from sys_dept b where a.deptid=b.id),'') as deptidname,
+        ifnull((select enumvaluename from enumtable b where a.ordersource=b.enumvalueid and b.enumtype='1001'),'') as
+        ordersourceenumvaluename,
+        ifnull((select enumvaluename from enumtable b where a.ordertype=b.enumvalueid and b.enumtype='1002'),'') as
+        ordertypeenumvaluename,
+        ifnull((select billno from budgetmain b where a.budgetmainid=b.id),'') as budgetmainidbillno,
+        ifnull((select enumvaluename from enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as
+        billstatusenumvaluename,
+        ifnull((select fullname from sys_user b where a.makeuser=b.id),'') as makeuserfullname,
+        ifnull((select fullname from sys_user b where a.accuser=b.id),'') as accuserfullname,
+        a.*
         from ordermain a
         <where>
-							                    <if test="id != null and id != '' ">
-						 `id` = #{id}
-                    </if>
-				
-							                    <if test="billno != null and billno != '' ">
-						 and  `billno` = #{billno}
-                    </if>
-				
-							                    <if test="supplyid != null and supplyid != '' ">
-						 and  `supplyid` = #{supplyid}
-                    </if>
-				
-							                    <if test="reqbillno != null and reqbillno != '' ">
-						 and  `reqbillno` = #{reqbillno}
-                    </if>
-				
-							                    <if test="requser != null and requser != '' ">
-						 and  `requser` = #{requser}
-                    </if>
-				
-							                    <if test="deptid != null and deptid != '' ">
-						 and  `deptid` = #{deptid}
-                    </if>
-				
-							                    <if test="reqdate != null and reqdate != '' ">
-						 and  `reqdate` = #{reqdate}
-                    </if>
-				
-							                    <if test="ordersource != null and ordersource != '' ">
-						 and  `ordersource` = #{ordersource}
-                    </if>
-				
-							                    <if test="ordertype != null and ordertype != '' ">
-						 and  `ordertype` = #{ordertype}
-                    </if>
-				
-							                    <if test="budgetmainid != null and budgetmainid != '' ">
-						 and  `budgetmainid` = #{budgetmainid}
-                    </if>
-				
-							                    <if test="total != null and total != '' ">
-						 and  `total` = #{total}
-                    </if>
-				
-							                    <if test="paytotal != null and paytotal != '' ">
-						 and  `paytotal` = #{paytotal}
-                    </if>
-				
-							                    <if test="billstatus != null and billstatus != '' ">
-						 and  `billstatus` = #{billstatus}
-                    </if>
-				
-							                    <if test="remark != null and remark != '' ">
-						 and  `remark` = #{remark}
-                    </if>
-				
-							                    <if test="makeuser != null and makeuser != '' ">
-						 and  `makeuser` = #{makeuser}
-                    </if>
-				
-							                    <if test="makedate != null and makedate != '' ">
-						 and  `makedate` = #{makedate}
-                    </if>
-				
-							                    <if test="accuser != null and accuser != '' ">
-						 and  `accuser` = #{accuser}
-                    </if>
-				
-							                    <if test="accdate != null and accdate != '' ">
-						 and  `accdate` = #{accdate}
-                    </if>
-				
-							                    <if test="uptdate != null and uptdate != '' ">
-						 and  `uptdate` = #{uptdate}
-                    </if>
-				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
-                    </if>
-				
-			        </where>
-		order by id desc
+            <if test="id != null and id != '' ">
+                `id` = #{id}
+            </if>
+
+            <if test="billno != null and billno != '' ">
+                and `billno` = #{billno}
+            </if>
+
+            <if test="supplyid != null and supplyid != '' ">
+                and `supplyid` = #{supplyid}
+            </if>
+
+            <if test="reqbillno != null and reqbillno != '' ">
+                and `reqbillno` = #{reqbillno}
+            </if>
+
+            <if test="requser != null and requser != '' ">
+                and `requser` = #{requser}
+            </if>
+
+            <if test="deptid != null and deptid != '' ">
+                and `deptid` = #{deptid}
+            </if>
+
+            <if test="reqdate != null and reqdate != '' ">
+                and `reqdate` = #{reqdate}
+            </if>
+
+            <if test="ordersource != null and ordersource != '' ">
+                and `ordersource` = #{ordersource}
+            </if>
+
+            <if test="ordertype != null and ordertype != '' ">
+                and `ordertype` = #{ordertype}
+            </if>
+
+            <if test="budgetmainid != null and budgetmainid != '' ">
+                and `budgetmainid` = #{budgetmainid}
+            </if>
+
+            <if test="total != null and total != '' ">
+                and `total` = #{total}
+            </if>
+
+            <if test="paytotal != null and paytotal != '' ">
+                and `paytotal` = #{paytotal}
+            </if>
+
+            <if test="billstatus != null and billstatus != '' ">
+                and `billstatus` = #{billstatus}
+            </if>
+
+            <if test="remark != null and remark != '' ">
+                and `remark` = #{remark}
+            </if>
+
+            <if test="makeuser != null and makeuser != '' ">
+                and `makeuser` = #{makeuser}
+            </if>
+
+            <if test="makedate != null and makedate != '' ">
+                and `makedate` = #{makedate}
+            </if>
+
+            <if test="accuser != null and accuser != '' ">
+                and `accuser` = #{accuser}
+            </if>
+
+            <if test="accdate != null and accdate != '' ">
+                and `accdate` = #{accdate}
+            </if>
+
+            <if test="uptdate != null and uptdate != '' ">
+                and `uptdate` = #{uptdate}
+            </if>
+
+            <if test="pocessinstanceid != null and pocessinstanceid != '' ">
+                and `pocessinstanceid` = #{pocessinstanceid}
+            </if>
+            <if test="userid != null ">
+                and (`makeuser`=#{userid} or `pocessinstanceid` in (select proc_inst_id from v_tasklist where
+                candidate=#{userid} or assignee=#{userid}))
+            </if>
+
+        </where>
+        order by id desc
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
+		select count(*) from ordermain
+        <where>
+            <if test="id != null and id != '' ">
+                `id` = #{id}
+            </if>
+
+            <if test="billno != null and billno != '' ">
+                and `billno` = #{billno}
+            </if>
+
+            <if test="supplyid != null and supplyid != '' ">
+                and `supplyid` = #{supplyid}
+            </if>
+
+            <if test="reqbillno != null and reqbillno != '' ">
+                and `reqbillno` = #{reqbillno}
+            </if>
+
+            <if test="requser != null and requser != '' ">
+                and `requser` = #{requser}
+            </if>
+
+            <if test="deptid != null and deptid != '' ">
+                and `deptid` = #{deptid}
+            </if>
+
+            <if test="reqdate != null and reqdate != '' ">
+                and `reqdate` = #{reqdate}
+            </if>
+
+            <if test="ordersource != null and ordersource != '' ">
+                and `ordersource` = #{ordersource}
+            </if>
+
+            <if test="ordertype != null and ordertype != '' ">
+                and `ordertype` = #{ordertype}
+            </if>
+
+            <if test="budgetmainid != null and budgetmainid != '' ">
+                and `budgetmainid` = #{budgetmainid}
+            </if>
+
+            <if test="total != null and total != '' ">
+                and `total` = #{total}
+            </if>
+
+            <if test="paytotal != null and paytotal != '' ">
+                and `paytotal` = #{paytotal}
+            </if>
+
+            <if test="billstatus != null and billstatus != '' ">
+                and `billstatus` = #{billstatus}
+            </if>
+
+            <if test="remark != null and remark != '' ">
+                and `remark` = #{remark}
+            </if>
+
+            <if test="makeuser != null and makeuser != '' ">
+                and `makeuser` = #{makeuser}
+            </if>
+
+            <if test="makedate != null and makedate != '' ">
+                and `makedate` = #{makedate}
+            </if>
+
+            <if test="accuser != null and accuser != '' ">
+                and `accuser` = #{accuser}
+            </if>
+
+            <if test="accdate != null and accdate != '' ">
+                and `accdate` = #{accdate}
+            </if>
+
+            <if test="uptdate != null and uptdate != '' ">
+                and `uptdate` = #{uptdate}
+            </if>
+
+            <if test="pocessinstanceid != null and pocessinstanceid != '' ">
+                and `pocessinstanceid` = #{pocessinstanceid}
+            </if>
+            <if test="userid != null ">
+                and (`makeuser`=#{userid} or `pocessinstanceid` in (select proc_inst_id from v_tasklist where
+                candidate=#{userid} or assignee=#{userid}))
+            </if>
+
+        </where>
 	</select>
-	
- 	<select id="queryTotal" resultType="int">
-		select count(*) from ordermain 
-	</select>
-	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.OrdermainEntity" useGeneratedKeys="true" keyProperty="id">
+
+    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.OrdermainEntity" useGeneratedKeys="true"
+            keyProperty="id">
 		insert into ordermain
 		(
 			`billno`, 
@@ -173,57 +264,57 @@
 			#{pocessinstanceid}
 		)
 	</insert>
-	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.OrdermainEntity">
-		update ordermain 
-		<set>
-			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="supplyid != null">`supplyid` = #{supplyid}, </if>
-			<if test="reqbillno != null">`reqbillno` = #{reqbillno}, </if>
-			<if test="requser != null">`requser` = #{requser}, </if>
-			<if test="deptid != null">`deptid` = #{deptid}, </if>
-			<if test="reqdate != null">`reqdate` = #{reqdate}, </if>
-			<if test="ordersource != null">`ordersource` = #{ordersource}, </if>
-			<if test="ordertype != null">`ordertype` = #{ordertype}, </if>
-			<if test="budgetmainid != null">`budgetmainid` = #{budgetmainid}, </if>
-			<if test="total != null">`total` = #{total}, </if>
-			<if test="paytotal != null">`paytotal` = #{paytotal}, </if>
-			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
-			<if test="remark != null">`remark` = #{remark}, </if>
-			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
-			<if test="makedate != null">`makedate` = #{makedate}, </if>
-			<if test="accuser != null">`accuser` = #{accuser}, </if>
-			<if test="accdate != null">`accdate` = #{accdate}, </if>
-			<if test="uptdate != null">`uptdate` = #{uptdate}, </if>
-			<if test="pocessinstanceid != null">`pocessinstanceid` = #{pocessinstanceid}</if>
-		</set>
-		where id = #{id}
-	</update>
+
+    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.OrdermainEntity">
+        update ordermain
+        <set>
+            <if test="billno != null">`billno` = #{billno},</if>
+            <if test="supplyid != null">`supplyid` = #{supplyid},</if>
+            <if test="reqbillno != null">`reqbillno` = #{reqbillno},</if>
+            <if test="requser != null">`requser` = #{requser},</if>
+            <if test="deptid != null">`deptid` = #{deptid},</if>
+            <if test="reqdate != null">`reqdate` = #{reqdate},</if>
+            <if test="ordersource != null">`ordersource` = #{ordersource},</if>
+            <if test="ordertype != null">`ordertype` = #{ordertype},</if>
+            <if test="budgetmainid != null">`budgetmainid` = #{budgetmainid},</if>
+            <if test="total != null">`total` = #{total},</if>
+            <if test="paytotal != null">`paytotal` = #{paytotal},</if>
+            <if test="billstatus != null">`billstatus` = #{billstatus},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            <if test="makeuser != null">`makeuser` = #{makeuser},</if>
+            <if test="makedate != null">`makedate` = #{makedate},</if>
+            <if test="accuser != null">`accuser` = #{accuser},</if>
+            <if test="accdate != null">`accdate` = #{accdate},</if>
+            <if test="uptdate != null">`uptdate` = #{uptdate},</if>
+            <if test="pocessinstanceid != null">`pocessinstanceid` = #{pocessinstanceid}</if>
+        </set>
+        where id = #{id}
+    </update>
 
 
     <update id="auditBatch">
-        update  ordermain set billstatus=billstatus+1 where id in
+        update ordermain set billstatus=billstatus+1 where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
 
     <update id="unauditBatch">
-        update  ordermain set billstatus=billstatus-1 where id in
+        update ordermain set billstatus=billstatus-1 where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
-	
-	<delete id="delete">
+
+    <delete id="delete">
 		delete from ordermain where id = #{value}
 	</delete>
-	
-	<delete id="deleteBatch">
-		delete from ordermain where id in 
-		<foreach item="id" collection="array" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</delete>
+
+    <delete id="deleteBatch">
+        delete from ordermain where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

@@ -59,27 +59,18 @@
 					list: []
 
 				},
-				methods: {
+				methods: { 
 					getdata: function() {
-						var param = {
-							usercode: localStorage.getItem('usercode') || "",
-							billtype: 'order',
-							page: 0,
-							limit: 10
-
+						var param={ 
+							billtype:"order", 
+							
 						};
-						console.log(JSON.stringify(param))
-						queryPost(baseurl + "/todolist/listdoto",
+						
+						query("/todolist/listdoto",
 							param,
-							function(data, textStatus, xhr) {
-								if(data.code == 0) {
+							function(data) {								
 									askbill.list = data.page.list;
-								} else {
-									mui.alert(data.msg)
-								}
-
-								console.log(JSON.stringify(data))
-
+						
 							});
 						//						 
 					}

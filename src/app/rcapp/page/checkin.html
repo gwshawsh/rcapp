@@ -100,7 +100,7 @@
 						var param = {
 							usercode: getUsercode(),
 						};
-						var url = baseurl + "/checkinmain/listtoday";
+						var url = "/checkinmain/listtoday";
 						var func = function(data) {
 							if(data.list.length > 0) {
 								vm.checkintime = data.list[0].date 
@@ -130,9 +130,9 @@
 
 				methods: {
 					
-					isIn: function() {
-						return true
-						//return vm.checkintime;
+					isIn: function() { 
+						
+						return vm.checkintime;
 					},
 
 					checkin: function() {
@@ -142,16 +142,11 @@
 
 						};
 						console.log(JSON.stringify(param));
-						queryPost(baseurl + "checkinmain/save", param,
-							function(data, textStatus, xhr) {
-								if(data.code == 0) {
+						query("checkinmain/save", param,
+							function(data) {
+								
 									mui.alert("签到成功");
 
-								} else {
-									mui.alert(data.msg)
-								}
-
-								console.log(JSON.stringify(data))
 
 							}
 						)

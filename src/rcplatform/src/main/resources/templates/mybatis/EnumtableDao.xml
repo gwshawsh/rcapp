@@ -3,28 +3,29 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.EnumtableDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.EnumtableEntity">
+    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.EnumtableEntity">
 		select * from enumtable where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.EnumtableEntity">
-		select * from enumtable
-		<where>
-			<if test="enumtype != null">
-				enumtype=#{enumtype}
-			</if>
-		</where>
+    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.EnumtableEntity">
+        select * from enumtable
+        <where>
+            <if test="enumtype != null">
+                enumtype = #{enumtype}
+            </if>
+        </where>
 
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
-	</select>
-	
- 	<select id="queryTotal" resultType="int">
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
 		select count(*) from enumtable 
 	</select>
-	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.EnumtableEntity" useGeneratedKeys="true" keyProperty="id">
+
+    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.EnumtableEntity" useGeneratedKeys="true"
+            keyProperty="id">
 		insert into enumtable
 		(
 			`enumtype`, 
@@ -40,27 +41,27 @@
 			#{remark}
 		)
 	</insert>
-	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.EnumtableEntity">
-		update enumtable 
-		<set>
-			<if test="enumtype != null">`enumtype` = #{enumtype}, </if>
-			<if test="enumvalueid != null">`enumvalueid` = #{enumvalueid}, </if>
-			<if test="enumvaluename != null">`enumvaluename` = #{enumvaluename}, </if>
-			<if test="remark != null">`remark` = #{remark}</if>
-		</set>
-		where id = #{id}
-	</update>
-	
-	<delete id="delete">
+
+    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.EnumtableEntity">
+        update enumtable
+        <set>
+            <if test="enumtype != null">`enumtype` = #{enumtype},</if>
+            <if test="enumvalueid != null">`enumvalueid` = #{enumvalueid},</if>
+            <if test="enumvaluename != null">`enumvaluename` = #{enumvaluename},</if>
+            <if test="remark != null">`remark` = #{remark}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
 		delete from enumtable where id = #{value}
 	</delete>
-	
-	<delete id="deleteBatch">
-		delete from enumtable where id in 
-		<foreach item="id" collection="array" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</delete>
+
+    <delete id="deleteBatch">
+        delete from enumtable where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

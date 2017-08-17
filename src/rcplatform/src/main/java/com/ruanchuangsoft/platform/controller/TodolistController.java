@@ -2,10 +2,10 @@ package com.ruanchuangsoft.platform.controller;
 
 import java.util.*;
 
+import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ruanchuangsoft.platform.annotation.SysLog;
-import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import com.ruanchuangsoft.platform.entity.*;
 import com.ruanchuangsoft.platform.enums.AuditType;
@@ -102,6 +102,44 @@ public class TodolistController extends AbstractController {
         return R.ok().put("page", pageUtil);
     }
 
+   /**
+     * 列表
+     */
+    @SysLog("手机查询查询待办事项总数")
+    @ResponseBody
+    @RequestMapping("/listdotocount")
+    public R listCount(String billtype){
+        Map<String,Object> map=new HashMap<>();
+        map.put("userid",ShiroUtils.getUserId());//用来与工作流关联
+        map.put("billstatus",BillStatus.NEW);//新的单据
+
+        int count = 0;
+        if(StringUtils.isEmpty(billtype)){
+            billtype = "all";
+        }
+        billtype = billtype.toLowerCase();
+        switch (billtype){
+            case "all":
+                count += requisitionmainService.queryTotal(map);
+                count += requisitionmainService.queryTotal(map);
+                count += ordermainService.queryTotal(map);
+                count += contractmainService.queryTotal(map);
+                break;
+            case "ask":
+                count = requisitionmainService.queryTotal(map);
+                break;
+            case "order":
+                count = ordermainService.queryTotal(map);
+                break;
+            case "pay":
+                count = paymentmainService.queryTotal(map);
+                break;
+            case "contract":
+                count = contractmainService.queryTotal(map);
+                break;
+        }
+        return R.ok().put("count",count);
+    }
 
     /**
      * 列表
@@ -109,18 +147,18 @@ public class TodolistController extends AbstractController {
     @SysLog("手机查询查询待办事项")
     @ResponseBody
     @RequestMapping("/listdoto")
-    public R list(TodoQueryParam param) {
+    public R list(@RequestBody TodoQueryParam param) {
         String billtype = param.getBilltype();
-        SysUserEntity sysUserEntity=sysUserService.queryByUserName(param.getUsercode());
+        /*SysUserEntity sysUserEntity=sysUserService.queryByUserName("222");
         if(sysUserEntity==null){
             return R.error("用户不存在");
-        }
+        }*/
 
         //查询请购单审批任务
         Map<String,Object> map=new HashMap<>();
         map.put("offset", param.getPage());
         map.put("limit", param.getLimit());
-        map.put("userid",sysUserEntity.getId());//用来与工作流关联
+        map.put("userid", ShiroUtils.getUserId());//用来与工作流关联
         if (billtype.equalsIgnoreCase("ask")) {
             List<RequisitionmainEntity> list=requisitionmainService.queryList(map);
             int total = list.size();
@@ -157,12 +195,13 @@ public class TodolistController extends AbstractController {
     @SysLog("手机审批待办事项")
     @ResponseBody
     @RequestMapping("/audittodo")
-    public R audit(TodoAuditParam param) {
+    public R audit(@RequestBody TodoAuditParam param) {
         String billtype = param.getBilltype();
-        SysUserEntity sysUserEntity=sysUserService.queryByUserName(param.getUsercode());
+        /*SysUserEntity sysUserEntity=sysUserService.queryByUserName(param.getUsercode());
         if(sysUserEntity==null){
             return R.error("用户不存在");
-        }
+        }*/
+        param.setUsercode(ShiroUtils.getUserName());
 
         //查询请购单审批任务
         Map<String,Object> map=new HashMap<>();

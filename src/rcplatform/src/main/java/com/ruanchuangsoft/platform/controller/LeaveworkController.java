@@ -90,7 +90,7 @@ public class LeaveworkController extends AbstractController{
 	@ResponseBody
 	@RequestMapping("/save")
 	@RequiresPermissions("leavework:save")
-	public R save(@RequestBody LeaveworkEntity leavework){
+	public R save(LeaveworkEntity leavework){
 		//启动审批工作流
 		Map<String,Object> params=new HashMap<>();
 		params.put("userid",ShiroUtils.getUserId());
@@ -135,4 +135,7 @@ public class LeaveworkController extends AbstractController{
 	public String getRequestMapping() {
 		return "leavework/index";
 	}
+
+
+
 }

@@ -34,12 +34,13 @@
 			.position-right {
 				right: 30px;
 			}
+			
 		</style>
 	</head>
 
 	<body>
 		<div id="rrapp">
-			<rc-header title="审批管理" btn="新增" to="approval_new.html"></rc-header>
+			<rc-header title="审批管理" btn="" to="approval_new.html"></rc-header>
 			<div class="mui-content">
 				<ul class="mui-table-view">
 
@@ -57,13 +58,13 @@
 		<script src="../js/vue.min.js"></script>
 		<script src="../js/app.js"></script>
 		<script type="text/javascript">
-			new Vue({
+			var vm = new Vue({
 				el: '#rrapp',
 				data: {
 					menulist: [{ 
 							name: '请假审批',
 							to: 'leave.html',
-							badge: '1',
+							badge: '',
 						},
 						{
 							name: '请购单审批',
@@ -78,16 +79,27 @@
 						{
 							name: '合同审批',
 							to: '',
-							badge: '1',
+							badge: '',
 						},
-
+ 
 					],
 
+				},
+				methods:{
+					gettodos:function(){
+						query("todolist/listdotocount",{billtype:'ask'},function(d){vm.menulist[0].badge = d.count},true,true);
+						query("todolist/listdotocount",{billtype:'ask'},function(d){vm.menulist[1].badge = d.count},true,true);
+						query("todolist/listdotocount",{billtype:'order'},function(d){vm.menulist[2].badge = d.count},true,true);
+						query("todolist/listdotocount",{billtype:'contract'},function(d){vm.menulist[3].badge = d.count},true,true);
+					}
 				},
 			});
 			mui.init({
 				swipeBack: false
 			});
+			mui.plusReady(function(){
+				vm.gettodos();
+			})
 		</script>
 	</body>
 

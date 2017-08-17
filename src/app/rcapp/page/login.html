@@ -135,8 +135,8 @@
 		<header class="mui-bar mui-bar-nav">
 			<h1 class="mui-title">登录</h1>
 		</header>
-		<div class="mui-content" id="rrapp">
-			<img src="../images/user-photo.png" class="aligncenter" style="width: 80px;margin-top: 20px;" />
+		<div class="mui-content" id="rrapp" style="background: #FFF;">
+			<img src="../images/login_logo.png" class="aligncenter" style="width: 80px;margin-top: 20px;" />
 			<form class="mui-input-group">
 				<div class="mui-input-row">
 					<input id='account' type="text" class="mui-input-clear mui-input " placeholder="请输入账号" v-model="username">
@@ -184,23 +184,10 @@
 
 				methods: {
 					tomain: function() {
-						mui.openWindow({
-							url: 'main.html',
-							id: 'main',
-							preload: true,
-							show: {
-								aniShow: 'pop-in'
-							},
-							styles: {
-								popGesture: 'hide'
-							},
-							waiting: {
-								autoShow: false
-							}
-						});
+						navigate('main.html')
 					},
 					login: function(event) {
-						queryPost(baseurl + "sys/login", {
+						query("sys/login", {
 								username: vm.username,
 								password: vm.password
 							},
@@ -208,12 +195,9 @@
 								if(data.code == 0) {									
 									localStorage.setItem('usercode', vm.username);
 									vm.tomain();
-								} else {
-									vm.refreshCode();
-									plus.nativeUI.toast(data.msg);
-								}
+								} 
 
-							});
+							},true);
 
 					},
 

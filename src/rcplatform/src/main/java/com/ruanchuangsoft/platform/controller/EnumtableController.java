@@ -6,6 +6,8 @@ import java.util.Map;
 
 import com.ruanchuangsoft.platform.controller.AbstractController;
 
+import com.ruanchuangsoft.platform.entity.SysUserEntity;
+import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,6 +79,7 @@ public class EnumtableController extends AbstractController {
 	@ResponseBody
 	@RequestMapping("/listone")
 	public R listone(String enumid,Integer page, Integer limit){
+		SysUserEntity user = ShiroUtils.getUserEntity();
 		Map<String, Object> map = new HashMap<>();
 		map.put("enumtype", enumid);
 		map.put("offset", (page - 1) * limit);
