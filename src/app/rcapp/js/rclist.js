@@ -123,7 +123,7 @@ var listItem = {
 			}
 		},
 		showdetail:function(item){
-			navigate('approval_deal.html');
+			navigate('approval_deal.html',item);
 		},
 	}, 
 	template: [
