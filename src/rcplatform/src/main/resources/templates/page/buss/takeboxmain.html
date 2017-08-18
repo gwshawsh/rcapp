@@ -43,6 +43,7 @@
 <el-button type="primary" v-on:click="takeboxend"><i class="fa fa-reply"></i>&nbsp;放单结束
 </el-button>
 </@shiro.hasPermission>
+
 <@shiro.hasPermission name="takeboxmain:takeboxchange">
 <el-button type="primary" v-on:click="takeboxchange"><i class="fa fa-reply"></i>&nbsp;改单
 </el-button>
@@ -323,7 +324,7 @@
 
         </el-form-item>
 
-        <el-form-item label="备注" style="padding-top: 5px;width:50%">
+        <el-form-item label="备注" style="padding-top: 5px;width:80%">
             <el-input type="textarea" :rows="2" style="width: 500px" placeholder="请输入内容"
                       v-model="takeboxmain.remark" style="width: 100%;"></el-input>
 
