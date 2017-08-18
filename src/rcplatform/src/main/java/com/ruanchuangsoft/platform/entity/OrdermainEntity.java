@@ -18,7 +18,11 @@ import java.math.BigDecimal;
  */
 public class OrdermainEntity extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String type = "order";
 
+    public  String getType() {
+        return type;
+    }
     //
     private Long id;
     //单据号

@@ -15,7 +15,7 @@
 			<rc-header title="请假申请"></rc-header>
 			<div class="mui-content" >
 				<ul class="mui-table-view">
-					<li class="mui-table-view-cell">
+					<li class="mui-table-view-cell" @click = "getreasons">
 						<a class="mui-navigate-right">
 							请假事由 <span style="position:absolute ;right: 40px;">{{leave_type}}</span>
 						</a>
@@ -61,19 +61,53 @@
 					begin: function() {
 						var picker = new mui.DtPicker(JSON.parse('{}'));
 						picker.show(function(rs) {
+							if(rs.text >= vm.leave_end){
+								mui.toast("开始时间应小于结束时间"); 
+								return;
+							}
 							vm.leave_begin = rs.text;
 							picker.dispose();
 						});
 					},
 					end: function() {
 						var picker = new mui.DtPicker(JSON.parse('{}'));
-						picker.show(function(rs) {
+						picker.show(function(rs) { 
+							if(rs.text <= vm.leave_begin){
+								mui.toast("结束时间应大于开始时间"); 
+								return;
+							}
 							vm.leave_end = rs.text;
 							picker.dispose();
 						});
 					},
 					commit: function() {
 
+					},
+					getreasons:function(){
+						var param = {
+							enumid: "1005",						
+							page: 1,
+							limit: 100
+						};
+						query("enumtable/listone",param,function(data){
+							var l = data.page.list
+							var list = [];
+							for(var i=0;i!=l.length;++i){
+								list.push(
+									{text:l[i].enumvaluename,value:l[i].enumvaluename
+								}
+								)
+							}
+							var userPicker = new mui.PopPicker();
+							userPicker.setData(list);
+							userPicker.show(function(items) {
+								vm.leave_type = items[0].value;
+							
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+							
+						},true)
 					},
 				}
 			});

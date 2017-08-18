@@ -173,9 +173,9 @@
 				"android": {
 					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
 					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
-					"hdpi": "/Users/lidongfeng/Desktop/lanucher1.png", /*高分屏启动图片，分辨率：480x762*/
-					"xhdpi": "/Users/lidongfeng/Desktop/lanucher.png", /*720P高分屏启动图片，分辨率：720x1242*/
-					"xxhdpi": ""
+					"hdpi": "C:/Users/Administrator/Desktop/web/归档/Start page.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "C:/Users/Administrator/Desktop/web/归档/Start page.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "C:/Users/Administrator/Desktop/web/归档/Start page.png"
 				}
 			},
 			"debug": true
@@ -378,7 +378,8 @@
 					"js/vue.min.js",
 					"js/mui.enterfocus.js",
 					"images/user-photo.png",
-					"fonts/mui.ttf"
+					"fonts/mui.ttf",
+					"images/login_logo.png"
 				],
 				"refer": [
 					"page/main.html"
@@ -426,10 +427,12 @@
 					"js/vue.min.js",
 					"images/default_head.png",
 					"js/rclist.js",
-					"css/rclist.css"
+					"css/rclist.css",
+					"images/ding.png"
 				],
 				"refer": [
-					"page/approval_new.html"
+					"page/approval_new.html",
+					"page/approval_deal.html"
 				],
 				"priority": 0
 			},
@@ -452,7 +455,12 @@
 			"page/personpage.html": {
 				"resources": [
 					"fonts/mui.ttf",
-					"images/head.jpg"
+					"images/head.jpg",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js"
 				],
 				"refer": [
 					"page/setting.html"
@@ -485,7 +493,9 @@
 					"fonts/mui.ttf",
 					"css/mui.min.css",
 					"css/style.css",
-					"js/vue.min.js"
+					"js/vue.min.js",
+					"js/mui.picker.min.js",
+					"css/mui.picker.min.css"
 				],
 				"refer": [],
 				"priority": 0
@@ -542,7 +552,13 @@
 			"page/leave_apply.html": {
 				"resources": [
 					"js/mui.picker.min.js",
-					"css/mui.picker.min.css"
+					"css/mui.picker.min.css",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js"
 				],
 				"refer": [],
 				"priority": 0
@@ -587,6 +603,18 @@
 					"fonts/mui.ttf",
 					"images/default_head.png",
 					"css/rclist.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/approval_deal.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js",
+					"fonts/mui.ttf"
 				],
 				"refer": [],
 				"priority": 0

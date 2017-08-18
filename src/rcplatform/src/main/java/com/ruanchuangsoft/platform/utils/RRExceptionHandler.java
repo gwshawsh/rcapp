@@ -2,6 +2,7 @@ package com.ruanchuangsoft.platform.utils;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -36,7 +37,10 @@ public class RRExceptionHandler implements HandlerExceptionResolver {
 				r.put("msg", ((RRException) ex).getMessage());
 			}else if(ex instanceof DuplicateKeyException){
 				r = R.error("数据库中已存在该记录");
-			}else if(ex instanceof AuthorizationException){
+			}else if(ex instanceof UnauthenticatedException){
+				r = R.error("登录已过期，请先登录系统");
+			}
+			else if(ex instanceof AuthorizationException){
 				r = R.error("没有权限，请联系管理员授权");
 			}else{
 				r = R.error();

@@ -18,7 +18,11 @@ package com.ruanchuangsoft.platform.entity;
  */
 public class ContractmainEntity extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String type = "contract";
 
+    public  String getType() {
+        return type;
+    }
             //
         private Long id;
             //单据号

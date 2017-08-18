@@ -18,7 +18,11 @@ import java.math.BigDecimal;
  */
 public class PaymentmainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+	public static final String type = "pay";
+
+	public  String getType() {
+		return type;
+	}
 	//
 	private Long id;
 	//单据号

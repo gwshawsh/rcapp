@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruanchuangsoft.platform.dao.CheckinmainDao">
+
+    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.CheckinmainEntity">
+		select
+				    			    			    			    			    			    	        a.*
+		from checkinmain a where id = #{value}
+	</select>
+
+    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.CheckinmainEntity">
+        select
+        a.*
+        from checkinmain a
+        <where>
+            <if test="id != null and id != '' ">
+                `id` = #{id}
+            </if>
+
+            <if test="userId != null and userId != '' ">
+                and `user_id` = #{userId}
+            </if>
+
+            <if test="username != null and username != '' ">
+                and `username` = #{username}
+            </if>
+
+            <if test="address != null and address != '' ">
+                and `address` = #{address}
+            </if>
+
+            <if test="checktype != null and checktype != '' ">
+                and `checktype` = #{checktype}
+            </if>
+
+            <if test="date != null and date != '' ">
+                and `date` = #{date}
+            </if>
+
+        </where>
+        order by id desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
+		select count(*) from checkinmain 
+	</select>
+
+    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.CheckinmainEntity" useGeneratedKeys="true"
+            keyProperty="id">
+		insert into checkinmain
+		(
+			`user_id`, 
+			`username`, 
+			`address`, 
+			`checktype`, 
+			`date`
+		)
+		values
+		(
+			#{userId}, 
+			#{username}, 
+			#{address}, 
+			#{checktype}, 
+			#{date}
+		)
+	</insert>
+
+    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.CheckinmainEntity">
+        update checkinmain
+        <set>
+            <if test="userId != null">`user_id` = #{userId},</if>
+            <if test="username != null">`username` = #{username},</if>
+            <if test="address != null">`address` = #{address},</if>
+            <if test="checktype != null">`checktype` = #{checktype},</if>
+            <if test="date != null">`date` = #{date}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+		delete from checkinmain where id = #{value}
+	</delete>
+
+    <delete id="deleteBatch">
+        delete from checkinmain where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

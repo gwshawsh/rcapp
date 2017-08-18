@@ -9,8 +9,8 @@ import java.io.Serializable;
 public class TodoQueryParam implements Serializable {
     private String usercode;
     private String billtype;
-    private int page;
-    private int limit;
+    private int page =1;
+    private int limit = 100;
 
     public String getUsercode() {
         return usercode;

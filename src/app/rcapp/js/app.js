@@ -1,6 +1,6 @@
 var baseurl = "http://192.168.253.1:8888/";
-
-function navigate(murl) {
+var usercode="";
+function navigate(murl,extra) {
 	if(!murl){
 		mui.back();
 		return;
@@ -17,10 +17,31 @@ function navigate(murl) {
 		},
 		waiting: {
 			autoShow: true
-		}
+		},
+		extras:{
+			value:extra,
+		},
 	});
 	
 }
+Date.prototype.format = function(fmt)   
+{ //author: meizz   
+  var o = {   
+    "M+" : this.getMonth()+1,                 //月份   
+    "d+" : this.getDate(),                    //日   
+    "h+" : this.getHours(),                   //小时   
+    "m+" : this.getMinutes(),                 //分   
+    "s+" : this.getSeconds(),                 //秒   
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+    "S"  : this.getMilliseconds()             //毫秒   
+  };   
+  if(/(y+)/.test(fmt))   
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+  for(var k in o)   
+    if(new RegExp("("+ k +")").test(fmt))   
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+  return fmt;   
+} 
 var header = {  
 	props: {
 		title: '',
@@ -41,28 +62,54 @@ var header = {
 
 Vue.component('rc-header', header);
 
-function get(url, data, success) {
-	var mask = mui.createMask();
-	mui.ajax(url, {
-		data: data,
+function getUsercode(){
+	return localStorage.getItem('usercode') || "";
+}
+
+
+function query(url, datain, result,isform,nomask) {
+	
+	console.log(url);
+	console.log(JSON.stringify(datain));
+	var mask = mui.createMask(); 
+	mui.ajax(baseurl+url, {
+		data: isform ? datain:JSON.stringify(datain), 
+		contentType: isform ?"application/x-www-form-urlencoded" : "application/json",
 		dataType: 'json', //服务器返回json格式数据
 		type: 'post', //HTTP请求类型
 		timeout: 5000, //超时时间设置为10秒；
-		beforeSend: function() {
-			plus.nativeUI.showWaiting();
-			mask.show(); //显示遮罩层
+		beforeSend: function() { 
+			if(!nomask){
+				plus.nativeUI.showWaiting();
+				mask.show(); //显示遮罩层
+			}
+			 
 		},
 		complete: function() {
+			if(!nomask){
 			plus.nativeUI.closeWaiting();
 			mask.close(); //关闭遮罩层
+			}
 		},
-		success: success,
-		error: function(xhr, type, errorThrown) {
+		success: function(dataout, textStatus, xhr){
+			console.log(JSON.stringify(dataout));
+			if(dataout.code == 0){
+				result(dataout);
+			}else{
+				mui.alert(dataout.msg)
+			}
+		},
+		error: function(xhr, type, errorThrown) {  
 			mui.alert('服务器连接超时，请稍后再试');
-			mask.close();
+			
+				mask.close();
+			
+			
 		}
 	})
 }
+
+
 (function($, owner) {
 	/**
 	 * 用户登录

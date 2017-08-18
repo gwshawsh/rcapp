@@ -76,7 +76,51 @@
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from paymentmain 
+		select count(*) from paymentmain
+		<where>
+			<if test="id != null and id != '' ">
+				`id` = #{id} and                 </if>
+			<if test="billno != null and billno != '' ">
+				`billno` = #{billno} and                 </if>
+			<if test="reqbillno != null and reqbillno != '' ">
+				`reqbillno` = #{reqbillno} and                 </if>
+			<if test="requser != null and requser != '' ">
+				`requser` = #{requser} and                 </if>
+			<if test="deptid != null and deptid != '' ">
+				`deptid` = #{deptid} and                 </if>
+			<if test="reqdate != null and reqdate != '' ">
+				`reqdate` = #{reqdate} and                 </if>
+			<if test="orderbillno != null and orderbillno != '' ">
+				`orderbillno` = #{orderbillno} and                 </if>
+			<if test="percent != null and percent != '' ">
+				`percent` = #{percent} and                 </if>
+			<if test="paytotal != null and paytotal != '' ">
+				`paytotal` = #{paytotal} and                 </if>
+			<if test="paysource != null and paysource != '' ">
+				`paysource` = #{paysource} and                 </if>
+			<if test="payee != null and payee != '' ">
+				`payee` = #{payee} and                 </if>
+			<if test="payeeaccount != null and payeeaccount != '' ">
+				`payeeaccount` = #{payeeaccount} and                 </if>
+			<if test="paytype != null and paytype != '' ">
+				`paytype` = #{paytype} and                 </if>
+			<if test="payreason != null and payreason != '' ">
+				`payreason` = #{payreason} and                 </if>
+			<if test="ordertype != null and ordertype != '' ">
+				`ordertype` = #{ordertype} and                 </if>
+			<if test="billstatus != null and billstatus != '' ">
+				`billstatus` = #{billstatus} and                 </if>
+			<if test="makeuser != null and makeuser != '' ">
+				`makeuser` = #{makeuser} and                 </if>
+			<if test="makedate != null and makedate != '' ">
+				`makedate` = #{makedate} and                 </if>
+			<if test="accuser != null and accuser != '' ">
+				`accuser` = #{accuser} and                 </if>
+			<if test="accdate != null and accdate != '' ">
+				`accdate` = #{accdate} and                 </if>
+			<if test="uptdate != null and uptdate != '' ">
+				`uptdate` = #{uptdate}                </if>
+		</where>
 	</select>
 	 
 	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.PaymentmainEntity" useGeneratedKeys="true" keyProperty="id">

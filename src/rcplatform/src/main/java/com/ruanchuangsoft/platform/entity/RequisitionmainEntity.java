@@ -18,8 +18,13 @@ package com.ruanchuangsoft.platform.entity;
  */
 public class RequisitionmainEntity extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String type = "ask";
 
-            //
+    public  String getType() {
+        return type;
+    }
+
+    //
         private Long id;
             //单据号
         private String billno;

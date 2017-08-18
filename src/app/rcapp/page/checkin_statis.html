@@ -14,13 +14,13 @@
 		<div id="rrapp">
 			<rc-header title="考勤统计" btn=""></rc-header>
 			<div class="mui-content">
-					<button class=" mui-btn-block " v-on:click="selecttime" style="width: 90%;margin: auto;margin-bottom: 8px;margin-top: 8px;">{{date}}</button>
+					<button class=" mui-btn-block " v-on:click="selecttime" style="width: 90%;margin: auto;margin-bottom: 8px;margin-top: 8px;">{{month}}</button>
 					<ul class="mui-table-view" style="margin-top: 20px;">
 					<li v-for="item in list" class="mui-table-view-cell" style="padding-bottom: 5px;padding-top: 5px;">
 						<div>
-						<span class="font-green">{{item.time}} </span><span class="font-secondary position-right" >{{item.status}}</span>
-						<p class="">上班签到：{{item.in}}</p>
-						<p class="">下班签退：{{item.out}}</p>
+						<span class="font-green">{{item.month}} </span><span class="font-secondary position-right" :class="">{{status(item)}}</span>
+						<p class="">上班签到：{{item.intime}}</p>
+						<p class="">下班签退：{{item.outtime}}</p>
 						</div>
 					</li>
 					</ul>
@@ -35,38 +35,112 @@
 			var vm = new Vue({
 				el: '#rrapp',
 				data: {
-					date:'',
-					list:[{
-						time:'06-07',
-						in:'08:36',
-						out:'18:00',
-						status:'迟到',
-					},{
-						time:'06-07',
-						in:'08:36',
-						out:'18:00', 
-						status:'迟到',
-					},
-					{
-						time:'06-07',
-						in:'08:36',
-						out:'18:00',
-						status:'迟到',
-					},
-					
-					],
+					begin:"08:30",
+					end:"18:00",
+					month:'',
+					list:[],			},
+				created:function(){					
+					this.month = new Date().format('yyyy-MM'); 
 				},
+				
 				methods:{
+					fontclass:function(item){
+						if(!item.intime){ 
+							return "font-warning";
+						}
+						if(item.intime > this.begin){ 
+							return "font-warning"
+						}
+						if(item.outtime<this.end){
+							return "font-warning";
+						}
+						return "font-green";
+					},
+					status:function(item){
+						if(!item.intime){
+							return "缺勤";
+						}
+						if(item.intime > this.begin){
+							return "迟到"
+						}
+						if(item.outtime<this.end){
+							return "早退";
+						}
+					}
+					,
 					selecttime: function() {
 						var picker = new mui.DtPicker(JSON.parse('{"type":"month"}'));
 						picker.show(function(rs) {
-							vm.date = rs.text;
+							vm.month = rs.text;
 							picker.dispose();
+							vm.getmonth();
 						});
 					},
+					
+					getmonth:function(){
+						var p={
+							usercode:getUsercode(), 
+							month:this.month 
+						};
+						
+						query("/checkinmain/listmonth",p,
+						function(data){
+							vm.handlelist(data.list)
+						},true)
+					},
+					handlelist:function(list){
+						var days = 0;
+						var target = new Date(vm.month);
+						var now = new Date();
+						if(now.getYear()==target.getYear() && now.getMonth()==target.getMonth()){//当月
+							days = now.getDate();
+						}else{
+							days = new Date(target.getYear(),target.getMonth()+1,0).getDate();
+						}
+						var data =[];
+						var m = format(target.getMonth()+1)+"-";
+						for(var i=1;i!=days+1;++i){
+							data.push({
+								month:m + format(i),
+								intime:"",
+								outtime:"",
+								status:"缺勤"
+								
+							}) 
+						}
+						for(var i=0;i!=list.length;++i){ 
+							var d = new Date(list[i].date);
+ 							var time = d.toTimeString().substr(0, 5);
+ 							var index = d.getDate()-1;
+ 							
+ 							console.log(time +"   "+ (d.getDate()-1))
+ 							if(data[index].intime){
+ 								data[index].outtime = time;
+ 							}else{
+ 								data[index].intime = time;
+ 							}
+						}
+						
+						
+						vm.list = data.reverse();
+						
+						
+					},
+					
 				}
 			});
-			mui.init()
+			function format(d){
+				if(d<10){
+					return "0"+d;
+				}else{
+					return d;
+				}
+			};
+			mui.init();
+			mui.plusReady(function() {
+				vm.getmonth()
+			}); 
+			
 		</script>
 	</body>
 

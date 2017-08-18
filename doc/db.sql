@@ -1683,7 +1683,16 @@ CREATE TABLE `attachments`(
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='附件表';
 
- 
+ DROP TABLE IF EXISTS `checkinmain`;
+CREATE TABLE `checkinmain`(
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint COMMENT '用户ID',
+  `username` varchar(50) COMMENT '用户名',
+  `address` varchar(1000) COMMENT '地址',
+  `checktype` int COMMENT '签到类型',
+  `date` datetime COMMENT '日期',  
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='考勤表';
 
 
 --   quartz相关表结构
