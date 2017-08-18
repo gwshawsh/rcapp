@@ -170,8 +170,26 @@ public class TakeboxmainController extends AbstractController {
         for (long id : ids) {
             TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(id);
             if (takeboxmainEntity != null) {
-                if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
+                if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.TAKEBOXERROR)){
+                    return R.error(1, "单据放单异常,不能重复执行放单");
+                }
+                else if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.TAKEBOXEND)){
+                    return R.error(1, "单据已经放单结束,不能重复执行放单");
+                }
+                else if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.CHANGING)){
+                    return R.error(1, "正在执行改单,不能重复执行放单");
+                }
+                else if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.CHANGING)){
+                    return R.error(1, "放单已经结束,不能重复执行放单");
+                }
+                else if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
                     return R.error(1, "单据已经审核,不能执行放单");
+                }
+                else if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.STARTTRANS)) {
+                    return R.error(1, "单据已经开始运输,不能执行放单");
+                }
+                else if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.ENDTRANS)) {
+                    return R.error(1, "单据已经完成运输,不能执行放单");
                 }
                 takeboxmainEntity.setBillstatus(TakeboxBillStatus.TAKEBOX);
                 takeboxmainEntity.setAccdate(new Date());
@@ -193,11 +211,27 @@ public class TakeboxmainController extends AbstractController {
 
         TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(takeboxmain.getId());
         if (takeboxmainEntity != null) {
-            if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
+            if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.TAKEBOXEND)){
+                return R.error(1, "单据已经放单结束,不能重复执行放单异常");
+            }
+            else if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.CHANGING)){
+                return R.error(1, "正在执行改单,不能重复执行放单异常");
+            }
+            else if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.CHANGING)){
+                return R.error(1, "放单已经结束,不能重复执行放单异常");
+            }
+            else if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
                 return R.error(1, "单据已经审核,不能执行放单异常");
             }
+            else if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.STARTTRANS)) {
+                return R.error(1, "单据已经开始运输,不能执行放单异常");
+            }
+            else if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.ENDTRANS)) {
+                return R.error(1, "单据已经完成运输,不能执行放单异常");
+            }
+
             takeboxmainEntity.setBillstatus(TakeboxBillStatus.TAKEBOXERROR);
-//            takeboxmainEntity.setTakeboxremark(takeboxmain.getRemark());
+            takeboxmainEntity.setErrorremark(takeboxmain.getErrorremark());
             takeboxmainEntity.setAccdate(new Date());
             takeboxmainEntity.setAccuser(ShiroUtils.getUserId());
             takeboxmainService.update(takeboxmainEntity);
@@ -220,6 +254,18 @@ public class TakeboxmainController extends AbstractController {
 
         TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(takeboxmain.getId());
         if (takeboxmainEntity != null) {
+            if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.CHANGING)){
+                return R.error(1, "正在执行改单,不能重复执行放单结束");
+            }
+            else if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
+                return R.error(1, "单据已经审核,不能执行放单结束");
+            }
+            else if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.STARTTRANS)) {
+                return R.error(1, "单据已经开始运输,不能执行放单结束");
+            }
+            else if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.ENDTRANS)) {
+                return R.error(1, "单据已经完成运输,不能执行放单结束");
+            }
             if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.AUDIT)) {
                 return R.error(1, "单据已经审核,不能执行放单结束");
             }
@@ -242,8 +288,10 @@ public class TakeboxmainController extends AbstractController {
         return R.ok();
     }
 
+
+
     /**
-     * 改单申请
+     * 开始改单
      */
     @ResponseBody
     @RequestMapping("/takeboxchange")
@@ -252,7 +300,10 @@ public class TakeboxmainController extends AbstractController {
 
         TakeboxmainEntity takeboxmainEntity = takeboxmainService.queryObject(takeboxmain.getId());
         if (takeboxmainEntity != null) {
-            if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.ENDTRANS)) {
+            if(takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.STARTTRANS)) {
+                return R.error(1, "单据已经开始运输,不能执行改单");
+            }
+            else if (takeboxmainEntity.getBillstatus().equals(TakeboxBillStatus.ENDTRANS)) {
                 return R.error(1, "单据已经结束,不能执行改单");
             }
 

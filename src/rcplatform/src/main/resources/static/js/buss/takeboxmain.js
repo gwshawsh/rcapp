@@ -735,7 +735,7 @@ var vm = new Vue({
                     $.get("../takeboxmain/info/" + id,
                         function (r) {
                             vm.takeboxmain = r.takeboxmain;
-                            vm.takeboxmain.remark = text;
+                            vm.takeboxmain.errorremark = text;
                             $.ajax({
                                 type: "POST",
                                 url: "../takeboxmain/takeboxerror",
