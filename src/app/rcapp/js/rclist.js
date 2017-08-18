@@ -86,8 +86,8 @@ var listItem = {
 	methods: {
 		approve: function(item) {
 			this.currentitem = item;
-			this.showPro = true;
-			console.log(this.showPro);
+			this.showPro = true;			
+			
 		},
 		commit: function(audittype,comments) {
 			this.showPro = false;
@@ -107,7 +107,7 @@ var listItem = {
 		},
 		
 		showdetail:function(item){
-			navigate('approval_deal.html',item);
+			navigate('approval_deal.html',item);			
 		},
 	}, 
 	template: [
@@ -127,7 +127,7 @@ var listItem = {
 		'<p>申请人:&nbsp;&nbsp;&nbsp;{{item.makeuserfullname}}</p>',
 		'<p class=\'mui-ellipsis\'>申请时间:{{item.reqdate}}</p>',
 		'</div></div>',
-		'<button v-if="item.billstatus!=4" class="mui-btn-green " v-on:click="approve(item)" style="float: right;">审批</button>',
+		'<button v-if="item.billstatus!=4" class="mui-btn-green " @click.stop="approve(item)" style="float: right;">审批</button>',
 		'</li></ul>',
 
 		'</div>',
