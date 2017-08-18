@@ -36,11 +36,11 @@
 
 	<body>
 		<div id="rrapp">
-			<rc-header title="审批管理" btn="新增" to="approval_new.html"></rc-header>
+			<rc-header :title="getbillname(type)+'审批'" btn="新增" to="approval_new.html" :value="type"></rc-header>
 			<div class="mui-content">
 
 				<div class="mui-input-row mui-search">
-					<input type="search" class="mui-input-clear" placeholder="">
+					<input type="search" class="mui-input-clear" placeholder="请输入单号" @input="search" v-model="billno">
 				</div>
 				<rc-list :list=list> </rc-list>
 
@@ -51,36 +51,48 @@
 		<script src="../js/app.js"></script>
 		<script src="../js/rclist.js"></script>
 		<script src="../js/app.js"></script>
+		<script src="../js/lodash.js"></script>
 		<script type="text/javascript">
 			var askbill = new Vue({
 				el: '#rrapp',
 				data: {
-
-					list: []
+					type:"",
+					billno: '',
+					list: [],
+					sources: [],
 
 				},
-				methods: { 
-					getdata: function() {
-						var param={ 
-							billtype:"order", 
-							
-						};
+				methods: {
+					getdata: function(back) {
+						var param = {
+							billtype: this.type,
+							billno:this.billno,
+	
+						};  
 						
+
 						query("/todolist/listdoto",
 							param,
-							function(data) {								
-									askbill.list = data.page.list;
-						
-							});
+							function(data) {
+								askbill.list = data.page.list;
+
+							},false,back);
 						//						 
-					}
+					},
+					
+					search: _.debounce(function() {
+						askbill.getdata(true);  
+					}, 500),
 				}
-			});
+			}
+			);
 			mui.init({
 				swipeBack: false
 			});
 
 			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				askbill.type = self.value;
 				askbill.getdata();
 			});
 		</script>

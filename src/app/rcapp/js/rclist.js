@@ -105,23 +105,7 @@ var listItem = {
 		setErrorImg: function(e) {
 			errorImg(e, '../images/default_head.png');
 		},
-		billtype:function(item){
-			switch(item.type){
-				case 'ask':return"请购单审批";
-				case 'order':return"订购单审批";
-				case 'pay':return"付款单审批";
-				case 'contract':return"合同审批";
-			}
-		},
-		billicon:function(item){
-			switch(item.type){
-				case 'ask':return"../images/qing.png";
-				case 'order':return"../images/ding.png";
-				case 'pay':return"../images/fu.png";
-				case 'contract':return"../images/he.png";
-				default:return"../images/default_head.png";
-			}
-		},
+		
 		showdetail:function(item){
 			navigate('approval_deal.html',item);
 		},
@@ -133,10 +117,10 @@ var listItem = {
 		'<li v-for="item in list" class="mui-table-view-cell mui-media" @click = "showdetail(item)">',
 		'<p class="mui-input-row" style="padding-left: 52px;">申请单号:&nbsp;&nbsp;&nbsp;{{item.billno}} <span class="font-green position-right" style="right:0px"> {{item.billstatusenumvaluename}}</span></p>',
 		'<div class=\'mui-navigate-right\' >',
-		'<img class="mui-media-object mui-pull-left" :src="billicon(item)">',
+		'<img class="mui-media-object mui-pull-left" :src="getbillicon(item.type)">',
 		'<div class="mui-media-body">',
 
-		'<div> {{billtype(item)}}',
+		'<div> {{getbillname(item.type)}}',
 		'<span class="font-secondary"> {{item.dept}}</span>',
 		'<span class="font-warning position-right"> {{item.total}}元</span></div>',
 		'<p class="font-green">{{item.reason}}</p>',

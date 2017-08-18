@@ -41,7 +41,7 @@
             </if>
 
             <if test="billno != null and billno != '' ">
-                and `billno` = #{billno}
+                and `billno` LIKE concat('%',#{billno},'%')
             </if>
 
             <if test="supplyid != null and supplyid != '' ">

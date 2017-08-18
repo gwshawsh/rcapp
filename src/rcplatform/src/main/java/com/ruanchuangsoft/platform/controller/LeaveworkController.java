@@ -89,7 +89,7 @@ public class LeaveworkController extends AbstractController{
 	@SysLog("保存请假")
 	@ResponseBody
 	@RequestMapping("/save")
-	@RequiresPermissions("leavework:save")
+	//@RequiresPermissions("leavework:save")
 	public R save(LeaveworkEntity leavework){
 		//启动审批工作流
 		Map<String,Object> params=new HashMap<>();

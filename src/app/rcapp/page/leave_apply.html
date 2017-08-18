@@ -39,8 +39,9 @@
 					<textarea class="mui-input-clear question" style="height: 200px;" placeholder="请假说明">{{leave_reason}}</textarea>
 				</div>
 			</div>
+			<button class="mui-btn mui-btn-block mui-btn-green" v-on:click="commit" style="position:absolute; width: 100%;border-radius: 0;bottom: 0;margin-bottom: 0;">提交申请</button>
 		</div>
-		<button class="mui-btn mui-btn-block mui-btn-green" v-on:click="login" style="position:absolute; width: 100%;border-radius: 0;bottom: 0;margin-bottom: 0;">提交申请</button>
+		
 		<script src="../js/mui.min.js"></script>
 		
 		<script src="../js/vue.min.js"></script>
@@ -61,7 +62,7 @@
 					begin: function() {
 						var picker = new mui.DtPicker(JSON.parse('{}'));
 						picker.show(function(rs) {
-							if(rs.text >= vm.leave_end){
+							if(vm.leave_end && rs.text >= vm.leave_end){
 								mui.toast("开始时间应小于结束时间"); 
 								return;
 							}
@@ -81,7 +82,16 @@
 						});
 					},
 					commit: function() {
-
+						var par = {
+							startTime:vm.leave_begin,
+							endTime:vm.leave_end,
+							leavetype:vm.leave_type,
+							reason:vm.leave_reason
+						};
+						query("leavework/save",par,function(d){
+							mui.toast("提交成功");
+							mui.back();
+						});
 					},
 					getreasons:function(){
 						var param = {

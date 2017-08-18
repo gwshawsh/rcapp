@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class TodoQueryParam implements Serializable {
     private String usercode;
     private String billtype;
+    private String billno;
     private int page =1;
     private int limit = 100;
 
@@ -42,5 +43,13 @@ public class TodoQueryParam implements Serializable {
 
     public void setLimit(int limit) {
         this.limit = limit;
+    }
+
+    public String getBillno() {
+        return billno;
+    }
+
+    public void setBillno(String billno) {
+        this.billno = billno;
     }
 }

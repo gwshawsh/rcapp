@@ -45,7 +45,7 @@
 				<ul class="mui-table-view">
 
 					<li v-for="item in menulist" class="mui-table-view-cell">
-						<a class="mui-navigate-right" @click="navigate(item.to)">
+						<a class="mui-navigate-right" @click="navigate(item.to,item.type)">
 							<span v-if="item.badge" class="mui-badge mui-badge-danger">{{item.badge}}</span> {{item.name}}
 						</a>
 					</li>
@@ -65,24 +65,28 @@
 							name: '请假审批',
 							to: 'leave.html',
 							badge: '',
+							type:'',
 						},
 						{
 							name: '请购单审批',
 							to: 'approval.html',
 							badge: '',
+							type:'ask',
 						},
 						{
 							name: '订购单审批',
 							to: 'approval.html',
 							badge: '',
+							type:'order',
 						},
 						{
 							name: '合同审批',
-							to: '',
+							to: 'approval.html',
 							badge: '',
+							type:'contract',
 						},
  
-					],
+					], 
 
 				},
 				methods:{
@@ -92,14 +96,17 @@
 						query("todolist/listdotocount",{billtype:'order'},function(d){vm.menulist[2].badge = d.count},true,true);
 						query("todolist/listdotocount",{billtype:'contract'},function(d){vm.menulist[3].badge = d.count},true,true);
 					}
-				},
+				}, 
 			});
 			mui.init({
 				swipeBack: false
 			});
 			mui.plusReady(function(){
 				vm.gettodos();
-			})
+				var self = plus.webview.currentWebview();
+				vm.item = self.value;
+				console.log(JSON.stringify(vm.item));
+			});
 		</script>
 	</body>
 

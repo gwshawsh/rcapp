@@ -18,7 +18,7 @@
 
 	<body>
 		<div id="rrapp">
-			<rc-header title="新增报销"></rc-header>
+			<rc-header :title="getbillname(type)+'申请'"></rc-header>
 			<div class="mui-content">
 				<form class="mui-input-group">
 					<div class="mui-input-row" @click="pickuser()">
@@ -73,6 +73,7 @@
 			var vm = new Vue({
 				el: '#rrapp',
 				data: {
+					type: '',
 					applier: '',
 					dept: '',
 					applytime: '',
@@ -83,33 +84,34 @@
 					approver: '',
 				},
 				methods: {
-					pickuser: function() {						
-						get(baseurl + "sys_user/list", {
-								page: 1,
-								limit: 1000
-							},
-							function(data) {
-								var list = new Array();
-								if(data.code == 0) {
-									for(var i in data.page.list) {
-										list.push({
-											text: data.page.list[i].username,
-											value: ""
-										});
-										var userPicker = new mui.PopPicker();
-										userPicker.setData(list);
-										userPicker.show(function(items) {
-											vm.applier = items[0].text;
-										});
-									}
-								} else {
-									plus.nativeUI.toast(data.msg);
-								}
+					pickuser: function() {
+						query("sys_user/list", {
+							page: 1,
+							limit: 1000
+						}, function(d) {
+							var list = new Array();
+							for(var i in d.page.list) {
+								list.push({
+									text: d.page.list[i].username,
+									value: ""
+								});
+								
+							}
+							var userPicker = new mui.PopPicker();
+								userPicker.setData(list);
+								userPicker.show(function(items) {
+									vm.applier = items[0].text;
+								});
+						}, true)
+					},
 
-							});
-
-					}
 				},
+			});
+
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				vm.type = self.value;
+
 			});
 		</script>
 	</body>

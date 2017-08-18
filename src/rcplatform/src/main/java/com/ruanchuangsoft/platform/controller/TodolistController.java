@@ -159,6 +159,7 @@ public class TodolistController extends AbstractController {
         map.put("offset", param.getPage());
         map.put("limit", param.getLimit());
         map.put("userid", ShiroUtils.getUserId());//用来与工作流关联
+        map.put("billno", param.getBillno());//用来与工作流关联
         if (billtype.equalsIgnoreCase("ask")) {
             List<RequisitionmainEntity> list=requisitionmainService.queryList(map);
             int total = list.size();

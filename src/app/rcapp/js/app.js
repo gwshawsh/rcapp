@@ -17,13 +17,32 @@ function navigate(murl,extra) {
 		},
 		waiting: {
 			autoShow: true
-		},
+		}, 
 		extras:{
 			value:extra,
 		},
 	});
 	
 }
+function getbillname(type){
+	switch(type){
+				case 'ask':return"请购单";
+				case 'order':return"订购单";
+				case 'pay':return"付款单";
+				case 'contract':return"合同";
+				default:return"";
+			}
+}
+function getbillicon(type){
+	switch(type){
+				case 'ask':return"../images/qing.png";
+				case 'order':return"../images/ding.png";
+				case 'pay':return"../images/fu.png";
+				case 'contract':return"../images/he.png";
+				default:return"../images/default_head.png";
+			}
+}
+
 Date.prototype.format = function(fmt)   
 { //author: meizz   
   var o = {   
@@ -47,6 +66,7 @@ var header = {
 		title: '',
 		btn: '',
 		to: '',
+		value:'',
 
 	},
 	template: [
@@ -54,7 +74,7 @@ var header = {
 		'<header class="mui-bar mui-bar-nav">',
 		'<span class="mui-icon mui-icon-back mui-action-back"></span>',
 		'<h1  class="mui-title">{{title}}</h1>',
-		'<button class=" mui-pull-right mui-btn-link" @click="navigate(to)" >{{btn}}</button>',
+		'<button class=" mui-pull-right mui-btn-link" @click="navigate(to,value)" >{{btn}}</button>',
 		'</header>'
 
 	].join('')
@@ -72,12 +92,12 @@ function query(url, datain, result,isform,nomask) {
 	console.log(url);
 	console.log(JSON.stringify(datain));
 	var mask = mui.createMask(); 
-	mui.ajax(baseurl+url, {
+	return mui.ajax(baseurl+url, {
 		data: isform ? datain:JSON.stringify(datain), 
 		contentType: isform ?"application/x-www-form-urlencoded" : "application/json",
 		dataType: 'json', //服务器返回json格式数据
 		type: 'post', //HTTP请求类型
-		timeout: 5000, //超时时间设置为10秒；
+		timeout: 10000, //超时时间设置为10秒；
 		beforeSend: function() { 
 			if(!nomask){
 				plus.nativeUI.showWaiting();

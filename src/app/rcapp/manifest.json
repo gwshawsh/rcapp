@@ -382,7 +382,8 @@
 					"images/login_logo.png"
 				],
 				"refer": [
-					"page/main.html"
+					"page/main.html",
+					"page/forget_password.html"
 				],
 				"priority": 0
 			},
@@ -428,7 +429,8 @@
 					"images/default_head.png",
 					"js/rclist.js",
 					"css/rclist.css",
-					"images/ding.png"
+					"images/ding.png",
+					"js/lodash.js"
 				],
 				"refer": [
 					"page/approval_new.html",
@@ -463,7 +465,8 @@
 					"js/vue.min.js"
 				],
 				"refer": [
-					"page/setting.html"
+					"page/setting.html",
+					"page/leave_detail.html"
 				],
 				"priority": 0
 			},
@@ -573,7 +576,8 @@
 					"js/vue.min.js"
 				],
 				"refer": [
-					"page/search_order.html"
+					"page/search_order.html",
+					"page/search_contract.html"
 				],
 				"priority": 0
 			},
@@ -614,7 +618,10 @@
 					"css/mui.min.css",
 					"css/style.css",
 					"js/vue.min.js",
-					"fonts/mui.ttf"
+					"fonts/mui.ttf",
+					"images/default_head.png",
+					"images/shuijiao.jpg",
+					"images/ding.png"
 				],
 				"refer": [],
 				"priority": 0
