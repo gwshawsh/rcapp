@@ -312,9 +312,13 @@
 			"js/app.js",
 			"js/vue.min.js",
 			"js/mui.min.js",
-			"css/mui.min.css"
+			"css/mui.min.css",
+			"images/iconfont-tianjia.png"
 		],
-		"refer": []
+		"refer": [
+			"page/reg.html",
+			"page/change_pwd.html"
+		]
 	},
 	"page/approval_manage.html": {
 		"refer": [
@@ -400,7 +404,8 @@
 			"images/default_head.png",
 			"images/shuijiao.jpg",
 			"images/ding.png"
-		]
+		],
+		"refer": []
 	},
 	"page/search_contract.html": {
 		"resources": [
@@ -410,7 +415,8 @@
 			"css/mui.min.css",
 			"css/style.css",
 			"js/vue.min.js"
-		]
+		],
+		"refer": []
 	},
 	"page/search.html": {
 		"resources": [
@@ -442,6 +448,27 @@
 			"css/style.css",
 			"images/default_head.png",
 			"js/vue.min.js"
+		],
+		"refer": []
+	},
+	"page/reg.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"css/style.css"
+		]
+	},
+	"page/change_pwd.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"css/style.css",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/vue.min.js"
+		],
+		"refer": [
+			"page/login.html"
 		]
 	}
 }
