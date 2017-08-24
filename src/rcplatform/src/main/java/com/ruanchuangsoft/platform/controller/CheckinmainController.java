@@ -74,12 +74,10 @@ public class CheckinmainController extends AbstractController {
                     map.put("id", param.getId());
                 if (param.getUserId() != null)
                     map.put("userId", param.getUserId());
-                if (param.getUsername() != null)
-                    map.put("username", param.getUsername());
+
                 if (param.getAddress() != null)
                     map.put("address", param.getAddress());
-                if (param.getChecktype() != null)
-                    map.put("checktype", param.getChecktype());
+
                 if (param.getDate() != null)
                     map.put("date", param.getDate());
 
@@ -106,10 +104,13 @@ public class CheckinmainController extends AbstractController {
     @RequestMapping("/listmonth")
     public R listMonth(String month) {
         Date date = DateUtil.parse(month,"yyyy-MM");
-        String usercode = ShiroUtils.getUserName();
-        //查询列表数据
+       Long  userId = ShiroUtils.getUserId();
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_id",userId);
+        map.put("begin",DateUtil.beginOfMonth(date));
+        map.put("end",DateUtil.endOfMonth(date));
 
-        List<CheckinmainEntity> checkinmainList = checkinmainService.queryListInterval(usercode,DateUtil.beginOfMonth(date),DateUtil.endOfMonth(date));
+        List<CheckinmainEntity> checkinmainList = checkinmainService.queryList(map);
         return R.ok().put("list", checkinmainList);
     }
 
@@ -118,9 +119,13 @@ public class CheckinmainController extends AbstractController {
      */
     @ResponseBody
     @RequestMapping("/listtoday")
-    public R list(String usercode) {
+    public R listToday() {
         Date date = new Date();
-        List<CheckinmainEntity> checkinmainList = checkinmainService.queryListInterval(usercode,DateUtil.beginOfDay(date),DateUtil.endOfDay(date));
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_id",ShiroUtils.getUserId());
+        map.put("begin",DateUtil.beginOfDay(date));
+        map.put("end",DateUtil.endOfDay(date));
+        List<CheckinmainEntity> checkinmainList = checkinmainService.queryList(map);
         return R.ok().put("list", checkinmainList);
     }
 
@@ -144,9 +149,7 @@ public class CheckinmainController extends AbstractController {
     @RequestMapping("/save")
     @RequiresAuthentication
     public R save(@RequestBody CheckinmainEntity checkinmain) {
-
         checkinmain.setUserId(ShiroUtils.getUserId());
-        checkinmain.setUsername(ShiroUtils.getUserName());
         checkinmain.setDate(DateUtil.date());
         checkinmainService.save(checkinmain);
 

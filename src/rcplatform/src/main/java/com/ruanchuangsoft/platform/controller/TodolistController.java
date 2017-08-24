@@ -51,7 +51,7 @@ public class TodolistController extends AbstractController {
     private ContractmainService contractmainService;
 
     @Autowired
-    private LeaveworkService leaveworkService;
+    private LeaveworkmainService leaveworkmainService;
 
     @RequestMapping("/todolist")
     public String list() {

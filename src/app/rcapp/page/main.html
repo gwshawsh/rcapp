@@ -63,24 +63,24 @@
 				<!-- 主页面标题 -->
 				<header class="mui-bar mui-bar-nav">
 					<h1 class="mui-title">GPLEx普捷通</h1>
-					<div style="position: relative;float: right;margin-top: 10px;" @click="navigate('message.html')">
+					<div style="position: relative;float: right;margin-top: 10px;" @click="">
 						<img src="../images/hourglass.png" style="width: 24px;" />
-						<span v-if="todocount"class="mui-badge mui-badge-red " style="position: absolute;top: -5px;right: -5px;" > {{todocount}}</span>
+						<span v-if="false" class="mui-badge mui-badge-red " style="position: absolute;top: -5px;right: -5px;"> {{todocount}}</span>
 					</div>
 
 				</header>
 
 				<div class="mui-content ">
-					 <img src="../images/main/main_top.png" style="width:100%"/>
+					<img src="../images/main/main_top.png" style="width:100%" />
 
-					<ul class="mui-table-view mui-grid-view mui-grid-9"  >
+					<ul class="mui-table-view mui-grid-view mui-grid-9">
 						<li v-for="item in menulist" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 							<a href="#" @click="navigate(item.to)">
 								<div>
 									<img :src="item.src" class="menu-icon" />
 									<span v-if="item.badge!=''" class="mui-badge">{{item.badge}}</span>
 								</div>
-								<div  class="mui-media-body">{{item.name}}</div>
+								<div class="mui-media-body">{{item.name}}</div>
 							</a>
 						</li>
 					</ul>
@@ -88,66 +88,67 @@
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
-		<script src="../js/vue.min.js"></script> 
+		<script src="../js/vue.min.js"></script>
 		<script src="../js/app.js"></script>
 		<script>
 			var vm = new Vue({
 				el: '#rrapp',
-				data:{ 
-					todocount:'',
+				data: {
+					todocount: '',
+					menulist: [{
+							name: '审批管理',
+							src: '../images/shenpi.png',
+							to: 'approval_manage.html',
+							badge: '',
+						},
+						{
+							name: '请假',
+							src: '../images/qingjia.png',
+							to: 'leave.html',
+							badge: '',
+						},
+						{
+							name: '考勤打卡',
+							src: '../images/kaoqin.png',
+							to: 'checkin.html',
+							badge: '',
+						},
+						{
+							name: '历史查询',
+							src: '../images/timer.png',
+							to: 'history_manage.html',
+							badge: '',
+						},
+						{
+							name: '个人主页',
+							src: '../images/shezhi.png',
+							to: 'personpage.html',
+							badge: '',
+						},
+
+					],
 				},
-				methods: {  
-					gettodocount:function(){
-						query("todolist/listdotocount",{},function(d){
-						vm.todocount = d.count;
-						menulist[0].badge = d.count;
-					},true,true)
+				methods: {
+					gettodocount: function() {
+						query("todolist/listdotocount", {}, function(d) {
+							vm.todocount = d.count;
+							vm.menulist[0].badge = d.count;
+						}, true, true)
 					},
 				},
-				
+
 			});
-			var menulist = [{
-					name: '审批管理',
-					src: '../images/shenpi.png',
-					to: 'approval_manage.html',
-					badge: '',
-			},
-				{
-					name: '请假',
-					src: '../images/qingjia.png',
-					to: 'leave.html',
-					badge: '',
-				},
-				{
-					name: '考勤打卡',
-					src: '../images/kaoqin.png',
-					to: 'checkin.html', 
-					badge: '',
-				},
-				{
-					name: '历史查询',
-					src: '../images/timer.png',
-					to: 'history_manage.html',
-					badge: '',
-				},
-				{
-					name: '个人主页',
-					src: '../images/shezhi.png',
-					to: 'personpage.html',
-					badge: '',
-				},
-				
-			];
 			
+
 			(function($, doc) {
-				$.init(); 
+				$.init();
 				var settings = app.getSettings();
 				var account = doc.getElementById('account');
 				//
 				window.addEventListener('show', function() {
 					var state = app.getState();
 					account.innerText = state.account;
-				}, false); 
+				}, false);
 				$.plusReady(function() {
 					vm.gettodocount();
 					var settingPage = $.preload({

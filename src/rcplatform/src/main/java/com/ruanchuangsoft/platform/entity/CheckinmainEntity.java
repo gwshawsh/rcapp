@@ -6,29 +6,30 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+import java.math.BigDecimal;
 
 
 
 /**
- * 签到表
+ * 考勤表
  * 
  * @author lidongfeng
  * @email lidongfeng78@qq.com
- * @date 2017-08-14 10:36:04
+ * @date 2017-08-21 11:41:41
  */
-public class CheckinmainEntity  implements Serializable {
+public class CheckinmainEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
 	private Long id;
 	//用户ID
 	private Long userId;
-	//用户名
-	private String username;
 	//地址
 	private String address;
-	//签到类型
-	private Integer checktype;
+	//经度
+	private String longitude;
+	//纬度
+	private String latitude;
 	//日期
 	private Date date;
 
@@ -58,18 +59,6 @@ public class CheckinmainEntity  implements Serializable {
 		return userId;
 	}
 	/**
-	 * 设置：用户名
-	 */
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	/**
-	 * 获取：用户名
-	 */
-	public String getUsername() {
-		return username;
-	}
-	/**
 	 * 设置：地址
 	 */
 	public void setAddress(String address) {
@@ -82,16 +71,28 @@ public class CheckinmainEntity  implements Serializable {
 		return address;
 	}
 	/**
-	 * 设置：签到类型
+	 * 设置：经度
 	 */
-	public void setChecktype(Integer checktype) {
-		this.checktype = checktype;
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 	/**
-	 * 获取：签到类型
+	 * 获取：经度
 	 */
-	public Integer getChecktype() {
-		return checktype;
+	public String getLongitude() {
+		return longitude;
+	}
+	/**
+	 * 设置：纬度
+	 */
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	/**
+	 * 获取：纬度
+	 */
+	public String getLatitude() {
+		return latitude;
 	}
 	/**
 	 * 设置：日期
@@ -123,18 +124,18 @@ public class CheckinmainEntity  implements Serializable {
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">用户名</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getUsername()+"</span>\n" +
-                        "  </div> </div>");
-			
-					                sb.append(" <div class=\"el-form-item\">\n" +
                         "  <label class=\"el-form-item__label\">地址</label>"+
                         "  <div class=\"el-form-item__content\"><span>"+getAddress()+"</span>\n" +
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +
-                        "  <label class=\"el-form-item__label\">签到类型</label>"+
-                        "  <div class=\"el-form-item__content\"><span>"+getChecktype()+"</span>\n" +
+                        "  <label class=\"el-form-item__label\">经度</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getLongitude()+"</span>\n" +
+                        "  </div> </div>");
+			
+					                sb.append(" <div class=\"el-form-item\">\n" +
+                        "  <label class=\"el-form-item__label\">纬度</label>"+
+                        "  <div class=\"el-form-item__content\"><span>"+getLatitude()+"</span>\n" +
                         "  </div> </div>");
 			
 					                sb.append(" <div class=\"el-form-item\">\n" +

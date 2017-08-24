@@ -1005,7 +1005,7 @@ CREATE TABLE `ordermain`(
   `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
   `remark` varchar(1000) COMMENT '备注',
   `makeuser` bigint COMMENT '制单人:combo:sys_user:id:fullname',
-  `makedate` datetime COMMENT '制单日期',f
+  `makedate` datetime COMMENT '制单日期',
   `accuser` bigint COMMENT '审核人:combo:sys_user:id:fullname',
   `accdate` datetime COMMENT '审核日期',
   `uptdate` datetime COMMENT '更新时间', 
@@ -1505,14 +1505,15 @@ CREATE TABLE `depatureapplicationmain`(
 --   PRIMARY KEY (`id`)
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='采购合同明细';
 
-
+DROP TABLE IF EXISTS `leaveworkmain`;
 CREATE TABLE `leaveworkmain` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `name` varchar(50) COMMENT '申请人',
+  `userid` varchar(50) COMMENT '申请人:combo:sys_user:id:fullname',
   `starttime` datetime COMMENT '开始时间',
   `endtime` datetime COMMENT '结束时间',
   `leavetype` int COMMENT '类型:enum:1005:enumvalueid:enumvaluename', --   0：生病   1：结婚   2：其他',
+  `billstatus` int COMMENT '单据状态:enum:1003:enumvalueid:enumvaluename',
   `reason` varchar(1000) COMMENT '请假原因',
   `createtime` datetime COMMENT '创建时间',
   `realendtime` datetime COMMENT '完结时间',
@@ -1683,13 +1684,14 @@ CREATE TABLE `attachments`(
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='附件表';
 
+-- 签到表
  DROP TABLE IF EXISTS `checkinmain`;
 CREATE TABLE `checkinmain`(
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `user_id` bigint COMMENT '用户ID',
-  `username` varchar(50) COMMENT '用户名',
+  `user_id` bigint COMMENT '用户:combo:sys_user:id:fullname',
   `address` varchar(1000) COMMENT '地址',
-  `checktype` int COMMENT '签到类型',
+  `longitude`  varchar(50) COMMENT '经度',
+  `latitude`  varchar(50) COMMENT '纬度',  
   `date` datetime COMMENT '日期',  
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='考勤表';

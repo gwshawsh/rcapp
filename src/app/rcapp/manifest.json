@@ -398,10 +398,14 @@
 					"images/default.png",
 					"images/default_head.png",
 					"js/app.js",
-					"js/vue.min.js"
+					"js/vue.min.js",
+					"js/rclist.js",
+					"js/lodash.js"
 				],
 				"refer": [
-					"page/leave_detail.html"
+					"page/leave_detail.html",
+					"page/approval_deal.html",
+					"page/leave_deal.html"
 				],
 				"priority": 0
 			},
@@ -577,7 +581,8 @@
 				],
 				"refer": [
 					"page/search_order.html",
-					"page/search_contract.html"
+					"page/search_contract.html",
+					"page/search.html"
 				],
 				"priority": 0
 			},
@@ -593,7 +598,9 @@
 					"js/rclist.js",
 					"css/rclist.css"
 				],
-				"refer": [],
+				"refer": [
+					"page/approval_deal.html"
+				],
 				"priority": 0
 			},
 			"page/sublist.html": {
@@ -622,6 +629,53 @@
 					"images/default_head.png",
 					"images/shuijiao.jpg",
 					"images/ding.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/search_contract.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/search.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"js/rclist.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/default_head.png",
+					"js/vue.min.js",
+					"css/rclist.css",
+					"js/search.js",
+					"js/lodash.js",
+					"images/ding.png",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js"
+				],
+				"refer": [
+					"page/approval_deal.html"
+				],
+				"priority": 0
+			},
+			"page/leave_deal.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/default_head.png",
+					"js/vue.min.js"
 				],
 				"refer": [],
 				"priority": 0

@@ -1,13 +1,10 @@
 package com.ruanchuangsoft.platform.controller;
 
-import com.ruanchuangsoft.platform.entity.AbstractEntity;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
 import com.ruanchuangsoft.platform.entity.SysUserEntity;
-import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.service.AttachmentsService;
 import com.ruanchuangsoft.platform.service.BillcommentsService;
 import com.ruanchuangsoft.platform.service.IRedisService;
-import com.ruanchuangsoft.platform.service.LeaveworkService;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import com.xiaoleilu.hutool.date.DateUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
@@ -77,11 +74,6 @@ public abstract class AbstractController {
 	@Autowired
 	public MessageSource messageSource;
 
-	/**
-	 * The Leavework service.
-	 */
-	@Autowired
-	public LeaveworkService leaveworkService;
 
 	/**
 	 * The Identity service.

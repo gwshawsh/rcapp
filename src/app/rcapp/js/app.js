@@ -1,11 +1,12 @@
 var baseurl = "http://192.168.253.1:8888/";
-var usercode="";
-function navigate(murl,extra) {
-	if(!murl){
+var usercode = "";
+
+function navigate(murl, extra) {
+	if(!murl) {
 		mui.back();
 		return;
 	}
-		mui.openWindow({
+	mui.openWindow({
 		url: murl,
 		id: murl,
 		preload: false,
@@ -17,56 +18,86 @@ function navigate(murl,extra) {
 		},
 		waiting: {
 			autoShow: true
-		}, 
-		extras:{
-			value:extra,
+		},
+		extras: {
+			value: extra,
 		},
 	});
-	
-}
-function getbillname(type){
-	switch(type){
-				case 'ask':return"请购单";
-				case 'order':return"订购单";
-				case 'pay':return"付款单";
-				case 'contract':return"合同";
-				default:return"";
-			}
-}
-function getbillicon(type){
-	switch(type){
-				case 'ask':return"../images/qing.png";
-				case 'order':return"../images/ding.png";
-				case 'pay':return"../images/fu.png";
-				case 'contract':return"../images/he.png";
-				default:return"../images/default_head.png";
-			}
+
 }
 
-Date.prototype.format = function(fmt)   
-{ //author: meizz   
-  var o = {   
-    "M+" : this.getMonth()+1,                 //月份   
-    "d+" : this.getDate(),                    //日   
-    "h+" : this.getHours(),                   //小时   
-    "m+" : this.getMinutes(),                 //分   
-    "s+" : this.getSeconds(),                 //秒   
-    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
-    "S"  : this.getMilliseconds()             //毫秒   
-  };   
-  if(/(y+)/.test(fmt))   
-    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
-  for(var k in o)   
-    if(new RegExp("("+ k +")").test(fmt))   
-  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
-  return fmt;   
-} 
-var header = {  
+function getbillname(type) {
+	switch(type) {
+		case 'ask':
+			return "请购单";
+		case 'order':
+			return "订购单";
+		case 'pay':
+			return "付款单";
+		case 'contract':
+			return "合同";
+			case 'leave':
+			return "请假";
+		default:
+			return "";
+	}
+}
+
+function getbillicon(type) {
+	switch(type) {
+		case 'ask':
+			return "../images/qing.png";
+		case 'order':
+			return "../images/ding.png";
+		case 'pay':
+			return "../images/fu.png";
+		case 'contract':
+			return "../images/he.png";
+		default:
+			return "../images/default_head.png";
+	}
+}
+
+function getbilldetailurl(type) {
+	switch(type) {
+		case 'ask':
+			return "approval_deal.html";
+		case 'order':
+			return "approval_deal.html";
+		case 'pay':
+			return "approval_deal.html";
+		case 'contract':
+			return "approval_deal.html";
+		case 'leave':
+			return "leave_deal.html";
+		default:
+			return "approval_deal.html";
+	}
+}
+
+Date.prototype.format = function(fmt) { //author: meizz   
+	var o = {
+		"M+": this.getMonth() + 1, //月份   
+		"d+": this.getDate(), //日   
+		"h+": this.getHours(), //小时   
+		"m+": this.getMinutes(), //分   
+		"s+": this.getSeconds(), //秒   
+		"q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+		"S": this.getMilliseconds() //毫秒   
+	};
+	if(/(y+)/.test(fmt))
+		fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	for(var k in o)
+		if(new RegExp("(" + k + ")").test(fmt))
+			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+	return fmt;
+}
+var header = {
 	props: {
 		title: '',
 		btn: '',
 		to: '',
-		value:'',
+		value: '',
 
 	},
 	template: [
@@ -82,53 +113,50 @@ var header = {
 
 Vue.component('rc-header', header);
 
-function getUsercode(){
+function getUsercode() {
 	return localStorage.getItem('usercode') || "";
 }
 
+function query(url, datain, result, isform, nomask) {
 
-function query(url, datain, result,isform,nomask) {
-	
-	console.log(url);
+	console.log(url + "  Formed:" + isform);
 	console.log(JSON.stringify(datain));
-	var mask = mui.createMask(); 
-	return mui.ajax(baseurl+url, {
-		data: isform ? datain:JSON.stringify(datain), 
-		contentType: isform ?"application/x-www-form-urlencoded" : "application/json",
+	var mask = mui.createMask();
+	return mui.ajax(baseurl + url, {
+		data: isform ? datain : JSON.stringify(datain),
+		contentType: isform ? "application/x-www-form-urlencoded" : "application/json",
 		dataType: 'json', //服务器返回json格式数据
 		type: 'post', //HTTP请求类型
 		timeout: 10000, //超时时间设置为10秒；
-		beforeSend: function() { 
-			if(!nomask){
+		beforeSend: function() {
+			if(!nomask) {
 				plus.nativeUI.showWaiting();
 				mask.show(); //显示遮罩层
 			}
-			 
+
 		},
 		complete: function() {
-			if(!nomask){
-			plus.nativeUI.closeWaiting();
-			mask.close(); //关闭遮罩层
+			if(!nomask) {
+				plus.nativeUI.closeWaiting();
+				mask.close(); //关闭遮罩层
 			}
 		},
-		success: function(dataout, textStatus, xhr){
+		success: function(dataout, textStatus, xhr) {
 			console.log(JSON.stringify(dataout));
-			if(dataout.code == 0){
+			if(dataout.code == 0) {
 				result(dataout);
-			}else{
+			} else {
 				mui.alert(dataout.msg)
 			}
 		},
-		error: function(xhr, type, errorThrown) {  
+		error: function(xhr, type, errorThrown) {
 			mui.alert('服务器连接超时，请稍后再试');
-			
-				mask.close();
-			
-			
+
+			mask.close();
+
 		}
 	})
 }
-
 
 (function($, owner) {
 	/**
