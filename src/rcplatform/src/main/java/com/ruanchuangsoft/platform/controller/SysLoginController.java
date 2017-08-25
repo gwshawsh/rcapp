@@ -88,7 +88,7 @@ public class SysLoginController {
 //		if(!captcha.equalsIgnoreCase(kaptcha)){
 //			return R.error("验证码不正确");
 //		}
-		
+		Map<String,Object> map = new HashMap<>();
 		try{
 			Subject subject = ShiroUtils.getSubject();
 			//sha256加密
@@ -103,6 +103,12 @@ public class SysLoginController {
 			HttpContextUtils.addCookie("deptid",String.valueOf(userEntity.getDeptId()));
 			HttpContextUtils.addCookie("deptname",userEntity.getDeptIdname());
 
+			map.put("userid",userEntity.getId());
+			map.put("username",userEntity.getUsername());
+			map.put("userfullname",userEntity.getFullname());
+			map.put("deptid",userEntity.getDeptId());
+			map.put("deptname",userEntity.getDeptIdname());
+
 
 		}catch (UnknownAccountException e) {
 			return R.error(e.getMessage());
@@ -114,7 +120,7 @@ public class SysLoginController {
 			return R.error("账户验证失败");
 		}
 	    
-		return R.ok();
+		return R.ok(map);
 	}
 
 	/**

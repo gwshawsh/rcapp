@@ -194,8 +194,13 @@
 							},
 							function(data) {
 								if(data.code == 0) {									
-									localStorage.setItem('usercode', vm.username);
+									localStorage.setItem('userid', data.userid);
+									localStorage.setItem('username', data.username);
+									localStorage.setItem('userfullname', data.userfullname);
+									localStorage.setItem('deptid', data.deptid);
+									localStorage.setItem('deptname', data.deptname);
 									vm.tomain();
+									
 								} 
 
 							},true);

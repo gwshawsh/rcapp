@@ -36,7 +36,7 @@
 
 				</ul>
 				<div class="row mui-input-row" style="margin-top: 20px;"> 
-					<textarea class="mui-input-clear question" style="height: 200px;" placeholder="请假说明">{{leave_reason}}</textarea>
+					<textarea class="mui-input-clear question" style="height: 200px;" placeholder="请假说明" v-model="leave_reason"></textarea>
 				</div>
 			</div>
 			<button class="mui-btn mui-btn-block mui-btn-green" v-on:click="commit" style="position:absolute; width: 100%;border-radius: 0;bottom: 0;margin-bottom: 0;">提交申请</button>

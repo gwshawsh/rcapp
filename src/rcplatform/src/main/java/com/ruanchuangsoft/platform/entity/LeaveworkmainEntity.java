@@ -30,9 +30,9 @@ public class LeaveworkmainEntity extends AbstractEntity implements Serializable 
 	//
 	private Long id;
 	//单据号
-	private String billno;
+	private String billno = "*";
 	//申请人
-	private String userid;
+	private Long userid;
 	//开始时间
 	@JSONField(format = "yyyy-MM-dd HH:mm")
 	private Date starttime;
@@ -95,13 +95,13 @@ public class LeaveworkmainEntity extends AbstractEntity implements Serializable 
 	/**
 	 * 设置：申请人
 	 */
-	public void setUserid(String userid) {
+	public void setUserid(Long userid) {
 		this.userid = userid;
 	}
 	/**
 	 * 获取：申请人
 	 */
-	public String getUserid() {
+	public Long getUserid() {
 		return userid;
 	}
 	/**

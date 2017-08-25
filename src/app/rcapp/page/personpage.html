@@ -34,8 +34,8 @@
 				</ul>
 				</div>
 				<div style="background: #efeff4;">
-					<p style="color: black; text-align: center; font-size: 20px;">{{user.fullname+'('+user.username+')'}}</p> 
-					<p  style="color: #888888;font-size: 16px; text-align: center;">{{user.deptIdname}}</p>
+					<p style="color: black; text-align: center; font-size: 20px;">{{getuserfullname()+'('+getUsercode()+')'}}</p> 
+					<p  style="color: #888888;font-size: 16px; text-align: center;">{{getdeptname()}}</p>
 					<ul class="mui-table-view" style="margin-top: 20px; background: #efeff4;">
 					<li class="mui-table-view-cell"  @click="navigate('leave_detail.html')">
 						<a class="mui-navigate-right">
@@ -62,14 +62,10 @@
 			var vm = new Vue({
 				el: '#rrapp',
 				data: {
-					user:'',
+					
 				},
 			});
-			mui.plusReady(function(){
-				query("sys_user/info",{},function(data){
-					vm.user = data.sysUser
-				})
-			});
+			
 			mui.init();
 		</script>
 	</body>

@@ -1,6 +1,7 @@
 var baseurl = "http://192.168.253.1:8888/";
 var usercode = "";
 
+
 function navigate(murl, extra) {
 	if(!murl) {
 		mui.back();
@@ -114,7 +115,19 @@ var header = {
 Vue.component('rc-header', header);
 
 function getUsercode() {
-	return localStorage.getItem('usercode') || "";
+	return localStorage.getItem('username') || "";
+}
+function getuserid() {
+	return localStorage.getItem('userid') || "";
+}
+function getuserfullname() {
+	return localStorage.getItem('userfullname') || "";
+}
+function getdeptid() {
+	return localStorage.getItem('deptid') || "";
+}
+function getdeptname() {
+	return localStorage.getItem('deptname') || "";
 }
 
 function query(url, datain, result, isform, nomask) {

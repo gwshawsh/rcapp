@@ -6,5 +6,6 @@ public interface BillStatus {
     int CLAIM=2;//已签收
     int AUDIT=3;//审核中
     int COMPLETE=4;//已完成
+
     int CANCLE=9;//作废
 }

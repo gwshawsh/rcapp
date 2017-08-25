@@ -65,49 +65,13 @@ public class LeaveworkmainController extends AbstractController {
     @ResponseBody
     @RequestMapping("/list")
     @RequiresPermissions("leaveworkmain:list")
-    public R list(Integer page, Integer limit, String query) {
-        Map<String, Object> map = new HashMap<>();
+    public R list(@RequestBody Map<String, Object> map) {
+
+        int limit = (int) map.getOrDefault("limit",100);
+        int page = (int) map.getOrDefault("page",1);
         map.put("offset", (page - 1) * limit);
-        map.put("limit", limit);
+        map.put("limit",limit);
 
-        if (query != null && query.length() > 0) {
-            try {
-                String tmpquery = query.replaceAll("&quot;", "\"");
-                LeaveworkmainEntity param = JSON.parseObject(tmpquery, LeaveworkmainEntity.class);
-                if (param.getId() != null)
-                    map.put("id", param.getId());
-                if (param.getBillno() != null)
-                    map.put("billno", param.getBillno());
-                if (param.getUserid() != null)
-                    map.put("userid", param.getUserid());
-                if (param.getStarttime() != null)
-                    map.put("starttime", param.getStarttime());
-                if (param.getEndtime() != null)
-                    map.put("endtime", param.getEndtime());
-                if (param.getLeavetype() != null)
-                    map.put("leavetype", param.getLeavetype());
-                if (param.getBillstatus() != null)
-                    map.put("billstatus", param.getBillstatus());
-                if (param.getReason() != null)
-                    map.put("reason", param.getReason());
-                if (param.getCreatetime() != null)
-                    map.put("createtime", param.getCreatetime());
-                if (param.getRealendtime() != null)
-                    map.put("realendtime", param.getRealendtime());
-                if (param.getMakeuser() != null)
-                    map.put("makeuser", param.getMakeuser());
-                if (param.getMakedate() != null)
-                    map.put("makedate", param.getMakedate());
-                if (param.getUptdate() != null)
-                    map.put("uptdate", param.getUptdate());
-                if (param.getPocessinstanceid() != null)
-                    map.put("pocessinstanceid", param.getPocessinstanceid());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
 
         //查询列表数据
         List<LeaveworkmainEntity> leaveworkmainList = leaveworkmainService.queryList(map);
@@ -142,6 +106,7 @@ public class LeaveworkmainController extends AbstractController {
             String billno = getBillNo("**");
             leaveworkmain.setBillno(billno);
             leaveworkmain.setBillstatus(BillStatus.NEW);
+            leaveworkmain.setUserid(ShiroUtils.getUserId());
 
             if (leaveworkmain.getFiles() != null && leaveworkmain.getFiles().size() > 0) {
                 for (AttachmentsEntity item : leaveworkmain.getFiles()) {
@@ -154,7 +119,7 @@ public class LeaveworkmainController extends AbstractController {
 
         leaveworkmainService.save(leaveworkmain);
 
-        return R.ok().put("billno",leaveworkmain.getId());
+        return R.ok().put("billno",leaveworkmain.getBillno());
     }
 
     /**
@@ -186,33 +151,20 @@ public class LeaveworkmainController extends AbstractController {
     /**
      * 手机端保存并提交到workflow
      */
+    @Transactional
     @ResponseBody
     @RequestMapping("/savesubmit")
     @RequiresPermissions("leaveworkmain:update")
     public R saveAndSubmit(@RequestBody LeaveworkmainEntity leaveworkmain) {
-        String no = leaveworkmain.getBillno();
-        if (StringUtils.isEmpty(no) || no.equals("*")) {
-            String billno = getBillNo("**");
-            leaveworkmain.setBillno(billno);
-            leaveworkmain.setBillstatus(BillStatus.NEW);
-
-            if (leaveworkmain.getFiles() != null && leaveworkmain.getFiles().size() > 0) {
-                for (AttachmentsEntity item : leaveworkmain.getFiles()) {
-                    item.setBillno(billno);
-                    attachmentsService.update(item);
-                }
-            }
+        String billno = (String) save(leaveworkmain).get("billno");
+        Map<String,Object> map = new HashMap<>();
+        map.put("billno",billno);
+        List<LeaveworkmainEntity> list = leaveworkmainService.queryList(map);
+        if(list.isEmpty()){
+            return R.error("提交单据失败");
         }
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("userid", ShiroUtils.getUserId());
-        String processid = startWorkflow("leavework", leaveworkmain.getBillno(), params);
-
-        leaveworkmain.setBillstatus(BillStatus.SUBMIT);
-        leaveworkmain.setPocessinstanceid(processid);
-
-        leaveworkmainService.save(leaveworkmain);
-        return R.ok();
+        return submitworkflow(list.get(0).getId());
     }
 
     /**

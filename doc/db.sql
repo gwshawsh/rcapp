@@ -1509,7 +1509,7 @@ DROP TABLE IF EXISTS `leaveworkmain`;
 CREATE TABLE `leaveworkmain` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `billno` varchar(50) COMMENT '单据号',
-  `userid` varchar(50) COMMENT '申请人:combo:sys_user:id:fullname',
+  `userid` bigint COMMENT '申请人:combo:sys_user:id:fullname',
   `starttime` datetime COMMENT '开始时间',
   `endtime` datetime COMMENT '结束时间',
   `leavetype` int COMMENT '类型:enum:1005:enumvalueid:enumvaluename', --   0：生病   1：结婚   2：其他',
