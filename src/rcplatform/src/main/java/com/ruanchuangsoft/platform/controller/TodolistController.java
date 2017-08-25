@@ -153,11 +153,14 @@ public class TodolistController extends AbstractController {
         if(sysUserEntity==null){
             return R.error("用户不存在");
         }*/
-
-        //查询请购单审批任务
         Map<String,Object> map=new HashMap<>();
-        map.put("offset", param.getPage());
-        map.put("limit", param.getLimit());
+
+        int page =param.getPage();
+        int limit = param.getLimit();
+        map.put("offset", (page - 1) * limit);
+        map.put("limit",limit);
+        //查询请购单审批任务
+
         map.put("userid", ShiroUtils.getUserId());//用来与工作流关联
         map.put("billno", param.getBillno());//用来与工作流关联
         if (billtype.equalsIgnoreCase("ask")) {

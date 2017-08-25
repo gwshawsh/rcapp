@@ -99,6 +99,8 @@
 						};
 						query("leaveworkmain/savesubmit",par,function(d){
 							mui.toast("提交成功");
+							var opener = plus.webview.currentWebview().opener();
+                    		opener.reload()
 							mui.back();
 						});
 					},

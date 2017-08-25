@@ -67,8 +67,8 @@ public class LeaveworkmainController extends AbstractController {
     @RequiresPermissions("leaveworkmain:list")
     public R list(@RequestBody Map<String, Object> map) {
 
-        int limit = (int) map.getOrDefault("limit",100);
-        int page = (int) map.getOrDefault("page",1);
+        Integer limit = (Integer) map.getOrDefault("limit",100);
+        Integer page = (Integer) map.getOrDefault("page",1);
         map.put("offset", (page - 1) * limit);
         map.put("limit",limit);
 

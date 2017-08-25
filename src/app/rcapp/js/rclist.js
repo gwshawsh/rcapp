@@ -72,13 +72,13 @@ Vue.component('approval-dialog', approvalDialog);
 var listItem = {
 
 	props: {
-		billtype:String,
+		billtype: String,
 		pulldown: Function,
 		pullup: Function,
 		url: String,
 		list: [],
-		formed:{
-			default:false,
+		formed: {
+			default: false,
 		},
 
 	},
@@ -93,42 +93,55 @@ var listItem = {
 	},
 
 	watch: {
-		searchtext: _.debounce(function() { 
+		searchtext: _.debounce(function() {
 			this.refresh();
 		}, 1000),
 		url: function() {
-			if(this.url){
+			if(this.url) {
 				this.refresh();
 			}
-			
+
 		}
-		
+
 	},
 
 	created: function() {
+		var that = this;
 		if(mui('#pullrefresh')) {
-
+			
 			mui.init({
-				pullRefresh: {
-					container: '#pullrefresh',
-					down: {
-						style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
-						color: '#2BD009', //可选，默认“#2BD009” 下拉刷新控件颜色
-						height: '50px', //可选,默认50px.下拉刷新控件的高度,
-						range: '100px', //可选 默认100px,控件可下拉拖拽的范围 
-						offset: '0px', //可选 默认0px,下拉刷新控件的起始位置
-						auto: false, //可选,默认false.首次加载自动上拉刷新一次
-						callback: this.pulldownRefresh,
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+							color: '#2BD009', //可选，默认“#2BD009” 下拉刷新控件颜色
+							height: '50px', //可选,默认50px.下拉刷新控件的高度,
+							range: '100px', //可选 默认100px,控件可下拉拖拽的范围 
+							offset: '0px', //可选 默认0px,下拉刷新控件的起始位置
+							auto: false, //可选,默认false.首次加载自动上拉刷新一次
+							callback: this.pulldownRefresh,
 
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: this.pullupAppend,
+						}
 					},
-					up: {
-						contentrefresh: '正在加载...',
-						callback: this.pullupAppend,
+
+					beforeback: function() {
+						console.log(that.showPro);
+						if(that.showPro){
+							that.showPro = false;
+							return false;
+						}
+						
+						return true;
 					}
 				}
-			});
+
+			);
 		}
-		if(this.url){
+		if(this.url) {
 			this.refresh();
 		}
 
@@ -137,16 +150,16 @@ var listItem = {
 	methods: {
 		getparam: function(append) {
 			return {
-				page: append ? this.getpage():1,
+				page: append ? this.getpage() : 1,
 				limit: this.limit,
 				billno: this.searchtext,
-				billtype:this.billtype,
+				billtype: this.billtype,
 			};
 		},
 		refresh: function() {
 			var that = this;
-			query(this.url,this.getparam(),
-				function(d) { 
+			query(this.url, this.getparam(),
+				function(d) {
 					that.list = d.page.list;
 				}, this.formed, true)
 		},
@@ -224,16 +237,15 @@ var listItem = {
 		'<div class="mui-scroll">',
 		'<ul class="mui-table-view">',
 		'<li v-for="item in list" class="mui-table-view-cell" @click = "showdetail(item)">',
-			'<template v-if="item.type ==\'leave\'">',
-			'<leave-item  :item="item" :approval ="approval" ></bill-item>',
-			'</template>',
-			'<template v-else>',
-			'<bill-item  :item="item" :approval ="approval" ></bill-item>',
-			'</template>',
-  
-			
+		'<template v-if="item.type ==\'leave\'">',
+		'<leave-item  :item="item" :approval ="approval" ></bill-item>',
+		'</template>',
+		'<template v-else>',
+		'<bill-item  :item="item" :approval ="approval" ></bill-item>',
+		'</template>',
+
 		'</li>',
-		
+
 		'</ul>',
 
 		'</div>',
@@ -247,11 +259,11 @@ Vue.component('rc-list', listItem);
 
 ///订单相关的item
 Vue.component('bill-item', {
-	
+
 	props: {
 		item: "",
-		approval:Function,	
-		
+		approval: Function,
+
 	},
 	template: [
 		'<li class=" mui-media" >',
@@ -274,24 +286,23 @@ Vue.component('bill-item', {
 
 ///请假相关的item
 Vue.component('leave-item', {
-	
+
 	props: {
 		item: "",
-		approval:Function,
-		
-		
-	}, 
+		approval: Function,
+
+	},
 	template: [
-		
-				'<li class="mui-media" >',
-				'<a class=\'mui-navigate-right\' href="javascript:;" >',
-				'<img  class="mui-media-object mui-pull-left" :src="getbillicon(item.type)">',
-				'<div class="mui-media-body">',
-				'{{item.useridfullname}}',
-				'<span class="font-secondary"> {{item.dept}}</span>',
-				'<span class="font-secondary position-right"> {{item.billstatusenumvaluename}}</span>',
-				'<p class="font-green">{{item.leavetypeenumvaluename}}</p>',
-				'<p class=\'mui-ellipsis\'>申请时间:{{item.makedate}}</p>',
-				'</div></a></li>'
+
+		'<li class="mui-media" >',
+		'<a class=\'mui-navigate-right\' href="javascript:;" >',
+		'<img  class="mui-media-object mui-pull-left" :src="getbillicon(item.type)">',
+		'<div class="mui-media-body">',
+		'{{item.useridfullname}}',
+		'<span class="font-secondary"> {{item.dept}}</span>',
+		'<span class="font-secondary position-right"> {{item.billstatusenumvaluename}}</span>',
+		'<p class="font-green">{{item.leavetypeenumvaluename}}</p>',
+		'<p class=\'mui-ellipsis\'>申请时间:{{item.makedate}}</p>',
+		'</div></a></li>'
 	].join('')
 });
