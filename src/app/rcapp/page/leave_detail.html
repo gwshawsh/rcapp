@@ -21,13 +21,13 @@
 			<rc-header title="请假详情"></rc-header>
 			<div class="mui-content">
 				<div style="margin-top: 8px; padding-left: 24px; margin-bottom: 30px;">
-					<p>审批编号: {{no}}</p>
-					<p>开始时间: {{begin}}</p>
-					<p>结束时间: {{end}}</p>
-					<p>所在部门: {{dept}}</p>
-					<p>请假天数: {{days}}</p>
-					<p>请假类型:{{type}}</p>
-					<p>请假事由: {{reason}}</p>
+					<p>审批编号:  {{item.billno}}</p>
+					<p>开始时间: {{item.starttime}}</p>
+					<p>结束时间: {{item.endtime}}</p>
+					<p>所在部门: {{}}</p>
+					<p>请假天数: {{leavedays()}}</p>
+					<p>请假类型:{{item.leavetypeenumvaluename}}</p>
+					<p>请假事由: {{item.reason}}</p>
 				</div>
 			
 				
@@ -58,28 +58,39 @@
 		<script src="../js/vue.min.js"></script>
 		<script src="../js/app.js"></script>
 		<script type="text/javascript">
-			new Vue({
+			var vm = new Vue({
 				el: '#rrapp',
 				data: {
-					no: '',
-					begin: '',
-					end: '',
-					dept: '',
-					days: '',
-					type: '',
-					reason: '',
-					processlist: [{
-							name: '王刚',
-							time: '1998-06-18 15:23',
-							status: '通过',
-							reason: ''
-						},
+					item:'',
+					
+					processlist: [
 						
 
 					],
 				},
+				methods:{
+					leavedays: function() {
+						var startTime = new Date(this.item.starttime).getTime();
+						var endTime = new Date(this.item.endtime).getTime();
+						var dates = Math.abs((startTime - endTime)) / (1000 * 60 * 60 * 24);
+						return dates+"天";
+					},
+					getmyleave:function(){
+						query("leaveworkmain/list",{userid:getuserid(),page:1,limit:1},
+						function(d){
+							var list = d.page.list;
+							if(list.length>0){
+								vm.item = list[0];
+							}
+							
+						});
+					},
+				},
 			});
 			mui.init();
+			mui.plusReady(function(){
+				vm.getmyleave();
+			});
 		</script>
 	</body>
 

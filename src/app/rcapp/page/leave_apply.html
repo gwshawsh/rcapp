@@ -36,7 +36,7 @@
 
 				</ul>
 				<div class="row mui-input-row" style="margin-top: 20px;"> 
-					<textarea class="mui-input-clear question" style="height: 200px;" placeholder="请假说明">{{leave_reason}}</textarea>
+					<textarea class="mui-input-clear question" style="height: 200px;" placeholder="请假说明" v-model="leave_reason"></textarea>
 				</div>
 			</div>
 			<button class="mui-btn mui-btn-block mui-btn-green" v-on:click="commit" style="position:absolute; width: 100%;border-radius: 0;bottom: 0;margin-bottom: 0;">提交申请</button>
@@ -52,10 +52,12 @@
 			var vm = new Vue({
 				el: '#rrapp',
 				data: {
-					leave_type: '病假',
+					leave_type: '',
+					leave_typeid:0,
 					leave_begin: '',
 					leave_end: '',
-					leave_reason: ''
+					leave_reason: '',
+					reasons:[],
 				},
 
 				methods: {
@@ -69,7 +71,7 @@
 							vm.leave_begin = rs.text;
 							picker.dispose();
 						});
-					},
+					}, 
 					end: function() {
 						var picker = new mui.DtPicker(JSON.parse('{}'));
 						picker.show(function(rs) { 
@@ -82,14 +84,23 @@
 						});
 					},
 					commit: function() {
+						if(!vm.leave_type){
+							mui.toast("请选择请假事由");return;
+						}
+						if(!vm.leave_begin  || !vm.leave_end){
+							mui.toast("请选择起止时间");return;
+						}
+						
 						var par = {
 							startTime:vm.leave_begin,
 							endTime:vm.leave_end,
-							leavetype:vm.leave_type,
+							leavetype:vm.leave_typeid,
 							reason:vm.leave_reason
 						};
-						query("leavework/save",par,function(d){
+						query("leaveworkmain/savesubmit",par,function(d){
 							mui.toast("提交成功");
+							var opener = plus.webview.currentWebview().opener();
+                    		opener.reload()
 							mui.back();
 						});
 					},
@@ -104,15 +115,15 @@
 							var list = [];
 							for(var i=0;i!=l.length;++i){
 								list.push(
-									{text:l[i].enumvaluename,value:l[i].enumvaluename
+									{text:l[i].enumvaluename,value:l[i].enumvalueid,
 								}
 								)
 							}
 							var userPicker = new mui.PopPicker();
 							userPicker.setData(list);
 							userPicker.show(function(items) {
-								vm.leave_type = items[0].value;
-							
+								vm.leave_type = items[0].text;
+								vm.leave_typeid = items[0].value;
 							//返回 false 可以阻止选择框的关闭
 							//return false;
 						});

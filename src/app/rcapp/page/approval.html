@@ -12,14 +12,14 @@
 		<style>
 			.mui-badge {
 				position: absolute;
-				color: #fff; 
+				color: #fff;
 				background: red;
 				top: 0.3rem;
 				right: 0.7rem;
 				float: right;
 			}
 			
-			.mui-control-item {
+			.mui-control-item {  
 				position: relative;
 			}
 			
@@ -37,55 +37,26 @@
 	<body>
 		<div id="rrapp">
 			<rc-header :title="getbillname(type)+'审批'" btn="新增" to="approval_new.html" :value="type"></rc-header>
-			<div class="mui-content">
-
-				<div class="mui-input-row mui-search">
-					<input type="search" class="mui-input-clear" placeholder="请输入单号" @input="search" v-model="billno">
-				</div>
-				<rc-list :list=list> </rc-list>
-
+			<div class="mui-content">			
+				<rc-list id="pullrefresh" ref="rclist" :billtype="type" :url="url"></rc-list>
 			</div>
 		</div>
-		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.min.js"></script> 
 		<script src="../js/vue.min.js"></script>
+		<script src="../js/lodash.js"></script>
 		<script src="../js/app.js"></script>
 		<script src="../js/rclist.js"></script>
-		<script src="../js/app.js"></script>
-		<script src="../js/lodash.js"></script>
+		
+		
 		<script type="text/javascript">
 			var askbill = new Vue({
 				el: '#rrapp',
 				data: {
-					type:"",
-					billno: '',
-					list: [],
-					sources: [],
-
+					type: "", 
+					url:'', 
 				},
-				methods: {
-					getdata: function(back) {
-						var param = {
-							billtype: this.type,
-							billno:this.billno,
-	
-						};  
-						
 
-						query("/todolist/listdoto",
-							param,
-							function(data) {
-								askbill.list = data.page.list;
-
-							},false,back);
-						//						 
-					},
-					
-					search: _.debounce(function() {
-						askbill.getdata(true);  
-					}, 500),
-				}
-			}
-			);
+			});
 			mui.init({
 				swipeBack: false
 			});
@@ -93,7 +64,7 @@
 			mui.plusReady(function() {
 				var self = plus.webview.currentWebview();
 				askbill.type = self.value;
-				askbill.getdata();
+				askbill.url = '/todolist/listdoto';
 			});
 		</script>
 	</body>

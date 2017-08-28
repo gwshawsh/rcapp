@@ -102,7 +102,7 @@ public class SysUserController extends AbstractController {
 		}
 		
 		//退出
-		ShiroUtils.logout();
+		//ShiroUtils.logout();
 		
 		return R.ok();
 	}

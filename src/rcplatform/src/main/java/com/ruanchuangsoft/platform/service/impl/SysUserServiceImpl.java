@@ -107,6 +107,11 @@ public class SysUserServiceImpl implements SysUserService {
 		if(userWork!=null) {
 			userWork.setFirstName(user.getUsername());
 			identityService.saveUser(userWork);
+		}else {
+			User userWorkNew=identityService.newUser(String.valueOf(user.getId()));
+			userWorkNew.setFirstName(user.getUsername());
+			identityService.saveUser(userWorkNew);
+
 		}
 
 		//更新工作流角色
@@ -133,7 +138,7 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public int updatePassword(Long userId, String password, String newPassword) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("userId", userId);
+		map.put("id", userId);
 		map.put("password", password);
 		map.put("newPassword", newPassword);
 		return sysUserDao.updatePassword(map);

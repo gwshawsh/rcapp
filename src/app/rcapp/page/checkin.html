@@ -19,7 +19,7 @@
 				margin: 0;
 			}
 			
-			#allmap { 
+			#allmap {
 				width: 100%;
 				height: 30%;
 				overflow: hidden;
@@ -52,29 +52,30 @@
 		<p class="mui-content-padded"> 当前位置</p>
 		<div id="allmap" class="mui-content-padded">
 		</div>
-		
-					<div class="mui-scroll">
-		<div id="rrapp2" class="mui-content-padded">
-			{{address}} 
-			<p v-on:click="choosepoint" style="color:#35BD66;font-size: 15px;">调整地点</p>
-			<div :class="isIn()? 'background-orange':'background-green'" class="dot circle  aligncenter" style="text-align: center;">
-				<div class="aligncenter vertical-center" style="" @click="checkin">
-					<h3 class="" style="color: #FFF;">{{btn}}</h3>
-					<h3 class="" style="color: #FFF;font-size: 20px;">{{currenttime}}</h3>
+
+		<div class="mui-scroll">
+			<div id="rrapp2" class="mui-content-padded">
+				{{address}}
+				<p v-on:click="choosepoint" style="color:#35BD66;font-size: 15px;">调整地点</p>
+				<div :class="isIn()? 'background-orange':'background-green'" class="dot circle  aligncenter" style="text-align: center;">
+					<div class="aligncenter vertical-center" style="" @click="checkin">
+						<h3 class="" style="color: #FFF;">{{btn}}</h3>
+						<h3 class="" style="color: #FFF;font-size: 20px;">{{currenttime}}</h3>
+					</div>
+
+				</div>
+				<div style="width: 80%;margin: auto;margin-bottom: 8px;margin-top: 8px;border: 1px solid #ccc;padding: 10px;">
+					<span class="font-secondary aligncenter">上班签到：{{vm.checkintime}}</span>
 				</div>
 
 			</div>
-			<div style="width: 80%;margin: auto;margin-bottom: 8px;margin-top: 8px;border: 1px solid #ccc;padding: 10px;">
-				<span class="font-secondary aligncenter">上班签到：{{vm.checkintime}}</span>
-			</div>
-			
-		</div></div>
- 
+		</div>
+
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/vue.min.js"></script>
 
 		<script src="../js/mui.picker.min.js"></script>
-		<script src="../js/mui.poppicker.js"></script>  
+		<script src="../js/mui.poppicker.js"></script>
 		<script src="../js/app.js"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GmBZ3YIRxMLsVXjG4MzoWmux9yUhdF2Z"></script>
 		<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
@@ -92,29 +93,26 @@
 						return new Date().toLocaleDateString();
 					},
 					status: function() {
-						return this.checkintime ? '今日已签到' : '今日未签到' 
-					},
+						return this.checkintime ? '今日已签到' : '今日未签到'
+					}, 
 				},
-				methods:{
-					gettoday:function(){
-						var param = {
-							usercode: getUsercode(),
-						};
+				methods: {
+					gettoday: function() {
+						
 						var url = "/checkinmain/listtoday";
 						var func = function(data) {
 							if(data.list.length > 0) {
-								vm.checkintime = data.list[0].date 
+								vm.checkintime = data.list[0].date
 
 							}
 
 						};
-					query(url , param,func);
+						query(url, {}, func);
 					}
 				}
-				
 
 			});
-			 
+
 			mui.plusReady(function() {
 				vm.gettoday();
 			});
@@ -124,14 +122,15 @@
 					address: '中国',
 					currenttime: '15:45:58',
 					points: [], //周围的点
-					
+					longitude: '',
+					latitude: '',
 
 				},
 
 				methods: {
-					
-					isIn: function() { 
-						
+
+					isIn: function() {
+
 						return vm.checkintime;
 					},
 
@@ -139,14 +138,15 @@
 						var param = {
 							username: getUsercode(),
 							address: this.address,
+							longitude: this.longitude,
+							latitude: this.latitude,
 
 						};
 						console.log(JSON.stringify(param));
 						query("checkinmain/save", param,
 							function(data) {
-								
-									mui.alert("签到成功");
 
+								mui.alert("签到成功");
 
 							}
 						)
@@ -170,7 +170,7 @@
 				},
 				computed: {
 					btn: function() {
-						return this.isIn() ?  "签退":"签到" ;
+						return this.isIn() ? "签退" : "签到";
 					}
 				},
 			});
@@ -188,11 +188,13 @@
 
 			function translatePoint(position) {
 				var currentLon = position.coords.longitude;
+				vm2.longitude = currentLon;
 				var currentLat = position.coords.latitude;
+				vm2.latitude = currentLat;
 				var gpsPoint = new BMap.Point(currentLon, currentLat);
 				BMap.Convertor.translate(gpsPoint, 2, initMap); //坐标转换  
 				//initMap(gpsPoint)
-			} 
+			}
 
 			function initMap(point) {
 

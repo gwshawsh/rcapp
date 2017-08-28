@@ -22,27 +22,35 @@
                 and `user_id` = #{userId}
             </if>
 
-            <if test="username != null and username != '' ">
-                and `username` = #{username}
-            </if>
-
             <if test="address != null and address != '' ">
                 and `address` = #{address}
             </if>
 
-            <if test="checktype != null and checktype != '' ">
-                and `checktype` = #{checktype}
+            <if test="longitude != null and longitude != '' ">
+                and `longitude` = #{longitude}
             </if>
 
-            <if test="date != null and date != '' ">
+            <if test="latitude != null and latitude != '' ">
+                and `latitude` = #{latitude}
+            </if>
+
+            <if test="date != null">
                 and `date` = #{date}
+            </if>
+            <if test="begin!=null and beginTime!=''">
+                <![CDATA[   and DATE_FORMAT(date, '%Y-%m-%d')>=  DATE_FORMAT(#{begin}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="end!=null and endTime!=''">
+                <![CDATA[  and DATE_FORMAT(date, '%Y-%m-%d') <= DATE_FORMAT(#{end}, '%Y-%m-%d')    ]]>
             </if>
 
         </where>
-        order by id desc
+        order by id ASC
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
+
+
     </select>
 
     <select id="queryTotal" resultType="int">
@@ -54,17 +62,17 @@
 		insert into checkinmain
 		(
 			`user_id`, 
-			`username`, 
 			`address`, 
-			`checktype`, 
+			`longitude`, 
+			`latitude`, 
 			`date`
 		)
 		values
 		(
 			#{userId}, 
-			#{username}, 
 			#{address}, 
-			#{checktype}, 
+			#{longitude}, 
+			#{latitude}, 
 			#{date}
 		)
 	</insert>
@@ -73,9 +81,9 @@
         update checkinmain
         <set>
             <if test="userId != null">`user_id` = #{userId},</if>
-            <if test="username != null">`username` = #{username},</if>
             <if test="address != null">`address` = #{address},</if>
-            <if test="checktype != null">`checktype` = #{checktype},</if>
+            <if test="longitude != null">`longitude` = #{longitude},</if>
+            <if test="latitude != null">`latitude` = #{latitude},</if>
             <if test="date != null">`date` = #{date}</if>
         </set>
         where id = #{id}

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>请假单</title>
+        <#include "sys/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="panel-heading">
+            <el-button-group>
+            <@shiro.hasPermission name="leaveworkmain:list">
+            <el-button type="primary" v-on:click="query"><i class="fa fa-refresh"></i>&nbsp;刷新
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="leaveworkmain:list">
+            <el-button type="primary" v-on:click="showQueryPanel"><i class="fa fa-search"></i>&nbsp;查询
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="leaveworkmain:save">
+            <el-button type="primary" v-on:click="add"><i class="fa fa-plus"></i>&nbsp;新增
+            </el-button>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="leaveworkmain:update">
+            <el-button type="primary" v-on:click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改
+            </el-button>
+            </@shiro.hasPermission>
+                            <@shiro.hasPermission name="leaveworkmain:update">
+                <el-button type="primary" v-on:click="submitworkflow"><i class="fa fa-pencil-square-o"></i>&nbsp;提交
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="leaveworkmain:copybill">
+                <el-button type="primary" v-on:click="copybill"><i class="fa fa-trash-o"></i>&nbsp;复制
+                </el-button>
+                </@shiro.hasPermission>
+
+                <@shiro.hasPermission name="leaveworkmain:claim">
+                <el-button type="primary" v-on:click="claim"><i class="fa fa-book"></i>&nbsp;签收
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="leaveworkmain:audit">
+                <el-button type="primary" v-on:click="audit"><i class="fa fa-book"></i>&nbsp;审核
+                </el-button>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="leaveworkmain:cancel">
+                <el-button type="warning" v-on:click="cancel"><i class="fa fa-trash-o"></i>&nbsp;作废
+                </el-button>
+                </@shiro.hasPermission>
+                        <@shiro.hasPermission name="leaveworkmain:delete">
+            <el-button type="danger" v-on:click="del"><i class="fa fa-trash-o"></i>&nbsp;删除
+            </el-button>
+            </@shiro.hasPermission>
+            </el-button-group>
+
+            <div v-show="showQuery">
+                <el-form label-position="right" :inline="true" label-width="100px" style="padding:5px;">
+
+                                                                                                                    <el-form-item label="单据号" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.billno" placeholder="单据号"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="申请人" >
+
+                                                                    <el-select style="width: 350px" v-model="q.userid"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_sys_user"
+                                                :key="item.id"
+                                                :label="item.fullname"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="开始时间" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.starttime" style="width: 100%;"></el-date-picker>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="结束时间" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.endtime" style="width: 100%;"></el-date-picker>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="类型" >
+
+                                                                    <el-select style="width: 350px" v-model="q.leavetype"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum1005"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="单据状态" >
+
+                                                                    <el-select style="width: 350px" v-model="q.billstatus"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_enum1003"
+                                                :key="item.enumvalueid"
+                                                :label="item.enumvaluename"
+                                                :value="item.enumvalueid">
+                                        </el-option>
+                                    </el-select>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="请假原因" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.reason" placeholder="请假原因"></el-input>
+
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="创建时间" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.createtime" style="width: 100%;"></el-date-picker>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="完结时间" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="q.realendtime" style="width: 100%;"></el-date-picker>
+
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="制单人" >
+
+                                                                    <el-select style="width: 350px" v-model="q.makeuser"  filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in ref_sys_user"
+                                                :key="item.id"
+                                                :label="item.fullname"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="制单日期" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.makedate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="更新时间" >
+
+                                
+                                    <el-date-picker style="width: 350px" type="date" placeholder="选择日期" :picker-options="pickerOptions1" v-model="q.uptdate" style="width: 100%;"></el-date-picker>
+                                
+                            </el-form-item>
+                                                                                                <el-form-item label="流程ID" >
+
+                                                                    <el-input style="width: 350px"  v-model="q.pocessinstanceid" placeholder="流程ID"></el-input>
+
+
+                                
+                            </el-form-item>
+                                            
+                    <el-button type="primary" icon="search" v-on:click="query">搜索</el-button>
+
+                </el-form>
+
+            </div>
+
+
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="showDetailList" class="panel panel-default">
+
+
+                <el-tabs type="border-card">
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-document"></i> 附件</span>
+                        <table id="jqGridFiles"></table>
+                        <div id="jqGridPagerFiles"></div>
+                    </el-tab-pane>
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-time"></i> 审批</span>
+                        <table id="jqGridComments"></table>
+                        <div id="jqGridPagerComments"></div>
+                    </el-tab-pane>
+                </el-tabs>
+
+
+
+
+    </div>
+
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">
+            <el-row>
+                <el-col :span="14">
+            <el-button-group>
+                <el-button type="primary"  v-on:click="saveOrUpdate"><i class="fa fa-save"></i>&nbsp;保存</el-button>
+                <el-button type="primary"  v-on:click="reload"><i class="fa fa-times"></i>&nbsp;返回</el-button>
+            </el-button-group>
+                </el-col>
+                <el-col :span="10">
+                                            <div class="billno">单据号:{{leaveworkmain.billno}}<span class="panel-right">制单人:{{leaveworkmain.makeuser}} 制单日期:{{leaveworkmain.makedate}}</span></div>
+                    
+                </el-col>
+            </el-row>
+        </div>
+        <el-form label-position="right"  label-width="100px" :inline="true" style="padding:5px">
+
+                            
+                            
+                                                <el-form-item label="申请人" :inline="true" class="padding-top: 5px;width:26%">
+
+                                                             <el-select style="width: 350px" v-model="leaveworkmain.userid"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_sys_user"
+                                            :key="item.id"
+                                            :label="item.fullname"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            
+                    </el-form-item>
+                
+                                                <el-form-item label="开始时间" :inline="true" class="padding-top: 5px;width:26%">
+
+                             
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="leaveworkmain.starttime" style="width: 100%;"></el-date-picker>
+
+                            
+                    </el-form-item>
+                
+                                                <el-form-item label="结束时间" :inline="true" class="padding-top: 5px;width:26%">
+
+                             
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="leaveworkmain.endtime" style="width: 100%;"></el-date-picker>
+
+                            
+                    </el-form-item>
+                
+                                                <el-form-item label="类型" :inline="true" class="padding-top: 5px;width:26%">
+
+                                                             <el-select style="width: 350px" v-model="leaveworkmain.leavetype"  filterable placeholder="请选择">
+                                    <el-option
+                                            v-for="item in ref_enum1005"
+                                            :key="item.enumvalueid"
+                                            :label="item.enumvaluename"
+                                            :value="item.enumvalueid">
+                                    </el-option>
+                                </el-select>
+
+
+                             
+                    </el-form-item>
+                
+                            
+                                                <el-form-item label="请假原因" :inline="true" class="padding-top: 5px;width:26%">
+
+                                                             <el-input style="width: 350px"  v-model="leaveworkmain.reason" placeholder="请假原因"></el-input>
+
+
+                              
+                    </el-form-item>
+                
+                                                <el-form-item label="创建时间" :inline="true" class="padding-top: 5px;width:26%">
+
+                             
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="leaveworkmain.createtime" style="width: 100%;"></el-date-picker>
+
+                            
+                    </el-form-item>
+                
+                                                <el-form-item label="完结时间" :inline="true" class="padding-top: 5px;width:26%">
+
+                             
+                                    <el-date-picker style="width: 350px" type="datetime" placeholder="选择日期时间" :picker-options="pickerOptions1" v-model="leaveworkmain.realendtime" style="width: 100%;"></el-date-picker>
+
+                            
+                    </el-form-item>
+                
+                            
+                            
+                            
+                            
+            
+            <el-upload
+                    class="upload"
+                    action="../files/batchupload"
+                    :multiple="true"
+                    :on-success="upload_on_success"
+                    :on-change="upload_on_change"
+                    :file-list="fileslist">
+                <el-button size="small" type="primary">附件上传</el-button>
+
+            </el-upload>
+
+        </el-form>
+    </div>
+</div>
+
+
+                                                                                                                                                                            
+
+<#include "base/billcomments_ref.html">
+<script src="${ctxPath}/static/js/oa/leaveworkmain.js"></script>
+</body>
+</html>
