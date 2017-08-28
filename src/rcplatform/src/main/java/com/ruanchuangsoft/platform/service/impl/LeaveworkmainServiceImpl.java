@@ -3,6 +3,7 @@ package com.ruanchuangsoft.platform.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ public class LeaveworkmainServiceImpl implements LeaveworkmainService {
 	
 	@Override
 	public void save(LeaveworkmainEntity leaveworkmain){
+		leaveworkmain.setCreatetime(new Date());
 		leaveworkmainDao.save(leaveworkmain);
 	}
 	

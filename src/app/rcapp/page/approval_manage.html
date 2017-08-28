@@ -63,9 +63,9 @@
 				data: {
 					menulist: [{ 
 							name: '请假审批',
-							to: 'leave.html',
+							to: 'approval.html',
 							badge: '',
-							type:'',
+							type:'leave',
 						},
 						{
 							name: '请购单审批',
@@ -86,15 +86,19 @@
 							type:'contract',
 						},
  
-					], 
-
+					],  
+ 
 				},
 				methods:{
 					gettodos:function(){
-						query("todolist/listdotocount",{billtype:'ask'},function(d){vm.menulist[0].badge = d.count},true,true);
-						query("todolist/listdotocount",{billtype:'ask'},function(d){vm.menulist[1].badge = d.count},true,true);
-						query("todolist/listdotocount",{billtype:'order'},function(d){vm.menulist[2].badge = d.count},true,true);
-						query("todolist/listdotocount",{billtype:'contract'},function(d){vm.menulist[3].badge = d.count},true,true);
+						
+						query("todolist/listdotocount",{},function(d){
+							vm.menulist[0].badge = d.data.leave;
+							vm.menulist[1].badge = d.data.ask;
+							vm.menulist[2].badge = d.data.order;
+							vm.menulist[3].badge = d.data.contract;
+						},true,true);
+						
 					}
 				}, 
 			});

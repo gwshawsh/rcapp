@@ -1,7 +1,6 @@
 var baseurl = "http://192.168.253.1:8888/";
 var usercode = "";
 
-
 function navigate(murl, extra) {
 	if(!murl) {
 		mui.back();
@@ -37,7 +36,7 @@ function getbillname(type) {
 			return "付款单";
 		case 'contract':
 			return "合同";
-			case 'leave':
+		case 'leave':
 			return "请假";
 		default:
 			return "";
@@ -114,18 +113,67 @@ var header = {
 
 Vue.component('rc-header', header);
 
+Vue.component('rc-audit', {
+
+	props: {
+		item: '',
+		complete: Function,
+	},
+	methods: {
+		approval: function(pass, comments) {
+			var that = this;
+			var param = {
+				billno: that.item.billno,
+				billtype: that.item.type,
+				comments: comments,
+				pass: that.pass,
+
+			};
+			query("todolist/audittodo", param, function(data) {
+				that.complete();
+			});
+		},
+		reject: function() {
+			var that = this;
+			var btnArray = ['确定', '取消'];
+			mui.prompt('请输入驳回意见', '请输入....', '', btnArray, function(e) {
+
+				that.approval(e.index == 0, e.value);
+			})
+		},
+		pass: function() {
+			var that = this;
+			var btnArray = ['确定', '取消'];
+			mui.prompt('确认审批通过', '请输入审批意见....', '', btnArray, function(e) {
+				that.approval(e.index == 0, e.value);
+			})
+		},
+		
+	},
+	template: [
+
+		'<div><button id="pass" class="mui-btn mui-btn-block mui-btn-warning btn-bottom" @click="reject" style="width: 50%;">驳回申请</button>',
+		'<button class="mui-btn mui-btn-block mui-btn-green btn-bottom" v-on:click="pass" style="width: 50%;right: 0;">审批通过</button></div>',
+
+	].join('')
+});
+
 function getUsercode() {
 	return localStorage.getItem('username') || "";
 }
+
 function getuserid() {
 	return localStorage.getItem('userid') || "";
 }
+
 function getuserfullname() {
 	return localStorage.getItem('userfullname') || "";
 }
+
 function getdeptid() {
 	return localStorage.getItem('deptid') || "";
 }
+
 function getdeptname() {
 	return localStorage.getItem('deptname') || "";
 }

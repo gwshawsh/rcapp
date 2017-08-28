@@ -1,5 +1,6 @@
 package com.ruanchuangsoft.platform.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
 import com.ruanchuangsoft.platform.entity.SysUserEntity;
 import com.ruanchuangsoft.platform.service.AttachmentsService;
@@ -14,6 +15,7 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -254,36 +256,41 @@ public abstract class AbstractController {
     public void completeTask(Task task, String comments, Map<String, Object> params) {
         if (task != null) {
             taskService.addComment(task.getId(), null, comments);
+
             taskService.complete(task.getId(), params);
         }
     }
 
 
     /**
-     * Get workflow list query list.
+     * 获取当前用户待处理事项
      *
      * @return the list
      */
-//返回当前查询使用的工作流的查询id
-    public List<String> getWorkflowListQuery() {
 
-        List<String> list = new ArrayList<>();
-        List<Task> tasks = taskService.createTaskQuery().taskCandidateOrAssigned(ShiroUtils.getUserIdStr()).list();
+    public List<Task> getCandidateOrAssignedTasks(String type) {
 
-        for (Task task : tasks) {
-            list.add(task.getProcessInstanceId());
+        TaskQuery taskQuery =  taskService.createTaskQuery().taskCandidateOrAssigned(ShiroUtils.getUserIdStr());
+        if(!StringUtils.isEmpty(type)){
+            taskQuery=  taskQuery.processVariableValueEqualsIgnoreCase("type",type);
         }
-        //查询自己创建的任务
-        List<Task> tasks2 = taskService.createTaskQuery().taskAssignee(ShiroUtils.getUserIdStr()).list();
-        for (Task task : tasks
-                ) {
-            list.add(task.getProcessInstanceId());
-        }
-
-
-        return list;
-
+        return taskQuery.list();
     }
+
+    /**
+     * 获取当前用户待处理事项的bussiness keys
+     * @return
+     */
+    public List<String> getCandidateOrAssignedBussKeys(String type){
+        List<String > list = new ArrayList<>();
+        List<Task> tasks =getCandidateOrAssignedTasks(type);
+        for (Task task : tasks) {
+
+            list.add(getBusinessKeyByTaskId(task));
+        }
+        return list;
+    }
+
 
     /**
      * Start workflow string.
@@ -304,6 +311,7 @@ public abstract class AbstractController {
         identityService.setAuthenticatedUserId(String.valueOf(ShiroUtils.getUserId()));
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, bussKey, flowParams);
         String processid = processInstance.getId();
+
 
         return processid;
     }

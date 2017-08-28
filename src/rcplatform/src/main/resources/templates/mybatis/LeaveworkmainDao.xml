@@ -27,7 +27,13 @@
             <if test="id != null and id != '' ">
                 `id` = #{id}
             </if>
-
+            <if test="billnos != null and billnos.size!=0">
+                and `billno` in
+                <foreach collection="billnos" item="item" index="index" open="(" close=")" separator=","
+                >
+                    #{item}
+                </foreach>
+            </if>
             <if test="billno != null and billno != '' ">
                 and `billno` = #{billno}
             </if>

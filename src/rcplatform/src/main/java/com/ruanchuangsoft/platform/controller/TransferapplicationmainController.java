@@ -6,7 +6,6 @@ import java.util.Map;
 
 
 import com.alibaba.fastjson.JSON;
-import com.ruanchuangsoft.platform.controller.AbstractController;
 import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
 import org.activiti.engine.task.Task;
 import com.ruanchuangsoft.platform.enums.AuditType;
@@ -240,7 +239,7 @@ public class TransferapplicationmainController extends AbstractController {
     public R audit(@RequestBody TransferapplicationmainEntity transferapplicationmainEntity) {
 
         BillcommentsEntity billcommentsEntity = transferapplicationmainEntity.getBillcommentsEntity();
-        transferapplicationmainEntity.setBillstatus(BillStatus.AUDIT);
+        transferapplicationmainEntity.setBillstatus(BillStatus.AUDITING);
 
         transferapplicationmainService.update(transferapplicationmainEntity);
 

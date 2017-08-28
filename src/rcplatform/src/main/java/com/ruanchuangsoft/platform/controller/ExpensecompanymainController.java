@@ -6,7 +6,6 @@ import java.util.Map;
 
 
 import com.alibaba.fastjson.JSON;
-import com.ruanchuangsoft.platform.controller.AbstractController;
 import org.activiti.engine.task.Task;
 import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
@@ -241,7 +240,7 @@ public class ExpensecompanymainController extends AbstractController {
     public R audit(@RequestBody ExpensecompanymainEntity expensecompanymainEntity) {
 
         BillcommentsEntity billcommentsEntity = expensecompanymainEntity.getBillcommentsEntity();
-            expensecompanymainEntity.setBillstatus(BillStatus.AUDIT);
+            expensecompanymainEntity.setBillstatus(BillStatus.AUDITING);
 
             expensecompanymainService.update(expensecompanymainEntity);
 

@@ -40,6 +40,14 @@
                 `id` = #{id}
             </if>
 
+            <if test="billnos != null and billnos.size!=0">
+                and `billno` in
+                <foreach collection="billnos" item="item" index="index" open="(" close=")" separator=","
+                         >
+                    #{item}
+                </foreach>
+            </if>
+
             <if test="billno != null and billno != '' ">
                 and `billno` LIKE concat('%',#{billno},'%')
             </if>
@@ -128,7 +136,7 @@
     </select>
 
     <select id="queryTotal" resultType="int">
-		select count(*) from ordermain
+        select count(*) from ordermain
         <where>
             <if test="id != null and id != '' ">
                 `id` = #{id}
@@ -215,7 +223,7 @@
             </if>
 
         </where>
-	</select>
+    </select>
 
     <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.OrdermainEntity" useGeneratedKeys="true"
             keyProperty="id">

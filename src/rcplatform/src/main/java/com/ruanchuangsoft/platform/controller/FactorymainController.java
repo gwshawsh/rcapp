@@ -4,7 +4,6 @@ import java.util.*;
 
 
 import com.alibaba.fastjson.JSON;
-import com.ruanchuangsoft.platform.controller.AbstractController;
 
 import com.ruanchuangsoft.platform.entity.*;
 import com.ruanchuangsoft.platform.enums.AuditType;
@@ -272,7 +271,7 @@ public class FactorymainController extends AbstractController {
             }
 
             BillcommentsEntity billcommentsEntity = pfactorymainEntity.getBillcommentsEntity();
-            factorymainEntity.setBillstatus(BillStatus.AUDIT);
+            factorymainEntity.setBillstatus(BillStatus.AUDITING);
 
             factorymainService.update(factorymainEntity);
 
@@ -285,7 +284,7 @@ public class FactorymainController extends AbstractController {
 
 
 
-            factorymainEntity.setBillstatus(BillStatus.AUDIT);
+            factorymainEntity.setBillstatus(BillStatus.AUDITING);
             factorymainEntity.setAccdate(new Date());
             factorymainEntity.setAccuser(ShiroUtils.getUserId());
             factorymainEntity.setUptdate(new Date());

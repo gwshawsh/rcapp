@@ -4,7 +4,6 @@ import java.util.*;
 
 
 import com.alibaba.fastjson.JSON;
-import com.ruanchuangsoft.platform.controller.AbstractController;
 import com.ruanchuangsoft.platform.entity.*;
 import com.ruanchuangsoft.platform.enums.EmptyBillStatus;
 import com.ruanchuangsoft.platform.enums.TranBillType;
@@ -261,7 +260,7 @@ public class LeaveportmainController extends AbstractController {
                 return R.error(1, "单据已经审核,不能重复审核");
             }
             BillcommentsEntity billcommentsEntity = leaveportmainEntity.getBillcommentsEntity();
-            leaveportmainEntity.setBillstatus(BillStatus.AUDIT);
+            leaveportmainEntity.setBillstatus(BillStatus.AUDITING);
 
             leaveportmainService.update(leaveportmainEntity);
 
@@ -273,7 +272,7 @@ public class LeaveportmainController extends AbstractController {
                     billcommentsEntity.getAuditstatus());
 
 
-            leaveportmainEntity.setBillstatus(BillStatus.AUDIT);
+            leaveportmainEntity.setBillstatus(BillStatus.AUDITING);
             leaveportmainEntity.setAccdate(new Date());
             leaveportmainEntity.setAccuser(ShiroUtils.getUserId());
             leaveportmainEntity.setUptdate(new Date());

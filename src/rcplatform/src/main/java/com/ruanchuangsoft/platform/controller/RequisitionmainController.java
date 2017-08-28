@@ -5,9 +5,7 @@ import com.ruanchuangsoft.platform.enums.BillStatus;
 
 import java.util.*;
 
-import com.ruanchuangsoft.platform.controller.AbstractController;
 import com.ruanchuangsoft.platform.enums.AuditType;
-import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.enums.RefBillType;
 import com.ruanchuangsoft.platform.service.OrdermainService;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
@@ -246,12 +244,12 @@ public class RequisitionmainController extends AbstractController {
     public R audit(@RequestBody RequisitionmainEntity prequisitionmainEntity){
         RequisitionmainEntity requisitionmainEntity =requisitionmainService.queryObject(prequisitionmainEntity.getId());
         if(requisitionmainEntity!=null) {
-            if(requisitionmainEntity.getBillstatus()>=BillStatus.AUDIT){
+            if(requisitionmainEntity.getBillstatus()>=BillStatus.AUDITING){
                 return R.error("单据已经审核或关闭，不允许审核");
             }
 
             BillcommentsEntity billcommentsEntity = requisitionmainEntity.getBillcommentsEntity();
-            requisitionmainEntity.setBillstatus(BillStatus.AUDIT);
+            requisitionmainEntity.setBillstatus(BillStatus.AUDITING);
 
             requisitionmainService.update(requisitionmainEntity);
 

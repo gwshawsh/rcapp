@@ -6,11 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ruanchuangsoft.platform.controller.AbstractController;
 import com.ruanchuangsoft.platform.entity.AttachmentsEntity;
 import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
-import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
 import org.activiti.engine.task.Task;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -246,7 +244,7 @@ public class ContractmainController extends AbstractController {
     public R audit(@RequestBody ContractmainEntity contractmainEntity){
 
         BillcommentsEntity billcommentsEntity=contractmainEntity.getBillcommentsEntity();
-        contractmainEntity.setBillstatus(BillStatus.AUDIT);
+        contractmainEntity.setBillstatus(BillStatus.AUDITING);
 
         contractmainService.update(contractmainEntity);
 

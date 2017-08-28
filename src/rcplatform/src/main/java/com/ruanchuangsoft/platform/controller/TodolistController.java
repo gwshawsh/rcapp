@@ -2,7 +2,6 @@ package com.ruanchuangsoft.platform.controller;
 
 import java.util.*;
 
-import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ruanchuangsoft.platform.annotation.SysLog;
@@ -102,44 +101,27 @@ public class TodolistController extends AbstractController {
         return R.ok().put("page", pageUtil);
     }
 
-   /**
+    /**
      * 列表
      */
-    @SysLog("手机查询查询待办事项总数")
+    @SysLog("手机查询查询待办事项数")
     @ResponseBody
     @RequestMapping("/listdotocount")
-    public R listCount(String billtype){
-        Map<String,Object> map=new HashMap<>();
-        map.put("userid",ShiroUtils.getUserId());//用来与工作流关联
-        map.put("billstatus",BillStatus.NEW);//新的单据
+    public R listCount() {
+        int order = getCandidateOrAssignedTasks("order").size();
+        int leave = getCandidateOrAssignedTasks("leave").size();
+        int ask = getCandidateOrAssignedTasks("ask").size();
+        int contract = getCandidateOrAssignedTasks("contract").size();
+        Map<String, Object> map = new HashMap<>();
 
-        int count = 0;
-        if(StringUtils.isEmpty(billtype)){
-            billtype = "all";
-        }
-        billtype = billtype.toLowerCase();
-        switch (billtype){
-            case "all":
-                count += requisitionmainService.queryTotal(map);
-                count += requisitionmainService.queryTotal(map);
-                count += ordermainService.queryTotal(map);
-                count += contractmainService.queryTotal(map);
-                break;
-            case "ask":
-                count = requisitionmainService.queryTotal(map);
-                break;
-            case "order":
-                count = ordermainService.queryTotal(map);
-                break;
-            case "pay":
-                count = paymentmainService.queryTotal(map);
-                break;
-            case "contract":
-                count = contractmainService.queryTotal(map);
-                break;
-        }
-        return R.ok().put("count",count);
+        map.put("order", order);
+        map.put("leave", leave);
+        map.put("ask", ask);
+        map.put("contract", contract);
+        map.put("total", order + leave + ask + contract);
+        return R.ok().put("data", map);
     }
+
 
     /**
      * 列表
@@ -149,49 +131,54 @@ public class TodolistController extends AbstractController {
     @RequestMapping("/listdoto")
     public R list(@RequestBody TodoQueryParam param) {
         String billtype = param.getBilltype();
-        /*SysUserEntity sysUserEntity=sysUserService.queryByUserName("222");
-        if(sysUserEntity==null){
-            return R.error("用户不存在");
-        }*/
-        Map<String,Object> map=new HashMap<>();
+        Long userid = ShiroUtils.getUserId();
+        Map<String, Object> map = new HashMap<>();
 
-        int page =param.getPage();
+        int page = param.getPage();
         int limit = param.getLimit();
         map.put("offset", (page - 1) * limit);
-        map.put("limit",limit);
+        map.put("limit", limit);
         //查询请购单审批任务
 
         map.put("userid", ShiroUtils.getUserId());//用来与工作流关联
         map.put("billno", param.getBillno());//用来与工作流关联
+
+        List<String> bussKeys = getCandidateOrAssignedBussKeys(billtype);//获取待办事项的对应的billno列表
+        map.put("billnos", bussKeys);
+
         if (billtype.equalsIgnoreCase("ask")) {
-            List<RequisitionmainEntity> list=requisitionmainService.queryList(map);
+            List<RequisitionmainEntity> list = requisitionmainService.queryList(map);
             int total = list.size();
             PageUtils pageUtil = new PageUtils(list, total, param.getLimit(), param.getPage());
             return R.ok().put("page", pageUtil);
         }
         //查询订购单审批任务
         else if (billtype.equalsIgnoreCase("order")) {
-            List<OrdermainEntity> list=ordermainService.queryList(map);
+
+            List<OrdermainEntity> list = ordermainService.queryList(map);
             int total = list.size();
-            PageUtils pageUtil = new PageUtils(list, total,  param.getLimit(), param.getPage());
+            PageUtils pageUtil = new PageUtils(list, total, param.getLimit(), param.getPage());
             return R.ok().put("page", pageUtil);
         }
         //查询付款单审批任务
         else if (billtype.equalsIgnoreCase("pay")) {
-            List<PaymentmainEntity> list=paymentmainService.queryList(map);
+            List<PaymentmainEntity> list = paymentmainService.queryList(map);
             int total = list.size();
-            PageUtils pageUtil = new PageUtils(list, total,  param.getLimit(), param.getPage());
+            PageUtils pageUtil = new PageUtils(list, total, param.getLimit(), param.getPage());
             return R.ok().put("page", pageUtil);
         }
         //查询合同审批任务
         else if (billtype.equalsIgnoreCase("contract")) {
-            List<ContractmainEntity> list=contractmainService.queryList(map);
+            List<ContractmainEntity> list = contractmainService.queryList(map);
             int total = list.size();
-            PageUtils pageUtil = new PageUtils(list, total,  param.getLimit(), param.getPage());
+            PageUtils pageUtil = new PageUtils(list, total, param.getLimit(), param.getPage());
             return R.ok().put("page", pageUtil);
-        }
-
-        else{
+        } else if (billtype.equalsIgnoreCase("leave")) {
+            List<LeaveworkmainEntity> list = leaveworkmainService.queryList(map);
+            int total = list.size();
+            PageUtils pageUtil = new PageUtils(list, total, param.getLimit(), param.getPage());
+            return R.ok().put("page", pageUtil);
+        } else {
             return R.error("无法处理请求");
         }
     }
@@ -200,135 +187,76 @@ public class TodolistController extends AbstractController {
     @ResponseBody
     @RequestMapping("/audittodo")
     public R audit(@RequestBody TodoAuditParam param) {
-        String billtype = param.getBilltype();
-        /*SysUserEntity sysUserEntity=sysUserService.queryByUserName(param.getUsercode());
-        if(sysUserEntity==null){
-            return R.error("用户不存在");
-        }*/
-        param.setUsercode(ShiroUtils.getUserName());
+        Task task = getTaskByBussinessKey(param.getBillno());
+        if (task == null) {
+            return R.error("任务不存在");
+        }
 
-        //查询请购单审批任务
-        Map<String,Object> map=new HashMap<>();
-        map.put("billno",param.getBillno());//用来与工作流关联
+        Map<String, Object> params = new HashMap<>();
+        params.put("pass", param.isPass());
+        completeTask(task, param.getComments(), params);
+        //检查工作流是否结束，如果结束，则设置单据状态为已完成
+        boolean endflag = isProcessEnd(task.getProcessInstanceId());
+        int billStatus = endflag ? BillStatus.COMPLETE : BillStatus.AUDITING;
 
-        if (billtype.equalsIgnoreCase("ask")) {
-            List<RequisitionmainEntity> list=requisitionmainService.queryList(map);
-            if(list!=null&&list.size()>=1){
-                RequisitionmainEntity entity=list.get(0);
-                //工作流处理
-                Task task=getTaskByBussinessKey(param.getBillno());
-                if(task!=null){
-                    Map<String,Object> params=new HashMap<>();
-                    params.put("auditstatus",param.getAudittype());
-                    completeTask(task,param.getComments(),params);
-                    //检查工作流是否结束，如果结束，则设置单据状态为已完成
-                    boolean endflag=isProcessEnd(task.getProcessInstanceId());
-                    if(endflag){
-                        entity.setBillstatus(BillStatus.COMPLETE);
-                    }
-                    else{
-                        entity.setBillstatus(param.getAudittype());
-                    }
-                    requisitionmainService.update(entity);
+        Map<String, Object> map = new HashMap<>();
+        map.put("billno", param.getBillno());//用来与工作流关联
+
+        switch (param.getBilltype()) {
+            case "leave": {
+                List<LeaveworkmainEntity> list = leaveworkmainService.queryList(map);
+                if (list.isEmpty()) {
+                    return R.error("单据不存在");
                 }
-
-                return R.ok();
+                LeaveworkmainEntity entity = list.get(0);
+                entity.setBillstatus(billStatus);
+                leaveworkmainService.update(entity);
             }
-            else {
-                return R.error("单据不存在");
-            }
-        }
-        //查询订购单审批任务
-        else if (billtype.equalsIgnoreCase("order")) {
-            List<OrdermainEntity> list=ordermainService.queryList(map);
-            if(list!=null&&list.size()>=1){
-                OrdermainEntity entity=list.get(0);
-                //工作流处理
-                Task task=getTaskByBussinessKey(param.getBillno());
-                if(task!=null){
-                    Map<String,Object> params=new HashMap<>();
-                    params.put("auditstatus",param.getAudittype());
-                    completeTask(task,param.getComments(),params);
-                    //检查工作流是否结束，如果结束，则设置单据状态为已完成
-                    boolean endflag=isProcessEnd(task.getProcessInstanceId());
-                    if(endflag){
-                        entity.setBillstatus(BillStatus.COMPLETE);
-                    }
-                    else{
-                        entity.setBillstatus(param.getAudittype());
-                    }
-                    ordermainService.update(entity);
+            break;
+            case "ask": {
+                List<RequisitionmainEntity> list = requisitionmainService.queryList(map);
+                if (list.isEmpty()) {
+                    return R.error("单据不存在");
                 }
-
-                return R.ok();
+                RequisitionmainEntity entity = list.get(0);
+                entity.setBillstatus(billStatus);
+                requisitionmainService.update(entity);
+                break;
             }
-            else {
-                return R.error("单据不存在");
-            }
-        }
-        //查询付款单审批任务
-        else if (billtype.equalsIgnoreCase("pay")) {
-            List<PaymentmainEntity> list=paymentmainService.queryList(map);
-            if(list!=null&&list.size()>=1){
-                PaymentmainEntity entity=list.get(0);
-                //工作流处理
-                Task task=getTaskByBussinessKey(param.getBillno());
-                if(task!=null){
-                    Map<String,Object> params=new HashMap<>();
-                    params.put("auditstatus",param.getAudittype());
-                    completeTask(task,param.getComments(),params);
-                    //检查工作流是否结束，如果结束，则设置单据状态为已完成
-                    boolean endflag=isProcessEnd(task.getProcessInstanceId());
-                    if(endflag){
-                        entity.setBillstatus(BillStatus.COMPLETE);
-                    }
-                    else{
-                        entity.setBillstatus(param.getAudittype());
-                    }
-                    paymentmainService.update(entity);
+            case "order": {
+                List<OrdermainEntity> list = ordermainService.queryList(map);
+                if (list.isEmpty()) {
+                    return R.error("单据不存在");
                 }
-
-                return R.ok();
+                OrdermainEntity entity = list.get(0);
+                entity.setBillstatus(billStatus);
+                ordermainService.update(entity);
+                break;
             }
-            else {
-                return R.error("单据不存在");
-            }
-        }
-        //查询合同审批任务
-        else if (billtype.equalsIgnoreCase("contract")) {
-            List<ContractmainEntity> list=contractmainService.queryList(map);
-            if(list!=null&&list.size()>=1){
-                ContractmainEntity entity=list.get(0);
-                //工作流处理
-                Task task=getTaskByBussinessKey(param.getBillno());
-                if(task!=null){
-                    Map<String,Object> params=new HashMap<>();
-                    params.put("auditstatus",param.getAudittype());
-                    completeTask(task,param.getComments(),params);
-                    //检查工作流是否结束，如果结束，则设置单据状态为已完成
-                    boolean endflag=isProcessEnd(task.getProcessInstanceId());
-                    if(endflag){
-                        entity.setBillstatus(BillStatus.COMPLETE);
-                    }
-                    else{
-                        entity.setBillstatus(param.getAudittype());
-                    }
-                    contractmainService.update(entity);
+            case "contract": {
+                List<ContractmainEntity> list = contractmainService.queryList(map);
+                if (list.isEmpty()) {
+                    return R.error("单据不存在");
                 }
-
-                return R.ok();
+                ContractmainEntity entity = list.get(0);
+                entity.setBillstatus(billStatus);
+                contractmainService.update(entity);
             }
-            else {
-                return R.error("单据不存在");
+                break;
+            case "pay": {
+                List<PaymentmainEntity> list = paymentmainService.queryList(map);
+                if (list.isEmpty()) {
+                    return R.error("单据不存在");
+                }
+                PaymentmainEntity entity = list.get(0);
+                entity.setBillstatus(billStatus);
+                paymentmainService.update(entity);
             }
+                break;
         }
-
-        else{
-            return R.error("无法处理请求");
-        }
+        return R.ok();
 
     }
-
 
 
     /**
@@ -438,7 +366,7 @@ public class TodolistController extends AbstractController {
             String billtype = billno.substring(0, 2);
             if (billtype.equalsIgnoreCase("OR")) {
                 OrdermainEntity ordermainEntity = JSON.parseObject(data, OrdermainEntity.class);
-                ordermainEntity.setBillstatus(BillStatus.AUDIT);
+                ordermainEntity.setBillstatus(BillStatus.AUDITING);
                 ordermainService.update(ordermainEntity);
 
                 //新增一条处理记录：审核

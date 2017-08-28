@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ruanchuangsoft.platform.controller.AbstractController;
 import com.ruanchuangsoft.platform.enums.AuditType;
-import com.ruanchuangsoft.platform.enums.BillStatus;
 import com.ruanchuangsoft.platform.enums.RefBillType;
 import com.ruanchuangsoft.platform.service.ContractmainService;
 import com.ruanchuangsoft.platform.utils.ShiroUtils;
@@ -174,6 +172,7 @@ public class OrdermainController extends AbstractController {
         //启动工作流
         Map<String,Object> params=new HashMap<>();
         params.put("userid", ShiroUtils.getUserId());
+        params.put("type", "order");
         String processid=startWorkflow("ordermain",ordermainEntity.getBillno(),params);
 
         ordermainEntity.setBillstatus(BillStatus.SUBMIT);
@@ -249,7 +248,7 @@ public class OrdermainController extends AbstractController {
     public R audit(@RequestBody OrdermainEntity ordermainEntity){
 
         BillcommentsEntity billcommentsEntity=ordermainEntity.getBillcommentsEntity();
-        ordermainEntity.setBillstatus(BillStatus.AUDIT);
+        ordermainEntity.setBillstatus(BillStatus.AUDITING);
 
         ordermainService.update(ordermainEntity);
 

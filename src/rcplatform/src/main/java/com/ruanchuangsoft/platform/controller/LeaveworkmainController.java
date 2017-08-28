@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 
-import com.alibaba.druid.util.StringUtils;
-import com.alibaba.fastjson.JSON;
-import com.ruanchuangsoft.platform.controller.AbstractController;
 import org.activiti.engine.task.Task;
 import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
@@ -138,6 +135,7 @@ public class LeaveworkmainController extends AbstractController {
 
         Map<String, Object> params = new HashMap<>();
         params.put("userid", ShiroUtils.getUserId());
+        params.put("type", "leave");
         String processid = startWorkflow("leavework", leaveworkmainEntity.getBillno(), params);
 
         leaveworkmainEntity.setBillstatus(BillStatus.SUBMIT);
@@ -232,7 +230,7 @@ public class LeaveworkmainController extends AbstractController {
     public R audit(@RequestBody LeaveworkmainEntity leaveworkmainEntity) {
 
         BillcommentsEntity billcommentsEntity = leaveworkmainEntity.getBillcommentsEntity();
-        leaveworkmainEntity.setBillstatus(BillStatus.AUDIT);
+        leaveworkmainEntity.setBillstatus(BillStatus.AUDITING);
 
         leaveworkmainService.update(leaveworkmainEntity);
 

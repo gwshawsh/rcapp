@@ -10,7 +10,7 @@ public class TodoAuditParam implements Serializable {
     private String billtype;
     private String billno;
     private String comments;
-    private int audittype;//审批意见 0-通过  1-不通过
+    private boolean pass;//是否通过
 
     public String getUsercode() {
         return usercode;
@@ -44,11 +44,11 @@ public class TodoAuditParam implements Serializable {
         this.comments = comments;
     }
 
-    public int getAudittype() {
-        return audittype;
+    public boolean isPass() {
+        return pass;
     }
 
-    public void setAudittype(int audittype) {
-        this.audittype = audittype;
+    public void setPass(boolean pass) {
+        this.pass = pass;
     }
 }

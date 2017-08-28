@@ -132,7 +132,7 @@
 					gettodocount: function() {
 						query("todolist/listdotocount", {}, function(d) {
 							vm.todocount = d.count;
-							vm.menulist[0].badge = d.count;
+							vm.menulist[0].badge = d.data.total;
 						}, true, true)
 					},
 				},

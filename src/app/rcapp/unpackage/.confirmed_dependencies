@@ -219,7 +219,8 @@
 		],
 		"refer": [
 			"page/approval_new.html",
-			"page/approval_deal.html"
+			"page/approval_deal.html",
+			"page/leave_deal.html"
 		]
 	},
 	"page/approval_new.html": {

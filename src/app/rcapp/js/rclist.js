@@ -1,16 +1,15 @@
 var approvalDialog = {
 	data: function() {
 		return {
-			passed: 0,
+			passed: false,
 			comments: '',
 		}
 	},
 	methods: {
 
-		click: function() {
-			var audittype = this.passed ? 0 : 1;
+		click: function() {			
 			var comments = this.comments;
-			this.commit(audittype, comments);
+			this.commit(this.passed, comments);
 		}
 	},
 	computed: {
@@ -208,13 +207,13 @@ var listItem = {
 			this.showPro = true;
 
 		},
-		commit: function(audittype, comments) {
+		commit: function(pass, comments) {
 			this.showPro = false;
 			var param = {
 				billno: this.currentitem.billno,
 				billtype: this.currentitem.type,
 				comments: comments,
-				audittype: audittype,
+				pass: pass,
 
 			};
 			query(baseurl + "todolist/audittodo", param, function(data) {

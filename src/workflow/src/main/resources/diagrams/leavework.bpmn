@@ -13,7 +13,7 @@
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow7" sourceRef="usertask1" targetRef="exclusivegateway2"></sequenceFlow>
     <sequenceFlow id="flow8" name="同意" sourceRef="exclusivegateway2" targetRef="exclusivegateway1">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${deptPass}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass}]]></conditionExpression>
     </sequenceFlow>
     <userTask id="usertask3" name="调整申请" activiti:assignee="${applyUserId}"></userTask>
     <sequenceFlow id="flow9" sourceRef="exclusivegateway2" targetRef="usertask3"></sequenceFlow>
@@ -32,7 +32,7 @@
     </sequenceFlow>
     <userTask id="usertask4" name="销假" activiti:assignee="${applyUserId}"></userTask>
     <sequenceFlow id="flow15" name="同意" sourceRef="exclusivegateway4" targetRef="usertask4">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${mngPass}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow16" sourceRef="usertask4" targetRef="endevent1"></sequenceFlow>
     <sequenceFlow id="flow17" name="小于三天" sourceRef="exclusivegateway1" targetRef="usertask4">
@@ -132,7 +132,7 @@
         <omgdi:waypoint x="779.0" y="107.0"></omgdi:waypoint>
         <omgdi:waypoint x="820.0" y="107.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="24.0" x="779.0" y="107.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="779.0" y="107.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">

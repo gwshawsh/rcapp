@@ -10,18 +10,18 @@
 	</head>
 
 	<body>
-		<div id="rrapp"> 
-			<rc-header title="审批" btn=""></rc-header> 
+		<div id="rrapp">
+			<rc-header title="审批" btn=""></rc-header>
 			<div class="mui-content">
-				
-				<div style="position: relative; padding-top: 10px;background: #fff;" >
+
+				<div style="position: relative; padding-top: 10px;background: #fff;">
 					<img style="height: 42px; position:relative;margin-left: 11px;margin-right: 10px;" class="" :src="getbillicon(item.type)">
 					<span class="vertical-center mui-h4" style="position:absolute;">{{getbillname(item.type)+"审批"}}</span>
 				</div>
-				
+
 				<form class="mui-input-group">
-					
-					<div class="mui-input-row" >
+
+					<div class="mui-input-row">
 						<label>申请人</label>
 						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.makeuser'>
 					</div>
@@ -56,11 +56,8 @@
 					</div>
 
 				</form>
-				<div>
-					<button id="pass"  class="mui-btn mui-btn-block mui-btn-warning btn-bottom" @click="reject" style="width: 50%;">驳回申请</button>
-					<button class="mui-btn mui-btn-block mui-btn-green btn-bottom" v-on:click="pass" style="width: 50%;right: 0;">审批通过</button>
-
-				</div>
+				
+				<rc-audit :approval="approval"></rc-audit>
 
 			</div>
 		</div>
@@ -73,38 +70,29 @@
 				el: '#rrapp',
 				data: {
 					item: '',
-					  
 
 				},
-				methods: { 
-					reject: function() {
-						var btnArray = [ '确定','取消'];
-						mui.prompt('请输入驳回意见', '请输入....', '', btnArray, function(e) {
-							if(e.index == 0) {
+				methods: {
+					approval:function(pass,comments) {
+						var param = {
+							billno: this.item.billno,
+							billtype: this.item.type,
+							comments: comments,
+							audittype: pass ? 0 : 1,
 
-							} else {
-
-							}
-						})
-					},
-					pass:function(){
-						
-						var btnArray = [ '确定','取消'];
-						mui.prompt('确认审批通过', '请输入审批意见....', '', btnArray, function(e) {
-							if(e.index == 0) {
-
-							} else {
-
-							}
-						})
-					}
+						};
+						query(baseurl + "todolist/audittodo", param, function(data) {
+							location.reload();
+						});
+					}, 
+					
 				}
 			});
-			
+
 			mui.plusReady(function() {
 				var self = plus.webview.currentWebview();
 				vm.item = self.value;
-				
+
 			});
 		</script>
 	</body>
