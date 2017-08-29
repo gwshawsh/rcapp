@@ -32,24 +32,7 @@
 			
 				
 
-				<ul class="mui-table-view mui-table-view-chevron">
-
-					<li v-for="item in processlist" class="mui-table-view-cell mui-media">
-						<a href="javascript:;">
-							<img class="mui-media-object mui-pull-left" src="item.src" onerror="src='../images/default_head.png'">
-							<div class="mui-media-body">
-								<div style="display: inline-block;">
-								{{item.name}}
-								<p class='mui-ellipsis'>{{item.time}}</p>
-								</div>
-								<span class="vertical-center font-green position-right" style="right: 30px; display: inline-block;">{{item.status}}</span>
-							</div>
-							
-						</a>
-
-					</li>
-
-				</ul>
+				<rc-comments :billno="billno"></rc-comments>
 
 			</div>
 		</div>
@@ -62,11 +45,7 @@
 				el: '#rrapp',
 				data: {
 					item:'',
-					
-					processlist: [
-						
-
-					],
+					billno:'',
 				},
 				methods:{
 					leavedays: function() {
@@ -81,10 +60,12 @@
 							var list = d.page.list;
 							if(list.length>0){
 								vm.item = list[0];
+								vm.billno = vm.item.billno; 
 							}
 							
 						});
 					},
+					
 				},
 			});
 			mui.init();

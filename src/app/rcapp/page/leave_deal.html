@@ -12,48 +12,59 @@
 	<body>
 		<div id="rrapp">
 			<rc-header title="审批" btn=""></rc-header>
-			<div class="mui-content">
+			
+			<div class="mui-content mui-scroll-wrapper" > 
+				<div class="">
+				<div class="mui-scroll">
+					<div style="position: relative; padding-top: 10px;background: #fff;">
+						<img style="height: 42px; position:relative;margin-left: 11px;margin-right: 10px;" class="" :src="getbillicon(item.type)">
+						<span class="vertical-center mui-h4" style="position:absolute;">{{getbillname(item.type)+"审批"}}</span>
+					</div>
 
-				<div style="position: relative; padding-top: 10px;background: #fff;">
-					<img style="height: 42px; position:relative;margin-left: 11px;margin-right: 10px;" class="" :src="getbillicon(item.type)">
-					<span class="vertical-center mui-h4" style="position:absolute;">{{getbillname(item.type)+"审批"}}</span>
+					<form class="mui-input-group">
+						<div class="mui-input-row">
+							<label>申请单号</label>
+							<input i type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.billno'>
+						</div>
+						<div class="mui-input-row">
+							<label>申请人</label>
+							<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.useridfullname'>
+						</div>
+						<div class="mui-input-row">
+							<label>请假开始时间</label>
+							<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.starttime'>
+						</div>
+						<div class="mui-input-row">
+							<label>请假结束时间</label>
+							<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.endtime'>
+						</div>
+						<div class="mui-input-row">
+							<label>部门</label>
+							<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.deptidname'>
+						</div>
+						<div class="mui-input-row">
+							<label>请假天数</label>
+							<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='leavedays()'>
+						</div>
+
+						<div class="mui-input-row">
+							<label>请假类型</label>
+							<input type="text" class="mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.leavetypeenumvaluename'>
+						</div>
+
+						<div class="mui-input-row"> 
+							<label>请假原因</label>
+							<input type="text" class="mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.reason'>
+						</div>
+
+					</form>
+					<rc-comments :billno="billno"></rc-comments> 
 				</div>
-
-				<form class="mui-input-group">
-					<div class="mui-input-row">
-						<label>申请单号</label>
-						<input i type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.billno'>
-					</div>
-					<div class="mui-input-row">
-						<label>申请人</label>
-						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.useridfullname'>
-					</div>
-					<div class="mui-input-row">
-						<label>请假开始时间</label>
-						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.starttime'>
-					</div>
-					<div class="mui-input-row">
-						<label>请假结束时间</label>
-						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.endtime'>
-					</div>
-					<div class="mui-input-row">
-						<label>部门</label>
-						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.deptidname'>
-					</div>
-					<div class="mui-input-row">
-						<label>请假天数</label>
-						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='leavedays()'>
-					</div>
-
-					<div class="mui-input-row">
-						<label>请假类型</label>
-						<input type="text" class="mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.leavetypeenumvaluename'>
-					</div>
-
-				</form>
-				<rc-audit :complete="complete" :item = "item"></rc-audit>
+				</div>
+						<rc-audit :complete="complete" :item="item"></rc-audit>
 
 			</div>
+	
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/vue.min.js"></script>
@@ -64,6 +75,7 @@
 				el: '#rrapp',
 				data: {
 					item: '',
+					billno: '',
 
 				},
 				methods: {
@@ -71,17 +83,20 @@
 						var startTime = new Date(this.item.starttime).getTime();
 						var endTime = new Date(this.item.endtime).getTime();
 						var dates = Math.abs((startTime - endTime)) / (1000 * 60 * 60 * 24);
-						return dates+"天";
+						return dates + "天";
 					},
-					complete:function() {
-						location.reload();
-					}, 
+					complete: function() {
+						plus.webview.currentWebview().opener().reload();
+						//location.reload();
+						mui.back();
+					},
 				}
 			});
 
 			mui.plusReady(function() {
 				var self = plus.webview.currentWebview();
 				vm.item = self.value;
+				vm.billno = vm.item.billno;
 
 			});
 		</script>

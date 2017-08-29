@@ -1,6 +1,7 @@
 package com.ruanchuangsoft.platform.controller;
 
 import com.alibaba.druid.util.StringUtils;
+import com.ruanchuangsoft.platform.annotation.SysLog;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
 import com.ruanchuangsoft.platform.entity.SysUserEntity;
 import com.ruanchuangsoft.platform.service.AttachmentsService;
@@ -13,6 +14,9 @@ import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
@@ -21,6 +25,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
@@ -340,6 +346,7 @@ public abstract class AbstractController {
      * @param billno the billno
      * @return the list
      */
+
     public List<BillcommentsEntity> getBillcomments(String billno) {
         Map<String, Object> map = new HashMap<>();
         map.put("billno", billno);

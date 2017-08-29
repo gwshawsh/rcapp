@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 
+import com.xiaoleilu.hutool.date.DateUtil;
 import org.activiti.engine.task.Task;
 import com.ruanchuangsoft.platform.enums.AuditType;
 import com.ruanchuangsoft.platform.entity.BillcommentsEntity;
@@ -136,6 +137,7 @@ public class LeaveworkmainController extends AbstractController {
         Map<String, Object> params = new HashMap<>();
         params.put("userid", ShiroUtils.getUserId());
         params.put("type", "leave");
+        params.put("day", DateUtil.betweenDay(leaveworkmainEntity.getStarttime(),leaveworkmainEntity.getEndtime(),true));//请假天数
         String processid = startWorkflow("leavework", leaveworkmainEntity.getBillno(), params);
 
         leaveworkmainEntity.setBillstatus(BillStatus.SUBMIT);
@@ -246,6 +248,7 @@ public class LeaveworkmainController extends AbstractController {
         if (task != null) {
             Map<String, Object> params = new HashMap<>();
             params.put("auditstatus", billcommentsEntity.getAuditstatus());
+
             completeTask(task, billcommentsEntity.getRemark(), params);
             //检查工作流是否结束，如果结束，则设置单据状态为已完成
             boolean endflag = isProcessEnd(task.getProcessInstanceId());

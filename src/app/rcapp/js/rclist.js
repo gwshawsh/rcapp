@@ -301,7 +301,7 @@ Vue.component('leave-item', {
 		'<span class="font-secondary"> {{item.dept}}</span>',
 		'<span class="font-secondary position-right"> {{item.billstatusenumvaluename}}</span>',
 		'<p class="font-green">{{item.leavetypeenumvaluename}}</p>',
-		'<p class=\'mui-ellipsis\'>申请时间:{{item.makedate}}</p>',
+		'<p class=\'mui-ellipsis\'>申请时间:{{item.createtime}}</p>',
 		'</div></a></li>'
 	].join('')
 });

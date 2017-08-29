@@ -102,12 +102,29 @@ public class TodolistController extends AbstractController {
     }
 
     /**
+     * 根据单据号查询审批备注.
+     *
+     * @param billno the billno
+     * @return the list
+     */
+    @SysLog("手机查询待办事项备注")
+    @ResponseBody
+    @RequestMapping("/listcomments")
+    public R getComments(String billno) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("billno", billno);
+        return R.ok().put("data",billcommentsService.queryList(map));
+
+    }
+    /**
      * 列表
      */
     @SysLog("手机查询查询待办事项数")
     @ResponseBody
     @RequestMapping("/listdotocount")
     public R listCount() {
+
+
         int order = getCandidateOrAssignedTasks("order").size();
         int leave = getCandidateOrAssignedTasks("leave").size();
         int ask = getCandidateOrAssignedTasks("ask").size();
@@ -121,8 +138,6 @@ public class TodolistController extends AbstractController {
         map.put("total", order + leave + ask + contract);
         return R.ok().put("data", map);
     }
-
-
     /**
      * 列表
      */
@@ -193,7 +208,7 @@ public class TodolistController extends AbstractController {
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("pass", param.isPass());
+        params.put("audittype", param.getAudittype());
         completeTask(task, param.getComments(), params);
         //检查工作流是否结束，如果结束，则设置单据状态为已完成
         boolean endflag = isProcessEnd(task.getProcessInstanceId());

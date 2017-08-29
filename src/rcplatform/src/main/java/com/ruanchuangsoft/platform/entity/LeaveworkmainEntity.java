@@ -46,7 +46,7 @@ public class LeaveworkmainEntity extends AbstractEntity implements Serializable 
 	//请假原因
 	private String reason;
 	//创建时间
-
+	@JSONField(format = "yyyy-MM-dd HH:mm")
 	private Date createtime;
 	//完结时间
 	private Date realendtime;

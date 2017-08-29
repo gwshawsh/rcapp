@@ -12,7 +12,7 @@
 
 	<body>
 		<div id="rrapp">
-			<rc-header title="请假申请"></rc-header>
+			<rc-header title="请假申请" ></rc-header>
 			<div class="mui-content" >
 				<ul class="mui-table-view">
 					<li class="mui-table-view-cell" @click = "getreasons">
@@ -98,10 +98,11 @@
 							reason:vm.leave_reason
 						};
 						query("leaveworkmain/savesubmit",par,function(d){
-							mui.toast("提交成功");
-							var opener = plus.webview.currentWebview().opener();
-                    		opener.reload()
+							
+							var opener = plus.webview.currentWebview().opener().reload();
+                    		
 							mui.back();
+							//mui.toast("提交成功");
 						});
 					},
 					getreasons:function(){

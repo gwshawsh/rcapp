@@ -1,5 +1,12 @@
-var baseurl = "http://192.168.253.1:8888/";
-var usercode = "";
+const baseurl = "http://192.168.253.1:8888/";
+	const STATUS_NEW=0;//新增
+    const STATUS_SUBMIT=1;//已提交
+    const STATUS_CLAIM=2;//已签收
+    const STATUS_AUDITING =3;//审核中
+    const STATUS_COMPLETE=4;//已完成
+    const STATUS_REJECT = 5;//驳回
+    const STATUS_CANCLE=9;//作废
+
 
 function navigate(murl, extra) {
 	if(!murl) {
@@ -75,6 +82,26 @@ function getbilldetailurl(type) {
 	}
 }
 
+function getauditurl(type) {
+	var url ='';
+	switch(type) {
+		case 'ask':
+			;break;
+			
+		case 'order':
+			url = "ordermain";break;
+		case 'pay':
+			url = "paymentmain";break;
+		case 'contract':
+			url = "contractmain";break;
+		case 'leave':
+			url = "leaveworkmain";break;
+		default:
+			break;
+	}
+	return url+'/audit';
+}
+
 Date.prototype.format = function(fmt) { //author: meizz   
 	var o = {
 		"M+": this.getMonth() + 1, //月份   
@@ -118,18 +145,16 @@ Vue.component('rc-audit', {
 	props: {
 		item: '',
 		complete: Function,
+		
 	},
 	methods: {
+		url:function(){
+			return getauditurl(this.item.type);
+		},
 		approval: function(pass, comments) {
 			var that = this;
-			var param = {
-				billno: that.item.billno,
-				billtype: that.item.type,
-				comments: comments,
-				pass: that.pass,
-
-			};
-			query("todolist/audittodo", param, function(data) {
+			that.item.billcommentsEntity = {auditstatus:pass?0:1,remark:comments};
+			query(that.url(), that.item, function(data) {
 				that.complete();
 			});
 		},
@@ -137,24 +162,80 @@ Vue.component('rc-audit', {
 			var that = this;
 			var btnArray = ['确定', '取消'];
 			mui.prompt('请输入驳回意见', '请输入....', '', btnArray, function(e) {
-
-				that.approval(e.index == 0, e.value);
+				if(e.index == 0){
+					that.approval(false, e.value);
+				}
+				
 			})
 		},
 		pass: function() {
 			var that = this;
 			var btnArray = ['确定', '取消'];
 			mui.prompt('确认审批通过', '请输入审批意见....', '', btnArray, function(e) {
-				that.approval(e.index == 0, e.value);
+				if(e.index == 0){
+					that.approval(true, e.value);
+				}
 			})
 		},
 		
 	},
 	template: [
 
-		'<div><button id="pass" class="mui-btn mui-btn-block mui-btn-warning btn-bottom" @click="reject" style="width: 50%;">驳回申请</button>',
+		'<div style="postion:fixed;bottom:0;z-index:9999" ><button id="pass" class="mui-btn mui-btn-block mui-btn-warning btn-bottom" @click="reject" style="width: 50%;">驳回申请</button>',
 		'<button class="mui-btn mui-btn-block mui-btn-green btn-bottom" v-on:click="pass" style="width: 50%;right: 0;">审批通过</button></div>',
 
+	].join('')
+});
+
+Vue.component('rc-comments', {
+	data: function() {
+		return {
+			list: [], 
+			
+		}
+	},
+	props: {
+		billno: String,	
+	},
+	watch: {		
+		billno: function() {
+			if(this.billno) {
+				this.getcomments();
+			}
+		}
+
+	},
+	methods: {
+		getcomments:function(){
+			var that = this;
+			query("todolist/listcomments",{billno:this.billno},
+						function(d){
+							that.list = d.data;
+							
+						},true);
+		},
+		
+	},
+	template: [
+		
+		'<ul class="mui-table-view " style="padding-top: 0; padding-bottom: 0;">',
+					'<li v-for="item in list" class="mui-table-view-cell mui-media">',
+					'	<a href="javascript:;">',
+					'		<img class="mui-media-object mui-pull-left" src="item.src" onerror="src=\'../images/default_head.png\'">',
+					'		<div class="mui-media-body">',
+					'			<div style="display: inline-block;">',
+					'			{{item.makeuserusername}}',
+					'			<p class=\'mui-ellipsis\'>{{item.makedate}}</p>',
+					'			<p >{{item.remark}}</p>', 
+					'			</div>',
+					'			<span class="vertical-center font-green position-right" style="right: 30px; display: inline-block;">{{item.auditstatusenumvaluename}}</span>',
+					'		</div></a></li></ul>',
+							
+						
+
+					
+
+				
 	].join('')
 });
 

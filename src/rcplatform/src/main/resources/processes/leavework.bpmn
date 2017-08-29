@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="leavework" name="My process" isExecutable="true">
-    <startEvent id="startevent1" name="Start" activiti:initiator="userid"></startEvent>
+    <startEvent id="startevent1" name="Start" activiti:initiator="applyUserId"></startEvent>
     <userTask id="usertask1" name="经理审批" activiti:candidateGroups="2"></userTask>
     <userTask id="usertask2" name="总经理审批" activiti:candidateGroups="1"></userTask>
     <endEvent id="endevent1" name="End"></endEvent>
@@ -13,10 +13,12 @@
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow7" sourceRef="usertask1" targetRef="exclusivegateway2"></sequenceFlow>
     <sequenceFlow id="flow8" name="同意" sourceRef="exclusivegateway2" targetRef="exclusivegateway1">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${auditstatus==0}]]></conditionExpression>
     </sequenceFlow>
     <userTask id="usertask3" name="调整申请" activiti:assignee="${applyUserId}"></userTask>
-    <sequenceFlow id="flow9" sourceRef="exclusivegateway2" targetRef="usertask3"></sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="exclusivegateway2" targetRef="usertask3">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${auditstatus==1}]]></conditionExpression>
+    </sequenceFlow>
     <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow10" sourceRef="usertask3" targetRef="exclusivegateway3"></sequenceFlow>
     <sequenceFlow id="flow11" name="重新申请" sourceRef="exclusivegateway3" targetRef="usertask1">
@@ -28,11 +30,11 @@
     <exclusiveGateway id="exclusivegateway4" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow13" sourceRef="usertask2" targetRef="exclusivegateway4"></sequenceFlow>
     <sequenceFlow id="flow14" name="不同意" sourceRef="exclusivegateway4" targetRef="usertask3">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!mngPass}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${auditstatus==1}]]></conditionExpression>
     </sequenceFlow>
     <userTask id="usertask4" name="销假" activiti:assignee="${applyUserId}"></userTask>
     <sequenceFlow id="flow15" name="同意" sourceRef="exclusivegateway4" targetRef="usertask4">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${pass}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${auditstatus==0}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow16" sourceRef="usertask4" targetRef="endevent1"></sequenceFlow>
     <sequenceFlow id="flow17" name="小于三天" sourceRef="exclusivegateway1" targetRef="usertask4">
@@ -90,7 +92,7 @@
         <omgdi:waypoint x="368.0" y="110.0"></omgdi:waypoint>
         <omgdi:waypoint x="460.0" y="110.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="24.0" x="368.0" y="110.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="368.0" y="110.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
@@ -125,7 +127,7 @@
         <omgdi:waypoint x="758.0" y="227.0"></omgdi:waypoint>
         <omgdi:waypoint x="401.0" y="227.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="36.0" x="577.0" y="209.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="577.0" y="209.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
