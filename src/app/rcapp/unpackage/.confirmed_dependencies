@@ -250,7 +250,8 @@
 		],
 		"refer": [
 			"page/setting.html",
-			"page/leave_detail.html"
+			"page/leave_detail.html",
+			"page/leave_my.html"
 		]
 	},
 	"page/checkin.html": {
@@ -470,6 +471,16 @@
 		],
 		"refer": [
 			"page/login.html"
+		]
+	},
+	"page/leave_my.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/vue.min.js"
 		]
 	}
 }

@@ -8,11 +8,12 @@ const baseurl = "http://192.168.253.1:8888/";
     const STATUS_CANCLE=9;//作废
 
 
-function navigate(murl, extra) {
+function navigate(murl, value,value1,value2) {
 	if(!murl) {
 		mui.back();
 		return;
 	}
+	console.log("navigate to : "+murl);console.log("value: "+value);console.log("value1: "+value1);
 	mui.openWindow({
 		url: murl,
 		id: murl,
@@ -27,7 +28,9 @@ function navigate(murl, extra) {
 			autoShow: true
 		},
 		extras: {
-			value: extra,
+			value: value,
+			value1: value1,
+			value2: value2,
 		},
 	});
 
@@ -181,7 +184,7 @@ Vue.component('rc-audit', {
 	},
 	template: [
 
-		'<div style="postion:fixed;bottom:0;z-index:9999" ><button id="pass" class="mui-btn mui-btn-block mui-btn-warning btn-bottom" @click="reject" style="width: 50%;">驳回申请</button>',
+		'<div style=" position:fixed;bottom:0; width: 100%;z-index: 2;" ><button id="pass" class="mui-btn mui-btn-block mui-btn-warning btn-bottom" @click="reject" style="width: 50%;">驳回申请</button>',
 		'<button class="mui-btn mui-btn-block mui-btn-green btn-bottom" v-on:click="pass" style="width: 50%;right: 0;">审批通过</button></div>',
 
 	].join('')

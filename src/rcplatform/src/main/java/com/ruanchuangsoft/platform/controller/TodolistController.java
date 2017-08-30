@@ -159,6 +159,9 @@ public class TodolistController extends AbstractController {
         map.put("billno", param.getBillno());//用来与工作流关联
 
         List<String> bussKeys = getCandidateOrAssignedBussKeys(billtype);//获取待办事项的对应的billno列表
+        if(bussKeys.isEmpty()){//无当前类型的待办事项
+            return R.ok();
+        }
         map.put("billnos", bussKeys);
 
         if (billtype.equalsIgnoreCase("ask")) {

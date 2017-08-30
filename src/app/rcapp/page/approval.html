@@ -36,9 +36,9 @@
 
 	<body>
 		<div id="rrapp">
-			<rc-header :title="getbillname(type)+'审批'" btn="新增" to="approval_new.html" :value="type"></rc-header>
+			<rc-header :title="getbillname(type)+'审批'" btn="" to="approval_new.html" :value="type"></rc-header>
 			<div class="mui-content">			
-				<rc-list id="pullrefresh" ref="rclist" :billtype="type" :url="url"></rc-list>
+				<rc-list id="pullrefresh" ref="rclist" :billtype="type" :url="url" needaudit="true"></rc-list>
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script> 

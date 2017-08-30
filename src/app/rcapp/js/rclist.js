@@ -79,6 +79,9 @@ var listItem = {
 		formed: {
 			default: false,
 		},
+		needaudit:{//是否需要审批，历史查询等不需要审批
+			default: false,
+		},
 
 	},
 	data: function() {
@@ -224,8 +227,8 @@ var listItem = {
 			errorImg(e, '../images/default_head.png');
 		},
 
-		showdetail: function(item) {
-			navigate(getbilldetailurl(item.type), item);
+		showdetail: function(item) {// 显示详情
+			navigate(getbilldetailurl(item.type), item,this.needaudit);
 		},
 	},
 	template: [
@@ -240,7 +243,7 @@ var listItem = {
 		'<leave-item  :item="item" :approval ="approval" ></bill-item>',
 		'</template>',
 		'<template v-else>',
-		'<bill-item  :item="item" :approval ="approval" ></bill-item>',
+		'<bill-item  :item="item" :approval ="approval" :needaudit = "needaudit"></bill-item>',
 		'</template>',
 
 		'</li>',
@@ -262,6 +265,7 @@ Vue.component('bill-item', {
 	props: {
 		item: "",
 		approval: Function,
+		needaudit:true,
 
 	},
 	template: [
@@ -278,7 +282,7 @@ Vue.component('bill-item', {
 		'<p>申请人:&nbsp;&nbsp;&nbsp;{{item.makeuserfullname}}</p>',
 		'<p class=\'mui-ellipsis\'>申请时间:{{item.reqdate}}</p>',
 		'</div></div>',
-		'<button v-if="item.billstatus!=4" class="mui-btn-green " @click.stop="approval(item)" style="float: right;">审批</button>',
+		'<button v-if="needaudit && item.billstatus!=STATUS_COMPLETE" class="mui-btn-green " @click.stop="approval(item)" style="float: right;">审批</button>',
 		'</li>',
 	].join('')
 });

@@ -13,52 +13,26 @@
 		<div id="rrapp">
 			<rc-header title="审批" btn=""></rc-header>
 			<div class="mui-content">
-
+			<div class="mui-scroll" style="padding-bottom: 60px;">
 				<div style="position: relative; padding-top: 10px;background: #fff;">
 					<img style="height: 42px; position:relative;margin-left: 11px;margin-right: 10px;" class="" :src="getbillicon(item.type)">
 					<span class="vertical-center mui-h4" style="position:absolute;">{{getbillname(item.type)+"审批"}}</span>
 				</div>
 
+
 				<form class="mui-input-group">
-
-					<div class="mui-input-row">
-						<label>申请人</label>
-						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.makeuser'>
+					
+					<div class="mui-input-row" v-for="item in list">
+						<label>{{item.name}}</label> 
+						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.value'>
 					</div>
-					<div class="mui-input-row">
-						<label>部门</label>
-						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.deptidname'>
-					</div>
-					<div class="mui-input-row">
-						<label>申请日期</label>
-						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.makedate'>
-					</div>
-					<div class="mui-input-row">
-						<label>申请单号</label>
-						<input i type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.billno'>
-					</div>
-					<div class="mui-input-row">
-						<label>收款人</label>
-						<input type="text" class="mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.total'>
-					</div>
-					<div class="mui-input-row">
-						<label>支付方式</label>
-						<input type="text" class="mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.total'>
-					</div>
-
-					<div class="mui-input-row">
-						<label>备注</label>
-						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.remark'>
-					</div>
-					<div class="mui-input-row">
-						<label>金额</label>
-						<input type="number" class=" mui-input mui-text-right font-warning" style="font-size: 20px;" placeholder="" readonly="readonly" v-model='item.total'>
-					</div>
+					
 
 				</form>
+				<rc-comments :billno="billno" ></rc-comments> 
+				</div>
 				
-				<rc-audit :approval="approval"></rc-audit>
-
+				<rc-audit v-if="needaudit" :complete="complete" :item="item" ></rc-audit>
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
@@ -70,21 +44,65 @@
 				el: '#rrapp',
 				data: {
 					item: '',
-
+					list:[],
+					billno: '',
+				needaudit:false,
+				},
+				watch:{
+					item:function(){
+						this.list = this.getlist();
+					}
 				},
 				methods: {
-					approval:function(pass,comments) {
-						var param = {
-							billno: this.item.billno,
-							billtype: this.item.type,
-							comments: comments,
-							audittype: pass ? 0 : 1,
-
-						};
-						query(baseurl + "todolist/audittodo", param, function(data) {
-							location.reload();
-						});
-					}, 
+					complete: function() {
+						plus.webview.currentWebview().opener().reload();
+						//location.reload();
+						mui.back();
+					},
+					getlist:function(){						
+						switch(this.item.type)
+						{
+							case 'leave':return this.getleave();
+							
+							default: return this.getorder();
+							
+						}
+						
+					},
+					getleave:function(){
+						var i = this.item;
+						i.leavedays =function(){
+							var startTime = new Date(starttime).getTime();
+						var endTime = new Date(endtime).getTime();
+						var dates = Math.abs((startTime - endTime)) / (1000 * 60 * 60 * 24);
+						return dates + "天";
+						}
+						return [
+						{name:"申请单号",value:i.billno},
+						{name:"申请人",value:i.useridfullname},
+						{name:"开始时间",value:i.starttime},
+						{name:"结束时间",value:i.endtime},
+						{name:"部门",value:i.deptidname},
+						{name:"请假天数",value:i.total},
+						{name:"请假类型",value:i.leavetypeenumvaluename},
+						{name:"请假原因",value:i.reason},						
+						];
+					},
+					getorder:function(){
+						var i = this.item;
+						return [
+						{name:"申请人",value:i.makeuser},
+						{name:"部门",value:i.deptidname},
+						{name:"申请日期",value:i.makedate},
+						{name:"申请单号",value:i.billno},
+						{name:"收款人",value:i.total},
+						{name:"支付方式",value:i.total},
+						{name:"备注",value:i.remark},
+						{name:"金额",value:i.total},						
+						];
+					},
+					
+					
 					
 				}
 			});
@@ -92,6 +110,8 @@
 			mui.plusReady(function() {
 				var self = plus.webview.currentWebview();
 				vm.item = self.value;
+				vm.needaudit = self.value1;
+				vm.billno = vm.item.billno;
 
 			});
 		</script>

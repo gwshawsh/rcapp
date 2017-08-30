@@ -471,7 +471,8 @@
 				],
 				"refer": [
 					"page/setting.html",
-					"page/leave_detail.html"
+					"page/leave_detail.html",
+					"page/leave_my.html"
 				],
 				"priority": 0
 			},
@@ -706,6 +707,18 @@
 				"refer": [
 					"page/login.html"
 				],
+				"priority": 0
+			},
+			"page/leave_my.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/vue.min.js"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},

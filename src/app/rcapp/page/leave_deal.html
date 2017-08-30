@@ -13,9 +13,9 @@
 		<div id="rrapp">
 			<rc-header title="审批" btn=""></rc-header>
 			
-			<div class="mui-content mui-scroll-wrapper" > 
-				<div class="">
-				<div class="mui-scroll">
+			<div class="mui-content " > 
+				
+				<div class="mui-scroll" style="padding-bottom: 60px;">
 					<div style="position: relative; padding-top: 10px;background: #fff;">
 						<img style="height: 42px; position:relative;margin-left: 11px;margin-right: 10px;" class="" :src="getbillicon(item.type)">
 						<span class="vertical-center mui-h4" style="position:absolute;">{{getbillname(item.type)+"审批"}}</span>
@@ -31,11 +31,11 @@
 							<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.useridfullname'>
 						</div>
 						<div class="mui-input-row">
-							<label>请假开始时间</label>
+							<label>开始时间</label>
 							<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.starttime'>
 						</div>
 						<div class="mui-input-row">
-							<label>请假结束时间</label>
+							<label>结束时间</label>
 							<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.endtime'>
 						</div>
 						<div class="mui-input-row">
@@ -58,11 +58,11 @@
 						</div>
 
 					</form>
-					<rc-comments :billno="billno"></rc-comments> 
+					<rc-comments :billno="billno" ></rc-comments> 
+				
 				</div>
-				</div>
-						<rc-audit :complete="complete" :item="item"></rc-audit>
-
+						
+			<rc-audit v-if="needaudit" :complete="complete" :item="item" ></rc-audit>
 			</div>
 	
 		</div>
@@ -76,7 +76,7 @@
 				data: {
 					item: '',
 					billno: '',
-
+					needaudit:false,
 				},
 				methods: {
 					leavedays: function() {
@@ -96,6 +96,7 @@
 			mui.plusReady(function() {
 				var self = plus.webview.currentWebview();
 				vm.item = self.value;
+				vm.needaudit = self.value1;
 				vm.billno = vm.item.billno;
 
 			});
