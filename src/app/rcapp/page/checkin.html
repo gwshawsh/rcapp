@@ -143,10 +143,13 @@
 
 						};
 						console.log(JSON.stringify(param));
+						var isin = this.isIn();
 						query("checkinmain/save", param,
 							function(data) {
-
-								mui.alert("签到成功");
+								
+								mui.alert(isin?"签退成功":"签到成功",function(){
+									mui.back();
+								});
 
 							}
 						)
@@ -181,10 +184,20 @@
 			mui.init();
 			//initMap();
 			mui.plusReady(function() {
-				plus.geolocation.getCurrentPosition(translatePoint, function(e) {
-					mui.toast("异常:" + e.message);
-				});
+				getlocation();
 			});
+			function getlocation(){
+				plus.geolocation.getCurrentPosition(translatePoint, function(e) {
+					var btnArray = ['重试','取消'];
+					mui.confirm('获取定位信息失败，请打开GPS后重试', '定位异常', btnArray, function(e) {
+					if (e.index == 0) {
+						getlocation();
+					} else {
+						mui.back();
+					}
+				})
+				});
+			}
 
 			function translatePoint(position) {
 				var currentLon = position.coords.longitude;
