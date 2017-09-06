@@ -3,7 +3,7 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.RequisitionmainDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity">
+    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity">
 		select
 													               		ifnull((select fullname from  sys_user b where a.requser=b.id),'') as requserfullname,
 												               		ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
@@ -17,88 +17,98 @@
 		from requisitionmain a where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity">
+    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity">
         select
-																			                    ifnull((select fullname from  sys_user b where a.requser=b.id),'') as requserfullname,
-																                    ifnull((select name from  sys_dept b where a.deptid=b.id),'') as deptidname,
-																                    ifnull((select enumvaluename from  enumtable b where a.reqtype=b.enumvalueid and b.enumtype='1002'),'') as reqtypeenumvaluename,
-																                    ifnull((select billno from  budgetmain b where a.budgetmainid=b.id),'') as budgetmainidbillno,
-																                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
-																                    ifnull((select fullname from  sys_user b where a.makeuser=b.id),'') as makeuserfullname,
-																					                    ifnull((select fullname from  sys_user b where a.accuser=b.id),'') as accuserfullname,
-																													        a.*
+        ifnull((select fullname from sys_user b where a.requser=b.id),'') as requserfullname,
+        ifnull((select name from sys_dept b where a.deptid=b.id),'') as deptidname,
+        ifnull((select enumvaluename from enumtable b where a.reqtype=b.enumvalueid and b.enumtype='1002'),'') as
+        reqtypeenumvaluename,
+        ifnull((select billno from budgetmain b where a.budgetmainid=b.id),'') as budgetmainidbillno,
+        ifnull((select enumvaluename from enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as
+        billstatusenumvaluename,
+        ifnull((select fullname from sys_user b where a.makeuser=b.id),'') as makeuserfullname,
+        ifnull((select fullname from sys_user b where a.accuser=b.id),'') as accuserfullname,
+        a.*
         from requisitionmain a
         <where>
-							                    <if test="id != null and id != '' ">
-						 `id` = #{id}
-                    </if>
-				
-							                    <if test="billno != null and billno != '' ">
-						 and  `billno` = #{billno}
-                    </if>
-				
-							                    <if test="requser != null and requser != '' ">
-						 and  `requser` = #{requser}
-                    </if>
-				
-							                    <if test="deptid != null and deptid != '' ">
-						 and  `deptid` = #{deptid}
-                    </if>
-				
-							                    <if test="reqtype != null and reqtype != '' ">
-						 and  `reqtype` = #{reqtype}
-                    </if>
-				
-							                    <if test="budgetmainid != null and budgetmainid != '' ">
-						 and  `budgetmainid` = #{budgetmainid}
-                    </if>
-				
-							                    <if test="billstatus != null and billstatus != '' ">
-						 and  `billstatus` = #{billstatus}
-                    </if>
-				
-							                    <if test="makeuser != null and makeuser != '' ">
-						 and  `makeuser` = #{makeuser}
-                    </if>
-				
-							                    <if test="makedate != null and makedate != '' ">
-						 and  `makedate` = #{makedate}
-                    </if>
-				
-							                    <if test="accuser != null and accuser != '' ">
-						 and  `accuser` = #{accuser}
-                    </if>
-				
-							                    <if test="accdate != null and accdate != '' ">
-						 and  `accdate` = #{accdate}
-                    </if>
-				
-							                    <if test="uptdate != null and uptdate != '' ">
-						 and  `uptdate` = #{uptdate}
-                    </if>
-				
-							                    <if test="remark != null and remark != '' ">
-						 and  `remark` = #{remark}
-                    </if>
-				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
-                    </if>
-				
-			        </where>
+            <if test="id != null and id != '' ">
+                `id` = #{id}
+            </if>
+            <if test="billnos != null and billnos.size!=0">
+                and `billno` in
+                <foreach collection="billnos" item="item" index="index" open="(" close=")" separator=","
+                >
+                    #{item}
+                </foreach>
+            </if>
+            <if test="billno != null and billno != '' ">
+                and `billno` = #{billno}
+            </if>
+
+            <if test="requser != null and requser != '' ">
+                and `requser` = #{requser}
+            </if>
+
+            <if test="deptid != null and deptid != '' ">
+                and `deptid` = #{deptid}
+            </if>
+
+            <if test="reqtype != null and reqtype != '' ">
+                and `reqtype` = #{reqtype}
+            </if>
+
+            <if test="budgetmainid != null and budgetmainid != '' ">
+                and `budgetmainid` = #{budgetmainid}
+            </if>
+
+            <if test="billstatus != null and billstatus != '' ">
+                and `billstatus` = #{billstatus}
+            </if>
+
+            <if test="makeuser != null and makeuser != '' ">
+                and `makeuser` = #{makeuser}
+            </if>
+
+            <if test="makedate != null and makedate != '' ">
+                and `makedate` = #{makedate}
+            </if>
+
+            <if test="accuser != null and accuser != '' ">
+                and `accuser` = #{accuser}
+            </if>
+
+            <if test="accdate != null and accdate != '' ">
+                and `accdate` = #{accdate}
+            </if>
+
+            <if test="uptdate != null and uptdate != '' ">
+                and `uptdate` = #{uptdate}
+            </if>
+
+            <if test="remark != null and remark != '' ">
+                and `remark` = #{remark}
+            </if>
+
+            <if test="pocessinstanceid != null and pocessinstanceid != '' ">
+                and `pocessinstanceid` = #{pocessinstanceid}
+            </if>
+            <if test="userid != null ">
+                and (`makeuser`=#{userid} or `pocessinstanceid` in (select proc_inst_id from v_tasklist where
+                candidate=#{userid} or assignee=#{userid}))
+            </if>
+
+        </where>
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
-	</select>
-	
- 	<select id="queryTotal" resultType="int">
+    </select>
+
+    <select id="queryTotal" resultType="int">
 		select count(*) from requisitionmain 
 	</select>
-	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity" useGeneratedKeys="true" keyProperty="id">
+
+    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity" useGeneratedKeys="true"
+            keyProperty="id">
 		insert into requisitionmain
 		(
 			`billno`, 
@@ -132,51 +142,51 @@
 			#{pocessinstanceid}
 		)
 	</insert>
-	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity">
-		update requisitionmain 
-		<set>
-			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="requser != null">`requser` = #{requser}, </if>
-			<if test="deptid != null">`deptid` = #{deptid}, </if>
-			<if test="reqtype != null">`reqtype` = #{reqtype}, </if>
-			<if test="budgetmainid != null">`budgetmainid` = #{budgetmainid}, </if>
-			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
-			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
-			<if test="makedate != null">`makedate` = #{makedate}, </if>
-			<if test="accuser != null">`accuser` = #{accuser}, </if>
-			<if test="accdate != null">`accdate` = #{accdate}, </if>
-			<if test="uptdate != null">`uptdate` = #{uptdate}, </if>
-			<if test="remark != null">`remark` = #{remark}, </if>
-			<if test="pocessinstanceid != null">`pocessinstanceid` = #{pocessinstanceid}</if>
-		</set>
-		where id = #{id}
-	</update>
+
+    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.RequisitionmainEntity">
+        update requisitionmain
+        <set>
+            <if test="billno != null">`billno` = #{billno},</if>
+            <if test="requser != null">`requser` = #{requser},</if>
+            <if test="deptid != null">`deptid` = #{deptid},</if>
+            <if test="reqtype != null">`reqtype` = #{reqtype},</if>
+            <if test="budgetmainid != null">`budgetmainid` = #{budgetmainid},</if>
+            <if test="billstatus != null">`billstatus` = #{billstatus},</if>
+            <if test="makeuser != null">`makeuser` = #{makeuser},</if>
+            <if test="makedate != null">`makedate` = #{makedate},</if>
+            <if test="accuser != null">`accuser` = #{accuser},</if>
+            <if test="accdate != null">`accdate` = #{accdate},</if>
+            <if test="uptdate != null">`uptdate` = #{uptdate},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            <if test="pocessinstanceid != null">`pocessinstanceid` = #{pocessinstanceid}</if>
+        </set>
+        where id = #{id}
+    </update>
 
 
     <update id="auditBatch">
-        update  requisitionmain set billstatus=billstatus+1 where id in
+        update requisitionmain set billstatus=billstatus+1 where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
 
     <update id="unauditBatch">
-        update  requisitionmain set billstatus=billstatus-1 where id in
+        update requisitionmain set billstatus=billstatus-1 where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
-	
-	<delete id="delete">
+
+    <delete id="delete">
 		delete from requisitionmain where id = #{value}
 	</delete>
-	
-	<delete id="deleteBatch">
-		delete from requisitionmain where id in 
-		<foreach item="id" collection="array" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</delete>
+
+    <delete id="deleteBatch">
+        delete from requisitionmain where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

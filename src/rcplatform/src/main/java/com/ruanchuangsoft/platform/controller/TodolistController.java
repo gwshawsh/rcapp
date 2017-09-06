@@ -155,7 +155,7 @@ public class TodolistController extends AbstractController {
         map.put("limit", limit);
         //查询请购单审批任务
 
-        map.put("userid", ShiroUtils.getUserId());//用来与工作流关联
+        //map.put("userid", ShiroUtils.getUserId());//用来与工作流关联
         map.put("billno", param.getBillno());//用来与工作流关联
 
         List<String> bussKeys = getCandidateOrAssignedBussKeys(billtype);//获取待办事项的对应的billno列表

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.ContractmainDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.ContractmainEntity">
+    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.ContractmainEntity">
 		select
 																               		ifnull((select name from  organization b where a.partyaid=b.id),'') as partyaidname,
 												               		ifnull((select name from  organization b where a.partybid=b.id),'') as partybidname,
@@ -19,111 +19,124 @@
 		from contractmain a where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.ContractmainEntity">
+    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.ContractmainEntity">
         select
-																								                    ifnull((select name from  organization b where a.partyaid=b.id),'') as partyaidname,
-																                    ifnull((select name from  organization b where a.partybid=b.id),'') as partybidname,
-																                    ifnull((select enumvaluename from  enumtable b where a.billsource=b.enumvalueid and b.enumtype='1001'),'') as billsourceenumvaluename,
-																                    ifnull((select enumvaluename from  enumtable b where a.billtype=b.enumvalueid and b.enumtype='1011'),'') as billtypeenumvaluename,
-																                    ifnull((select enumvaluename from  enumtable b where a.paytype=b.enumvalueid and b.enumtype='2005'),'') as paytypeenumvaluename,
-																                    ifnull((select name from  paycircle b where a.paycircleid=b.id),'') as paycircleidname,
-																															                    ifnull((select enumvaluename from  enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as billstatusenumvaluename,
-																                    ifnull((select fullname from  sys_user b where a.makeuser=b.id),'') as makeuserfullname,
-																					                    ifnull((select fullname from  sys_user b where a.accuser=b.id),'') as accuserfullname,
-																								        a.*
+        ifnull((select name from organization b where a.partyaid=b.id),'') as partyaidname,
+        ifnull((select name from organization b where a.partybid=b.id),'') as partybidname,
+        ifnull((select enumvaluename from enumtable b where a.billsource=b.enumvalueid and b.enumtype='1001'),'') as
+        billsourceenumvaluename,
+        ifnull((select enumvaluename from enumtable b where a.billtype=b.enumvalueid and b.enumtype='1011'),'') as
+        billtypeenumvaluename,
+        ifnull((select enumvaluename from enumtable b where a.paytype=b.enumvalueid and b.enumtype='2005'),'') as
+        paytypeenumvaluename,
+        ifnull((select name from paycircle b where a.paycircleid=b.id),'') as paycircleidname,
+        ifnull((select enumvaluename from enumtable b where a.billstatus=b.enumvalueid and b.enumtype='1003'),'') as
+        billstatusenumvaluename,
+        ifnull((select fullname from sys_user b where a.makeuser=b.id),'') as makeuserfullname,
+        ifnull((select fullname from sys_user b where a.accuser=b.id),'') as accuserfullname,
+        a.*
         from contractmain a
         <where>
-							                    <if test="id != null and id != '' ">
-						 `id` = #{id}
-                    </if>
-				
-							                    <if test="billno != null and billno != '' ">
-						 and  `billno` = #{billno}
-                    </if>
-				
-							                    <if test="orderbillno != null and orderbillno != '' ">
-						 and  `orderbillno` = #{orderbillno}
-                    </if>
-				
-							                    <if test="partyaid != null and partyaid != '' ">
-						 and  `partyaid` = #{partyaid}
-                    </if>
-				
-							                    <if test="partybid != null and partybid != '' ">
-						 and  `partybid` = #{partybid}
-                    </if>
-				
-							                    <if test="billsource != null and billsource != '' ">
-						 and  `billsource` = #{billsource}
-                    </if>
-				
-							                    <if test="billtype != null and billtype != '' ">
-						 and  `billtype` = #{billtype}
-                    </if>
-				
-							                    <if test="paytype != null and paytype != '' ">
-						 and  `paytype` = #{paytype}
-                    </if>
-				
-							                    <if test="paycircleid != null and paycircleid != '' ">
-						 and  `paycircleid` = #{paycircleid}
-                    </if>
-				
-							                    <if test="bgndate != null and bgndate != '' ">
-						 and  `bgndate` = #{bgndate}
-                    </if>
-				
-							                    <if test="enddate != null and enddate != '' ">
-						 and  `enddate` = #{enddate}
-                    </if>
-				
-							                    <if test="remark != null and remark != '' ">
-						 and  `remark` = #{remark}
-                    </if>
-				
-							                    <if test="billstatus != null and billstatus != '' ">
-						 and  `billstatus` = #{billstatus}
-                    </if>
-				
-							                    <if test="makeuser != null and makeuser != '' ">
-						 and  `makeuser` = #{makeuser}
-                    </if>
-				
-							                    <if test="makedate != null and makedate != '' ">
-						 and  `makedate` = #{makedate}
-                    </if>
-				
-							                    <if test="accuser != null and accuser != '' ">
-						 and  `accuser` = #{accuser}
-                    </if>
-				
-							                    <if test="accdate != null and accdate != '' ">
-						 and  `accdate` = #{accdate}
-                    </if>
-				
-							                    <if test="uptdate != null and uptdate != '' ">
-						 and  `uptdate` = #{uptdate}
-                    </if>
-				
-							                    <if test="pocessinstanceid != null and pocessinstanceid != '' ">
-						 and  `pocessinstanceid` = #{pocessinstanceid}
-                    </if>
-                    <if test="userid != null ">
-						 and  (`makeuser`=#{userid} or `pocessinstanceid` in  (select proc_inst_id from v_tasklist where candidate=#{userid} or assignee=#{userid}))
-                    </if>
-				
-			        </where>
-		order by id desc
+            <if test="id != null and id != '' ">
+                `id` = #{id}
+            </if>
+            <if test="billnos != null and billnos.size!=0">
+                and `billno` in
+                <foreach collection="billnos" item="item" index="index" open="(" close=")" separator=","
+                >
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="billno != null and billno != '' ">
+                and `billno` LIKE concat('%',#{billno},'%')
+            </if>
+
+            <if test="orderbillno != null and orderbillno != '' ">
+                and `orderbillno` = #{orderbillno}
+            </if>
+
+            <if test="partyaid != null and partyaid != '' ">
+                and `partyaid` = #{partyaid}
+            </if>
+
+            <if test="partybid != null and partybid != '' ">
+                and `partybid` = #{partybid}
+            </if>
+
+            <if test="billsource != null and billsource != '' ">
+                and `billsource` = #{billsource}
+            </if>
+
+            <if test="billtype != null and billtype != '' ">
+                and `billtype` = #{billtype}
+            </if>
+
+            <if test="paytype != null and paytype != '' ">
+                and `paytype` = #{paytype}
+            </if>
+
+            <if test="paycircleid != null and paycircleid != '' ">
+                and `paycircleid` = #{paycircleid}
+            </if>
+
+            <if test="bgndate != null and bgndate != '' ">
+                and `bgndate` = #{bgndate}
+            </if>
+
+            <if test="enddate != null and enddate != '' ">
+                and `enddate` = #{enddate}
+            </if>
+
+            <if test="remark != null and remark != '' ">
+                and `remark` = #{remark}
+            </if>
+
+            <if test="billstatus != null and billstatus != '' ">
+                and `billstatus` = #{billstatus}
+            </if>
+
+            <if test="makeuser != null and makeuser != '' ">
+                and `makeuser` = #{makeuser}
+            </if>
+
+            <if test="makedate != null and makedate != '' ">
+                and `makedate` = #{makedate}
+            </if>
+
+            <if test="accuser != null and accuser != '' ">
+                and `accuser` = #{accuser}
+            </if>
+
+            <if test="accdate != null and accdate != '' ">
+                and `accdate` = #{accdate}
+            </if>
+
+            <if test="uptdate != null and uptdate != '' ">
+                and `uptdate` = #{uptdate}
+            </if>
+
+            <if test="pocessinstanceid != null and pocessinstanceid != '' ">
+                and `pocessinstanceid` = #{pocessinstanceid}
+            </if>
+            <if test="userid != null ">
+                and (`makeuser`=#{userid} or `pocessinstanceid` in (select proc_inst_id from v_tasklist where
+                candidate=#{userid} or assignee=#{userid}))
+            </if>
+
+        </where>
+        order by id desc
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
-	</select>
-	
- 	<select id="queryTotal" resultType="int">
+    </select>
+
+    <select id="queryTotal" resultType="int">
 		select count(*) from contractmain 
 	</select>
-	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.ContractmainEntity" useGeneratedKeys="true" keyProperty="id">
+
+    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.ContractmainEntity" useGeneratedKeys="true"
+            keyProperty="id">
 		insert into contractmain
 		(
 			`billno`, 
@@ -167,56 +180,56 @@
 			#{pocessinstanceid}
 		)
 	</insert>
-	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.ContractmainEntity">
-		update contractmain 
-		<set>
-			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="orderbillno != null">`orderbillno` = #{orderbillno}, </if>
-			<if test="partyaid != null">`partyaid` = #{partyaid}, </if>
-			<if test="partybid != null">`partybid` = #{partybid}, </if>
-			<if test="billsource != null">`billsource` = #{billsource}, </if>
-			<if test="billtype != null">`billtype` = #{billtype}, </if>
-			<if test="paytype != null">`paytype` = #{paytype}, </if>
-			<if test="paycircleid != null">`paycircleid` = #{paycircleid}, </if>
-			<if test="bgndate != null">`bgndate` = #{bgndate}, </if>
-			<if test="enddate != null">`enddate` = #{enddate}, </if>
-			<if test="remark != null">`remark` = #{remark}, </if>
-			<if test="billstatus != null">`billstatus` = #{billstatus}, </if>
-			<if test="makeuser != null">`makeuser` = #{makeuser}, </if>
-			<if test="makedate != null">`makedate` = #{makedate}, </if>
-			<if test="accuser != null">`accuser` = #{accuser}, </if>
-			<if test="accdate != null">`accdate` = #{accdate}, </if>
-			<if test="uptdate != null">`uptdate` = #{uptdate}, </if>
-			<if test="pocessinstanceid != null">`pocessinstanceid` = #{pocessinstanceid}</if>
-		</set>
-		where id = #{id}
-	</update>
+
+    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.ContractmainEntity">
+        update contractmain
+        <set>
+            <if test="billno != null">`billno` = #{billno},</if>
+            <if test="orderbillno != null">`orderbillno` = #{orderbillno},</if>
+            <if test="partyaid != null">`partyaid` = #{partyaid},</if>
+            <if test="partybid != null">`partybid` = #{partybid},</if>
+            <if test="billsource != null">`billsource` = #{billsource},</if>
+            <if test="billtype != null">`billtype` = #{billtype},</if>
+            <if test="paytype != null">`paytype` = #{paytype},</if>
+            <if test="paycircleid != null">`paycircleid` = #{paycircleid},</if>
+            <if test="bgndate != null">`bgndate` = #{bgndate},</if>
+            <if test="enddate != null">`enddate` = #{enddate},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            <if test="billstatus != null">`billstatus` = #{billstatus},</if>
+            <if test="makeuser != null">`makeuser` = #{makeuser},</if>
+            <if test="makedate != null">`makedate` = #{makedate},</if>
+            <if test="accuser != null">`accuser` = #{accuser},</if>
+            <if test="accdate != null">`accdate` = #{accdate},</if>
+            <if test="uptdate != null">`uptdate` = #{uptdate},</if>
+            <if test="pocessinstanceid != null">`pocessinstanceid` = #{pocessinstanceid}</if>
+        </set>
+        where id = #{id}
+    </update>
 
 
     <update id="auditBatch">
-        update  contractmain set billstatus=billstatus+1 where id in
+        update contractmain set billstatus=billstatus+1 where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
 
     <update id="unauditBatch">
-        update  contractmain set billstatus=billstatus-1 where id in
+        update contractmain set billstatus=billstatus-1 where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
-	
-	<delete id="delete">
+
+    <delete id="delete">
 		delete from contractmain where id = #{value}
 	</delete>
-	
-	<delete id="deleteBatch">
-		delete from contractmain where id in 
-		<foreach item="id" collection="array" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</delete>
+
+    <delete id="deleteBatch">
+        delete from contractmain where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

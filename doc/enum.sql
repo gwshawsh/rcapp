@@ -18,6 +18,7 @@ INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) V
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1003', '3', '审核中', '单据状态');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1003', '4', '完成', '单据状态');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1003', '5', '驳回', '单据状态');
+INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1003', '6', '重新提交', '单据状态');
 INSERT INTO `enumtable` (`enumtype`, `enumvalueid`, `enumvaluename`, `remark`) VALUES ('1003', '9', '作废', '单据状态');
 
 

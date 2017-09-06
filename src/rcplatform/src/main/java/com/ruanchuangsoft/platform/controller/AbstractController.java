@@ -366,6 +366,7 @@ public abstract class AbstractController {
         billcommentsEntity.setBillno(billno);
         billcommentsEntity.setMakedate(new Date());
         billcommentsEntity.setMakeuser(ShiroUtils.getUserId());
+        billcommentsEntity.setMakeuserusername(ShiroUtils.getUserFullName());
         billcommentsEntity.setRemark(comments);
         billcommentsEntity.setAuditstatus(auditType);
         List<BillcommentsEntity> billcommentsEntityList = getBillcomments(billno);

@@ -73,7 +73,7 @@ public class ContractmainController extends AbstractController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
-        map.put("userid",ShiroUtils.getUserId());//用来与工作流关联
+        //map.put("userid",ShiroUtils.getUserId());//用来与工作流关联
 
 		//查询列表数据
 		List<ContractmainEntity> contractmainList = contractmainService.queryList(map);

@@ -12,10 +12,10 @@
 
 	<body>
 		<div id="rrapp">
-			<rc-header title="请假申请" ></rc-header>
-			<div class="mui-content" >
+			<rc-header title="请假申请"></rc-header>
+			<div class="mui-content">
 				<ul class="mui-table-view">
-					<li class="mui-table-view-cell" @click = "getreasons">
+					<li class="mui-table-view-cell" @click="getreasons">
 						<a class="mui-navigate-right">
 							请假事由 <span style="position:absolute ;right: 40px;">{{leave_type}}</span>
 						</a>
@@ -25,25 +25,25 @@
 				<ul class="mui-table-view" style="margin-top: 20px;">
 					<li class="mui-table-view-cell" @click="begin">
 						<a class="mui-navigate-right">
-							请假开始时间 <span style="position:absolute ;right: 40px;">{{leave_begin}}</span>
+							请假开始时间 <span style="position:absolute ;right: 40px;">{{startTime}}</span>
 						</a>
 					</li>
 					<li class="mui-table-view-cell" @click="end">
 						<a class="mui-navigate-right">
-							请假结束时间<span style="position:absolute ;right: 40px;">{{leave_end}}</span>
+							请假结束时间<span style="position:absolute ;right: 40px;">{{endTime}}</span>
 						</a>
 					</li>
 
 				</ul>
-				<div class="row mui-input-row" style="margin-top: 20px;"> 
-					<textarea class="mui-input-clear question" style="height: 200px;" placeholder="请假说明" v-model="leave_reason"></textarea>
+				<div class="row mui-input-row" style="margin-top: 20px;">
+					<textarea class="mui-input-clear question" style="height: 200px;" placeholder="请假说明" v-model="reason"></textarea>
 				</div>
 			</div>
 			<button class="mui-btn mui-btn-block mui-btn-green" v-on:click="commit" style="position:absolute; width: 100%;border-radius: 0;bottom: 0;margin-bottom: 0;">提交申请</button>
 		</div>
-		
+
 		<script src="../js/mui.min.js"></script>
-		
+
 		<script src="../js/vue.min.js"></script>
 		<script src="../js/mui.picker.min.js"></script>
 		<script src="../js/app.js"></script>
@@ -52,86 +52,118 @@
 			var vm = new Vue({
 				el: '#rrapp',
 				data: {
+					item: '',
+
 					leave_type: '',
-					leave_typeid:0,
-					leave_begin: '',
-					leave_end: '',
-					leave_reason: '',
-					reasons:[],
+					leave_typeid: 0,
+					startTime: '',
+					endTime: '',
+					reason: '',
+					reasons: [],
 				},
 
 				methods: {
+					setitem: function(i) {
+						this.item = i;
+						this.startTime = i.startTime;
+						this.endTime = i.endTime;
+						this.reason = i.reason;
+						this.leave_typeid = i.leavetype;
+						this.leave_type = i.leavetype;
+
+					},
 					begin: function() {
 						var picker = new mui.DtPicker(JSON.parse('{}'));
 						picker.show(function(rs) {
-							if(vm.leave_end && rs.text >= vm.leave_end){
-								mui.toast("开始时间应小于结束时间"); 
+							if(vm.endTime && rs.text >= vm.endTime) {
+								mui.toast("开始时间应小于结束时间");
 								return;
 							}
-							vm.leave_begin = rs.text;
+							vm.startTime = rs.text;
 							picker.dispose();
 						});
-					}, 
+					},
 					end: function() {
 						var picker = new mui.DtPicker(JSON.parse('{}'));
-						picker.show(function(rs) { 
-							if(rs.text <= vm.leave_begin){
-								mui.toast("结束时间应大于开始时间"); 
+						picker.show(function(rs) {
+							if(rs.text <= vm.startTime) {
+								mui.toast("结束时间应大于开始时间");
 								return;
 							}
-							vm.leave_end = rs.text;
+							vm.endTime = rs.text;
 							picker.dispose();
 						});
 					},
 					commit: function() {
-						if(!vm.leave_type){
-							mui.toast("请选择请假事由");return;
+						if(!vm.leave_type) {
+							mui.toast("请选择请假事由");
+							return;
 						}
-						if(!vm.leave_begin  || !vm.leave_end){
-							mui.toast("请选择起止时间");return;
+						if(!vm.startTime || !vm.endTime) {
+							mui.toast("请选择起止时间");
+							return;
 						}
-						
+
 						var par = {
-							startTime:vm.leave_begin,
-							endTime:vm.leave_end,
-							leavetype:vm.leave_typeid,
-							reason:vm.leave_reason
+							startTime: vm.startTime,
+							endTime: vm.endTime,
+							leavetype: vm.leave_typeid,
+							reason: vm.reason 
 						};
-						query("leaveworkmain/savesubmit",par,function(d){
-							
+						this.item.startTime = this.startTime;
+						this.item.endTime = this.endTime;
+						this.item.reason = this.reason;
+						this.item.leave_type = this.leavetypeid;
+
+						if(item.billstatus == STATUS_REJECT) { //被驳回的订单先保存，然后过流程
+							var that = this;
+							query("leaveworkmain/save", item, function(d) {
+								that.item.billcommentsEntity.auditstatus = YES;
+								that.item.billstatus = STATUS_REAPPLY;
+								query(getauditurl(that.item.type), that.item, function(data) {
+									that.complete();
+								});
+							});
+							return;
+						}
+						query("leaveworkmain/savesubmit", item, function(d) {
 							var opener = plus.webview.currentWebview().opener().reload();
-                    		
 							mui.back();
 							//mui.toast("提交成功");
 						});
 					},
-					getreasons:function(){
+					getreasons: function() {
 						var param = {
-							enumid: "1005",						
+							enumid: "1005",
 							page: 1,
 							limit: 100
 						};
-						query("enumtable/listone",param,function(data){
+						query("enumtable/listone", param, function(data) {
 							var l = data.page.list
 							var list = [];
-							for(var i=0;i!=l.length;++i){
-								list.push(
-									{text:l[i].enumvaluename,value:l[i].enumvalueid,
-								}
-								)
+							for(var i = 0; i != l.length; ++i) {
+								list.push({
+									text: l[i].enumvaluename,
+									value: l[i].enumvalueid,
+								})
 							}
 							var userPicker = new mui.PopPicker();
 							userPicker.setData(list);
 							userPicker.show(function(items) {
 								vm.leave_type = items[0].text;
 								vm.leave_typeid = items[0].value;
-							//返回 false 可以阻止选择框的关闭
-							//return false;
-						});
-							
-						},true)
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+							});
+
+						}, true)
 					},
 				}
+			});
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var item = self.value;
+
 			});
 		</script>
 	</body>

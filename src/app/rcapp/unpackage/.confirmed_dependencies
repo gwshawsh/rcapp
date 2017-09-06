@@ -435,7 +435,8 @@
 			"js/lodash.js",
 			"images/ding.png",
 			"js/mui.pullToRefresh.js",
-			"js/mui.pullToRefresh.material.js"
+			"js/mui.pullToRefresh.material.js",
+			"images/he.png"
 		],
 		"refer": [
 			"page/approval_deal.html"

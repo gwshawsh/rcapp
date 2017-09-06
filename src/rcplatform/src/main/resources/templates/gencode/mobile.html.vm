@@ -1,0 +1,10 @@
+#foreach($column in $columns)
+        #if($column.columnName != "pocessinstanceid")
+        #if($column.columnName == $pk.columnName)
+        #elseif($column.refType.equalsIgnoreCase("combo")||$column.refType.equalsIgnoreCase("enum"))
+        {name:"${column.comments}",value:i.${column.attrname}${column.refColumnName}},
+        #else
+        {name:"${column.comments}",value:i.${column.attrname}},
+        #end
+        #end
+#end

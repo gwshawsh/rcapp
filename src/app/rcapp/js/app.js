@@ -5,7 +5,12 @@ const baseurl = "http://192.168.253.1:8888/";
     const STATUS_AUDITING =3;//审核中
     const STATUS_COMPLETE=4;//已完成
     const STATUS_REJECT = 5;//驳回
+    const STATUS_REAPPLY=6;//重新申请
     const STATUS_CANCLE=9;//作废
+    
+    const YES=0;//通过
+    const NO=1;//通过
+   
 
 
 function navigate(murl, value,value1,value2) {
@@ -27,7 +32,7 @@ function navigate(murl, value,value1,value2) {
 		waiting: {
 			autoShow: true
 		},
-		extras: {
+		extras: { 
 			value: value,
 			value1: value1,
 			value2: value2,
@@ -105,6 +110,19 @@ function getauditurl(type) {
 	return url+'/audit';
 }
 
+//重新修改申请
+function toReapply(item){
+	switch(item.type){
+		case 'leave':
+		navigate("leave_apply.html",item);
+		break;
+		default:
+		mui.alert(getbillname(item.type)+"暂不支持移动端修改")
+		break;;
+	}
+}
+
+
 Date.prototype.format = function(fmt) { //author: meizz   
 	var o = {
 		"M+": this.getMonth() + 1, //月份   
@@ -151,41 +169,66 @@ Vue.component('rc-audit', {
 		
 	},
 	methods: {
+		isreject:function(){//申请被驳回
+			return this.item.billstatus==STATUS_REJECT;
+		},
 		url:function(){
 			return getauditurl(this.item.type);
 		},
-		approval: function(pass, comments) {
+		approval: function(auditstatus, comments,billstatus) {
 			var that = this;
-			that.item.billcommentsEntity = {auditstatus:pass?0:1,remark:comments};
+			if(billstatus){
+				that.item.billstatus=billstatus;
+			}
+			that.item.billcommentsEntity = {auditstatus:auditstatus,remark:comments};
 			query(that.url(), that.item, function(data) {
 				that.complete();
 			});
 		},
 		reject: function() {
+			if(this.isreject()){//申请被驳回后撤回申请
+				this.approval(NO, "撤销申请",STATUS_CANCLE);
+				return;
+			}
+			
 			var that = this;
 			var btnArray = ['确定', '取消'];
 			mui.prompt('请输入驳回意见', '请输入....', '', btnArray, function(e) {
 				if(e.index == 0){
-					that.approval(false, e.value);
+					that.approval(NO, e.value);
 				}
 				
 			})
 		},
 		pass: function() {
+			if(this.isreject()){
+				toReapply(this.item);
+				return;
+			}
+			
+			
 			var that = this;
 			var btnArray = ['确定', '取消'];
 			mui.prompt('确认审批通过', '请输入审批意见....', '', btnArray, function(e) {
 				if(e.index == 0){
-					that.approval(true, e.value);
+					that.approval(YES, e.value);
 				}
 			})
+		},
+		lefttext:function(){
+			return this.isreject() ?"取消申请" :"驳回申请";
+			
+		},
+		righttext:function(){
+			return this.isreject() ?"修改申请" :"审批通过";
+			
 		},
 		
 	},
 	template: [
 
-		'<div style=" position:fixed;bottom:0; width: 100%;z-index: 2;" ><button id="pass" class="mui-btn mui-btn-block mui-btn-warning btn-bottom" @click="reject" style="width: 50%;">驳回申请</button>',
-		'<button class="mui-btn mui-btn-block mui-btn-green btn-bottom" v-on:click="pass" style="width: 50%;right: 0;">审批通过</button></div>',
+		'<div style=" position:fixed;bottom:0; width: 100%;z-index: 2;" ><button id="pass" class="mui-btn mui-btn-block mui-btn-warning btn-bottom" @click="reject" style="width: 50%;">{{lefttext()}}</button>',
+		'<button class="mui-btn mui-btn-block mui-btn-green btn-bottom" v-on:click="pass" style="width: 50%;right: 0;">{{righttext()}}</button></div>',
 
 	].join('')
 });

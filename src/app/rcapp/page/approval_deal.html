@@ -63,7 +63,7 @@
 						switch(this.item.type)
 						{
 							case 'leave':return this.getleave();
-							
+							case 'contract': return this.getcontract();
 							default: return this.getorder();
 							
 						}
@@ -99,6 +99,31 @@
 						{name:"支付方式",value:i.total},
 						{name:"备注",value:i.remark},
 						{name:"金额",value:i.total},						
+						];
+					},
+					getcontract:function(){
+						var i = this.item;
+						return [
+						    
+                    {name:"单据号",value:i.billno}, 
+                                        {name:"订购单据号",value:i.orderbillno},
+                                        {name:"甲方",value:i.partyaid},
+                                        {name:"乙方",value:i.partybid},
+                                        {name:"合同来源",value:i.billsourceenumvaluename},
+                                        {name:"收付款类型",value:i.billtypeenumvaluename},
+                                        {name:"付款方式",value:i.paytypeenumvaluename},
+                                        {name:"结算周期",value:i.paycircleidname},
+                                        {name:"生效日期",value:i.bgndate},
+                                        {name:"失效日期",value:i.enddate},
+                                        {name:"备注",value:i.remark},
+                                        {name:"单据状态",value:i.billstatusenumvaluename},
+                                        {name:"制单人",value:i.makeuserfullname},
+                                        {name:"制单日期",value:i.makedate},
+                                        {name:"审核人",value:i.accuserfullname},
+                                        {name:"审核日期",value:i.accdate},
+                                        {name:"更新时间",value:i.uptdate},
+                        
+
 						];
 					},
 					

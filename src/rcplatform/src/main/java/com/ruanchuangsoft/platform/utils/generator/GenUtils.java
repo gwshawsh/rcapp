@@ -13,7 +13,6 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.*;
@@ -59,6 +58,7 @@ public class GenUtils {
         templates.add("templates/gencode/listmain.js.vm");
         templates.add("templates/gencode/ref.html.vm");
         templates.add("templates/gencode/db.sql.vm");
+        templates.add("templates/gencode/mobile.html.vm");
         return templates;
     }
 
@@ -534,6 +534,9 @@ public class GenUtils {
 
         if (template.contains("db.sql.vm")) {
             return packagePath + "dao" + File.separator + className + ".sql";
+        }
+        if (template.contains("mobile")) {
+            return "mobile" + File.separator + className.toLowerCase() + ".html";
         }
 
         return null;

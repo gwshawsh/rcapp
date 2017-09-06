@@ -212,16 +212,12 @@ var listItem = {
 		},
 		commit: function(pass, comments) {
 			this.showPro = false;
-			var param = {
-				billno: this.currentitem.billno,
-				billtype: this.currentitem.type,
-				comments: comments,
-				pass: pass,
-
-			};
-			query(baseurl + "todolist/audittodo", param, function(data) {
+			var item = this.currentitem;
+			item.billcommentsEntity = {auditstatus:pass?0:1,remark:comments};
+			query(getauditurl(item.type), item, function(data) {
 				location.reload();
 			});
+			
 		},
 		setErrorImg: function(e) {
 			errorImg(e, '../images/default_head.png');
@@ -268,6 +264,11 @@ Vue.component('bill-item', {
 		needaudit:true,
 
 	},
+	methods:{
+		auditbtn:function(){
+			return needaudit && (item.billstatus<=STATUS_AUDITING);
+		},
+	},
 	template: [
 		'<li class=" mui-media" >',
 		'<p class="mui-input-row" style="padding-left: 52px;">申请单号:&nbsp;&nbsp;&nbsp;{{item.billno}} <span class="font-green position-right" style="right:0px"> {{item.billstatusenumvaluename}}</span></p>',
@@ -277,12 +278,12 @@ Vue.component('bill-item', {
 
 		'<div> {{getbillname(item.type)}}',
 		'<span class="font-secondary"> {{item.dept}}</span>',
-		'<span class="font-warning position-right"> {{item.total}}元</span></div>',
+		'<span class="font-warning position-right" v-if="item.total"> {{item.total}}元</span></div>',
 		'<p class="font-green">{{item.reason}}</p>',
 		'<p>申请人:&nbsp;&nbsp;&nbsp;{{item.makeuserfullname}}</p>',
-		'<p class=\'mui-ellipsis\'>申请时间:{{item.reqdate}}</p>',
+		'<p class=\'mui-ellipsis\'>申请时间:{{item.makedate}}</p>',
 		'</div></div>',
-		'<button v-if="needaudit && item.billstatus!=STATUS_COMPLETE" class="mui-btn-green " @click.stop="approval(item)" style="float: right;">审批</button>',
+		'<button v-if="auditbtn()" class="mui-btn-green " @click.stop="approval(item)" style="float: right;">审批</button>',
 		'</li>',
 	].join('')
 });
@@ -307,5 +308,33 @@ Vue.component('leave-item', {
 		'<p class="font-green">{{item.leavetypeenumvaluename}}</p>',
 		'<p class=\'mui-ellipsis\'>申请时间:{{item.createtime}}</p>',
 		'</div></a></li>'
+	].join('')
+});
+
+///合同相关的item
+Vue.component('contract-item', {
+
+	props: {
+		item: "",
+		approval: Function,
+
+	},
+	template: [
+
+		'<li class=" mui-media" >',
+		'<p class="mui-input-row" style="padding-left: 52px;">申请单号:&nbsp;&nbsp;&nbsp;{{item.billno}} <span class="font-green position-right" style="right:0px"> {{item.billstatusenumvaluename}}</span></p>',
+		'<div class=\'mui-navigate-right\' >',
+		'<img class="mui-media-object mui-pull-left" :src="getbillicon(item.type)">',
+		'<div class="mui-media-body">',
+
+		'<div> {{getbillname(item.type)}}',
+		'<span class="font-secondary"> {{item.dept}}</span>',
+		'<span class="font-warning position-right"> {{item.total}}元</span></div>',
+		'<p class="font-green">{{item.reason}}</p>',
+		'<p>申请人:&nbsp;&nbsp;&nbsp;{{item.makeuserfullname}}</p>',
+		'<p class=\'mui-ellipsis\'>申请时间:{{item.reqdate}}</p>',
+		'</div></div>',
+		'<button v-if="needaudit && item.billstatus!=STATUS_COMPLETE" class="mui-btn-green " @click.stop="approval(item)" style="float: right;">审批</button>',
+		'</li>',
 	].join('')
 });
