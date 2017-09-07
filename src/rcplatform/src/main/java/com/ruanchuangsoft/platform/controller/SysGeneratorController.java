@@ -141,6 +141,28 @@ public class SysGeneratorController {
         IOUtils.write(data, response.getOutputStream());
     }
 
+    /**
+     * 生成sql代码
+     */
+    @RequestMapping("/mobilecode")
+    @RequiresPermissions("sys:generator:code")
+    public void mobilecode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //获取表名，不进行xss过滤
+        HttpServletRequest orgRequest = XssHttpServletRequestWrapper.getOrgRequest(request);
+        String tables = orgRequest.getParameter("tables");
+        String path = orgRequest.getParameter("path");
+        String[] tableNames = tables.split(",");
+        byte[] data = sysGeneratorService.generatorMobileCode(tableNames, path);
+
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=\"rcpmobile.zip\"");
+        response.addHeader("Content-Length", "" + data.length);
+        response.setContentType("application/octet-stream; charset=UTF-8");
+
+        IOUtils.write(data, response.getOutputStream());
+    }
+
+
 
 
 

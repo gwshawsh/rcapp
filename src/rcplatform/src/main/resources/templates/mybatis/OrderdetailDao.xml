@@ -3,7 +3,7 @@
 
 <mapper namespace="com.ruanchuangsoft.platform.dao.OrderdetailDao">
 
-	<select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.OrderdetailEntity">
+    <select id="queryObject" resultType="com.ruanchuangsoft.platform.entity.OrderdetailEntity">
 		select
 																               		ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
 																												        a.*
@@ -11,67 +11,68 @@
 		from orderdetail a where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.ruanchuangsoft.platform.entity.OrderdetailEntity">
+    <select id="queryList" resultType="com.ruanchuangsoft.platform.entity.OrderdetailEntity">
         select
-																								                    ifnull((select name from  goods b where a.goodsid=b.id),'') as goodsidname,
-																																												        a.*
+        ifnull((select name from goods b where a.goodsid=b.id),'') as goodsidname,
+        a.*
         from orderdetail a
         <where>
-							                    <if test="id != null and id != '' ">
-						 `id` = #{id}
-                    </if>
-				
-							                    <if test="billno != null and billno != '' ">
-						 and  `billno` = #{billno}
-                    </if>
-				
-							                    <if test="serialno != null and serialno != '' ">
-						 and  `serialno` = #{serialno}
-                    </if>
-				
-							                    <if test="goodsid != null and goodsid != '' ">
-						 and  `goodsid` = #{goodsid}
-                    </if>
-				
-							                    <if test="goodscount != null and goodscount != '' ">
-						 and  `goodscount` = #{goodscount}
-                    </if>
-				
-							                    <if test="goodsspec != null and goodsspec != '' ">
-						 and  `goodsspec` = #{goodsspec}
-                    </if>
-				
-							                    <if test="goodsuse != null and goodsuse != '' ">
-						 and  `goodsuse` = #{goodsuse}
-                    </if>
-				
-							                    <if test="goodsprice != null and goodsprice != '' ">
-						 and  `goodsprice` = #{goodsprice}
-                    </if>
-				
-							                    <if test="goodscost != null and goodscost != '' ">
-						 and  `goodscost` = #{goodscost}
-                    </if>
-				
-							                    <if test="enddate != null and enddate != '' ">
-						 and  `enddate` = #{enddate}
-                    </if>
-				
-							                    <if test="uptdate != null and uptdate != '' ">
-						 and  `uptdate` = #{uptdate}
-                    </if>
-				
-			        </where>
+            <if test="id != null and id != '' ">
+                `id` = #{id}
+            </if>
+
+            <if test="billno != null and billno != '' ">
+                and `billno` = #{billno}
+            </if>
+
+            <if test="serialno != null and serialno != '' ">
+                and `serialno` = #{serialno}
+            </if>
+
+            <if test="goodsid != null and goodsid != '' ">
+                and `goodsid` = #{goodsid}
+            </if>
+
+            <if test="goodscount != null and goodscount != '' ">
+                and `goodscount` = #{goodscount}
+            </if>
+
+            <if test="goodsspec != null and goodsspec != '' ">
+                and `goodsspec` = #{goodsspec}
+            </if>
+
+            <if test="goodsuse != null and goodsuse != '' ">
+                and `goodsuse` = #{goodsuse}
+            </if>
+
+            <if test="goodsprice != null and goodsprice != '' ">
+                and `goodsprice` = #{goodsprice}
+            </if>
+
+            <if test="goodscost != null and goodscost != '' ">
+                and `goodscost` = #{goodscost}
+            </if>
+
+            <if test="enddate != null and enddate != '' ">
+                and `enddate` = #{enddate}
+            </if>
+
+            <if test="uptdate != null and uptdate != '' ">
+                and `uptdate` = #{uptdate}
+            </if>
+
+        </where>
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
-	</select>
-	
- 	<select id="queryTotal" resultType="int">
+    </select>
+
+    <select id="queryTotal" resultType="int">
 		select count(*) from orderdetail 
 	</select>
-	 
-	<insert id="save" parameterType="com.ruanchuangsoft.platform.entity.OrderdetailEntity" useGeneratedKeys="true" keyProperty="id">
+
+    <insert id="save" parameterType="com.ruanchuangsoft.platform.entity.OrderdetailEntity" useGeneratedKeys="true"
+            keyProperty="id">
 		insert into orderdetail
 		(
 			`billno`, 
@@ -99,37 +100,37 @@
 			#{uptdate}
 		)
 	</insert>
-	 
-	<update id="update" parameterType="com.ruanchuangsoft.platform.entity.OrderdetailEntity">
-		update orderdetail 
-		<set>
-			<if test="billno != null">`billno` = #{billno}, </if>
-			<if test="serialno != null">`serialno` = #{serialno}, </if>
-			<if test="goodsid != null">`goodsid` = #{goodsid}, </if>
-			<if test="goodscount != null">`goodscount` = #{goodscount}, </if>
-			<if test="goodsspec != null">`goodsspec` = #{goodsspec}, </if>
-			<if test="goodsuse != null">`goodsuse` = #{goodsuse}, </if>
-			<if test="goodsprice != null">`goodsprice` = #{goodsprice}, </if>
-			<if test="goodscost != null">`goodscost` = #{goodscost}, </if>
-			<if test="enddate != null">`enddate` = #{enddate}, </if>
-			<if test="uptdate != null">`uptdate` = #{uptdate}</if>
-		</set>
-		where id = #{id}
-	</update>
-	
-	<delete id="delete">
+
+    <update id="update" parameterType="com.ruanchuangsoft.platform.entity.OrderdetailEntity">
+        update orderdetail
+        <set>
+            <if test="billno != null">`billno` = #{billno},</if>
+            <if test="serialno != null">`serialno` = #{serialno},</if>
+            <if test="goodsid != null">`goodsid` = #{goodsid},</if>
+            <if test="goodscount != null">`goodscount` = #{goodscount},</if>
+            <if test="goodsspec != null">`goodsspec` = #{goodsspec},</if>
+            <if test="goodsuse != null">`goodsuse` = #{goodsuse},</if>
+            <if test="goodsprice != null">`goodsprice` = #{goodsprice},</if>
+            <if test="goodscost != null">`goodscost` = #{goodscost},</if>
+            <if test="enddate != null">`enddate` = #{enddate},</if>
+            <if test="uptdate != null">`uptdate` = #{uptdate}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
 		delete from orderdetail where id = #{value}
 	</delete>
 
     <delete id="deleteByBillNo">
         delete from orderdetail where billno = #{value}
     </delete>
-	
-	<delete id="deleteBatch">
-		delete from orderdetail where id in 
-		<foreach item="id" collection="array" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</delete>
+
+    <delete id="deleteBatch">
+        delete from orderdetail where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

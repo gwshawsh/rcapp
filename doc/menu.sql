@@ -372,7 +372,7 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('takeboxmain_audit', 'takeboxmain', '运输', NULL, 'takeboxmain:audit,takeboxmain:select', '2', NULL, '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('takeboxmain_detail', 'takeboxmain', '明细', NULL, 'takeboxmain:list,takeboxmain:info', '2', NULL, '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('takeboxmain_takebox', 'takeboxmain', '放单', NULL, 'takeboxmain:update,takeboxmain:takebox', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('takeboxmain_takebox', 'takeboxmain', '改单', NULL, 'takeboxmain:update,takeboxmain:takeboxchange', '2', NULL, '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('takeboxmain_changebox', 'takeboxmain', '改单', NULL, 'takeboxmain:update,takeboxmain:takeboxchange', '2', NULL, '0');
 
  
 
@@ -750,18 +750,3 @@ INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('depatureapplicationmain_unaudit', 'depatureapplicationmain', '反审核', NULL, 'depatureapplicationmain:unaudit,depatureapplicationmain:select', '2', NULL, '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('depatureapplicationmain_detail', 'depatureapplicationmain', '明细', NULL, 'depatureapplicationmain:list,depatureapplicationmain:info', '2', NULL, '0');
 
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-VALUES ('leaveworkmain', 'oa', '请假单', 'leaveworkmain/index', NULL, '1', 'fa fa-circle-o', '1');
-
-
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('leaveworkmain_view', 'leaveworkmain', '查看', NULL, 'leaveworkmain:list,leaveworkmain:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('leaveworkmain_add', 'leaveworkmain', '新增', NULL, 'leaveworkmain:save,leaveworkmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('leaveworkmain_edit', 'leaveworkmain', '修改', NULL, 'leaveworkmain:update,leaveworkmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('leaveworkmain_copy', 'leaveworkmain', '复制', NULL, 'leaveworkmain:copybill,leaveworkmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('leaveworkmain_cancel', 'leaveworkmain', '作废', NULL, 'leaveworkmain:update,leaveworkmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('leaveworkmain_delete', 'leaveworkmain', '删除', NULL, 'leaveworkmain:delete', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('leaveworkmain_claim', 'leaveworkmain', '签收', NULL, 'leaveworkmain:claim,leaveworkmain:info', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('leaveworkmain_audit', 'leaveworkmain', '审核', NULL, 'leaveworkmain:audit,leaveworkmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('leaveworkmain_unaudit', 'leaveworkmain', '反审核', NULL, 'leaveworkmain:unaudit,leaveworkmain:select', '2', NULL, '0');
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('leaveworkmain_detail', 'leaveworkmain', '明细', NULL, 'leaveworkmain:list,leaveworkmain:info', '2', NULL, '0');

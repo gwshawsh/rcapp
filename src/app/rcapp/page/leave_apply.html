@@ -25,12 +25,12 @@
 				<ul class="mui-table-view" style="margin-top: 20px;">
 					<li class="mui-table-view-cell" @click="begin">
 						<a class="mui-navigate-right">
-							请假开始时间 <span style="position:absolute ;right: 40px;">{{startTime}}</span>
+							请假开始时间 <span style="position:absolute ;right: 40px;" >{{starttime}}</span>
 						</a>
 					</li>
 					<li class="mui-table-view-cell" @click="end">
 						<a class="mui-navigate-right">
-							请假结束时间<span style="position:absolute ;right: 40px;">{{endTime}}</span>
+							请假结束时间<span style="position:absolute ;right: 40px;" >{{endtime}}</span>
 						</a>
 					</li>
 
@@ -52,45 +52,49 @@
 			var vm = new Vue({
 				el: '#rrapp',
 				data: {
-					item: '',
+					item: {},
 
 					leave_type: '',
-					leave_typeid: 0,
-					startTime: '',
-					endTime: '',
+					leave_typeid: 0, 
+					starttime: '',
+					endtime: '',
 					reason: '',
 					reasons: [],
 				},
 
 				methods: {
 					setitem: function(i) {
-						this.item = i;
-						this.startTime = i.startTime;
-						this.endTime = i.endTime;
+						if(i){
+							console.log(JSON.stringify(i));
+							this.item = i;
+						this.starttime = i.starttime;
+						this.endtime = i.endtime;
 						this.reason = i.reason;
 						this.leave_typeid = i.leavetype;
 						this.leave_type = i.leavetype;
+						}
+						
 
 					},
 					begin: function() {
 						var picker = new mui.DtPicker(JSON.parse('{}'));
 						picker.show(function(rs) {
-							if(vm.endTime && rs.text >= vm.endTime) {
+							if(vm.endtime && rs.text >= vm.endtime) {
 								mui.toast("开始时间应小于结束时间");
 								return;
 							}
-							vm.startTime = rs.text;
+							vm.starttime = rs.text;
 							picker.dispose();
 						});
 					},
 					end: function() {
 						var picker = new mui.DtPicker(JSON.parse('{}'));
 						picker.show(function(rs) {
-							if(rs.text <= vm.startTime) {
+							if(rs.text <= vm.starttime) {
 								mui.toast("结束时间应大于开始时间");
 								return;
 							}
-							vm.endTime = rs.text;
+							vm.endtime = rs.text;
 							picker.dispose();
 						});
 					},
@@ -99,34 +103,34 @@
 							mui.toast("请选择请假事由");
 							return;
 						}
-						if(!vm.startTime || !vm.endTime) {
+						if(!vm.starttime || !vm.endtime) {
 							mui.toast("请选择起止时间");
 							return;
 						}
 
 						var par = {
-							startTime: vm.startTime,
-							endTime: vm.endTime,
+							starttime: vm.starttime,
+							endtime: vm.endtime,
 							leavetype: vm.leave_typeid,
 							reason: vm.reason 
 						};
-						this.item.startTime = this.startTime;
-						this.item.endTime = this.endTime;
+						this.item.starttime = this.starttime;
+						this.item.endtime = this.endtime;
 						this.item.reason = this.reason;
 						this.item.leave_type = this.leavetypeid;
 
-						if(item.billstatus == STATUS_REJECT) { //被驳回的订单先保存，然后过流程
+						if(this.item.billstatus == STATUS_REJECT) { //被驳回的订单先保存，然后过流程
 							var that = this;
-							query("leaveworkmain/save", item, function(d) {
-								that.item.billcommentsEntity.auditstatus = YES;
-								that.item.billstatus = STATUS_REAPPLY;
+							query("leaveworkmain/save", this.item, function(d) {
+								that.item.billcommentsEntity={auditstatus:YES,remark:"重新申请"} ;								
 								query(getauditurl(that.item.type), that.item, function(data) {
-									that.complete();
+									var opener = plus.webview.currentWebview().opener().reload();
+									mui.back();
 								});
 							});
 							return;
 						}
-						query("leaveworkmain/savesubmit", item, function(d) {
+						query("leaveworkmain/savesubmit", this.item, function(d) {
 							var opener = plus.webview.currentWebview().opener().reload();
 							mui.back();
 							//mui.toast("提交成功");
@@ -161,8 +165,9 @@
 				}
 			});
 			mui.plusReady(function() {
-				var self = plus.webview.currentWebview();
-				var item = self.value;
+				var self = plus.webview.currentWebview();				
+				vm.setitem(self.value);
+				
 
 			});
 		</script>

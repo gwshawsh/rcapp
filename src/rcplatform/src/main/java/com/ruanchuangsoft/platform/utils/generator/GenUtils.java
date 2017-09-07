@@ -89,10 +89,17 @@ public class GenUtils {
         return templates;
     }
 
+    public static List<String> getMobileTemplates() {
+        List<String> templates = new ArrayList<String>();
+        templates.add("templates/gencode/mobile.html.vm");
+        return templates;
+    }
+
+
 
     /**
      * 生成代码
-     * gentype:0 单表 1-树型表 2-主从表
+     * gentype:0 单表 1-树型表 2-主从表 3-移动端
      */
     public static void generatorCode(Map<String, String> table,
                                      List<Map<String, String>> columns, String parentPath,ZipOutputStream zip, int gentype) {
@@ -168,7 +175,11 @@ public class GenUtils {
             templates = getTemplates();
         } else if (gentype == 1) {
             templates = getTreeTemplates();
-        } else {
+        }
+        else if (gentype == 3) {
+            templates = getMobileTemplates();
+        }
+        else {
             templates = getTemplates();
         }
         for (String template : templates) {
@@ -350,6 +361,8 @@ public class GenUtils {
 
 
     }
+
+
 
 
     /**

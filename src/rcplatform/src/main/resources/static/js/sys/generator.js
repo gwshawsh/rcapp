@@ -93,6 +93,19 @@ var vm = new Vue({
 
         },
 
+        generatormobile: function () {
+            var tableNames = getSelectedRows();
+            if (tableNames == null) {
+                return;
+            }
+            layer.prompt({title: '输入所属模块名称，并确认', formType: 2}, function (text, index) {
+                layer.close(index);
+                location.href = "../sys/generator/mobilecode?tables=" + tableNames + "&path=" + text;
+            });
+
+        },
+
+
 
 
     }

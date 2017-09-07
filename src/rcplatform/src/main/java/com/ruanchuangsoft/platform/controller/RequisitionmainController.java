@@ -169,7 +169,8 @@ public class RequisitionmainController extends AbstractController {
         //启动工作流
         Map<String,Object> params=new HashMap<>();
         params.put("userid", ShiroUtils.getUserId());
-        String processid=startWorkflow("requisitionmain",requisitionmainEntity.getBillno(),params);
+        params.put("type", requisitionmainEntity.getType());
+        String processid=startWorkflow("ordermain",requisitionmainEntity.getBillno(),params);
 
         requisitionmainEntity.setBillstatus(BillStatus.SUBMIT);
         requisitionmainEntity.setPocessinstanceid(processid);

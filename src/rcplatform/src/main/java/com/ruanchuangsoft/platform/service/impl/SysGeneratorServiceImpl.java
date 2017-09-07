@@ -54,6 +54,7 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
         return outputStream.toByteArray();
     }
 
+
     @Override
     public byte[] generatorSqlCode(String[] tableNames,String path) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -71,6 +72,34 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
                 List<Map<String, String>> columns = queryColumns(tableName);
                 //生成代码
                 GenUtils.generatorSqlCode(table, columns, path, zip);
+
+            }
+
+            IOUtils.closeQuietly(zip);
+
+        }
+        catch (Exception e){
+
+        }
+        return outputStream.toByteArray();
+    }
+
+    @Override
+    public byte[] generatorMobileCode(String[] tableNames, String path) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ZipOutputStream zip = new ZipOutputStream(outputStream);
+
+
+        try {
+
+
+            for (String tableName : tableNames) {
+                //查询表信息
+                Map<String, String> table = queryTable(tableName);
+                //查询列信息
+                List<Map<String, String>> columns = queryColumns(tableName);
+                //生成代码
+                GenUtils.generatorCode(table, columns, path, zip,3);
 
             }
 

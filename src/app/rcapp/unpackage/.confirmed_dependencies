@@ -452,7 +452,9 @@
 			"images/default_head.png",
 			"js/vue.min.js"
 		],
-		"refer": []
+		"refer": [
+			"page/leave_apply.html"
+		]
 	},
 	"page/reg.html": {
 		"resources": [

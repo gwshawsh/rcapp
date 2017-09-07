@@ -72,11 +72,12 @@ public class OrdermainController extends AbstractController {
 	@ResponseBody
 	@RequestMapping("/list")
 	@RequiresPermissions("ordermain:list")
-	public R list(Integer page, Integer limit){
+	public R list(Integer page, Integer limit,String billno){
 		Map<String, Object> map = new HashMap<>();
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
-        map.put("userid",ShiroUtils.getUserId());//用来与工作流关联
+        map.put("billno", billno);
+        //map.put("userid",ShiroUtils.getUserId());//用来与工作流关联
 
 		//查询列表数据
 		List<OrdermainEntity> ordermainList = ordermainService.queryList(map);
@@ -246,16 +247,24 @@ public class OrdermainController extends AbstractController {
     @RequestMapping("/audit")
     @RequiresPermissions("ordermain:audit")
     public R audit(@RequestBody OrdermainEntity ordermainEntity){
-
         BillcommentsEntity billcommentsEntity=ordermainEntity.getBillcommentsEntity();
-        ordermainEntity.setBillstatus(BillStatus.AUDITING);
-
-        ordermainService.update(ordermainEntity);
-
+        OrdermainEntity entity = ordermainService.queryObject(ordermainEntity.getId());
+        Map<String,Object> mp = new HashMap<>();
+        mp.put("billno",entity.getBillno());
+        entity.setDetails(orderdetailService.queryList(mp));
+        switch (entity.getBillstatus()){
+            case BillStatus.REJECT:
+                entity.setBillstatus(billcommentsEntity.isPass() ? BillStatus.REAPPLY : BillStatus.CANCLE);
+                break;
+            default:
+                entity.setBillstatus(billcommentsEntity.isPass() ? BillStatus.AUDITING : BillStatus.REJECT);
+                break;
+        }
+        ordermainService.update(entity);
 
         //生成审核日志
         //新增一条处理记录：审核
-        newBillcomments(ordermainEntity.getBillno(),
+        newBillcomments(entity.getBillno(),
                 billcommentsEntity.getRemark(),
                 billcommentsEntity.getAuditstatus());
 
@@ -263,11 +272,13 @@ public class OrdermainController extends AbstractController {
         ContractmainEntity contractmainEntity=new ContractmainEntity();
         String conbillno=getBillNo("CT");
         contractmainEntity.setBillno(conbillno);
-        contractmainEntity.setOrderbillno(ordermainEntity.getBillno());
+        contractmainEntity.setOrderbillno(entity.getBillno());
         contractmainEntity.setBillsource(RefBillType.ORDERBILL);
         contractmainEntity.setMakeuser(ShiroUtils.getUserId());
         List<ContractdetailEntity> list=new ArrayList<>();
-        for(OrderdetailEntity item:ordermainEntity.getDetails()){
+
+
+        for(OrderdetailEntity item:entity.getDetails()){
             ContractdetailEntity citem=new ContractdetailEntity();
             citem.setBillno(conbillno);
             citem.setGoodsid(item.getGoodsid());
@@ -285,16 +296,16 @@ public class OrdermainController extends AbstractController {
 
 
         //工作流处理
-        Task task=getTaskByBussinessKey(ordermainEntity.getBillno());
+        Task task=getTaskByBussinessKey(entity.getBillno());
         if(task!=null){
             Map<String,Object> params=new HashMap<>();
             params.put("auditstatus",billcommentsEntity.getAuditstatus());
             completeTask(task,billcommentsEntity.getRemark(),params);
             //检查工作流是否结束，如果结束，则设置单据状态为已完成
             boolean endflag=isProcessEnd(task.getProcessInstanceId());
-            if(endflag){
-                    ordermainEntity.setBillstatus(BillStatus.COMPLETE);
-                    ordermainService.update(ordermainEntity);
+            if(endflag && entity.getBillstatus()!=BillStatus.CANCLE){
+                    entity.setBillstatus(BillStatus.COMPLETE);
+                    ordermainService.update(entity);
             }
         }
 

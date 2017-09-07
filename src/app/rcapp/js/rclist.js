@@ -210,12 +210,15 @@ var listItem = {
 			this.showPro = true;
 
 		},
+		//提交审核请求
 		commit: function(pass, comments) {
 			this.showPro = false;
 			var item = this.currentitem;
 			item.billcommentsEntity = {auditstatus:pass?0:1,remark:comments};
 			query(getauditurl(item.type), item, function(data) {
+				
 				location.reload();
+				mui.toast("审核成功");
 			});
 			
 		},
@@ -266,7 +269,7 @@ Vue.component('bill-item', {
 	},
 	methods:{
 		auditbtn:function(){
-			return needaudit && (item.billstatus<=STATUS_AUDITING);
+			return this.needaudit && (this.item.billstatus<=STATUS_AUDITING);
 		},
 	},
 	template: [
@@ -317,7 +320,13 @@ Vue.component('contract-item', {
 	props: {
 		item: "",
 		approval: Function,
+		needaudit:true,
 
+	},
+	methods:{
+		auditbtn:function(){
+			return this.needaudit && (this.item.billstatus<=STATUS_AUDITING);
+		},
 	},
 	template: [
 
@@ -334,7 +343,7 @@ Vue.component('contract-item', {
 		'<p>申请人:&nbsp;&nbsp;&nbsp;{{item.makeuserfullname}}</p>',
 		'<p class=\'mui-ellipsis\'>申请时间:{{item.reqdate}}</p>',
 		'</div></div>',
-		'<button v-if="needaudit && item.billstatus!=STATUS_COMPLETE" class="mui-btn-green " @click.stop="approval(item)" style="float: right;">审批</button>',
+		'<button v-if="auditbtn()" class="mui-btn-green " @click.stop="approval(item)" style="float: right;">审批</button>',
 		'</li>',
 	].join('')
 });

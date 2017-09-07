@@ -232,7 +232,15 @@ public class LeaveworkmainController extends AbstractController {
     public R audit(@RequestBody LeaveworkmainEntity leaveworkmainEntity) {
 
         BillcommentsEntity billcommentsEntity = leaveworkmainEntity.getBillcommentsEntity();
-        leaveworkmainEntity.setBillstatus(BillStatus.AUDITING);
+
+        switch (leaveworkmainEntity.getBillstatus()){
+            case BillStatus.REJECT:
+                    leaveworkmainEntity.setBillstatus(billcommentsEntity.isPass() ? BillStatus.REAPPLY : BillStatus.CANCLE);
+                break;
+            default:
+                    leaveworkmainEntity.setBillstatus(billcommentsEntity.isPass() ? BillStatus.AUDITING : BillStatus.REJECT);
+                break;
+        }
 
         leaveworkmainService.update(leaveworkmainEntity);
 
@@ -252,7 +260,7 @@ public class LeaveworkmainController extends AbstractController {
             completeTask(task, billcommentsEntity.getRemark(), params);
             //检查工作流是否结束，如果结束，则设置单据状态为已完成
             boolean endflag = isProcessEnd(task.getProcessInstanceId());
-            if (endflag) {
+            if (endflag && leaveworkmainEntity.getBillstatus()!=BillStatus.CANCLE) {
                 leaveworkmainEntity.setBillstatus(BillStatus.COMPLETE);
                 leaveworkmainService.update(leaveworkmainEntity);
             }

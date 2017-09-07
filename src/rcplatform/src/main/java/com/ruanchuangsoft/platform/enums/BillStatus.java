@@ -7,5 +7,6 @@ public interface BillStatus {
     int AUDITING =3;//审核中
     int COMPLETE=4;//已完成
     int REJECT = 5;//驳回
+    int REAPPLY = 6;//重新申请
     int CANCLE=9;//作废
 }

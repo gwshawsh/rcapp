@@ -27,4 +27,6 @@ public interface SysGeneratorService {
 	byte[] generatorBillCode(String[] tableNames,String path);
 	byte[] generatorTreeCode(String[] tableNames,String path);
 	byte[] generatorSqlCode(String[] tableNames,String path);
+	byte[] generatorMobileCode(String[] tableNames,String path);
+
 }

@@ -161,6 +161,7 @@ var header = {
 
 Vue.component('rc-header', header);
 
+//审批按钮
 Vue.component('rc-audit', {
 
 	props: {
@@ -175,11 +176,9 @@ Vue.component('rc-audit', {
 		url:function(){
 			return getauditurl(this.item.type);
 		},
-		approval: function(auditstatus, comments,billstatus) {
+		approval: function(auditstatus, comments) {
 			var that = this;
-			if(billstatus){
-				that.item.billstatus=billstatus;
-			}
+			
 			that.item.billcommentsEntity = {auditstatus:auditstatus,remark:comments};
 			query(that.url(), that.item, function(data) {
 				that.complete();
@@ -187,7 +186,7 @@ Vue.component('rc-audit', {
 		},
 		reject: function() {
 			if(this.isreject()){//申请被驳回后撤回申请
-				this.approval(NO, "撤销申请",STATUS_CANCLE);
+				this.approval(NO, "撤销申请");
 				return;
 			}
 			

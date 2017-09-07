@@ -684,7 +684,9 @@
 					"images/default_head.png",
 					"js/vue.min.js"
 				],
-				"refer": [],
+				"refer": [
+					"page/leave_apply.html"
+				],
 				"priority": 0
 			},
 			"page/reg.html": {

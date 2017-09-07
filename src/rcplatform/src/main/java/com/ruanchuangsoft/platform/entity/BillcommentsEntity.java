@@ -19,6 +19,12 @@ import java.math.BigDecimal;
  */
 public class BillcommentsEntity extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public static final int YES = 0;
+	public static final int NO = 1;
+
+	public boolean isPass(){
+		return auditstatus == YES;
+	}
 	
 	//
 	private Long id;

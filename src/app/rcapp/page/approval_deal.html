@@ -11,7 +11,7 @@
 
 	<body>
 		<div id="rrapp">
-			<rc-header title="审批" btn=""></rc-header>
+			<rc-header :title="needaudit ? '审批':'订单详情'" btn=""></rc-header>
 			<div class="mui-content">
 			<div class="mui-scroll" style="padding-bottom: 60px;">
 				<div style="position: relative; padding-top: 10px;background: #fff;">
@@ -54,6 +54,7 @@
 					}
 				},
 				methods: {
+					
 					complete: function() {
 						plus.webview.currentWebview().opener().reload();
 						//location.reload();
@@ -91,14 +92,24 @@
 					getorder:function(){
 						var i = this.item;
 						return [
-						{name:"申请人",value:i.makeuser},
-						{name:"部门",value:i.deptidname},
-						{name:"申请日期",value:i.makedate},
-						{name:"申请单号",value:i.billno},
-						{name:"收款人",value:i.total},
-						{name:"支付方式",value:i.total},
-						{name:"备注",value:i.remark},
-						{name:"金额",value:i.total},						
+						 {name:"单据号",value:i.billno},
+                                        {name:"供应商",value:i.supplyid},
+                                        {name:"请购单据号",value:i.reqbillno},
+                                        {name:"请购人",value:i.requserfullname},
+                                        {name:"请购部门",value:i.deptidname},
+                                        {name:"请购日期",value:i.reqdate},
+                                        {name:"订购单来源",value:i.ordersourceenumvaluename},
+                                        {name:"订购类别",value:i.ordertypeenumvaluename},
+                                        {name:"预算计划",value:i.budgetmainid},
+                                        {name:"总金额",value:i.total},
+                                        {name:"已支付金额",value:i.paytotal},
+                                        {name:"单据状态",value:i.billstatusenumvaluename},
+                                        {name:"备注",value:i.remark},
+                                        {name:"制单人",value:i.makeuserfullname},
+                                        {name:"制单日期",value:i.makedate},
+                                        {name:"审核人",value:i.accuserfullname},
+                                        {name:"审核日期",value:i.accdate},
+                                        {name:"更新时间",value:i.uptdate},					
 						];
 					},
 					getcontract:function(){
