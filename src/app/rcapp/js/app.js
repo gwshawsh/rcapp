@@ -153,7 +153,7 @@ var header = {
 	},
 	template: [
 
-		'<header class="mui-bar mui-bar-nav">',
+		'<header class="mui-bar mui-bar-nav" style="z-index: 999">',
 		'<span class="mui-icon mui-icon-back mui-action-back"></span>',
 		'<h1  class="mui-title">{{title}}</h1>',
 		'<button class=" mui-pull-right mui-btn-link" @click="navigate(to,value)" >{{btn}}</button>',

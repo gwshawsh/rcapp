@@ -24,7 +24,7 @@
 			}
 			
 			.mui-control-content {
-				background-color: white;
+				background-color: white;	
 				min-height: 400px;
 			}
 			
@@ -41,19 +41,17 @@
 				margin-left: 30px;
 				margin-right: 30px;
 			}
+			
 		</style>
 	</head>
 
 	<body>
 		<div id="rrapp">
 			<rc-header :title="getbillname(type)+'查询'"></rc-header>
-			<div class="mui-content">
+			<div class="mui-content" id="pullrefresh" >				
 
-				
-				<!--<rc-search :search = "search" ></rc-search>-->
 				<div style="position: relative;">
-					<!--<rc-search :search = "search" ></rc-search>-->
-					<rc-list id="pullrefresh" ref="rclist" :list="list" :url="geturl" formed=true ></rc-list>
+					<rc-list ref="rclist" :list="list" :url="geturl" formed=true ></rc-list>
 				</div>
 
 			</div>
@@ -77,15 +75,7 @@
 					list:[],
 					
 				},
-				methods: {					
-					
-					getlist: function() {
-						//this.$refs.rclist.init(this.geturl);
-					},
-					search:function(d){
-						console.log(d);
-					},
-				},
+				
 				computed: {
 					geturl: function() {
 						switch(this.type) {
@@ -105,16 +95,10 @@
 				},
 				
 			});
-			mui.init({
-				swipeBack: false,
-				 
-			});
-			
-			
-			mui.plusReady(function() {
-				console.log("mui created");
-				vm.type = plus.webview.currentWebview().value;
-				vm.getlist();
+		
+		
+			mui.plusReady(function() {				
+				vm.type = plus.webview.currentWebview().value;			
 			});
 		</script>
 

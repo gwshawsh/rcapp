@@ -725,6 +725,18 @@
 				],
 				"refer": [],
 				"priority": 0
+			},
+			"page/pullrefresh.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"js/mui.view.js"
+				],
+				"refer": [],
+				"priority": 0
 			}
 		},
 		"idle": {

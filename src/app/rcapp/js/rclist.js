@@ -114,20 +114,17 @@ var listItem = {
 			mui.init({
 					pullRefresh: {
 						container: '#pullrefresh',
-						down: {
-							style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
-							color: '#2BD009', //可选，默认“#2BD009” 下拉刷新控件颜色
-							height: '50px', //可选,默认50px.下拉刷新控件的高度,
-							range: '100px', //可选 默认100px,控件可下拉拖拽的范围 
-							offset: '0px', //可选 默认0px,下拉刷新控件的起始位置
-							auto: false, //可选,默认false.首次加载自动上拉刷新一次
-							callback: this.pulldownRefresh,
-
-						},
-						up: {
-							contentrefresh: '正在加载...',
-							callback: this.pullupAppend,
-						}
+					down: {
+						style:'circle',
+						callback: that.pulldownRefresh
+					},
+					up: {
+						auto:false,
+						contentrefresh: '正在加载...',
+						callback: that.pullupAppend
+					}
+						
+					
 					},
 
 					beforeback: function() {
@@ -167,6 +164,7 @@ var listItem = {
 		},
 		stoppull: function(complete) {
 			mui('#pullrefresh').pullRefresh().endPullupToRefresh(complete);
+			mui('#pullrefresh').pullRefresh().endPulldown();
 		},
 		pulldownRefresh: function() {
 			if(this.pulldown) {

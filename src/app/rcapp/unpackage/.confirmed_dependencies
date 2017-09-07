@@ -487,5 +487,15 @@
 			"css/style.css",
 			"js/vue.min.js"
 		]
+	},
+	"page/pullrefresh.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/mui.pullToRefresh.js",
+			"js/mui.pullToRefresh.material.js",
+			"js/mui.view.js"
+		]
 	}
 }
