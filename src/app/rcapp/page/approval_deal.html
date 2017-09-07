@@ -20,15 +20,20 @@
 				</div>
 
 
-				<form class="mui-input-group">
-					
+				<form class="mui-input-group">					
 					<div class="mui-input-row" v-for="item in list">
 						<label>{{item.name}}</label> 
 						<input type="text" class=" mui-input mui-text-right" placeholder="" readonly="readonly" v-model='item.value'>
-					</div>
-					
-
+					</div>	
 				</form>
+				<p v-if="detaillist[0]">费用明细</p>
+				<form class="mui-input-group">					
+					<div class="mui-input-row" v-for="item in detaillist">
+						<label style="width: 33%;">{{item.goodsidname}}</label><label style="width: 33%;text-align: center;">x{{item.goodscount}}</label> <label style="text-align: right;width: 33%;">￥{{item.goodscost}}</label> 
+						
+					</div>	
+				</form>
+				
 				<rc-comments :billno="billno" ></rc-comments> 
 				</div>
 				
@@ -46,6 +51,8 @@
 					item: '',
 					list:[],
 					billno: '',
+					detaillist:[
+					],
 				needaudit:false,
 				},
 				watch:{
@@ -60,29 +67,35 @@
 						//location.reload();
 						mui.back();
 					},
+					
 					getlist:function(){						
-						switch(this.item.type)
+						switch(this.item.type) 
 						{
 							case 'leave':return this.getleave();
 							case 'contract': return this.getcontract();
-								case 'ask': return this.getask();
-							default: return this.getorder();
+							case 'ask': return this.getask();
+							default: return this.getorder(); 
 							
 						}
 						
 					},
+					getsublist:function(){
+						var url = getbaseurl(this.item.type);
+						var that = this;
+						if(url && this.item.type!='leave'){
+							query(url+'/listdetail',{billno:that.item.billno,page:1,limit:100},function(d){
+								that.detaillist = d.page.list;
+							},true)
+						}
+						
+					},
+					
 					
                         getask:function(){
-						var i = this.item;
-						i.leavedays =function(){
-							var startTime = new Date(starttime).getTime();
-						var endTime = new Date(endtime).getTime();
-						var dates = Math.abs((startTime - endTime)) / (1000 * 60 * 60 * 24);
-						return dates + "天";
-						}
+						var i = this.item;						
 						return [
 						
-					                                                        {name:"单据号",value:i.billno},
+					                    {name:"单据号",value:i.billno},
                                         {name:"请购人",value:i.requserfullname},
                                         {name:"所属部门",value:i.deptidname},
                                         {name:"请购类别",value:i.reqtypeenumvaluename},
@@ -162,18 +175,18 @@
                         
 
 						];
-					},
-					
-					
-					
+					},				
+				
 				}
 			});
+			
 
 			mui.plusReady(function() {
 				var self = plus.webview.currentWebview();
 				vm.item = self.value;
 				vm.needaudit = self.value1;
 				vm.billno = vm.item.billno;
+				vm.getsublist();
 
 			});
 		</script>

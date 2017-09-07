@@ -90,12 +90,15 @@ function getbilldetailurl(type) {
 	}
 }
 
-function getauditurl(type) {
+//审批的地址
+function getauditurl(type) {	
+	return getbaseurl(type)+'/audit';
+}
+function getbaseurl(type){
 	var url ='';
 	switch(type) {
 		case 'ask':
-			url = "requisitionmain";break;
-			
+			url = "requisitionmain";break;			
 		case 'order':
 			url = "ordermain";break;
 		case 'pay':
@@ -107,7 +110,7 @@ function getauditurl(type) {
 		default:
 			break;
 	}
-	return url+'/audit';
+	return url;
 }
 
 //重新修改申请

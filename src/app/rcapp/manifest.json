@@ -435,7 +435,8 @@
 					"css/rclist.css",
 					"images/ding.png",
 					"js/lodash.js",
-					"images/qing.png"
+					"images/qing.png",
+					"images/he.png"
 				],
 				"refer": [
 					"page/approval_new.html",
