@@ -65,10 +65,36 @@
 						{
 							case 'leave':return this.getleave();
 							case 'contract': return this.getcontract();
+								case 'ask': return this.getask();
 							default: return this.getorder();
 							
 						}
 						
+					},
+					
+                        getask:function(){
+						var i = this.item;
+						i.leavedays =function(){
+							var startTime = new Date(starttime).getTime();
+						var endTime = new Date(endtime).getTime();
+						var dates = Math.abs((startTime - endTime)) / (1000 * 60 * 60 * 24);
+						return dates + "天";
+						}
+						return [
+						
+					                                                        {name:"单据号",value:i.billno},
+                                        {name:"请购人",value:i.requserfullname},
+                                        {name:"所属部门",value:i.deptidname},
+                                        {name:"请购类别",value:i.reqtypeenumvaluename},
+                                        {name:"预算计划",value:i.budgetmainid},
+                                        {name:"单据状态",value:i.billstatusenumvaluename},
+                                        {name:"制单人",value:i.makeuserfullname},
+                                        {name:"制单日期",value:i.makedate},
+                                        {name:"审核人",value:i.accuserfullname},
+                                        {name:"审核日期",value:i.accdate},
+                                        {name:"更新时间",value:i.uptdate},
+                                        {name:"备注",value:i.remark},					
+						];
 					},
 					getleave:function(){
 						var i = this.item;

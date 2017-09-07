@@ -94,7 +94,7 @@ function getauditurl(type) {
 	var url ='';
 	switch(type) {
 		case 'ask':
-			;break;
+			url = "requisitionmain";break;
 			
 		case 'order':
 			url = "ordermain";break;

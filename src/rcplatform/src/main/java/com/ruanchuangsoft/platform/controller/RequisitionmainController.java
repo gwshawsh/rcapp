@@ -243,21 +243,33 @@ public class RequisitionmainController extends AbstractController {
     @RequestMapping("/audit")
     @RequiresPermissions("requisitionmain:audit")
     public R audit(@RequestBody RequisitionmainEntity prequisitionmainEntity){
-        RequisitionmainEntity requisitionmainEntity =requisitionmainService.queryObject(prequisitionmainEntity.getId());
-        if(requisitionmainEntity!=null) {
-            if(requisitionmainEntity.getBillstatus()>=BillStatus.AUDITING){
+        BillcommentsEntity billcommentsEntity = prequisitionmainEntity.getBillcommentsEntity();
+
+        RequisitionmainEntity entity =requisitionmainService.queryObject(prequisitionmainEntity.getId());
+
+        Map<String,Object> mp = new HashMap<>();
+        mp.put("billno",entity.getBillno());
+        entity.setDetails(requisitiondetailService.queryList(mp));
+        if(entity!=null) {
+            if(entity.getBillstatus()>=BillStatus.AUDITING){
                 return R.error("单据已经审核或关闭，不允许审核");
             }
 
-            BillcommentsEntity billcommentsEntity = requisitionmainEntity.getBillcommentsEntity();
-            requisitionmainEntity.setBillstatus(BillStatus.AUDITING);
+            switch (entity.getBillstatus()){
+                case BillStatus.REJECT:
+                    entity.setBillstatus(billcommentsEntity.isPass() ? BillStatus.REAPPLY : BillStatus.CANCLE);
+                    break;
+                default:
+                    entity.setBillstatus(billcommentsEntity.isPass() ? BillStatus.AUDITING : BillStatus.REJECT);
+                    break;
+            }
 
-            requisitionmainService.update(requisitionmainEntity);
+            requisitionmainService.update(entity);
 
 
             //生成审核日志
             //新增一条处理记录：审核
-            newBillcomments(requisitionmainEntity.getBillno(),
+            newBillcomments(entity.getBillno(),
                     billcommentsEntity.getRemark(),
                     billcommentsEntity.getAuditstatus());
 
@@ -265,7 +277,7 @@ public class RequisitionmainController extends AbstractController {
             //生成订购单
             //根据商品所属采购部门属性，对拆分生成不同的订购单
             Map<Long,OrdermainEntity> mOrdermain=new HashMap<>();
-            for(RequisitiondetailEntity item:requisitionmainEntity.getDetails()){
+            for(RequisitiondetailEntity item:entity.getDetails()){
                 if(mOrdermain.containsKey(item.getDeptid())){
                     OrdermainEntity ordermainEntity=mOrdermain.get(item.getDeptid());
 
@@ -284,11 +296,11 @@ public class RequisitionmainController extends AbstractController {
                     OrdermainEntity ordermainEntity = new OrdermainEntity();
                     String billno = getBillNo("OR");
                     ordermainEntity.setBillno(billno);
-                    ordermainEntity.setReqbillno(requisitionmainEntity.getBillno());
+                    ordermainEntity.setReqbillno(entity.getBillno());
                     ordermainEntity.setDeptid(item.getDeptid());
                     ordermainEntity.setOrdersource(RefBillType.REQBILL);
                     ordermainEntity.setBillstatus(BillStatus.NEW);
-                    ordermainEntity.setRequser(requisitionmainEntity.getRequser());
+                    ordermainEntity.setRequser(entity.getRequser());
                     ordermainEntity.setMakeuser(ShiroUtils.getUserId());
                     ordermainEntity.setMakedate(new Date());
 
@@ -315,7 +327,7 @@ public class RequisitionmainController extends AbstractController {
 
 
             //工作流处理
-            Task task = getTaskByBussinessKey(requisitionmainEntity.getBillno());
+            Task task = getTaskByBussinessKey(entity.getBillno());
             if (task != null) {
                 Map<String, Object> params = new HashMap<>();
                 params.put("auditstatus", billcommentsEntity.getAuditstatus());
@@ -323,8 +335,8 @@ public class RequisitionmainController extends AbstractController {
                 //检查工作流是否结束，如果结束，则设置单据状态为已完成
                 boolean endflag = isProcessEnd(task.getProcessInstanceId());
                 if (endflag) {
-                    requisitionmainEntity.setBillstatus(BillStatus.COMPLETE);
-                    requisitionmainService.update(requisitionmainEntity);
+                    entity.setBillstatus(BillStatus.COMPLETE);
+                    requisitionmainService.update(entity);
                 }
             }
 
